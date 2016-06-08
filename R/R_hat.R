@@ -1,0 +1,35 @@
+#' Calculate the Horvitz-Thompson Ratio Estimator
+#' @description R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002).
+#' @param y Attribute data about species of interest y (e.g., abundance, presence/absence).
+#' @param z Auxiliary data about species of interest z (e.g., abundance, presence/absence).
+#' @param N Population size.
+#' @param n1 Initial sample size.
+#' @param m Number of units satisfying the ACS criterion in network $i$.
+#' @param with_replacement Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.
+#' @examples
+#' # Example from Thompson (2002), p. 78-79
+#' N = 100
+#' n1 = 4
+#' y = c(60, 14, 1)
+#' z = c(1, 1, 1)
+#' m = c(5, 2, 1)
+#' R_hat(y, z, N, n1, m, with_replacement="TRUE")
+#' var_R_hat(y, z, N, n1, m, with_replacement="TRUE")
+#' @export
+
+R_hat <- function(y, z, N, n1, m, with_replacement="FALSE") {
+	if (with_replacement=="TRUE") {
+		alpha_stars <- pi_i_with_replacement(N, n1, m)
+	} else {
+		alpha_stars <- pi_i(N, n1, m)
+	}
+	dat <- data.frame(alpha_stars = alpha_stars, y = y, z = z)
+	mu_z = sum(dat$z/dat$alpha_stars)
+	if (mu_z == 0) {
+		return(0)
+	} else {
+		sum(dat$y/dat$alpha_stars, na.rm=T) / mu_z
+	}
+}
+
+

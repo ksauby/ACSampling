@@ -1,0 +1,1397 @@
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
+ --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
+ --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+library(lme3)
+library(lme4)
+300/241
+.244*30
+1.25*300
+1.25*240
+7*12
+7849-7527
+322/1353
+8028-7527
+501/1353
+8028-7957
+1353-501
+852/71
+7956-7878
+8176-8029
+8176-8092
+250*.75
+250*.25
+42*2 + 17*2
+118/19
+21/6.2
+59.5*.75
+59.5*.5 + 59.5
+71/12
+597/80
+597/8
+432/8
+15*8 + 9*3
+?seq_len
+7.25/3
+7.25/4
+for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
+install.packages("ProjectTemplate")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("data.table")
+install.packages("corrgram")
+install.packages("survival")
+install.packages("shapefiles")
+install.packages("rgdal")
+install.packages("PBSmapping")
+install.packages("sp")
+install.packages("gdistance")
+install.packages("chron")
+install.packages("unmarked")
+install.packages("lme4")
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling')
+# load ProjectTemplate#
+library(ProjectTemplate)#
+#
+# when working on a Windows computer#
+# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
+#
+# load project#
+load.project()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations')
+setwd("./ACSampling")#
+devtools::document()#
+#
+registerDoParallel(4)
+data(CactusRealizations)
+head(CactusRealizations)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+population <- CactusRealization %>% filter(n.networks==40)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+population <- CactusRealizations %>% filter(n.networks==40)
+dim(population)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+population <- CactusRealizations %>% filter(n.networks==40)#
+seed <- 27#
+n1 <- 20#
+y_variable <- "Cactus"#
+condition=0
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+(S <- createSRSWOR(population, seed, n1))
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, size=factor(Cactus),#
+		colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=S, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=5)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y,#
+		colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=S, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=5)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, size=factor(Cactus),#
+		colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=c(0,1,5))
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+(Z = createACS(population, seed, n1, y_variable, condition=0) %>% arrange(x, y))
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, size=factor(Cactus),#
+		colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=c(0,1,5))
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, size=factor(Cactus),#
+		colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=c(5,1,0))
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y,#
+		colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=S, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=0)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=c(5,1,0))
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=4) + #
+	scale_shape_manual(values=c(5,1,0))
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=4) + #
+	scale_shape_manual(values=c(5,1,0)) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=S, aes(x,y, shape=factor(Sampling)), size=7) + #
+	scale_shape_manual(values=0) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus), size=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	scale_size_manual(values=c(1,4)) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=5) + #
+	scale_shape_manual(values=c(5,1,0)) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus), size=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	scale_size_manual(values=c(1,2.5)) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=5) + #
+	scale_shape_manual(values=c(5,1,0)) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus), size=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	scale_size_manual(values=c(1,2.5)) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=4) + #
+	scale_shape_manual(values=c(5,1,0)) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	geom_point(data=S, aes(x,y, shape=factor(Sampling)), size=4) + #
+	scale_shape_manual(values=0) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus), size=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	scale_size_manual(values=c(1,2.5)) +#
+	geom_point(data=S, aes(x,y, shape=factor(Sampling)), size=4) + #
+	scale_shape_manual(values=0) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+ggplot() + #
+	geom_point(data=population, aes(x,y, colour=factor(Cactus), size=factor(Cactus))) +#
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +#
+	scale_size_manual(values=c(1,2.5)) +#
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=4) + #
+	scale_shape_manual(values=c(5,1,0)) +#
+	theme_bw()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+(Z = createACS(population, seed, n1, y_variable, condition=0) %>% arrange(x, y))
+str(Z)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+rmarkdown::render('my-vignette.Rmd')
+install.packages("rmarkdown")
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+rmarkdown::render('my-vignette.Rmd')
+t_HT
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+Z %>%#
+	filter(Sampling!="Edge") %>%#
+		group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_value = ifelse(sum(Cactus,#
+				na.rm=T) > 0, 1, 0)#
+		)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+population %>%#
+	filter(Sampling!="Edge") %>%#
+		group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_value = ifelse(sum(Cactus,#
+				na.rm=T) > 0, 1, 0)#
+		)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+var_t_HT(#
+			N = dim(population)[1], #
+			n1 = n1, #
+			m = summary$m, #
+			y = summary$y_value#
+		)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+summary = Z %>%#
+	filter(Sampling!="Edge") %>%#
+		group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_value = ifelse(sum(Cactus,#
+				na.rm=T) > 0, 1, 0)#
+		)#
+		var_t_HT(#
+			N = dim(population)[1], #
+			n1 = n1, #
+			m = summary$m, #
+			y = summary$y_value#
+		)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+summary$m,
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+summary$m
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+summary$y_value
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+dim(population)[1]
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+t_HT(#
+	N = dim(population)[1],#
+	n1 = n1,#
+	mk = Z$m,#
+	y = Z$Cactus,#
+	sampling = Z$Sampling, #
+	criterion = 0#
+)
+mean(population$Cactus)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+rmarkdown::render('my-vignette.Rmd')
+?t_HT
+?var_t_HT
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data(Thompson1990Figure1Population)#
+N = dim(Thompson1990Figure1Population)[1]#
+n1 = 30#
+nsimulations = 1000#
+seed = seq(1:nsimulations)#
+column_names = c(#
+	"Seed",#
+	"n1",#
+	"n_total_samples",#
+	"n_SRSWOR_samples", #
+	"n_ACS_samples",#
+	"t_HT_estimate"#
+)#
+#
+# set up dataframe to store results#
+Results = as.data.frame(matrix(nrow=nsimulations, ncol=length(column_names),NA))#
+names(Results) = column_names
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data(Thompson1990Figure1Population)#
+N = dim(Thompson1990Figure1Population)[1]#
+n1 = 30#
+nsimulations = 500#
+seed = seq(1:nsimulations)#
+column_names = c(#
+	"Seed",#
+	"n1",#
+	"n_total_samples",#
+	"n_SRSWOR_samples", #
+	"n_ACS_samples",#
+	"t_HT_estimate"#
+)#
+#
+# set up dataframe to store results#
+Results = as.data.frame(matrix(nrow=nsimulations, ncol=length(column_names),NA))#
+names(Results) = column_names#
+#
+# simulations#
+for (i in 1:nsimulations) {#
+	new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, "Cactus")#
+	cat(new.seed)#
+	seed = seed[-1]#
+	# summarise networks#
+	Z_summary <- Z %>% group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_total = sum(y_value, na.rm=T)#
+			) %>%#
+		filter(NetworkID > 0)#
+	# store results#
+	Results$Seed[i] = new.seed#
+	# save initial sample size#
+	Results$n1[i] = n1#
+	# save total sample size (SRSWOR + ACS)#
+	Results$n_total_samples[i] = dim(Z)[1]#
+	# save number of SRSWOR plots, just to make sure that they match n1#
+	Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+	# to estimate E[v], count how many plots were sampled according the ACS#
+	Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+	# t_HT#
+	Results$t_HT_estimate[i] = t_HT(#
+		N = N, #
+		n1 = n1, #
+		mk = Z$m, #
+		y = Z$y_value,#
+		sampling = Z$Sampling,#
+		criterion=0#
+)
+# var_t_HT#
+	Results$var_t_HT_estimate[i] = var_t_HT(#
+		N = N, #
+		n1 = n1, #
+		m = Z_summary$m, #
+		y = Z_summary$y_total#
+	)#
+}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# simulations#
+for (i in 1:nsimulations) {#
+	new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, "Cactus")#
+	cat(new.seed)#
+	seed = seed[-1]#
+	# summarise networks#
+	Z_summary <- Z %>% group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_total = sum(y_value, na.rm=T)#
+			) %>%#
+		filter(NetworkID > 0)#
+	# store results#
+	Results$Seed[i] = new.seed#
+	# save initial sample size#
+	Results$n1[i] = n1#
+	# save total sample size (SRSWOR + ACS)#
+	Results$n_total_samples[i] = dim(Z)[1]#
+	# save number of SRSWOR plots, just to make sure that they match n1#
+	Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+	# to estimate E[v], count how many plots were sampled according the ACS#
+	Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+	# t_HT#
+	Results$t_HT_estimate[i] = t_HT(#
+		N = N, #
+		n1 = n1, #
+		mk = Z$m, #
+		y = Z$y_value,#
+		sampling = Z$Sampling,#
+		criterion=0#
+	) #
+	# var_t_HT#
+	Results$var_t_HT_estimate[i] = var_t_HT(#
+		N = N, #
+		n1 = n1, #
+		m = Z_summary$m, #
+		y = Z_summary$y_total#
+	)#
+}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+new.seed
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, "Cactus")
+?createACS
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# simulations#
+for (i in 1:nsimulations) {#
+	new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, y_value="Cactus", condition=0)#
+	cat(new.seed)#
+	seed = seed[-1]#
+	# summarise networks#
+	Z_summary <- Z %>% group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_total = sum(y_value, na.rm=T)#
+			) %>%#
+		filter(NetworkID > 0)#
+	# store results#
+	Results$Seed[i] = new.seed#
+	# save initial sample size#
+	Results$n1[i] = n1#
+	# save total sample size (SRSWOR + ACS)#
+	Results$n_total_samples[i] = dim(Z)[1]#
+	# save number of SRSWOR plots, just to make sure that they match n1#
+	Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+	# to estimate E[v], count how many plots were sampled according the ACS#
+	Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+	# t_HT#
+	Results$t_HT_estimate[i] = t_HT(#
+		N = N, #
+		n1 = n1, #
+		mk = Z$m, #
+		y = Z$y_value,#
+		sampling = Z$Sampling,#
+		criterion=0#
+	) #
+	# var_t_HT#
+	Results$var_t_HT_estimate[i] = var_t_HT(#
+		N = N, #
+		n1 = n1, #
+		m = Z_summary$m, #
+		y = Z_summary$y_total#
+	)#
+}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# simulations#
+for (i in 1:nsimulations) {#
+	new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, y_variable="Cactus", condition=0)#
+	cat(new.seed)#
+	seed = seed[-1]#
+	# summarise networks#
+	Z_summary <- Z %>% group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_total = sum(y_value, na.rm=T)#
+			) %>%#
+		filter(NetworkID > 0)#
+	# store results#
+	Results$Seed[i] = new.seed#
+	# save initial sample size#
+	Results$n1[i] = n1#
+	# save total sample size (SRSWOR + ACS)#
+	Results$n_total_samples[i] = dim(Z)[1]#
+	# save number of SRSWOR plots, just to make sure that they match n1#
+	Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+	# to estimate E[v], count how many plots were sampled according the ACS#
+	Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+	# t_HT#
+	Results$t_HT_estimate[i] = t_HT(#
+		N = N, #
+		n1 = n1, #
+		mk = Z$m, #
+		y = Z$y_value,#
+		sampling = Z$Sampling,#
+		criterion=0#
+	) #
+	# var_t_HT#
+	Results$var_t_HT_estimate[i] = var_t_HT(#
+		N = N, #
+		n1 = n1, #
+		m = Z_summary$m, #
+		y = Z_summary$y_total#
+	)#
+}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, y_variable="Cactus", condition=0)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+n1
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+new.seed
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, y_variable="Cactus", condition=0)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, y_variable="y_value", condition=0)#
+	cat(new.seed)#
+	seed = seed[-1]#
+	# summarise networks
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# simulations#
+for (i in 1:nsimulations) {#
+	new.seed = seed[1]#
+	set.seed(new.seed)#
+	Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, y_variable="y_value", condition=0)#
+	cat(new.seed)#
+	seed = seed[-1]#
+	# summarise networks#
+	Z_summary <- Z %>% group_by(NetworkID) %>%#
+		summarise(#
+			m = m[1],#
+			y_total = sum(y_value, na.rm=T)#
+			) %>%#
+		filter(NetworkID > 0)#
+	# store results#
+	Results$Seed[i] = new.seed#
+	# save initial sample size#
+	Results$n1[i] = n1#
+	# save total sample size (SRSWOR + ACS)#
+	Results$n_total_samples[i] = dim(Z)[1]#
+	# save number of SRSWOR plots, just to make sure that they match n1#
+	Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+	# to estimate E[v], count how many plots were sampled according the ACS#
+	Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+	# t_HT#
+	Results$t_HT_estimate[i] = t_HT(#
+		N = N, #
+		n1 = n1, #
+		mk = Z$m, #
+		y = Z$y_value,#
+		sampling = Z$Sampling,#
+		criterion=0#
+	) #
+	# var_t_HT#
+	Results$var_t_HT_estimate[i] = var_t_HT(#
+		N = N, #
+		n1 = n1, #
+		m = Z_summary$m, #
+		y = Z_summary$y_total#
+	)#
+}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data(Thompson1990Figure1Population)#
+N = dim(Thompson1990Figure1Population)[1]#
+n1 = c(1,2,10,20,30,40,50,60)#
+nsimulations = 500#
+seed.generator=1000#
+column_names = c(#
+	"Seed",#
+	"n1",#
+	"n_total_samples",#
+	"n_SRSWOR_samples", #
+	"n_ACS_samples",#
+	"t_HT_estimate"#
+)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data(Thompson1990Figure1Population)#
+N = dim(Thompson1990Figure1Population)[1]#
+n1 = c(1,2)#
+nsimulations = 500#
+seed.generator=1000#
+column_names = c(#
+	"Seed",#
+	"n1",#
+	"n_total_samples",#
+	"n_SRSWOR_samples", #
+	"n_ACS_samples",#
+	"t_HT_estimate"#
+)#
+#
+# set up dataframe to store results#
+Results = as.data.frame(matrix(nrow=nsimulations, ncol=length(column_names),NA))#
+names(Results) = column_names#
+#
+# simulations#
+Z = foreach (#
+		i=1:length(n1), #
+		.inorder=FALSE, #
+		.packages="ACSampling", #
+		.combine="rbind"#
+	) %dopar% {#
+		for (i in 1:nsimulations) {#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1, #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1, #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+		}#
+	}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# simulations#
+Z = foreach (#
+		h=1:length(n1), #
+		.inorder=FALSE, #
+		.packages="ACSampling", #
+		.combine="rbind"#
+	) %dopar% {#
+		for (i in 1:nsimulations) {#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1, #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1, #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+		}#
+	}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1)
+length(n1)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+Z = foreach (#
+		h=1:length(n1), #
+		.inorder=FALSE, #
+		.packages="ACSampling", #
+		.combine="rbind"#
+	) %dopar% {#
+		for (i in 1:nsimulations) {#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1, #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1, #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+		}#
+	}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# simulations#
+Z = foreach (#
+		h=1:length(n1), #
+		.inorder=FALSE, #
+		.packages="ACSampling", #
+		.combine="rbind"#
+	) %dopar% {#
+		data.array[[h]] <- list()#
+		for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1, #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1, #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]][[i]] <- Results#
+		}#
+		do.call(rbind.data.frame, data.array[[h]][[i]])#
+	}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array <- list()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+Z = foreach (#
+		h=1:length(n1), #
+		.inorder=FALSE, #
+		.packages="ACSampling", #
+		.combine="rbind"#
+	) %dopar% {#
+		data.array[[h]] <- list()#
+		for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1, #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1, #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]][[i]] <- Results#
+		}#
+		do.call(rbind.data.frame, data.array[[h]][[i]])#
+	}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]
+h
+i
+h=1
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1, #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1, #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1, #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]][[i]] <- Results
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+N
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+n1
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# set up dataframe to store results#
+Results = as.data.frame(matrix(nrow=nsimulations, ncol=length(column_names),NA))#
+names(Results) = column_names#
+data.array <- list()#
+# simulations#
+Z = foreach (#
+		h=1:length(n1), #
+		.inorder=FALSE, #
+		.packages="ACSampling", #
+		.combine="rbind"#
+	) %dopar% {#
+		data.array[[h]] <- list()#
+		for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]][[i]] <- Results#
+		}#
+		do.call(rbind.data.frame, data.array[[h]][[i]])#
+	}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]] <- list()#
+		for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]][[i]] <- Results#
+		}
+str(data.array[[h]][[i]])
+h
+h=2
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]][[i]] <- Results#
+		}
+h
+n1[h]
+i
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]][[i]] <- Results
+h=1
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array <- list()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]] <- list()#
+		for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]] <- Results#
+		}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array <- list()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]] <- Results
+}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array <- list()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]] <- list()#
+		for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]][[i]] <- Results#
+		}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+do.call(rbind.data.frame, data.array[[h]][[i]])
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]][[i]]
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array <- list()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array[[h]] <- list()#
+		for (i in 1:nsimulations) {#
+			data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]] <- Results#
+		}
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+data.array <- list()
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+for (i in 1:nsimulations) {#
+			#data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]] <- Results#
+		}
+h
+h=2
+setwd('/Users/KSauby/Documents/Dropbox/gradschool/Research/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/vignettes')
+for (i in 1:nsimulations) {#
+			#data.array[[h]][[i]] <- list()#
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) #
+			new.seed = seed[1]#
+			set.seed(new.seed)#
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], #
+				y_variable="y_value", condition=0)#
+			cat(new.seed)#
+			seed = seed[-1]#
+			# summarise networks#
+			Z_summary <- Z %>% group_by(NetworkID) %>%#
+				summarise(#
+					m = m[1],#
+					y_total = sum(y_value, na.rm=T)#
+					) %>%#
+				filter(NetworkID > 0)#
+			# store results#
+			Results$Seed[i] = new.seed#
+			# save initial sample size#
+			Results$n1[i] = n1[h]#
+			# save total sample size (SRSWOR + ACS)#
+			Results$n_total_samples[i] = dim(Z)[1]#
+			# save number of SRSWOR plots, just to make sure that they match n1#
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)#
+			# to estimate E[v], count how many plots were sampled according the ACS#
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)#
+			# t_HT#
+			Results$t_HT_estimate[i] = t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				mk = Z$m, #
+				y = Z$y_value,#
+				sampling = Z$Sampling,#
+				criterion=0#
+			) #
+			# var_t_HT#
+			Results$var_t_HT_estimate[i] = var_t_HT(#
+				N = N, #
+				n1 = n1[h], #
+				m = Z_summary$m, #
+				y = Z_summary$y_total#
+			)#
+			data.array[[h]] <- Results#
+		}
+head(data.array[[h]])
+head(data.array[[1]])
+Z= 		do.call(rbind.data.frame, data.array[[h]])
+str(Z)
+rbind(data.array[[h]])
+Z=rbind(data.array[[h]])
+head(Z)
+str(Z)
+Z=do.call(rbind, data.array[[h]])
+str(Z)

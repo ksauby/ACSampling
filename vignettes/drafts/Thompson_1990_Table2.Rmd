@@ -1,0 +1,143 @@
+<!-- 
+# need to run process_precip and munge files first before compiling this document
+rmarkdown::render('Thompson_1990_Table2.Rmd')
+
+# knitr::knit2html
+-->
+
+---
+title: "Table 2 from Thompson (1990)"
+author: "Kristen Sauby"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+data(Thompson1990Figure1Population)
+N = dim(Thompson1990Figure1Population)[1]
+n1 = c(1,2)
+nsimulations = 500
+seed.generator=1000
+column_names = c(
+	"Seed",
+	"n1",
+	"n_total_samples",
+	"n_SRSWOR_samples", 
+	"n_ACS_samples",
+	"t_HT_estimate"
+)
+
+# set up dataframe to store results
+Results = as.data.frame(matrix(nrow=nsimulations, ncol=length(column_names),NA))
+names(Results) = column_names
+data.array <- list()
+# simulations
+Z = foreach (
+		h=1:length(n1), 
+		.inorder=FALSE, 
+		.packages="ACSampling", 
+		.combine="rbind"
+	) %dopar% {
+		#data.array[[h]] <- list()
+		for (i in 1:nsimulations) {
+			#data.array[[h]][[i]] <- list()
+			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) 
+			new.seed = seed[1]
+			set.seed(new.seed)
+			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], 
+				y_variable="y_value", condition=0)
+			cat(new.seed)
+			seed = seed[-1]
+			# summarise networks
+			Z_summary <- Z %>% group_by(NetworkID) %>%
+				summarise(
+					m = m[1],
+					y_total = sum(y_value, na.rm=T)
+					) %>%
+				filter(NetworkID > 0)
+			# store results
+			Results$Seed[i] = new.seed
+			# save initial sample size
+			Results$n1[i] = n1[h]
+			# save total sample size (SRSWOR + ACS)
+			Results$n_total_samples[i] = dim(Z)[1]
+			# save number of SRSWOR plots, just to make sure that they match n1
+			Results$n_SRSWOR_samples[i] = filter(Z, Sampling=="SRSWOR") %$% length(Sampling)
+			# to estimate E[v], count how many plots were sampled according the ACS
+			Results$n_ACS_samples[i] = filter(Z, Sampling!="SRSWOR") %$% length(Sampling)
+			# t_HT
+			Results$t_HT_estimate[i] = t_HT(
+				N = N, 
+				n1 = n1[h], 
+				mk = Z$m, 
+				y = Z$y_value,
+				sampling = Z$Sampling,
+				criterion=0
+			) 
+			# var_t_HT
+			Results$var_t_HT_estimate[i] = var_t_HT(
+				N = N, 
+				n1 = n1[h], 
+				m = Z_summary$m, 
+				y = Z_summary$y_total
+			)
+			data.array[[h]] <- Results
+		}
+		do.call(rbind, data.array[[h]])
+	}
+
+
+
+I simulated sampling from the population in Figure 1 from Thompson 1990 to regenerate Table 2.
+
+## Function for var(t_HT):
+
+```{r}
+var_t_HT
+```
+
+
+```{r, eval=FALSE, echo=FALSE}
+Results_1 			= read.csv("Results_1.csv")
+Results_10 			= read.csv("Results_10.csv")
+Results_20 			= read.csv("Results_20.csv")
+Results_30 			= read.csv("Results_30.csv")
+Results_100_and_200 = read.csv("Results_100_and_200.csv")
+
+Results = rbind.fill(
+	Results_1,
+	Results_10,
+	Results_20,
+	Results_30,
+	Results_100_and_200
+)
+```
+
+## Simulation Results:
+```{r, echo=FALSE, results="asis"}
+Results_summary = Results %>%
+	group_by(n1) %>%
+	summarise(
+		n.simulations = length(n1),
+		`E[v]` = mean(n_total_samples, na.rm=T),
+		t_HT = mean(t_HT_estimate, na.rm=T),
+		var_t_HT = mean(var_t_HT_estimate, na.rm=T),
+		var_t_HT_v2 = mean(var_t_HT_version2_estimate, na.rm=T),
+		alternate_var_t_HT = mean(alternate_var_t_HT_estimate, na.rm=T),
+		alternate_var_t_HT_v2 = mean(alternate_var_t_HT_version2_estimate, na.rm=T)
+	)
+print(xtable(Results_summary, digits=c(0,0,0,2,5,5,5,5,5)), type="html", include.rownames=FALSE)
+
+#print(xtable(sample_summary, digits=c(0,0,2,0,4)), type="html", include.rownames=FALSE)
+
+```
+
+## Conclusion:
+
+The var_t_HT_version2 formula appears to give the closest approximate to the values in Table 2 from Thompson (1990).
+
+
+

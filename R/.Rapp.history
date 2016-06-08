@@ -1,0 +1,2316 @@
+devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+library(devtools)
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+??limit
+37-13
+24/37
+37-13
+26/37
+25/37
+23/37
+29/37
+30/37
+22/37
+30/37
+29/37
+28/37
+27/37
+35/37
+30/37
+29/37
+26/37
+26/37 - .6757
+28/37
+30/37
+29/37
+37-12
+25/37
+219*.8
+219*.8 - 17
+26/3
+17/900
+42/900
+49/900
+setwd('/Users/KSauby/Documents/Projects/ACSampling')
+library(ProjectTemplate)#
+#
+# when working on a Windows computer#
+# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
+#
+# load project#
+load.project()
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+source("1_set_variables.R")#
+source("2_create_realizations.R")#
+source("3_summarise_network_information.R")#
+source("4_calculate_realization_summary_statistics.R")#
+# source("5_run_simulations.R")#
+source("6_merge_simulation_results.R")#
+source("7_simulation_summary_statistics.R")#
+source("8_number_of_bootstraps_per_realization_sampling.R")
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+rmarkdown::render('1b_Figure_ACS_RACS_Example.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X <- NULL
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=92120.20, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+?createRestrictedACS
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=c(92120.20, 11453.42), #
+	n1=20, #
+	y_variable="Cactus"#
+)
+str(X)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=11453.42, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+oavar <- c("Stricta", "Pusilla", "Cactus")#
+patchdat <- patch_data_5 <- filter(patch_data, n.networks==5)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
+	TIME 					<- Sys.time()#
+	patchdat 				%<>% arrange(n.networks, realization)#
+	var 					<- c(ovar, avar, rvar)#
+	n.patches 				<- length(unique(patchdat$n.networks))#
+	nsample.length 			<- length(nsamples)#
+	A 						<- vector("list", n.patches)
+avar=NULL
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
+	TIME 					<- Sys.time()#
+	patchdat 				%<>% arrange(n.networks, realization)#
+	var 					<- c(ovar, avar, rvar)#
+	n.patches 				<- length(unique(patchdat$n.networks))#
+	nsample.length 			<- length(nsamples)#
+	A 						<- vector("list", n.patches)
+var
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+oavar 					<- c(ovar, avar)#
+	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
+	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
+	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
+	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
+	# the names to assign the estimates#
+	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
+	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
+	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")#
+	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
+i=1
+j=1
+k=1
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+unique(patchdat$n.networks)[i])
+unique(patchdat$n.networks)[i]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# REALIZATION DATA#
+x_start 		<- 1#
+x_end 			<- 30#
+y_start 		<- 1#
+y_end 			<- 30#
+n.networks 		<- c(5, 15, 10, 20, 30, 40)#
+n.realizations 	<- 1#
+SpeciesInfo 	<- PlotSurveys_season1#
+buffer			<- 5#
+start.seed		<- 1#
+variables		<- ovar#
+#
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)#
+#
+# convert NAs to zeros#
+patch_data[,c(#
+	"CACA_on_Pusilla",#
+	"CACA_on_Stricta",#
+	"MEPR_on_Pusilla",#
+	"MEPR_on_Stricta",#
+	"Old_Moth_Evidence_Pusilla",#
+	"Old_Moth_Evidence_Stricta",#
+	"Percent_Cover_Pusilla",#
+	"Percent_Cover_Stricta",#
+	"Height_Pusilla",#
+	"Height_Stricta"#
+)] %<>% apply(., 2, NA_is_Zero_Function)
+patchdat <- patch_data
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+unique(patchdat$n.networks)[i])
+unique(patchdat$n.networks)[i]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+P 			<- patchdat %>% #
+							filter(n.networks==unique(patchdat$n.networks)[i])#
+			N 			<- dim(P)[1]#
+			n1 			<- nsamples[j]#
+			A[[i]][[j]] <- list()#
+			r 			<- (i - 1) * j + j#
+			seeds 		<- runif(simulations)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+simulations=200
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+P 			<- patchdat %>% #
+							filter(n.networks==unique(patchdat$n.networks)[i])#
+			N 			<- dim(P)[1]#
+			n1 			<- nsamples[j]#
+			A[[i]][[j]] <- list()#
+			r 			<- (i - 1) * j + j#
+			seeds 		<- runif(simulations)
+k
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+temp_seed <- seeds[k]*100000
+temp_seed
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+alldata <- createRestrictedACS(P, temp_seed, n1, #
+						y_variable) %>% #
+						as.data.table
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+y_variable <- "Cactus"
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+nsamples			<- c( 20, 30, 40, 75, 100) #, 150, 200)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+alldata <- createRestrictedACS(P, temp_seed, n1, #
+						y_variable) %>% #
+						as.data.table
+alldata
+alldata <- createRestrictedACS(P, 92120.20, n1, #
+						y_variable) %>% #
+						as.data.table
+alldata
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+createRestrictedACS(#
+	population=patch_data_5, #
+	seed=11453.42, #
+	n1=20, #
+	y_variable="Cactus"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+createRestrictedACS(#
+	population=patch_data_5, #
+	seed=92120.20, #
+	n1=20, #
+	y_variable="Cactus"#
+)
+str(patch_data)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patchdat <- patch_data_5 <- filter(patch_data, n.networks==5)#
+#
+X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=92120.20, #
+	n1=20, #
+	y_variable="Cactus"#
+)
+X
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks==unique(patch_data$n.networks)[3])#
+oavar <- ovar
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks==unique(patch_data_mod$n.networks)[3])#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+unique(patch_data_mod$n.networks)[3]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks=="1 (Low Cactus Occupancy)")#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# REALIZATION DATA#
+x_start 		<- 1#
+x_end 			<- 30#
+y_start 		<- 1#
+y_end 			<- 30#
+n.networks 		<- c(5, 15, 10, 20, 30, 40)#
+n.realizations 	<- 1#
+SpeciesInfo 	<- PlotSurveys_season1#
+buffer			<- 5#
+start.seed		<- 1#
+variables		<- ovar#
+#
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)#
+#
+# convert NAs to zeros#
+patch_data[,c(#
+	"CACA_on_Pusilla",#
+	"CACA_on_Stricta",#
+	"MEPR_on_Pusilla",#
+	"MEPR_on_Stricta",#
+	"Old_Moth_Evidence_Pusilla",#
+	"Old_Moth_Evidence_Stricta",#
+	"Percent_Cover_Pusilla",#
+	"Percent_Cover_Stricta",#
+	"Height_Pusilla",#
+	"Height_Stricta"#
+)] %<>% apply(., 2, NA_is_Zero_Function)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks=="1 (Low Cactus Occupancy)")#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+unique(patch_data_mod$n.networks)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+# create samples#
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks=="3")#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+# create figure#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# REALIZATION DATA#
+x_start 		<- 1#
+x_end 			<- 30#
+y_start 		<- 1#
+y_end 			<- 30#
+n.networks 		<- c(5, 15, 10, 20, 30, 40)#
+n.realizations 	<- 1#
+SpeciesInfo 	<- PlotSurveys_season1#
+buffer			<- 5#
+start.seed		<- 1#
+variables		<- ovar#
+#
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)#
+#
+# convert NAs to zeros#
+patch_data[,c(#
+	"CACA_on_Pusilla",#
+	"CACA_on_Stricta",#
+	"MEPR_on_Pusilla",#
+	"MEPR_on_Stricta",#
+	"Old_Moth_Evidence_Pusilla",#
+	"Old_Moth_Evidence_Stricta",#
+	"Percent_Cover_Pusilla",#
+	"Percent_Cover_Stricta",#
+	"Height_Pusilla",#
+	"Height_Stricta"#
+)] %<>% apply(., 2, NA_is_Zero_Function)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+levels(patch_data_mod$n.networks)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks=="4")#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# REALIZATION DATA#
+x_start 		<- 1#
+x_end 			<- 30#
+y_start 		<- 1#
+y_end 			<- 30#
+n.networks 		<- c(5, 15, 10, 20, 30, 40)#
+n.realizations 	<- 1#
+SpeciesInfo 	<- PlotSurveys_season1#
+buffer			<- 5#
+start.seed		<- 1#
+variables		<- ovar#
+#
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)#
+#
+# convert NAs to zeros#
+patch_data[,c(#
+	"CACA_on_Pusilla",#
+	"CACA_on_Stricta",#
+	"MEPR_on_Pusilla",#
+	"MEPR_on_Stricta",#
+	"Old_Moth_Evidence_Pusilla",#
+	"Old_Moth_Evidence_Stricta",#
+	"Percent_Cover_Pusilla",#
+	"Percent_Cover_Stricta",#
+	"Height_Pusilla",#
+	"Height_Stricta"#
+)] %<>% apply(., 2, NA_is_Zero_Function)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks=="4")#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data %<>% mutate(Cactus_occ = Cactus)#
+patch_data$Cactus_occ %<>% as.factor#
+levels(patch_data$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data$n.networks %<>% as.factor#
+levels(patch_data$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data %>% filter(n.networks==unique(patch_data$n.networks)[3])#
+S <- createSRSWOR(population=patch, seed=26, n1=10) %>%#
+mutate(Design="Simple Random Sampling w/o Replacement (SRSWOR)")#
+S[5, c("x", "y")] <- c(22,24)#
+S[8, c("x", "y")] <- c(23,6)#
+S[10, c("x", "y")] <- c(14,19)#
+initial_sample <- S[, c("x", "y")]#
+#
+## Example of ACS Sampling#
+#
+sampling_example_patch_occupancy = dataproc::Mean(patch$Cactus)#
+#
+#patch[patch$Cactus == 0,]$Cactus <- "Cacti Absent"#
+#patch[patch$Cactus == 1,]$Cactus <- "Cacti Present"#
+#
+ACS = createACS(population=patch, n1=10, y_variable="Cactus", initial_sample=initial_sample) %>%#
+mutate(Design="Adaptive Cluster Sampling (ACS)")#
+RACS = createRestrictedACS(population=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) %>%#
+mutate(Design="Restricted ACS (RACS)")#
+#
+sampling_example = rbind.fill(ACS, RACS)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$Design %<>% factor(levels=c(#
+	#"Simple Random Sampling w/o Replacement (SRSWOR)", #
+	"Adaptive Cluster Sampling (ACS)", #
+	"Restricted ACS (RACS)"))#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(data=patch_present, aes(x,y, shape=factor(Cactus_occ), colour=factor(Cactus_occ), fill=factor(Cactus_occ), size=factor(Cactus_occ)), show.legend=F) +#
+	geom_point(data=sampling_example, aes(x,y, shape=factor(Sampling), #
+		colour=factor(Sampling), fill=factor(Sampling), size=factor(Sampling))) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+	scale_colour_manual(values=c("black", "black", "black")) +#
+	scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~Design) + #
+	theme(#
+		legend.position=c(1,0), #
+		legend.justification=c(5.685,-6.2),#
+		legend.key=element_blank(),#
+		legend.background = element_rect(linetype="solid", colour="black"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+	guides(shape=guide_legend(title=NULL), colour=guide_legend(title=NULL)) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+# white squares#
+patch_data_filtered <- patch_data %>% filter(Cactus_occ=="Cacti Present") %>% mutate(Cactus_occ=0)#
+# grey squares:#
+patch_data_stricta <- patch_data %>% filter(Stricta==1) %>% mutate(Stricta=1)#
+# plus signs#
+patch_data_CACA <- patch_data %>% filter(CACA_on_Stricta==1) %>% mutate(CACA_on_Stricta=2)#
+# black squares#
+patch_data_MEPR <- patch_data %>% filter(MEPR_on_Stricta==1) %>% mutate(MEPR_on_Stricta=3)#
+#
+ggplot() +#
+	geom_point(#
+		data=patch_data_filtered, #
+		aes(#
+			x,#
+			y, #
+			size=factor(Cactus_occ),#
+			shape=factor(Cactus_occ), #
+			colour=factor(Cactus_occ),#
+			fill=factor(Cactus_occ)#
+		), #
+		show.legend=T#
+	) +#
+	geom_point(#
+		data=patch_data_stricta, #
+		aes(#
+			x,#
+			y, #
+			size=factor(Stricta),#
+			shape=factor(Stricta), #
+			colour=factor(Stricta),#
+			fill=factor(Stricta)#
+		), #
+		show.legend=T#
+	) +#
+	geom_point(#
+		data=patch_data_CACA, #
+		aes(#
+			x,#
+			y, #
+			size=factor(CACA_on_Stricta),#
+			shape=factor(CACA_on_Stricta), #
+			colour=factor(CACA_on_Stricta), #
+			fill=factor(CACA_on_Stricta)#
+		), #
+		show.legend=T#
+	) +#
+	geom_point(#
+		data=patch_data_MEPR, #
+		aes(#
+			x,#
+			y, #
+			size=factor(MEPR_on_Stricta),#
+			shape=factor(MEPR_on_Stricta), #
+			colour=factor(MEPR_on_Stricta), #
+			fill=factor(MEPR_on_Stricta)#
+		), #
+		show.legend=T#
+	) +#
+	facet_wrap(~n.networks) +#
+	scale_shape_manual(#
+		values=c(22, 21, 22, 43), #
+		labels=c("Cacti", "O. stricta", "Invasive Moth", "Native Moth")#
+	) +#
+	scale_colour_manual(#
+		values=c("black", "black", "black", "black"), #
+		labels=c("Cacti", "O. stricta", "Invasive Moth", "Native Moth")#
+	) +#
+	scale_fill_manual(#
+		values=c("white", "darkolivegreen3", "black", "white"), #
+		labels=c("Cacti", "O. stricta", "Invasive Moth", "Native Moth")#
+	) +#
+	scale_size_manual(#
+		values=c(4.5, 4, 4.5, 6), #
+		labels=c("Cacti", "O. stricta", "Invasive Moth", "Native Moth")#
+	) +#
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+	guides(shape=guide_legend(title=NULL), colour=guide_legend(title=NULL)) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30)) +#
+	guides(#
+		shape = guide_legend(title=""), #
+		colour = guide_legend(title=""),#
+		size  = guide_legend(title=""),#
+		fill  = guide_legend(title="")#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
+# REALIZATION DATA#
+x_start 		<- 1#
+x_end 			<- 30#
+y_start 		<- 1#
+y_end 			<- 30#
+n.networks 		<- c(5, 15, 10, 20, 30, 40)#
+n.realizations 	<- 1#
+SpeciesInfo 	<- PlotSurveys_season1#
+buffer			<- 5#
+start.seed		<- 1#
+variables		<- ovar#
+#
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)#
+#
+# convert NAs to zeros#
+patch_data[,c(#
+	"CACA_on_Pusilla",#
+	"CACA_on_Stricta",#
+	"MEPR_on_Pusilla",#
+	"MEPR_on_Stricta",#
+	"Old_Moth_Evidence_Pusilla",#
+	"Old_Moth_Evidence_Stricta",#
+	"Percent_Cover_Pusilla",#
+	"Percent_Cover_Stricta",#
+	"Height_Pusilla",#
+	"Height_Stricta"#
+)] %<>% apply(., 2, NA_is_Zero_Function)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks=="4")#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	) %>%#
+	pandoc.table
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+oavar <- c("Stricta", "Pusilla", "Cactus")#
+patchdat <- patch_data_5 <- filter(patch_data, n.networks==5)#
+#
+X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=92120.20, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+rmarkdown::render('1b_Figure_ACS_RACS_Example.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+oavar <- c("Stricta", "Pusilla", "Cactus")#
+patchdat <- patch_data_5 <- filter(patch_data, n.networks==5)#
+#
+X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=11453.42, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+rmarkdown::render('1b_Figure_ACS_RACS_Example.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+rmarkdown::render('1b_Figure_ACS_RACS_Example.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=70996.70, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+patch_data_mod <- patch_data %>% mutate(Cactus_occ = Cactus)#
+patch_data_mod$Cactus_occ %<>% as.factor#
+levels(patch_data_mod$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+patch_data_mod$n.networks %<>% as.factor#
+levels(patch_data_mod$n.networks) <- c("1 (Low Cactus Occupancy)", "2", "3", "4", "5", "6 (High Cactus Occupancy)")#
+#
+patch = patch_data_mod %>% filter(n.networks=="4")#
+oavar <- ovar#
+#
+RACS10 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=10, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 10")#
+RACS10 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS10 <- RACS10 %>% filter(Sampling!="Edge") %>% 	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+# calculate t_HT#
+m <- ORACS10$m#
+ORACS10_HT_results <- ORACS10[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 10,#
+	m	= m#
+)]#
+RACS30 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=30, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 30")#
+RACS30 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS30 <- RACS30 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS30$m#
+ORACS30_HT_results <- ORACS30[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 30,#
+	m	= m#
+)]#
+#
+RACS50 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=50, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 50")#
+RACS50 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS50 <- RACS50 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS50$m#
+ORACS50_HT_results <- ORACS50[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 50,#
+	m	= m#
+)]#
+#
+RACS100 = createRestrictedACS(#
+	population=patch, #
+	seed=28, #
+	n1=100, #
+	y_variable="Cactus"#
+) %>% mutate(`Primary Sample Size`="n1 = 100")#
+RACS100 %<>% as.data.table %>% setkey(NetworkID)#
+ORACS100 <- RACS100 %>% filter(Sampling!="Edge")#
+# calculate t_HT#
+m <- ORACS100$m#
+ORACS100_HT_results <- ORACS100[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 100,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+# create figure#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+sampling_example = rbind.fill(RACS10, RACS30, RACS50, RACS100)#
+#
+sampling_example[sampling_example$Sampling=="Edge" | sampling_example$Sampling=="Cluster", ]$Sampling <- "Secondary Sample"#
+#
+sampling_example[sampling_example$Sampling=="SRSWOR", ]$Sampling <- "Primary Sample (SRSWOR)"#
+#
+sampling_example$`Primary Sample Size` %<>% factor(#
+	levels= c(#
+		"n1 = 10", #
+		"n1 = 30",#
+		"n1 = 50",#
+		"n1 = 100"#
+	)#
+)#
+sampling_example$Cactus %<>% factor(levels=c("Absent", "Present"))#
+patch_present <- filter(patch, Cactus_occ=="Cacti Present")#
+#
+#ACS_RACS_illustration = #
+ggplot() +#
+#	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(#
+		data=patch_present, #
+		aes(x,y, #
+			shape=factor(Cactus_occ), #
+			fill=factor(NetworkID), #
+			size=factor(Cactus_occ)#
+		), #
+		show.legend=F#
+	) +#
+	geom_point(#
+		data=sampling_example, #
+		aes(x,y, #
+			shape=factor(Sampling), #
+			size=factor(Sampling)#
+		), #
+		show.legend=T#
+	) +#
+	scale_shape_manual(values=c(22,20,4)) +#
+#	scale_colour_manual(values=c("black", "black", "black")) +#
+	#scale_fill_manual(values=c("grey", "grey", "grey")) +#
+	scale_size_manual(values=c(4.5,4,4.5)) +#
+	facet_wrap(~`Primary Sample Size`) + #
+	theme(#
+		legend.position="bottom", #
+		#legend.justification=c(8.4,-11.7),#
+		legend.key=element_blank(),#
+		panel.background = element_rect(linetype="solid", fill="white"),#
+		panel.border = element_rect(colour = "black", fill=NA, size=3),#
+		strip.text = element_text(face="bold", size=24),#
+		strip.background = element_rect(fill="white", colour="black", size=3)#
+	) +#
+   	guides(#
+   		shape = guide_legend(title=""), #
+   		size  = guide_legend(title=""),#
+   		fill  =F,#
+		colour=F#
+   	) +#
+	scale_x_continuous(limits=c(0,30)) +#
+   	scale_y_continuous(limits=c(0,30))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+RACS10 %>%#
+	dplyr::select(NetworkID, m) %>% #
+	unique %>% #
+	filter(!is.na(NetworkID)) %>% #
+	as.data.frame %>% #
+	group_by(m) %>% #
+	summarise(`Number of Networks` = length(m)) %>%#
+	pandoc.table
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+oavar <- c("Stricta", "Pusilla", "Cactus")#
+patchdat <- patch_data_5 <- filter(patch_data, n.networks==5)#
+#
+X <- NULL
+str(patch_data_5)
+dim(patch_data_5)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+OX <- X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=92120.20, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+OX <- X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=11453.42, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+OX <- X <- NULL
+OX
+X
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=11453.42, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)
+dim(X)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]
+dim(OX)
+OX
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+OX <- X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=11453.42, #
+	n1=20, #
+	y_variable="Cactus"#
+)#
+#
+X %<>% as.data.table %>% setkey(NetworkID)
+X
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+OX <- X <- NULL#
+#
+X = createRestrictedACS(#
+	population=patch_data_5, #
+	seed=70996.70, #
+	n1=20, #
+	y_variable="Cactus"#
+)
+dim(x)
+dim(X)
+X
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+X %<>% as.data.table %>% setkey(NetworkID)#
+OX <- X %>% filter(Sampling!="Edge") %>% #
+	.[, c(#
+	oavar, #
+	"NetworkID", #
+	"m",#
+	"Sampling"#
+), with=FALSE]#
+#
+# calculate t_HT#
+m <- OX$m#
+OX[, c(oavar), with=FALSE] %>% .[, lapply(#
+	.SD,#
+	t_HT,#
+	N	= N, #
+	n1	= 20,#
+	m	= m#
+)]
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript')
+sim.5Apr16.RACS %>% #
+	filter(Plots=="Horvitz Thompson Mean (All Plots)") %>% head %>% #
+	dplyr::select(#
+		N.SRSWOR.plots, #
+		n.networks, #
+		seed,#
+		Restricted,#
+		Stricta_mean_observed, #
+		Pusilla_mean_observed,#
+		Cactus_mean_observed#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
+	TIME 					<- Sys.time()#
+	patchdat 				%<>% arrange(n.networks, realization)#
+	var 					<- c(ovar, avar, rvar)#
+	n.patches 				<- length(unique(patchdat$n.networks))#
+	nsample.length 			<- length(nsamples)#
+	A 						<- vector("list", n.patches)#
+	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
+	oavar 					<- c(ovar, avar)#
+	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
+	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
+	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
+	Ratio 					<- data.frame(row.names = 1:length(rvar))
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
+	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
+	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")#
+	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
+i
+j
+i=1
+j=1
+k=1
+setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
+P 			<- patchdat %>% #
+							filter(n.networks==unique(patchdat$n.networks)[i])#
+			N 			<- dim(P)[1]#
+			n1 			<- nsamples[j]#
+			A[[i]][[j]] <- list()#
+			r 			<- (i - 1) * j + j#
+			seeds 		<- runif(simulations)
+head(P{})
+head(P)
+alldata <- createRestrictedACS(P, 11453.42, n1, #
+						y_variable) %>% #
+						as.data.table#
+				}
+alldata <- createRestrictedACS(P, 11453.42, n1, #
+						y_variable) %>% #
+						as.data.table
+alldata
+n1

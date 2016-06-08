@@ -1,0 +1,11 @@
+#' Calculate the inclusion probability of unit $i$ in a simple random sample with replacement. 
+#' 
+#' @param N Population size.
+#' @param n1 Initial sample size.
+#' @param m Vector of values giving the number of units satisfying the ACS criterion in netwalpha_star_iork $i$.
+#' @return vector of inclusion probabilities
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+
+pi_i_with_replacement <- function(N, n1, m) {
+  sapply(m, function(m) 1 - (1 - m/N)^n1)
+}

@@ -1,0 +1,28 @@
+Package: ACSampling
+Title: Adaptive Cluster Sampling
+Version: 0.0.0.9000
+Authors@R: person("Kristen", "Sauby", email = "ksauby@gmail.com", role = c("aut", "cre"))
+Description: Generate simulation and estimate statistics for adaptive cluster
+    sampling and restricted adaptive cluster sampling.
+Depends:
+    R (>= 3.1.2)
+License: GPL-2
+LazyData: true
+Suggests:
+    testthat
+VignetteBuilder: knitr
+Imports:
+    Rcpp,
+    data.table,
+    plyr,
+    dplyr,
+    igraph,
+    intergraph,
+    magrittr,
+    network,
+    knitr,
+    ggplot2,
+    foreach,
+    stringr
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 5.0.1

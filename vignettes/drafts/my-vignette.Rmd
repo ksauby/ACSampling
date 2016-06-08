@@ -1,0 +1,127 @@
+<!-- 
+# need to run process_precip and munge files first before compiling this document
+rmarkdown::render('my-vignette.Rmd')
+
+# knitr::knit2html
+-->
+
+---
+title: "Adaptive Cluster Sampling"
+author: "Kristen Sauby"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Example 1: Cactus Occupancy Data
+
+
+
+
+# Example 2: Cactus Occupancy Data
+
+I will use the cactus realization data to illustrate the \code{createACS} function.
+
+Load the data:
+```{r}
+data(CactusRealizations)
+```
+
+Load the other information required to take the ACS:
+```{r}
+population <- CactusRealizations %>% filter(n.networks==40)
+seed <- 27
+n1 <- 20
+y_variable <- "Cactus"
+condition=0
+```
+
+## Unrestricted Adaptive Cluster Sampling
+
+First, a simple random sample without replacement (SRSWOR) is taken from the population.
+```{r}
+# start by taking the initial sample (according to SRSWOR)
+S <- createSRSWOR(population, seed, n1)
+```
+
+### Plot of the initial sample:
+
+We can see that two of our initial samples have landed within the cactus patch.
+
+```{r, fig.width=8.5, fig.height=6}
+ggplot() + 
+	geom_point(data=population, aes(x,y, colour=factor(Cactus), size=factor(Cactus))) +
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +
+	scale_size_manual(values=c(1,2.5)) +
+	geom_point(data=S, aes(x,y, shape=factor(Sampling)), size=4) + 
+	scale_shape_manual(values=0) +
+	theme_bw()
+```
+
+Now we run the createACS function to take the complete adaptive cluster sampling, which includes the initial sample, all other units of networks selected in the initial sample, and the edge units surrounded the networks selected in the initial sample.
+
+```{r}
+Z = createACS(population, seed, n1, y_variable, condition=0) %>% arrange(x, y)
+```
+
+### Plot of the Adaptive Cluster Sample:
+```{r, echo=FALSE, fig.width=8.5, fig.height=6}
+# plot ACS sample overlaid onto population
+ggplot() + 
+	geom_point(data=population, aes(x,y, colour=factor(Cactus), size=factor(Cactus))) +
+	scale_colour_manual(values=c("grey", rep("black", length(2:13)))) +
+	scale_size_manual(values=c(1,2.5)) +
+	geom_point(data=Z, aes(x,y, shape=factor(Sampling)), size=4) + 
+	scale_shape_manual(values=c(5,1,0)) +
+	theme_bw()
+	
+```
+
+## Mean of the Adaptive Cluster Sample
+
+```{r}
+t_HT(
+	N = dim(population)[1],
+	n1 = n1,
+	mk = Z$m,
+	y = Z$Cactus,
+	sampling = Z$Sampling, 
+	criterion = 0
+)
+```
+
+This value is close to the population mean:
+```{r}
+mean(population$Cactus)
+```
+
+## Variance of the Adaptive Cluster Sample
+
+First we calculate summary information for each Network:
+```{r}
+summary = Z %>%
+filter(Sampling!="Edge") %>%
+	group_by(NetworkID) %>%
+	summarise(
+		m = m[1],
+		y_value = ifelse(sum(Cactus,
+			na.rm=T) > 0, 1, 0)
+	)
+```
+
+Then we can calculate the variance of the sample:
+	
+```{r}
+var_t_HT(
+	N = dim(population)[1], 
+	n1 = n1, 
+	m = summary$m, 
+	y = summary$y_value
+)
+```
+
+
+		
