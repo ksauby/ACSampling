@@ -4,21 +4,21 @@
 \alias{createACS}
 \title{Create an Adaptive Cluster Sample.}
 \usage{
-createACS(population, seed = 1, n1, y_variable, condition = 0,
+createACS(population, n1, y_variable, condition = 0, seed = NA,
   initial_sample = NA)
 }
 \arguments{
-\item{population}{grid of population to be sampled.}
+\item{population}{The population to be sampled.}
 
-\item{seed}{vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.}
+\item{n1}{The initial sample size (sampled according to simple random sampling without replacement).}
 
-\item{n1}{initial sample size (sampled according to simple random sampling without replacement).}
+\item{y_variable}{The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.}
 
-\item{y_variable}{Variable of interest, used to determine condition under which adaptive cluster sampling takes place.}
+\item{condition}{Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).}
 
-\item{condition}{Threshold value of the y variable that initiates ACS. Defaults to \code{0}.}
+\item{seed}{A vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.}
 
-\item{initial_sample}{List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
+\item{initial_sample}{Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
 }
 \value{
 A restricted adaptive cluster sample.

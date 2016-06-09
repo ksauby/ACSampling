@@ -1,0 +1,1460 @@
+29/37
+37-12
+25/37
+219*.8
+219*.8 - 17
+26/3
+17/900
+42/900
+49/900
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades/code')
+Canvas <- X08.Jun.16.34.Grades.BSC2011#
+names(Canvas) <- c(#
+	"Student",#
+	"ID",#
+	"SIS User ID",#
+	"SIS Login ID",#
+	"Section",#
+	"LC (Unit 1 - Davis) (3018312)",#
+	"Exam 1 (3018270)",#
+	"Pre/Post Test (3018276)",#
+	"LaunchPad (Davis- Unit 1) (3018275)",#
+	"Assignments Current Points",#
+	"Assignments Final Points",#
+	"Assignments Current Score",#
+	"Assignments Final Score",#
+	"Imported Assignments Current Points",#
+	"Imported Assignments Final Points",#
+	"Imported Assignments Current Score",#
+	"Imported Assignments Final Score",#
+	"Current Points",#
+	"Final Points",#
+	"Current Score",#
+	"Final Score"#
+)#
+Canvas %<>% dplyr::select(#
+	Student,#
+	ID,#
+	`SIS User ID`,#
+	`SIS Login ID`,#
+	Section#
+)#
+Canvas %<>% filter(!(is.na(ID)))#
+dim(Canvas)#
+#
+# LC#
+# 12 total points#
+LC1 <- gradebookLC1 %>% #
+	dplyr::select(#
+		Email,#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.#
+	) %>% #
+	group_by(Email) %>%#
+	summarise(Plants_total = sum(#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.,#
+		na.rm=T#
+		)/2#
+	)
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades')
+library(ProjectTemplate)#
+#
+# create.project("grades")#
+load.project()
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades/code')
+Canvas <- X08.Jun.16.34.Grades.BSC2011#
+names(Canvas) <- c(#
+	"Student",#
+	"ID",#
+	"SIS User ID",#
+	"SIS Login ID",#
+	"Section",#
+	"LC (Unit 1 - Davis) (3018312)",#
+	"Exam 1 (3018270)",#
+	"Pre/Post Test (3018276)",#
+	"LaunchPad (Davis- Unit 1) (3018275)",#
+	"Assignments Current Points",#
+	"Assignments Final Points",#
+	"Assignments Current Score",#
+	"Assignments Final Score",#
+	"Imported Assignments Current Points",#
+	"Imported Assignments Final Points",#
+	"Imported Assignments Current Score",#
+	"Imported Assignments Final Score",#
+	"Current Points",#
+	"Final Points",#
+	"Current Score",#
+	"Final Score"#
+)#
+Canvas %<>% dplyr::select(#
+	Student,#
+	ID,#
+	`SIS User ID`,#
+	`SIS Login ID`,#
+	Section#
+)#
+Canvas %<>% filter(!(is.na(ID)))#
+dim(Canvas)#
+#
+# LC#
+# 12 total points#
+LC1 <- gradebookLC1 %>% #
+	dplyr::select(#
+		Email,#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.#
+	) %>% #
+	group_by(Email) %>%#
+	summarise(Plants_total = sum(#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.,#
+		na.rm=T#
+		)/2#
+	)
+head(LC1)
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades/code')
+0.75*6
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades/code')
+Canvas <- X08.Jun.16.34.Grades.BSC2011#
+names(Canvas) <- c(#
+	"Student",#
+	"ID",#
+	"SIS User ID",#
+	"SIS Login ID",#
+	"Section",#
+	"LC (Unit 1 - Davis) (3018312)",#
+	"Exam 1 (3018270)",#
+	"Pre/Post Test (3018276)",#
+	"LaunchPad (Davis- Unit 1) (3018275)",#
+	"Assignments Current Points",#
+	"Assignments Final Points",#
+	"Assignments Current Score",#
+	"Assignments Final Score",#
+	"Imported Assignments Current Points",#
+	"Imported Assignments Final Points",#
+	"Imported Assignments Current Score",#
+	"Imported Assignments Final Score",#
+	"Current Points",#
+	"Final Points",#
+	"Current Score",#
+	"Final Score"#
+)#
+Canvas %<>% dplyr::select(#
+	Student,#
+	ID,#
+	`SIS User ID`,#
+	`SIS Login ID`,#
+	Section#
+)#
+Canvas %<>% filter(!(is.na(ID)))#
+dim(Canvas)#
+#
+# LC#
+# 12 total points#
+LC1 <- gradebookLC1 %>% #
+	dplyr::select(#
+		Email,#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.#
+	) %>% #
+	group_by(Email) %>%#
+	summarise(Plants_total = sum(#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.,#
+		na.rm=T#
+		)/2#
+	) %>%#
+	# change grades 0.75 and above to 1#
+	mutate(#
+		Plants_total = replace(#
+			Plants_total,#
+			Plants_total >= 0.75*6,#
+			6#
+	)
+head(LC1)
+)
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades/code')
+Canvas <- X08.Jun.16.34.Grades.BSC2011#
+names(Canvas) <- c(#
+	"Student",#
+	"ID",#
+	"SIS User ID",#
+	"SIS Login ID",#
+	"Section",#
+	"LC (Unit 1 - Davis) (3018312)",#
+	"Exam 1 (3018270)",#
+	"Pre/Post Test (3018276)",#
+	"LaunchPad (Davis- Unit 1) (3018275)",#
+	"Assignments Current Points",#
+	"Assignments Final Points",#
+	"Assignments Current Score",#
+	"Assignments Final Score",#
+	"Imported Assignments Current Points",#
+	"Imported Assignments Final Points",#
+	"Imported Assignments Current Score",#
+	"Imported Assignments Final Score",#
+	"Current Points",#
+	"Final Points",#
+	"Current Score",#
+	"Final Score"#
+)#
+Canvas %<>% dplyr::select(#
+	Student,#
+	ID,#
+	`SIS User ID`,#
+	`SIS Login ID`,#
+	Section#
+)#
+Canvas %<>% filter(!(is.na(ID)))#
+dim(Canvas)#
+#
+# LC#
+# 12 total points#
+LC1 <- gradebookLC1 %>% #
+	dplyr::select(#
+		Email,#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.#
+	) %>% #
+	group_by(Email) %>%#
+	summarise(Plants_total = sum(#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.,#
+		na.rm=T#
+		)/2#
+	) %>%#
+	# change grades 0.75 and above to 1#
+	mutate(#
+		Plants_total = replace(#
+			Plants_total,#
+			Plants_total >= 0.75*6,#
+			6#
+	)
+)
+head(LC1)
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades/code')
+Canvas <- X08.Jun.16.34.Grades.BSC2011#
+names(Canvas) <- c(#
+	"Student",#
+	"ID",#
+	"SIS User ID",#
+	"SIS Login ID",#
+	"Section",#
+	"LC (Unit 1 - Davis) (3018312)",#
+	"Exam 1 (3018270)",#
+	"Pre/Post Test (3018276)",#
+	"LaunchPad (Davis- Unit 1) (3018275)",#
+	"Assignments Current Points",#
+	"Assignments Final Points",#
+	"Assignments Current Score",#
+	"Assignments Final Score",#
+	"Imported Assignments Current Points",#
+	"Imported Assignments Final Points",#
+	"Imported Assignments Current Score",#
+	"Imported Assignments Final Score",#
+	"Current Points",#
+	"Final Points",#
+	"Current Score",#
+	"Final Score"#
+)#
+Canvas %<>% dplyr::select(#
+	Student,#
+	ID,#
+	`SIS User ID`,#
+	`SIS Login ID`,#
+	Section#
+)#
+Canvas %<>% filter(!(is.na(ID)))#
+dim(Canvas)#
+#
+# LC#
+# 12 total points#
+LC1 <- gradebookLC1 %>% #
+	dplyr::select(#
+		Email,#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.#
+	) %>% #
+	group_by(Email) %>%#
+	summarise(Plants_total = sum(#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.,#
+		na.rm=T#
+		)/2#
+	)
+head(LC1)
+setwd('/Users/KSauby/Documents/Dropbox/Teaching/BSC_2011_Summer_2016/grades/code')
+Canvas <- X08.Jun.16.34.Grades.BSC2011#
+names(Canvas) <- c(#
+	"Student",#
+	"ID",#
+	"SIS User ID",#
+	"SIS Login ID",#
+	"Section",#
+	"LC (Unit 1 - Davis) (3018312)",#
+	"Exam 1 (3018270)",#
+	"Pre/Post Test (3018276)",#
+	"LaunchPad (Davis- Unit 1) (3018275)",#
+	"Assignments Current Points",#
+	"Assignments Final Points",#
+	"Assignments Current Score",#
+	"Assignments Final Score",#
+	"Imported Assignments Current Points",#
+	"Imported Assignments Final Points",#
+	"Imported Assignments Current Score",#
+	"Imported Assignments Final Score",#
+	"Current Points",#
+	"Final Points",#
+	"Current Score",#
+	"Final Score"#
+)#
+Canvas %<>% dplyr::select(#
+	Student,#
+	ID,#
+	`SIS User ID`,#
+	`SIS Login ID`,#
+	Section#
+)#
+Canvas %<>% filter(!(is.na(ID)))#
+dim(Canvas)#
+#
+# LC#
+# 12 total points#
+LC1 <- gradebookLC1 %>% #
+	dplyr::select(#
+		Email,#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.#
+	) %>% #
+	group_by(Email) %>%#
+	summarise(Plants_total = sum(#
+		Plants.1..91979122.,#
+		Plants.1..19682451.,#
+		Plants.1..15981545.,#
+		Plants.1..84097089.,#
+		Plants.1..62586350.,#
+		Plants.1..26112361.,#
+		na.rm=T#
+		)/2#
+	) %>%#
+	# change grades 0.75 and above to 1#
+	mutate(#
+		Plants_total = replace(#
+			Plants_total,#
+			Plants_total >= 0.75*6,#
+			6#
+		)#
+	)#
+# Exam 1#
+Exam1 <- Su2016exam1 %>%#
+	dplyr::select(SIS.Login.ID, Adjusted.score)#
+Exam1 %<>% filter(!(is.na(SIS.Login.ID)))#
+#
+# merge#
+Canvas %<>% #
+	merge(LC1, by.x="SIS Login ID", by.y="Email", all.x=T) %>%#
+	merge(Exam1, by.x="SIS Login ID", by.y="SIS.Login.ID", all.x=T)#
+#
+# doublecheck noone from LaunchPad left out#
+Canvas[!(Canvas$`SIS Login ID` %in% LC1$Email), ]#
+LC1[!(LC1$Email %in% Canvas$`SIS Login ID`),]#
+#
+Canvas[!(Canvas$`SIS Login ID` %in% Exam1$SIS.Login.ID), ]#
+Exam1[!(Exam1$SIS.Login.ID %in% Canvas$`SIS Login ID`),]#
+#
+Canvas$Plants_total[which(is.na(Canvas$Plants_total))] <- 0#
+names(Canvas)[6:7] <- c(#
+	"LC (Unit 1 - Davis) (3018312)",#
+	"Exam 1 (3018270)"#
+)#
+#
+write.csv(Canvas, "LC1Exam1.csv", row.names = F)
+?runif
+?sample
+set.seed(seed=NA)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed=NA
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+!is.na(seed)
+seed=1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+data(Thompson1990Figure1Population)
+library(ACSampling)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+data(Thompson1990Figure1Population)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+data(Thompson1990Figure1Sample)
+population <- Thompson1990Figure1Population
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+n1=10
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+sample
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+sample
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+seed
+sample
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed=NA
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+sample
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+sample
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+sample
+if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+sample
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create an Adaptive Cluster Sample.#
+#'#
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place.#
+#' @param condition Threshold value of the y variable that initiates ACS. Defaults to \code{0}.#
+#' @param initial_sample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' library(ggplot2)#
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' #
+#' # Initiate ACS#
+#' Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#' # Initiate ACS, different seed#
+#' Z = createACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
+#
+#' @export#
+#' @importFrom plyr rbind.fill#
+#' @importFrom ggplot2 ggplot#
+#
+createACS <- function(population, seed=NA, n1, y_variable, condition=0, initial_sample=NA) {#
+	. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "SRSWOR"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = population %>%#
+		filter(population$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(Z)[names(Z) == y_variable] <- 'y_val'#
+		#Z %<>%#
+		#	as.data.table %>%#
+		#	setnames(y_variable, "y_val")#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# fill in edge units#
+		E = data.table(#
+			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
+		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
+			Sampling = "Edge",#
+			key = c("x", "y")#
+		)#
+		Z %<>% #
+			rbind.fill(E) %>% #
+			as.data.table %>% #
+			setkey("x", "y") %>% #
+	 	   	unique#
+		# remove plots outside of population extent#
+		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]#
+		# fill in values for Edge units#
+		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {#
+			Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m#
+			Z[ y_val==0 & Sampling!="SRSWOR" ]$m <- 0 # fill in m#
+		}	#
+		setnames(Z, "y_val", y_variable)#
+		return(Z)#
+	} else {#
+		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample#
+		return(Z)#
+	}#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create an Adaptive Cluster Sample.#
+#'#
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param y_variable Variable of interest that is used to determine condition under which adaptive cluster sampling takes place.#
+#' @param condition Threshold value of the y variable that initiates ACS. Defaults to \code{0}.#
+#' @param initial_sample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' library(ggplot2)#
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' #
+#' # Initiate ACS#
+#' Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#' # Initiate ACS, different seed#
+#' Z = createACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
+#
+#' @export#
+#' @importFrom plyr rbind.fill#
+#' @importFrom ggplot2 ggplot#
+#
+createACS <- function(population, seed=NA, n1, y_variable, condition=0, initial_sample=NA) {#
+	. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = population %>%#
+		filter(population$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(Z)[names(Z) == y_variable] <- 'y_val'#
+		#Z %<>%#
+		#	as.data.table %>%#
+		#	setnames(y_variable, "y_val")#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# fill in edge units#
+		E = data.table(#
+			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
+		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
+			Sampling = "Edge",#
+			key = c("x", "y")#
+		)#
+		Z %<>% #
+			rbind.fill(E) %>% #
+			as.data.table %>% #
+			setkey("x", "y") %>% #
+	 	   	unique#
+		# remove plots outside of population extent#
+		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]#
+		# fill in values for Edge units#
+		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {#
+			Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m#
+			Z[ y_val==0 & Sampling!="Primary Sample" ]$m <- 0 # fill in m#
+		}	#
+		setnames(Z, "y_val", y_variable)#
+		return(Z)#
+	} else {#
+		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample#
+		return(Z)#
+	}#
+}
+?createACS
+Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create an Adaptive Cluster Sample.#
+#'#
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param y_variable Variable of interest that is used to determine condition under which adaptive cluster sampling takes place.#
+#' @param condition Threshold value of the y variable that initiates ACS. Defaults to \code{0}.#
+#' @param initial_sample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' library(ggplot2)#
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' #
+#' # Initiate ACS#
+#' Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#' # Initiate ACS, different seed#
+#' Z = createACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
+#
+#' @export#
+#' @importFrom plyr rbind.fill#
+#' @importFrom ggplot2 ggplot#
+#
+createACS <- function(population, seed=NA, n1, y_variable, condition=0, initial_sample=NA) {#
+	. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = population %>%#
+		filter(population$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(Z)[names(Z) == y_variable] <- 'y_val'#
+		#Z %<>%#
+		#	as.data.table %>%#
+		#	setnames(y_variable, "y_val")#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# fill in edge units#
+		E = data.table(#
+			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
+		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
+			Sampling = "Edge",#
+			key = c("x", "y")#
+		)#
+		Z %<>% #
+			rbind.fill(E) %>% #
+			as.data.table %>% #
+			setkey("x", "y") %>% #
+	 	   	unique#
+		# remove plots outside of population extent#
+		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]#
+		# fill in values for Edge units#
+		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {#
+			Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m#
+			Z[ y_val==0 & Sampling!="Primary Sample" ]$m <- 0 # fill in m#
+		}	#
+		setnames(Z, "y_val", y_variable)#
+		return(Z)#
+	} else {#
+		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample#
+		return(Z)#
+	}#
+}
+Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)
+Z
+population=Thompson1990Figure1Population;seed=2;n1=10;y_variable="y_value";condition=0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = population %>%#
+		filter(population$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+initial_sample=NA
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = population %>%#
+		filter(population$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+(dim(Networks)[1] > 0)
+Z
+population=Thompson1990Figure1Population;seed=26;n1=10;y_variable="y_value";condition=0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = population %>%#
+		filter(population$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+(dim(Networks)[1] > 0)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(Z)[names(Z) == y_variable] <- 'y_val'#
+		#Z %<>%#
+		#	as.data.table %>%#
+		#	setnames(y_variable, "y_val")#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# fill in edge units#
+		E = data.table(#
+			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
+		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
+			Sampling = "Edge",#
+			key = c("x", "y")#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z %<>% #
+			rbind.fill(E) %>% #
+			as.data.table %>% #
+			setkey("x", "y") %>% #
+	 	   	unique#
+		# remove plots outside of population extent#
+		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]#
+		# fill in values for Edge units
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+(dim(Z[ is.na(Z$y_val) ])[1] > 0)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(Z)[names(Z) == y_variable] <- 'y_val'#
+		#Z %<>%#
+		#	as.data.table %>%#
+		#	setnames(y_variable, "y_val")#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# fill in edge units#
+		E = data.table(#
+			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
+		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
+			Sampling = "Edge",#
+			key = c("x", "y")#
+		)#
+		Z %<>% #
+			rbind.fill(E) %>% #
+			as.data.table %>% #
+			setkey("x", "y") %>% #
+	 	   	unique#
+		# remove plots outside of population extent#
+		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z[ Sampling=="Edge" ]$m <- 0 # fill in m
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create an Adaptive Cluster Sample.#
+#'#
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param y_variable Variable of interest that is used to determine condition under which adaptive cluster sampling takes place.#
+#' @param condition Threshold value of the y variable that initiates ACS. Defaults to \code{0}.#
+#' @param initial_sample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' library(ggplot2)#
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' #
+#' # Initiate ACS#
+#' Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#' # Initiate ACS, different seed#
+#' Z = createACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
+#
+#' @export#
+#' @importFrom plyr rbind.fill#
+#' @importFrom ggplot2 ggplot#
+#
+createACS <- function(population, seed=NA, n1, y_variable, condition=0, initial_sample=NA) {#
+	. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = population %>%#
+		filter(population$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(Z)[names(Z) == y_variable] <- 'y_val'#
+		#Z %<>%#
+		#	as.data.table %>%#
+		#	setnames(y_variable, "y_val")#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# fill in edge units#
+		E = data.table(#
+			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
+		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
+			Sampling = "Edge",#
+			key = c("x", "y")#
+		)#
+		Z %<>% #
+			rbind.fill(E) %>% #
+			as.data.table %>% #
+			setkey("x", "y") %>% #
+	 	   	unique#
+		# remove plots outside of population extent#
+		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]#
+		# fill in values for Edge units#
+		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {#
+			# Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m - why do I have to fix the y_vals?#
+			Z[ Sampling=="Edge" ]$m <- 0 # fill in m#
+		}	#
+		setnames(Z, "y_val", y_variable)#
+		return(Z)#
+	} else {#
+		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample#
+		return(Z)#
+	}#
+}
+population=Thompson1990Figure1Population;seed=26;n1=10;y_variable="y_value";condition=0
+Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)
+Z
+?createRestrictedACS
+population=Thompson1990Figure1Population;seed=26;n1=10;y_variable="y_value";condition=0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}
+S
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}
+S
+population=Thompson1990Figure1Population;seed=NA;n1=10;y_variable="y_value";condition=0
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed=NA
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, n1)
+S
+n1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population=population, n1=n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create a Simple Random Sample Without Replacement.#
+#' #
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' # example#
+#' # create the population#
+#' # create the patch#
+#' # then sample#
+#' #
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)#
+#' @export#
+#
+createSRSWOR <- function(population, n1, ...) {#
+	if (!is.na(seed)) {set.seed(seed)}#
+	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]#
+	# S = merge(population, sample, all.y=TRUE) 	#
+	sample$Sampling <- "SRSWOR"#
+	return(sample)		#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+!is.na(seed)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population=population, n1=n1)
+S
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population=population, n1=n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+S
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population=population, n1=n1)
+S
+seed=26
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population=population, n1=n1)
+S
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population=population, n1=n1)
+S
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create a Restricted Adaptive Cluster Sample#
+#' #
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place.#
+#' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}.#
+#' @param initial_sample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' library(ggplot2)#
+#' Z = createRestrictedACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value")#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
+#
+#' @export#
+createRestrictedACS <- function(population, n1, y_variable, condition=0, initial_sample=NA, ...) {#
+	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRSWOR(population, seed, n1)#
+	}#
+	Networks <- filter(S, #
+		eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in cluster/edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()#
+		# fill in edge units#
+	    for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][2, "x"] = L$x#
+    	    Z[[i]][2, "y"] = L$y + 1#
+    	    # if plot has cacti, survey its neighbors#
+  	      	if (dim(population %>% #
+				filter(#
+  					y_value > condition, #
+  			  		x==L$x,#
+  			  		y==L$y + 1#
+				))[1] > 0#
+			) {#
+			    # neighbor to north#
+			    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
+			   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + 1#
+			    # neighbor to east#
+			    Z[[i]][7, "x"] = Z[[i]][2, "x"] + 1#
+			    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
+			    # neighbor to west#
+			    Z[[i]][8, "x"] = Z[[i]][2, "x"] - 1#
+			    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
+			}#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][3, "x"] = L$x#
+	      	Z[[i]][3, "y"] = L$y - 1#
+	      	# if plot has cacti, survey its neighbors#
+	      	if (dim(population %>% #
+				filter(#
+  					y_value > condition, #
+					x==L$x,#
+					y==L$y - 1#
+				))[1] > 0#
+			) {#
+				# neighbor to south#
+			    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
+			    Z[[i]][9, "y"] = Z[[i]][3, "y"] - 1#
+			   	# neighbor to east#
+			    Z[[i]][10, "x"] = Z[[i]][3, "x"] + 1#
+			    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
+			    # neighbor to west#
+			    Z[[i]][11, "x"] = Z[[i]][3, "x"] - 1#
+			    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
+			}#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][4, "x"] = L$x + 1#
+	      	Z[[i]][4, "y"] = L$y#
+	      	# if plot has cacti, survey its neighbors#
+	      	if (dim(population %>% #
+			  	filter(#
+  					y_value > condition, #
+			  	 	x==L$x + 1,#
+			  	  	y==L$y#
+				))[1] > 0#
+			) {#
+	        	# neighbor to south#
+	        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
+	        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - 1#
+	        	# neighbor to north#
+	        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
+	        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + 1#
+	        	# neighbor to east#
+	        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + 1#
+	        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
+			}#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][5, "x"] = L$x - 1#
+	      	Z[[i]][5, "y"] = L$y#
+	      	# if plot has cacti, survey its neighbors#
+	      	if (dim(population %>% #
+			  	filter(#
+  					y_value > condition, #
+			  	  	x==L$x - 1,#
+			  	  	y==L$y#
+				))[1] > 0#
+			) {#
+	        	# neighbor to south#
+	        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
+	        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - 1#
+	        	# neighbor to north#
+	        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
+	        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + 1#
+	        	# neighbor to west#
+	        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - 1#
+	        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
+	      	}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
+	    } #
+	    sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
+	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(Sampling)#
+	    # remove duplicates#
+		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs#
+		Y = no_duplicates %>% filter(#
+				y_value == condition, #
+				Sampling=="SRSWOR"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)#
+		# get list of cluster/edge plots not satifying condition#
+		Z = no_duplicates %>% filter(#
+				y_value == condition, #
+				is.na(Sampling)#
+		)#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+		} else {#
+			# merge back together		#
+			Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# rename filtering variable#
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
+		names(Z)[names(Z) == 'y_value'] <- y_variable#
+		# add species attribute data#
+		Z %<>% #
+			merge(population %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()#
+		}	#
+  		return(Z)#
+	} #
+	else {#
+		# add species attribute data to sample#
+		S %<>% merge(population)#
+		return(S)#
+	}#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+data(Thompson1990Figure1Population)#
+	Z <- createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)
+dim(Z)
+data(Thompson1990Figure1Population)#
+	Z <- createSRSWOR(Thompson1990Figure1Population, seed=26, n1=10)
+dim(Z)
+ZX
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create a Simple Random Sample Without Replacement.#
+#' #
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' # example#
+#' # create the population#
+#' # create the patch#
+#' # then sample#
+#' #
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)#
+#' @export#
+#
+createSRSWOR <- function(population, n1, wreplacement=F, ...) {#
+	if (!is.na(seed)) {set.seed(seed)}#
+	sample <- population[sample(#
+		x 		= 1:dim(population)[1], #
+		size 	= n1, #
+		replace = wreplacement#
+	), ]#
+	# S = merge(population, sample, all.y=TRUE) 	#
+	if (wreplacement==F) {#
+		sample$Sampling <- "SRSWOR"#
+	} else {#
+		sample$Sampling <- "SRSWR"#
+	}#
+	return(sample)		#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+data(Thompson1990Figure1Population)#
+	Z <- createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+length(Z[which(Z$y_value==2), ])
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z[which(Z$y_value==2), ]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(Z[which(Z$y_value==2), ])
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(Z[which(Z$y_value==2), ])[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		dim(Z[which(Z$y_value==2), ])[1],#
+		equals(1)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests')
+library(testthat)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		dim(Z[which(Z$y_value==2), ])[1],#
+		equals(1)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, n1=10)
+Z
+Z <- createSRSWOR(Thompson1990Figure1Population, n1=10)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+!is.na(seed)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed <- NA#
+	if (!is.na(seed)) {set.seed(seed)}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sample <- population[sample(#
+		x 		= 1:dim(population)[1], #
+		size 	= n1, #
+		replace = wreplacement#
+	), ]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create a Simple Random Sample Without Replacement.#
+#' #
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' # example#
+#' # create the population#
+#' # create the patch#
+#' # then sample#
+#' #
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)#
+#' @export#
+#
+createSRSWOR <- function(population, n1, wreplacement=F, seed=NA, ...) {#
+	seed <- NA#
+	if (!is.na(seed)) {set.seed(seed)}#
+	sample <- population[sample(#
+		x 		= 1:dim(population)[1], #
+		size 	= n1, #
+		replace = wreplacement#
+	), ]#
+	# S = merge(population, sample, all.y=TRUE) 	#
+	if (wreplacement==F) {#
+		sample$Sampling <- "SRSWOR"#
+	} else {#
+		sample$Sampling <- "SRSWR"#
+	}#
+	return(sample)		#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create a Simple Random Sample Without Replacement.#
+#' #
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' # example#
+#' # create the population#
+#' # create the patch#
+#' # then sample#
+#' #
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)#
+#' @export#
+#
+createSRSWOR <- function(population, n1, wreplacement=F, seed=NA, ...) {#
+	if (!is.na(seed)) {set.seed(seed)}#
+	sample <- population[sample(#
+		x 		= 1:dim(population)[1], #
+		size 	= n1, #
+		replace = wreplacement#
+	), ]#
+	# S = merge(population, sample, all.y=TRUE) 	#
+	if (wreplacement==F) {#
+		sample$Sampling <- "SRSWOR"#
+	} else {#
+		sample$Sampling <- "SRSWR"#
+	}#
+	return(sample)		#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, n1=10)
+Z
+Z <- createSRSWOR(Thompson1990Figure1Population, n1=10)
+Z
+Z <- createSRSWOR(Thompson1990Figure1Population, n1=10)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create a Simple Random Sample Without Replacement.#
+#' #
+#' @param population grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' # example#
+#' # create the population#
+#' # create the patch#
+#' # then sample#
+#' #
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)#
+#' @export#
+#
+createSRSWOR <- function(population, n1, seed=NA, wreplacement=F, ...) {#
+	if (!is.na(seed)) {set.seed(seed)}#
+	sample <- population[sample(#
+		x 		= 1:dim(population)[1], #
+		size 	= n1, #
+		replace = wreplacement#
+	), ]#
+	# S = merge(population, sample, all.y=TRUE) 	#
+	if (wreplacement==F) {#
+		sample$Sampling <- "SRSWOR"#
+	} else {#
+		sample$Sampling <- "SRSWR"#
+	}#
+	return(sample)		#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, 10, 2)
+Z
+Z <- createSRSWOR(Thompson1990Figure1Population, 10)
+Z
+Z <- createSRSWOR(Thompson1990Figure1Population, 10)
+Z
+Z <- createSRSWOR(Thompson1990Figure1Population, 10)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, 10)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, 10)#
+	expect_that(#
+		dim(Z)[1],#
+		equals(10)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, 10, wreplacement=T)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z[which(Z$Sampling=="SRSWR"), ]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(Z[which(Z$Sampling=="SRSWR"), ])[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, 10)#
+	expect_that(#
+		dim(Z[which(Z$Sampling=="SRSWOR"), ])[1],#
+		equals(10)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Z <- createSRSWOR(Thompson1990Figure1Population, 10, wreplacement=T)#
+	expect_that(#
+		dim(Z[which(Z$Sampling=="SRSWR"), ])[1],#
+		equals(10)#
+	)

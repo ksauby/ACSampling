@@ -7,8 +7,8 @@
 plotSimulationResults(dataset, variable = NULL, x_variable = NULL,
   y_variable = NULL, grouping_variable, legend_name, xlab_name = NULL,
   ylab_name = NULL, SD = FALSE, facet = facet,
-  legendposition = "bottom", legendcolor = "black", x_breaks,
-  x_angle = 360)
+  legendposition = "bottom", legendcolor = "black", x_angle = 360,
+  xlength = 6, ylength = 4, roundn = 2)
 }
 \arguments{
 \item{dataset}{Simulation data on sampling of the multiple patch realizations.}
@@ -27,7 +27,7 @@ plotSimulationResults(dataset, variable = NULL, x_variable = NULL,
 
 \item{ylab_name}{The y-axis name. Default value is \code{NULL}.}
 
-\item{x_breaks}{}
+\item{roundn}{}
 
 \item{SD=FALSE}{}
 
@@ -36,6 +36,10 @@ plotSimulationResults(dataset, variable = NULL, x_variable = NULL,
 \item{legendposition="bottom"}{}
 
 \item{legendcolor="black"}{}
+
+\item{x_breaks}{}
+
+\item{nlength}{Number of breaks on the x-axis. Default value is \code{6}.}
 }
 \value{
 Plot of the true variable parameter values (x-axis) versus variable bias (y-axis). The plot is divided into three facets: Horvitz-Thompson estimators, SRSWOR estimators (excluding information from adaptively sampled plots), and SRSWOR estimators applied to the entire dataset (ignoring the sampling design). Error bars indicate the standard deviation.

@@ -15,10 +15,18 @@
 #' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)
 #' @export
 
-createSRSWOR <- function(population, n1, ...) {
+createSRS <- function(population, n1, seed=NA, wreplacement=F) {
 	if (!is.na(seed)) {set.seed(seed)}
-	sample = population[sample(x=1:dim(population)[1], size=n1, replace=F), ]
+	sample <- population[sample(
+		x 		= 1:dim(population)[1], 
+		size 	= n1, 
+		replace = wreplacement
+	), ]
 	# S = merge(population, sample, all.y=TRUE) 	
-	sample$Sampling <- "SRSWOR"
+	if (wreplacement==F) {
+		sample$Sampling <- "SRSWOR"
+	} else {
+		sample$Sampling <- "SRSWR"
+	}
 	return(sample)		
 }

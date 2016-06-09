@@ -1,10 +1,10 @@
 #' Create an Adaptive Cluster Sample.
 #'
-#' @param population grid of population to be sampled.
-#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.
-#' @param n1 initial sample size (sampled according to simple random sampling without replacement).
-#' @param y_variable Variable of interest that is used to determine condition under which adaptive cluster sampling takes place.
-#' @param condition Threshold value of the y variable that initiates ACS. Defaults to \code{0}.
+#' @param population The population to be sampled.
+#' @param seed A vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.
+#' @param n1 The initial sample size (sampled according to simple random sampling without replacement).
+#' @param y_variable The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.
+#' @param condition Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).
 #' @param initial_sample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
 #' @return A restricted adaptive cluster sample.
 #' @examples
@@ -35,22 +35,23 @@
 
 #' @export
 #' @importFrom plyr rbind.fill
+#' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot
 
-createACS <- function(population, n1, y_variable, condition=0, ...) {
+createACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
 	. <- Sampling <- y_val <- NULL
 	if (is.data.frame(initial_sample)) {
-		S = merge(population, initial_sample, all.y=TRUE) 	
+		S <- merge(population, initial_sample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
 	} else {
 		if (!is.na(seed)) {set.seed(seed)}
-		S <- createSRSWOR(population=population, n1=n1)
+		S <- createSRS(population=population, n1=n1)
 	}
 	# add the rest of the units for each network in the initial sample
 	Z = population %>%
-		filter(population$NetworkID %in% S$NetworkID) %>%
+		dplyr::filter(NetworkID %in% S$NetworkID) %>%
 		merge(S, all.x=T)
-	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)
+	Networks = Z %>% dplyr::filter(eval(parse(text=paste("Z$", y_variable,  sep=""))) > condition)
 	# if there are units that satisfy the condition, fill in edge units
 	if (dim(Networks)[1] > 0) {
 		names(Z)[names(Z) == y_variable] <- 'y_val'
@@ -76,8 +77,8 @@ createACS <- function(population, n1, y_variable, condition=0, ...) {
 		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]
 		# fill in values for Edge units
 		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {
-			# Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m - why do I have to fix the y_vals?
-			Z[ Sampling=="Edge" ]$m <- 0 # fill in m
+			Z[ Sampling=="Edge" ]$y_val <- 0
+			Z[ Sampling=="Edge" ]$m <- 0
 		}	
 		setnames(Z, "y_val", y_variable)
 		return(Z)

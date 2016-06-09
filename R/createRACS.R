@@ -19,18 +19,19 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
 
 #' @export
+	
 			
-createRestrictedACS <- function(population, n1, y_variable, condition=0, ...) {
+createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
 	if (is.data.frame(initial_sample)) {
 		S = merge(population, initial_sample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
 	} else {
 		if (!is.na(seed)) {set.seed(seed)}
-		S <- createSRSWOR(population, n1)
+		S <- createSRS(population, n1)
 	}
-	Networks <- filter(S, 
-		eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+	Networks <- S %>% 
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
 		names(S)[names(S) == y_variable] <- 'y_value'
@@ -141,7 +142,7 @@ createRestrictedACS <- function(population, n1, y_variable, condition=0, ...) {
 		# give primary sample plots not satisfying condition NetworkIDs
 		Y = no_duplicates %>% filter(
 				y_value == condition, 
-				Sampling=="SRSWOR"
+				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"
 		)
         Y$NetworkID <- seq(
 			from = (max(X$NetworkID) + 1), 
