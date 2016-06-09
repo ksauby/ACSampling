@@ -20,13 +20,14 @@
 
 #' @export
 			
-createRestrictedACS <- function(population, seed=1, n1, y_variable, condition=0, initial_sample=NA) {
+createRestrictedACS <- function(population, n1, y_variable, condition=0, ...) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
 	if (is.data.frame(initial_sample)) {
 		S = merge(population, initial_sample, all.y=TRUE) 	
-		S$Sampling <- "SRSWOR"
+		S$Sampling <- "Primary Sample"
 	} else {
-		S <- createSRSWOR(population, seed, n1)
+		if (!is.na(seed)) {set.seed(seed)}
+		S <- createSRSWOR(population, n1)
 	}
 	Networks <- filter(S, 
 		eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
@@ -137,7 +138,7 @@ createRestrictedACS <- function(population, seed=1, n1, y_variable, condition=0,
 		X = no_duplicates %>% 
 			filter(y_value > condition) %>%
 		  	assignNetworkMembership
-		# give SRSWOR plots not satisfying condition NetworkIDs
+		# give primary sample plots not satisfying condition NetworkIDs
 		Y = no_duplicates %>% filter(
 				y_value == condition, 
 				Sampling=="SRSWOR"

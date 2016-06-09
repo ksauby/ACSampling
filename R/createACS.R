@@ -1,11 +1,11 @@
 #' Create an Adaptive Cluster Sample.
 #'
 #' @param population grid of population to be sampled.
-#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).
-#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place.
+#' @param y_variable Variable of interest that is used to determine condition under which adaptive cluster sampling takes place.
 #' @param condition Threshold value of the y variable that initiates ACS. Defaults to \code{0}.
-#' @param initial_sample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
+#' @param initial_sample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
@@ -37,14 +37,14 @@
 #' @importFrom plyr rbind.fill
 #' @importFrom ggplot2 ggplot
 
-
-createACS <- function(population, seed=1, n1, y_variable, condition=0, initial_sample=NA) {
+createACS <- function(population, n1, y_variable, condition=0, ...) {
 	. <- Sampling <- y_val <- NULL
 	if (is.data.frame(initial_sample)) {
 		S = merge(population, initial_sample, all.y=TRUE) 	
-		S$Sampling <- "SRSWOR"
+		S$Sampling <- "Primary Sample"
 	} else {
-		S <- createSRSWOR(population, seed, n1)
+		if (!is.na(seed)) {set.seed(seed)}
+		S <- createSRSWOR(population=population, n1=n1)
 	}
 	# add the rest of the units for each network in the initial sample
 	Z = population %>%
@@ -76,8 +76,8 @@ createACS <- function(population, seed=1, n1, y_variable, condition=0, initial_s
 		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]
 		# fill in values for Edge units
 		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {
-			Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m
-			Z[ y_val==0 & Sampling!="SRSWOR" ]$m <- 0 # fill in m
+			# Z[ Sampling=="Edge" ]$y_val <- 0 # fill in m - why do I have to fix the y_vals?
+			Z[ Sampling=="Edge" ]$m <- 0 # fill in m
 		}	
 		setnames(Z, "y_val", y_variable)
 		return(Z)
