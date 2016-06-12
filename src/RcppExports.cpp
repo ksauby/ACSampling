@@ -20,9 +20,9 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// var_t_HT_cpp
-Rcpp::NumericMatrix var_t_HT_cpp(Rcpp::NumericVector m, Rcpp::NumericVector pi_i_values, Rcpp::NumericMatrix pi_ij_values, Rcpp::NumericVector y);
-RcppExport SEXP ACSampling_var_t_HT_cpp(SEXP mSEXP, SEXP pi_i_valuesSEXP, SEXP pi_ij_valuesSEXP, SEXP ySEXP) {
+// var_x_HT_cpp
+Rcpp::NumericMatrix var_x_HT_cpp(Rcpp::NumericVector m, Rcpp::NumericVector pi_i_values, Rcpp::NumericMatrix pi_ij_values, Rcpp::NumericVector y);
+RcppExport SEXP ACSampling_var_x_HT_cpp(SEXP mSEXP, SEXP pi_i_valuesSEXP, SEXP pi_ij_valuesSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -30,7 +30,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type pi_i_values(pi_i_valuesSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type pi_ij_values(pi_ij_valuesSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type y(ySEXP);
-    __result = Rcpp::wrap(var_t_HT_cpp(m, pi_i_values, pi_ij_values, y));
+    __result = Rcpp::wrap(var_x_HT_cpp(m, pi_i_values, pi_ij_values, y));
     return __result;
 END_RCPP
 }

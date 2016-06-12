@@ -189,12 +189,12 @@ sampleSpeciesPatchRealizations <- function(
 						"NetworkID", 
 						"m"
 					), with=FALSE]
-				# calculate t_HT
+				# calculate x_HT
 				m <- O$m
 				HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%
 					.[, lapply(
 						.SD,
-						t_HT,
+						x_HT,
 						N	= N, 
 						n1	= n1,
 						m	= m
@@ -210,7 +210,7 @@ sampleSpeciesPatchRealizations <- function(
 					filter(!(is.na(NetworkID))) %>%
 					.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
 				m <- O_smd$m
-				# var_t_HT
+				# var_x_HT
 				HT_results[[2]] <- O_smd[, paste(
 					oavar, 
 					"_network_sum", 
@@ -218,7 +218,7 @@ sampleSpeciesPatchRealizations <- function(
 				), with=FALSE] %>%
 					.[, lapply(
 						.SD, 
-						var_t_HT, 
+						var_x_HT, 
 						N 	= N, 
 						n1 	= n1, 
 						m	= m

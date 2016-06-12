@@ -18,34 +18,16 @@ Returns dataframe with a new column for Network ID as well as a column for m, th
 This function assigns network membership to units in an adaptive cluster sampling; if units are neighbors, they are assigned to the same network ID.
 }
 \examples{
-# create population
-empty = rep(0,20)
-P = rbind(
-	c(rep(0,4),5,13,3,rep(0,13)),
-	c(rep(0,4),2,11,2,rep(0,13)),
-	as.data.frame(sapply(empty, rep, 11)), # rows 3-13
-	c(rep(0,9),3,1,rep(0,9)),
-	c(rep(0,8),5,39,10,rep(0,9)),
-	c(rep(0,8),5,13,4,rep(0,9)),
-	c(rep(0,7),2,22,3,rep(0,10)),
-	c(rep(0,12),10,8,rep(0,6)),
-	c(rep(0,12),7,22,rep(0,6)),
-	c(rep(0,20))
-)
-P = cbind(
-	expand.grid(x = rev(1:20), y = 1:20), 
-	y_value = as.vector(unlist(P))
-	)
-names(P)[1:2] <- c("y", "x")
+data(Thompson1990Figure1Population)
 
 # plot species abundance
 library(magrittr)
 library(ggplot2)
 library(dplyr)
-ggplot(data=P \%>\% filter(y_value > 0), aes(x,y, size=factor(y_value))) + geom_point()
+ggplot(data=Thompson1990Figure1Population \%>\% filter(y_value > 0), aes(x,y, size=factor(y_value))) + geom_point()
 
 # assign network membership of units containing the species of interest
-P_networks <- assignNetworkMembership(P \%>\% filter(y_value > 0))
+P_networks <- assignNetworkMembership(Thompson1990Figure1Population \%>\% filter(y_value > 0))
 
 # plot networks
 ggplot(data=P_networks, aes(x,y, size=factor(y_value), shape=factor(NetworkID))) + geom_point()

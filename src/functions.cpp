@@ -22,7 +22,7 @@ Rcpp::NumericMatrix pi_ij_cpp(
 }
 	
 //[[Rcpp::export]]
-Rcpp::NumericMatrix var_t_HT_cpp(
+Rcpp::NumericMatrix var_x_HT_cpp(
 	Rcpp::NumericVector m, 
 	Rcpp::NumericVector pi_i_values, 
 	Rcpp::NumericMatrix pi_ij_values, 

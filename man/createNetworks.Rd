@@ -2,7 +2,7 @@
 % Please edit documentation in R/createNetworks.R
 \name{createNetworks}
 \alias{createNetworks}
-\title{Create patches of species of interest within the grid population. (formerly function_createHabitatPatch)}
+\title{Create patches of species of interest within the grid population}
 \usage{
 createNetworks(Species.Data)
 }

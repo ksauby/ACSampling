@@ -1,3 +1,142 @@
+21.4*.813
+21.4 -21.4*.813
+library(lubridaste)
+library(lubrida=te)
+library(lubridate)
+-v
+install.packages("rgeos", repos="http://R-Forge.R-project.org")#
+require(rgeos)
+library(rgeos)
+require(rgeos)
+library(rgeos)
+install.packages("rgdal", repos="http://R-Forge.R-project.org")#
+require(rgdal)
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
+ --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
+ --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+library(lme3)
+library(lme4)
+300/241
+.244*30
+1.25*300
+1.25*240
+7*12
+7849-7527
+322/1353
+8028-7527
+501/1353
+8028-7957
+1353-501
+852/71
+7956-7878
+8176-8029
+8176-8092
+250*.75
+250*.25
+42*2 + 17*2
+118/19
+21/6.2
+59.5*.75
+59.5*.5 + 59.5
+71/12
+597/80
+597/8
+432/8
+15*8 + 9*3
+?seq_len
+7.25/3
+7.25/4
+for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
+install.packages("ProjectTemplate")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("data.table")
+install.packages("corrgram")
+install.packages("survival")
+install.packages("shapefiles")
+install.packages("rgdal")
+install.packages("PBSmapping")
+install.packages("sp")
+install.packages("gdistance")
+install.packages("chron")
+install.packages("unmarked")
+install.packages("lme4")
+install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
+require(rgeos)
+install.packages('rgdal',repos="http://www.stats.ox.ac.uk/pub/RWin")
+library(rgdal)
+install.packages("http://cran.r-project.org/src/contrib/rgdal_0.9-1.tar.gz", repos = NULL, type="source", configure.args = "--with-gdal-config=/Library/Frameworks/GDAL.framework/Versions/1.10/unix/bin/gdal-config --with-proj-include=/Library/Frameworks/PROJ.framework/unix/include --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib")
+18/1.618
+189+114
+library(lubridate)
+library(magrittr)
+seasons <- data.frame(#
+	   SE = as.POSIXct(c("2009-3-20", "2010-3-20", "2011-3-20", "2012-3-20", #
+            "2013-3-20", "2014-3-20"), format="%Y-%m-%d"),#
+	   SS = as.POSIXct(c("2009-6-21", "2010-6-21", "2011-6-21", "2012-6-20",#
+            "2013-6-20", "2014-6-20"), format="%Y-%m-%d"),#
+	   FE = as.POSIXct(c("2009-9-22", "2010-9-23", "2011-9-23", "2012-9-22",#
+            "2013-9-22", "2014-9-22"), format="%Y-%m-%d"),#
+	   WS = as.POSIXct(c("2009-12-21", "2010-12-21", "2011-12-22", "2012-12-21", #
+            "2013-12-21", "2014-12-21"), format="%Y-%m-%d")#
+    )#
+#
+    assignSeason <- function(dat, SeasonStarts=seasons) {#
+	    dat %<>% mutate(#
+		    Season = lapply(Date,#
+				function(x) {#
+					findInterval(#
+						x, #
+						SeasonStarts[which(year(x)==year(SeasonStarts$WS)), ]#
+					)#
+				}#
+			) %>% unlist	#
+		)#
+	    dat[which(dat$Season==0 | dat$Season==4), ]$Season 	<- "Winter"#
+	    dat[which(dat$Season==1), ]$Season 					<- "Spring"#
+	    dat[which(dat$Season==2), ]$Season 					<- "Summer"#
+	    dat[which(dat$Season==3), ]$Season 					<- "Fall"#
+	    return(dat)#
+    }
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(dplyr)
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(devtoolks)
+library(devtools)
+?install_github
+devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+library(devtools)
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+??limit
+37-13
+24/37
+37-13
+26/37
+25/37
+23/37
+29/37
+30/37
+22/37
+30/37
+29/37
 28/37
 27/37
 35/37
@@ -12,7 +151,11 @@
 25/37
 219*.8
 219*.8 - 17
-setwd('/Users/KSauby/Documents/Projects/ACSampling')
+26/3
+17/900
+42/900
+49/900
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
 # when working on a Windows computer#
@@ -20,2144 +163,525 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-# -----------------------------------------------------------------------------##
-# ABUNDANCE VARIABLES#
-# -----------------------------------------------------------------------------##
-# -----------------------------------------------------------------------------##
-# OCCUPANCY VARIABLES#
-# -----------------------------------------------------------------------------##
-ovar <- c(#
-	"Stricta",#
-	"Pusilla",#
-	"Cactus",#
-	"Percent_Cover_Pusilla",#
-	"Percent_Cover_Stricta",#
-	"Height_Pusilla",#
-	"Height_Stricta")#
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+var_R_hat#
+		y = c(60, 60, 14, 1),#
+		z = c(1, 1, 1, 1),#
+		N = 100,#
+		n1 = 4,#
+		m = c(5, 5, 2, 1)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+var_R_hat(#
+		y = c(60, 60, 14, 1),#
+		z = c(1, 1, 1, 1),#
+		N = 100,#
+		n1 = 4,#
+		m = c(5, 5, 2, 1)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+var_R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		round(#
+			var_R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(17.5)
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+#### TESTING#
 #
-# -----------------------------------------------------------------------------##
-# RATIO VARIABLES#
-# -----------------------------------------------------------------------------##
-rvar <- c(#
-	"CACA_on_Stricta", #
-	"MEPR_on_Stricta",#
-	"Old_Moth_Evidence_Pusilla",#
-	"Old_Moth_Evidence_Stricta"#
+test_that("x_HT, Horvitz-Thompson Mean Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			x_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(38)#
+	)#
+	# Example from Thompson (1990), end of second full paragraph, p. 1055#
+	mk <- c(1,0,2,2)#
+	y_value <- c(1,2,10,1000)#
+	sampling <- c("S","C","S","C")#
+	dat <- data.frame(mk, y_value, sampling)#
+	dat$mk %<>% as.numeric#
+	dat$y_value %<>% as.numeric#
+	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
+	expect_that(#
+		round(#
+			x_HT(#
+				N = 5, #
+				m = dat_filter$mk, #
+				n1 = 2, #
+				y = dat_filter$y_value#
+			), 2#
+		),#
+		equals(289.07)#
+	)#
+})#
+#
+test_that("pi_i, Network Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			pi_i(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1:2], 2#
+		),#
+		equals(c(0.19, 0.27))#
+	)#
+})#
+#
+test_that("pi_ij, Network Joint Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			pi_ij(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1, 2], 4#
+		),#
+		equals(0.0512)#
+	)#
+})#
+#
+test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
+	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			var_x_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98))#
+			)*(1000^2), 0#
+		),#
+		equals(553)#
+	)#
+})#
+#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)#
+	expect_that(#
+		round(#
+			R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(12.12)#
+	)#
 )#
-#
-ratio.variables <- c("MEPR_on_Stricta", "CACA_on_Stricta")
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-# REALIZATION DATA#
-x_start 		<- 1#
-x_end 			<- 30#
-y_start 		<- 1#
-y_end 			<- 30#
-n.networks 		<- c(5, 15, 10, 20, 30, 40)#
-n.realizations 	<- 1#
-SpeciesInfo 	<- PlotSurveys_season1#
-buffer			<- 5#
-start.seed		<- 1#
-variables		<- ovar#
-#
-# CREATE REALIZATIONS#
-patch_data <- createSpeciesPatchRealizations(#
-	x_start, #
-	x_end,#
-	y_start, #
-	y_end, #
-	buffer, #
-	n.networks, #
-	n.realizations, #
-	SpeciesInfo, #
-	start.seed,#
-	variables#
+test_that("var_R_hat, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	expect_that(#
+		round(#
+			var_R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(17.5)#
+	)#
 )#
-#
-# convert NAs to zeros#
-patch_data[,c(#
-	"CACA_on_Pusilla",#
-	"CACA_on_Stricta",#
-	"MEPR_on_Pusilla",#
-	"MEPR_on_Stricta",#
-	"Old_Moth_Evidence_Pusilla",#
-	"Old_Moth_Evidence_Stricta",#
-	"Percent_Cover_Pusilla",#
-	"Percent_Cover_Stricta",#
-	"Height_Pusilla",#
-	"Height_Stricta"#
-)] %<>% apply(., 2, NA_is_Zero_Function)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-N 					<- patch_data$N[1]#
-nsamples			<- c(20, 30, 40, 75, 100, 150, 200)#
-grouping.variables	<- c("n.networks", "realization")#
-#
-patch_data <- summarizeNetworkInformation(#
-	patch_data, #
-	variables, #
-	grouping.variables=grouping.variables, #
-	nsamples, #
-	m_var="Cactus"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-# calculate realization summary statistics#
-patch_data_summary <- calculateRealizationSummaryStatistics(#
-	dataset 			= patch_data, #
-	summary.variables 	= variables, #
-	grouping.variables 	= grouping.variables, #
-	ratio.variables 	= c(rvar)#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-simulations <- 50 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15#
-y_variable <- "Cactus"#
-#
-# run simulations#
-(x = Sys.time())#
-temp_4 <- sampleSpeciesPatchRealizations(#
-	patchdat	= patch_data, #
-	simulations	= simulations, #
-	nsamples	= nsamples, #
-	#population, #
-	avar		= NULL, #
-	ovar		= ovar, #
-	rvar		= rvar,#
-	#ACS		= TRUE, #
-	Restricted	= TRUE,#
-	y_variable	= y_variable#
-) #
-Sys.time() - x#
-write.csv(temp_4, "simulation_data_5Apr16_RACS.csv")#
-write_feather(temp_4, "sim.5Apr16.RACS")
-i
-j
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-simulations <- 50 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15#
-y_variable <- "Cactus"#
-#
-# run simulations#
-(x = Sys.time())#
-temp_4 <- sampleSpeciesPatchRealizations(#
-	patchdat	= patch_data, #
-	simulations	= simulations, #
-	nsamples	= nsamples, #
-	#population, #
-	avar		= NULL, #
-	ovar		= ovar, #
-	rvar		= rvar,#
-	#ACS		= TRUE, #
-	Restricted	= TRUE,#
-	y_variable	= y_variable#
-) #
-Sys.time() - x#
-write.csv(temp_4, "simulation_data_5Apr16_RACS.csv")#
-write_feather(temp_4, "sim.5Apr16.RACS")
-i=3
-j=3
-k=1
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-N 					<- patch_data$N[1]#
-nsamples			<- c(20, 30) #, 40, 75, 100, 150, 200)#
-grouping.variables	<- c("n.networks", "realization")#
-#
-patch_data <- summarizeNetworkInformation(#
-	patch_data, #
-	variables, #
-	grouping.variables=grouping.variables, #
-	nsamples, #
-	m_var="Cactus"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-# calculate realization summary statistics#
-patch_data_summary <- calculateRealizationSummaryStatistics(#
-	dataset 			= patch_data, #
-	summary.variables 	= variables, #
-	grouping.variables 	= grouping.variables, #
-	ratio.variables 	= c(rvar)#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-simulations <- 50 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15#
-y_variable <- "Cactus"#
-#
-# run simulations#
-(x = Sys.time())#
-temp_4 <- sampleSpeciesPatchRealizations(#
-	patchdat	= patch_data, #
-	simulations	= simulations, #
-	nsamples	= nsamples, #
-	#population, #
-	avar		= NULL, #
-	ovar		= ovar, #
-	rvar		= rvar,#
-	#ACS		= TRUE, #
-	Restricted	= TRUE,#
-	y_variable	= y_variable#
-) #
-Sys.time() - x#
-write.csv(temp_4, "simulation_data_5Apr16_RACS.csv")#
-write_feather(temp_4, "sim.5Apr16.RACS")
-i
-j
-k
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
-	TIME 					<- Sys.time()#
-	patchdat 				%<>% arrange(n.networks, realization)#
-	var 					<- c(ovar, avar, rvar)#
-	n.patches 				<- length(unique(patchdat$n.networks))#
-	nsample.length 			<- length(nsamples)#
-	A 						<- vector("list", n.patches)#
-	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
-	oavar 					<- c(ovar, avar)#
-	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
-	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
-	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
-	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
-	# the names to assign the estimates#
-	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
-	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
-	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")#
-	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-patchdat	= patch_data
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-avar		= NULL
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-Restricted	= TRUE
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
-	TIME 					<- Sys.time()#
-	patchdat 				%<>% arrange(n.networks, realization)#
-	var 					<- c(ovar, avar, rvar)#
-	n.patches 				<- length(unique(patchdat$n.networks))#
-	nsample.length 			<- length(nsamples)#
-	A 						<- vector("list", n.patches)#
-	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
-	oavar 					<- c(ovar, avar)#
-	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
-	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
-	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
-	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
-	# the names to assign the estimates#
-	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
-	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
-	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")#
-	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
-i=3
-j=3
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)#
-		    for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-				################ SRSWOR Data, alldata #################
-				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
-				alldata_all <- alldata#
-				alldata %<>% filter(Sampling!="Edge")#
-				# datasets to apply simple mean/variance and simple ratio estimator#
-				dats <- c("SRSWOR_data", "alldata")#
-				# sample mean and variance applied to alldata, SRSWOR_data#
-				SampleMeanVar <- list()#
-				for (n in 1:length(dats)) {#
-					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
-						summarise_each(funs(#
-							mean(., na.rm=T), #
-							var(., na.rm=T)#
-						))#
-					setnames(#
-						dat,#
-						names(dat), #
-						paste(names(dat), "observed", sep="_")#
-					)#
-					dat$Plots <- dats[n]#
-					SampleMeanVar[[n]] <- dat#
-				}#
-				SampleMeanVar %<>% rbind.fill#
-				# simple ratio estimators applied to alldata, SRSWOR_data#
-				if (!(is.null(rvar))) {#
-					Ratio <- list()#
-					for (n in 1:length(dats)) {#
-						Ratio[[n]] <- data.frame(Var1 = NA)#
-						for (l in 1:length(rvar)) {#
-							y = eval(parse(#
-									text=paste(#
-										dats[n], #
-										"$", #
-										rvar[l], #
-										sep=""#
-									)#
-							))#
-							z = eval(parse(#
-									text = paste(#
-										dats[n], #
-										"$",#
-										str_sub(rvar[l],-7,-1), #
-										sep=""#
-									)#
-							))#
-							m = rep(1, length(y)) # equal P(inclusion) for all#
-							Ratio[[n]]$Var1 <- R_hat(#
-								y = y,#
-								z = z,#
-								N = N,#
-								n1 = n1,#
-								m = m#
-							)#
-						 	Ratio[[n]]$Var2 = var_R_hat(#
-						 		y = y, #
-						 		z = z,#
-								N = N, #
-						 		n1 = n1, #
-						 		m = m#
-						 	)#
-							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : #
-								dim(Ratio[[n]])[2]] <- #
-								c(#
-									paste(rvar[l], "_mean_observed", sep=""),#
-									paste(rvar[l], "_var_observed", sep="")#
-								)#
-						}#
-						Ratio[[n]] %<>% mutate(Plots = dats[n])#
-					}#
-					Ratio <- do.call(rbind.data.frame, Ratio)#
-				}				#
-				################ HORVITZ-THOMPSON ESTIMATORS #################
-				HT_results <- list()#
-				alldata %<>% setkey(NetworkID)#
-				# OCCUPANCY AND ABUNDANCE#
-				# summarise data for mean calculations#
-				O <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					.[, c(#
-						oavar, #
-						"NetworkID", #
-						"m"#
-					), with=FALSE]#
-				# calculate t_HT#
-				m <- O$m#
-				HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%#
-					.[, lapply(#
-						.SD,#
-						t_HT,#
-						N	= N, #
-						n1	= n1,#
-						m	= m#
-					)]#
-				names(HT_results[[1]]) <- c(occ_abund_mean_names)#
-				# summarise data for variance calculations#
-				O_smd <- alldata %>% #
-					.[, c(#
-						paste(oavar, "_network_sum", sep=""), #
-						"NetworkID", #
-						"m"#
-					), with=FALSE] %>% #
-					filter(!(is.na(NetworkID))) %>%#
-					.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
-				m <- O_smd$m#
-				# var_t_HT#
-				HT_results[[2]] <- O_smd[, paste(#
-					oavar, #
-					"_network_sum", #
-					sep=""#
-				), with=FALSE] %>%#
-					.[, lapply(#
-						.SD, #
-						var_t_HT, #
-						N 	= N, #
-						n1 	= n1, #
-						m	= m#
-					)] # this line is slow#
-				names(HT_results[[2]]) <- c(occ_abund_var_names)	#
-				# RATIO DATA#
-				if (!(is.null(rvar))) {#
-					# RATIO#
-					# summarise data for variance calculations#
-					# do I want to use summarised for everything??????????????#
-					mvals <- alldata %>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])#
-					R_smd <- alldata %>%#
-						filter(Sampling!="Edge") %>%#
-						.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
-						.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
-						merge(mvals, by="NetworkID")#
-					# summarise data for mean calculations#
-					# R <- alldata %>% #
-					#	filter(Sampling!="Edge") %>%#
-					#	.[, c(rvar, ovar, "m"), with=FALSE]#
-					HT_results[[3]] <- data.frame(Var1 = NA)#
-					for (l in 1:length(rvar)) {#
-						y = eval(parse(text=paste("R_smd$", rvar[l], #
-							sep="")))#
-						z = eval(parse(text = paste("R_smd$", #
-							str_sub(rvar[l],-7,-1), sep="")))#
-						HT_results[[3]]$Var1 = R_hat(#
-							y = y,#
-							z = z,#
-							N = N, #
-							n1 = n1, #
-							m = R_smd$m#
-						)#
-					 	HT_results[[3]]$Var2 = var_R_hat(#
-					 		y = y, #
-					 		z = z,#
-							N = N, #
-					 		n1 = n1, #
-					 		m = R_smd$m#
-					 	)#
-					names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : #
-						dim(HT_results[[3]])[2]] <- #
-						c(#
-							paste(rvar[l], "_mean_observed", sep=""),#
-							paste(rvar[l], "_var_observed", sep="")#
-						)#
-				}#
-			}#
-		# merge together			#
-			All_HT <- HT_results %>% #
-				as.data.frame %>%#
-				mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
-			# merge estimates #
-		    SampleMeanVar %<>% merge(Ratio)#
-			A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
-			# add other information#
-			A[[i]][[j]][[k]]$simulation 		= k#
-			A[[i]][[j]][[k]]$seed 				= temp_seed#
-			A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1#
-			A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]#
-			A[[i]][[j]][[k]]$realization 		= P$realization[1]#
-			A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]#
-			A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1#
-			A[[i]][[j]][[k]]$Restricted 		= Restricted#
-		}#
-			do.call(rbind.data.frame, A[[i]][[j]])#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-				################ SRSWOR Data, alldata #################
-				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
-				alldata_all <- alldata#
-				alldata %<>% filter(Sampling!="Edge")#
-				# datasets to apply simple mean/variance and simple ratio estimator#
-				dats <- c("SRSWOR_data", "alldata")#
-				# sample mean and variance applied to alldata, SRSWOR_data#
-				SampleMeanVar <- list()#
-				for (n in 1:length(dats)) {#
-					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
-						summarise_each(funs(#
-							mean(., na.rm=T), #
-							var(., na.rm=T)#
-						))#
-					setnames(#
-						dat,#
-						names(dat), #
-						paste(names(dat), "observed", sep="_")#
-					)#
-					dat$Plots <- dats[n]#
-					SampleMeanVar[[n]] <- dat#
-				}#
-				SampleMeanVar %<>% rbind.fill#
-				# simple ratio estimators applied to alldata, SRSWOR_data#
-				if (!(is.null(rvar))) {#
-					Ratio <- list()#
-					for (n in 1:length(dats)) {#
-						Ratio[[n]] <- data.frame(Var1 = NA)#
-						for (l in 1:length(rvar)) {#
-							y = eval(parse(#
-									text=paste(#
-										dats[n], #
-										"$", #
-										rvar[l], #
-										sep=""#
-									)#
-							))#
-							z = eval(parse(#
-									text = paste(#
-										dats[n], #
-										"$",#
-										str_sub(rvar[l],-7,-1), #
-										sep=""#
-									)#
-							))#
-							m = rep(1, length(y)) # equal P(inclusion) for all#
-							Ratio[[n]]$Var1 <- R_hat(#
-								y = y,#
-								z = z,#
-								N = N,#
-								n1 = n1,#
-								m = m#
-							)#
-						 	Ratio[[n]]$Var2 = var_R_hat(#
-						 		y = y, #
-						 		z = z,#
-								N = N, #
-						 		n1 = n1, #
-						 		m = m#
-						 	)#
-							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : #
-								dim(Ratio[[n]])[2]] <- #
-								c(#
-									paste(rvar[l], "_mean_observed", sep=""),#
-									paste(rvar[l], "_var_observed", sep="")#
-								)#
-						}#
-						Ratio[[n]] %<>% mutate(Plots = dats[n])#
-					}#
-					Ratio <- do.call(rbind.data.frame, Ratio)#
-				}				#
-				################ HORVITZ-THOMPSON ESTIMATORS #################
-				HT_results <- list()#
-				alldata %<>% setkey(NetworkID)#
-				# OCCUPANCY AND ABUNDANCE#
-				# summarise data for mean calculations#
-				O <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					.[, c(#
-						oavar, #
-						"NetworkID", #
-						"m"#
-					), with=FALSE]#
-				# calculate t_HT#
-				m <- O$m#
-				HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%#
-					.[, lapply(#
-						.SD,#
-						t_HT,#
-						N	= N, #
-						n1	= n1,#
-						m	= m#
-					)]#
-				names(HT_results[[1]]) <- c(occ_abund_mean_names)#
-				# summarise data for variance calculations#
-				O_smd <- alldata %>% #
-					.[, c(#
-						paste(oavar, "_network_sum", sep=""), #
-						"NetworkID", #
-						"m"#
-					), with=FALSE] %>% #
-					filter(!(is.na(NetworkID))) %>%#
-					.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
-				m <- O_smd$m#
-				# var_t_HT#
-				HT_results[[2]] <- O_smd[, paste(#
-					oavar, #
-					"_network_sum", #
-					sep=""#
-				), with=FALSE] %>%#
-					.[, lapply(#
-						.SD, #
-						var_t_HT, #
-						N 	= N, #
-						n1 	= n1, #
-						m	= m#
-					)] # this line is slow#
-				names(HT_results[[2]]) <- c(occ_abund_var_names)	#
-				# RATIO DATA#
-				if (!(is.null(rvar))) {#
-					# RATIO#
-					# summarise data for variance calculations#
-					# do I want to use summarised for everything??????????????#
-					mvals <- alldata %>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])#
-					R_smd <- alldata %>%#
-						filter(Sampling!="Edge") %>%#
-						.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
-						.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
-						merge(mvals, by="NetworkID")#
-					# summarise data for mean calculations#
-					# R <- alldata %>% #
-					#	filter(Sampling!="Edge") %>%#
-					#	.[, c(rvar, ovar, "m"), with=FALSE]#
-					HT_results[[3]] <- data.frame(Var1 = NA)#
-					for (l in 1:length(rvar)) {#
-						y = eval(parse(text=paste("R_smd$", rvar[l], #
-							sep="")))#
-						z = eval(parse(text = paste("R_smd$", #
-							str_sub(rvar[l],-7,-1), sep="")))#
-						HT_results[[3]]$Var1 = R_hat(#
-							y = y,#
-							z = z,#
-							N = N, #
-							n1 = n1, #
-							m = R_smd$m#
-						)#
-					 	HT_results[[3]]$Var2 = var_R_hat(#
-					 		y = y, #
-					 		z = z,#
-							N = N, #
-					 		n1 = n1, #
-					 		m = R_smd$m#
-					 	)#
-					names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : #
-						dim(HT_results[[3]])[2]] <- #
-						c(#
-							paste(rvar[l], "_mean_observed", sep=""),#
-							paste(rvar[l], "_var_observed", sep="")#
-						)#
-				}#
-			}
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-				################ SRSWOR Data, alldata #################
-				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
-				alldata_all <- alldata#
-				alldata %<>% filter(Sampling!="Edge")#
-				# datasets to apply simple mean/variance and simple ratio estimator#
-				dats <- c("SRSWOR_data", "alldata")#
-				# sample mean and variance applied to alldata, SRSWOR_data#
-				SampleMeanVar <- list()#
-				for (n in 1:length(dats)) {#
-					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
-						summarise_each(funs(#
-							mean(., na.rm=T), #
-							var(., na.rm=T)#
-						))#
-					setnames(#
-						dat,#
-						names(dat), #
-						paste(names(dat), "observed", sep="_")#
-					)#
-					dat$Plots <- dats[n]#
-					SampleMeanVar[[n]] <- dat#
-				}#
-				SampleMeanVar %<>% rbind.fill#
-				# simple ratio estimators applied to alldata, SRSWOR_data#
-				if (!(is.null(rvar))) {#
-					Ratio <- list()#
-					for (n in 1:length(dats)) {#
-						Ratio[[n]] <- data.frame(Var1 = NA)#
-						for (l in 1:length(rvar)) {#
-							y = eval(parse(#
-									text=paste(#
-										dats[n], #
-										"$", #
-										rvar[l], #
-										sep=""#
-									)#
-							))#
-							z = eval(parse(#
-									text = paste(#
-										dats[n], #
-										"$",#
-										str_sub(rvar[l],-7,-1), #
-										sep=""#
-									)#
-							))#
-							m = rep(1, length(y)) # equal P(inclusion) for all#
-							Ratio[[n]]$Var1 <- R_hat(#
-								y = y,#
-								z = z,#
-								N = N,#
-								n1 = n1,#
-								m = m#
-							)#
-						 	Ratio[[n]]$Var2 = var_R_hat(#
-						 		y = y, #
-						 		z = z,#
-								N = N, #
-						 		n1 = n1, #
-						 		m = m#
-						 	)#
-							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : #
-								dim(Ratio[[n]])[2]] <- #
-								c(#
-									paste(rvar[l], "_mean_observed", sep=""),#
-									paste(rvar[l], "_var_observed", sep="")#
-								)#
-						}#
-						Ratio[[n]] %<>% mutate(Plots = dats[n])#
-					}#
-					Ratio <- do.call(rbind.data.frame, Ratio)#
-				}				#
-				################ HORVITZ-THOMPSON ESTIMATORS #################
-				HT_results <- list()#
-				alldata %<>% setkey(NetworkID)#
-				# OCCUPANCY AND ABUNDANCE#
-				# summarise data for mean calculations#
-				O <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					.[, c(#
-						oavar, #
-						"NetworkID", #
-						"m"#
-					), with=FALSE]#
-				# calculate t_HT#
-				m <- O$m#
-				HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%#
-					.[, lapply(#
-						.SD,#
-						t_HT,#
-						N	= N, #
-						n1	= n1,#
-						m	= m#
-					)]#
-				names(HT_results[[1]]) <- c(occ_abund_mean_names)#
-				# summarise data for variance calculations#
-				O_smd <- alldata %>% #
-					.[, c(#
-						paste(oavar, "_network_sum", sep=""), #
-						"NetworkID", #
-						"m"#
-					), with=FALSE] %>% #
-					filter(!(is.na(NetworkID))) %>%#
-					.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
-				m <- O_smd$m#
-				# var_t_HT#
-				HT_results[[2]] <- O_smd[, paste(#
-					oavar, #
-					"_network_sum", #
-					sep=""#
-				), with=FALSE] %>%#
-					.[, lapply(#
-						.SD, #
-						var_t_HT, #
-						N 	= N, #
-						n1 	= n1, #
-						m	= m#
-					)] # this line is slow#
-				names(HT_results[[2]]) <- c(occ_abund_var_names)	#
-				# RATIO DATA#
-				if (!(is.null(rvar))) {#
-					# RATIO#
-					# summarise data for variance calculations#
-					# do I want to use summarised for everything??????????????#
-					mvals <- alldata %>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])#
-					R_smd <- alldata %>%#
-						filter(Sampling!="Edge") %>%#
-						.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
-						.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
-						merge(mvals, by="NetworkID")#
-					# summarise data for mean calculations#
-					# R <- alldata %>% #
-					#	filter(Sampling!="Edge") %>%#
-					#	.[, c(rvar, ovar, "m"), with=FALSE]#
-					HT_results[[3]] <- data.frame(Var1 = NA)#
-					for (l in 1:length(rvar)) {#
-						y = eval(parse(text=paste("R_smd$", rvar[l], #
-							sep="")))#
-						z = eval(parse(text = paste("R_smd$", #
-							str_sub(rvar[l],-7,-1), sep="")))#
-						HT_results[[3]]$Var1 = R_hat(#
-							y = y,#
-							z = z,#
-							N = N, #
-							n1 = n1, #
-							m = R_smd$m#
-						)#
-					 	HT_results[[3]]$Var2 = var_R_hat(#
-					 		y = y, #
-					 		z = z,#
-							N = N, #
-					 		n1 = n1, #
-					 		m = R_smd$m#
-					 	)#
-					names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : #
-						dim(HT_results[[3]])[2]] <- #
-						c(#
-							paste(rvar[l], "_mean_observed", sep=""),#
-							paste(rvar[l], "_var_observed", sep="")#
-						)#
-				}#
-			}
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-				################ SRSWOR Data, alldata #################
-				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
-				alldata_all <- alldata#
-				alldata %<>% filter(Sampling!="Edge")#
-				# datasets to apply simple mean/variance and simple ratio estimator#
-				dats <- c("SRSWOR_data", "alldata")#
-				# sample mean and variance applied to alldata, SRSWOR_data#
-				SampleMeanVar <- list()#
-				for (n in 1:length(dats)) {#
-					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
-						summarise_each(funs(#
-							mean(., na.rm=T), #
-							var(., na.rm=T)#
-						))#
-					setnames(#
-						dat,#
-						names(dat), #
-						paste(names(dat), "observed", sep="_")#
-					)#
-					dat$Plots <- dats[n]#
-					SampleMeanVar[[n]] <- dat#
-				}#
-				SampleMeanVar %<>% rbind.fill#
-				# simple ratio estimators applied to alldata, SRSWOR_data#
-				if (!(is.null(rvar))) {#
-					Ratio <- list()#
-					for (n in 1:length(dats)) {#
-						Ratio[[n]] <- data.frame(Var1 = NA)#
-						for (l in 1:length(rvar)) {#
-							y = eval(parse(#
-									text=paste(#
-										dats[n], #
-										"$", #
-										rvar[l], #
-										sep=""#
-									)#
-							))#
-							z = eval(parse(#
-									text = paste(#
-										dats[n], #
-										"$",#
-										str_sub(rvar[l],-7,-1), #
-										sep=""#
-									)#
-							))#
-							m = rep(1, length(y)) # equal P(inclusion) for all#
-							Ratio[[n]]$Var1 <- R_hat(#
-								y = y,#
-								z = z,#
-								N = N,#
-								n1 = n1,#
-								m = m#
-							)#
-						 	Ratio[[n]]$Var2 = var_R_hat(#
-						 		y = y, #
-						 		z = z,#
-								N = N, #
-						 		n1 = n1, #
-						 		m = m#
-						 	)#
-							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : #
-								dim(Ratio[[n]])[2]] <- #
-								c(#
-									paste(rvar[l], "_mean_observed", sep=""),#
-									paste(rvar[l], "_var_observed", sep="")#
-								)#
-						}#
-						Ratio[[n]] %<>% mutate(Plots = dats[n])#
-					}#
-					Ratio <- do.call(rbind.data.frame, Ratio)#
-				}				#
-				################ HORVITZ-THOMPSON ESTIMATORS #################
-				HT_results <- list()#
-				alldata %<>% setkey(NetworkID)#
-				# OCCUPANCY AND ABUNDANCE#
-				# summarise data for mean calculations#
-				O <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					.[, c(#
-						oavar, #
-						"NetworkID", #
-						"m"#
-					), with=FALSE]#
-				# calculate t_HT#
-				m <- O$m#
-				HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%#
-					.[, lapply(#
-						.SD,#
-						t_HT,#
-						N	= N, #
-						n1	= n1,#
-						m	= m#
-					)]#
-				names(HT_results[[1]]) <- c(occ_abund_mean_names)#
-				# summarise data for variance calculations#
-				O_smd <- alldata %>% #
-					.[, c(#
-						paste(oavar, "_network_sum", sep=""), #
-						"NetworkID", #
-						"m"#
-					), with=FALSE] %>% #
-					filter(!(is.na(NetworkID))) %>%#
-					.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
-				m <- O_smd$m#
-				# var_t_HT#
-				HT_results[[2]] <- O_smd[, paste(#
-					oavar, #
-					"_network_sum", #
-					sep=""#
-				), with=FALSE] %>%#
-					.[, lapply(#
-						.SD, #
-						var_t_HT, #
-						N 	= N, #
-						n1 	= n1, #
-						m	= m#
-					)] # this line is slow#
-				names(HT_results[[2]]) <- c(occ_abund_var_names)	#
-				# RATIO DATA#
-				if (!(is.null(rvar))) {#
-					# RATIO#
-					# summarise data for variance calculations#
-					# do I want to use summarised for everything??????????????#
-					mvals <- alldata %>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])#
-					R_smd <- alldata %>%#
-						filter(Sampling!="Edge") %>%#
-						.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
-						.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
-						merge(mvals, by="NetworkID")#
-					# summarise data for mean calculations#
-					# R <- alldata %>% #
-					#	filter(Sampling!="Edge") %>%#
-					#	.[, c(rvar, ovar, "m"), with=FALSE]#
-					HT_results[[3]] <- data.frame(Var1 = NA)#
-					for (l in 1:length(rvar)) {#
-						y = eval(parse(text=paste("R_smd$", rvar[l], #
-							sep="")))#
-						z = eval(parse(text = paste("R_smd$", #
-							str_sub(rvar[l],-7,-1), sep="")))#
-						HT_results[[3]]$Var1 = R_hat(#
-							y = y,#
-							z = z,#
-							N = N, #
-							n1 = n1, #
-							m = R_smd$m#
-						)#
-					 	HT_results[[3]]$Var2 = var_R_hat(#
-					 		y = y, #
-					 		z = z,#
-							N = N, #
-					 		n1 = n1, #
-					 		m = R_smd$m#
-					 	)#
-					names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : #
-						dim(HT_results[[3]])[2]] <- #
-						c(#
-							paste(rvar[l], "_mean_observed", sep=""),#
-							paste(rvar[l], "_var_observed", sep="")#
-						)#
-				}#
-			}
-# merge together			#
-			All_HT <- HT_results %>% #
-				as.data.frame %>%#
-				mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
-			# merge estimates #
-		    SampleMeanVar %<>% merge(Ratio)#
-			A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
-			# add other information#
-			A[[i]][[j]][[k]]$simulation 		= k#
-			A[[i]][[j]][[k]]$seed 				= temp_seed#
-			A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1#
-			A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]#
-			A[[i]][[j]][[k]]$realization 		= P$realization[1]#
-			A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]#
-			A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1#
-			A[[i]][[j]][[k]]$Restricted 		= Restricted#
-		}#
-			do.call(rbind.data.frame, A[[i]][[j]])#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
-	TIME 					<- Sys.time()#
-	patchdat 				%<>% arrange(n.networks, realization)#
-	var 					<- c(ovar, avar, rvar)#
-	n.patches 				<- length(unique(patchdat$n.networks))#
-	nsample.length 			<- length(nsamples)#
-	A 						<- vector("list", n.patches)#
-	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
-	oavar 					<- c(ovar, avar)#
-	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
-	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
-	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
-	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
-	# the names to assign the estimates#
-	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
-	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
-	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")#
-	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
-i
-j
-i=3
-j=3
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)#
-		    for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-				################ SRSWOR Data, alldata #################
-				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
-				alldata_all <- alldata#
-				alldata %<>% filter(Sampling!="Edge")#
-				# datasets to apply simple mean/variance and simple ratio estimator#
-				dats <- c("SRSWOR_data", "alldata")#
-				# sample mean and variance applied to alldata, SRSWOR_data#
-				SampleMeanVar <- list()#
-				for (n in 1:length(dats)) {#
-					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
-						summarise_each(funs(#
-							mean(., na.rm=T), #
-							var(., na.rm=T)#
-						))#
-					setnames(#
-						dat,#
-						names(dat), #
-						paste(names(dat), "observed", sep="_")#
-					)#
-					dat$Plots <- dats[n]#
-					SampleMeanVar[[n]] <- dat#
-				}#
-				SampleMeanVar %<>% rbind.fill#
-				# simple ratio estimators applied to alldata, SRSWOR_data#
-				if (!(is.null(rvar))) {#
-					Ratio <- list()#
-					for (n in 1:length(dats)) {#
-						Ratio[[n]] <- data.frame(Var1 = NA)#
-						for (l in 1:length(rvar)) {#
-							y = eval(parse(#
-									text=paste(#
-										dats[n], #
-										"$", #
-										rvar[l], #
-										sep=""#
-									)#
-							))#
-							z = eval(parse(#
-									text = paste(#
-										dats[n], #
-										"$",#
-										str_sub(rvar[l],-7,-1), #
-										sep=""#
-									)#
-							))#
-							m = rep(1, length(y)) # equal P(inclusion) for all#
-							Ratio[[n]]$Var1 <- R_hat(#
-								y = y,#
-								z = z,#
-								N = N,#
-								n1 = n1,#
-								m = m#
-							)#
-						 	Ratio[[n]]$Var2 = var_R_hat(#
-						 		y = y, #
-						 		z = z,#
-								N = N, #
-						 		n1 = n1, #
-						 		m = m#
-						 	)#
-							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : #
-								dim(Ratio[[n]])[2]] <- #
-								c(#
-									paste(rvar[l], "_mean_observed", sep=""),#
-									paste(rvar[l], "_var_observed", sep="")#
-								)#
-						}#
-						Ratio[[n]] %<>% mutate(Plots = dats[n])#
-					}#
-					Ratio <- do.call(rbind.data.frame, Ratio)#
-				}				#
-				################ HORVITZ-THOMPSON ESTIMATORS #################
-				HT_results <- list()#
-				alldata %<>% setkey(NetworkID)#
-				# OCCUPANCY AND ABUNDANCE#
-				# summarise data for mean calculations#
-				O <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					.[, c(#
-						oavar, #
-						"NetworkID", #
-						"m"#
-					), with=FALSE]#
-				# calculate t_HT#
-				m <- O$m#
-				HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%#
-					.[, lapply(#
-						.SD,#
-						t_HT,#
-						N	= N, #
-						n1	= n1,#
-						m	= m#
-					)]#
-				names(HT_results[[1]]) <- c(occ_abund_mean_names)#
-				# summarise data for variance calculations#
-				O_smd <- alldata %>% #
-					.[, c(#
-						paste(oavar, "_network_sum", sep=""), #
-						"NetworkID", #
-						"m"#
-					), with=FALSE] %>% #
-					filter(!(is.na(NetworkID))) %>%#
-					.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
-				m <- O_smd$m#
-				# var_t_HT#
-				HT_results[[2]] <- O_smd[, paste(#
-					oavar, #
-					"_network_sum", #
-					sep=""#
-				), with=FALSE] %>%#
-					.[, lapply(#
-						.SD, #
-						var_t_HT, #
-						N 	= N, #
-						n1 	= n1, #
-						m	= m#
-					)] # this line is slow#
-				names(HT_results[[2]]) <- c(occ_abund_var_names)	#
-				# RATIO DATA#
-				if (!(is.null(rvar))) {#
-					# RATIO#
-					# summarise data for variance calculations#
-					# do I want to use summarised for everything??????????????#
-					mvals <- alldata %>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])#
-					R_smd <- alldata %>%#
-						filter(Sampling!="Edge") %>%#
-						.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
-						.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
-						merge(mvals, by="NetworkID")#
-					# summarise data for mean calculations#
-					# R <- alldata %>% #
-					#	filter(Sampling!="Edge") %>%#
-					#	.[, c(rvar, ovar, "m"), with=FALSE]#
-					HT_results[[3]] <- data.frame(Var1 = NA)#
-					for (l in 1:length(rvar)) {#
-						y = eval(parse(text=paste("R_smd$", rvar[l], #
-							sep="")))#
-						z = eval(parse(text = paste("R_smd$", #
-							str_sub(rvar[l],-7,-1), sep="")))#
-						HT_results[[3]]$Var1 = R_hat(#
-							y = y,#
-							z = z,#
-							N = N, #
-							n1 = n1, #
-							m = R_smd$m#
-						)#
-					 	HT_results[[3]]$Var2 = var_R_hat(#
-					 		y = y, #
-					 		z = z,#
-							N = N, #
-					 		n1 = n1, #
-					 		m = R_smd$m#
-					 	)#
-						names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : #
-							dim(HT_results[[3]])[2]] <- c(#
-								paste(rvar[l], "_mean_observed", sep=""),#
-								paste(rvar[l], "_var_observed", sep="")#
-							)#
-					}#
-				}#
-				# merge together			#
-				All_HT <- HT_results %>% #
-					as.data.frame %>%#
-					mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
-				# merge estimates #
-			    SampleMeanVar %<>% merge(Ratio)#
-				A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
-				# add other information#
-				A[[i]][[j]][[k]]$simulation 		= k#
-				A[[i]][[j]][[k]]$seed 				= temp_seed#
-				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1#
-				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]#
-				A[[i]][[j]][[k]]$realization 		= P$realization[1]#
-				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]#
-				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1#
-				A[[i]][[j]][[k]]$Restricted 		= Restricted#
-			}#
-			do.call(rbind.data.frame, A[[i]][[j]])
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-temp_seed <- seeds[k]*100000
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Restricted
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}
-alldata <- createRestrictedACS(P, temp_seed, n1, #
-+ 						y_variable) %>% #
-+ 						as.data.table
-temp_seed
-temp_seed=1
-alldata <- createRestrictedACS(P, temp_seed, n1, #
-+ 						y_variable) %>% #
-+ 						as.data.table
-alldata <- createRestrictedACS(P, temp_seed, n1, #
-+ 						y_variable) %>% #
-+ 						as.data.table
-alldata <- createRestrictedACS(population=P, seed=temp_seed, n1, #
-+ 						y_variable) %>% #
-+ 						as.data.table
-population=P
-seed=temp_seed
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-. <- Sampling <- y_val <- NULL
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-S <- createSRSWOR(population, seed, n1)
-population
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-seed
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-temp_seed <- seeds[k]*100000
-temp_seed -> seed
-seed
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-S <- createSRSWOR(population, seed, n1)
-head(population)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-# -----------------------------------------------------------------------------##
-# ABUNDANCE VARIABLES#
-# -----------------------------------------------------------------------------##
-# -----------------------------------------------------------------------------##
-# OCCUPANCY VARIABLES#
-# -----------------------------------------------------------------------------##
-ovar <- c(#
-	"Stricta",#
-	"Pusilla",#
-	"Cactus",#
-	"Percent_Cover_Pusilla",#
-	"Percent_Cover_Stricta",#
-	"Height_Pusilla",#
-	"Height_Stricta")#
-#
-# -----------------------------------------------------------------------------##
-# RATIO VARIABLES#
-# -----------------------------------------------------------------------------##
-rvar <- c(#
-	"CACA_on_Stricta", #
-	"MEPR_on_Stricta",#
-	"Old_Moth_Evidence_Pusilla",#
-	"Old_Moth_Evidence_Stricta"#
-)#
-#
-ratio.variables <- c("MEPR_on_Stricta", "CACA_on_Stricta")
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-# REALIZATION DATA#
-x_start 		<- 1#
-x_end 			<- 30#
-y_start 		<- 1#
-y_end 			<- 30#
-n.networks 		<- c(5, 15, 10, 20, 30, 40)#
-n.realizations 	<- 1#
-SpeciesInfo 	<- PlotSurveys_season1#
-buffer			<- 5#
-start.seed		<- 1#
-variables		<- ovar#
-#
-# CREATE REALIZATIONS#
-patch_data <- createSpeciesPatchRealizations(#
-	x_start, #
-	x_end,#
-	y_start, #
-	y_end, #
-	buffer, #
-	n.networks, #
-	n.realizations, #
-	SpeciesInfo, #
-	start.seed,#
-	variables#
-)#
-#
-# convert NAs to zeros#
-patch_data[,c(#
-	"CACA_on_Pusilla",#
-	"CACA_on_Stricta",#
-	"MEPR_on_Pusilla",#
-	"MEPR_on_Stricta",#
-	"Old_Moth_Evidence_Pusilla",#
-	"Old_Moth_Evidence_Stricta",#
-	"Percent_Cover_Pusilla",#
-	"Percent_Cover_Stricta",#
-	"Height_Pusilla",#
-	"Height_Stricta"#
-)] %<>% apply(., 2, NA_is_Zero_Function)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-N 					<- patch_data$N[1]#
-nsamples			<- c(20, 30) #, 40, 75, 100, 150, 200)#
-grouping.variables	<- c("n.networks", "realization")#
-#
-patch_data <- summarizeNetworkInformation(#
-	patch_data, #
-	variables, #
-	grouping.variables=grouping.variables, #
-	nsamples, #
-	m_var="Cactus"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-# calculate realization summary statistics#
-patch_data_summary <- calculateRealizationSummaryStatistics(#
-	dataset 			= patch_data, #
-	summary.variables 	= variables, #
-	grouping.variables 	= grouping.variables, #
-	ratio.variables 	= c(rvar)#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-S <- createSRSWOR(population, seed, n1)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-simulations <- 50 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15#
-y_variable <- "Cactus"
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-patchdat	= patch_data
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-avar		= NULL
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-Restricted	= TRUE
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-TIME 					<- Sys.time()#
-	patchdat 				%<>% arrange(n.networks, realization)#
-	var 					<- c(ovar, avar, rvar)#
-	n.patches 				<- length(unique(patchdat$n.networks))#
-	nsample.length 			<- length(nsamples)#
-	A 						<- vector("list", n.patches)#
-	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
-	oavar 					<- c(ovar, avar)#
-	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
-	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
-	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
-	Ratio 					<- data.frame(row.names = 1:length(rvar))
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
-	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
-	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")#
-	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
-i
-j
-i=3
-j=2
-i=2
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)#
-		    for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table
-}
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-temp_seed <- seeds[k]*100000
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-i
-j
-i=1
-j=1
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-j=2
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-i=2
-j=1
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-alldata
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-alldata %<>% filter(Sampling!="Edge")
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-alldata %<>% filter(Sampling!="Edge")
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/Manuscript/simulations')
-simulations <- 500 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15
-i
-j
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-temp_seed
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
-	TIME 					<- Sys.time()#
-	patchdat 				%<>% arrange(n.networks, realization)#
-	var 					<- c(ovar, avar, rvar)#
-	n.patches 				<- length(unique(patchdat$n.networks))#
-	nsample.length 			<- length(nsamples)#
-	A 						<- vector("list", n.patches)#
-	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
-	oavar 					<- c(ovar, avar)#
-	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
-	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
-	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
-	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
-	# the names to assign the estimates#
-	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
-	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
-	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")#
-	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-i
-j
-i=1
-j=1
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-j=2
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-i
-j
-i=2
-j=1
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-k
-temp_seed
-alldata <- createRestrictedACS(P, temp_seed, n1, #
-+ 						y_variable) %>% #
-+ 						as.data.table
-alldata <- createRestrictedACS(P, temp_seed, n1, #
- 						y_variable) %>% #
- 						as.data.table
-P -> population
-temp_seed -> seed
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-S <- createSRSWOR(population, seed, n1)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Z = population %>%#
-		filter(population$NetworkID %in% S$NetworkID) %>%#
-		merge(S, all.x=T)#
-	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-condition=0
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Z = population %>%#
-		filter(population$NetworkID %in% S$NetworkID) %>%#
-		merge(S, all.x=T)#
-	Networks = filter(Z, eval(parse(text=paste("Z$", y_variable, sep=""))) > condition)
-Networks
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-names(Z)[names(Z) == y_variable] <- 'y_val'#
-		#Z %<>%#
-		#	as.data.table %>%#
-		#	setnames(y_variable, "y_val")#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# fill in edge units#
-		E = data.table(#
-			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
-		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
-			Sampling = "Edge",#
-			key = c("x", "y")#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Z %<>% #
-			rbind.fill(E) %>% #
-			as.data.table %>% #
-			setkey("x", "y") %>% #
-	 	   	unique
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-S <- createSRSWOR(population, seed, n1)
-dim(population)
-seed
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Networks <- filter(S, #
-		eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Networks
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][2, "x"] = L$x#
-    	    Z[[i]][2, "y"] = L$y + 1#
-    	    # if plot has cacti, survey its neighbors#
-  	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-  			  		x==L$x,#
-  			  		y==L$y + 1#
-				))[1] > 0#
-			) {#
-			    # neighbor to north#
-			    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
-			   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + 1#
-			    # neighbor to east#
-			    Z[[i]][7, "x"] = Z[[i]][2, "x"] + 1#
-			    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
-			    # neighbor to west#
-			    Z[[i]][8, "x"] = Z[[i]][2, "x"] - 1#
-			    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
-			}#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][3, "x"] = L$x#
-	      	Z[[i]][3, "y"] = L$y - 1#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-					x==L$x,#
-					y==L$y - 1#
-				))[1] > 0#
-			) {#
-				# neighbor to south#
-			    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
-			    Z[[i]][9, "y"] = Z[[i]][3, "y"] - 1#
-			   	# neighbor to east#
-			    Z[[i]][10, "x"] = Z[[i]][3, "x"] + 1#
-			    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
-			    # neighbor to west#
-			    Z[[i]][11, "x"] = Z[[i]][3, "x"] - 1#
-			    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
-			}#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][4, "x"] = L$x + 1#
-	      	Z[[i]][4, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	 	x==L$x + 1,#
-			  	  	y==L$y#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + 1#
-	        	# neighbor to east#
-	        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + 1#
-	        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
-			}#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][5, "x"] = L$x - 1#
-	      	Z[[i]][5, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	  	x==L$x - 1,#
-			  	  	y==L$y#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + 1#
-	        	# neighbor to west#
-	        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - 1#
-	        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
-	      	}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give SRSWOR plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR"#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	# Exercise #3, p. 85, Thompson (2002)#
+	N 		<- 4#
+	dat 	<- data.frame(y = c(2, 3, 0, 1), z = c(20, 25, 0, 15))#
+	combin 	<- combn(4,2)#
+	combin	<- split(combin, col(combin))#
+	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])#
+	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))#
+	expect_that(#
+		lapply(#
+			combos, #
+			function(x) round(#
+				R_hat(#
+					x$y, #
+					x$z, #
+					N = 4, #
+					n1 = 2, #
+					m = c(1,1)#
+				)*(20 + 25 + 15), 6#
+			)#
+		),#
+		equals(#
+			list(#
+				`1` = 6.666667, #
+				`2` = 6, #
+				`3` = 5.142857, #
+				`4` = 7.2, #
+				`5` = 6, #
+				`6` = 4#
+			)#
 		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
-Z
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-dim(Z)[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Z[which(is.na(Z$Sampling)), ]
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-(dim(Z[which(is.na(Z$Sampling)), ]) > 0)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-(dim(Z[which(is.na(Z$Sampling)), ])[1] > 0)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-S <- createSRSWOR(population, seed, n1)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-Networks <- filter(S, #
-		eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
-	# if there are units that satisfy the condition, fill in cluster/edge units#
-	if (dim(Networks)[1] > 0) {#
-		names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][2, "x"] = L$x#
-    	    Z[[i]][2, "y"] = L$y + 1#
-    	    # if plot has cacti, survey its neighbors#
-  	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-  			  		x==L$x,#
-  			  		y==L$y + 1#
-				))[1] > 0#
-			) {#
-			    # neighbor to north#
-			    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
-			   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + 1#
-			    # neighbor to east#
-			    Z[[i]][7, "x"] = Z[[i]][2, "x"] + 1#
-			    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
-			    # neighbor to west#
-			    Z[[i]][8, "x"] = Z[[i]][2, "x"] - 1#
-			    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
-			}#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][3, "x"] = L$x#
-	      	Z[[i]][3, "y"] = L$y - 1#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-					x==L$x,#
-					y==L$y - 1#
-				))[1] > 0#
-			) {#
-				# neighbor to south#
-			    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
-			    Z[[i]][9, "y"] = Z[[i]][3, "y"] - 1#
-			   	# neighbor to east#
-			    Z[[i]][10, "x"] = Z[[i]][3, "x"] + 1#
-			    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
-			    # neighbor to west#
-			    Z[[i]][11, "x"] = Z[[i]][3, "x"] - 1#
-			    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
-			}#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][4, "x"] = L$x + 1#
-	      	Z[[i]][4, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	 	x==L$x + 1,#
-			  	  	y==L$y#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + 1#
-	        	# neighbor to east#
-	        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + 1#
-	        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
-			}#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][5, "x"] = L$x - 1#
-	      	Z[[i]][5, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	  	x==L$x - 1,#
-			  	  	y==L$y#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + 1#
-	        	# neighbor to west#
-	        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - 1#
-	        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
-	      	}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)#
-	    # remove duplicates#
-		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give SRSWOR plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# rename filtering variable#
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
-		names(Z)[names(Z) == 'y_value'] <- y_variable#
-		# add species attribute data#
-		Z %<>% #
-			merge(population %>% select(-NetworkID, -m)) %>%#
-			select(x, y, NetworkID, m, y_value, Sampling, everything())#
-		# warning	#
-		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
-			warning("Duplicates remaining in RACS sample")#
-			stop()#
-		}	#
-  		return(Z)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-#' Create a Restricted Adaptive Cluster Sample#
-#' #
-#' @param population grid of population to be sampled.#
-#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.#
-#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
-#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place.#
-#' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}.#
-#' @param initial_sample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
-#' @return A restricted adaptive cluster sample.#
-#' @examples#
-#' library(ggplot2)#
-#' Z = createRestrictedACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value")#
-#' ggplot() +#
-#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
-#' 		shape=factor(y_value))) +#
-#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
-#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
-#
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
-#
-#' @export#
-createRestrictedACS <- function(population, seed=1, n1, y_variable, condition=0, initial_sample=NA) {#
-	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "SRSWOR"#
-	} else {#
-		S <- createSRSWOR(population, seed, n1)#
-	}#
-	Networks <- filter(S, #
-		eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
-	# if there are units that satisfy the condition, fill in cluster/edge units#
-	if (dim(Networks)[1] > 0) {#
-		names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][2, "x"] = L$x#
-    	    Z[[i]][2, "y"] = L$y + 1#
-    	    # if plot has cacti, survey its neighbors#
-  	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-  			  		x==L$x,#
-  			  		y==L$y + 1#
-				))[1] > 0#
-			) {#
-			    # neighbor to north#
-			    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
-			   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + 1#
-			    # neighbor to east#
-			    Z[[i]][7, "x"] = Z[[i]][2, "x"] + 1#
-			    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
-			    # neighbor to west#
-			    Z[[i]][8, "x"] = Z[[i]][2, "x"] - 1#
-			    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
-			}#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][3, "x"] = L$x#
-	      	Z[[i]][3, "y"] = L$y - 1#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-					x==L$x,#
-					y==L$y - 1#
-				))[1] > 0#
-			) {#
-				# neighbor to south#
-			    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
-			    Z[[i]][9, "y"] = Z[[i]][3, "y"] - 1#
-			   	# neighbor to east#
-			    Z[[i]][10, "x"] = Z[[i]][3, "x"] + 1#
-			    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
-			    # neighbor to west#
-			    Z[[i]][11, "x"] = Z[[i]][3, "x"] - 1#
-			    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
-			}#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][4, "x"] = L$x + 1#
-	      	Z[[i]][4, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	 	x==L$x + 1,#
-			  	  	y==L$y#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + 1#
-	        	# neighbor to east#
-	        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + 1#
-	        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
-			}#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][5, "x"] = L$x - 1#
-	      	Z[[i]][5, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	  	x==L$x - 1,#
-			  	  	y==L$y#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + 1#
-	        	# neighbor to west#
-	        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - 1#
-	        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
-	      	}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)#
-	    # remove duplicates#
-		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give SRSWOR plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# rename filtering variable#
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
-		names(Z)[names(Z) == 'y_value'] <- y_variable#
-		# add species attribute data#
-		Z %<>% #
-			merge(population %>% select(-NetworkID, -m)) %>%#
-			select(x, y, NetworkID, m, y_value, Sampling, everything())#
-		# warning	#
-		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
-			warning("Duplicates remaining in RACS sample")#
-			stop()#
-		}	#
-  		return(Z)#
-	} #
-	else {#
-		# add species attribute data to sample#
-		S %<>% merge(population)#
-		return(S)#
-	}#
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling/R')
-for (k in 1:simulations) {#
-				temp_seed <- seeds[k]*100000#
-				if (Restricted==FALSE) {#
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% #
-						as.data.table#
-				} else {#
-					alldata <- createRestrictedACS(P, temp_seed, n1, #
-						y_variable) %>% #
-						as.data.table#
-				}#
-			}
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations')
-setwd("./ACSampling")#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
 devtools::test()#
 devtools::document()#
-devtools::install()#
-library(ACSampling)
-setwd('/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations')
-setwd("./ACSampling")#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+#### TESTING#
+#
+test_that("x_HT, Horvitz-Thompson Mean Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			x_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(38)#
+	)#
+	# Example from Thompson (1990), end of second full paragraph, p. 1055#
+	mk <- c(1,0,2,2)#
+	y_value <- c(1,2,10,1000)#
+	sampling <- c("S","C","S","C")#
+	dat <- data.frame(mk, y_value, sampling)#
+	dat$mk %<>% as.numeric#
+	dat$y_value %<>% as.numeric#
+	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
+	expect_that(#
+		round(#
+			x_HT(#
+				N = 5, #
+				m = dat_filter$mk, #
+				n1 = 2, #
+				y = dat_filter$y_value#
+			), 2#
+		),#
+		equals(289.07)#
+	)#
+})#
+#
+test_that("pi_i, Network Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			pi_i(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1:2], 2#
+		),#
+		equals(c(0.19, 0.27))#
+	)#
+})#
+#
+test_that("pi_ij, Network Joint Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			pi_ij(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1, 2], 4#
+		),#
+		equals(0.0512)#
+	)#
+})#
+#
+test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
+	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			var_x_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98))#
+			)*(1000^2), 0#
+		),#
+		equals(553)#
+	)#
+})#
+#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)#
+	expect_that(#
+		round(#
+			R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(12.12)#
+	)#
+})#
+test_that("var_R_hat, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	expect_that(#
+		round(#
+			var_R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(17.5)#
+	)#
+})#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	# Exercise #3, p. 85, Thompson (2002)#
+	N 		<- 4#
+	dat 	<- data.frame(y = c(2, 3, 0, 1), z = c(20, 25, 0, 15))#
+	combin 	<- combn(4,2)#
+	combin	<- split(combin, col(combin))#
+	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])#
+	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))#
+	expect_that(#
+		lapply(#
+			combos, #
+			function(x) round(#
+				R_hat(#
+					x$y, #
+					x$z, #
+					N = 4, #
+					n1 = 2, #
+					m = c(1,1)#
+				)*(20 + 25 + 15), 6#
+			)#
+		),#
+		equals(#
+			list(#
+				`1` = 6.666667, #
+				`2` = 6, #
+				`3` = 5.142857, #
+				`4` = 7.2, #
+				`5` = 6, #
+				`6` = 4#
+			)#
+		)#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
 devtools::test()#
 devtools::document()#
-devtools::install()#
-library(ACSampling)
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+#### TESTING#
+#
+test_that("x_HT, Horvitz-Thompson Mean Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			x_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(38)#
+	)#
+	# Example from Thompson (1990), end of second full paragraph, p. 1055#
+	mk <- c(1,0,2,2)#
+	y_value <- c(1,2,10,1000)#
+	sampling <- c("S","C","S","C")#
+	dat <- data.frame(mk, y_value, sampling)#
+	dat$mk %<>% as.numeric#
+	dat$y_value %<>% as.numeric#
+	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
+	expect_that(#
+		round(#
+			x_HT(#
+				N = 5, #
+				m = dat_filter$mk, #
+				n1 = 2, #
+				y = dat_filter$y_value#
+			), 2#
+		),#
+		equals(289.07)#
+	)#
+})#
+#
+test_that("pi_i, Network Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			pi_i(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1:2], 2#
+		),#
+		equals(c(0.19, 0.27))#
+	)#
+})#
+#
+test_that("pi_ij, Network Joint Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			pi_ij(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1, 2], 4#
+		),#
+		equals(0.0512)#
+	)#
+})#
+#
+test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
+	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			var_x_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98))#
+			)*(1000^2), 0#
+		),#
+		equals(553)#
+	)#
+})#
+#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)#
+	expect_that(#
+		round(#
+			R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(12.12)#
+	)#
+})#
+test_that("var_R_hat, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	expect_that(#
+		round(#
+			var_R_hat(#
+				y = c(60, 14, 1), #
+				z = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(17.5)#
+	)#
+})#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	# Exercise #3, p. 85, Thompson (2002)#
+	N 		<- 4#
+	dat 	<- data.frame(y = c(2, 3, 0, 1), z = c(20, 25, 0, 15))#
+	combin 	<- combn(4,2)#
+	combin	<- split(combin, col(combin))#
+	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])#
+	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))#
+	expect_that(#
+		lapply(#
+			combos, #
+			function(x) round(#
+				R_hat(#
+					x$y, #
+					x$z, #
+					N = 4, #
+					n1 = 2, #
+					m = c(1,1)#
+				)*(20 + 25 + 15), 6#
+			)#
+		),#
+		equals(#
+			list(#
+				`1` = 6.666667, #
+				`2` = 6, #
+				`3` = 5.142857, #
+				`4` = 7.2, #
+				`5` = 6, #
+				`6` = 4#
+			)#
+		)#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects')
+devtools::test()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
