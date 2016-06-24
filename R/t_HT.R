@@ -116,7 +116,7 @@
 
 #' @export
 
-x_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
+x_HT <- function(x, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
 	if (!(is.null(sampling)) & !(is.null(criterion))) {
 		J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
 	} else {
@@ -125,6 +125,6 @@ x_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NU
 	if (is.null(pi_i_values)) {
 		pi_i_values = pi_i(N, n1, m)
 	}
-	x_HT = sum(y*J/pi_i_values, na.rm=T)/N
+	x_HT = sum(x*J/pi_i_values, na.rm=T)/N
 	return(x_HT)	
 }

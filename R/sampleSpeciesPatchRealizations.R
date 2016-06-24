@@ -99,11 +99,20 @@ sampleSpeciesPatchRealizations <- function(
 		    for (k in 1:simulations) {
 				temp_seed <- seeds[k]*100000
 				if (Restricted==FALSE) {
-					alldata <- createACS(P, temp_seed, n1, y_variable) %>% 
+					alldata <- createACS(
+						population=P, 
+						seed=temp_seed, 
+						n1=n1, 
+						y_variable=y_variable
+					) %>% 
 						as.data.table
 				} else {
-					alldata <- createRestrictedACS(P, temp_seed, n1, 
-						y_variable) %>% 
+					alldata <- createRACS(
+						population=P, 
+						seed=temp_seed, 
+						n1=n1, 
+						y_variable=y_variable
+					) %>% 
 						as.data.table
 				}
 				################ SRSWOR Data, alldata ################
