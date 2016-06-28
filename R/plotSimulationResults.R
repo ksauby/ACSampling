@@ -104,7 +104,7 @@ plotSimulationResults <- function(
 		#setnames(variable, "x.variable") %>%
 		as.data.frame %>%
 		filter(y.var!=-Inf) %>%
-		group_by(Species, group.var, x.var)
+		group_by(Restricted, Species, group.var, x.var)
 	
 	if (SD == TRUE) {
 			x %<>%
