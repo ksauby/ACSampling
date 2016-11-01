@@ -8,7 +8,7 @@ test_that("x_HT, Horvitz-Thompson Mean Estimator", {
 				N = 1000, 
 				n1 = 100, 
 				m = c(2,3,rep(1,98)), 
-				y = c(3,6,rep(0, 98)), 
+				x = c(3,6,rep(0, 98)), 
 				sampling = "SRSWOR", 
 				criterion = 0
 			)*1000, 0
@@ -17,19 +17,19 @@ test_that("x_HT, Horvitz-Thompson Mean Estimator", {
 	)
 	# Example from Thompson (1990), end of second full paragraph, p. 1055
 	mk <- c(1,0,2,2)
-	y_value <- c(1,2,10,1000)
+	x_value <- c(1,2,10,1000)
 	sampling <- c("S","C","S","C")
-	dat <- data.frame(mk, y_value, sampling)
+	dat <- data.frame(mk, x_value, sampling)
 	dat$mk %<>% as.numeric
-	dat$y_value %<>% as.numeric
-	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)
+	dat$x_value %<>% as.numeric
+	dat_filter <- dat %>% filter(sampling=="S" | x_value > 4)
 	expect_that(
 		round(
 			x_HT(
 				N = 5, 
 				m = dat_filter$mk, 
 				n1 = 2, 
-				y = dat_filter$y_value
+				x = dat_filter$x_value
 			), 2
 		),
 		equals(289.07)
@@ -75,7 +75,7 @@ test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {
 				N = 1000, 
 				n1 = 100, 
 				m = c(2,3,rep(1,98)), 
-				y = c(3,6,rep(0, 98))
+				x = c(3,6,rep(0, 98))
 			)*(1000^2), 0
 		),
 		equals(553)

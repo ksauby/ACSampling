@@ -75,8 +75,8 @@
 #' 	sampling = Z$Sampling
 #' 	criterion=0
 
-#' # CALCULATE x_HT
-#' x_HT(
+#' # CALCULATE y_HT
+#' y_HT(
 #' 	N = N, 
 #' 	n1 = n1,
 #' 	m = m, 
@@ -93,7 +93,7 @@
 #' 	`y (added through SRSWOR)` = toString(y_value[which(sampling=="SRSWOR")]),
 #' 	`y (added through ACS)` = toString(y_value[which(sampling=="ACS")]),
 #' 	y_bar_1 = mean(y_value[which(sampling=="SRSWOR")]),
-#' 	x_HT = round(x_HT(N, n1, m, y_value, sampling, 5), 2),
+#' 	y_HT = round(y_HT(N, n1, m, y_value, sampling, 5), 2),
 #' 	y_bar = round(mean(y_value),2)
 #' 	)
 #' )
@@ -105,7 +105,7 @@
 #' # EXAMPLE 4:
 #' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 #' # Horvitz-Thompson mean times the population size; should equal 38
-#' x_HT(
+#' y_HT(
 #'     N 		= 1000, 
 #'     n1 		= 100, 
 #'     m 		= c(2,3,rep(1,98)), 
@@ -116,7 +116,7 @@
 
 #' @export
 
-x_HT <- function(x, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
+y_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
 	if (!(is.null(sampling)) & !(is.null(criterion))) {
 		J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
 	} else {
@@ -125,6 +125,6 @@ x_HT <- function(x, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NU
 	if (is.null(pi_i_values)) {
 		pi_i_values = pi_i(N, n1, m)
 	}
-	x_HT = sum(x*J/pi_i_values, na.rm=T)/N
-	return(x_HT)	
+	y_HT = sum(y*J/pi_i_values, na.rm=T)/N
+	return(y_HT)	
 }

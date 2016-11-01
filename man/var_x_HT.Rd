@@ -4,7 +4,7 @@
 \alias{var_x_HT}
 \title{Calculate the variance of the Horvitz-Thompson estimator of the mean}
 \usage{
-var_x_HT(N, n1, m, y, pi_i_values = NULL)
+var_x_HT(N, n1, m, x, pi_i_values = NULL)
 }
 \arguments{
 \item{N}{Population size}
@@ -13,7 +13,7 @@ var_x_HT(N, n1, m, y, pi_i_values = NULL)
 
 \item{m}{Vector of $m$, each corresponding to a unique network.}
 
-\item{y}{Vector of $y$ total, each corresponding to a unique network.}
+\item{x}{Vector of $x$ total, each corresponding to a unique network.}
 
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 }
@@ -32,22 +32,22 @@ data(Thompson1990Figure1Sample)
 # plot sample overlaid onto population
 ggplot() +
 	geom_point(data=Thompson1990Figure1Population, aes(x,y, 
-	size=factor(y_value),
-		shape=factor(y_value))) +
+	size=factor(x_value),
+		shape=factor(x_value))) +
 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
 
 # INITIATE ACS
 Z = createACS(population=Thompson1990Figure1Population, 
 	n1=dim(Thompson1990Figure1Sample)[1], 
-	initial_sample=Thompson1990Figure1Sample, y_variable="y_value")
+	initial_sample=Thompson1990Figure1Sample, y_variable="x_value")
 
 # CALCULATE var(x_HT)
 # create dataframe of network info
 Z_summary <- Z \%>\% group_by(NetworkID) \%>\%
 	summarise(
 		m = m[1],
-		y_total = sum(y_value, rm.na=TRUE)
+		x_total = sum(x_value, rm.na=TRUE)
 		) \%>\%
 		filter(NetworkID > 0)
 
@@ -55,7 +55,7 @@ var_x_HT(
 	N = dim(Thompson1990Figure1Population)[1], 
 	n1 = dim(Thompson1990Figure1Sample)[1], 
 	m = Z_summary$m, 
-	y = Z_summary$y_total
+	x = Z_summary$x_total
 )
 }
 \references{
