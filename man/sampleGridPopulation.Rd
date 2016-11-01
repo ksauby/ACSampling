@@ -2,7 +2,7 @@
 % Please edit documentation in R/sampleGridPopulation.R
 \name{sampleGridPopulation}
 \alias{sampleGridPopulation}
-\title{Select a sample of cells from the grid population and assign species information.}
+\title{Select a sample of cells from the grid population and randomly assign species information.}
 \usage{
 sampleGridPopulation(grid, n.networks, cluster.centers, seed)
 }
@@ -27,7 +27,8 @@ data(Thompson1990Figure1Population)
 cluster.info = Thompson1990Figure1Population \%>\% 
 	filter(m > 1) \%>\%
 	createNetworks
-cluster.centers = filter(cluster.info, Rel_x==0 & Rel_y==0)
+cluster.centers = filter(cluster.info, Rel_x==0 & Rel_y==0) \%>\%
+dplyr::select(-c(x,y))
 seed = 1:2
 sampleGridPopulation(grid, n.networks, cluster.centers, seed)
 }

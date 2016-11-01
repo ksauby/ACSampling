@@ -1,14 +1,14 @@
 #### TESTING
 
-test_that("x_HT, Horvitz-Thompson Mean Estimator", {
+test_that("y_HT, Horvitz-Thompson Mean Estimator", {
 	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 	expect_that(
 		round(
-			x_HT(
+			y_HT(
 				N = 1000, 
 				n1 = 100, 
 				m = c(2,3,rep(1,98)), 
-				x = c(3,6,rep(0, 98)), 
+				y = c(3,6,rep(0, 98)), 
 				sampling = "SRSWOR", 
 				criterion = 0
 			)*1000, 0
@@ -17,19 +17,19 @@ test_that("x_HT, Horvitz-Thompson Mean Estimator", {
 	)
 	# Example from Thompson (1990), end of second full paragraph, p. 1055
 	mk <- c(1,0,2,2)
-	x_value <- c(1,2,10,1000)
+	y_value <- c(1,2,10,1000)
 	sampling <- c("S","C","S","C")
-	dat <- data.frame(mk, x_value, sampling)
+	dat <- data.frame(mk, y_value, sampling)
 	dat$mk %<>% as.numeric
-	dat$x_value %<>% as.numeric
-	dat_filter <- dat %>% filter(sampling=="S" | x_value > 4)
+	dat$y_value %<>% as.numeric
+	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)
 	expect_that(
 		round(
-			x_HT(
+			y_HT(
 				N = 5, 
 				m = dat_filter$mk, 
 				n1 = 2, 
-				x = dat_filter$x_value
+				y = dat_filter$y_value
 			), 2
 		),
 		equals(289.07)
@@ -65,17 +65,17 @@ test_that("pi_ij, Network Joint Inclusion Probability", {
 	)
 })
 
-test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {
+test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {
 	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)
 	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation
 	expect_that(
 		round(
-			var_x_HT(
+			var_y_HT(
 				N = 1000, 
 				n1 = 100, 
 				m = c(2,3,rep(1,98)), 
-				x = c(3,6,rep(0, 98))
+				y = c(3,6,rep(0, 98))
 			)*(1000^2), 0
 		),
 		equals(553)
@@ -89,7 +89,7 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 		round(
 			R_hat(
 				y = c(60, 14, 1), 
-				z = c(1, 1, 1), 
+				x = c(1, 1, 1), 
 				N = 100, 
 				n1 = 4, 
 				m = c(5, 2, 1), 
@@ -105,7 +105,7 @@ test_that("var_R_hat, with replacement", {
 		round(
 			var_R_hat(
 				y = c(60, 14, 1), 
-				z = c(1, 1, 1), 
+				x = c(1, 1, 1), 
 				N = 100, 
 				n1 = 4, 
 				m = c(5, 2, 1), 
@@ -118,7 +118,7 @@ test_that("var_R_hat, with replacement", {
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 	# Exercise #3, p. 85, Thompson (2002)
 	N 		<- 4
-	dat 	<- data.frame(y = c(2, 3, 0, 1), z = c(20, 25, 0, 15))
+	dat 	<- data.frame(y = c(2, 3, 0, 1), x = c(20, 25, 0, 15))
 	combin 	<- combn(4,2)
 	combin	<- split(combin, col(combin))
 	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])
@@ -129,7 +129,7 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 			function(x) round(
 				R_hat(
 					x$y, 
-					x$z, 
+					x$x, 
 					N = 4, 
 					n1 = 2, 
 					m = c(1,1)

@@ -4,12 +4,12 @@
 \alias{var_R_hat}
 \title{Calculate the variance of R hat}
 \usage{
-var_R_hat(y, z, N, n1, m, with_replacement = "FALSE")
+var_R_hat(y, x, N, n1, m, with_replacement = "FALSE")
 }
 \arguments{
-\item{y}{Attribute data about species of interest y (e.g., abundance, presence/absence).}
+\item{y}{Attribute data about object of interest y (e.g., abundance, presence/absence).}
 
-\item{z}{Attribute data about species of interest z (e.g., abundance, presence/absence).}
+\item{x}{Auxiliary data about object of interest y.}
 
 \item{N}{Population size.}
 
@@ -27,9 +27,9 @@ Calculate the variance of R hat
 N = 100
 n1 = 4
 y = c(60, 60, 14, 1)
-z = c(1, 1, 1, 1)
+x = c(1, 1, 1, 1)
 m = c(5, 5, 2, 1)
-R_hat(y, z, N, n1, m, with_replacement="TRUE")
-var_R_hat(y, z, N, n1, m)
+R_hat(y, x, N, n1, m, with_replacement="TRUE")
+var_R_hat(y, x, N, n1, m)
 }
 

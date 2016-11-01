@@ -4,12 +4,12 @@
 \alias{R_hat}
 \title{Calculate the Horvitz-Thompson Ratio Estimator}
 \usage{
-R_hat(y, z, N, n1, m, with_replacement = "FALSE")
+R_hat(y, x, N, n1, m, with_replacement = "FALSE")
 }
 \arguments{
 \item{y}{Attribute data about species of interest y (e.g., abundance, presence/absence).}
 
-\item{z}{Auxiliary data about species of interest z (e.g., abundance, presence/absence).}
+\item{x}{Auxiliary data about object of interest y.}
 
 \item{N}{Population size.}
 
@@ -27,9 +27,9 @@ R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau
 N = 100
 n1 = 4
 y = c(60, 14, 1)
-z = c(1, 1, 1)
+x = c(1, 1, 1)
 m = c(5, 2, 1)
-R_hat(y, z, N, n1, m, with_replacement="TRUE")
-var_R_hat(y, z, N, n1, m, with_replacement="TRUE")
+R_hat(y, x, N, n1, m, with_replacement="TRUE")
+var_R_hat(y, x, N, n1, m, with_replacement="TRUE")
 }
 

@@ -1,4 +1,4 @@
-#' Select a sample of cells from the grid population and assign species information.
+#' Select a sample of cells from the grid population and randomly assign species information.
 #' @param grid A dataframe of x and y coordinates (can be created with \code{createPopulation}).
 #' @param n.networks Initial sample size that determines the relative density of the species.
 #' @param cluster.centers Dataframe including x and y coordinates and network IDs for the centers of clusters.
@@ -16,7 +16,8 @@
 #' cluster.info = Thompson1990Figure1Population %>% 
 #' 	filter(m > 1) %>%
 #' 	createNetworks
-#' cluster.centers = filter(cluster.info, Rel_x==0 & Rel_y==0)
+#' cluster.centers = filter(cluster.info, Rel_x==0 & Rel_y==0) %>%
+#' dplyr::select(-c(x,y))
 #' seed = 1:2
 #' sampleGridPopulation(grid, n.networks, cluster.centers, seed)
 #' @export
@@ -28,7 +29,7 @@ sampleGridPopulation <- function(grid, n.networks, cluster.centers, seed) {
   gridsample$location.seed <- seed[1]
   # determine attributes of samples
   set.seed(seed[2])
-  species <- cluster.centers[sample(x = 1 : dim(cluster.centers)[1], size = n.networks), ]
+  species <- cluster.centers[sample(x = 1 : dim(cluster.centers)[1], size = n.networks), ] %>% as.data.frame
   gridsample$SpeciesInfo.seed <- seed[2]
   # merge location and attributes
   gridsample = cbind(gridsample, species)
