@@ -182,7 +182,8 @@ calculatealternateSamplingBias <- function(
 		A[[i]] <- list()
 		A[[i]] <- X.grp %>%
 			summarise_(
-				interp(
+				# calculate sample mean
+				var_samplemean = interp(
 					~mean(var, na.rm = TRUE), 
 					var = 
 					as.name(
@@ -194,13 +195,176 @@ calculatealternateSamplingBias <- function(
 							sep=""
 						)
 					)
+				),
+				# save true mean
+				var_mean = interp(
+					~var[1], 
+					var = 
+					as.name(
+						paste(
+							variables[i],
+							"_", 
+							statistics[1], 
+							sep=""
+						)
+					)
 				)
 			) %>%
-			setnames(., dim(.)[2], paste(variables[i], "_", statistics[1], 
-				"_alternatebias", sep=""))
-	}
+			setnames(
+				.,
+				dim(.)[2] - 1, 
+				paste(
+					variables[i],
+					"_",
+					statistics[1], 
+					"_samplemean",
+					sep=""
+				)
+			) %>%
+			setnames(
+				.,
+				dim(.)[2], 
+				paste(
+					variables[i],
+					"_",
+					statistics[1], 
+					sep=""
+				)
+			)
+		# calculate bias
+		A[[i]]$temp <-
+				# sample mean
+				eval(
+					parse(
+						text=paste(
+							"A[[i]]$",
+							variables[i],
+							"_",
+							statistics[1], 
+							"_samplemean",
+							sep=""
+						)
+					)
+				) - 
+				# true mean 
+				eval(
+					parse(
+						text=paste(
+							"A[[i]]$",
+							variables[i],
+							"_",
+							statistics[1], 
+							sep=""
+						)
+					)
+				)
+		A[[i]] %<>% setnames(
+			.,
+			dim(.)[2], 
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				"_bias",
+				sep=""
+			)
+		)
+		# CALCULATE RELATIVE BIAS
+		A[[i]]$temp <-
+				# bias
+				eval(
+					parse(
+						text=paste(
+							"A[[i]]$",
+							variables[i],
+							"_",
+							statistics[1], 
+							"_bias",
+							sep=""
+						)
+					)
+				) /
+				# true mean 
+				eval(
+					parse(
+						text=paste(
+							"A[[i]]$",
+							variables[i],
+							"_",
+							statistics[1], 
+							sep=""
+						)
+					)
+				)
+		A[[i]] %<>% setnames(
+			.,
+			dim(.)[2], 
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				"_relativebias",
+				sep=""
+			)
+		)
+		# CALCULATE VARIANCE OF THE HT MEAN
+		temp <- X %>%
+			merge(A[[i]], by=grouping.variables)
+		temp$temp <- 
+				(
+					# HT mean
+					eval(
+						parse(
+							text=paste(
+								"temp$",
+								variables[i],
+								"_", 
+								statistics[1], 
+								"_observed",
+								sep=""
+							)
+						)
+					) - 
+					# mean of the HT means 
+					eval(
+						parse(
+							text=paste(
+								"temp$",
+								variables[i],
+								"_",
+								statistics[1], 
+								"_samplemean",
+								sep=""
+							)
+						)
+					)	
+				)^2
+			temp %<>% setnames(
+				.,
+				dim(.)[2], 
+				"temp_var_i"
+			)
+		temp %<>%
+			group_by_(.dots=grouping.variables) %>%
+			summarise(var_HT = sum(temp_var_i)/length(temp_var_i))	
+		A[[i]] %<>% merge(temp, by=grouping.variables) %>%
+		setnames(
+			.,
+			"var_HT", 
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				"_varHT",
+				sep=""
+			)
+		) 
+		# CALCULATE MSE OF THE HT MEAN
+		A[[i]]
+
+}
 	
-	Y <- do.call(rbind.data.frame, A[[i]])
+	Y <- do.call(cbind, A)
 
 	
 	
@@ -210,98 +374,3 @@ calculatealternateSamplingBias <- function(
 	
 	
 	
-	
-	
-	mean(
-		eval(
-			parse(
-				text=paste(
-					variables[i],
-					"_", 
-					statistics[1], 
-					"_observed",
-					sep=""
-				)
-			)
-		), na.rm=T
-	) 
-	
-	
-	X %>% 			
-		group_by_(.dots=grouping.variables) %>%
-			mutate(
-				Cactus_mean_alternatebias = mean(Cactus_mean_observed)
-			) %>%
-			ungroup %>%
-			group_by_(.dots=grouping.variables) %>%
-			summarise(Cactus_mean_alternatebias = Cactus_mean_alternatebias[1])
-	
-	X %>%
-	ungroup %>%
-	group_by_(.dots=grouping.variables) %>%
-	summarise(
-		Stricta_mean = Stricta_mean[1],
-		Pusilla_mean = Pusilla_mean[1],
-		Cactus_mean = Cactus_mean[1],
-		Stricta_mean_alternatebias = Stricta_mean_alternatebias[1],
-		Pusilla_mean_alternatebias = Pusilla_mean_alternatebias[1],
-		Cactus_mean_alternatebias = Cactus_mean_alternatebias[1]
-	)
-	
-	
-	
-	
-	
-	
-	
-	}
-	if (!(is.null(rvar))) {
-		for (i in 1:length(rvar)) {
-			for (j in 1:length(ratio.statistics)) {
-				X %<>%
-					mutate(
-						round(
-							(
-								# (observed -
-								eval(parse(text=paste(
-									"X$", 
-									rvar[i],
-								 	"_", 
-									ratio.statistics[j], 
-									"_observed", 
-									sep=""
-								))) - 
-								# true) / 
-								eval(parse(text=paste(
-									"X$", 
-									rvar[i], 
-									"_ratio_", 
-									ratio.statistics[j], 
-									sep=""
-								)))
-							) / 
-							# true
-							eval(parse(text=paste(
-								"X$", 
-								rvar[i], 
-								"_ratio_", 
-								ratio.statistics[j], 
-								sep=""
-							))), roundn
-						)*100
-					
-					) %>%
-					setnames(., dim(.)[2], paste(rvar[i], "_", 
-						ratio.statistics[j], "_bias", sep=""))
-				}
-		}
-	}
-	if (ACS==TRUE) {
-		X$Prop.Area.Surveyed = round(with(X, N.Total.plots/N), roundn)		
-	} else {
-		X$Prop.Area.Surveyed = round(with(X, N.SRSWOR.plots/N), roundn)
-	}
-		#X$n.networks = unique(realization_data$n.networks)[h]
-#	}
-	return(X)
-}
