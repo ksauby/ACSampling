@@ -143,3 +143,165 @@ calculateSamplingBias <- function(
 #	}
 	return(X)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+calculatealternateSamplingBias <- function(
+	realization_data, 
+	simulation_data, 
+	grouping.variables, 
+	variables, 
+	rvar,
+	statistics, 
+	ratio.statistics,
+	ACS=TRUE,
+	roundn = 2
+) 
+{
+	. <- NULL
+	X <- merge(realization_data, simulation_data, by=grouping.variables)
+	A <- vector("list", length(variables))
+	X.grp <- X %>% group_by_(.dots=grouping.variables)
+	for (i in 1:length(variables)) {
+		A[[i]] <- list()
+		A[[i]] <- X.grp %>%
+			summarise_(
+				interp(
+					~mean(var, na.rm = TRUE), 
+					var = 
+					as.name(
+						paste(
+							variables[i],
+							"_", 
+							statistics[1], 
+							"_observed",
+							sep=""
+						)
+					)
+				)
+			) %>%
+			setnames(., dim(.)[2], paste(variables[i], "_", statistics[1], 
+				"_alternatebias", sep=""))
+	}
+	
+	Y <- do.call(rbind.data.frame, A[[i]])
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	mean(
+		eval(
+			parse(
+				text=paste(
+					variables[i],
+					"_", 
+					statistics[1], 
+					"_observed",
+					sep=""
+				)
+			)
+		), na.rm=T
+	) 
+	
+	
+	X %>% 			
+		group_by_(.dots=grouping.variables) %>%
+			mutate(
+				Cactus_mean_alternatebias = mean(Cactus_mean_observed)
+			) %>%
+			ungroup %>%
+			group_by_(.dots=grouping.variables) %>%
+			summarise(Cactus_mean_alternatebias = Cactus_mean_alternatebias[1])
+	
+	X %>%
+	ungroup %>%
+	group_by_(.dots=grouping.variables) %>%
+	summarise(
+		Stricta_mean = Stricta_mean[1],
+		Pusilla_mean = Pusilla_mean[1],
+		Cactus_mean = Cactus_mean[1],
+		Stricta_mean_alternatebias = Stricta_mean_alternatebias[1],
+		Pusilla_mean_alternatebias = Pusilla_mean_alternatebias[1],
+		Cactus_mean_alternatebias = Cactus_mean_alternatebias[1]
+	)
+	
+	
+	
+	
+	
+	
+	
+	}
+	if (!(is.null(rvar))) {
+		for (i in 1:length(rvar)) {
+			for (j in 1:length(ratio.statistics)) {
+				X %<>%
+					mutate(
+						round(
+							(
+								# (observed -
+								eval(parse(text=paste(
+									"X$", 
+									rvar[i],
+								 	"_", 
+									ratio.statistics[j], 
+									"_observed", 
+									sep=""
+								))) - 
+								# true) / 
+								eval(parse(text=paste(
+									"X$", 
+									rvar[i], 
+									"_ratio_", 
+									ratio.statistics[j], 
+									sep=""
+								)))
+							) / 
+							# true
+							eval(parse(text=paste(
+								"X$", 
+								rvar[i], 
+								"_ratio_", 
+								ratio.statistics[j], 
+								sep=""
+							))), roundn
+						)*100
+					
+					) %>%
+					setnames(., dim(.)[2], paste(rvar[i], "_", 
+						ratio.statistics[j], "_bias", sep=""))
+				}
+		}
+	}
+	if (ACS==TRUE) {
+		X$Prop.Area.Surveyed = round(with(X, N.Total.plots/N), roundn)		
+	} else {
+		X$Prop.Area.Surveyed = round(with(X, N.SRSWOR.plots/N), roundn)
+	}
+		#X$n.networks = unique(realization_data$n.networks)[h]
+#	}
+	return(X)
+}
