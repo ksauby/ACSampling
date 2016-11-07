@@ -209,108 +209,16 @@ calculatealternateSamplingBias <- function(
 						)
 					)
 				)
-			) %>%
-			setnames(
-				.,
-				dim(.)[2] - 1, 
-				paste(
-					variables[i],
-					"_",
-					statistics[1], 
-					"_samplemean",
-					sep=""
-				)
-			) %>%
-			setnames(
-				.,
-				dim(.)[2], 
-				paste(
-					variables[i],
-					"_",
-					statistics[1], 
-					sep=""
-				)
+			) 
+		A[[i]] %<>% mutate(
+			# calculate bias
+			var_bias = var_samplemean - var_mean,
+			# calculate relative bias
+			var_relativebias = var_bias/var_mean
 			)
-		# calculate bias
-		A[[i]]$temp <-
-				# sample mean
-				eval(
-					parse(
-						text=paste(
-							"A[[i]]$",
-							variables[i],
-							"_",
-							statistics[1], 
-							"_samplemean",
-							sep=""
-						)
-					)
-				) - 
-				# true mean 
-				eval(
-					parse(
-						text=paste(
-							"A[[i]]$",
-							variables[i],
-							"_",
-							statistics[1], 
-							sep=""
-						)
-					)
-				)
-		A[[i]] %<>% setnames(
-			.,
-			dim(.)[2], 
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				"_bias",
-				sep=""
-			)
-		)
-		# CALCULATE RELATIVE BIAS
-		A[[i]]$temp <-
-				# bias
-				eval(
-					parse(
-						text=paste(
-							"A[[i]]$",
-							variables[i],
-							"_",
-							statistics[1], 
-							"_bias",
-							sep=""
-						)
-					)
-				) /
-				# true mean 
-				eval(
-					parse(
-						text=paste(
-							"A[[i]]$",
-							variables[i],
-							"_",
-							statistics[1], 
-							sep=""
-						)
-					)
-				)
-		A[[i]] %<>% setnames(
-			.,
-			dim(.)[2], 
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				"_relativebias",
-				sep=""
-			)
-		)
 		# CALCULATE VARIANCE OF THE HT MEAN
-		temp <- X %>%
-			merge(A[[i]], by=grouping.variables)
-		temp$temp <- 
+		temp <- X %>% merge(A[[i]], by=grouping.variables)
+		temp$var_varHT_i <- 
 				(
 					# HT mean
 					eval(
@@ -326,42 +234,15 @@ calculatealternateSamplingBias <- function(
 						)
 					) - 
 					# mean of the HT means 
-					eval(
-						parse(
-							text=paste(
-								"temp$",
-								variables[i],
-								"_",
-								statistics[1], 
-								"_samplemean",
-								sep=""
-							)
-						)
-					)	
+					temp$var_samplemean	
 				)^2
-			temp %<>% setnames(
-				.,
-				dim(.)[2], 
-				"temp_var_i"
-			)
 		temp %<>%
 			group_by_(.dots=grouping.variables) %>%
-			summarise(var_HT = sum(temp_var_i)/length(temp_var_i))	
+			summarise(var_varHT = sum(var_varHT_i)/length(var_varHT_i))	
 		A[[i]] %<>% merge(temp, by=grouping.variables) %>%
-		setnames(
-			.,
-			"var_HT", 
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				"_varHT",
-				sep=""
-			)
-		) 
 		# CALCULATE MSE OF THE HT MEAN
-		A[[i]]
-
+		A[[i]] %<>% mutate(var_MSE = var_bias^2 + var_varHT)
+		# CHANGES VARIABLE NAMES
 }
 	
 	Y <- do.call(cbind, A)
