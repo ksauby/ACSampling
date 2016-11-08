@@ -171,13 +171,13 @@ calculatealternateSamplingBias <- function(
 	statistics, 
 	ratio.statistics,
 	ACS=TRUE,
-	roundn = 2
+	roundn = 6
 ) 
 {
 	. <- NULL
 	X <- merge(realization_data, simulation_data, by=grouping.variables)
 	A <- vector("list", length(variables))
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
+	X.grp <- X %>% group_by_(.dots=c(grouping.variables, "N.SRSWOR.plots"))
 	for (i in 1:length(variables)) {
 		A[[i]] <- list()
 		A[[i]] <- X.grp %>%
@@ -215,39 +215,123 @@ calculatealternateSamplingBias <- function(
 			var_bias = var_samplemean - var_mean,
 			# calculate relative bias
 			var_relativebias = var_bias/var_mean
-			)
+		)
 		# CALCULATE VARIANCE OF THE HT MEAN
-		temp <- X %>% merge(A[[i]], by=grouping.variables)
-		temp$var_varHT_i <- 
-				(
-					# HT mean
-					eval(
-						parse(
-							text=paste(
-								"temp$",
-								variables[i],
-								"_", 
-								statistics[1], 
-								"_observed",
-								sep=""
-							)
-						)
-					) - 
-					# mean of the HT means 
-					temp$var_samplemean	
-				)^2
+		temp <- X %>% merge(A[[i]], by=c(grouping.variables, "N.SRSWOR.plots"))
+		temp$var_varHT_i <- (
+			# HT mean
+			eval(
+				parse(
+					text=paste(
+						"temp$",
+						variables[i],
+						"_", 
+						statistics[1], 
+						"_observed",
+						sep=""
+					)
+				)
+			) - 
+			# mean of the HT means 
+			temp$var_samplemean	
+		)^2
 		temp %<>%
-			group_by_(.dots=grouping.variables) %>%
+			group_by_(.dots=c(grouping.variables, "N.SRSWOR.plots")) %>%
 			summarise(var_varHT = sum(var_varHT_i)/length(var_varHT_i))	
-		A[[i]] %<>% merge(temp, by=grouping.variables) %>%
+		A[[i]] %<>% merge(temp, by=c(grouping.variables, "N.SRSWOR.plots"))
 		# CALCULATE MSE OF THE HT MEAN
-		A[[i]] %<>% mutate(var_MSE = var_bias^2 + var_varHT)
+		A[[i]] %<>% mutate(var_MSE = var_bias^2 + var_varHT) %>%
 		# CHANGES VARIABLE NAMES
+		setnames(
+			.,
+			"var_mean",
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				sep=""
+			)
+		) %>%
+		setnames(
+			.,
+			"var_samplemean",
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				"_samplemean",
+				sep=""
+			)
+		) %>%
+		setnames(
+			.,
+			"var_bias",
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				"_bias",
+				sep=""
+			)
+		) %>%
+		setnames(
+			.,
+			"var_relativebias",
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				"_relativebias",
+				sep=""
+			)
+		) %>%
+		setnames(
+			.,
+			"var_varHT",
+			paste(
+				variables[i],
+				"_",
+				statistics[1], 
+				"_varHT",
+				sep=""
+			)
+		) %>%
+   		setnames(
+   			.,
+   			"var_MSE",
+   			paste(
+   				variables[i],
+   				"_",
+   				statistics[1], 
+   				"_MSE",
+   				sep=""
+   			)
+   		)
+	}
+	Y <- Reduce(
+		function(x, y) merge(
+			x, y,
+			by=c(grouping.variables, "N.SRSWOR.plots")
+		),
+		A
+	)
+	nums <- sapply(Y, is.numeric)
+	Y[, nums] %<>% round(roundn)
+	summ <- X.grp %>%
+		summarise(
+			# other summary variables
+			Restricted = Restricted[1],
+			m_min = m_min[1],
+			m_max = m_max[1],
+			m_mean = m_mean[1],
+			m_var = m_var[1],
+			n_Species_Patches = n_Species_Patches[1],
+			N = N[1],
+			Plots = Plots[1]
+		) 
+	Y %<>% merge(summ)
+	return(Y)
 }
-	
-	Y <- do.call(cbind, A)
-
-	
 	
 	
 	
