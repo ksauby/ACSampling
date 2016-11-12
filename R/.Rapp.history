@@ -1,2869 +1,3316 @@
-var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var[[1]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			mutate(#
-				# bias#
-				interp(#
-					~(var[[1]] - var[[2]]), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)#
-				)#
-			)#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+Y <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[3] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+Y$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(Y$True_Value) <- paste(" (Pop. ", 1:6, ")", sep="")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rep(1:6, 3)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(Y$True_Value) <- paste(" (Pop. ", rep(1:6, 3), ")", sep="")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(Y$True_Value)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+Y <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[3] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+Y$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(Y$True_Value)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+cactus
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+paste(Y$True_Value, " (Pop. ", rep(1:6, 3), ")", sep="")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+Y <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[3] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+Y$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)#
+levels(Y$True_Value)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(Y$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(Y$True_Value)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= "~ Species",#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+Y <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[3] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+X$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)#
+levels(X$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(X$True_Value)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= "~ Species",#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+<!-- %%%%%%%%%%%%%%%%% BIAS OF THE VARIANCE %%%%%%%%%%%%%%%%%%%%%%%%% -->#
+#
+```{r echo=F, warning=F, message=F, eval=F}#
+#
+```#
+#
+`r figure_captions("variance_bias_insects_cap")` Bootstrap sampling bias estimation for the variance of *O. pusilla*, *O. stricta*, and cactus occupancy using ACS and RACS. Bias of the Horvitz Thompson variance estimator $\widehat{\text{var}}(\bar{x}_{HT})$ ("HT Mean", Equation X) is shown.#
+#
+\newpage
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+Y <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[3] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+X$True_Value %<>% round(3) %>% as.factor#
+#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= "~ Species",#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Bias of the Occupancy Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)#
+```#
+#
+`r figure_captions("variance_bias_cap")` Bootstrap sampling bias estimation for the variance of *O. pusilla*, *O. stricta*, and cactus occupancy using ACS and RACS. Bias of the Horvitz Thompson variance estimator $\widehat{\text{var}}(\bar{x}_{HT})$ ("HT Mean", Equation X) is shown.#
+#
+\newpage#
+```{r variance_bias_insects, fig.width=24, fig.height=9, echo=F, warning=F, message=F}#
+# Pusilla plot#
+x = simulation_data_var_bias %>% #
+	as.data.table %>%#
+	setnames("Pusilla_relative_var_bias", "variable.error") %>%#
+	setnames("Pusilla_mean", "true.variable") %>%#
+	setnames('N.SRSWOR.plots', "grouping.variable") %>%#
+	as.data.frame %>%#
+	filter(variable.error!=-Inf) %>%#
+	group_by(Plots, true.variable, grouping.variable, Sampling) %>%#
+	summarise(#
+		variable_error_estimate 	= mean(variable.error, na.rm=T),#
+		nsims 						= length(variable.error)#
+	)#
+pd <- position_dodge(0.1)#
+pusilla_plot = ggplot(#
+		x, #
+		aes(#
+			x 		= true.variable, #
+			y 		= variable_error_estimate, #
+			shape 	= factor(grouping.variable), #
+			group 	= factor(grouping.variable)#
+	)#
+) +#
+	geom_hline(aes(yintercept=0)) +  #
+	geom_point(alpha=0.6, size=8) + #
+	geom_line(aes(linetype=factor(grouping.variable)),#
+		na.rm=T) +#
+	guides(shape=guide_legend(title="Primary Sample Size"),#
+		linetype=guide_legend(title="Primary Sample Size")) +#
+	xlab(expression(paste("True ", italic("O. pusilla"), #
+		" Occupancy", sep=""))) +#
+	ylab(NULL) +#
+	facet_wrap(~Sampling) +#
+	#scale_x_continuous(breaks=c(0.04,0.08,0.12), limits=c(0,0.12)) +#
+	#scale_y_continuous(limits=c(-100,100)) +#
+	theme(legend.position="bottom")#
+# Stricta plot#
+x = simulation_data_var_bias %>% #
+	as.data.table %>%#
+	setnames("Stricta_relative_var_bias", "variable.error") %>%#
+	setnames("Stricta_mean", "true.variable") %>%#
+	setnames('N.SRSWOR.plots', "grouping.variable") %>%#
+	as.data.frame %>%#
+	filter(variable.error!=-Inf) %>%#
+	group_by(Plots, true.variable, grouping.variable, Sampling) %>%#
+	summarise(#
+		variable_error_estimate 	= mean(variable.error, na.rm=T),#
+		nsims 						= length(variable.error)#
+	)#
+#
+pd <- position_dodge(0.1)#
+stricta_plot = ggplot(#
+		x, #
+		aes(#
+			x 		= true.variable, #
+			y 		= variable_error_estimate, #
+			shape 	= factor(grouping.variable), #
+			group 	= factor(grouping.variable)#
+		)#
+) +#
+	geom_hline(aes(yintercept=0)) +  #
+	geom_point(alpha=0.6, size=8, na.rm=T) + #
+	geom_line(aes(linetype=factor(grouping.variable)),#
+		na.rm=T) +#
+	guides(shape=guide_legend(title="Primary Sample Size"),#
+		linetype=guide_legend(title="Primary Sample Size")) +#
+	xlab(expression(paste("True ", italic("O. stricta"), #
+		" Occupancy", sep=""))) +#
+	ylab(NULL) +#
+	facet_wrap(~Sampling) +#
+	#scale_x_continuous(breaks=c(0.05,0.1,0.15)) +#
+	theme(legend.position="bottom")#
+# Cactus Plot#
+x = simulation_data_var_bias %>% #
+	as.data.table %>%#
+	setnames("Cactus_relative_var_bias", "variable.error") %>%#
+	setnames("Cactus_mean", "true.variable") %>%#
+	setnames('N.SRSWOR.plots', "grouping.variable") %>%#
+	as.data.frame %>%#
+	filter(variable.error!=-Inf) %>%#
+	group_by(Plots, true.variable, grouping.variable, Sampling) %>%#
+	summarise(#
+		variable_error_estimate 	= mean(variable.error, na.rm=T),#
+		nsims 						= length(variable.error)#
+	)#
+pd <- position_dodge(0.1)#
+cactus_plot = ggplot(#
+	x, #
+	aes(#
+		x 		= true.variable, #
+		y 		= variable_error_estimate, #
+		shape 	= factor(grouping.variable), #
+		group 	= factor(grouping.variable)#
+	)#
+) +#
+	geom_hline(aes(yintercept=0)) +  #
+	geom_point(alpha=0.6, size=8, na.rm=T) + #
+	geom_line(aes(linetype=factor(grouping.variable)),#
+		na.rm=T) +#
+	guides(shape=guide_legend(title="Primary Sample Size"),#
+		linetype=guide_legend(title="Primary Sample Size")) +#
+	xlab("True Cactus Occupancy") +#
+	ylab("Variance Estimate of Cactus Occupancy") +#
+	facet_wrap(~Sampling) +#
+	# scale_x_continuous(breaks=c(0.08,0.16,0.24)) +#
+	theme(legend.position="bottom")#
+#
+	arrange_ggplot2(cactus_plot, pusilla_plot, stricta_plot)
+head(simulation_data_var_bias)
+unique(simulation_data_var_bias$Restricted)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulation_data_var_bias[which(simulation_data_var_bias$Restricted== "TRUE"), ]$Restricted <- "RACS"#
+simulation_data_var_bias[which(simulation_data_var_bias$Restricted== "FALSE"), ]$Restricted <- "ACS"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>%#
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="FALSE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("Restricted","n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>%#
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="FALSE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>%#
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="FALSE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("Restricted","n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)
+dim(simulation_data_var_bias)
+head(simulation_data_var_bias)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots"))
+head(X)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)
+head(X)
+dim(X)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(1,6)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)
+head(Y)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+names(Y)[5] <- "True_Value"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable"))
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+names(X)[3]
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+names(X)[4]
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(X$Species)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= "~ Species",#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+X$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)#
+levels(X$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_summary_table %>%#
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="FALSE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		MEPR_on_Stricta_mean_bias, #
+		CACA_on_Stricta_mean_bias,#
+		Old_Moth_Evidence_Stricta_mean_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("Restricted","n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+#Y <- simulation_data_summary_table %>% #
+#	filter(n.networks==5 | n.networks==20 | n.networks==40)#
+#Y$n.networks %<>% as.factor#
+#
+Y <- simulation_data_summary_table %>% #
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="RACS") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean#
+	) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y %<>% unique#
+#
+X %<>% merge(Y, by=c("Restricted", "n.networks", "N.SRSWOR.plots")) %>% mutate(Plots="HT Mean")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = expression(paste("Invasive Moth on ", italic("O. stricta"))),#
+	"b" = expression(paste("Native Moth on ", italic("O. stricta"))),#
+	"c" = expression(paste("Moth Damage on ", italic("O. stricta")))#
+)#
+X$Restricted %<>% as.factor	#
+levels(X$Restricted) <- c(#
+	"a" = "ACS", #
+	"b" = "RACS"#
+)#
+X$True_Value %<>% round(3) %>% as.factor#
+levels(X$True_Value) <- paste(levels(X$True_Value), " (Pop. ", 1:6, ")", sep="")#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Percent Relative Bias\nof the Occupancy Estimate",#
+	xlab_name			= expression(paste("True ", italic("O. stricta"), " Occupancy")#
+))
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+Y <- simulation_data_var_bias %>% #
+	filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[3] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+X$True_Value %<>% round(3) %>% as.factor#
+#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= "~ Species",#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Bias of the Occupancy Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+X$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)#
+levels(X$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>%#
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="FALSE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("Restricted","n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+#Y <- simulation_data_summary_table %>% #
+#	filter(n.networks==5 | n.networks==20 | n.networks==40)#
+#Y$n.networks %<>% as.factor#
+#
+Y <- simulation_data_summary_table %>% #
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="RACS") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean#
+	) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y %<>% unique#
+#
+X %<>% merge(Y, by=c("Restricted", "n.networks", "N.SRSWOR.plots")) %>% mutate(Plots="HT Mean")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = expression(paste("Invasive Moth on ", italic("O. stricta"))),#
+	"b" = expression(paste("Native Moth on ", italic("O. stricta"))),#
+	"c" = expression(paste("Moth Damage on ", italic("O. stricta")))#
+)#
+X$Restricted %<>% as.factor	#
+levels(X$Restricted) <- c(#
+	"a" = "ACS", #
+	"b" = "RACS"#
+)#
+X$True_Value %<>% round(3) %>% as.factor#
+levels(X$True_Value) <- paste(levels(X$True_Value), " (Pop. ", 1:6, ")", sep="")#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Percent Relative Bias\nof the Occupancy Estimate",#
+	xlab_name			= expression(paste("True ", italic("O. stricta"), " Occupancy")#
+))
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) #%>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X$True_Value %<>% round(3)
+unique(X$True_Value)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) #%>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(X$True_Value)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(X$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) #%>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+X$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)#
+levels(X$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+head(simulation_data_var_bias)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+simulation_data_mod = simdata %>%#
+as.data.table %>%#
+setnames("n.networks", "Number of Networks") %>%#
+setnames("N.SRSWOR.plots", "Primary Sample Size") %>%#
+setnames("N.ACS.plots", "Secondary Sample Size") %>%#
+setnames("N.Total.plots", "Total Sample Size") %>%#
+as.data.frame#
+#
+simulation_data_mod$`Number of Networks` %<>% as.factor#
+simulation_data_mod$`Primary Sample Size` %<>% as.factor#
+#
+simulation_data_RACS_mod = simdata_restricted %>%#
+as.data.table %>%#
+setnames("n.networks", "Number of Networks") %>%#
+setnames("N.SRSWOR.plots", "Primary Sample Size") %>%#
+setnames("N.ACS.plots", "Secondary Sample Size") %>%#
+setnames("N.Total.plots", "Total Sample Size") %>%#
+as.data.frame#
+#
+simulation_data_RACS_mod$`Number of Networks` %<>% as.factor#
+simulation_data_RACS_mod$`Primary Sample Size` %<>% as.factor#
+ACS_table = simulation_data_mod %>%#
+group_by(`Number of Networks`, `Primary Sample Size`) %>%#
+summarise(#
+	Minimum = Minimum(`Total Sample Size`),#
+	Maximum = Maximum(`Total Sample Size`),#
+	Mean = dataproc::Mean(`Total Sample Size`),#
+	Variance = Variance(`Total Sample Size`)#
+) %>%#
+	mutate(Design="ACS")#
+ACS_table$`Number of Networks` %<>% as.character %>% as.numeric#
+ACS_table$`Primary Sample Size` %<>% as.character %>% as.numeric#
+#
+RACS_table = simulation_data_RACS_mod %>%#
+group_by(`Number of Networks`, `Primary Sample Size`) %>%#
+summarise(#
+	Minimum = Minimum(`Total Sample Size`),#
+	Maximum = Maximum(`Total Sample Size`),#
+	Mean = dataproc::Mean(`Total Sample Size`),#
+	Variance = Variance(`Total Sample Size`)#
+) %>%#
+	mutate(Design="RACS")#
+RACS_table$`Number of Networks` %<>% as.character %>% as.numeric#
+RACS_table$`Primary Sample Size` %<>% as.character %>% as.numeric#
+#
+Design_results_table = rbind(ACS_table, RACS_table) %>% #
+	as.data.frame %>%#
+	setnames("Number of Networks", "n.networks") %>% #
+	filter(`Primary Sample Size`!=10)#
+Design_results_table$n.networks %<>% as.factor#
+# levels(Design_results_table$n.networks) <- 1:6#
+levels(Design_results_table$n.networks) <- c("1 (Low)", "2", "3", "4", "5", "6 (High)")#
+#
+ggplot(data=Design_results_table, aes(`Primary Sample Size`, Mean, shape=Design)) +#
+		geom_point(size=4) +#
+		geom_line(aes(y=Mean)) +#
+#		geom_ribbon(aes(ymin=Minimum, ymax=Maximum), alpha=0.1) +#
+		facet_wrap(~n.networks, ncol=6) +#
+		scale_shape_manual(values=c(19, 0)) +#
+		ylab("Total Sample Size") +#
+		guides(shape=guide_legend(title="Sampling Design")) +#
+		theme(#
+			legend.position="bottom",#
+			panel.border = element_rect(colour = "black", fill=NA, size=3),#
+			panel.background = element_rect(linetype="solid", fill="white"),#
+			strip.text = element_text(face="bold", size=24),#
+			strip.background = element_rect(fill="white", colour="black", size=3),#
+			axis.text.x = element_text(size=15)#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rmarkdown::render('Manuscript.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rmarkdown::render('Manuscript.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rmarkdown::render('Manuscript.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+temp <- simulation_data_summary_table#
+levels(temp$n.networks) <- paste(" (Pop. ", 1:6, ")", sep="")#
+#
+X <- temp %>%#
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="FALSE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Height_Stricta_mean_bias, #
+		Percent_Cover_Stricta_mean_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("Restricted","n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "bias"#
+X$variable %<>% str_sub(1,6)#
+#
+# Y <- simulation_data_summary_table %>% filter(n.networks==5 | n.networks==20 | n.networks==40)#
+# Y$n.networks %<>% as.factor#
+#
+Y <- temp %>%#
+	filter(Plots=="HT Mean") %>%#
+	#filter(Restricted=="RACS") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("Restricted", "n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+Y$True_Value <- with(Y, paste(True_Value, n.networks))#
+#
+X %<>% merge(Y, by=c("Restricted", "n.networks", "N.SRSWOR.plots")) %>% mutate(Plots="HT Mean")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Height", #
+	"b" = "Percent~Cover"#
+)#
+X$Restricted %<>% as.factor	#
+levels(X$Restricted) <- c(#
+	"a" = "ACS", #
+	"b" = "RACS"#
+)#
+#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Percent Relative Bias\nof the Occupancy Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_summary_table %>% #
+	filter(Plots=="HT Mean") %>%#
+	filter(Restricted=="RACS") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Height_Stricta_mean_bias#, #
+		#Height_Pusilla_mean_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[4] <- "Bias"#
+X$variable %<>% str_sub(8,14)#
+Y <- simulation_data_summary_table %>% #
+	filter(Plots=="HT Mean") %>%#
+	filter(Restricted=="RACS") %>%#
+	dplyr::select(#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean#, #
+		#Pusilla_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[4] <- "True_Value"#
+Y$variable %<>% str_sub(1,7)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "variable")) %>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[3] <- "Species"#
+X$Species %<>% as.factor#
+levels(X$Species) <- c(#
+	#"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+X$True_Value %<>% round(2) %>% as.factor#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= "~ Species",#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Mean Height Estimate",#
+	xlab_name			= bquote("True Cactus Occupancy")#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rmarkdown::render('Manuscript.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) #%>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+X$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)#
+levels(X$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")#
+	dataset 			= X#
+	grouping_variable 	= "N.SRSWOR.plots"#
+	x_variable			= "True_Value"#
+	y_variable			= "Bias"#
+	facet				= expression(paste("Restricted ~ Species"))#
+	legend_name 		= "Primary Sample Size"#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate"#
+	xlab_name			= bquote("True Occupancy")#
+# x_variable=variable#
+Plots <- Restricted 							<- NULL#
+grouping.variable 	<- variable_error_estimate 	<- NULL#
+pd 												<- position_dodge(0.1)#
+#
+if (is.null(y_variable)) {#
+	y_variable 		<- paste(variable, "_mean", "_bias", sep="")#
+}#
+if (is.null(x_variable)) {#
+	if (length(grep("_on_", variable)) > 0) {#
+		x_variable 	<- paste(variable, "_ratio_mean", sep="")#
+	} else {#
+		x_variable 	<- paste(variable, "_mean", sep="")#
 	}#
-	Y <- do.call(cbind, A)
-?interp
+}#
+x = dataset %>% #
+	as.data.table %>%#
+	setnames(y_variable, "y.var") %>%#
+	setnames(x_variable, "x.var") %>%#
+	setnames(grouping_variable, "group.var") %>%#
+	#setnames(variable, "x.variable") %>%#
+	as.data.frame %>%#
+	filter(y.var!=-Inf) %>%#
+	group_by(Restricted, Species, group.var, x.var)#
+#
+if (SD == TRUE) {#
+		x %<>%#
+		summarise(#
+			y.var.estimate 	= mean(y.var, na.rm=T),#
+			ymax 			= mean(y.var, na.rm=T) + #
+								sd(y.var, na.rm=T),#
+			ymin 			= mean(y.var, na.rm=T) - 									sd(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		bias_y_scale <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var), #
+				ymax 	= max(ymax)*1.05#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			aes(shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+				),#
+				alpha=0.6, #
+			size=4, #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) + #
+		geom_errorbar(#
+			aes(ymax=ymax, ymin=ymin), position = position_dodge(width = 0.9)#
+		) +#
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape=guide_legend(title=legend_name), #
+			linetype=guide_legend(title=legend_name)#
+		) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		xlab(xlab_name) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)#
+	} else {#
+		x %<>%#
+		summarise(#
+			y.var.estimate = mean(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		y_breaks <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		) +#
+		coord_trans(y=sqrt, x=identity)#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+dataset 			= X#
+	grouping_variable 	= "N.SRSWOR.plots"#
+	x_variable			= "True_Value"#
+	y_variable			= "Bias"#
+	facet				= expression(paste("Restricted ~ Species"))#
+	legend_name 		= "Primary Sample Size"#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate"#
+	xlab_name			= bquote("True Occupancy")#
+	SD=FALSE#
+	legendposition="bottom"#
+	legendcolor="black"#
+	#x_breaks, #
+	xlength=6#
+	ylength=4#
+	roundn=2#
+# x_variable=variable#
+Plots <- Restricted 							<- NULL#
+grouping.variable 	<- variable_error_estimate 	<- NULL#
+pd 												<- position_dodge(0.1)#
+#
+if (is.null(y_variable)) {#
+	y_variable 		<- paste(variable, "_mean", "_bias", sep="")#
+}#
+if (is.null(x_variable)) {#
+	if (length(grep("_on_", variable)) > 0) {#
+		x_variable 	<- paste(variable, "_ratio_mean", sep="")#
+	} else {#
+		x_variable 	<- paste(variable, "_mean", sep="")#
+	}#
+}#
+x = dataset %>% #
+	as.data.table %>%#
+	setnames(y_variable, "y.var") %>%#
+	setnames(x_variable, "x.var") %>%#
+	setnames(grouping_variable, "group.var") %>%#
+	#setnames(variable, "x.variable") %>%#
+	as.data.frame %>%#
+	filter(y.var!=-Inf) %>%#
+	group_by(Restricted, Species, group.var, x.var)#
+#
+if (SD == TRUE) {#
+		x %<>%#
+		summarise(#
+			y.var.estimate 	= mean(y.var, na.rm=T),#
+			ymax 			= mean(y.var, na.rm=T) + #
+								sd(y.var, na.rm=T),#
+			ymin 			= mean(y.var, na.rm=T) - 									sd(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		bias_y_scale <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var), #
+				ymax 	= max(ymax)*1.05#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			aes(shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+				),#
+				alpha=0.6, #
+			size=4, #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) + #
+		geom_errorbar(#
+			aes(ymax=ymax, ymin=ymin), position = position_dodge(width = 0.9)#
+		) +#
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape=guide_legend(title=legend_name), #
+			linetype=guide_legend(title=legend_name)#
+		) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		xlab(xlab_name) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)#
+	} else {#
+		x %<>%#
+		summarise(#
+			y.var.estimate = mean(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		y_breaks <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		) +#
+		coord_trans(y=sqrt, x=identity)#
+	}
+p
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+# x_variable=variable#
+Plots <- Restricted 							<- NULL#
+grouping.variable 	<- variable_error_estimate 	<- NULL#
+pd 												<- position_dodge(0.1)#
+#
+if (is.null(y_variable)) {#
+	y_variable 		<- paste(variable, "_mean", "_bias", sep="")#
+}#
+if (is.null(x_variable)) {#
+	if (length(grep("_on_", variable)) > 0) {#
+		x_variable 	<- paste(variable, "_ratio_mean", sep="")#
+	} else {#
+		x_variable 	<- paste(variable, "_mean", sep="")#
+	}#
+}#
+x = dataset %>% #
+	as.data.table %>%#
+	setnames(y_variable, "y.var") %>%#
+	setnames(x_variable, "x.var") %>%#
+	setnames(grouping_variable, "group.var") %>%#
+	#setnames(variable, "x.variable") %>%#
+	as.data.frame %>%#
+	filter(y.var!=-Inf) %>%#
+	group_by(Restricted, Species, group.var, x.var)#
+#
+if (SD == TRUE) {#
+		x %<>%#
+		summarise(#
+			y.var.estimate 	= mean(y.var, na.rm=T),#
+			ymax 			= mean(y.var, na.rm=T) + #
+								sd(y.var, na.rm=T),#
+			ymin 			= mean(y.var, na.rm=T) - 									sd(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		bias_y_scale <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var), #
+				ymax 	= max(ymax)*1.05#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			aes(shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+				),#
+				alpha=0.6, #
+			size=4, #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) + #
+		geom_errorbar(#
+			aes(ymax=ymax, ymin=ymin), position = position_dodge(width = 0.9)#
+		) +#
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape=guide_legend(title=legend_name), #
+			linetype=guide_legend(title=legend_name)#
+		) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		xlab(xlab_name) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)#
+	} else {#
+		x %<>%#
+		summarise(#
+			y.var.estimate = mean(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		y_breaks <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		) +#
+		coord_trans(y="sqrt", x="identity")#
+	}
+p
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+# x_variable=variable#
+Plots <- Restricted 							<- NULL#
+grouping.variable 	<- variable_error_estimate 	<- NULL#
+pd 												<- position_dodge(0.1)#
+#
+if (is.null(y_variable)) {#
+	y_variable 		<- paste(variable, "_mean", "_bias", sep="")#
+}#
+if (is.null(x_variable)) {#
+	if (length(grep("_on_", variable)) > 0) {#
+		x_variable 	<- paste(variable, "_ratio_mean", sep="")#
+	} else {#
+		x_variable 	<- paste(variable, "_mean", sep="")#
+	}#
+}#
+x = dataset %>% #
+	as.data.table %>%#
+	setnames(y_variable, "y.var") %>%#
+	setnames(x_variable, "x.var") %>%#
+	setnames(grouping_variable, "group.var") %>%#
+	#setnames(variable, "x.variable") %>%#
+	as.data.frame %>%#
+	filter(y.var!=-Inf) %>%#
+	group_by(Restricted, Species, group.var, x.var)#
+#
+if (SD == TRUE) {#
+		x %<>%#
+		summarise(#
+			y.var.estimate 	= mean(y.var, na.rm=T),#
+			ymax 			= mean(y.var, na.rm=T) + #
+								sd(y.var, na.rm=T),#
+			ymin 			= mean(y.var, na.rm=T) - 									sd(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		bias_y_scale <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var), #
+				ymax 	= max(ymax)*1.05#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			aes(shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+				),#
+				alpha=0.6, #
+			size=4, #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) + #
+		geom_errorbar(#
+			aes(ymax=ymax, ymin=ymin), position = position_dodge(width = 0.9)#
+		) +#
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape=guide_legend(title=legend_name), #
+			linetype=guide_legend(title=legend_name)#
+		) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		xlab(xlab_name) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)#
+	} else {#
+		x %<>%#
+		summarise(#
+			y.var.estimate = mean(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		y_breaks <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		) +#
+		coord_trans(y="sqrt"
+)
+}
+p
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		) +#
+		coord_trans(y="sqrt")
+p
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		) +#
+		coord_trans(y="sqrt", x="identity")
+sqrt(0)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		#scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		scale_y_continuous(limits=c(-100,2000)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)
+dim(x)
+head(x)
+head(X)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X_RACS <- X %>% filter(Restricted==RACS)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X_RACS <- X %>% filter(Restricted=="RACS")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+dataset 			= X_RACS#
+	grouping_variable 	= "N.SRSWOR.plots"#
+	x_variable			= "True_Value"#
+	y_variable			= "Bias"#
+	facet				= expression(paste(" ~ Species"))#
+	legend_name 		= "Primary Sample Size"#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate"#
+	xlab_name			= bquote("True Occupancy")#
+	SD=FALSE#
+	legendposition="bottom"#
+	legendcolor="black"#
+	#x_breaks, #
+	xlength=6#
+	ylength=4#
+	roundn=2#
+# x_variable=variable#
+Plots <- Restricted 							<- NULL#
+grouping.variable 	<- variable_error_estimate 	<- NULL#
+pd 												<- position_dodge(0.1)#
+#
+if (is.null(y_variable)) {#
+	y_variable 		<- paste(variable, "_mean", "_bias", sep="")#
+}#
+if (is.null(x_variable)) {#
+	if (length(grep("_on_", variable)) > 0) {#
+		x_variable 	<- paste(variable, "_ratio_mean", sep="")#
+	} else {#
+		x_variable 	<- paste(variable, "_mean", sep="")#
+	}#
+}#
+x = dataset %>% #
+	as.data.table %>%#
+	setnames(y_variable, "y.var") %>%#
+	setnames(x_variable, "x.var") %>%#
+	setnames(grouping_variable, "group.var") %>%#
+	#setnames(variable, "x.variable") %>%#
+	as.data.frame %>%#
+	filter(y.var!=-Inf) %>%#
+	group_by(Restricted, Species, group.var, x.var)#
+#
+if (SD == TRUE) {#
+		x %<>%#
+		summarise(#
+			y.var.estimate 	= mean(y.var, na.rm=T),#
+			ymax 			= mean(y.var, na.rm=T) + #
+								sd(y.var, na.rm=T),#
+			ymin 			= mean(y.var, na.rm=T) - 									sd(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		bias_y_scale <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var), #
+				ymax 	= max(ymax)*1.05#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			aes(shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+				),#
+				alpha=0.6, #
+			size=4, #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) + #
+		geom_errorbar(#
+			aes(ymax=ymax, ymin=ymin), position = position_dodge(width = 0.9)#
+		) +#
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape=guide_legend(title=legend_name), #
+			linetype=guide_legend(title=legend_name)#
+		) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		xlab(xlab_name) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)#
+	} else {#
+		x %<>%#
+		summarise(#
+			y.var.estimate = mean(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		y_breaks <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		#scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		scale_y_continuous(limits=c(-100,2000)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)
+}
+p
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+# x_variable=variable#
+Plots <- Restricted 							<- NULL#
+grouping.variable 	<- variable_error_estimate 	<- NULL#
+pd 												<- position_dodge(0.1)#
+#
+if (is.null(y_variable)) {#
+	y_variable 		<- paste(variable, "_mean", "_bias", sep="")#
+}#
+if (is.null(x_variable)) {#
+	if (length(grep("_on_", variable)) > 0) {#
+		x_variable 	<- paste(variable, "_ratio_mean", sep="")#
+	} else {#
+		x_variable 	<- paste(variable, "_mean", sep="")#
+	}#
+}#
+x = dataset %>% #
+	as.data.table %>%#
+	setnames(y_variable, "y.var") %>%#
+	setnames(x_variable, "x.var") %>%#
+	setnames(grouping_variable, "group.var") %>%#
+	#setnames(variable, "x.variable") %>%#
+	as.data.frame %>%#
+	filter(y.var!=-Inf) %>%#
+	group_by(Restricted, Species, group.var, x.var)#
+#
+if (SD == TRUE) {#
+		x %<>%#
+		summarise(#
+			y.var.estimate 	= mean(y.var, na.rm=T),#
+			ymax 			= mean(y.var, na.rm=T) + #
+								sd(y.var, na.rm=T),#
+			ymin 			= mean(y.var, na.rm=T) - 									sd(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		bias_y_scale <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var), #
+				ymax 	= max(ymax)*1.05#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			aes(shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+				),#
+				alpha=0.6, #
+			size=4, #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) + #
+		geom_errorbar(#
+			aes(ymax=ymax, ymin=ymin), position = position_dodge(width = 0.9)#
+		) +#
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T, position = position_dodge(width = 0.9)#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape=guide_legend(title=legend_name), #
+			linetype=guide_legend(title=legend_name)#
+		) +#
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +#
+		xlab(xlab_name) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		)#
+	} else {#
+		x %<>%#
+		summarise(#
+			y.var.estimate = mean(y.var, na.rm=T),#
+			nsims 			= length(y.var)#
+		)#
+		bias_y_scale <- x %>%#
+			arrange(y.var.estimate) %$%#
+			summary(y.var.estimate) %>%#
+			round(-1) %>%#
+			unique#
+		y_breaks <- seq(#
+			min(bias_y_scale), #
+			max(bias_y_scale), #
+			length.out=5#
+		) %>% round(0)#
+		p = ggplot(#
+			x, #
+			aes(#
+				x 		= x.var, #
+				y 		= y.var.estimate, #
+				shape 	= factor(group.var), #
+				group 	= factor(group.var)#
+			)#
+		) +#
+		geom_hline(aes(yintercept=0)) +  #
+		geom_point(#
+			alpha=0.75, #
+			size=8, #
+			na.rm=T#
+		) + #
+		geom_line(#
+			aes(linetype=factor(group.var)), #
+			na.rm=T#
+		) +#
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + #
+		guides(#
+			shape = guide_legend(title=legend_name), #
+			linetype = guide_legend(title=legend_name)#
+		) +#
+		xlab(xlab_name) +#
+		#scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +#
+		#scale_y_continuous(limits=c(-100,2000)) +#
+		ylab(ylab_name) +#
+		theme(#
+			legend.position=legendposition,#
+			legend.key = element_rect(colour=NA),#
+			legend.text = element_text(colour=legendcolor), ##
+			legend.title = element_text(colour=legendcolor), ##
+			panel.border = element_rect(colour = "black", fill=NA, #
+				size=3),#
+			panel.background = element_rect(linetype="solid", #
+				fill="white"),#
+			strip.text = element_text(face="bold", size=20),#
+			strip.background = element_rect(fill="white", #
+				colour="black", size=3),#
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)#
+		) +#
+		coord_trans(y="sqrt", x="identity")#
+	}
+p
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+X <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Pusilla_relative_var_bias, #
+		Stricta_relative_var_bias, #
+		Cactus_relative_var_bias#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks","N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(X)[5] <- "Bias"#
+X$variable %<>% str_sub(1,6)#
+#
+Y <- simulation_data_var_bias %>% #
+	#filter(Restricted=="TRUE") %>%#
+	dplyr::select(#
+		Restricted,#
+		n.networks,#
+		N.SRSWOR.plots, #
+		Stricta_mean, #
+		Pusilla_mean, #
+		Cactus_mean#
+	) %>%#
+	reshape2::melt(id.vars=c("n.networks", "N.SRSWOR.plots","Restricted")) %>%#
+	arrange(N.SRSWOR.plots)#
+names(Y)[5] <- "True_Value"#
+Y$variable %<>% str_sub(1,6)#
+Y %<>% unique#
+X %<>% merge(Y, by=c("n.networks","N.SRSWOR.plots", "Restricted", "variable")) #%>% mutate(Plots="HT Mean", Restricted="RACS")#
+names(X)[4] <- "Species"#
+X$Species %<>% as.factor	#
+levels(X$Species) <- c(#
+	"a" = "Cactus", #
+	"b" = expression(italic("O. pusilla")), #
+	"c" = expression(italic("O. stricta"))#
+)#
+cactus <- patch_data_summary$Cactus_mean %>% round(3)#
+stricta <- patch_data_summary$Stricta_mean %>% round(3)#
+pusilla <- patch_data_summary$Pusilla_mean %>% round(3)#
+#
+X$True_Value %<>% round(3) %>% factor(#
+	levels = c(#
+		cactus,#
+		pusilla,#
+		stricta#
+		)#
+	)#
+levels(X$True_Value) %<>% paste(" (Pop. ", rep(1:6, 4), ")", sep="")#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "Bias",#
+	facet				= expression(paste("Restricted ~ Species")),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Relative Percent Bias of the Variance Estimate",#
+	xlab_name			= bquote("True Occupancy")#
+)
+dim(simulation_data_summary_table)
+head(simulation_data_summary_table)
+simulation_data_summary_table %>% filter(Restricted=="TRUE") %$% mean(Stricta_var_bias,na.rm=T)
+simulation_data_summary_table %>% filter(Restricted=="TRUE") filter(!is.nan(Stricta_var_bias)) %$% mean(Stricta_var_bias,na.rm=T)
+simulation_data_summary_table %>% filter(Restricted=="TRUE") %>% filter(!is.nan(Stricta_var_bias)) %$% mean(Stricta_var_bias,na.rm=T)
+simulation_data_summary_table %>% filter(Restricted=="TRUE") %>% filter(!is.nan(Stricta_var_bias)) %$% Stricta_var_bias
+unique(simulation_data_summary_table$Restricted)
+simulation_data_summary_table %>% filter(Restricted=="RACS") %>% filter(!is.nan(Stricta_var_bias)) %$% mean(Stricta_var_bias,na.rm=T)
+simulation_data_summary_table %>% filter(Restricted=="RACS") %>% filter(!is.nan(Stricta_var_bias)) %$% Stricta_var_bias
+simulation_data_summary_table %>% filter(Restricted=="FALSE") %>% filter(!is.nan(Stricta_var_bias)) %$% mean(Stricta_var_bias,na.rm=T)
+simulation_data_summary_table %>% filter(Restricted=="FALSE") %>% filter(!is.nan(Height_Stricta_mean_bias)) %$% mean(Height_Stricta_mean_bias,na.rm=T)
+head(sim.6Apr16)
+head(sim.6Apr16) %>% as.data.frame
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)
+#' cactus patch realizations simulations#
+#' @param rvar Vector of variables for which ratio estimators should be used.#
+#' @param y_variable variable upon which adaptive cluster sampling criterion is based#
+#' @param patchdat patch realizations#
+#' @param simulations Number of simulations per population.#
+#' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values#
+#' @param avar Vector of variables for which abundance should be estimated.#
+#' @param ovar Vector of variables for which occupancy should be estimated.#
+#' @param SamplingDesign Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.#
+#' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' @importFrom foreach foreach #
+#' @importFrom foreach %dopar% #
+#' @importFrom foreach %:%#
+#' @export#
+#' @examples#
+#' simulations=200#
+#' nsamples=c(5,10,20,40)#
+#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, y_end = 30)#
+#' avar = NULL#
+#' ovar = c(#
+#' 	"Stricta",#
+#' 	"Pusilla",#
+#' 	"Cactus",#
+#' 	"CACA_on_Pusilla",#
+#' 	"CACA_on_Stricta",#
+#' 	"MEPR_on_Pusilla",#
+#' 	"MEPR_on_Stricta",#
+#' 	"Old_Moth_Evidence_Pusilla",#
+#' 	"Old_Moth_Evidence_Stricta"#
+#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
+#' 	# "Percent_Cover_Stricta",#
+#' 	# "Height_Pusilla",#
+#' 	# "Height_Stricta",#
+#' )		#
+#' # patchdat = cactus.realizations#
+#' # simulation_data <- sampleSpeciesPatchRealizations(patchdat, simulations, #
+#' # 	nsamples, population, avar, ovar)#
+#' # simulations=200#
+#' # #nsamples=c(75,150,225,300,350)#
+#' # simulation_data_SRSWOR <- sampleSpeciesPatchRealizations(patchdat, #
+#' # 	simulations, nsamples, population, avar, ovar)#
+#' # # save data#
+#' # write.csv(simulation_data_SRSWOR, file=paste("simulation_data_SRSWOR", #
+#' # format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))#
+#' #  write.csv(simulation_data, file=paste("simulation_data", format(Sys.time(), #
+#' # "%Y-%m-%d_%H-%M"), ".csv", sep=""))#
+#
+sampleSpeciesPatchRealizations <- function(#
+	patchdat, #
+	simulations, #
+	nsamples, #
+	avar, #
+	ovar, #
+	rvar,#
+	#ACS=TRUE, #
+	SamplingDesign=ACS,#
+	y_variable#
+) #
+{#
+	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
+	TIME 					<- Sys.time()#
+	patchdat 				%<>% arrange(n.networks, realization)#
+	var 					<- c(ovar, avar, rvar)#
+	n.patches 				<- length(unique(patchdat$n.networks))#
+	nsample.length 			<- length(nsamples)#
+	A 						<- vector("list", n.patches)#
+	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
+	oavar 					<- c(ovar, avar)#
+	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
+	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
+	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
+	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
+	# the names to assign the estimates#
+	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
+	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
+	ratio_mean_names 		<- paste(rvar, "_ratio_mean_observed", sep="")#
+	ratio_var_names 		<- paste(rvar, "_ratio_var_observed", sep="")#
+	Z = foreach (#
+		i = 1:n.patches, # for each species density#
+		.inorder = FALSE, #
+		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",#
+		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), #
+		.combine = "rbind.fill"#
+		) %:%#
+	 	foreach (#
+			j = 1:nsample.length, # for each sampling effort#
+			.combine = "rbind.fill",#
+			.inorder = FALSE#
+		) %dopar% {#
+			P 			<- patchdat %>% #
+							filter(n.networks==unique(patchdat$n.networks)[i])#
+			N 			<- dim(P)[1]#
+			n1 			<- nsamples[j]#
+			A[[i]][[j]] <- list()#
+			r 			<- (i - 1) * j + j#
+			seeds 		<- runif(simulations)#
+		    for (k in 1:simulations) {#
+				temp_seed <- seeds[k]*100000#
+				if (SamplingDesign=="ACS") {#
+					alldata <- createACS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1, #
+						y_variable=y_variable#
+					) %>% #
+						as.data.table#
+				} else if (SamplingDesign=="RACS") {#
+					alldata <- createRACS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1, #
+						y_variable=y_variable#
+					) %>% #
+						as.data.table#
+				} else {#
+					alldata <- createSRS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1#
+					) %>% #
+						as.data.table#
+				}#
+				################ SRSWOR Data, alldata #################
+				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
+				alldata_all <- alldata#
+				alldata %<>% filter(Sampling!="Edge")#
+				# datasets to apply simple mean/variance and simple ratio estimator#
+				dats <- c("SRSWOR_data", "alldata")#
+				# sample mean and variance applied to alldata, SRSWOR_data#
+				SampleMeanVar <- list()#
+				for (n in 1:length(dats)) {#
+					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
+						summarise_each(funs(#
+							mean(., na.rm=T), #
+							var(., na.rm=T)#
+						))#
+					setnames(#
+						dat,#
+						names(dat), #
+						paste(names(dat), "observed", sep="_")#
+					)#
+					dat$Plots <- dats[n]#
+					SampleMeanVar[[n]] <- dat#
+				}#
+				SampleMeanVar %<>% rbind.fill#
+				# simple ratio estimators applied to alldata, SRSWOR_data#
+				if (!(is.null(rvar))) {#
+					Ratio <- list()#
+					for (n in 1:length(dats)) {#
+						Ratio[[n]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(#
+									text=paste(#
+										dats[n], #
+										"$", #
+										rvar[l], #
+										sep=""#
+									)#
+							))#
+							z = eval(parse(#
+									text = paste(#
+										dats[n], #
+										"$",#
+										str_sub(rvar[l],-7,-1), #
+										sep=""#
+									)#
+							))#
+							m = rep(1, length(y)) # equal P(inclusion) for all#
+							Ratio[[n]]$Var1 <- R_hat(#
+								y = y,#
+								z = z,#
+								N = N,#
+								n1 = n1,#
+								m = m#
+							)#
+						 	Ratio[[n]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		z = z,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = m#
+						 	)#
+							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : #
+								dim(Ratio[[n]])[2]] <- #
+								c(#
+									paste(rvar[l], "_mean_observed", sep=""),#
+									paste(rvar[l], "_var_observed", sep="")#
+								)#
+						}#
+						Ratio[[n]] %<>% mutate(Plots = dats[n])#
+					}#
+					Ratio <- do.call(rbind.data.frame, Ratio)#
+				}		#
+				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {#
+					################ HORVITZ-THOMPSON ESTIMATORS #################
+					HT_results <- list()#
+					alldata %<>% setkey(NetworkID)#
+					# OCCUPANCY AND ABUNDANCE#
+					# summarise data for mean calculations#
+					O <- alldata %>% #
+						filter(Sampling!="Edge") %>%#
+						.[, c(#
+							oavar, #
+							"NetworkID", #
+							"m"#
+						), with=FALSE]#
+					# calculate x_HT#
+					m <- O$m#
+					HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%#
+						.[, lapply(#
+							.SD,#
+							x_HT,#
+							N	= N, #
+							n1	= n1,#
+							m	= m#
+						)]#
+					names(HT_results[[1]]) <- c(occ_abund_mean_names)#
+					# summarise data for variance calculations#
+					O_smd <- alldata %>% #
+						.[, c(#
+							paste(oavar, "_network_sum", sep=""), #
+							"NetworkID", #
+							"m"#
+						), with=FALSE] %>% #
+						filter(!(is.na(NetworkID))) %>%#
+						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
+					m <- O_smd$m#
+					# var_x_HT#
+					HT_results[[2]] <- O_smd[, paste(#
+						oavar, #
+						"_network_sum", #
+						sep=""#
+					), with=FALSE] %>%#
+						.[, lapply(#
+							.SD, #
+							var_x_HT, #
+							N 	= N, #
+							n1 	= n1, #
+							m	= m#
+						)] # this line is slow#
+					names(HT_results[[2]]) <- c(occ_abund_var_names)	#
+					# RATIO DATA#
+					if (!(is.null(rvar))) {#
+						# RATIO#
+						# summarise data for variance calculations#
+						# do I want to use summarised for everything??????????????#
+						mvals <- alldata %>%#
+							group_by(NetworkID) %>%#
+							summarise(m = m[1])#
+						R_smd <- alldata %>%#
+							filter(Sampling!="Edge") %>%#
+							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
+							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
+							merge(mvals, by="NetworkID")#
+						# summarise data for mean calculations#
+						# R <- alldata %>% #
+						#	filter(Sampling!="Edge") %>%#
+						#	.[, c(rvar, ovar, "m"), with=FALSE]#
+						HT_results[[3]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(text=paste("R_smd$", rvar[l], #
+								sep="")))#
+							z = eval(parse(text = paste("R_smd$", #
+								str_sub(rvar[l],-7,-1), sep="")))#
+							HT_results[[3]]$Var1 = R_hat(#
+								y = y,#
+								z = z,#
+								N = N, #
+								n1 = n1, #
+								m = R_smd$m#
+							)#
+						 	HT_results[[3]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		z = z,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = R_smd$m#
+						 	)#
+							names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : #
+								dim(HT_results[[3]])[2]] <- c(#
+									paste(rvar[l], "_mean_observed", sep=""),#
+									paste(rvar[l], "_var_observed", sep="")#
+								)#
+						}#
+					}#
+					# merge together			#
+					All_HT <- HT_results %>% #
+						as.data.frame %>%#
+						mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
+					# merge estimates #
+				    SampleMeanVar %<>% merge(Ratio)#
+					A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
+				}#
+				else {#
+					A[[i]][[j]][[k]] <- SampleMeanVar#
+				}#
+				# add other information#
+				A[[i]][[j]][[k]]$simulation 		= k#
+				A[[i]][[j]][[k]]$seed 				= temp_seed#
+				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1#
+				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]#
+				A[[i]][[j]][[k]]$realization 		= P$realization[1]#
+				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]#
+				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1#
+				A[[i]][[j]][[k]]$SamplingDesign 		= SamplingDesign#
+			}#
+			do.call(rbind.data.frame, A[[i]][[j]])#
+	}#
+	print(Sys.time() - TIME)#
+	return(Z)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulations <- 1200 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15#
+y_variable <- "Cactus"#
+#
+nsamples			<- c( 20, 30, 40, 75, 100) #, 150, 200)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+patchdat	= patch_data
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+avar		= NULL
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+SamplingDesign	= "SRS"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var
+n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
+	TIME 					<- Sys.time()#
+	patchdat 				%<>% arrange(n.networks, realization)#
+	var 					<- c(ovar, avar, rvar)#
+	n.patches 				<- length(unique(patchdat$n.networks))#
+	nsample.length 			<- length(nsamples)#
+	A 						<- vector("list", n.patches)
 i=1
+j=1
+k=1
+l=1
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
+oavar 					<- c(ovar, avar)#
+	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
+	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
+	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
+	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
+	# the names to assign the estimates#
+	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
+	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
+	ratio_mean_names 		<- paste(rvar, "_ratio_mean_observed", sep="")#
+	ratio_var_names 		<- paste(rvar, "_ratio_var_observed", sep="")
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)
+P 			<- patchdat %>% #
+							filter(n.networks==unique(patchdat$n.networks)[i])#
+			N 			<- dim(P)[1]#
+			n1 			<- nsamples[j]#
+			A[[i]][[j]] <- list()#
+			r 			<- (i - 1) * j + j#
+			seeds 		<- runif(simulations)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]  %>% mutate(#
-				# bias#
-				interp(#
-					~(var[[1]] - var[[2]]), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
+for (k in 1:simulations) {#
+				temp_seed <- seeds[k]*100000#
+				if (SamplingDesign=="ACS") {#
+					alldata <- createACS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1, #
+						y_variable=y_variable#
+					) %>% #
+						as.data.table#
+				} else if (SamplingDesign=="RACS") {#
+					alldata <- createRACS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1, #
+						y_variable=y_variable#
+					) %>% #
+						as.data.table#
+				} else {#
+					alldata <- createSRS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1#
+					) %>% #
+						as.data.table#
+				}#
+				################ SRSWOR Data, alldata #################
+				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
+				alldata_all <- alldata#
+				alldata %<>% filter(Sampling!="Edge")#
+				# datasets to apply simple mean/variance and simple ratio estimator#
+				dats <- c("SRSWOR_data", "alldata")#
+				# sample mean and variance applied to alldata, SRSWOR_data#
+				SampleMeanVar <- list()#
+				for (n in 1:length(dats)) {#
+					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
+						summarise_each(funs(#
+							mean(., na.rm=T), #
+							var(., na.rm=T)#
+						))#
+					setnames(#
+						dat,#
+						names(dat), #
+						paste(names(dat), "observed", sep="_")#
 					)#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-interp(#
-					~(var[[1]] - var[[2]]), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								"A[[i]]",#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								"A[[i]]",#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-interp(#
-					~(var[[1]] - var[[2]]), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								"A[[i]]$",#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								"A[[i]]$",#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)#
-				)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-interp(#
-					~(var), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								"A[[i]]$",#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						)
-)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]  %>% mutate_(#
-				# bias#
-				interp(#
-					~(var), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)#
-				)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			A[[i]]  %>% mutate_(#
-				# bias#
-				interp(#
-					~(var), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)#
-				)#
-			)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			A[[i]]  %>% mutate_(#
-				# bias#
-				interp(#
-					~(var[[1]]), #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)#
-				)#
-			)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)
-var
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			A[[i]]  %>% mutate(#
-				# bias#
-				.[, dim(.)[2] - 1] - .[, dim(.)[2]]#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-			A[[i]]  %>% mutate_(#
-				# bias#
-				interp(#
-					~var[[1]], #
-					var = #
-					c(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)		#
-						),#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								sep=""#
-							)		#
-						)#
-					)#
-				)#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-			A[[i]]  %>% mutate(#
-				.[, dim(.)[2] - 1] - .[, dim(.)[2]]#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			mutate(#
-				.[, dim(.)[2] - 1] - .[, dim(.)[2]]#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-A
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
+					dat$Plots <- dats[n]#
+					SampleMeanVar[[n]] <- dat#
+				}#
+				SampleMeanVar %<>% rbind.fill#
+				# simple ratio estimators applied to alldata, SRSWOR_data#
+				if (!(is.null(rvar))) {#
+					Ratio <- list()#
+					for (n in 1:length(dats)) {#
+						Ratio[[n]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(#
+									text=paste(#
+										dats[n], #
+										"$", #
+										rvar[l], #
+										sep=""#
+									)#
+							))#
+							z = eval(parse(#
+									text = paste(#
+										dats[n], #
+										"$",#
+										str_sub(rvar[l],-7,-1), #
+										sep=""#
+									)#
+							))#
+							m = rep(1, length(y)) # equal P(inclusion) for all#
+							Ratio[[n]]$Var1 <- R_hat(#
+								y = y,#
+								z = z,#
+								N = N,#
+								n1 = n1,#
+								m = m#
+							)#
+						 	Ratio[[n]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		z = z,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = m#
+						 	)#
+							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : #
+								dim(Ratio[[n]])[2]] <- #
+								c(#
+									paste(rvar[l], "_mean_observed", sep=""),#
+									paste(rvar[l], "_var_observed", sep="")#
+								)#
+						}#
+						Ratio[[n]] %<>% mutate(Plots = dats[n])#
+					}#
+					Ratio <- do.call(rbind.data.frame, Ratio)#
+				}		#
+				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {#
+					################ HORVITZ-THOMPSON ESTIMATORS #################
+					HT_results <- list()#
+					alldata %<>% setkey(NetworkID)#
+					# OCCUPANCY AND ABUNDANCE#
+					# summarise data for mean calculations#
+					O <- alldata %>% #
+						filter(Sampling!="Edge") %>%#
+						.[, c(#
+							oavar, #
+							"NetworkID", #
+							"m"#
+						), with=FALSE]#
+					# calculate x_HT#
+					m <- O$m#
+					HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%#
+						.[, lapply(#
+							.SD,#
+							x_HT,#
+							N	= N, #
+							n1	= n1,#
+							m	= m#
+						)]#
+					names(HT_results[[1]]) <- c(occ_abund_mean_names)#
+					# summarise data for variance calculations#
+					O_smd <- alldata %>% #
+						.[, c(#
+							paste(oavar, "_network_sum", sep=""), #
+							"NetworkID", #
+							"m"#
+						), with=FALSE] %>% #
+						filter(!(is.na(NetworkID))) %>%#
+						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
+					m <- O_smd$m#
+					# var_x_HT#
+					HT_results[[2]] <- O_smd[, paste(#
+						oavar, #
+						"_network_sum", #
+						sep=""#
+					), with=FALSE] %>%#
+						.[, lapply(#
+							.SD, #
+							var_x_HT, #
+							N 	= N, #
+							n1 	= n1, #
+							m	= m#
+						)] # this line is slow#
+					names(HT_results[[2]]) <- c(occ_abund_var_names)	#
+					# RATIO DATA#
+					if (!(is.null(rvar))) {#
+						# RATIO#
+						# summarise data for variance calculations#
+						# do I want to use summarised for everything??????????????#
+						mvals <- alldata %>%#
+							group_by(NetworkID) %>%#
+							summarise(m = m[1])#
+						R_smd <- alldata %>%#
+							filter(Sampling!="Edge") %>%#
+							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
+							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
+							merge(mvals, by="NetworkID")#
+						# summarise data for mean calculations#
+						# R <- alldata %>% #
+						#	filter(Sampling!="Edge") %>%#
+						#	.[, c(rvar, ovar, "m"), with=FALSE]#
+						HT_results[[3]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(text=paste("R_smd$", rvar[l], #
+								sep="")))#
+							z = eval(parse(text = paste("R_smd$", #
+								str_sub(rvar[l],-7,-1), sep="")))#
+							HT_results[[3]]$Var1 = R_hat(#
+								y = y,#
+								z = z,#
+								N = N, #
+								n1 = n1, #
+								m = R_smd$m#
+							)#
+						 	HT_results[[3]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		z = z,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = R_smd$m#
+						 	)#
+							names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : #
+								dim(HT_results[[3]])[2]] <- c(#
+									paste(rvar[l], "_mean_observed", sep=""),#
+									paste(rvar[l], "_var_observed", sep="")#
+								)#
+						}#
+					}#
+					# merge together			#
+					All_HT <- HT_results %>% #
+						as.data.frame %>%#
+						mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
+					# merge estimates #
+				    SampleMeanVar %<>% merge(Ratio)#
+					A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
+				}#
+				else {#
+					A[[i]][[j]][[k]] <- SampleMeanVar#
+				}#
+				# add other information#
+				A[[i]][[j]][[k]]$simulation 		= k#
+				A[[i]][[j]][[k]]$seed 				= temp_seed#
+				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1#
+				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]#
+				A[[i]][[j]][[k]]$realization 		= P$realization[1]#
+				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]#
+				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1#
+				A[[i]][[j]][[k]]$SamplingDesign 		= SamplingDesign#
 			}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Y <- do.call(cbind, A)
-Y
+if (SamplingDesign=="ACS") {#
+					alldata <- createACS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1, #
+						y_variable=y_variable#
+					) %>% #
+						as.data.table#
+				} else if (SamplingDesign=="RACS") {#
+					alldata <- createRACS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1, #
+						y_variable=y_variable#
+					) %>% #
+						as.data.table#
+				} else {#
+					alldata <- createSRS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1#
+					) %>% #
+						as.data.table#
+				}
+alldata
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-.[, dim(.)[2]]
-A[[i]][, dim(A[[i]])[2]]
+SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
+				alldata_all <- alldata#
+				alldata %<>% filter(Sampling!="Edge")
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			mutate_(#
-				.[, dim(.)[2] - 1] - .[, dim(.)[2]]#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-multipetal <- function(df, n) {#
-    varname <- paste("petal", n , sep=".")#
-    df[[varname]] <- with(df, Petal.Width * n)#
-    df#
-}
-require(dplyr)#
-data(iris)#
-iris <- tbl_df(iris)
-for(i in 2:5) {#
-    iris <- multipetal(df=iris, n=i)#
-}
-iris
-7 + 1/8
-9.25^2 - 7.125^2
-(9.25^2 - 7.125^2)^.5
-7.125/2
+dats <- c("SRSWOR_data", "alldata")#
+				# sample mean and variance applied to alldata, SRSWOR_data#
+				SampleMeanVar <- list()
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			mutate(#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)#
-	}#
-	Y <- do.call(cbind, A)
+dats
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
+for (n in 1:length(dats)) {#
+					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
+						summarise_each(funs(#
+							mean(., na.rm=T), #
+							var(., na.rm=T)#
+						))#
+					setnames(#
+						dat,#
+						names(dat), #
+						paste(names(dat), "observed", sep="_")#
 					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			mutate(#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-Y
-Y%>% as.data.frame
-0.03018137 - 0.03222222
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-		A[[i]] %<>% mutate(#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			) %>%#
-			mutate(#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"X.grp$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"X.grp$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)#
-	}#
-	Y <- do.call(cbind, A)
-warnings()
-Y'
-Y'
-Y%>% as.data.frame
-i
-i=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% mutate(#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% #
-			rowwise() %>%#
-			mutate(#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- X.grp %>%#
-			summarise_(#
-				# sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% #
-			rowwise() %>%#
-			mutate(#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]$temp <-#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% setnames(
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"bias",#
-					sep=""#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# calculate sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# save true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-		# calculate bias#
-		A[[i]]$temp <-#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_bias",#
-				sep=""#
-			)#
-		)#
-	}#
-	Y <- do.call(cbind, A)
-Y%>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# calculate sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# save true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-		# calculate bias#
-		A[[i]]$temp <-#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_bias",#
-				sep=""#
-			)#
-		)#
-		# calculate relative bias#
-		A[[i]]$temp <-#
-				# bias#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_bias",#
-							sep=""#
-						)#
-					)#
-				) /#
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_relativebias",#
-				sep=""#
-			)#
-		)#
-	}#
-	Y <- do.call(cbind, A)
-Y
-Y%>% as.data.frame
-head(X)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-i
-i=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# calculate sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# save true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-		# calculate bias#
-		A[[i]]$temp <-#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_bias",#
-				sep=""#
-			)#
-		)#
-		# calculate relative bias#
-		A[[i]]$temp <-#
-				# bias#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_bias",#
-							sep=""#
-						)#
-					)#
-				) /#
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_relativebias",#
-				sep=""#
-			)#
-		)#
-		# variance of the HT mean		#
-		temp <- X %>%#
-		rowwise() %>%#
-		mutate(#
-			# HT mean#
-			eval(#
-				parse(#
-					text=paste(#
-						"X$",#
-						variables[i],#
-						"_", #
-						statistics[1], #
-						"_observed",#
-						sep=""#
-					)#
-				)#
-			) - #
-			# mean of the HT means #
-			eval(#
-				parse(#
-					text=paste(#
-						"X$",#
-						variables[i],#
-						"_",#
-						statistics[1], #
-						"_samplemean",#
-						sep=""#
-					)#
-				)#
-			)	#
-		)
-head(temp)
-head(temp)%>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- X %>%#
-		merge(A[[i]], by=grouping.variables)
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- X %>%#
-		merge(A[[i]], by=grouping.variables)#
-		rowwise() %>%#
-		mutate(#
-			# HT mean#
-			eval(#
-				parse(#
-					text=paste(#
-						"X$",#
-						variables[i],#
-						"_", #
-						statistics[1], #
-						"_observed",#
-						sep=""#
-					)#
-				)#
-			) - #
-			# mean of the HT means #
-			eval(#
-				parse(#
-					text=paste(#
-						"X$",#
-						variables[i],#
-						"_",#
-						statistics[1], #
-						"_samplemean",#
-						sep=""#
-					)#
-				)#
-			)	#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- X %>%#
-		merge(A[[i]], by=grouping.variables) %>%#
-		rowwise() %>%#
-		mutate(#
-			# HT mean#
-			eval(#
-				parse(#
-					text=paste(#
-						"X$",#
-						variables[i],#
-						"_", #
-						statistics[1], #
-						"_observed",#
-						sep=""#
-					)#
-				)#
-			) - #
-			# mean of the HT means #
-			eval(#
-				parse(#
-					text=paste(#
-						"X$",#
-						variables[i],#
-						"_",#
-						statistics[1], #
-						"_samplemean",#
-						sep=""#
-					)#
-				)#
-			)	#
-		)
-head(temp)
-head(temp) %>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-paste(#
-						"X$",#
-						variables[i],#
-						"_", #
-						statistics[1], #
-						"_observed",#
-						sep=""#
-					)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-paste(#
-						"X$",#
-						variables[i],#
-						"_",#
-						statistics[1], #
-						"_samplemean",#
-						sep=""#
-					)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- X %>%#
-		merge(A[[i]], by=grouping.variables)#
-		temp %<>%#
-		rowwise() %>%#
-		mutate(#
-			# HT mean#
-			eval(#
-				parse(#
-					text=paste(#
-						"temp$",#
-						variables[i],#
-						"_", #
-						statistics[1], #
-						"_observed",#
-						sep=""#
-					)#
-				)#
-			) - #
-			# mean of the HT means #
-			eval(#
-				parse(#
-					text=paste(#
-						"temp$",#
-						variables[i],#
-						"_",#
-						statistics[1], #
-						"_samplemean",#
-						sep=""#
-					)#
-				)#
-			)
+					dat$Plots <- dats[n]#
+					SampleMeanVar[[n]] <- dat#
+				}#
+				SampleMeanVar %<>% rbind.fill
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()#
+devtools::build()#
+devtools::RCMD()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulations <- 10 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+temp_4 <- sampleSpeciesPatchRealizations(#
+	patchdat	= patch_data, #
+	simulations	= simulations, #
+	nsamples	= nsamples, #
+	#population, #
+	avar		= NULL, #
+	ovar		= ovar, #
+	rvar		= rvar,#
+	#ACS		= TRUE, #
+	SamplingDesign	= "SRS",#
+	y_variable	= y_variable#
 )
-i
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
+SamplingDesign=="RACS"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# calculate sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# save true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-		# calculate bias#
-		A[[i]]$temp <-#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_bias",#
-				sep=""#
-			)#
-		)#
-		# calculate relative bias#
-		A[[i]]$temp <-#
-				# bias#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_bias",#
-							sep=""#
-						)#
-					)#
-				) /#
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_relativebias",#
-				sep=""#
-			)#
-		)#
-		# variance of the HT mean		#
-		temp <- X %>%#
-		merge(A[[i]], by=grouping.variables)
-head(temp)
+SamplingDesign=="ACS"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %<>%#
-			rowwise() %>%#
-			mutate(#
-				# HT mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"temp$",#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# mean of the HT means #
-				eval(#
-					parse(#
-						text=paste(#
-							"temp$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				)	#
-			)
+alldata <- createSRS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1#
+					) %>% #
+						as.data.table
+str(alldata)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp$temp <- #
-				# HT mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"temp$",#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# mean of the HT means #
-				eval(#
-					parse(#
-						text=paste(#
-							"temp$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				)
-head(temp)
-0.04164176-0.03639508
-0.03639508 - 0.04164176
+SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")#
+				alldata_all <- alldata#
+				alldata %<>% filter(Sampling!="Edge")#
+				# datasets to apply simple mean/variance and simple ratio estimator#
+				dats <- c("SRSWOR_data", "alldata")
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp$temp <- #
-				(#
-					# HT mean#
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_", #
-								statistics[1], #
-								"_observed",#
-								sep=""#
-							)#
-						)#
-					) - #
-					# mean of the HT means #
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)#
-						)#
-					)	#
-				)^2
-head(temp)
+SampleMeanVar <- list()
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %<>% setnames(#
-				.,#
-				dim(.)[2], #
-				"temp_var_i"#
-			)
-head(temp)
+eval(parse(text=dats[[n]]))
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-grouping.variables
+eval(parse(text=dats[[n]]))[, oavar, with=FALSE]
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-		group_by_(.dots=grouping.variables)#
-		summarise(var_HT = sum(temp_var_i)/length(temp_var_i))
+eval(parse(text=dats[[n]]))[, oavar
+]
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-		group_by_(.dots=grouping.variables) %>%#
-		summarise(var_HT = sum(temp_var_i)/length(temp_var_i)) %>%
-head
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %<>%#
-			group_by_(.dots=grouping.variables) %>%#
-			summarise(var_HT = sum(temp_var_i)/length(temp_var_i))
-head(temp)
-dim(temp)
-temp
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% merge(temp, by=grouping.variables)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# calculate sample mean#
-				interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# save true mean#
-				interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2] - 1, #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					"_samplemean",#
-					sep=""#
-				)#
-			) %>%#
-			setnames(#
-				.,#
-				dim(.)[2], #
-				paste(#
-					variables[i],#
-					"_",#
-					statistics[1], #
-					sep=""#
-				)#
-			)#
-		# calculate bias#
-		A[[i]]$temp <-#
-				# sample mean#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_samplemean",#
-							sep=""#
-						)#
-					)#
-				) - #
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_bias",#
-				sep=""#
-			)#
-		)#
-		# calculate relative bias#
-		A[[i]]$temp <-#
-				# bias#
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							"_bias",#
-							sep=""#
-						)#
-					)#
-				) /#
-				# true mean #
-				eval(#
-					parse(#
-						text=paste(#
-							"A[[i]]$",#
-							variables[i],#
-							"_",#
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-		A[[i]] %<>% setnames(#
-			.,#
-			dim(.)[2], #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_relativebias",#
-				sep=""#
-			)#
-		)#
-		# variance of the HT mean		#
-		temp <- X %>%#
-			merge(A[[i]], by=grouping.variables)#
-		temp$temp <- #
-				(#
-					# HT mean#
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_", #
-								statistics[1], #
-								"_observed",#
-								sep=""#
-							)#
-						)#
-					) - #
-					# mean of the HT means #
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_",#
-								statistics[1], #
-								"_samplemean",#
-								sep=""#
-							)#
-						)#
-					)	#
-				)^2#
-			temp %<>% setnames(#
-				.,#
-				dim(.)[2], #
-				"temp_var_i"#
-			)#
-		temp %<>%#
-			group_by_(.dots=grouping.variables) %>%#
-			summarise(var_HT = sum(temp_var_i)/length(temp_var_i))	#
-		A[[i]] %<>% merge(temp, by=grouping.variables) %>%#
-		setnames(#
-			.,#
-			"var_HT", #
-			paste(#
-				variables[i],#
-				"_",#
-				statistics[1], #
-				"_varHT",#
-				sep=""#
-			)#
-		)
-head(A[[i]])
-dim(A[[i]])
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# calculate sample mean#
-				var_samplemean = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# save true mean#
-				var_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			)
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]$temp <- var_samplemean - var_mean
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% mutate(var_bias var_samplemean - var_mean)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% mutate(var_bias=var_samplemean - var_mean)
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% mutate(#
-			var_bias = var_samplemean - var_mean#
-			var_relativebias = var_bias/var_mean#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% mutate(#
-			var_bias = var_samplemean - var_mean,#
-			var_relativebias = var_bias/var_mean#
-			)
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- NULL#
-	X <- merge(realization_data, simulation_data, by=grouping.variables)#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=grouping.variables)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# calculate sample mean#
-				var_samplemean = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							"_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# save true mean#
-				var_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_", #
-							statistics[1], #
-							sep=""#
-						)#
-					)#
-				)#
-			) #
-		A[[i]] %<>% mutate(#
-			# calculate bias#
-			var_bias = var_samplemean - var_mean,#
-			# calculate relative bias#
-			var_relativebias = var_bias/var_mean#
-			)#
-		# CALCULATE VARIANCE OF THE HT MEAN#
-		temp <- X %>% merge(A[[i]], by=grouping.variables)
-A[[i]]
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp$temp <- #
-				(#
-					# HT mean#
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_", #
-								statistics[1], #
-								"_observed",#
-								sep=""#
-							)#
-						)#
-					) - #
-					# mean of the HT means #
-					var_samplemean#
-					)	#
-				)^2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp$temp <- #
-				(#
-					# HT mean#
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_", #
-								statistics[1], #
-								"_observed",#
-								sep=""#
-							)#
-						)#
-					) - #
-					# mean of the HT means #
-					temp$var_samplemean#
-					)	#
-				)^2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp$temp <- #
-				(#
-					# HT mean#
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_", #
-								statistics[1], #
-								"_observed",#
-								sep=""#
-							)#
-						)#
-					) - #
-					# mean of the HT means #
-					temp$var_samplemean	#
-				)^2
-head(temp)
-(0.03639508 - 0.04666667)^2
-(0.03639508 - var_samplemean)^2
-(0.03639508 - 0.04164176)^2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp$var_varHT_i <- #
-				(#
-					# HT mean#
-					eval(#
-						parse(#
-							text=paste(#
-								"temp$",#
-								variables[i],#
-								"_", #
-								statistics[1], #
-								"_observed",#
-								sep=""#
-							)#
-						)#
-					) - #
-					# mean of the HT means #
-					temp$var_samplemean	#
-				)^2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %<>%#
-			group_by_(.dots=grouping.variables) %>%#
-			summarise(var_HT = sum(var_varHT_i)/length(var_varHT_i))
-temp
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% merge(temp, by=grouping.variables)
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]$var_MSE <- var_bias^2 + var_HT
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% mutate(var_MSE = var_bias^2 + var_HT)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]]
+eval(parse(text=dats[[n]]))
+eval(parse(text=dats[[n]])) %>% str
+dats[[n]]

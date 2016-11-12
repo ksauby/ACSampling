@@ -122,12 +122,24 @@ sampleSpeciesPatchRealizations <- function(
 					) %>% 
 						as.data.table
 				}
-				################ SRSWOR Data, alldata ################
-				SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")
-				alldata_all <- alldata
-				alldata %<>% filter(Sampling!="Edge")
+				################ SRSWOR Sampling #####################
+				if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
+					# datasets to apply simple mean/variance and simple ratio estimator
+					dats <- "alldata"
+				}
+				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
+					################ SRSWOR Data, alldata ################
+					SRSWOR_data <- alldata %>% 
+						filter(Sampling=="SRSWOR") %>% 
+						as.data.table
+					alldata_all <- alldata
+					alldata %<>% filter(Sampling!="Edge") %>% 
+						as.data.table
+					
+					# datasets to apply simple mean/variance and simple ratio estimatr
+					dats <- c("SRSWOR_data", "alldata")
+				}
 				# datasets to apply simple mean/variance and simple ratio estimator
-				dats <- c("SRSWOR_data", "alldata")
 				# sample mean and variance applied to alldata, SRSWOR_data
 				SampleMeanVar <- list()
 				for (n in 1:length(dats)) {
@@ -159,7 +171,7 @@ sampleSpeciesPatchRealizations <- function(
 										sep=""
 									)
 							))
-							z = eval(parse(
+							x = eval(parse(
 									text = paste(
 										dats[n], 
 										"$",
@@ -170,14 +182,14 @@ sampleSpeciesPatchRealizations <- function(
 							m = rep(1, length(y)) # equal P(inclusion) for all
 							Ratio[[n]]$Var1 <- R_hat(
 								y = y,
-								z = z,
+								x = x,
 								N = N,
 								n1 = n1,
 								m = m
 							)
 						 	Ratio[[n]]$Var2 = var_R_hat(
 						 		y = y, 
-						 		z = z,
+						 		x = x,
 								N = N, 
 						 		n1 = n1, 
 						 		m = m
@@ -194,7 +206,7 @@ sampleSpeciesPatchRealizations <- function(
 					Ratio <- do.call(rbind.data.frame, Ratio)
 				}		
 				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
-					################ HORVITZ-THOMPSON ESTIMATORS ################
+					################ HORVITZ-THOMPSON ESTIMATORS ###############
 					HT_results <- list()
 					alldata %<>% setkey(NetworkID)
 					# OCCUPANCY AND ABUNDANCE
@@ -206,12 +218,12 @@ sampleSpeciesPatchRealizations <- function(
 							"NetworkID", 
 							"m"
 						), with=FALSE]
-					# calculate x_HT
+					# calculate y_HT
 					m <- O$m
 					HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%
 						.[, lapply(
 							.SD,
-							x_HT,
+							y_HT,
 							N	= N, 
 							n1	= n1,
 							m	= m
@@ -227,7 +239,7 @@ sampleSpeciesPatchRealizations <- function(
 						filter(!(is.na(NetworkID))) %>%
 						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
 					m <- O_smd$m
-					# var_x_HT
+					# var_y_HT
 					HT_results[[2]] <- O_smd[, paste(
 						oavar, 
 						"_network_sum", 
@@ -235,7 +247,7 @@ sampleSpeciesPatchRealizations <- function(
 					), with=FALSE] %>%
 						.[, lapply(
 							.SD, 
-							var_x_HT, 
+							var_y_HT, 
 							N 	= N, 
 							n1 	= n1, 
 							m	= m
@@ -262,18 +274,18 @@ sampleSpeciesPatchRealizations <- function(
 						for (l in 1:length(rvar)) {
 							y = eval(parse(text=paste("R_smd$", rvar[l], 
 								sep="")))
-							z = eval(parse(text = paste("R_smd$", 
+							x = eval(parse(text = paste("R_smd$", 
 								str_sub(rvar[l],-7,-1), sep="")))
 							HT_results[[3]]$Var1 = R_hat(
 								y = y,
-								z = z,
+								x = x,
 								N = N, 
 								n1 = n1, 
 								m = R_smd$m
 							)
 						 	HT_results[[3]]$Var2 = var_R_hat(
 						 		y = y, 
-						 		z = z,
+						 		x = x,
 								N = N, 
 						 		n1 = n1, 
 						 		m = R_smd$m
