@@ -75,22 +75,26 @@ calculateSamplingBias <- function(
 		for (j in 1:length(statistics)) {
 			X %<>%
 				mutate(
-					round(
-						(
-						#	(observed -
-							eval(parse(text=paste("X$", variables[i], "_", 
-								statistics[j], "_observed", sep=""))) - 
-						#	true) / 
-							eval(parse(text=paste("X$", variables[i], "_", 
-								statistics[j], sep="")))
-						) / 
+					var_observed_minus_true = 
+					#	(observed -
+						eval(parse(text=paste("X$", variables[i], "_", 
+							statistics[j], "_observed", sep=""))) - 
+					#	true) / 
+						eval(parse(text=paste("X$", variables[i], "_", 
+							statistics[j], sep=""))),
+					var_bias = round(
+						var_observed_minus_true / 
 						# true
 						eval(parse(text=paste("X$", variables[i], "_", 
 							statistics[j], sep=""))), roundn
-					)*100
+					)*100,
+					var_MSE_i = round((var_observed_minus_true^2), roundn)
 				) %>%
-				setnames(., dim(.)[2], paste(variables[i], "_", statistics[j], 
-					"_bias", sep=""))
+				setnames(., "var_bias", paste(variables[i], "_", statistics[j], 
+					"_bias", sep="")) %>%
+				setnames(., "var_MSE_i", paste(variables[i], "_", statistics[j], 
+					"_MSE_i", sep=""))
+					
 			}
 	}
 	if (!(is.null(rvar))) {
@@ -98,39 +102,42 @@ calculateSamplingBias <- function(
 			for (j in 1:length(ratio.statistics)) {
 				X %<>%
 					mutate(
-						round(
-							(
-								# (observed -
-								eval(parse(text=paste(
-									"X$", 
-									rvar[i],
-								 	"_", 
-									ratio.statistics[j], 
-									"_observed", 
-									sep=""
-								))) - 
-								# true) / 
-								eval(parse(text=paste(
-									"X$", 
-									rvar[i], 
-									"_ratio_", 
-									ratio.statistics[j], 
-									sep=""
-								)))
-							) / 
-							# true
+						var_observed_minus_true = 
+							# (observed -
+							eval(parse(text=paste(
+								"X$", 
+								rvar[i],
+							 	"_", 
+								ratio.statistics[j], 
+								"_observed", 
+								sep=""
+							))) - 
+							# true) / 
 							eval(parse(text=paste(
 								"X$", 
 								rvar[i], 
 								"_ratio_", 
 								ratio.statistics[j], 
 								sep=""
-							))), roundn
-						)*100
-					
+							))),
+						var_bias = 
+							round(
+								var_observed_minus_true / 
+								# true
+								eval(parse(text=paste(
+									"X$", 
+									rvar[i], 
+									"_ratio_", 
+									ratio.statistics[j], 
+									sep=""
+								))), roundn
+							)*100,
+						var_MSE_i = round((var_observed_minus_true^2), roundn)
 					) %>%
-					setnames(., dim(.)[2], paste(rvar[i], "_", 
-						ratio.statistics[j], "_bias", sep=""))
+					setnames(., "var_bias", paste(rvar[i], "_", 
+						ratio.statistics[j], "_bias", sep="")) %>%
+					setnames(., "var_MSE_i", paste(rvar[i], "_", 
+						ratio.statistics[j], "_MSE_i", sep=""))
 				}
 		}
 	}
@@ -141,6 +148,7 @@ calculateSamplingBias <- function(
 	}
 		#X$n.networks = unique(realization_data$n.networks)[h]
 #	}
+	X %<>% dplyr::select(-var_observed_minus_true)
 	return(X)
 }
 
@@ -162,54 +170,81 @@ calculateSamplingBias <- function(
 
 
 
-calculatealternateSamplingBias <- function(
-	realization_data, 
-	simulation_data, 
+calculateMSE <- function(
+	simulation_data_summary, 
 	grouping.variables, 
 	variables, 
 	rvar,
-	statistics, 
-	ratio.statistics,
-	ACS=TRUE,
-	roundn = 6
+	statistics
 ) 
 {
 	. <- NULL
-	X <- merge(realization_data, simulation_data, by=grouping.variables)
+	variables %<>% c(rvar)
 	A <- vector("list", length(variables))
-	X.grp <- X %>% group_by_(.dots=c(grouping.variables, "N.SRSWOR.plots"))
+	X <- simulation_data_summary 
+	n_sims <- X %>% 
+		group_by_(.dots=c(grouping.variables)) %>%
+		summarise(n_sims = length(N.Total.plots))
+	X <- merge(X, n_sims, by=c(grouping.variables))
+	X.grp <- X %>% group_by_(.dots=c(grouping.variables, "n_sims"))
 	for (i in 1:length(variables)) {
 		A[[i]] <- list()
 		A[[i]] <- X.grp %>%
 			summarise_(
-				# calculate sample mean
-				var_samplemean = interp(
-					~mean(var, na.rm = TRUE), 
+				# calculate sum of MSEs
+				var_MSE_sum = interp(
+					~sum(var, na.rm = TRUE), 
 					var = 
 					as.name(
 						paste(
 							variables[i],
 							"_", 
 							statistics[1], 
-							"_observed",
-							sep=""
-						)
-					)
-				),
-				# save true mean
-				var_mean = interp(
-					~var[1], 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_", 
-							statistics[1], 
+							"_MSE_i",
 							sep=""
 						)
 					)
 				)
-			) 
+			) %>%
+			as.data.frame
+		A[[i]] %<>% 
+			mutate(var_MSE_total = var_MSE_sum/n_sims) %>%
+			setnames(
+	      		.,
+	      		"var_MSE_total",
+	      		paste(
+	      			variables[i],
+	      			"_",
+	      			statistics[1], 
+	      			"_MSE",
+	      			sep=""
+				)
+			) %>%
+			dplyr::select(-c(var_MSE_sum))
+	}	
+	Y <- Reduce(
+		function(x, y) merge(
+			x, y,
+			by=c(grouping.variables, "n_sims")
+		),
+		A
+	)				
+	return(Y)
+}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		A[[i]] %<>% mutate(
 			# calculate bias
 			var_bias = var_samplemean - var_mean,
@@ -295,26 +330,10 @@ calculatealternateSamplingBias <- function(
 				"_varHT",
 				sep=""
 			)
-		) %>%
-   		setnames(
-   			.,
-   			"var_MSE",
-   			paste(
-   				variables[i],
-   				"_",
-   				statistics[1], 
-   				"_MSE",
-   				sep=""
-   			)
+		)
    		)
 	}
-	Y <- Reduce(
-		function(x, y) merge(
-			x, y,
-			by=c(grouping.variables, "N.SRSWOR.plots")
-		),
-		A
-	)
+	
 	nums <- sapply(Y, is.numeric)
 	Y[, nums] %<>% round(roundn)
 	summ <- X.grp %>%

@@ -122,6 +122,7 @@ sampleSpeciesPatchRealizations <- function(
 					) %>% 
 						as.data.table
 				}
+				alldata_all <- alldata
 				################ SRSWOR Sampling #####################
 				if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
 					# datasets to apply simple mean/variance and simple ratio estimator
@@ -132,10 +133,8 @@ sampleSpeciesPatchRealizations <- function(
 					SRSWOR_data <- alldata %>% 
 						filter(Sampling=="SRSWOR") %>% 
 						as.data.table
-					alldata_all <- alldata
 					alldata %<>% filter(Sampling!="Edge") %>% 
 						as.data.table
-					
 					# datasets to apply simple mean/variance and simple ratio estimatr
 					dats <- c("SRSWOR_data", "alldata")
 				}
