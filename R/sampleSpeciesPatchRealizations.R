@@ -6,7 +6,7 @@
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param avar Vector of variables for which abundance should be estimated.
 #' @param ovar Vector of variables for which occupancy should be estimated.
-#' @param Restricted Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.
+#' @param SamplingDesign Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.
 #' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @importFrom foreach foreach 
@@ -55,7 +55,7 @@ sampleSpeciesPatchRealizations <- function(
 	ovar, 
 	rvar,
 	#ACS=TRUE, 
-	Restricted=FALSE,
+	SamplingDesign=ACS,
 	y_variable
 ) 
 {
@@ -75,8 +75,8 @@ sampleSpeciesPatchRealizations <- function(
 	# the names to assign the estimates
 	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")
 	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")
-	ratio_mean_names 		<- paste(rvar, "_mean_observed", sep="")
-	ratio_var_names 		<- paste(rvar, "_var_observed", sep="")
+	ratio_mean_names 		<- paste(rvar, "_ratio_mean_observed", sep="")
+	ratio_var_names 		<- paste(rvar, "_ratio_var_observed", sep="")
 	Z = foreach (
 		i = 1:n.patches, # for each species density
 		.inorder = FALSE, 
@@ -98,7 +98,7 @@ sampleSpeciesPatchRealizations <- function(
 			seeds 		<- runif(simulations)
 		    for (k in 1:simulations) {
 				temp_seed <- seeds[k]*100000
-				if (Restricted==FALSE) {
+				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
 						population=P, 
 						seed=temp_seed, 
@@ -106,12 +106,19 @@ sampleSpeciesPatchRealizations <- function(
 						y_variable=y_variable
 					) %>% 
 						as.data.table
-				} else {
+				} else if (SamplingDesign=="RACS") {
 					alldata <- createRACS(
 						population=P, 
 						seed=temp_seed, 
 						n1=n1, 
 						y_variable=y_variable
+					) %>% 
+						as.data.table
+				} else {
+					alldata <- createSRS(
+						population=P, 
+						seed=temp_seed, 
+						n1=n1
 					) %>% 
 						as.data.table
 				}
@@ -185,105 +192,110 @@ sampleSpeciesPatchRealizations <- function(
 						Ratio[[n]] %<>% mutate(Plots = dats[n])
 					}
 					Ratio <- do.call(rbind.data.frame, Ratio)
-				}				
-				################ HORVITZ-THOMPSON ESTIMATORS ################
-				HT_results <- list()
-				alldata %<>% setkey(NetworkID)
-				# OCCUPANCY AND ABUNDANCE
-				# summarise data for mean calculations
-				O <- alldata %>% 
-					filter(Sampling!="Edge") %>%
-					.[, c(
-						oavar, 
-						"NetworkID", 
-						"m"
-					), with=FALSE]
-				# calculate x_HT
-				m <- O$m
-				HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%
-					.[, lapply(
-						.SD,
-						x_HT,
-						N	= N, 
-						n1	= n1,
-						m	= m
-					)]
-				names(HT_results[[1]]) <- c(occ_abund_mean_names)
-				# summarise data for variance calculations
-				O_smd <- alldata %>% 
-					.[, c(
-						paste(oavar, "_network_sum", sep=""), 
-						"NetworkID", 
-						"m"
-					), with=FALSE] %>% 
-					filter(!(is.na(NetworkID))) %>%
-					.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
-				m <- O_smd$m
-				# var_x_HT
-				HT_results[[2]] <- O_smd[, paste(
-					oavar, 
-					"_network_sum", 
-					sep=""
-				), with=FALSE] %>%
-					.[, lapply(
-						.SD, 
-						var_x_HT, 
-						N 	= N, 
-						n1 	= n1, 
-						m	= m
-					)] # this line is slow
-				names(HT_results[[2]]) <- c(occ_abund_var_names)	
-				# RATIO DATA
-				if (!(is.null(rvar))) {
-					# RATIO
-					# summarise data for variance calculations
-					# do I want to use summarised for everything??????????????
-					mvals <- alldata %>%
-						group_by(NetworkID) %>%
-						summarise(m = m[1])
-					R_smd <- alldata %>%
-						filter(Sampling!="Edge") %>%
-						.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%
-						.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%
-						merge(mvals, by="NetworkID")
+				}		
+				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
+					################ HORVITZ-THOMPSON ESTIMATORS ################
+					HT_results <- list()
+					alldata %<>% setkey(NetworkID)
+					# OCCUPANCY AND ABUNDANCE
 					# summarise data for mean calculations
-					# R <- alldata %>% 
-					#	filter(Sampling!="Edge") %>%
-					#	.[, c(rvar, ovar, "m"), with=FALSE]
-					HT_results[[3]] <- data.frame(Var1 = NA)
-					for (l in 1:length(rvar)) {
-						y = eval(parse(text=paste("R_smd$", rvar[l], 
-							sep="")))
-						z = eval(parse(text = paste("R_smd$", 
-							str_sub(rvar[l],-7,-1), sep="")))
-						HT_results[[3]]$Var1 = R_hat(
-							y = y,
-							z = z,
-							N = N, 
-							n1 = n1, 
-							m = R_smd$m
-						)
-					 	HT_results[[3]]$Var2 = var_R_hat(
-					 		y = y, 
-					 		z = z,
-							N = N, 
-					 		n1 = n1, 
-					 		m = R_smd$m
-					 	)
-						names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : 
-							dim(HT_results[[3]])[2]] <- c(
-								paste(rvar[l], "_mean_observed", sep=""),
-								paste(rvar[l], "_var_observed", sep="")
+					O <- alldata %>% 
+						filter(Sampling!="Edge") %>%
+						.[, c(
+							oavar, 
+							"NetworkID", 
+							"m"
+						), with=FALSE]
+					# calculate x_HT
+					m <- O$m
+					HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%
+						.[, lapply(
+							.SD,
+							x_HT,
+							N	= N, 
+							n1	= n1,
+							m	= m
+						)]
+					names(HT_results[[1]]) <- c(occ_abund_mean_names)
+					# summarise data for variance calculations
+					O_smd <- alldata %>% 
+						.[, c(
+							paste(oavar, "_network_sum", sep=""), 
+							"NetworkID", 
+							"m"
+						), with=FALSE] %>% 
+						filter(!(is.na(NetworkID))) %>%
+						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
+					m <- O_smd$m
+					# var_x_HT
+					HT_results[[2]] <- O_smd[, paste(
+						oavar, 
+						"_network_sum", 
+						sep=""
+					), with=FALSE] %>%
+						.[, lapply(
+							.SD, 
+							var_x_HT, 
+							N 	= N, 
+							n1 	= n1, 
+							m	= m
+						)] # this line is slow
+					names(HT_results[[2]]) <- c(occ_abund_var_names)	
+					# RATIO DATA
+					if (!(is.null(rvar))) {
+						# RATIO
+						# summarise data for variance calculations
+						# do I want to use summarised for everything??????????????
+						mvals <- alldata %>%
+							group_by(NetworkID) %>%
+							summarise(m = m[1])
+						R_smd <- alldata %>%
+							filter(Sampling!="Edge") %>%
+							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%
+							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%
+							merge(mvals, by="NetworkID")
+						# summarise data for mean calculations
+						# R <- alldata %>% 
+						#	filter(Sampling!="Edge") %>%
+						#	.[, c(rvar, ovar, "m"), with=FALSE]
+						HT_results[[3]] <- data.frame(Var1 = NA)
+						for (l in 1:length(rvar)) {
+							y = eval(parse(text=paste("R_smd$", rvar[l], 
+								sep="")))
+							z = eval(parse(text = paste("R_smd$", 
+								str_sub(rvar[l],-7,-1), sep="")))
+							HT_results[[3]]$Var1 = R_hat(
+								y = y,
+								z = z,
+								N = N, 
+								n1 = n1, 
+								m = R_smd$m
 							)
+						 	HT_results[[3]]$Var2 = var_R_hat(
+						 		y = y, 
+						 		z = z,
+								N = N, 
+						 		n1 = n1, 
+						 		m = R_smd$m
+						 	)
+							names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : 
+								dim(HT_results[[3]])[2]] <- c(
+									paste(rvar[l], "_mean_observed", sep=""),
+									paste(rvar[l], "_var_observed", sep="")
+								)
+						}
 					}
+					# merge together			
+					All_HT <- HT_results %>% 
+						as.data.frame %>%
+						mutate(Plots = "Horvitz Thompson Mean (All Plots)")
+					# merge estimates 
+				    SampleMeanVar %<>% merge(Ratio)
+					A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)
 				}
-				# merge together			
-				All_HT <- HT_results %>% 
-					as.data.frame %>%
-					mutate(Plots = "Horvitz Thompson Mean (All Plots)")
-				# merge estimates 
-			    SampleMeanVar %<>% merge(Ratio)
-				A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)
+				else {
+					A[[i]][[j]][[k]] <- SampleMeanVar
+				}
 				# add other information
 				A[[i]][[j]][[k]]$simulation 		= k
 				A[[i]][[j]][[k]]$seed 				= temp_seed
@@ -292,7 +304,7 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$realization 		= P$realization[1]
 				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
-				A[[i]][[j]][[k]]$Restricted 		= Restricted
+				A[[i]][[j]][[k]]$SamplingDesign 		= SamplingDesign
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
