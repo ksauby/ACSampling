@@ -5,7 +5,7 @@
 \title{cactus patch realizations simulations}
 \usage{
 sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
-  rvar, Restricted = FALSE, y_variable)
+  rvar, SamplingDesign = "ACS", y_variable)
 }
 \arguments{
 \item{patchdat}{patch realizations}
@@ -20,7 +20,7 @@ sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
 
 \item{rvar}{Vector of variables for which ratio estimators should be used.}
 
-\item{Restricted}{Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.}
+\item{SamplingDesign}{Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.}
 
 \item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
 }

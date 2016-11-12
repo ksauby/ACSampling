@@ -55,7 +55,7 @@ sampleSpeciesPatchRealizations <- function(
 	ovar, 
 	rvar,
 	#ACS=TRUE, 
-	SamplingDesign=ACS,
+	SamplingDesign="ACS",
 	y_variable
 ) 
 {
