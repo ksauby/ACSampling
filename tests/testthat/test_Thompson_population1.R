@@ -1,4 +1,4 @@
-test_that("calculateSamplingBias", {
+test_that("calculateSamplingBias, bias calculation function", {
 	# PREP DATA
 	data(Thompson1990Figure1Population)
 	# calculate y_value estimates
@@ -42,6 +42,24 @@ bias %<>% round(0)
 	)
 })
 
+test_that("calculateSamplingBias, MSE_i function", {
+# sampling bias
+MSE_i <- (data$y_value_mean_observed - Thompson1990Figure1Population_summary$y_value_mean)^2
+MSE_i %<>% round(2)
+
+	expect_that(
+		calculateSamplingBias(
+			population_data_summary	= Thompson1990Figure1Population_summary, 
+			simulation_data		= data, 
+			grouping.variables	= NULL, 
+			variables			= "y_value", 
+			rvar				= NULL, 
+			statistics			= "mean", 
+			ratio.statistics	= NULL
+		) %$% y_value_mean_MSE_i,
+		equals(MSE_i)
+	)
+})
 
 
 test_that("calculateMSE", {
