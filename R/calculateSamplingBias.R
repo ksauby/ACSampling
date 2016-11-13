@@ -1,6 +1,6 @@
 #' Calculate Simulation Data Sampling Bias
 #' 
-#' @param realization_data Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
+#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
 #' @param simulation_data Simulation data on sampling of the multiple patch realizations.
 #' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
 #' @param variables Vector of variables for which sampling bias should be estimated.
@@ -58,7 +58,7 @@
 #' @export
 
 calculateSamplingBias <- function(
-	realization_data, 
+	population_data_summary, 
 	simulation_data, 
 	grouping.variables, 
 	variables, 
@@ -70,7 +70,7 @@ calculateSamplingBias <- function(
 ) 
 {
 	. <- NULL
-	X <- merge(realization_data, simulation_data, by=grouping.variables)
+	X <- merge(population_data_summary, simulation_data, by=grouping.variables)
 	for (i in 1:length(variables)) {
 		for (j in 1:length(statistics)) {
 			X %<>%
@@ -146,7 +146,7 @@ calculateSamplingBias <- function(
 	} else {
 		X$Prop.Area.Surveyed = round(with(X, N.SRSWOR.plots/N), roundn)
 	}
-		#X$n.networks = unique(realization_data$n.networks)[h]
+		#X$n.networks = unique(population_data_summary$n.networks)[h]
 #	}
 	X %<>% dplyr::select(-var_observed_minus_true)
 	return(X)

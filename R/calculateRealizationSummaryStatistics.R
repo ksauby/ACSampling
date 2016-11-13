@@ -1,6 +1,6 @@
-#' Calculate Summary Statistics for Patch Realization Data
+#' Calculate Summary Statistics for Patch Population Data
 #' 
-#' @param dataset Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchRealizations} function).
+#' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
 #' @param summary.variables Vector of variables for which summary statistics should be calculated.
 #' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
 #' @param ratio.variables Variables for which to use ratio estimators
@@ -35,10 +35,10 @@
 #' SpeciesInfo = PlotSurveys_season1
 #' start.seed=1
 #' buffer=5
-#' cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
+#' cactus.realizations <- createSpeciesPatchPopulations(x_start, x_end,
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 #' 	occupancy.variables)
-#' patch_data_summary <- calculateRealizationSummaryStatistics(cactus.realizations, 
+#' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
 #' 	summary.variables=occupancy.variables, grouping.variables=grouping.variables)
 #' patch_data_summary %<>% 
 #' 	round(3) %>% 
@@ -62,12 +62,23 @@
 #' @importFrom dplyr ungroup
 #' @importFrom stringr str_sub
 
-calculateRealizationSummaryStatistics <- function(dataset, summary.variables, ratio.variables=NULL, grouping.variables) {
+calculatePopulationSummaryStatistics <- function(
+	population_data, 
+	summary.variables, 
+	ratio.variables=NULL, 
+	grouping.variables
+) {
 	funs <- . <- m <- NetworkID <- NULL
 	# for each grouping.variables combo, calculate mean, var, sum
-	X = dataset %>%
+	X = population_data %>%
 		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%
-		dplyr::select_(.dots=lapply(c(summary.variables, ratio.variables), as.symbol)) %>% 
+		dplyr::select_(.dots=lapply(
+			c(
+				summary.variables, 
+				ratio.variables
+			), 
+			as.symbol
+		)) %>% 
 		summarise_each(
 			funs(
 				mean(., na.rm=T), 
@@ -75,6 +86,29 @@ calculateRealizationSummaryStatistics <- function(dataset, summary.variables, ra
 			)
 		) %>%
 		ungroup
+	if (length(c(summary.variables, ratio.variables)) == 1) {
+		X %<>%
+		setnames(
+			., 
+			"mean", 
+			paste(
+				c(summary.variables, ratio.variables), 
+				"_", 
+				"mean", 
+				sep=""
+			)
+		) %>%
+		setnames(
+			., 
+			"sum", 
+			paste(
+				c(summary.variables, ratio.variables), 
+				"_", 
+				"sum", 
+				sep="" 
+			)
+		)
+	} 
 	if (!(is.null(ratio.variables))) {
 		for (l in 1:length(ratio.variables)) {
 			y <- eval(parse(text=paste(
@@ -98,7 +132,7 @@ calculateRealizationSummaryStatistics <- function(dataset, summary.variables, ra
 		}
 	}
 	# for each grouping.variables combo, calculate summary statistics for m and number of species patches
-	Y = dataset %>%
+	Y = population_data %>%
 		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%
 		summarise(m = m[1]) %>%
 		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%
@@ -111,7 +145,7 @@ calculateRealizationSummaryStatistics <- function(dataset, summary.variables, ra
 		) %>%
 		ungroup %>%
 		as.data.frame
-	Z = dataset %>%
+	Z = population_data %>%
 		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%
 		summarise(N = length(m)) %>%
 		ungroup %>%
