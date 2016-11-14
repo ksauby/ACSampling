@@ -89,3 +89,53 @@ test_that("calculateMSE", {
 		equals(MSE_values)
 	)
 })
+
+test_that("calculateRE", {
+	# ACS SAMPLING
+	# calculate y_value estimates
+	samplesizes <- data.frame(
+		seed = rep(1:6),
+		N.Total.plots = rep(seq(from=10, to=60, by=10), each=6)
+	)
+	y_value_mean_observed <- vector()
+		for (i in 1:dim(samplesizes)[1]) {
+			temp <- createACS(
+				population=Thompson1990Figure1Population, 
+				seed=samplesizes$seed[i], 
+				n1=samplesizes$N.Total.plots[i],
+				y_variable="y_value"
+			)
+			# NEED TO CHANGE MEAN
+			y_value_mean_observed[i] <- y_HT(
+				y = temp$y_value,
+				N = dim(Thompson1990Figure1Population)[1],
+				n1 = samplesizes$N.Total.plots[i],
+				m = temp$m
+			)
+		}
+	data <- cbind(samplesizes, y_value_mean_observed)
+
+	Thompson1990Figure1Population_ACS_sampling_bias <- calculateSamplingBias(
+		population_data_summary	= Thompson1990Figure1Population_summary, 
+		simulation_data		= data, 
+		grouping.variables	= NULL, 
+		variables			= "y_value", 
+		rvar				= NULL, 
+		statistics			= "mean", 
+		ratio.statistics	= NULL
+	)
+
+	MSE_ACS_values <- Thompson1990Figure1Population_ACS_sampling_bias %>%
+		group_by(N.Total.plots) %>%
+		summarise(MSE = sum(y_value_mean_MSE_i)/length(y_value_mean_MSE_i)) %$%
+		round(MSE, 5)
+
+	expect_that(
+		calculateRE(
+			MSE_ComparisonSamplingDesign = MSE_ACS_values,
+			MSE_BaselineSamplingDesign = MSE_values,
+			grouping.variables = "N.Total.plots"
+		) %$% round(y_value_mean_MSE,5),
+		equals(MSE_values)
+	)
+})

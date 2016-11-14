@@ -8,7 +8,7 @@
 #' @export
 
 calculateBiasOfVariance = function(dataset, patch_data_summary, variables, Sampling="ACS") {
-	Plots <- n.networks <- N.SRSWOR.plots <- Restricted <- funs <- . <- NULL
+	Plots <- n.networks <- N.SRSWOR.plots <- SamplingDesign <- funs <- . <- NULL
 	mean_variables 		<- paste(variables, "_mean_observed", sep="")
 	variance_variables 	<- paste(variables, "_var_observed", sep="")
 	dataset %<>% 
@@ -16,11 +16,11 @@ calculateBiasOfVariance = function(dataset, patch_data_summary, variables, Sampl
 		dplyr::select_(.dots=c(
 			"n.networks", 
 			"N.SRSWOR.plots",
-			"Restricted", 
+			"SamplingDesign", 
 			mean_variables, 
 			variance_variables
 		)) %>%
-		group_by(n.networks, N.SRSWOR.plots, Restricted) %>%
+		group_by(n.networks, N.SRSWOR.plots, SamplingDesign) %>%
 		summarise_each(
 			funs(
 				mean(., na.rm=T), 
