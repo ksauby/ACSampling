@@ -157,18 +157,15 @@ calculateSamplingBias <- function(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+#' Calculate Mean Squared Error
+#' 
+#' @param simulation_data_summary Calculate Mean Squared Error (MSE).
+#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
+#' @param variables Vector of variables for which MSE should be estimated.
+#' @param rvar Variables for which to use ratio estimators
+#' @param statistics Statistics (e.g., mean and variance) for which to calculate MSE
+#' @return Dataframe including original data and MSE estimates.
+#' @export
 
 calculateMSE <- function(
 	simulation_data_summary, 
@@ -231,130 +228,66 @@ calculateMSE <- function(
 	)				
 	return(Y)
 }
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		A[[i]] %<>% mutate(
-			# calculate bias
-			var_bias = var_samplemean - var_mean,
-			# calculate relative bias
-			var_relativebias = var_bias/var_mean
-		)
-		# CALCULATE VARIANCE OF THE HT MEAN
-		temp <- X %>% merge(A[[i]], by=c(grouping.variables, "N.SRSWOR.plots"))
-		temp$var_varHT_i <- (
-			# HT mean
-			eval(
-				parse(
-					text=paste(
-						"temp$",
-						variables[i],
-						"_", 
-						statistics[1], 
-						"_observed",
-						sep=""
+
+
+
+
+
+
+#' Calculate Relative Efficiency (RE)
+#' 
+#' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
+#' @param MSE_BaselineSamplingDesign The sampling design to which the "comparison sampling design" is compared to and its efficiency, relative to this one, is calculated.
+#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
+#' @return Dataframe including original data and RE estimates.
+#' @export
+
+
+calculateRE <- function(
+	MSE_ComparisonSamplingDesign = MSE_ComparisonSamplingDesign,
+	MSE_BaselineSamplingDesign = MSE_SRSWOR,
+	grouping.variables = grouping.variables
+) {	
+	X <- merge(
+		MSE_SRSWOR, 
+		MSE_ComparisonSamplingDesign, 
+		by=grouping.variables
+	)	
+	for (i in 1:length(variables)) {
+		X %<>%
+			mutate(
+				# baseline sampling design
+				RE = eval(
+					parse(
+						text=paste(
+							"X$",
+							variables[i], 
+							"_mean_MSE.x", 
+							sep=""
+						)
+					)
+				) /
+				# comparison sampling design
+				eval(
+					parse(
+						text=paste(
+							"X$",
+							variables[i], 
+							"_mean_MSE.y", 
+							sep=""
+						)
 					)
 				)
-			) - 
-			# mean of the HT means 
-			temp$var_samplemean	
-		)^2
-		temp %<>%
-			group_by_(.dots=c(grouping.variables, "N.SRSWOR.plots")) %>%
-			summarise(var_varHT = sum(var_varHT_i)/length(var_varHT_i))	
-		A[[i]] %<>% merge(temp, by=c(grouping.variables, "N.SRSWOR.plots"))
-		# CALCULATE MSE OF THE HT MEAN
-		A[[i]] %<>% mutate(var_MSE = var_bias^2 + var_varHT) %>%
-		# CHANGES VARIABLE NAMES
-		setnames(
-			.,
-			"var_mean",
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				sep=""
-			)
-		) %>%
-		setnames(
-			.,
-			"var_samplemean",
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				"_samplemean",
-				sep=""
-			)
-		) %>%
-		setnames(
-			.,
-			"var_bias",
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				"_bias",
-				sep=""
-			)
-		) %>%
-		setnames(
-			.,
-			"var_relativebias",
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				"_relativebias",
-				sep=""
-			)
-		) %>%
-		setnames(
-			.,
-			"var_varHT",
-			paste(
-				variables[i],
-				"_",
-				statistics[1], 
-				"_varHT",
-				sep=""
-			)
-		)
-   		)
+			) %>%
+			setnames(
+				., 
+				"RE", 
+				paste(
+					variables[i], 
+					"_mean_RE", 
+					sep=""
+				)
+			)			
 	}
-	
-	nums <- sapply(Y, is.numeric)
-	Y[, nums] %<>% round(roundn)
-	summ <- X.grp %>%
-		summarise(
-			# other summary variables
-			Restricted = Restricted[1],
-			m_min = m_min[1],
-			m_max = m_max[1],
-			m_mean = m_mean[1],
-			m_var = m_var[1],
-			n_Species_Patches = n_Species_Patches[1],
-			N = N[1],
-			Plots = Plots[1]
-		) 
-	Y %<>% merge(summ)
-	return(Y)
+	return(X)
 }
-	
-	
-	
-	
-	
-	
-	

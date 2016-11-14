@@ -61,7 +61,6 @@ MSE_i %<>% round(2)
 	)
 })
 
-
 test_that("calculateMSE", {
 	Thompson1990Figure1Population_sampling_bias <- calculateSamplingBias(
 		population_data_summary	= Thompson1990Figure1Population_summary, 

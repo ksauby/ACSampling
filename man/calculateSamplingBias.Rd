@@ -4,11 +4,12 @@
 \alias{calculateSamplingBias}
 \title{Calculate Simulation Data Sampling Bias}
 \usage{
-calculateSamplingBias(realization_data, simulation_data, grouping.variables,
-  variables, rvar, statistics, ratio.statistics, ACS = TRUE, roundn = 2)
+calculateSamplingBias(population_data_summary, simulation_data,
+  grouping.variables, variables, rvar, statistics, ratio.statistics,
+  ACS = TRUE, roundn = 2)
 }
 \arguments{
-\item{realization_data}{Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).}
+\item{population_data_summary}{Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).}
 
 \item{simulation_data}{Simulation data on sampling of the multiple patch realizations.}
 
