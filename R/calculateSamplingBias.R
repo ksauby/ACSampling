@@ -69,14 +69,28 @@ calculateSamplingBias <- function(
 ) 
 {
 	. <- NULL
-	X <- merge(population_data_summary, simulation_data, by=grouping.variables)
+	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)
 	# number of simulations
 	n_sims <- X %>% 
-		group_by_(.dots=c(grouping.variables, "N.SRSWOR.plots")) %>%
+		group_by_(.dots = c(
+			population.grouping.variables, 
+			sampling.grouping.variables
+		)) %>%
 		summarise(n_sims = length(N.Total.plots))
-	X <- merge(X, n_sims, by=c(grouping.variables, "N.SRSWOR.plots"))
+	X <- merge(
+		X, 
+		n_sims, 
+		by = c(
+			population.grouping.variables, 
+			sampling.grouping.variables
+		)
+	)
 	# mean of observed means	
-	temp <- X %>% group_by_(.dots=c(grouping.variables, "N.SRSWOR.plots", "n_sims"))
+	temp <- X %>% group_by_(.dots = c(
+		population.grouping.variables, 
+		sampling.grouping.variables, 
+		"n_sims"
+	))
 	A <- vector("list", length(variables))
 	for (i in 1:length(variables)) {
 		A[[i]] <- list()
@@ -84,6 +98,17 @@ calculateSamplingBias <- function(
 			summarise_(
 				var_mean_of_observed_means = interp(
 					~mean(var, na.rm = TRUE), 
+					var = 
+					as.name(
+						paste(
+							variables[i],
+							"_mean_observed",
+							sep=""
+						)
+					)
+				),
+				var_n = interp(
+					~length(var[which(!is.na(var))]), 
 					var = 
 					as.name(
 						paste(
@@ -102,12 +127,25 @@ calculateSamplingBias <- function(
 		      		"_mean_of_observed_means",
 		      		sep=""
 				)
+			) %>%
+			setnames(
+		      	.,
+		      	"var_n",
+		      	paste(
+		      		variables[i],
+		      		"_mean_of_observed_means_n",
+		      		sep=""
+				)
 			)
 	}
 	Y <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(grouping.variables, "N.SRSWOR.plots", "n_sims")
+			by=c(
+				population.grouping.variables, 
+				sampling.grouping.variables, 
+				"n_sims"
+			)
 		),
 		A
 	)
@@ -118,6 +156,17 @@ calculateSamplingBias <- function(
 				summarise_(
 					var_mean_of_observed_means = interp(
 						~mean(var, na.rm = TRUE), 
+						var = 
+						as.name(
+							paste(
+								rvar[i],
+								"_mean_observed",
+								sep=""
+							)
+						)
+					),
+					var_n = interp(
+						~length(var[which(!is.na(var))]), 
 						var = 
 						as.name(
 							paste(
@@ -141,16 +190,32 @@ calculateSamplingBias <- function(
 		Z <- Reduce(
 			function(x, y) merge(
 				x, y,
-				by=c(grouping.variables, "N.SRSWOR.plots", "n_sims")
+				by=c(
+					population.grouping.variables, 
+					sampling.grouping.variables, 
+					"n_sims"
+				)
 			),
 			A
 		)
 		Y <- merge(
 			Y, Z,
-			by=c(grouping.variables, "N.SRSWOR.plots", "n_sims")
+			by=c(
+				population.grouping.variables, 
+				sampling.grouping.variables, 
+				"n_sims"
+			)
 		)
 	}
-	X <- merge(X, Y, by=c(grouping.variables, "N.SRSWOR.plots", "n_sims"))
+	X <- merge(
+		X, 
+		Y, 
+		by=c(
+			population.grouping.variables, 
+			sampling.grouping.variables,
+			"n_sims"
+		)
+	)
 	# calculate squared differences for each simulation and variable
 	for (i in 1:length(variables)) {
 		for (j in 1:length(statistics)) {
@@ -313,7 +378,11 @@ calculateSamplingBias <- function(
 	}
 	# calculate bias and MSE
 	A <- vector("list", length(variables))
-	X.grp <- X %>% group_by_(.dots=c(grouping.variables, "N.SRSWOR.plots", "n_sims"))
+	X.grp <- X %>% group_by_(.dots=c(
+		population.grouping.variables, 
+		sampling.grouping.variables, 
+		"n_sims"
+	))
 	for (i in 1:length(variables)) {
 		A[[i]] <- list()
 		A[[i]] <- X.grp %>%
@@ -393,6 +462,15 @@ calculateSamplingBias <- function(
 				) %>%
 				setnames(
 		      		.,
+		      		"var_true_mean",
+		      		paste(
+		      			variables[i],
+		      			"_true_mean",
+		      			sep=""
+					)
+				) %>%
+				setnames(
+		      		.,
 		      		"var_RB",
 		      		paste(
 		      			variables[i],
@@ -419,7 +497,6 @@ calculateSamplingBias <- function(
 					)
 				) %>%
 				dplyr::select(-c(
-					var_true_mean,
 					var_mean_of_observed_means,
 					var_sum_of_observed_minus_true_sqrd,
 					var_mean_of_var_estimates,
@@ -429,7 +506,11 @@ calculateSamplingBias <- function(
 	Y <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(grouping.variables, "N.SRSWOR.plots", "n_sims")
+			by=c(
+				population.grouping.variables, 
+				sampling.grouping.variables, 
+				"n_sims"
+			)
 		),
 		A
 	)
@@ -437,8 +518,22 @@ calculateSamplingBias <- function(
 	return(X)
 }
 	
+# mean total sample size
 	
 	
+	
+ggplot(
+	Y, 
+	aes(
+		factor(Stricta_true_mean), 
+		Stricta_mean_RB,
+		shape=factor(N.SRSWOR.plots),
+		group=factor(N.SRSWOR.plots)
+	)
+) + 
+geom_point() +
+geom_line() +
+facet_wrap(~SamplingDesign)
 	
 	
 	
@@ -610,7 +705,7 @@ calculateSamplingBias <- function(
 #' Calculate Mean Squared Error
 #' 
 #' @param simulation_data_summary Calculate Mean Squared Error (MSE).
-#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
+#' @param c(population.grouping.variables, sampling.grouping.variables) Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
 #' @param variables Vector of variables for which MSE should be estimated.
 #' @param rvar Variables for which to use ratio estimators
 #' @param statistics Statistics (e.g., mean and variance) for which to calculate MSE
@@ -701,7 +796,7 @@ calculateRE <- function(
 	X <- merge(
 		MSE_SRSWOR, 
 		MSE_ComparisonSamplingDesign, 
-		by=grouping.variables
+		by=c(population.grouping.variables, sampling.grouping.variables)
 	)	
 	for (i in 1:length(variables)) {
 		X %<>%
