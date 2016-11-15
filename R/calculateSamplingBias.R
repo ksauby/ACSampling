@@ -65,8 +65,7 @@ calculateSamplingBias <- function(
 	rvar,
 	statistics, 
 	ratio.statistics,
-	ACS=TRUE,
-	roundn = 2
+	ACS=TRUE
 ) 
 {
 	. <- NULL
@@ -82,13 +81,13 @@ calculateSamplingBias <- function(
 					#	true) / 
 						eval(parse(text=paste("X$", variables[i], "_", 
 							statistics[j], sep=""))),
-					var_bias = round(
+					var_bias = (
 						var_observed_minus_true / 
 						# true
 						eval(parse(text=paste("X$", variables[i], "_", 
-							statistics[j], sep=""))), roundn
+							statistics[j], sep="")))
 					)*100,
-					var_MSE_i = round((var_observed_minus_true^2), roundn)
+					var_MSE_i = var_observed_minus_true^2
 				) %>%
 				setnames(., "var_bias", paste(variables[i], "_", statistics[j], 
 					"_bias", sep="")) %>%
@@ -121,7 +120,7 @@ calculateSamplingBias <- function(
 								sep=""
 							))),
 						var_bias = 
-							round(
+							(
 								var_observed_minus_true / 
 								# true
 								eval(parse(text=paste(
@@ -130,9 +129,9 @@ calculateSamplingBias <- function(
 									"_ratio_", 
 									ratio.statistics[j], 
 									sep=""
-								))), roundn
+								)))
 							)*100,
-						var_MSE_i = round((var_observed_minus_true^2), roundn)
+						var_MSE_i = var_observed_minus_true^2
 					) %>%
 					setnames(., "var_bias", paste(rvar[i], "_", 
 						ratio.statistics[j], "_bias", sep="")) %>%
@@ -142,9 +141,9 @@ calculateSamplingBias <- function(
 		}
 	}
 	if (ACS==TRUE) {
-		X$Prop.Area.Surveyed = round(with(X, N.Total.plots/N), roundn)		
+		X$Prop.Area.Surveyed = with(X, N.Total.plots/N)		
 	} else {
-		X$Prop.Area.Surveyed = round(with(X, N.SRSWOR.plots/N), roundn)
+		X$Prop.Area.Surveyed = with(X, N.SRSWOR.plots/N)
 	}
 		#X$n.networks = unique(population_data_summary$n.networks)[h]
 #	}
