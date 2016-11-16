@@ -82,12 +82,11 @@ plotSimulationResults <- function(
 	roundn=2
 ) {
 	# x_variable=variable
-	Plots <- Restricted 							<- NULL
 	grouping.variable 	<- variable_error_estimate 	<- NULL
 	pd 												<- position_dodge(0.1)
 	
 	if (is.null(y_variable)) {
-		y_variable 		<- paste(variable, "_mean", "_bias", sep="")
+		y_variable 		<- paste(variable, "_mean_RB", sep="")
 	}
 	if (is.null(x_variable)) {
 		if (length(grep("_on_", variable)) > 0) {
@@ -96,62 +95,41 @@ plotSimulationResults <- function(
 			x_variable 	<- paste(variable, "_mean", sep="")
 		}
 	}
+	
+	
+	
+	
 	x = dataset %>% 
 		as.data.table %>%
-		setnames(y_variable, "y.var") %>%
-		setnames(x_variable, "x.var") %>%
-		setnames(grouping_variable, "group.var") %>%
+		setnames(y_variable, "y_variable") %>%
+		setnames(x_variable, "x_variable") %>%
+		setnames(grouping_variable, "grouping_variable") %>%
 		#setnames(variable, "x.variable") %>%
 		as.data.frame %>%
-		filter(y.var!=-Inf) %>%
-		group_by(Restricted, Species, group.var, x.var)
+		filter(y_variable!=-Inf)
 	
-	if (SD == TRUE) {
-			x %<>%
-			summarise(
-				y.var.estimate 	= mean(y.var, na.rm=T),
-				ymax 			= mean(y.var, na.rm=T) + 
-									sd(y.var, na.rm=T),
-				ymin 			= mean(y.var, na.rm=T) - 									sd(y.var, na.rm=T),
-				nsims 			= length(y.var)
-			)
-			
-			bias_y_scale <- x %>%
-				arrange(y.var.estimate) %$%
-				summary(y.var.estimate) %>%
-				round(-1) %>%
-				unique
-			bias_y_scale <- seq(
-				min(bias_y_scale), 
-				max(bias_y_scale), 
-				length.out=5
-			) %>% round(0)
-			
+				
 			p = ggplot(
 				x, 
 				aes(
-					x 		= x.var, 
-					y 		= y.var.estimate, 
-					shape 	= factor(group.var), 
-					group 	= factor(group.var), 
-					ymax 	= max(ymax)*1.05
+					x 		= factor(x_variable), 
+					y 		= y_variable, 
+					shape 	= factor(grouping_variable), 
+					group 	= factor(grouping_variable)
 				)
 			) +
 			geom_hline(aes(yintercept=0)) +  
 			geom_point(
-				aes(shape 	= factor(group.var), 
-					group 	= factor(group.var)
+				aes(shape 	= factor(grouping_variable), 
+					group 	= factor(grouping_variable)
 					),
 					alpha=0.6, 
 				size=4, 
-				na.rm=T, position = position_dodge(width = 0.9)
-			) + 
-			geom_errorbar(
-				aes(ymax=ymax, ymin=ymin), position = position_dodge(width = 0.9)
+				na.rm=T
 			) +
 			geom_line(
-				aes(linetype=factor(group.var)), 
-				na.rm=T, position = position_dodge(width = 0.9)
+				aes(linetype=factor(grouping_variable)), 
+				na.rm=T
 			) +
 			facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + 
 			guides(
@@ -175,64 +153,5 @@ plotSimulationResults <- function(
 					colour="black", size=3),
 				axis.text.x = element_text(angle=x_angle, hjust=0.9)
 			)
-		} else {
-			x %<>%
-			summarise(
-				y.var.estimate = mean(y.var, na.rm=T),
-				nsims 			= length(y.var)
-			)
-			bias_y_scale <- x %>%
-				arrange(y.var.estimate) %$%
-				summary(y.var.estimate) %>%
-				round(-1) %>%
-				unique
-			y_breaks <- seq(
-				min(bias_y_scale), 
-				max(bias_y_scale), 
-				length.out=5
-			) %>% round(0)
-			p = ggplot(
-				x, 
-				aes(
-					x 		= x.var, 
-					y 		= y.var.estimate, 
-					shape 	= factor(group.var), 
-					group 	= factor(group.var)
-				)
-			) +
-			geom_hline(aes(yintercept=0)) +  
-			geom_point(
-				alpha=0.75, 
-				size=8, 
-				na.rm=T
-			) + 
-			geom_line(
-				aes(linetype=factor(group.var)), 
-				na.rm=T
-			) +
-			facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + 
-			guides(
-				shape = guide_legend(title=legend_name), 
-				linetype = guide_legend(title=legend_name)
-			) +
-			xlab(xlab_name) +
-			# scale_x_continuous(breaks=x_equal_breaks(n=xlength, round.n=roundn)) +
-			#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +
-			ylab(ylab_name) +
-			theme(
-				legend.position=legendposition,
-				legend.key = element_rect(colour=NA),
-				legend.text = element_text(colour=legendcolor), #
-				legend.title = element_text(colour=legendcolor), #
-				panel.border = element_rect(colour = "black", fill=NA, 
-					size=3),
-				panel.background = element_rect(linetype="solid", 
-					fill="white"),
-				strip.text = element_text(face="bold", size=20),
-				strip.background = element_rect(fill="white", 
-					colour="black", size=3),
-				axis.text.x = element_text(angle=x_angle, hjust=0.9)
-			)
-		}
 	return(p)
 }
