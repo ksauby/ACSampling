@@ -3,7 +3,6 @@
 export(R_hat)
 export(assignNetworkMembership)
 export(calculateBiasOfVariance)
-export(calculateMSE)
 export(calculatePopulationSummaryStatistics)
 export(calculateRE)
 export(calculateSamplingBias)

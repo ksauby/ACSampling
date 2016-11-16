@@ -465,27 +465,14 @@ calculateSamplingBias <- function(
 	
 # mean total sample size
 	
-	
-	
-
-	
-	
-	
-	
-	
-	
 # FUNCTION TO SUMMARIZE SAMPLE SIZES
-	
-	
-	
-	
 # summary statistics about sample sizes
-X.grp %>%
-summarise(N.Total.plots)
-Minimum = Minimum(`Total Sample Size`),
-Maximum = Maximum(`Total Sample Size`),
-Mean = dataproc::Mean(`Total Sample Size`),
-Variance = Variance(`Total Sample Size`)
+# X.grp %>%
+# summarise(N.Total.plots)
+# Minimum = Minimum(`Total Sample Size`),
+# Maximum = Maximum(`Total Sample Size`),
+# Mean = dataproc::Mean(`Total Sample Size`),
+# Variance = Variance(`Total Sample Size`)
 	
 	
 	

@@ -5,15 +5,13 @@
 \title{Calculate Simulation Data Sampling Bias}
 \usage{
 calculateSamplingBias(population_data_summary, simulation_data,
-  grouping.variables, variables, rvar, statistics, ratio.statistics,
-  ACS = TRUE, roundn = 2)
+  population.grouping.variables, sampling.grouping.variables, variables, rvar,
+  statistics, ratio.statistics, ACS = TRUE)
 }
 \arguments{
 \item{population_data_summary}{Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).}
 
 \item{simulation_data}{Simulation data on sampling of the multiple patch realizations.}
-
-\item{grouping.variables}{Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).}
 
 \item{variables}{Vector of variables for which sampling bias should be estimated.}
 
@@ -24,6 +22,8 @@ calculateSamplingBias(population_data_summary, simulation_data,
 \item{ratio.statistics}{Statistics (e.g., mean and variance) to calculate using the ratio estimators}
 
 \item{ACS}{Adaptive cluster sampling? Defaults to \code{TRUE}.}
+
+\item{grouping.variables}{Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).}
 
 \item{roundn}{Number of decimal points to retain when calculating bias}
 }
