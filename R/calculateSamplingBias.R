@@ -463,31 +463,6 @@ calculateSamplingBias <- function(
 	return(Y)
 }
 	
-# mean total sample size
-	
-# FUNCTION TO SUMMARIZE SAMPLE SIZES
-# summary statistics about sample sizes
-# X.grp %>%
-# summarise(N.Total.plots)
-# Minimum = Minimum(`Total Sample Size`),
-# Maximum = Maximum(`Total Sample Size`),
-# Mean = dataproc::Mean(`Total Sample Size`),
-# Variance = Variance(`Total Sample Size`)
-	
-	
-	
-	
-	
-	
-
-
-
-
-
-
-
-
-
 #' Calculate Relative Efficiency (RE)
 #' 
 #' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
@@ -499,13 +474,14 @@ calculateSamplingBias <- function(
 
 calculateRE <- function(
 	MSE_ComparisonSamplingDesign = MSE_ComparisonSamplingDesign,
-	MSE_BaselineSamplingDesign = MSE_SRSWOR,
-	grouping.variables = grouping.variables
+	MSE_BaselineSamplingDesign = MSE_BaselineSamplingDesign,
+	grouping.variables = grouping.variables,
+	variables = variables
 ) {	
 	X <- merge(
-		MSE_SRSWOR, 
+		MSE_BaselineSamplingDesign, 
 		MSE_ComparisonSamplingDesign, 
-		by=c(population.grouping.variables, sampling.grouping.variables)
+		by=grouping.variables
 	)	
 	for (i in 1:length(variables)) {
 		X %<>%
