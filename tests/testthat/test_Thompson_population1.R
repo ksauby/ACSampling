@@ -121,48 +121,16 @@ test_that("calculateRE", {
 		rvar				= NULL 
 	) %>%
 	as.data.frame
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	y_value_mean_observed <- vector()
-		for (i in 1:dim(samplesizes)[1]) {
-			
-			
-		}
-	data <- cbind(samplesizes, y_value_mean_observed)
-
-	Thompson1990Figure1Population_ACS_sampling_bias <- calculateSamplingBias(
-		population_data_summary	= Thompson1990Figure1Population_summary, 
-		simulation_data		= data, 
-		grouping.variables	= NULL, 
-		variables			= "y_value", 
-		rvar				= NULL, 
-		statistics			= "mean", 
-		ratio.statistics	= NULL
-	)
-
-	MSE_ACS_values <- Thompson1990Figure1Population_ACS_sampling_bias %>%
-		group_by(N.Total.plots) %>%
-		summarise(MSE = sum(y_value_mean_MSE_i)/length(y_value_mean_MSE_i)) %$%
-		round(MSE, 5)
-
+	RE_values <- data_summary_stats$y_value_mean_MSE / 
+		ACSdata_summary_stats$y_value_mean_MSE
 	expect_that(
 		calculateRE(
-			MSE_ComparisonSamplingDesign = MSE_ACS_values,
-			MSE_BaselineSamplingDesign = MSE_values,
-			grouping.variables = "N.Total.plots"
-		) %$% round(y_value_mean_MSE,5),
-		equals(MSE_values)
+			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,
+			MSE_BaselineSamplingDesign = data_summary_stats,
+			grouping.variables = "N.Total.plots",
+			variables = "y_value"
+		) %$% y_value_mean_RE,
+		
+		equals(RE_values)
 	)
 })
