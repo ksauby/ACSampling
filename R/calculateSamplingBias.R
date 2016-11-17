@@ -2,14 +2,11 @@
 #' 
 #' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
 #' @param simulation_data Simulation data on sampling of the multiple patch realizations.
-#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
+#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)
+#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
 #' @param variables Vector of variables for which sampling bias should be estimated.
-#' @param statistics The statistics that should be used to estimate the bias.
-#' @param ACS Adaptive cluster sampling? Defaults to \code{TRUE}.
 #' @param rvar Variables for which to use ratio estimators
-#' @param ratio.statistics Statistics (e.g., mean and variance) to calculate using the ratio estimators
-#' @param roundn Number of decimal points to retain when calculating bias
-#' @return Dataframe including simulation data summary statistics, including sampling bias (difference between true population parameter and the sampling estimate).
+#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.
 #' @examples
 #' # Create realizations
 #' x_start = 1
@@ -63,10 +60,7 @@ calculateSamplingBias <- function(
 	population.grouping.variables, 
 	sampling.grouping.variables,
 	variables, 
-	rvar,
-	statistics, 
-	ratio.statistics,
-	ACS=TRUE
+	rvar
 ) 
 {
 	variables <- c(variables, rvar)
@@ -162,48 +156,41 @@ calculateSamplingBias <- function(
 	)
 	# calculate squared differences for each simulation and variable
 	for (i in 1:length(variables)) {
-		for (j in 1:length(statistics)) {
-			X %<>%
-				mutate(
-					var_observed_minus_true = 
-							# (observed -
-							eval(
-								parse(
-									text=paste(
-										"X$", 
-										variables[i], 
-										"_", 
-										statistics[j], 
-										"_observed", 
-										sep=""
-									)
-								)
-							) - 
-							# true)
-							eval(
-								parse(
-									text=paste(
-										"X$", 
-										variables[i], 
-										"_", 
-										statistics[j], 
-										sep=""
-									)
+		X %<>%
+			mutate(
+				var_observed_minus_true = 
+						# (observed -
+						eval(
+							parse(
+								text=paste(
+									"X$", 
+									variables[i], 
+									"_mean_observed", 
+									sep=""
 								)
 							)
-				) %>%
-				setnames(
-					., 
-					"var_observed_minus_true", 
-					paste(
-						variables[i], 
-						"_", 
-						statistics[j], 
-						"_observed_minus_true", 
-						sep=""
-					)
+						) - 
+						# true)
+						eval(
+							parse(
+								text=paste(
+									"X$", 
+									variables[i], 
+									"_mean", 
+									sep=""
+								)
+							)
+						)
+			) %>%
+			setnames(
+				., 
+				"var_observed_minus_true", 
+				paste(
+					variables[i], 
+					"_mean_observed_minus_true", 
+					sep=""
 				)
-		}
+			)
 	}
 	# calculate squared differences (observed - mean of observed) for each variable
 	for (i in 1:length(variables)) {
@@ -461,75 +448,4 @@ calculateSamplingBias <- function(
 	)
 #	X$Prop.Area.Surveyed = with(X, N.Total.plots/N)		
 	return(Y)
-}
-	
-#' Calculate Relative Efficiency (RE)
-#' 
-#' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
-#' @param MSE_BaselineSamplingDesign The sampling design to which the "comparison sampling design" is compared to and its efficiency, relative to this one, is calculated.
-#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
-#' @return Dataframe including original data and RE estimates.
-#' @export
-
-
-calculateRE <- function(
-	MSE_ComparisonSamplingDesign = MSE_ComparisonSamplingDesign,
-	MSE_BaselineSamplingDesign = MSE_BaselineSamplingDesign,
-	grouping.variables = grouping.variables,
-	variables = variables
-) {	
-	X <- merge(
-		MSE_BaselineSamplingDesign, 
-		MSE_ComparisonSamplingDesign, 
-		by=grouping.variables
-	)	
-	for (i in 1:length(variables)) {
-		X %<>%
-			mutate(
-				# baseline sampling design
-				RE = eval(
-					parse(
-						text=paste(
-							"X$",
-							variables[i], 
-							"_mean_MSE.x", 
-							sep=""
-						)
-					)
-				) /
-				# comparison sampling design
-				eval(
-					parse(
-						text=paste(
-							"X$",
-							variables[i], 
-							"_mean_MSE.y", 
-							sep=""
-						)
-					)
-				)
-			) %>%
-			setnames(
-				., 
-				"RE", 
-				paste(
-					variables[i], 
-					"_mean_RE", 
-					sep=""
-				)
-			) %>%
-			dplyr::select_(.dots=setdiff(names(.), c(
-				paste(
-					variables[i], 
-					"_mean_MSE.x", 
-					sep=""
-				),
-				paste(
-					variables[i], 
-					"_mean_MSE.y", 
-					sep=""
-				)
-			)))			
-	}
-	return(X)
 }
