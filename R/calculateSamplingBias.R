@@ -517,7 +517,19 @@ calculateRE <- function(
 					"_mean_RE", 
 					sep=""
 				)
-			)			
+			) %>%
+			dplyr::select_(.dots=setdiff(names(.), c(
+				paste(
+					variables[i], 
+					"_mean_MSE.x", 
+					sep=""
+				),
+				paste(
+					variables[i], 
+					"_mean_MSE.y", 
+					sep=""
+				)
+			)))			
 	}
 	return(X)
 }
