@@ -9,36 +9,47 @@
 
 calculateRE <- function(
 	MSE_ComparisonSamplingDesign = MSE_ComparisonSamplingDesign,
-	MSE_BaselineSamplingDesign = MSE_BaselineSamplingDesign,
-	grouping.variables = grouping.variables,
+	population_data = patch_data,
+	population.grouping.variables = population.grouping.variables,
+	sampling.grouping.variables = sampling.grouping.variables,
 	variables = variables
 ) {	
-	X <- merge(
-		MSE_BaselineSamplingDesign, 
-		MSE_ComparisonSamplingDesign, 
-		by=grouping.variables
-	)	
+	X <- MSE_ComparisonSamplingDesign
 	for (i in 1:length(variables)) {
-		X %<>%
+		variances <- population_data %>% 
+			group_by_(.dots=population.grouping.variables) %>% 
+			summarise_(
+				population_variance = interp(
+					~var(variable, na.rm = TRUE), 
+					variable = 
+					as.name(variables[i])
+				)
+			)
+		X %<>% 
+			merge(variances, by=population.grouping.variables) %>%
+			group_by_(.dots=c(
+				population.grouping.variables, 
+				sampling.grouping.variables
+			)) %>% 
+			summarise(
+				var_y_bar = population_variance[1]/N.Total.plots_mean[1]
+			) %>%
+			merge(
+				X,
+				by=c(
+					population.grouping.variables, 
+					sampling.grouping.variables
+				)
+			) %>%
 			mutate(
-				# baseline sampling design
-				RE = eval(
-					parse(
-						text=paste(
-							"X$",
-							variables[i], 
-							"_mean_MSE.x", 
-							sep=""
-						)
-					)
-				) /
+				RE = var_y_bar /
 				# comparison sampling design
 				eval(
 					parse(
 						text=paste(
-							"X$",
+							"temp$",
 							variables[i], 
-							"_mean_MSE.y", 
+							"_mean_MSE", 
 							sep=""
 						)
 					)
@@ -53,18 +64,7 @@ calculateRE <- function(
 					sep=""
 				)
 			) %>%
-			dplyr::select_(.dots=setdiff(names(.), c(
-				paste(
-					variables[i], 
-					"_mean_MSE.x", 
-					sep=""
-				),
-				paste(
-					variables[i], 
-					"_mean_MSE.y", 
-					sep=""
-				)
-			)))			
+			dplyr::select(-var_y_bar)
 	}
 	return(X)
 }
