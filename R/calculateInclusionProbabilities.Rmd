@@ -1,0 +1,91 @@
+#' Calculate Inclusion Probabilities Using Simulations
+#' @param patchdat patch realizations
+#' @param simulations Number of simulations per population.
+#' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
+#' @param SamplingDesign Sampling design; ACS or RACS.
+#' @param y_variable variable upon which adaptive cluster sampling criterion is based
+#' @description Calculate inclusion probabilities for each unit in a population using simulations.
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+
+#' @export
+
+calculateInclusionProbabilities <- function(
+	patchdat = patch_data_3, 
+	simulations, 
+	nsamples, 
+	#ACS=TRUE, 
+	SamplingDesign="ACS",
+	y_variable
+) 
+{
+	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
+	TIME 					<- Sys.time()
+	patchdat 				%<>% arrange(n.networks, realization)
+	n.patches 				<- length(unique(patchdat$n.networks))
+	nsample.length 			<- length(nsamples)
+	A 						<- vector("list", n.patches)
+	B = foreach (
+		i = 1:n.patches, # for each species density
+		.inorder = FALSE, 
+		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
+		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), 
+		.combine = "rbind.fill"
+		) %:%
+	 	foreach (
+			j = 1:nsample.length, # for each sampling effort
+			.combine = "rbind.fill",
+			.inorder = FALSE
+		) %dopar% {
+			P 			<- patchdat %>% 
+							filter(n.networks==unique(patchdat$n.networks)[i])
+			N 			<- dim(P)[1]
+			n1 			<- nsamples[j]
+			A[[i]][[j]] <- list()
+			r 			<- (i - 1) * j + j
+			seeds 		<- runif(simulations)
+		    for (k in 1:simulations) {
+				temp_seed <- seeds[k]*100000
+				if (SamplingDesign=="ACS") {
+					alldata <- createACS(
+						population=P, 
+						seed=temp_seed, 
+						n1=n1, 
+						y_variable=y_variable
+					) %>% 
+						as.data.table
+				} else {
+					alldata <- createRACS(
+						population=P, 
+						seed=temp_seed, 
+						n1=n1, 
+						y_variable=y_variable
+					) %>% 
+						as.data.table
+				}
+				A[[i]][[j]][[k]] <- alldata %>% 
+					filter(Sampling!="Edge") %>%
+					dplyr::select(n.networks, realization, x, y)
+				A[[i]][[j]][[k]]$simulations 		= simulations
+				A[[i]][[j]][[k]]$seed 				= temp_seed
+				A[[i]][[j]][[k]]$realization 		= P$realization[1]
+				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
+				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
+				A[[i]][[j]][[k]]$SamplingDesign 	= SamplingDesign
+			}
+			X <- do.call(rbind.data.frame, A[[i]][[j]])
+			X$coords <- with(X, paste(x,y,sep="_"))
+			# total number of cells sample per realization, n.networks, N.SRSWOR.plots and SamplingDesign
+			X %>%
+				group_by(
+					realization, 
+					n.networks, 
+					N.SRSWOR.plots, 
+					SamplingDesign,
+					simulations,
+					coords
+				) %>%
+				summarise(times_included=n())	
+	}
+	print(Sys.time() - TIME)
+	return(B)
+}
