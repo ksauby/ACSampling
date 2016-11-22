@@ -1,10 +1,10 @@
-test_that("calculateSamplingBias, bias calculation of mean and variance", {
+test_that("calculateSamplingBias, bias calculation of mean and variances", {
 	# PREP DATA
 	data(Thompson1990Figure1Population)
 	# calculate y_value estimates
 	samplesizes <- data.frame(
 		seed = 1:150,
-		N.Total.plots = rep(seq(from=130, to=280, by=30), each=25)
+		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)
 	)
 	y_value_mean_observed <- vector()
 	y_value_var_observed <- vector()
@@ -12,7 +12,7 @@ test_that("calculateSamplingBias, bias calculation of mean and variance", {
 			temp <- createSRS(
 				population=Thompson1990Figure1Population, 
 				seed=samplesizes$seed[i], 
-				n1=samplesizes$N.Total.plots[i]
+				n1=samplesizes$N.SRSWOR.plots[i]
 			)
 			y_value_mean_observed[i] <- mean(temp$y_value)
 			y_value_var_observed[i] <- var(temp$y_value)
@@ -28,23 +28,26 @@ test_that("calculateSamplingBias, bias calculation of mean and variance", {
 		)
 	# sampling bias
 	data_summary <- data %>%
-	group_by(N.Total.plots) %>%
-	summarise(
-		y_value_mean_RB = (
-			# mean of HT estimates
-			mean(y_value_mean_observed) - 
-			# mu, population mean
-			Thompson1990Figure1Population_summary$y_value_mean
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,
-		y_value_var_RB = (
-			mean(y_value_var_observed) - var(y_value_mean_observed)
-		) / var(y_value_mean_observed) * 100,
-		y_value_mean_MSE = sum((
-			y_value_mean_observed - 
-			Thompson1990Figure1Population_summary$y_value_mean
-		)^2) / length(y_value_mean_observed)
-	) %>%
-	as.data.frame
+		mutate(
+			observed_minus_true_sqd = (
+				y_value_mean_observed - 
+				Thompson1990Figure1Population_summary$y_value_mean
+		)^2) %>%
+		group_by(N.SRSWOR.plots) %>%
+		summarise(
+			y_value_mean_RB = (
+				# mean of HT estimates
+				mean(y_value_mean_observed) - 
+				# mu, population mean
+				Thompson1990Figure1Population_summary$y_value_mean
+			) / Thompson1990Figure1Population_summary$y_value_mean * 100,
+			y_value_var_RB = (
+				mean(y_value_var_observed) - var(y_value_mean_observed)
+			) / var(y_value_mean_observed) * 100,
+			y_value_mean_MSE = sum(observed_minus_true_sqd) / 
+				length(y_value_mean_observed)
+		) %>%
+		as.data.frame
 	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)
 
 	temp$y_value_mean_RB %<>% round(3)
@@ -54,7 +57,7 @@ test_that("calculateSamplingBias, bias calculation of mean and variance", {
 		population_data_summary	= Thompson1990Figure1Population_summary, 
 		simulation_data		= data, 
 		population.grouping.variables = NULL, 
-		sampling.grouping.variables	= "N.Total.plots", 
+		sampling.grouping.variables	= "N.SRSWOR.plots", 
 		variables			= "y_value", 
 		rvar				= NULL 
 	) %>%
@@ -71,12 +74,12 @@ test_that("calculateSamplingBias, bias calculation of mean and variance", {
 	)
 })
 
+
 test_that("calculateSamplingBias, MSE function", {
-
+	
 	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)
-
 	temp$y_value_mean_MSE %<>% round(3)
-
+	
 	expect_that(
 		data_summary_stats %>%
 		dplyr::select(
@@ -87,30 +90,55 @@ test_that("calculateSamplingBias, MSE function", {
 	)
 })
 
+
 test_that("calculateRE", {
 	# ACS SAMPLING
 	y_value_var_observed <- vector()
+	total_sample_size <- vector()
 	for (i in 1:dim(samplesizes)[1]) {
 		temp <- createACS(
 			population=Thompson1990Figure1Population, 
 			seed=samplesizes$seed[i], 
-			n1=samplesizes$N.Total.plots[i],
+			n1=samplesizes$N.SRSWOR.plots[i],
 			y_variable="y_value"
 		)
 		y_value_mean_observed[i] <- y_HT(
 			y = temp$y_value,
 			N = dim(Thompson1990Figure1Population)[1],
-			n1 = samplesizes$N.Total.plots[i],
+			n1 = samplesizes$N.SRSWOR.plots[i],
 			m = temp$m
 		)
 		y_value_var_observed[i] <- var_y_HT(
 			y = temp$y_value,
 			N = dim(Thompson1990Figure1Population)[1],
-			n1 = samplesizes$N.Total.plots[i],
+			n1 = samplesizes$N.SRSWOR.plots[i],
 			m = temp$m
 		)
+		total_sample_size[i] <- dim(temp)[1]
 	}
-	ACSdata <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)
+	ACSdata <- cbind(
+		samplesizes,
+		y_value_mean_observed,
+		y_value_var_observed,
+		total_sample_size
+	)
+
+
+	temp <- simdata_all %>%
+		group_by_(.dots = c(
+			population.grouping.variables, 
+			sampling.grouping.variables
+		)) %>%
+		summarise(
+			N.ACS.plots_mean = round(mean(N.ACS.plots, na.rm=T),0),
+			N.ACS.plots_var = var(N.ACS.plots, na.rm=T),
+			N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0),
+			N.Total.plots_var = var(N.Total.plots, na.rm=T)
+		)
+
+
+
+
 
 	ACSdata_summary_stats <- calculateSamplingBias(
 		population_data_summary	= Thompson1990Figure1Population_summary, 
@@ -126,8 +154,9 @@ test_that("calculateRE", {
 	expect_that(
 		calculateRE(
 			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,
-			MSE_BaselineSamplingDesign = data_summary_stats,
-			grouping.variables = "N.Total.plots",
+			population_data = Thompson1990Figure1Population,
+			population.grouping.variables = NULL,
+			sampling.grouping.variables = "N.Total.plots",
 			variables = "y_value"
 		) %$% y_value_mean_RE,
 		

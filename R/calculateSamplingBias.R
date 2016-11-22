@@ -72,7 +72,12 @@ calculateSamplingBias <- function(
 			population.grouping.variables, 
 			sampling.grouping.variables
 		)) %>%
-		summarise(n_sims = length(N.Total.plots))
+		summarise_(n_sims = length(
+			eval(parse(text=paste("X$", c(
+				population.grouping.variables, 
+				sampling.grouping.variables
+			)[1], sep=""))))
+		)
 	X <- merge(
 		X, 
 		n_sims, 
@@ -90,6 +95,7 @@ calculateSamplingBias <- function(
 	A <- vector("list", length(variables))
 	for (i in 1:length(variables)) {
 		A[[i]] <- list()
+		# observed mean
 		A[[i]] <- temp %>%
 			summarise_(
 				var_mean_of_observed_means = interp(
@@ -160,7 +166,7 @@ calculateSamplingBias <- function(
 			mutate(
 				var_observed_minus_true = 
 						# (observed -
-						eval(
+						(eval(
 							parse(
 								text=paste(
 									"X$", 
@@ -181,6 +187,7 @@ calculateSamplingBias <- function(
 								)
 							)
 						)
+				)^2
 			) %>%
 			setnames(
 				., 
@@ -278,7 +285,7 @@ calculateSamplingBias <- function(
 				),
 				# calculate sum of MSEs
 				var_sum_of_observed_minus_true_sqrd = interp(
-					~sum(var^2, na.rm = TRUE), 
+					~sum(var, na.rm = TRUE), 
 					var = 
 					as.name(
 						paste(
@@ -353,7 +360,7 @@ calculateSamplingBias <- function(
 					var_RB = 100 * 
 						(var_mean_of_observed_means - var_true_mean) / 
 						var_true_mean,
-					var_MSE = var_sum_of_observed_minus_true_sqrd/n_sims,
+					var_MSE = var_sum_of_observed_minus_true_sqrd/length(var_sum_of_observed_minus_true_sqrd),
 					var_var_RB = 100 * (var_mean_of_var_estimates - 
 						var_var_of_mean_estimates) / 
 						var_var_of_mean_estimates,
