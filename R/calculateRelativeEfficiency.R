@@ -8,13 +8,18 @@
 
 
 calculateRE <- function(
-	MSE_ComparisonSamplingDesign = MSE_ComparisonSamplingDesign,
-	population_data = patch_data,
+	MSE_ComparisonSamplingDesign,
+	population_data,
 	population.grouping.variables = population.grouping.variables,
 	sampling.grouping.variables = sampling.grouping.variables,
+	sample.size.variable = sample.size.variable,
 	variables = variables
 ) {	
+	X <- NULL
 	X <- MSE_ComparisonSamplingDesign
+	if (sample.size.variable %in% names(X)) {
+		X %<>% setnames(sample.size.variable, "sample.size.variable")
+	}
 	for (i in 1:length(variables)) {
 		variances <- population_data %>% 
 			group_by_(.dots=population.grouping.variables) %>% 
@@ -29,16 +34,18 @@ calculateRE <- function(
 			merge(variances, by=population.grouping.variables) %>%
 			group_by_(.dots=c(
 				population.grouping.variables, 
-				sampling.grouping.variables
+				sampling.grouping.variables,
+				"sample.size.variable"
 			)) %>% 
 			summarise(
-				var_y_bar = population_variance[1]/N.Total.plots_mean[1]
+				var_y_bar = population_variance[1]/sample.size.variable[1]
 			) %>%
 			merge(
 				X,
 				by=c(
 					population.grouping.variables, 
-					sampling.grouping.variables
+					sampling.grouping.variables,
+					"sample.size.variable"
 				)
 			) %>%
 			mutate(
@@ -47,7 +54,7 @@ calculateRE <- function(
 				eval(
 					parse(
 						text=paste(
-							"temp$",
+							"X$",
 							variables[i], 
 							"_mean_MSE", 
 							sep=""
@@ -66,5 +73,6 @@ calculateRE <- function(
 			) %>%
 			dplyr::select(-var_y_bar)
 	}
+	X %<>% setnames("sample.size.variable", sample.size.variable)
 	return(X)
 }

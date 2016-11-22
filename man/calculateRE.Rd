@@ -4,11 +4,10 @@
 \alias{calculateRE}
 \title{Calculate Relative Efficiency (RE)}
 \usage{
-calculateRE(MSE_ComparisonSamplingDesign = MSE_ComparisonSamplingDesign,
-  population_data = patch_data,
+calculateRE(MSE_ComparisonSamplingDesign, population_data,
   population.grouping.variables = population.grouping.variables,
   sampling.grouping.variables = sampling.grouping.variables,
-  variables = variables)
+  sample.size.variable = sample.size.variable, variables = variables)
 }
 \arguments{
 \item{MSE_ComparisonSamplingDesign}{Sampling design for which relative efficiency (RE) should be calculated.}

@@ -1,4 +1,4 @@
-test_that("calculateSamplingBias, bias calculation of mean and variances", {
+test_that("calculateSamplingBias and calculateRE", {
 	# PREP DATA
 	data(Thompson1990Figure1Population)
 	# calculate y_value estimates
@@ -70,12 +70,9 @@ test_that("calculateSamplingBias, bias calculation of mean and variances", {
 			y_value_var_RB
 		) %>%
 		round(3),
-		equals(temp)
+		equals(temp),
+		label="calculateSamplingBias, bias calculation of mean and variances"
 	)
-})
-
-
-test_that("calculateSamplingBias, MSE function", {
 	
 	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)
 	temp$y_value_mean_MSE %<>% round(3)
@@ -86,12 +83,10 @@ test_that("calculateSamplingBias, MSE function", {
 			y_value_mean_MSE
 		) %>%
 		round(3),
-		equals(temp)
+		equals(temp),
+		label="calculateSamplingBias, MSE function"
 	)
-})
 
-
-test_that("calculateRE", {
 	# ACS SAMPLING
 	y_value_var_observed <- vector()
 	total_sample_size <- vector()
@@ -124,42 +119,38 @@ test_that("calculateRE", {
 	)
 
 
-	temp <- simdata_all %>%
-		group_by_(.dots = c(
-			population.grouping.variables, 
-			sampling.grouping.variables
-		)) %>%
-		summarise(
-			N.ACS.plots_mean = round(mean(N.ACS.plots, na.rm=T),0),
-			N.ACS.plots_var = var(N.ACS.plots, na.rm=T),
-			N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0),
-			N.Total.plots_var = var(N.Total.plots, na.rm=T)
-		)
-
-
+	temp <- ACSdata %>%
+		group_by(N.SRSWOR.plots) %>%
+		summarise(mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0))
+	ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")
 
 
 
 	ACSdata_summary_stats <- calculateSamplingBias(
 		population_data_summary	= Thompson1990Figure1Population_summary, 
-		simulation_data		= ACSdata, 
+		simulation_data		= ACSdata_re, 
 		population.grouping.variables = NULL, 
-		sampling.grouping.variables	= "N.Total.plots", 
+		sampling.grouping.variables	= "mean_total_sample_size", 
 		variables			= "y_value", 
 		rvar				= NULL 
 	) %>%
 	as.data.frame
-	RE_values <- data_summary_stats$y_value_mean_MSE / 
+	
+	population_variance <- var(Thompson1990Figure1Population$y_value)
+			
+	RE_values <-  
+		(population_variance / ACSdata_summary_stats$mean_total_sample_size) / 
 		ACSdata_summary_stats$y_value_mean_MSE
 	expect_that(
 		calculateRE(
 			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,
 			population_data = Thompson1990Figure1Population,
 			population.grouping.variables = NULL,
-			sampling.grouping.variables = "N.Total.plots",
+			sampling.grouping.variables = NULL,
+			sample.size.variable = "mean_total_sample_size",
 			variables = "y_value"
 		) %$% y_value_mean_RE,
-		
-		equals(RE_values)
+		equals(RE_values),
+		label="calculateRE"
 	)
 })
