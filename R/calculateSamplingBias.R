@@ -61,7 +61,7 @@ calculateSamplingBias <- function(
 	sampling.grouping.variables,
 	variables, 
 	rvar
-) 
+)
 {
 	variables <- c(variables, rvar)
 	. <- NULL
@@ -95,7 +95,7 @@ calculateSamplingBias <- function(
 		# observed mean
 		A[[i]] <- temp %>%
 			summarise_(
-				var_mean_of_observed_means = interp(
+				mean_of_observed_means = interp(
 					~mean(var, na.rm = TRUE), 
 					var = 
 					as.name(
@@ -106,7 +106,7 @@ calculateSamplingBias <- function(
 						)
 					)
 				),
-				var_n = interp(
+				sample_size = interp(
 					~length(var[which(!is.na(var))]), 
 					var = 
 					as.name(
@@ -120,7 +120,7 @@ calculateSamplingBias <- function(
 			) %>%
 			setnames(
 		      	.,
-		      	"var_mean_of_observed_means",
+		      	"mean_of_observed_means",
 		      	paste(
 		      		variables[i],
 		      		"_mean_of_observed_means",
@@ -129,7 +129,7 @@ calculateSamplingBias <- function(
 			) %>%
 			setnames(
 		      	.,
-		      	"var_n",
+		      	"sample_size",
 		      	paste(
 		      		variables[i],
 		      		"_mean_of_observed_means_n",
@@ -161,7 +161,7 @@ calculateSamplingBias <- function(
 	for (i in 1:length(variables)) {
 		X %<>%
 			mutate(
-				var_observed_minus_true = 
+				observed_minus_true = 
 						# observed -
 						(eval(
 							parse(
@@ -196,7 +196,7 @@ calculateSamplingBias <- function(
 			) %>%
 			setnames(
 				., 
-				"var_observed_minus_true", 
+				"observed_minus_true", 
 				paste(
 					variables[i], 
 					"_mean_observed_minus_true", 
@@ -208,7 +208,7 @@ calculateSamplingBias <- function(
 	for (i in 1:length(variables)) {
 		X %<>%
 			mutate(
-				var_observed_minus_mean_of_observed_means = 
+				observed_minus_mean_of_observed_means = 
 						# (observed -
 						eval(
 							parse(
@@ -234,7 +234,7 @@ calculateSamplingBias <- function(
 			) %>%
 			setnames(
 				., 
-				"var_observed_minus_mean_of_observed_means", 
+				"observed_minus_mean_of_observed_means", 
 				paste(
 					variables[i], 
 					"_observed_minus_mean_of_observed_means", 
@@ -260,7 +260,7 @@ calculateSamplingBias <- function(
 		A[[i]] <- X.grp %>%
 			summarise_(
 				# save true mean
-				var_true_mean = interp(
+				true_mean = interp(
 					~var[1], 
 					var = 
 					as.name(
@@ -272,7 +272,7 @@ calculateSamplingBias <- function(
 					)
 				),
 				# calculate mean of observed means
-				var_mean_of_observed_means = interp(
+				mean_of_observed_means = interp(
 					~mean(var, na.rm = TRUE), 
 					var = 
 					as.name(
@@ -283,7 +283,7 @@ calculateSamplingBias <- function(
 						)
 					)
 				),
-				var_RB_n = interp(
+				RB_n = interp(
 					~length(var[which(!is.na(var))]), 
 					var = 
 					as.name(
@@ -295,7 +295,7 @@ calculateSamplingBias <- function(
 					)
 				),
 				# calculate sum of MSEs
-				var_sum_of_observed_minus_true_sqrd = interp(
+				sum_of_observed_minus_true_sqrd = interp(
 					~sum(var, na.rm = TRUE), 
 					var = 
 					as.name(
@@ -306,7 +306,7 @@ calculateSamplingBias <- function(
 						)
 					)
 				),
-				var_MSE_n = interp(
+				MSE_n = interp(
 					~length(var[which(!is.na(var))]), 
 					var = 
 					as.name(
@@ -318,7 +318,7 @@ calculateSamplingBias <- function(
 					)
 				),
 				# calculate mean of simulated HT variance estimates
-				var_mean_of_var_estimates = interp(
+				mean_of_var_estimates = interp(
 					~mean(var, na.rm = TRUE), 
 					var = 
 					as.name(
@@ -329,7 +329,7 @@ calculateSamplingBias <- function(
 						)
 					)
 				),
-				var_mean_of_var_estimates_n = interp(
+				mean_of_var_estimates_n = interp(
 					~length(var[which(!is.na(var))]), 
 					var = 
 					as.name(
@@ -341,7 +341,7 @@ calculateSamplingBias <- function(
 					)
 				),
 				# calculate variance of simulated HT mean estimates
-				var_var_of_mean_estimates = interp(
+				var_of_mean_estimates = interp(
 					~var(variable, na.rm = TRUE), 
 					variable = 
 					as.name(
@@ -352,7 +352,7 @@ calculateSamplingBias <- function(
 						)
 					)
 				),
-				var_var_of_mean_estimates_n = interp(
+				var_of_mean_estimates_n = interp(
 					~length(var[which(!is.na(var))]), 
 					var = 
 					as.name(
@@ -368,21 +368,21 @@ calculateSamplingBias <- function(
 			A[[i]] %<>% 
 				mutate(
 					# var_mean = Mean()
-					var_RB = 100 * 
-						(var_mean_of_observed_means - var_true_mean) / 
-						var_true_mean,
-					var_MSE = var_sum_of_observed_minus_true_sqrd/n_sims,
-					var_var_RB = 100 * (var_mean_of_var_estimates - 
-						var_var_of_mean_estimates) / 
-						var_var_of_mean_estimates,
-					var_var_RB_n = min(
-						var_mean_of_var_estimates_n, 
-						var_var_of_mean_estimates_n
+					RB = 100 * 
+						(mean_of_observed_means - true_mean) / 
+						true_mean,
+					MSE = sum_of_observed_minus_true_sqrd/n_sims,
+					var_RB = 100 * (mean_of_var_estimates - 
+						var_of_mean_estimates) / 
+						var_of_mean_estimates,
+					var_RB_n = min(
+						mean_of_var_estimates_n, 
+						var_of_mean_estimates_n
 					)
 				) %>%
 				setnames(
 		      		.,
-		      		"var_true_mean",
+		      		"true_mean",
 		      		paste(
 		      			variables[i],
 		      			"_true_mean",
@@ -391,7 +391,7 @@ calculateSamplingBias <- function(
 				) %>%
 				setnames(
 		      		.,
-		      		"var_RB",
+		      		"RB",
 		      		paste(
 		      			variables[i],
 		      			"_mean_RB",
@@ -400,7 +400,7 @@ calculateSamplingBias <- function(
 				) %>%
 				setnames(
 		      		.,
-		      		"var_MSE",
+		      		"MSE",
 		      		paste(
 		      			variables[i],
 		      			"_mean_MSE",
@@ -409,7 +409,7 @@ calculateSamplingBias <- function(
 				) %>%
 				setnames(
 		      		.,
-		      		"var_var_RB",
+		      		"var_RB",
 		      		paste(
 		      			variables[i],
 		      			"_var_RB",
@@ -419,7 +419,7 @@ calculateSamplingBias <- function(
 				# rename sample size variables
 				setnames(
 		      		.,
-		      		"var_RB_n",
+		      		"RB_n",
 		      		paste(
 		      			variables[i],
 		      			"_mean_RB_n",
@@ -428,7 +428,7 @@ calculateSamplingBias <- function(
 				) %>%
 				setnames(
 		      		.,
-		      		"var_MSE_n",
+		      		"MSE_n",
 		      		paste(
 		      			variables[i],
 		      			"_mean_MSE_n",
@@ -437,7 +437,7 @@ calculateSamplingBias <- function(
 				) %>%
 				setnames(
 		      		.,
-		      		"var_var_RB_n",
+		      		"var_RB_n",
 		      		paste(
 		      			variables[i],
 		      			"_var_RB_n",
@@ -445,12 +445,12 @@ calculateSamplingBias <- function(
 					)
 				) %>%
 				dplyr::select(-c(
-					var_mean_of_observed_means,
-					var_sum_of_observed_minus_true_sqrd,
-					var_mean_of_var_estimates,
-					var_mean_of_var_estimates_n,
-					var_var_of_mean_estimates,
-					var_var_of_mean_estimates_n
+					mean_of_observed_means,
+					sum_of_observed_minus_true_sqrd,
+					mean_of_var_estimates,
+					mean_of_var_estimates_n,
+					var_of_mean_estimates,
+					var_of_mean_estimates_n
 				))
 	}
 	Y <- Reduce(

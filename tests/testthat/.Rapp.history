@@ -1,2938 +1,183 @@
-(164 + 13.5 + 6 + (75))/365
-102/40
-102/41
-?table
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
-library(ProjectTemplate)#
-#
-# when working on a Windows computer#
-# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
-#
-# load project#
-load.project()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-calc_merged <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)
-head(calc_merged)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_20,#
-		patch_data_3_results_30#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-source("1_set_variables.R")#
-source("2_create_realizations.R")#
-source("3_summarise_network_information.R")#
-source("4_calculate_realization_summary_statistics.R")#
-Sys.time()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_20,#
-		patch_data_3_results_30#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
-#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_20,#
-		patch_data_3_results_30#
-	)
-head(patch_data_3_results)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3_ACS_results$N.SRSWOR.plots %<>% as.factor()#
-levels(patch_data_3_ACS_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
-#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20 <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_ACS_results <- rbind.fill(#
-		patch_data_3_results_20,#
-		patch_data_3_results_30#
-	)#
-#
-patch_data_3_ACS_results$N.SRSWOR.plots %<>% as.factor()#
-levels(patch_data_3_ACS_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# RACS INCLUSION PROBABILITIES#
-RACSinclusionprobs <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_results_30 <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20 <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_RACS_results <- rbind.fill(#
-		patch_data_3_results_20,#
-		patch_data_3_results_30#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
-#
-# ACS INCLUSION PROBABILITIES#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-#
-# RACS INCLUSION PROBABILITIES#
-RACSinclusionprobs <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_results_30_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_20_ACS,#
-		patch_data_3_results_30_ACS,#
-		patch_data_3_results_20_RACS,#
-		patch_data_3_results_30_RACS#
-	)#
-patch_data_3_results$N.SRSWOR.plots %<>% as.factor()#
-levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
-#
-# ACS INCLUSION PROBABILITIES#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-#
-# RACS INCLUSION PROBABILITIES#
-RACSinclusionprobs <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_results_30_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_20_ACS,#
-		patch_data_3_results_30_ACS,#
-		patch_data_3_results_20_RACS,#
-		patch_data_3_results_30_RACS#
-	)#
-patch_data_3_results$N.SRSWOR.plots %<>% as.factor()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-levels(patch_data_3_results$N.SRSWOR.plots)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans="reverse")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans="log10")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans="probit")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans="exp")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans="probability")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans=c("log10","reverse"))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans="boxcox")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10)) +#
-	scale_size_continuous(trans="reciprocal")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="reciprocal") +#
-	scale_size_continuous(trans="reciprocal")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="log10") +#
-	scale_size_continuous(trans="log10")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability (Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="log10") +#
-	scale_size_continuous(trans="reverse")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="log10") +#
-	scale_size_continuous(trans="reverse")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="log10")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="log10") +#
-	scale_size_continuous(trans="reverse")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(15),trans="log10") +#
-	scale_size_continuous(trans="reverse")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(5),trans="log10") +#
-	scale_size_continuous(trans="reverse")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(5),trans="reverse") +#
-	scale_size_continuous(trans="reverse")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(5),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.5,10))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(5),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.25,10))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(5),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,10))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(5),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradient2 +#
-	#scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradient2() +#
-	#scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradient2(values=c(-0.5,-0.25,0)) +#
-	#scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradient2(low = "darkgreen", mid = "white", high = "darkred") +#
-	#scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradient2(low = "darkgreen", mid = "white", high = "darkred",trans="reverse") +#
-	#scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradient2(low = "darkgreen", mid = "white", high = "darkred",trans="reverse") +#
-	#scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.25,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.1,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(10),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.01,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(15),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.01,6))
-head(patch_data_3_results)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(15),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.01,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(15)) +#
-	scale_size_continuous(trans="reverse",range=c(0.01,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(15),trans="reverse") +#
-	scale_size_continuous(trans="reverse",range=c(0.01,6))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(15),trans="reverse") +#
-	scale_size_continuous(trans="log10",range=c(0.01,6))
-range(patch_data_3_results$inclusion_prob)
-cut(range(patch_data_3_results$inclusion_prob)
-,6)_
-cut(range(patch_data_3_results$inclusion_prob),6)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(colours = terrain.colors(15),trans="reverse") +#
-	scale_size_continuous(#
-		trans="log10",range=c(0.01,6),#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	) +#
-	scale_size_continuous(#
-		trans="log10",range=c(0.01,6),#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	)
-range(patch_data_3_results$inclusion_prob_diff_from_true)
-cut(range(patch_data_3_results$inclusion_prob_diff_from_true),6)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.5,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.5,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)"),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)")#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	) +#
-	scale_size_continuous(#
-		trans="log10",range=c(0.01,6),#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Inclusion Probability Based on Simulations",nrow=2),#
-		size=guide_legend(title="Inclusion Probability Based on Simulations)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	) +#
-	scale_size_continuous(#
-		trans="log10",range=c(0.01,6),#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Inclusion Probability Based on Simulations",nrow=2),#
-		size=guide_legend(title="Inclusion Probability Based on Simulations",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	) +#
-	scale_size_continuous(#
-		trans="log10",range=c(0.01,6),#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob_diff_from_true,#
-			size = inclusion_prob_diff_from_true#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = inclusion_prob,#
-			size = inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Inclusion Probability Based on Simulations",nrow=2),#
-		size=guide_legend(title="Inclusion Probability Based on Simulations",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	) +#
-	scale_size_continuous(#
-		trans="log10",range=c(0.01,6),#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	)
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simdata_SRSWOR_only <- rbind.fill(#
-	sim.12Nov16, # sample sizes from RACS sampling#
-	sim.12Nov16_ACS # sample sizes from ACS sampling, NOT included in RACS#
-	)#
-simdata_SRSWOR_only %$% unique(Plots)#
-simdata_SRSWOR_only %<>% dplyr::select(-Plots)#
-levels(simdata_SRSWOR_only$n.networks) <- c("5","10","15","20","30","40")#
-#-----------------------------------------------------------------------------##
-simdata <- rbind.fill(#
-	sim.6Apr16,#
-	sim.6Apr16.2,#
-	sim.6Apr16.3#
-) %>%#
-dplyr::select(-c(#
-	Percent_Cover_Pusilla_mean_observed,#
-	Percent_Cover_Stricta_mean_observed,#
-	Height_Pusilla_mean_observed,#
-	Height_Stricta_mean_observed,#
-	Percent_Cover_Pusilla_var_observed,#
-	Percent_Cover_Stricta_var_observed,#
-	Height_Pusilla_var_observed,   #
-	Height_Stricta_var_observed#
-)) %>%#
-rbind.fill(#
-	sim.27June16,#
-	sim.27June16_1,#
-	sim.27June16_2#
-) %>%#
-setnames("Restricted", "SamplingDesign")#
-unique(simdata$SamplingDesign)#
-simdata %<>% mutate(SamplingDesign="ACS")#
-simdata %<>% filter(Plots == "Horvitz Thompson Mean (All Plots)") %>% dplyr::select(-Plots)#
-simdata$n.networks %<>% as.factor#
-#-----------------------------------------------------------------------------##
-simdata_restricted <- rbind.fill(	#
-	sim.5Apr16.RACS,#
-	sim.5Apr16.RACS.2,#
-	sim.5Apr16.RACS.3,#
-	sim.5Apr16.RACS.4,#
-	sim.5Apr16.RACS.5,#
-	sim.5Apr16.RACS.6,#
-	sim.5Apr16.RACS.7#
-) %>%#
-# I Removed these because I had calculated them incorrectly?#
-# remove height and percent cover since I did not calculate those correctly#
-dplyr::select(-c(#
-	Percent_Cover_Pusilla_mean_observed,#
-	Percent_Cover_Stricta_mean_observed,#
-	Height_Pusilla_mean_observed,#
-	Height_Stricta_mean_observed,#
-	Percent_Cover_Pusilla_var_observed,#
-	Percent_Cover_Stricta_var_observed,#
-	Height_Pusilla_var_observed,   #
-	Height_Stricta_var_observed#
-)) %>%#
-rbind.fill(#
-	sim.16June16, #
-	sim.16June16.2, #
-	sim.16June16.3,#
-	sim.16June16.4,#
-	sim.16June16.5#
-) %>%#
-setnames("Restricted", "SamplingDesign")#
-unique(simdata_restricted$SamplingDesign)#
-simdata_restricted %<>% mutate(SamplingDesign="RACS")#
-simdata_restricted %<>% filter(Plots == "Horvitz Thompson Mean (All Plots)") %>% dplyr::select(-Plots)#
-simdata_restricted$n.networks %<>% as.factor
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simdata_all <- rbind.fill(#
-	simdata_restricted,#
-	simdata,#
-	simdata_SRSWOR_only#
-)#
-#
-# -----------------------------------------------------------------------------##
-# Sampling Bias#
-# -----------------------------------------------------------------------------##
-population.grouping.variables	<- c("n.networks", "realization")#
-sampling.grouping.variables <- c("N.SRSWOR.plots", "SamplingDesign")#
-statistics 			<- c("mean", "var")#
-ratio.statistics	<- c("mean")#
-#
-simulation_data_summary_table = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary, #
-	simulation_data		= simdata_all, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	variables			= ovar, #
-	rvar				= rvar#
-)#
-#
-# -----------------------------------------------------------------------------##
-# RELATIVE EFFICIENCY#
-# -----------------------------------------------------------------------------##
-temp <- simdata_all %>%#
-	group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)) %>%#
-	summarise(#
-		N.ACS.plots_mean = round(mean(N.ACS.plots, na.rm=T),0),#
-		N.ACS.plots_var = var(N.ACS.plots, na.rm=T),#
-		N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0),#
-		N.Total.plots_var = var(N.Total.plots, na.rm=T)#
-	)#
-#
-simdata_all_re <- simdata_all %>% merge(#
-	temp, by=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)#
-)#
-#
-sampling.grouping.variables <- c("N.Total.plots_mean", "N.SRSWOR.plots", "SamplingDesign")#
-#
-simulation_data_summary_table_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary, #
-	simulation_data		= simdata_all_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	variables			= ovar, #
-	rvar				= rvar#
-)#
-#
-# TEST#
-#
-temp <- simdata_all_re %>%#
-filter(#
-	N.SRSWOR.plots==40 &#
-	SamplingDesign=="ACS" &#
-	n.networks==10 #
-	) %$%#
-	unique(N.Total.plots_mean)#
-simulation_data_summary_table_SRSWOR <- simulation_data_summary_table_re %>% filter(SamplingDesign=="SRS")#
-#
-simulation_data_summary_table_ACS <- simulation_data_summary_table_re %>% filter(SamplingDesign=="ACS")#
-#
-simulation_data_summary_table_RACS <- simulation_data_summary_table_re %>% filter(SamplingDesign=="RACS")#
-# just get MSEs#
-grouping.variables = c("n.networks", "realization", "N.Total.plots_mean")#
-temp_SRSWOR <- simulation_data_summary_table_SRSWOR %>% dplyr::select_(#
-	.dots=c(#
-		grouping.variables,#
-		paste(c(rvar,variables), "_mean_MSE", sep=""),#
-		"n_sims"#
-	)#
-)#
-temp_ACS <- simulation_data_summary_table_ACS %>% dplyr::select_(#
-	.dots=c(#
-		grouping.variables,#
-		paste(c(rvar,variables), "_mean_MSE", sep=""),#
-		"N.SRSWOR.plots",#
-		"SamplingDesign",#
-		"n_sims"#
-	)#
-)#
-temp_RACS <- simulation_data_summary_table_RACS %>% dplyr::select_(#
-	.dots=c(#
-		grouping.variables,#
-		paste(c(rvar,variables), "_mean_MSE", sep=""),#
-		"N.SRSWOR.plots",#
-		"SamplingDesign",#
-		"n_sims"#
-	)#
-)#
-#
-RE_ACS <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = temp_ACS,#
-	population.grouping.variables = "n.networks",#
-	sampling.grouping.variables = "N.Total.plots_mean",#
-	variables = c(rvar,variables)#
-)#
-RE_RACS <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = temp_RACS,#
-	population.grouping.variables = "n.networks",#
-	sampling.grouping.variables = "N.Total.plots_mean",#
-	variables = c(rvar,variables)#
-)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variance", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.Total.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.Total.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
+# create population#
+lambdap_5_tau_10 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,4),3,10,22,16,7,7,#
+			rep(0,3),2,1,10,10,13,16,9,#
+			0,0,1,5,1,5,8,5,8,6,#
+			2,1,4,9,8,1,0,1,1,1,#
+			1,6,7,9,3,5,1,1,2,0,#
+			0,4,8,6,5,2,4,3,2,2,#
+			1,1,rep(0,4),3,9,8,3,#
+			0,0,0,2,0,0,0,2,3,1,#
+			rep(0,7),1,0,0,#
+			rep(0,10)#
 		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.Total.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.Total.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
 	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, MSE function", {#
+lambdap_5_tau_10_networks <- assignNetworkMembership(#
+	lambdap_5_tau_10 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+P = merge(lambdap_5_tau_10, lambdap_5_tau_10_networks, all=T)#
+P[which(P$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))#
 #
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-#
-	temp$y_value_mean_MSE %<>% round(3)#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-#
-	temp$y_value_mean_MSE %<>% round(3)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.Total.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.Total.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.Total.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.Total.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-#
-	temp$y_value_mean_MSE %<>% round(3)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variance", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.Total.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.Total.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.Total.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.Total.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variance; and calculateSamplingBias, MSE function", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.Total.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.Total.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.Total.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.Total.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes <- data.frame(#
+	seed = 1:4000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
+)#
+y_value_mean_observed <- vector()#
 y_value_var_observed <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.Total.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.Total.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.Total.plots[i],#
-			m = temp$m#
-		)#
-	}#
-	ACSdata <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-#
-	ACSdata_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= ACSdata, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.Total.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-	RE_values <- data_summary_stats$y_value_mean_MSE / #
-		ACSdata_summary_stats$y_value_mean_MSE#
-	expect_that(#
-		calculateRE(#
-			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-			MSE_BaselineSamplingDesign = data_summary_stats,#
-			grouping.variables = "N.Total.plots",#
-			variables = "y_value"#
-		) %$% y_value_mean_RE,#
-		equals(RE_values)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		calculateRE(#
-			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-			population_data = patch_data,#
-			population.grouping.variables = NULL,#
-			sampling.grouping.variables = "N.Total.plots",#
-			variables = "y_value"#
-		) %$% y_value_mean_RE,#
-		equals(RE_values)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		calculateRE(#
-			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-			population_data = Thompson1990Figure1Population,#
-			population.grouping.variables = NULL,#
-			sampling.grouping.variables = "N.Total.plots",#
-			variables = "y_value"#
-		) %$% y_value_mean_RE,#
-		equals(RE_values)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-MSE_ComparisonSamplingDesign = ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_data = Thompson1990Figure1Population
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population.grouping.variables = NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population.grouping.variables = NULL,#
-			sampling.grouping.variables = "N.Total.plots"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-variables = "y_value"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign
-i=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances <- population_data %>% #
-			group_by_(.dots=population.grouping.variables) %>% #
-			summarise_(#
-				population_variance = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(variables[i])#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>% #
-			merge(variances, by=population.grouping.variables) %>%#
-			group_by_(.dots=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)) %>% #
-			summarise(#
-				var_y_bar = population_variance[1]/N.Total.plots_mean[1]#
-			) %>%#
-			merge(#
-				X,#
-				by=c(#
-					population.grouping.variables, #
-					sampling.grouping.variables#
-				)#
-			) %>%#
-			mutate(#
-				RE = var_y_bar /#
-				# comparison sampling design#
-				eval(#
-					parse(#
-						text=paste(#
-							"temp$",#
-							variables[i], #
-							"_mean_MSE", #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				., #
-				"RE", #
-				paste(#
-					variables[i], #
-					"_mean_RE", #
-					sep=""#
-				)#
-			) %>%#
-			dplyr::select(-var_y_bar)
-head(MSE_ComparisonSamplingDesign)
-head(ACSdata_summary_stats)
-head(ACSdata)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-y_value_var_observed <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.Total.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.Total.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.Total.plots[i],#
-			m = temp$m#
-		)#
-	}#
-	ACSdata <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)
-head(ACSdata)
-head(samplesizes)
-head(y_value_mean_observed)
-dim(samplesizes)
-length(y_value_mean_observed)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variance; and calculateSamplingBias, MSE function", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
 	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
 	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
+	summarise(mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
 #
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
 	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variance; and calculateSamplingBias, MSE function", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-head(temp)
+population_variance <- var(P$y_value)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+population_variance
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+(population_variance / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+ACSdata_summary_stats$mean_total_sample_size
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+ACSdata_summary_stats
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+ACSdata_summary_stats
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+(population_variance / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+(ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes <- data.frame(#
+	seed = 1:4000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
+)#
+y_value_mean_observed <- vector()#
 y_value_var_observed <- vector()#
-	total_sample_size <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i] <- dim(temp)[1]#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-dim(samplesizes)[1]
-i
+total_sample_size <- vector()
+dim(P)
+head(P)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+i=3001
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
 temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i] <- dim(temp)[1]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variance; and calculateSamplingBias, MSE function", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
 	)
+temp
+temp %>% arrange(Sampling,y_value)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_data_summary	= Thompson1990Figure1Population_summary
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame
+head(ACSdata_summary_stats)
+dim(ACSdata_summary_stats)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-simulation_data		= data
+P_summary
+mean(P$y_value)
+dim(ACSdata_re)
+head(ACSdata_re)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+simulation_data		= ACSdata_re
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+population_data_summary	= P_summary
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
 population.grouping.variables = NULL
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-sampling.grouping.variables	= "N.SRSWOR.plots"
+sampling.grouping.variables	= "mean_total_sample_size"
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
 variables			= "y_value"
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
 rvar				= NULL
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
 variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)
-head(X)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = dim(.)[1])
-head(n_sims)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)#
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).#
-#' @param variables Vector of variables for which sampling bias should be estimated.#
-#' @param rvar Variables for which to use ratio estimators#
-#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.#
-#' @examples#
-#' # Create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' Species.Fields = c("Stricta", "Pusilla", "Cactus")#
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,#
-#' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, #
-#' 	start.seed=1, Species.Fields)#
-#' #
-#' # Sample from the realizations#
-#' simulations=1#
-#' nsamples=c(5,10,20,40)#
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, #
-#' 	y_end = 30)#
-#' abundance.variables = NULL#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' patch_data = cactus.realizations#
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, #
-#' #	nsamples, population, abundance.variables, occupancy.variables)#
-#' #
-#' # summary.variables = occupancy.variables#
-#' # grouping.variables = c("n.networks", "realization")#
-#' # dataset = cactus.realizations#
-#' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, #
-#' # 	summary.variables, grouping.variables)#
-#' # avar = NULL#
-#' @export#
-#
-calculateSamplingBias <- function(#
-	population_data_summary, #
-	simulation_data, #
-	population.grouping.variables, #
-	sampling.grouping.variables,#
-	variables, #
-	rvar#
-) #
-{#
-	variables <- c(variables, rvar)#
 	. <- NULL#
 	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
 	# number of simulations#
@@ -2941,7 +186,359 @@ calculateSamplingBias <- function(#
 			population.grouping.variables, #
 			sampling.grouping.variables#
 		)) %>%#
-		summarise(n_sims = dim(.)[1])#
+		summarise(n_sims = n()#
+		)#
+	X <- merge(#
+		X, #
+		n_sims, #
+		by = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n_sims
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- X %>% group_by_(.dots = c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))#
+	A <- vector("list", length(variables))
+head(temp)
+head(temp) %>% as.data.frame
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+### OCCUPANCY VARIABLES	#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		# observed mean#
+		A[[i]] <- temp %>%#
+			summarise_(#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				sample_size = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"mean_of_observed_means",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means",#
+		      		sep=""#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"sample_size",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means_n",#
+		      		sep=""#
+				)#
+			)#
+	}#
+	Y <- Reduce(#
+		function(x, y) merge(#
+			x, y,#
+			by=c(#
+				population.grouping.variables, #
+				sampling.grouping.variables, #
+				"n_sims"#
+			)#
+		),#
+		A#
+	)#
+	X <- merge(#
+		X, #
+		Y, #
+		by=c(#
+			population.grouping.variables, #
+			sampling.grouping.variables,#
+			"n_sims"#
+		)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+variables
+i
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)
+head(X)
+head(ACSdata_re)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ifelse(#
+								variables[i] %in% rvar,#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_ratio_mean", #
+									sep=""#
+								),#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_mean", #
+									sep=""#
+								)#
+							)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X %<>%#
+			mutate(#
+				observed_minus_true = #
+						# observed -#
+						(eval(#
+							parse(#
+								text=paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true#
+						eval(#
+							parse(text = ifelse(#
+								variables[i] %in% rvar,#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_ratio_mean", #
+									sep=""#
+								),#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_mean", #
+									sep=""#
+								)#
+							)#
+						)#
+					)#
+				)^2#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_true", #
+				paste(#
+					variables[i], #
+					"_mean_observed_minus_true", #
+					sep=""#
+				)#
+			)
+head(X)
+(0.000000-2.98)^2
+(5.103448-2.98)^2
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X %<>%#
+			mutate(#
+				observed_minus_mean_of_observed_means = #
+						# (observed -#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true)#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_of_observed_means", #
+									sep=""#
+								)#
+							)#
+						)#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_mean_of_observed_means", #
+				paste(#
+					variables[i], #
+					"_observed_minus_mean_of_observed_means", #
+					sep=""#
+				)#
+			)
+head(X)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A <- vector("list", length(variables))#
+	X.grp <- X %>% group_by_(.dots=c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]] <- list()
+head(X)
+temporary <- X %>% filter(mean_total_sample_size==45 & n_sims==1000) %>% dim
+temporary
+temporary <- X %>% filter(mean_total_sample_size==45 & n_sims==1000)
+head(temporary)
+temporary %>% summarise(sum(y_value_mean_observed_minus_true))
+temporary %>% summarise(sum(y_value_mean_observed_minus_true))/1000
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes <- data.frame(#
+	seed = 1:4000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	)#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
+	group_by(N.SRSWOR.plots) %>%#
+	summarise(#
+		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
+	)#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
+	)#
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
+head(ACSdata_summary_stats)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+RE_values
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+population_data_summary	= P_summary
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+simulation_data		= ACSdata_re
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+population.grouping.variables = NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+sampling.grouping.variables	= "mean_total_sample_size"
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+variables			= "y_value"
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+rvar				= NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+variables <- c(variables, rvar)#
+	. <- NULL#
+	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
+	# number of simulations#
+	n_sims <- X %>% #
+		group_by_(.dots = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)) %>%#
+		summarise(n_sims = n()#
+		)#
 	X <- merge(#
 		X, #
 		n_sims, #
@@ -2957,11 +554,13 @@ calculateSamplingBias <- function(#
 		"n_sims"#
 	))#
 	A <- vector("list", length(variables))#
+	### OCCUPANCY VARIABLES	#
 	for (i in 1:length(variables)) {#
 		A[[i]] <- list()#
+		# observed mean#
 		A[[i]] <- temp %>%#
 			summarise_(#
-				var_mean_of_observed_means = interp(#
+				mean_of_observed_means = interp(#
 					~mean(var, na.rm = TRUE), #
 					var = #
 					as.name(#
@@ -2972,7 +571,7 @@ calculateSamplingBias <- function(#
 						)#
 					)#
 				),#
-				var_n = interp(#
+				sample_size = interp(#
 					~length(var[which(!is.na(var))]), #
 					var = #
 					as.name(#
@@ -2986,7 +585,7 @@ calculateSamplingBias <- function(#
 			) %>%#
 			setnames(#
 		      	.,#
-		      	"var_mean_of_observed_means",#
+		      	"mean_of_observed_means",#
 		      	paste(#
 		      		variables[i],#
 		      		"_mean_of_observed_means",#
@@ -2995,7 +594,7 @@ calculateSamplingBias <- function(#
 			) %>%#
 			setnames(#
 		      	.,#
-		      	"var_n",#
+		      	"sample_size",#
 		      	paste(#
 		      		variables[i],#
 		      		"_mean_of_observed_means_n",#
@@ -3027,9 +626,9 @@ calculateSamplingBias <- function(#
 	for (i in 1:length(variables)) {#
 		X %<>%#
 			mutate(#
-				var_observed_minus_true = #
-						# (observed -#
-						eval(#
+				observed_minus_true = #
+						# observed -#
+						(eval(#
 							parse(#
 								text=paste(#
 									"X$", #
@@ -3039,10 +638,17 @@ calculateSamplingBias <- function(#
 								)#
 							)#
 						) - #
-						# true)#
+						# true#
 						eval(#
-							parse(#
-								text=paste(#
+							parse(text = ifelse(#
+								variables[i] %in% rvar,#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_ratio_mean", #
+									sep=""#
+								),#
+								paste(#
 									"X$", #
 									variables[i], #
 									"_mean", #
@@ -3050,10 +656,12 @@ calculateSamplingBias <- function(#
 								)#
 							)#
 						)#
+					)#
+				)^2#
 			) %>%#
 			setnames(#
 				., #
-				"var_observed_minus_true", #
+				"observed_minus_true", #
 				paste(#
 					variables[i], #
 					"_mean_observed_minus_true", #
@@ -3065,7 +673,7 @@ calculateSamplingBias <- function(#
 	for (i in 1:length(variables)) {#
 		X %<>%#
 			mutate(#
-				var_observed_minus_mean_of_observed_means = #
+				observed_minus_mean_of_observed_means = #
 						# (observed -#
 						eval(#
 							parse(#
@@ -3091,7 +699,7 @@ calculateSamplingBias <- function(#
 			) %>%#
 			setnames(#
 				., #
-				"var_observed_minus_mean_of_observed_means", #
+				"observed_minus_mean_of_observed_means", #
 				paste(#
 					variables[i], #
 					"_observed_minus_mean_of_observed_means", #
@@ -3111,7 +719,7 @@ calculateSamplingBias <- function(#
 		A[[i]] <- X.grp %>%#
 			summarise_(#
 				# save true mean#
-				var_true_mean = interp(#
+				true_mean = interp(#
 					~var[1], #
 					var = #
 					as.name(#
@@ -3123,7 +731,7 @@ calculateSamplingBias <- function(#
 					)#
 				),#
 				# calculate mean of observed means#
-				var_mean_of_observed_means = interp(#
+				mean_of_observed_means = interp(#
 					~mean(var, na.rm = TRUE), #
 					var = #
 					as.name(#
@@ -3134,7 +742,7 @@ calculateSamplingBias <- function(#
 						)#
 					)#
 				),#
-				var_RB_n = interp(#
+				RB_n = interp(#
 					~length(var[which(!is.na(var))]), #
 					var = #
 					as.name(#
@@ -3146,8 +754,8 @@ calculateSamplingBias <- function(#
 					)#
 				),#
 				# calculate sum of MSEs#
-				var_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var^2, na.rm = TRUE), #
+				sum_of_observed_minus_true_sqrd = interp(#
+					~sum(var, na.rm = TRUE), #
 					var = #
 					as.name(#
 						paste(#
@@ -3157,7 +765,7 @@ calculateSamplingBias <- function(#
 						)#
 					)#
 				),#
-				var_MSE_n = interp(#
+				MSE_n = interp(#
 					~length(var[which(!is.na(var))]), #
 					var = #
 					as.name(#
@@ -3169,7 +777,7 @@ calculateSamplingBias <- function(#
 					)#
 				),#
 				# calculate mean of simulated HT variance estimates#
-				var_mean_of_var_estimates = interp(#
+				mean_of_var_estimates = interp(#
 					~mean(var, na.rm = TRUE), #
 					var = #
 					as.name(#
@@ -3180,7 +788,7 @@ calculateSamplingBias <- function(#
 						)#
 					)#
 				),#
-				var_mean_of_var_estimates_n = interp(#
+				mean_of_var_estimates_n = interp(#
 					~length(var[which(!is.na(var))]), #
 					var = #
 					as.name(#
@@ -3192,7 +800,7 @@ calculateSamplingBias <- function(#
 					)#
 				),#
 				# calculate variance of simulated HT mean estimates#
-				var_var_of_mean_estimates = interp(#
+				var_of_mean_estimates = interp(#
 					~var(variable, na.rm = TRUE), #
 					variable = #
 					as.name(#
@@ -3203,7 +811,7 @@ calculateSamplingBias <- function(#
 						)#
 					)#
 				),#
-				var_var_of_mean_estimates_n = interp(#
+				var_of_mean_estimates_n = interp(#
 					~length(var[which(!is.na(var))]), #
 					var = #
 					as.name(#
@@ -3220,20 +828,20 @@ calculateSamplingBias <- function(#
 				mutate(#
 					# var_mean = Mean()#
 					var_RB = 100 * #
-						(var_mean_of_observed_means - var_true_mean) / #
-						var_true_mean,#
-					var_MSE = var_sum_of_observed_minus_true_sqrd/n_sims,#
-					var_var_RB = 100 * (var_mean_of_var_estimates - #
-						var_var_of_mean_estimates) / #
-						var_var_of_mean_estimates,#
-					var_var_RB_n = min(#
-						var_mean_of_var_estimates_n, #
-						var_var_of_mean_estimates_n#
+						(mean_of_observed_means - true_mean) / #
+						true_mean,#
+					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
+					var_RB = 100 * (mean_of_var_estimates - #
+						var_of_mean_estimates) / #
+						var_of_mean_estimates,#
+					var_RB_n = min(#
+						mean_of_var_estimates_n, #
+						var_of_mean_estimates_n#
 					)#
 				) %>%#
 				setnames(#
 		      		.,#
-		      		"var_true_mean",#
+		      		"true_mean",#
 		      		paste(#
 		      			variables[i],#
 		      			"_true_mean",#
@@ -3242,7 +850,7 @@ calculateSamplingBias <- function(#
 				) %>%#
 				setnames(#
 		      		.,#
-		      		"var_RB",#
+		      		"RB",#
 		      		paste(#
 		      			variables[i],#
 		      			"_mean_RB",#
@@ -3251,7 +859,7 @@ calculateSamplingBias <- function(#
 				) %>%#
 				setnames(#
 		      		.,#
-		      		"var_MSE",#
+		      		"MSE",#
 		      		paste(#
 		      			variables[i],#
 		      			"_mean_MSE",#
@@ -3260,7 +868,7 @@ calculateSamplingBias <- function(#
 				) %>%#
 				setnames(#
 		      		.,#
-		      		"var_var_RB",#
+		      		"var_RB",#
 		      		paste(#
 		      			variables[i],#
 		      			"_var_RB",#
@@ -3270,7 +878,7 @@ calculateSamplingBias <- function(#
 				# rename sample size variables#
 				setnames(#
 		      		.,#
-		      		"var_RB_n",#
+		      		"RB_n",#
 		      		paste(#
 		      			variables[i],#
 		      			"_mean_RB_n",#
@@ -3279,7 +887,7 @@ calculateSamplingBias <- function(#
 				) %>%#
 				setnames(#
 		      		.,#
-		      		"var_MSE_n",#
+		      		"MSE_n",#
 		      		paste(#
 		      			variables[i],#
 		      			"_mean_MSE_n",#
@@ -3288,21 +896,277 @@ calculateSamplingBias <- function(#
 				) %>%#
 				setnames(#
 		      		.,#
-		      		"var_var_RB_n",#
+		      		"var_RB_n",#
 		      		paste(#
 		      			variables[i],#
 		      			"_var_RB_n",#
 		      			sep=""#
 					)#
+				) %>%
+()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]] <- list()#
+		A[[i]] <- X.grp %>%#
+			summarise_(#
+				# save true mean#
+				true_mean = interp(#
+					~var[1], #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean", #
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of observed means#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				RB_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate sum of MSEs#
+				sum_of_observed_minus_true_sqrd = interp(#
+					~sum(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				MSE_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of simulated HT variance estimates#
+				mean_of_var_estimates = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				mean_of_var_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate variance of simulated HT mean estimates#
+				var_of_mean_estimates = interp(#
+					~var(variable, na.rm = TRUE), #
+					variable = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				),#
+				var_of_mean_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+				as.data.frame#
+			A[[i]] %<>% #
+				mutate(#
+					# var_mean = Mean()#
+					var_RB = 100 * #
+						(mean_of_observed_means - true_mean) / #
+						true_mean,#
+					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
+					var_RB = 100 * (mean_of_var_estimates - #
+						var_of_mean_estimates) / #
+						var_of_mean_estimates,#
+					var_RB_n = min(#
+						mean_of_var_estimates_n, #
+						var_of_mean_estimates_n#
+					)#
 				) %>%#
-				dplyr::select(-c(#
-					var_mean_of_observed_means,#
-					var_sum_of_observed_minus_true_sqrd,#
-					var_mean_of_var_estimates,#
-					var_mean_of_var_estimates_n,#
-					var_var_of_mean_estimates,#
-					var_var_of_mean_estimates_n#
-				))#
+				setnames(#
+		      		.,#
+		      		"true_mean",#
+		      		paste(#
+		      			variables[i],#
+		      			"_true_mean",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				# rename sample size variables#
+				setnames(#
+		      		.,#
+		      		"RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB_n",#
+		      			sep=""#
+					)#
+				)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+variables <- c(variables, rvar)#
+	. <- NULL#
+	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
+	# number of simulations#
+	n_sims <- X %>% #
+		group_by_(.dots = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)) %>%#
+		summarise(n_sims = n()#
+		)#
+	X <- merge(#
+		X, #
+		n_sims, #
+		by = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)#
+	)#
+	# mean of observed means	#
+	temp <- X %>% group_by_(.dots = c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))#
+	A <- vector("list", length(variables))#
+	### OCCUPANCY VARIABLES	#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		# observed mean#
+		A[[i]] <- temp %>%#
+			summarise_(#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				sample_size = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"mean_of_observed_means",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means",#
+		      		sep=""#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"sample_size",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means_n",#
+		      		sep=""#
+				)#
+			)#
 	}#
 	Y <- Reduce(#
 		function(x, y) merge(#
@@ -3315,189 +1179,1329 @@ calculateSamplingBias <- function(#
 		),#
 		A#
 	)#
-#	X$Prop.Area.Surveyed = with(X, N.Total.plots/N)		#
-	return(Y)#
+	X <- merge(#
+		X, #
+		Y, #
+		by=c(#
+			population.grouping.variables, #
+			sampling.grouping.variables,#
+			"n_sims"#
+		)#
+	)#
+	# calculate squared differences for each simulation and variable#
+	for (i in 1:length(variables)) {#
+		X %<>%#
+			mutate(#
+				observed_minus_true = #
+						# observed -#
+						(eval(#
+							parse(#
+								text=paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true#
+						eval(#
+							parse(text = ifelse(#
+								variables[i] %in% rvar,#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_ratio_mean", #
+									sep=""#
+								),#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_mean", #
+									sep=""#
+								)#
+							)#
+						)#
+					)#
+				)^2#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_true", #
+				paste(#
+					variables[i], #
+					"_mean_observed_minus_true", #
+					sep=""#
+				)#
+			)#
+	}#
+	# calculate squared differences (observed - mean of observed) for each variable#
+	for (i in 1:length(variables)) {#
+		X %<>%#
+			mutate(#
+				observed_minus_mean_of_observed_means = #
+						# (observed -#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true)#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_of_observed_means", #
+									sep=""#
+								)#
+							)#
+						)#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_mean_of_observed_means", #
+				paste(#
+					variables[i], #
+					"_observed_minus_mean_of_observed_means", #
+					sep=""#
+				)#
+			)#
+	}#
+	# calculate bias and MSE#
+	A <- vector("list", length(variables))#
+	X.grp <- X %>% group_by_(.dots=c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		A[[i]] <- X.grp %>%#
+			summarise_(#
+				# save true mean#
+				true_mean = interp(#
+					~var[1], #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean", #
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of observed means#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				RB_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate sum of MSEs#
+				sum_of_observed_minus_true_sqrd = interp(#
+					~sum(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				MSE_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of simulated HT variance estimates#
+				mean_of_var_estimates = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				mean_of_var_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate variance of simulated HT mean estimates#
+				var_of_mean_estimates = interp(#
+					~var(variable, na.rm = TRUE), #
+					variable = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				),#
+				var_of_mean_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+				as.data.frame#
+			A[[i]] %<>% #
+				mutate(#
+					# var_mean = Mean()#
+					var_RB = 100 * #
+						(mean_of_observed_means - true_mean) / #
+						true_mean,#
+					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
+					var_RB = 100 * (mean_of_var_estimates - #
+						var_of_mean_estimates) / #
+						var_of_mean_estimates,#
+					var_RB_n = min(#
+						mean_of_var_estimates_n, #
+						var_of_mean_estimates_n#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"true_mean",#
+		      		paste(#
+		      			variables[i],#
+		      			"_true_mean",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				# rename sample size variables#
+				setnames(#
+		      		.,#
+		      		"RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB_n",#
+		      			sep=""#
+					)#
+				)
 }
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame
-head(data_summary_stats)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variance; and calculateSamplingBias, MSE function", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+variables <- c(variables, rvar)#
+	. <- NULL#
+	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
+	# number of simulations#
+	n_sims <- X %>% #
+		group_by_(.dots = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)) %>%#
+		summarise(n_sims = n()#
 		)#
-	# sampling bias#
-	data_summary <- data %>%#
+	X <- merge(#
+		X, #
+		n_sims, #
+		by = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)#
+	)#
+	# mean of observed means	#
+	temp <- X %>% group_by_(.dots = c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))#
+	A <- vector("list", length(variables))#
+	### OCCUPANCY VARIABLES	#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		# observed mean#
+		A[[i]] <- temp %>%#
+			summarise_(#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				sample_size = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"mean_of_observed_means",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means",#
+		      		sep=""#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"sample_size",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means_n",#
+		      		sep=""#
+				)#
+			)#
+	}#
+	Y <- Reduce(#
+		function(x, y) merge(#
+			x, y,#
+			by=c(#
+				population.grouping.variables, #
+				sampling.grouping.variables, #
+				"n_sims"#
+			)#
+		),#
+		A#
+	)#
+	X <- merge(#
+		X, #
+		Y, #
+		by=c(#
+			population.grouping.variables, #
+			sampling.grouping.variables,#
+			"n_sims"#
+		)#
+	)#
+	# calculate squared differences for each simulation and variable#
+	for (i in 1:length(variables)) {#
+		X %<>%#
+			mutate(#
+				observed_minus_true = #
+						# observed -#
+						(eval(#
+							parse(#
+								text=paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true#
+						eval(#
+							parse(text = ifelse(#
+								variables[i] %in% rvar,#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_ratio_mean", #
+									sep=""#
+								),#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_mean", #
+									sep=""#
+								)#
+							)#
+						)#
+					)#
+				)^2#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_true", #
+				paste(#
+					variables[i], #
+					"_mean_observed_minus_true", #
+					sep=""#
+				)#
+			)#
+	}#
+	# calculate squared differences (observed - mean of observed) for each variable#
+	for (i in 1:length(variables)) {#
+		X %<>%#
+			mutate(#
+				observed_minus_mean_of_observed_means = #
+						# (observed -#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true)#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_of_observed_means", #
+									sep=""#
+								)#
+							)#
+						)#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_mean_of_observed_means", #
+				paste(#
+					variables[i], #
+					"_observed_minus_mean_of_observed_means", #
+					sep=""#
+				)#
+			)#
+	}#
+	# calculate bias and MSE#
+	A <- vector("list", length(variables))#
+	X.grp <- X %>% group_by_(.dots=c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		A[[i]] <- X.grp %>%#
+			summarise_(#
+				# save true mean#
+				true_mean = interp(#
+					~var[1], #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean", #
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of observed means#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				RB_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate sum of MSEs#
+				sum_of_observed_minus_true_sqrd = interp(#
+					~sum(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				MSE_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of simulated HT variance estimates#
+				mean_of_var_estimates = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				mean_of_var_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate variance of simulated HT mean estimates#
+				var_of_mean_estimates = interp(#
+					~var(variable, na.rm = TRUE), #
+					variable = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				),#
+				var_of_mean_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+				as.data.frame#
+			A[[i]] %<>% #
+				mutate(#
+					# var_mean = Mean()#
+					RB = 100 * #
+						(mean_of_observed_means - true_mean) / #
+						true_mean,#
+					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
+					var_RB = 100 * (mean_of_var_estimates - #
+						var_of_mean_estimates) / #
+						var_of_mean_estimates,#
+					var_RB_n = min(#
+						mean_of_var_estimates_n, #
+						var_of_mean_estimates_n#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"true_mean",#
+		      		paste(#
+		      			variables[i],#
+		      			"_true_mean",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				# rename sample size variables#
+				setnames(#
+		      		.,#
+		      		"RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB_n",#
+		      			sep=""#
+					)#
+				)
+}
+A[[i]]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes <- data.frame(#
+	seed = 1:8000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
+)
+tail(samplesizes)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes <- data.frame(#
+	seed = 1:8000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	)#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
 	group_by(N.SRSWOR.plots) %>%#
 	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
+		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
 	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
 	)#
-})
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
+population_data_summary	= P_summary
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+simulation_data		= ACSdata_re
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+population.grouping.variables = NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+sampling.grouping.variables	= "mean_total_sample_size"
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+variables			= "y_value"
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+rvar				= NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+variables <- c(variables, rvar)#
+	. <- NULL#
+	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
+	# number of simulations#
+	n_sims <- X %>% #
+		group_by_(.dots = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)) %>%#
+		summarise(n_sims = n()#
 		)#
-	# sampling bias#
-	data_summary <- data %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		y_value_mean_RB = (#
-			# mean of HT estimates#
-			mean(y_value_mean_observed) - #
-			# mu, population mean#
-			Thompson1990Figure1Population_summary$y_value_mean#
-		) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-		y_value_var_RB = (#
-			mean(y_value_var_observed) - var(y_value_mean_observed)#
-		) / var(y_value_mean_observed) * 100,#
-		y_value_mean_MSE = sum((#
-			y_value_mean_observed - #
-			Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) / length(y_value_mean_observed)#
-	) %>%#
-	as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame
+	X <- merge(#
+		X, #
+		n_sims, #
+		by = c(#
+			population.grouping.variables, #
+			sampling.grouping.variables#
+		)#
+	)#
+	# mean of observed means	#
+	temp <- X %>% group_by_(.dots = c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))#
+	A <- vector("list", length(variables))#
+	### OCCUPANCY VARIABLES	#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		# observed mean#
+		A[[i]] <- temp %>%#
+			summarise_(#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				sample_size = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"mean_of_observed_means",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means",#
+		      		sep=""#
+				)#
+			) %>%#
+			setnames(#
+		      	.,#
+		      	"sample_size",#
+		      	paste(#
+		      		variables[i],#
+		      		"_mean_of_observed_means_n",#
+		      		sep=""#
+				)#
+			)#
+	}#
+	Y <- Reduce(#
+		function(x, y) merge(#
+			x, y,#
+			by=c(#
+				population.grouping.variables, #
+				sampling.grouping.variables, #
+				"n_sims"#
+			)#
+		),#
+		A#
+	)#
+	X <- merge(#
+		X, #
+		Y, #
+		by=c(#
+			population.grouping.variables, #
+			sampling.grouping.variables,#
+			"n_sims"#
+		)#
+	)#
+	# calculate squared differences for each simulation and variable#
+	for (i in 1:length(variables)) {#
+		X %<>%#
+			mutate(#
+				observed_minus_true = #
+						# observed -#
+						(eval(#
+							parse(#
+								text=paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true#
+						eval(#
+							parse(text = ifelse(#
+								variables[i] %in% rvar,#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_ratio_mean", #
+									sep=""#
+								),#
+								paste(#
+									"X$", #
+									variables[i], #
+									"_mean", #
+									sep=""#
+								)#
+							)#
+						)#
+					)#
+				)^2#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_true", #
+				paste(#
+					variables[i], #
+					"_mean_observed_minus_true", #
+					sep=""#
+				)#
+			)#
+	}#
+	# calculate squared differences (observed - mean of observed) for each variable#
+	for (i in 1:length(variables)) {#
+		X %<>%#
+			mutate(#
+				observed_minus_mean_of_observed_means = #
+						# (observed -#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_observed", #
+									sep=""#
+								)#
+							)#
+						) - #
+						# true)#
+						eval(#
+							parse(#
+								text = paste(#
+									"X$", #
+									variables[i], #
+									"_mean_of_observed_means", #
+									sep=""#
+								)#
+							)#
+						)#
+			) %>%#
+			setnames(#
+				., #
+				"observed_minus_mean_of_observed_means", #
+				paste(#
+					variables[i], #
+					"_observed_minus_mean_of_observed_means", #
+					sep=""#
+				)#
+			)#
+	}#
+	# calculate bias and MSE#
+	A <- vector("list", length(variables))#
+	X.grp <- X %>% group_by_(.dots=c(#
+		population.grouping.variables, #
+		sampling.grouping.variables, #
+		"n_sims"#
+	))#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		A[[i]] <- X.grp %>%#
+			summarise_(#
+				# save true mean#
+				true_mean = interp(#
+					~var[1], #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean", #
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of observed means#
+				mean_of_observed_means = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				RB_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate sum of MSEs#
+				sum_of_observed_minus_true_sqrd = interp(#
+					~sum(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				MSE_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_mean_observed_minus_true",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate mean of simulated HT variance estimates#
+				mean_of_var_estimates = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				mean_of_var_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_var_observed",#
+							sep=""#
+						)#
+					)#
+				),#
+				# calculate variance of simulated HT mean estimates#
+				var_of_mean_estimates = interp(#
+					~var(variable, na.rm = TRUE), #
+					variable = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				),#
+				var_of_mean_estimates_n = interp(#
+					~length(var[which(!is.na(var))]), #
+					var = #
+					as.name(#
+						paste(#
+							variables[i],#
+							"_observed_minus_mean_of_observed_means",#
+							sep=""#
+						)#
+					)#
+				)#
+			) %>%#
+				as.data.frame#
+			A[[i]] %<>% #
+				mutate(#
+					# var_mean = Mean()#
+					RB = 100 * #
+						(mean_of_observed_means - true_mean) / #
+						true_mean,#
+					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
+					var_RB = 100 * (mean_of_var_estimates - #
+						var_of_mean_estimates) / #
+						var_of_mean_estimates,#
+					var_RB_n = min(#
+						mean_of_var_estimates_n, #
+						var_of_mean_estimates_n#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"true_mean",#
+		      		paste(#
+		      			variables[i],#
+		      			"_true_mean",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB",#
+		      			sep=""#
+					)#
+				) %>%#
+				# rename sample size variables#
+				setnames(#
+		      		.,#
+		      		"RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_RB_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"MSE_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_mean_MSE_n",#
+		      			sep=""#
+					)#
+				) %>%#
+				setnames(#
+		      		.,#
+		      		"var_RB_n",#
+		      		paste(#
+		      			variables[i],#
+		      			"_var_RB_n",#
+		      			sep=""#
+					)#
+				)
+}
+A[[i]]
+head(X)
+tail(X)
+dim(X)
+X %>% filter(mean_total_sample_size==89) %>% dim
+X %>% filter(mean_total_sample_size==89) %>% head
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+89*0.04
+X %>% filter(mean_total_sample_size==89) %$% unique(y_value_mean_observed)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
+samplesizes <- data.frame(#
+	seed = 1:8000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(samplesizes)[1]
+i
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes$seed[i]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes$N.SRSWOR.plots[i]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes <- data.frame(#
+	seed = 1:8000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
+)
+head(samplesizes)
+samplesizes %>% filter(N.SRSWOR.plots==50) %$% length(unique(seed))
+i
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
 	)
+i=8000
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
+temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	)
+head(temp)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ggplot(temp, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)
+warnings()
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+temp$m
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes$N.SRSWOR.plots[i]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(P)[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+temp$y_value
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+y = temp$y_value
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+N = dim(P)[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+n1 = samplesizes$N.SRSWOR.plots[i]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+m = temp$m
+head(temp)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+criterion=NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+J = 1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y*J
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values = pi_i(N, n1, m)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Calculate the inclusion probability of unit $i$ in a simple random sample without replacement. #
+#' #
+#' @param N Population size.#
+#' @param n1 Initial sample size.#
+#' @param m Vector of values giving the number of units satisfying the ACS criterion in network $i$.#
+#' @return vector of inclusion probabilities#
+#' @examples #
+#' # example from section 4, p. 1055 (first column) in Thompson (1990)#
+#' N = 5#
+#' n1 = 2#
+#' y = c(1,10,1000)#
+#' m = c(1,2,2)#
+#' pi_i(N, n1, m)#
+#' # EXAMPLE 4:#
+#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+#' N=1000#
+#' n1=100#
+#' m=c(2,3,rep(1,98))#
+#' head(pi_i(N, n1, m))#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#'#
+#' Thompson. 1990.#
+#' @export#
+#
+pi_i <- function(N, n1, m) {#
+  sapply(m, function(m) #
+    1 - exp(#
+		sum(log({N - m - n1 + 1} : {N - m})) - sum(log({N - n1 + 1} : N))#
+		)#
+  )#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values = pi_i(N, n1, m)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N - m - n1 + 1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N - m
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+log({N - m - n1 + 1} : {N - m})
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+{N - m - n1 + 1}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+{N - m}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+{N - m - n1 + 1} : {N - m}
+head(temp)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	) %>% filter(Sampling!="Edge")
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	) %>% filter(Sampling!="Edge")#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
 	)#
-})
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)
+warnings()
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	) %>% filter(Sampling!="Edge")
 temp
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)
