@@ -1,4 +1,204 @@
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+21.4*.813
+21.4 -21.4*.813
+library(lubridaste)
+library(lubrida=te)
+library(lubridate)
+-v
+install.packages("rgeos", repos="http://R-Forge.R-project.org")#
+require(rgeos)
+library(rgeos)
+require(rgeos)
+library(rgeos)
+install.packages("rgdal", repos="http://R-Forge.R-project.org")#
+require(rgdal)
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
+ --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
+ --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+library(lme3)
+library(lme4)
+300/241
+.244*30
+1.25*300
+1.25*240
+7*12
+7849-7527
+322/1353
+8028-7527
+501/1353
+8028-7957
+1353-501
+852/71
+7956-7878
+8176-8029
+8176-8092
+250*.75
+250*.25
+42*2 + 17*2
+118/19
+21/6.2
+59.5*.75
+59.5*.5 + 59.5
+71/12
+597/80
+597/8
+432/8
+15*8 + 9*3
+?seq_len
+7.25/3
+7.25/4
+for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
+install.packages("ProjectTemplate")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("data.table")
+install.packages("corrgram")
+install.packages("survival")
+install.packages("shapefiles")
+install.packages("rgdal")
+install.packages("PBSmapping")
+install.packages("sp")
+install.packages("gdistance")
+install.packages("chron")
+install.packages("unmarked")
+install.packages("lme4")
+install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
+require(rgeos)
+install.packages('rgdal',repos="http://www.stats.ox.ac.uk/pub/RWin")
+library(rgdal)
+install.packages("http://cran.r-project.org/src/contrib/rgdal_0.9-1.tar.gz", repos = NULL, type="source", configure.args = "--with-gdal-config=/Library/Frameworks/GDAL.framework/Versions/1.10/unix/bin/gdal-config --with-proj-include=/Library/Frameworks/PROJ.framework/unix/include --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib")
+18/1.618
+189+114
+library(lubridate)
+library(magrittr)
+seasons <- data.frame(#
+	   SE = as.POSIXct(c("2009-3-20", "2010-3-20", "2011-3-20", "2012-3-20", #
+            "2013-3-20", "2014-3-20"), format="%Y-%m-%d"),#
+	   SS = as.POSIXct(c("2009-6-21", "2010-6-21", "2011-6-21", "2012-6-20",#
+            "2013-6-20", "2014-6-20"), format="%Y-%m-%d"),#
+	   FE = as.POSIXct(c("2009-9-22", "2010-9-23", "2011-9-23", "2012-9-22",#
+            "2013-9-22", "2014-9-22"), format="%Y-%m-%d"),#
+	   WS = as.POSIXct(c("2009-12-21", "2010-12-21", "2011-12-22", "2012-12-21", #
+            "2013-12-21", "2014-12-21"), format="%Y-%m-%d")#
+    )#
+#
+    assignSeason <- function(dat, SeasonStarts=seasons) {#
+	    dat %<>% mutate(#
+		    Season = lapply(Date,#
+				function(x) {#
+					findInterval(#
+						x, #
+						SeasonStarts[which(year(x)==year(SeasonStarts$WS)), ]#
+					)#
+				}#
+			) %>% unlist	#
+		)#
+	    dat[which(dat$Season==0 | dat$Season==4), ]$Season 	<- "Winter"#
+	    dat[which(dat$Season==1), ]$Season 					<- "Spring"#
+	    dat[which(dat$Season==2), ]$Season 					<- "Summer"#
+	    dat[which(dat$Season==3), ]$Season 					<- "Fall"#
+	    return(dat)#
+    }
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(dplyr)
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(devtoolks)
+library(devtools)
+?install_github
+devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+library(devtools)
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+??limit
+37-13
+24/37
+37-13
+26/37
+25/37
+23/37
+29/37
+30/37
+22/37
+30/37
+29/37
+28/37
+27/37
+35/37
+30/37
+29/37
+26/37
+26/37 - .6757
+28/37
+30/37
+29/37
+37-12
+25/37
+219*.8
+219*.8 - 17
+26/3
+17/900
+42/900
+49/900
+29/40
+1/25
+8/25
+10/25
+(7.5 + 3.75)/15
+12*0.75
+11 * 0.75
+11/15
+11*0.25
+11/15 * 6
+32/41 +0.03.5
+32/41 + 0.035
+(32/41 + 0.035)*100
+100/41
+23/40 * 100
+(23/40 * 100)+5
+(164 + 13.5 + 6)
+(164 + 13.5 + 6)/365
+(164 + 13.5 + 6 + (50))/365
+(164 + 13.5 + 6 + (60))/365
+(164 + 13.5 + 6 + (70))/365
+(164 + 13.5 + 6 + (75))/365
+102/40
+102/41
+?table
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+library(ProjectTemplate)#
+#
+# when working on a Windows computer#
+# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
+#
+# load project#
+load.project()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+source("1_set_variables.R")#
+source("2_create_realizations.R")#
+source("3_summarise_network_information.R")#
+source("4_calculate_realization_summary_statistics.R")#
+Sys.time()#
+#source("5_run_simulations.R")#
+source("6_merge_simulation_results.R")#
+source("7_simulation_summary_statistics.R")#
+source("8_number_of_bootstraps_per_realization_sampling.R")
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
 # create population#
 lambdap_5_tau_10 <- expand.grid(#
 	x = 1:10,#
@@ -29,2328 +229,23 @@ P[which(P$y_value==0), ]$m <- 1#
 maxID <- max(P$NetworkID, na.rm=T)#
 P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
 	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))#
+#
+ggplot(temp, aes(x, y)) + geom_text(aes(label=y_value))
+head(P)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ggplot(temp, aes(x, y)) + geom_text(aes(label="y_value"))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
 #
 samplesizes <- data.frame(#
-	seed = 1:4000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	)#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_variance <- var(P$y_value)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_variance
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-(population_variance / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats$mean_total_sample_size
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-(population_variance / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-(ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes <- data.frame(#
-	seed = 1:4000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
+	seed = 1:8000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
 )#
 y_value_mean_observed <- vector()#
 y_value_var_observed <- vector()#
 total_sample_size <- vector()
-dim(P)
-head(P)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
-i=3001
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	)
-temp
-temp %>% arrange(Sampling,y_value)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame
-head(ACSdata_summary_stats)
-dim(ACSdata_summary_stats)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-P_summary
-mean(P$y_value)
-dim(ACSdata_re)
-head(ACSdata_re)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-simulation_data		= ACSdata_re
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_data_summary	= P_summary
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population.grouping.variables = NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-sampling.grouping.variables	= "mean_total_sample_size"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-variables			= "y_value"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-rvar				= NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))
-head(temp)
-head(temp) %>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-### OCCUPANCY VARIABLES	#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				sample_size = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables
-i
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)
-head(X)
-head(ACSdata_re)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ifelse(#
-								variables[i] %in% rvar,#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_ratio_mean", #
-									sep=""#
-								),#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>%#
-			mutate(#
-				observed_minus_true = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(text = ifelse(#
-								variables[i] %in% rvar,#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_ratio_mean", #
-									sep=""#
-								),#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-					)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)
-head(X)
-(0.000000-2.98)^2
-(5.103448-2.98)^2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)
-head(X)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()
-head(X)
-temporary <- X %>% filter(mean_total_sample_size==45 & n_sims==1000) %>% dim
-temporary
-temporary <- X %>% filter(mean_total_sample_size==45 & n_sims==1000)
-head(temporary)
-temporary %>% summarise(sum(y_value_mean_observed_minus_true))
-temporary %>% summarise(sum(y_value_mean_observed_minus_true))/1000
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes <- data.frame(#
-	seed = 1:4000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	)#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-head(ACSdata_summary_stats)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-RE_values
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_data_summary	= P_summary
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-simulation_data		= ACSdata_re
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population.grouping.variables = NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-sampling.grouping.variables	= "mean_total_sample_size"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-variables			= "y_value"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-rvar				= NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))#
-	### OCCUPANCY VARIABLES	#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				sample_size = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	# calculate squared differences for each simulation and variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_true = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(text = ifelse(#
-								variables[i] %in% rvar,#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_ratio_mean", #
-									sep=""#
-								),#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-					)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate squared differences (observed - mean of observed) for each variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate bias and MSE#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					var_RB = 100 * #
-						(mean_of_observed_means - true_mean) / #
-						true_mean,#
-					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
-					var_RB = 100 * (mean_of_var_estimates - #
-						var_of_mean_estimates) / #
-						var_of_mean_estimates,#
-					var_RB_n = min(#
-						mean_of_var_estimates_n, #
-						var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				) %>%
-()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					var_RB = 100 * #
-						(mean_of_observed_means - true_mean) / #
-						true_mean,#
-					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
-					var_RB = 100 * (mean_of_var_estimates - #
-						var_of_mean_estimates) / #
-						var_of_mean_estimates,#
-					var_RB_n = min(#
-						mean_of_var_estimates_n, #
-						var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))#
-	### OCCUPANCY VARIABLES	#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				sample_size = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	# calculate squared differences for each simulation and variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_true = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(text = ifelse(#
-								variables[i] %in% rvar,#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_ratio_mean", #
-									sep=""#
-								),#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-					)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate squared differences (observed - mean of observed) for each variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate bias and MSE#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					var_RB = 100 * #
-						(mean_of_observed_means - true_mean) / #
-						true_mean,#
-					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
-					var_RB = 100 * (mean_of_var_estimates - #
-						var_of_mean_estimates) / #
-						var_of_mean_estimates,#
-					var_RB_n = min(#
-						mean_of_var_estimates_n, #
-						var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				)
-}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))#
-	### OCCUPANCY VARIABLES	#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				sample_size = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	# calculate squared differences for each simulation and variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_true = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(text = ifelse(#
-								variables[i] %in% rvar,#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_ratio_mean", #
-									sep=""#
-								),#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-					)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate squared differences (observed - mean of observed) for each variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate bias and MSE#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					RB = 100 * #
-						(mean_of_observed_means - true_mean) / #
-						true_mean,#
-					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
-					var_RB = 100 * (mean_of_var_estimates - #
-						var_of_mean_estimates) / #
-						var_of_mean_estimates,#
-					var_RB_n = min(#
-						mean_of_var_estimates_n, #
-						var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				)
-}
-A[[i]]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes <- data.frame(#
-	seed = 1:8000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
-)
-tail(samplesizes)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes <- data.frame(#
-	seed = 1:8000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	)#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_data_summary	= P_summary
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-simulation_data		= ACSdata_re
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population.grouping.variables = NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-sampling.grouping.variables	= "mean_total_sample_size"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-variables			= "y_value"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-rvar				= NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))#
-	### OCCUPANCY VARIABLES	#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				sample_size = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	# calculate squared differences for each simulation and variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_true = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(text = ifelse(#
-								variables[i] %in% rvar,#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_ratio_mean", #
-									sep=""#
-								),#
-								paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-					)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate squared differences (observed - mean of observed) for each variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate bias and MSE#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					RB = 100 * #
-						(mean_of_observed_means - true_mean) / #
-						true_mean,#
-					MSE = sum_of_observed_minus_true_sqrd/n_sims,#
-					var_RB = 100 * (mean_of_var_estimates - #
-						var_of_mean_estimates) / #
-						var_of_mean_estimates,#
-					var_RB_n = min(#
-						mean_of_var_estimates_n, #
-						var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				)
-}
-A[[i]]
-head(X)
-tail(X)
-dim(X)
-X %>% filter(mean_total_sample_size==89) %>% dim
-X %>% filter(mean_total_sample_size==89) %>% head
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
-89*0.04
-X %>% filter(mean_total_sample_size==89) %$% unique(y_value_mean_observed)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes <- data.frame(#
-	seed = 1:8000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-dim(samplesizes)[1]
-i
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes$seed[i]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes$N.SRSWOR.plots[i]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes <- data.frame(#
-	seed = 1:8000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
-)
-head(samplesizes)
-samplesizes %>% filter(N.SRSWOR.plots==50) %$% length(unique(seed))
-i
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	)
 i=8000
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
 temp <- createACS(#
@@ -2358,125 +253,8 @@ temp <- createACS(#
 		seed=samplesizes$seed[i], #
 		n1=samplesizes$N.SRSWOR.plots[i],#
 		y_variable="y_value"#
-	)
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ggplot(temp, aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)
-warnings()
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp$m
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-samplesizes$N.SRSWOR.plots[i]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-dim(P)[1]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp$y_value
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-y = temp$y_value
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-N = dim(P)[1]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-n1 = samplesizes$N.SRSWOR.plots[i]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-m = temp$m
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-criterion=NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-J = 1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y*J
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-pi_i_values
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-pi_i_values = pi_i(N, n1, m)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-pi_i_values
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate the inclusion probability of unit $i$ in a simple random sample without replacement. #
-#' #
-#' @param N Population size.#
-#' @param n1 Initial sample size.#
-#' @param m Vector of values giving the number of units satisfying the ACS criterion in network $i$.#
-#' @return vector of inclusion probabilities#
-#' @examples #
-#' # example from section 4, p. 1055 (first column) in Thompson (1990)#
-#' N = 5#
-#' n1 = 2#
-#' y = c(1,10,1000)#
-#' m = c(1,2,2)#
-#' pi_i(N, n1, m)#
-#' # EXAMPLE 4:#
-#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-#' N=1000#
-#' n1=100#
-#' m=c(2,3,rep(1,98))#
-#' head(pi_i(N, n1, m))#
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
-#'#
-#' Thompson. 1990.#
-#' @export#
-#
-pi_i <- function(N, n1, m) {#
-  sapply(m, function(m) #
-    1 - exp(#
-		sum(log({N - m - n1 + 1} : {N - m})) - sum(log({N - n1 + 1} : N))#
-		)#
-  )#
-}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-pi_i_values = pi_i(N, n1, m)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-N
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-m
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-N - m - n1 + 1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-N - m
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-log({N - m - n1 + 1} : {N - m})
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-{N - m - n1 + 1}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-{N - m}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-{N - m - n1 + 1} : {N - m}
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
 	) %>% filter(Sampling!="Edge")#
+	# I just filtered out the edge units, why don't these other calculations work?#
 	y_value_mean_observed[i] <- y_HT(#
 		y = temp$y_value,#
 		N = dim(P)[1],#
@@ -2488,20 +266,607 @@ temp <- createACS(#
 		N = dim(P)[1],#
 		n1 = samplesizes$N.SRSWOR.plots[i],#
 		m = temp$m#
-	)
-warnings()
+	)#
+	total_sample_size[i] <- dim(temp)[1]
+temp
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- createACS(#
+temp$y_value
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(P)[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+criterion=NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+J = 1
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+m = temp$m
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+n1 = samplesizes$N.SRSWOR.plots[i]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+N = dim(P)[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+y = temp$y_value
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values = pi_i(N, n1, m)
+warnings()
+pi_i_values
+pi_i_values = pi_i(N, n1, m[2])
+m[2]
+N
+n1
+(1 - nchoosek((N-m[2])/n1))
+choose((N-m[2]), n1)
+N-m[2]
+n1
+choose(42,50)
+choose(100,50)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_10 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,10),#
+			rep(0,4), 49, rep(0,5),#
+			rep(0,4), 1, rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,7), 52, 5, 0,#
+			rep(0,8), 45, 0,#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_10_networks <- assignNetworkMembership(#
+	lambdap_5_tau_10 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+P = merge(lambdap_5_tau_10, lambdap_5_tau_10_networks, all=T)#
+P[which(P$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+#
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_1 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,10),#
+			rep(0,4), 49, rep(0,5),#
+			rep(0,4), 1, rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,7), 52, 5, 0,#
+			rep(0,8), 45, 0,#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_10_networks <- assignNetworkMembership(#
+	lambdap_5_tau_10 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+P = merge(lambdap_5_tau_10, lambdap_5_tau_10_networks, all=T)#
+P[which(P$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+#
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+P <- lambdap_5_tau_1#
+samplesizes <- data.frame(#
+	seed = 1:4000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
 		population=P, #
 		seed=samplesizes$seed[i], #
 		n1=samplesizes$N.SRSWOR.plots[i],#
 		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")
-temp
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-y_HT(#
+	) %>% filter(Sampling!="Edge")#
+	# I just filtered out the edge units, why don't these other calculations work?#
+	y_value_mean_observed[i] <- y_HT(#
 		y = temp$y_value,#
 		N = dim(P)[1],#
 		n1 = samplesizes$N.SRSWOR.plots[i],#
 		m = temp$m#
-	)
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
+	group_by(N.SRSWOR.plots) %>%#
+	summarise(#
+		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
+	)#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
+	)#
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_1 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,10),#
+			rep(0,4), 49, rep(0,5),#
+			rep(0,4), 1, rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,7), 52, 5, 0,#
+			rep(0,8), 45, 0,#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_1_networks <- assignNetworkMembership(#
+	lambdap_5_tau_1 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+P = merge(lambdap_5_tau_1, lambdap_5_tau_1_networks, all=T)#
+P[which(P$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+#
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+P <- lambdap_5_tau_1#
+samplesizes <- data.frame(#
+	seed = 1:4000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	) %>% filter(Sampling!="Edge")#
+	# I just filtered out the edge units, why don't these other calculations work?#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
+	group_by(N.SRSWOR.plots) %>%#
+	summarise(#
+		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
+	)#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
+	)#
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
+head(P)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_1 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,10),#
+			rep(0,4), 49, rep(0,5),#
+			rep(0,4), 1, rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,7), 52, 5, 0,#
+			rep(0,8), 45, 0,#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_1_networks <- assignNetworkMembership(#
+	lambdap_5_tau_1 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+P = merge(lambdap_5_tau_1, lambdap_5_tau_1_networks, all=T)#
+P[which(P$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+#
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
+# not calculating pi_i correctly#
+samplesizes <- data.frame(#
+	seed = 1:4000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	) %>% filter(Sampling!="Edge")#
+	# I just filtered out the edge units, why don't these other calculations work?#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
+	group_by(N.SRSWOR.plots) %>%#
+	summarise(#
+		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
+	)#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
+	)#
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
+# not calculating pi_i correctly#
+samplesizes <- data.frame(#
+	seed = 1:8000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	) %>% filter(Sampling!="Edge")#
+	# I just filtered out the edge units, why don't these other calculations work?#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
+	group_by(N.SRSWOR.plots) %>%#
+	summarise(#
+		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
+	)#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
+	)#
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_25 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			0,0,0,4,rep(0,6),#
+			0,0,0,43,17,rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,2), rep(1,4), rep(0,4),#
+			rep(0,2), 50, 51, 41, 5, rep(0,4),#
+			rep(0,2), 2, 1, rep(0,6),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_25_networks <- assignNetworkMembership(#
+	lambdap_5_tau_25 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+P = merge(lambdap_5_tau_25, lambdap_5_tau_25_networks, all=T)#
+P[which(P$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+#
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ggplot(P %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+66.95/20
+P
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_25 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			0,0,0,4,rep(0,6),#
+			0,0,0,43,17,rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,2), rep(1,4), rep(0,4),#
+			rep(0,2), 50, 51, 41, 5, rep(0,4),#
+			rep(0,2), 2, 1, rep(0,6),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_25_networks <- assignNetworkMembership(#
+	lambdap_5_tau_25 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+P = merge(lambdap_5_tau_25, lambdap_5_tau_25_networks, all=T)#
+P[which(P$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+#
+ggplot(P %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
+# not calculating pi_i correctly#
+samplesizes <- data.frame(#
+	seed = 1:12000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=3000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()#
+for (i in 1:dim(samplesizes)[1]) {#
+	temp <- createACS(#
+		population=P, #
+		seed=samplesizes$seed[i], #
+		n1=samplesizes$N.SRSWOR.plots[i],#
+		y_variable="y_value"#
+	) %>% filter(Sampling!="Edge")#
+	# I just filtered out the edge units, why don't these other calculations work?#
+	y_value_mean_observed[i] <- y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	y_value_var_observed[i] <- var_y_HT(#
+		y = temp$y_value,#
+		N = dim(P)[1],#
+		n1 = samplesizes$N.SRSWOR.plots[i],#
+		m = temp$m#
+	)#
+	total_sample_size[i] <- dim(temp)[1]#
+}#
+ACSdata <- cbind(#
+	samplesizes,#
+	y_value_mean_observed,#
+	y_value_var_observed,#
+	total_sample_size#
+)#
+temp <- ACSdata %>%#
+	group_by(N.SRSWOR.plots) %>%#
+	summarise(#
+		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
+	)#
+ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#
+# summarise population data#
+P_summary <- #
+	calculatePopulationSummaryStatistics(#
+		population_data		= P, #
+		summary.variables 	= "y_value", #
+		grouping.variables 	= NULL, #
+		ratio.variables 	= NULL#
+	)#
+ACSdata_summary_stats <- calculateSamplingBias(#
+	population_data_summary	= P_summary, #
+	simulation_data		= ACSdata_re, #
+	population.grouping.variables = NULL, #
+	sampling.grouping.variables	= "mean_total_sample_size", #
+	variables			= "y_value", #
+	rvar				= NULL #
+) %>%#
+as.data.frame#
+population_variance <- var(P$y_value)#
+RE_values <-  #
+	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
+	ACSdata_summary_stats$y_value_mean_MSE#
+calculateRE(#
+	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
+	population_data = P,#
+	population.grouping.variables = NULL,#
+	sampling.grouping.variables = NULL,#
+	sample.size.variable = "mean_total_sample_size",#
+	variables = "y_value"#
+)

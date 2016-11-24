@@ -29,4 +29,4 @@ maxID <- max(P$NetworkID, na.rm=T)
 P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), 
 	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)
 
-ggplot(temp, aes(x, y)) + geom_text(aes(label=y_value))
+ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))

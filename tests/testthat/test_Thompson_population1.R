@@ -1,8 +1,11 @@
 # why is mean of observed means 0.020100 for N.SRSWOR.plots=50?
+# not calculating pi_i correctly
+
+
 
 samplesizes <- data.frame(
-	seed = 1:8000,
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)
+	seed = 1:12000,
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=3000)
 )
 y_value_mean_observed <- vector()
 y_value_var_observed <- vector()
