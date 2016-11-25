@@ -1,4 +1,3 @@
-21.4*.813
 21.4 -21.4*.813
 library(lubridaste)
 library(lubrida=te)
@@ -155,6 +154,36 @@ install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulation
 17/900
 42/900
 49/900
+29/40
+1/25
+8/25
+10/25
+(7.5 + 3.75)/15
+12*0.75
+11 * 0.75
+11/15
+11*0.25
+11/15 * 6
+32/41 +0.03.5
+32/41 + 0.035
+(32/41 + 0.035)*100
+100/41
+23/40 * 100
+(23/40 * 100)+5
+(164 + 13.5 + 6)
+(164 + 13.5 + 6)/365
+(164 + 13.5 + 6 + (50))/365
+(164 + 13.5 + 6 + (60))/365
+(164 + 13.5 + 6 + (70))/365
+(164 + 13.5 + 6 + (75))/365
+102/40
+102/41
+?table
+(38.40 + 4.99)/14
+(39.60+4.99)/9
+17.20/4
+(54+4.99)/27
+(34+4.99)/20
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -163,196 +192,217 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-var_R_hat#
-		y = c(60, 60, 14, 1),#
-		z = c(1, 1, 1, 1),#
-		N = 100,#
-		n1 = 4,#
-		m = c(5, 5, 2, 1)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-var_R_hat(#
-		y = c(60, 60, 14, 1),#
-		z = c(1, 1, 1, 1),#
-		N = 100,#
-		n1 = 4,#
-		m = c(5, 5, 2, 1)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-var_R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		round(#
-			var_R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			), 2#
-		),#
-		equals(17.5)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-#### TESTING#
-#
-test_that("x_HT, Horvitz-Thompson Mean Estimator", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	expect_that(#
-		round(#
-			x_HT(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98)), #
-				y = c(3,6,rep(0, 98)), #
-				sampling = "SRSWOR", #
-				criterion = 0#
-			)*1000, 0#
-		),#
-		equals(38)#
-	)#
-	# Example from Thompson (1990), end of second full paragraph, p. 1055#
-	mk <- c(1,0,2,2)#
-	y_value <- c(1,2,10,1000)#
-	sampling <- c("S","C","S","C")#
-	dat <- data.frame(mk, y_value, sampling)#
-	dat$mk %<>% as.numeric#
-	dat$y_value %<>% as.numeric#
-	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
-	expect_that(#
-		round(#
-			x_HT(#
-				N = 5, #
-				m = dat_filter$mk, #
-				n1 = 2, #
-				y = dat_filter$y_value#
-			), 2#
-		),#
-		equals(289.07)#
-	)#
-})#
-#
-test_that("pi_i, Network Inclusion Probability", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	expect_that(#
-		round(#
-			pi_i(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98))#
-			)[1:2], 2#
-		),#
-		equals(c(0.19, 0.27))#
-	)#
-})#
-#
-test_that("pi_ij, Network Joint Inclusion Probability", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
-	expect_that(#
-		round(#
-			pi_ij(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98))#
-			)[1, 2], 4#
-		),#
-		equals(0.0512)#
-	)#
-})#
-#
-test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
-	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
-	expect_that(#
-		round(#
-			var_x_HT(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98)), #
-				y = c(3,6,rep(0, 98))#
-			)*(1000^2), 0#
-		),#
-		equals(553)#
-	)#
-})#
-#
-test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {#
-	# Thompson (2002), Example 2, p. 78-79#
-	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)#
-	expect_that(#
-		round(#
-			R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			), 2#
-		),#
-		equals(12.12)#
-	)#
-)#
-test_that("var_R_hat, with replacement", {#
-	# Thompson (2002), Example 2, p. 78-79#
-	expect_that(#
-		round(#
-			var_R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			), 2#
-		),#
-		equals(17.5)#
-	)#
-)#
-test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
-	# Exercise #3, p. 85, Thompson (2002)#
-	N 		<- 4#
-	dat 	<- data.frame(y = c(2, 3, 0, 1), z = c(20, 25, 0, 15))#
-	combin 	<- combn(4,2)#
-	combin	<- split(combin, col(combin))#
-	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])#
-	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))#
-	expect_that(#
-		lapply(#
-			combos, #
-			function(x) round(#
-				R_hat(#
-					x$y, #
-					x$z, #
-					N = 4, #
-					n1 = 2, #
-					m = c(1,1)#
-				)*(20 + 25 + 15), 6#
-			)#
-		),#
-		equals(#
-			list(#
-				`1` = 6.666667, #
-				`2` = 6, #
-				`3` = 5.142857, #
-				`4` = 7.2, #
-				`5` = 6, #
-				`6` = 4#
-			)#
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_1 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,10),#
+			rep(0,4), 49, rep(0,5),#
+			rep(0,4), 1, rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,7), 52, 5, 0,#
+			rep(0,8), 45, 0,#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10)#
 		)#
 	)#
-})
+lambdap_5_tau_1_networks <- assignNetworkMembership(#
+	lambdap_5_tau_1 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+lambdap_5_tau_1 %<>% merge(lambdap_5_tau_1_networks, all=T)#
+lambdap_5_tau_1[which(lambdap_5_tau_1$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+lambdap_5_tau_1[which(is.na(lambdap_5_tau_1$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(lambdap_5_tau_1$NetworkID)))), by=1)#
+#
+ggplot(lambdap_5_tau_1, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_25 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			0,0,0,4,rep(0,6),#
+			0,0,0,43,17,rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,2), rep(1,4), rep(0,4),#
+			rep(0,2), 50, 51, 41, 5, rep(0,4),#
+			rep(0,2), 2, 1, rep(0,6),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_25_networks <- assignNetworkMembership(#
+	lambdap_5_tau_25 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+lambdap_5_tau_25 %<>% merge(lambdap_5_tau_25_networks, all=T)#
+lambdap_5_tau_25[which(lambdap_5_tau_25$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(lambdap_5_tau_25$NetworkID, na.rm=T)#
+lambdap_5_tau_25[which(is.na(lambdap_5_tau_25$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(lambdap_5_tau_25$NetworkID)))), by=1)#
+#
+ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_10 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,4),3,10,22,16,7,7,#
+			rep(0,3),2,1,10,10,13,16,9,#
+			0,0,1,5,1,5,8,5,8,6,#
+			2,1,4,9,8,1,0,1,1,1,#
+			1,6,7,9,3,5,1,1,2,0,#
+			0,4,8,6,5,2,4,3,2,2,#
+			1,1,rep(0,4),3,9,8,3,#
+			0,0,0,2,0,0,0,2,3,1,#
+			rep(0,7),1,0,0,#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_10_networks <- assignNetworkMembership(#
+	lambdap_5_tau_10 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+lambdap_5_tau_10 %<>% merge(lambdap_5_tau_10_networks, all=T)#
+lambdap_5_tau_10[which(lambdap_5_tau_10$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(lambdap_5_tau_10$NetworkID, na.rm=T)#
+lambdap_5_tau_10[which(is.na(lambdap_5_tau_10$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(lambdap_5_tau_10$NetworkID)))), by=1)#
+#
+ggplot(lambdap_5_tau_10, aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_10 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,4),3,10,22,16,7,7,#
+			rep(0,3),2,1,10,10,13,16,9,#
+			0,0,1,5,1,5,8,5,8,6,#
+			2,1,4,9,8,1,0,1,1,1,#
+			1,6,7,9,3,5,1,1,2,0,#
+			0,4,8,6,5,2,4,3,2,2,#
+			1,1,rep(0,4),3,9,8,3,#
+			0,0,0,2,0,0,0,2,3,1,#
+			rep(0,7),1,0,0,#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_10_networks <- assignNetworkMembership(#
+	lambdap_5_tau_10 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+lambdap_5_tau_10 %<>% merge(lambdap_5_tau_10_networks, all=T)#
+lambdap_5_tau_10[which(lambdap_5_tau_10$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(lambdap_5_tau_10$NetworkID, na.rm=T)#
+lambdap_5_tau_10[which(is.na(lambdap_5_tau_10$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(lambdap_5_tau_10$NetworkID)))), by=1)#
+#
+ggplot(lambdap_5_tau_10 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_1 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,10),#
+			rep(0,4), 49, rep(0,5),#
+			rep(0,4), 1, rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,7), 52, 5, 0,#
+			rep(0,8), 45, 0,#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_1_networks <- assignNetworkMembership(#
+	lambdap_5_tau_1 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+lambdap_5_tau_1 %<>% merge(lambdap_5_tau_1_networks, all=T)#
+lambdap_5_tau_1[which(lambdap_5_tau_1$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(P$NetworkID, na.rm=T)#
+lambdap_5_tau_1[which(is.na(lambdap_5_tau_1$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(lambdap_5_tau_1$NetworkID)))), by=1)#
+#
+ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# create population#
+lambdap_5_tau_1 <- expand.grid(#
+	x = 1:10,#
+	y = 1:10#
+) %>%#
+	cbind(#
+		y_value = c(#
+			rep(0,10),#
+			rep(0,4), 49, rep(0,5),#
+			rep(0,4), 1, rep(0,5),#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,7), 52, 5, 0,#
+			rep(0,8), 45, 0,#
+			rep(0,10),#
+			rep(0,10),#
+			rep(0,10)#
+		)#
+	)#
+lambdap_5_tau_1_networks <- assignNetworkMembership(#
+	lambdap_5_tau_1 %>% filter(y_value > 0), #
+	plot.size=1#
+)#
+# fill in m values#
+lambdap_5_tau_1 %<>% merge(lambdap_5_tau_1_networks, all=T)#
+lambdap_5_tau_1[which(lambdap_5_tau_1$y_value==0), ]$m <- 1#
+# fill in NetworkIDs#
+maxID <- max(lambdap_5_tau_1$NetworkID, na.rm=T)#
+lambdap_5_tau_1[which(is.na(lambdap_5_tau_1$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+	to=(maxID + length(which(is.na(lambdap_5_tau_1$NetworkID)))), by=1)#
+#
+ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+head(#
+ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value)))
+head()
+head(lambdap_5_tau_1)
+dim(lambdap_5_tau_1)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
@@ -360,314 +410,460 @@ devtools::test()#
 devtools::document()#
 devtools::install()
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-#### TESTING#
-#
-test_that("x_HT, Horvitz-Thompson Mean Estimator", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	expect_that(#
-		round(#
-			x_HT(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98)), #
-				y = c(3,6,rep(0, 98)), #
-				sampling = "SRSWOR", #
-				criterion = 0#
-			)*1000, 0#
-		),#
-		equals(38)#
-	)#
-	# Example from Thompson (1990), end of second full paragraph, p. 1055#
-	mk <- c(1,0,2,2)#
-	y_value <- c(1,2,10,1000)#
-	sampling <- c("S","C","S","C")#
-	dat <- data.frame(mk, y_value, sampling)#
-	dat$mk %<>% as.numeric#
-	dat$y_value %<>% as.numeric#
-	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
-	expect_that(#
-		round(#
-			x_HT(#
-				N = 5, #
-				m = dat_filter$mk, #
-				n1 = 2, #
-				y = dat_filter$y_value#
-			), 2#
-		),#
-		equals(289.07)#
-	)#
-})#
-#
-test_that("pi_i, Network Inclusion Probability", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	expect_that(#
-		round(#
-			pi_i(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98))#
-			)[1:2], 2#
-		),#
-		equals(c(0.19, 0.27))#
-	)#
-})#
-#
-test_that("pi_ij, Network Joint Inclusion Probability", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
-	expect_that(#
-		round(#
-			pi_ij(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98))#
-			)[1, 2], 4#
-		),#
-		equals(0.0512)#
-	)#
-})#
-#
-test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
-	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
-	expect_that(#
-		round(#
-			var_x_HT(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98)), #
-				y = c(3,6,rep(0, 98))#
-			)*(1000^2), 0#
-		),#
-		equals(553)#
-	)#
-})#
-#
-test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {#
-	# Thompson (2002), Example 2, p. 78-79#
-	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)#
-	expect_that(#
-		round(#
-			R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			), 2#
-		),#
-		equals(12.12)#
-	)#
-})#
-test_that("var_R_hat, with replacement", {#
-	# Thompson (2002), Example 2, p. 78-79#
-	expect_that(#
-		round(#
-			var_R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			), 2#
-		),#
-		equals(17.5)#
-	)#
-})#
-test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
-	# Exercise #3, p. 85, Thompson (2002)#
-	N 		<- 4#
-	dat 	<- data.frame(y = c(2, 3, 0, 1), z = c(20, 25, 0, 15))#
-	combin 	<- combn(4,2)#
-	combin	<- split(combin, col(combin))#
-	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])#
-	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))#
-	expect_that(#
-		lapply(#
-			combos, #
-			function(x) round(#
-				R_hat(#
-					x$y, #
-					x$z, #
-					N = 4, #
-					n1 = 2, #
-					m = c(1,1)#
-				)*(20 + 25 + 15), 6#
-			)#
-		),#
-		equals(#
-			list(#
-				`1` = 6.666667, #
-				`2` = 6, #
-				`3` = 5.142857, #
-				`4` = 7.2, #
-				`5` = 6, #
-				`6` = 4#
-			)#
-		)#
-	)#
-})
+data(lambdap_5_tau_10)#
+data(lambdap_5_tau_1)#
+data(lambdap_5_tau_25)
+lambdap_5_tau_1 <- createlambdap_5_tau_1()
+lambdap_5_tau_1
+save.rda(lambdap_5_tau_1.rda)
+save(lambdap_5_tau_1, file="lambdap_5_tau_1.rda")
+save(lambdap_5_tau_10, file="lambdap_5_tau_10.rda")
+lambdap_5_tau_10 <- createlambdap_5_tau_10()
+save(lambdap_5_tau_10, file="lambdap_5_tau_10.rda")
+lambdap_5_tau_25 <- createlambdap_5_tau_25()
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
 devtools::test()#
 devtools::document()#
 devtools::install()
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-#### TESTING#
+lambdap_5_tau_25 <- createlambdap_5_tau_25()
+getwd()
+lambdap_5_tau_25 <- createlambdap_5_tau_25()
+lambdap_5_tau_25
+save(lambdap_5_tau_25, "lambdap_5_tau_25.rda")
+save(lambdap_5_tau_25, file="lambdap_5_tau_25.rda")
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+library(ACSampling)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)#
+#' #
+#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.#
+#' @examples #
+#' library(ggplot2)#
+#' data(lambdap_5_tau_25)#
+#' #
+#' ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
+#' @export#
 #
-test_that("x_HT, Horvitz-Thompson Mean Estimator", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	expect_that(#
-		round(#
-			x_HT(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98)), #
-				y = c(3,6,rep(0, 98)), #
-				sampling = "SRSWOR", #
-				criterion = 0#
-			)*1000, 0#
-		),#
-		equals(38)#
-	)#
-	# Example from Thompson (1990), end of second full paragraph, p. 1055#
-	mk <- c(1,0,2,2)#
-	y_value <- c(1,2,10,1000)#
-	sampling <- c("S","C","S","C")#
-	dat <- data.frame(mk, y_value, sampling)#
-	dat$mk %<>% as.numeric#
-	dat$y_value %<>% as.numeric#
-	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
-	expect_that(#
-		round(#
-			x_HT(#
-				N = 5, #
-				m = dat_filter$mk, #
-				n1 = 2, #
-				y = dat_filter$y_value#
-			), 2#
-		),#
-		equals(289.07)#
-	)#
-})#
-#
-test_that("pi_i, Network Inclusion Probability", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	expect_that(#
-		round(#
-			pi_i(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98))#
-			)[1:2], 2#
-		),#
-		equals(c(0.19, 0.27))#
-	)#
-})#
-#
-test_that("pi_ij, Network Joint Inclusion Probability", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
-	expect_that(#
-		round(#
-			pi_ij(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98))#
-			)[1, 2], 4#
-		),#
-		equals(0.0512)#
-	)#
-})#
-#
-test_that("var_x_HT, Horvitz-Thompson Variance Estimator", {#
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
-	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
-	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
-	expect_that(#
-		round(#
-			var_x_HT(#
-				N = 1000, #
-				n1 = 100, #
-				m = c(2,3,rep(1,98)), #
-				y = c(3,6,rep(0, 98))#
-			)*(1000^2), 0#
-		),#
-		equals(553)#
-	)#
-})#
-#
-test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {#
-	# Thompson (2002), Example 2, p. 78-79#
-	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)#
-	expect_that(#
-		round(#
-			R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			), 2#
-		),#
-		equals(12.12)#
-	)#
-})#
-test_that("var_R_hat, with replacement", {#
-	# Thompson (2002), Example 2, p. 78-79#
-	expect_that(#
-		round(#
-			var_R_hat(#
-				y = c(60, 14, 1), #
-				z = c(1, 1, 1), #
-				N = 100, #
-				n1 = 4, #
-				m = c(5, 2, 1), #
-				with_replacement="TRUE"#
-			), 2#
-		),#
-		equals(17.5)#
-	)#
-})#
-test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
-	# Exercise #3, p. 85, Thompson (2002)#
-	N 		<- 4#
-	dat 	<- data.frame(y = c(2, 3, 0, 1), z = c(20, 25, 0, 15))#
-	combin 	<- combn(4,2)#
-	combin	<- split(combin, col(combin))#
-	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])#
-	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))#
-	expect_that(#
-		lapply(#
-			combos, #
-			function(x) round(#
-				R_hat(#
-					x$y, #
-					x$z, #
-					N = 4, #
-					n1 = 2, #
-					m = c(1,1)#
-				)*(20 + 25 + 15), 6#
-			)#
-		),#
-		equals(#
-			list(#
-				`1` = 6.666667, #
-				`2` = 6, #
-				`3` = 5.142857, #
-				`4` = 7.2, #
-				`5` = 6, #
-				`6` = 4#
+createlambdap_5_tau_25 <- function() {#
+	lambdap_5_tau_25 <- expand.grid(#
+		x = 1:10,#
+		y = 1:10#
+	) %>%#
+		cbind(#
+			y_value = c(#
+				0,0,0,4,rep(0,6),#
+				0,0,0,43,17,rep(0,5),#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,2), rep(1,4), rep(0,4),#
+				rep(0,2), 50, 51, 41, 5, rep(0,4),#
+				rep(0,2), 2, 1, rep(0,6),#
+				rep(0,10),#
+				rep(0,10)#
 			)#
 		)#
+	lambdap_5_tau_25_networks <- assignNetworkMembership(#
+		lambdap_5_tau_25 %>% filter(y_value > 0), #
+		plot.size=1#
 	)#
-})
+	# fill in m values#
+	lambdap_5_tau_25 %<>% merge(lambdap_5_tau_25_networks, all=T)#
+	lambdap_5_tau_25[which(lambdap_5_tau_25$y_value==0), ]$m <- 1#
+	# fill in NetworkIDs#
+	maxID <- max(lambdap_5_tau_25$NetworkID, na.rm=T)#
+	lambdap_5_tau_25[which(is.na(lambdap_5_tau_25$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+		to=(maxID + length(which(is.na(lambdap_5_tau_25$NetworkID)))), by=1)#
+#
+	ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+	return(lambdap_5_tau_25)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create the population, $\lambda_P$ = 5, $tau$ = 1, from Christman (1997)#
+#' #
+#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 1.#
+#' @examples #
+#' library(ggplot2)#
+#' data(lambdap_5_tau_1)#
+#' #
+#' ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations.. \emph{Environmetrics}, 8: 145--166.#
+#' @export#
+#
+createlambdap_5_tau_1 <- function() {#
+	lambdap_5_tau_1 <- expand.grid(#
+		x = 1:10,#
+		y = 1:10#
+	) %>%#
+		cbind(#
+			y_value = c(#
+				rep(0,10),#
+				rep(0,4), 49, rep(0,5),#
+				rep(0,4), 1, rep(0,5),#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,7), 52, 5, 0,#
+				rep(0,8), 45, 0,#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,10)#
+			)#
+		)#
+	lambdap_5_tau_1_networks <- assignNetworkMembership(#
+		lambdap_5_tau_1 %>% filter(y_value > 0), #
+		plot.size=1#
+	)#
+	# fill in m values#
+	lambdap_5_tau_1 %<>% merge(lambdap_5_tau_1_networks, all=T)#
+	lambdap_5_tau_1[which(lambdap_5_tau_1$y_value==0), ]$m <- 1#
+	# fill in NetworkIDs#
+	maxID <- max(lambdap_5_tau_1$NetworkID, na.rm=T)#
+	lambdap_5_tau_1[which(is.na(lambdap_5_tau_1$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+		to=(maxID + length(which(is.na(lambdap_5_tau_1$NetworkID)))), by=1)#
+	return(lambdap_5_tau_1)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)#
+#' #
+#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.#
+#' @examples #
+#' library(ggplot2)#
+#' data(lambdap_5_tau_10)#
+#' #
+#' ggplot(lambdap_5_tau_10 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
+#' @export#
+#
+createlambdap_5_tau_10 <- function() {#
+	lambdap_5_tau_10 <- expand.grid(#
+		x = 1:10,#
+		y = 1:10#
+	) %>%#
+		cbind(#
+			y_value = c(#
+				rep(0,4),3,10,22,16,7,7,#
+				rep(0,3),2,1,10,10,13,16,9,#
+				0,0,1,5,1,5,8,5,8,6,#
+				2,1,4,9,8,1,0,1,1,1,#
+				1,6,7,9,3,5,1,1,2,0,#
+				0,4,8,6,5,2,4,3,2,2,#
+				1,1,rep(0,4),3,9,8,3,#
+				0,0,0,2,0,0,0,2,3,1,#
+				rep(0,7),1,0,0,#
+				rep(0,10)#
+			)#
+		)#
+	lambdap_5_tau_10_networks <- assignNetworkMembership(#
+		lambdap_5_tau_10 %>% filter(y_value > 0), #
+		plot.size=1#
+	)#
+	# fill in m values#
+	lambdap_5_tau_10 %<>% merge(lambdap_5_tau_10_networks, all=T)#
+	lambdap_5_tau_10[which(lambdap_5_tau_10$y_value==0), ]$m <- 1#
+	# fill in NetworkIDs#
+	maxID <- max(lambdap_5_tau_10$NetworkID, na.rm=T)#
+	lambdap_5_tau_10[which(is.na(lambdap_5_tau_10$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+		to=(maxID + length(which(is.na(lambdap_5_tau_10$NetworkID)))), by=1)#
+	return(lambdap_5_tau_10)#
+}
+load(:~/Documents/Projects/ACS/data/lambdap_5_tau_1.rda")
+load(""~/Documents/Projects/ACS/data/lambdap_5_tau_1.rda")
+load("~/Documents/Projects/ACS/data/lambdap_5_tau_1.rda")
+head(lambdap_5_tau_1)
+load("~/Documents/Projects/ACS/data/lambdap_5_tau_10.rda")
+getwd()
+load("~/Documents/Projects/ACS/data/lambdap_5_tau_25.rda")
+load("~/Documents/Projects/ACS/data/lambdap_5_tau_24.rda")
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+data(lambdap_5_tau_10)#
+data(lambdap_5_tau_1)#
+data(lambdap_5_tau_25)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+datasets <- c("lambdap_5_tau_1", "lambdap_5_tau_10", "lambdap_5_tau_25")
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+samplesizes <- data.frame(#
+	seed = 1:12000,#
+	N.SRSWOR.plots = rep(c(1,10,25,50),each=3000)#
+)#
+y_value_mean_observed <- vector()#
+y_value_var_observed <- vector()#
+total_sample_size <- vector()
+i=1
+j=1
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+temp <- createACS(#
+			population=dataset[j], #
+			seed=samplesizes$seed[i], #
+			n1=samplesizes$N.SRSWOR.plots[i],#
+			y_variable="y_value"#
+		) %>% filter(Sampling!="Edge")
 setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+options (error= recover)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+options (error= NULL)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create the population, $\lambda_P$ = 5, $tau$ = 1, from Christman (1997)#
+#' #
+#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 1.#
+#' @examples #
+#' library(ggplot2)#
+#' data(lambdap_5_tau_1)#
+#' #
+#' ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations.. \emph{Environmetrics}, 8: 145--166.#
+#' @export#
+#
+createlambdap_5_tau_1 <- function() {#
+	lambdap_5_tau_1 <- expand.grid(#
+		x = 1:10,#
+		y = 1:10#
+	) %>%#
+		cbind(#
+			y_value = c(#
+				rep(0,10),#
+				rep(0,4), 49, rep(0,5),#
+				rep(0,4), 1, rep(0,5),#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,7), 52, 5, 0,#
+				rep(0,8), 45, 0,#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,10)#
+			)#
+		)#
+	lambdap_5_tau_1_networks <- assignNetworkMembership(#
+		lambdap_5_tau_1 %>% filter(y_value > 0), #
+		plot.size=1#
+	)#
+	# fill in m values#
+	lambdap_5_tau_1 %<>% merge(lambdap_5_tau_1_networks, all=T)#
+	lambdap_5_tau_1[which(lambdap_5_tau_1$y_value==0), ]$m <- 1#
+	# fill in NetworkIDs#
+	maxID <- max(lambdap_5_tau_1$NetworkID, na.rm=T)#
+	lambdap_5_tau_1[which(is.na(lambdap_5_tau_1$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+		to=(maxID + length(which(is.na(lambdap_5_tau_1$NetworkID)))), by=1)#
+	return(lambdap_5_tau_1)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)#
+#' #
+#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.#
+#' @examples #
+#' library(ggplot2)#
+#' data(lambdap_5_tau_10)#
+#' #
+#' ggplot(lambdap_5_tau_10 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
+#' @export#
+#
+createlambdap_5_tau_10 <- function() {#
+	lambdap_5_tau_10 <- expand.grid(#
+		x = 1:10,#
+		y = 1:10#
+	) %>%#
+		cbind(#
+			y_value = c(#
+				rep(0,4),3,10,22,16,7,7,#
+				rep(0,3),2,1,10,10,13,16,9,#
+				0,0,1,5,1,5,8,5,8,6,#
+				2,1,4,9,8,1,0,1,1,1,#
+				1,6,7,9,3,5,1,1,2,0,#
+				0,4,8,6,5,2,4,3,2,2,#
+				1,1,rep(0,4),3,9,8,3,#
+				0,0,0,2,0,0,0,2,3,1,#
+				rep(0,7),1,0,0,#
+				rep(0,10)#
+			)#
+		)#
+	lambdap_5_tau_10_networks <- assignNetworkMembership(#
+		lambdap_5_tau_10 %>% filter(y_value > 0), #
+		plot.size=1#
+	)#
+	# fill in m values#
+	lambdap_5_tau_10 %<>% merge(lambdap_5_tau_10_networks, all=T)#
+	lambdap_5_tau_10[which(lambdap_5_tau_10$y_value==0), ]$m <- 1#
+	# fill in NetworkIDs#
+	maxID <- max(lambdap_5_tau_10$NetworkID, na.rm=T)#
+	lambdap_5_tau_10[which(is.na(lambdap_5_tau_10$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+		to=(maxID + length(which(is.na(lambdap_5_tau_10$NetworkID)))), by=1)#
+	return(lambdap_5_tau_10)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)#
+#' #
+#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.#
+#' @examples #
+#' library(ggplot2)#
+#' data(lambdap_5_tau_25)#
+#' #
+#' ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
+#' @export#
+#
+createlambdap_5_tau_25 <- function() {#
+	lambdap_5_tau_25 <- expand.grid(#
+		x = 1:10,#
+		y = 1:10#
+	) %>%#
+		cbind(#
+			y_value = c(#
+				0,0,0,4,rep(0,6),#
+				0,0,0,43,17,rep(0,5),#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,10),#
+				rep(0,2), rep(1,4), rep(0,4),#
+				rep(0,2), 50, 51, 41, 5, rep(0,4),#
+				rep(0,2), 2, 1, rep(0,6),#
+				rep(0,10),#
+				rep(0,10)#
+			)#
+		)#
+	lambdap_5_tau_25_networks <- assignNetworkMembership(#
+		lambdap_5_tau_25 %>% filter(y_value > 0), #
+		plot.size=1#
+	)#
+	# fill in m values#
+	lambdap_5_tau_25 %<>% merge(lambdap_5_tau_25_networks, all=T)#
+	lambdap_5_tau_25[which(lambdap_5_tau_25$y_value==0), ]$m <- 1#
+	# fill in NetworkIDs#
+	maxID <- max(lambdap_5_tau_25$NetworkID, na.rm=T)#
+	lambdap_5_tau_25[which(is.na(lambdap_5_tau_25$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+		to=(maxID + length(which(is.na(lambdap_5_tau_25$NetworkID)))), by=1)#
+#
+	ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+	return(lambdap_5_tau_25)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Example dataset from Christman (1997)#
+#'#
+#' An example dataset from Christman (1997): $\lambda_P$ = 5, $tau$ = 1.#
+#'#
+#' \itemize{#
+#'   \item y. Y coordinate.#
+#'   \item x. X coordinate.#
+#'   \item NetworkID. The ID of the network to which the unit belongs.#
+#'   \item m. The number of units in the given network.#
+#'   \item y_value. The abundance of the species of interest.#
+#' }#
+#'#
+#' @format A data frame with 100 rows and 5 variables#
+#' @name lambdap_5_tau_1#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  #
+#'#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
+#' @examples #
+#' library(ggplot2)#
+#' #
+#' data(lambdap_5_tau_1)#
+#' #
+#' ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#
+NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Example dataset from Christman (1997)#
+#'#
+#' An example dataset from Christman (1997): $\lambda_P$ = 5, $tau$ = 10.#
+#'#
+#' \itemize{#
+#'   \item y. Y coordinate.#
+#'   \item x. X coordinate.#
+#'   \item NetworkID. The ID of the network to which the unit belongs.#
+#'   \item m. The number of units in the given network.#
+#'   \item y_value. The abundance of the species of interest.#
+#' }#
+#'#
+#' @format A data frame with 100 rows and 5 variables#
+#' @name lambdap_5_tau_10#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  #
+#'#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
+#' @examples #
+#' library(ggplot2)#
+#' #
+#' data(lambdap_5_tau_10)#
+#' #
+#' ggplot(lambdap_5_tau_10 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#
+NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Example dataset from Christman (1997)#
+#'#
+#' An example dataset from Christman (1997): $\lambda_P$ = 5, $tau$ = 2.5.#
+#'#
+#' \itemize{#
+#'   \item y. Y coordinate.#
+#'   \item x. X coordinate.#
+#'   \item NetworkID. The ID of the network to which the unit belongs.#
+#'   \item m. The number of units in the given network.#
+#'   \item y_value. The abundance of the species of interest.#
+#' }#
+#'#
+#' @format A data frame with 100 rows and 5 variables#
+#' @name lambdap_5_tau_25#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  #
+#'#
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
+#' @examples #
+#' library(ggplot2)#
+#' #
+#' data(lambdap_5_tau_25)#
+#' #
+#' ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
+#
+NULL
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+options (error= recover)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+options (error= recover)
 setwd("./ACS")#
 #setwd("./modresproc")#
 devtools::test()#
@@ -685,3 +881,4 @@ setwd("./ACS")#
 devtools::test()#
 devtools::document()#
 devtools::install()
+library(ACSampling)

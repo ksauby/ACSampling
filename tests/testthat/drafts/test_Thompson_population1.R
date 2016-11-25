@@ -1,8 +1,11 @@
 # why is mean of observed means 0.020100 for N.SRSWOR.plots=50?
 # not calculating pi_i correctly
 
+data(lambdap_5_tau_10)
+data(lambdap_5_tau_1)
+data(lambdap_5_tau_25)
 
-
+datasets <- c("lambdap_5_tau_1", "lambdap_5_tau_10", "lambdap_5_tau_25")
 samplesizes <- data.frame(
 	seed = 1:12000,
 	N.SRSWOR.plots = rep(c(1,10,25,50),each=3000)
@@ -10,28 +13,30 @@ samplesizes <- data.frame(
 y_value_mean_observed <- vector()
 y_value_var_observed <- vector()
 total_sample_size <- vector()
-for (i in 1:dim(samplesizes)[1]) {
-	temp <- createACS(
-		population=P, 
-		seed=samplesizes$seed[i], 
-		n1=samplesizes$N.SRSWOR.plots[i],
-		y_variable="y_value"
-	) %>% filter(Sampling!="Edge")
+for (j in 1:length(datasets)) {
+	for (i in 1:dim(samplesizes)[1]) {
+		temp <- createACS(
+			population=eval(parse(text=datasets[j])), 
+			seed=samplesizes$seed[i], 
+			n1=samplesizes$N.SRSWOR.plots[i],
+			y_variable="y_value"
+		) %>% filter(Sampling!="Edge")
 	
-	# I just filtered out the edge units, why don't these other calculations work?
-	y_value_mean_observed[i] <- y_HT(
-		y = temp$y_value,
-		N = dim(P)[1],
-		n1 = samplesizes$N.SRSWOR.plots[i],
-		m = temp$m
-	)
-	y_value_var_observed[i] <- var_y_HT(
-		y = temp$y_value,
-		N = dim(P)[1],
-		n1 = samplesizes$N.SRSWOR.plots[i],
-		m = temp$m
-	)
-	total_sample_size[i] <- dim(temp)[1]
+		# I just filtered out the edge units, why don't these other calculations work?
+		y_value_mean_observed[i] <- y_HT(
+			y = temp$y_value,
+			N = dim(dataset[j])[1],
+			n1 = samplesizes$N.SRSWOR.plots[i],
+			m = temp$m
+		)
+		y_value_var_observed[i] <- var_y_HT(
+			y = temp$y_value,
+			N = dim(dataset[j])[1],
+			n1 = samplesizes$N.SRSWOR.plots[i],
+			m = temp$m
+		)
+		total_sample_size[i] <- dim(temp)[1]
+	}
 }
 ACSdata <- cbind(
 	samplesizes,
@@ -95,17 +100,7 @@ calculateRE(
 	
 	
 	
-		temp <- createSRS(
-			population=lambdap_5_tau_10, 
-			seed=samplesizes$seed[i], 
-			n1=samplesizes$N.SRSWOR.plots[i]
-		)
-		y_value_mean_observed[i] <- mean(temp$y_value)
-		y_value_var_observed[i] <- var(temp$y_value)
-	}
-data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)
-
-
+	
 
 
 
