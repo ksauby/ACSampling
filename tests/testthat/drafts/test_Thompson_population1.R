@@ -5,16 +5,32 @@ data(lambdap_5_tau_10)
 data(lambdap_5_tau_1)
 data(lambdap_5_tau_25)
 
+nsims = 500
+n1 = c(1,10,25,50)
 datasets <- c("lambdap_5_tau_1", "lambdap_5_tau_10", "lambdap_5_tau_25")
 samplesizes <- data.frame(
-	seed = 1:12000,
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=3000)
+	datasets = rep(
+		datasets,
+		each = nsims * length(n1)
+	),
+	seed = 1:(nsims * length(n1) * length(datasets)),
+	N.SRSWOR.plots = rep(
+		rep(n1, each=nsims),
+		length(datasets)
+	)
 )
-y_value_mean_observed <- vector()
-y_value_var_observed <- vector()
-total_sample_size <- vector()
+X <- data.frame(
+	matrix(
+		nrow=nsims * length(n1),
+		ncol=length(datasets),
+		NA
+	)
+)
+y_value_mean_observed <- X
+y_value_var_observed <- X
+total_sample_size <- X
 for (j in 1:length(datasets)) {
-	for (i in 1:dim(samplesizes)[1]) {
+	for (i in 1:(nsims * length(n1))) {
 		temp <- createACS(
 			population=eval(parse(text=datasets[j])), 
 			seed=samplesizes$seed[i], 
@@ -23,40 +39,45 @@ for (j in 1:length(datasets)) {
 		) %>% filter(Sampling!="Edge")
 	
 		# I just filtered out the edge units, why don't these other calculations work?
-		y_value_mean_observed[i] <- y_HT(
+		y_value_mean_observed[i,j] <- y_HT(
 			y = temp$y_value,
-			N = dim(dataset[j])[1],
+			N = dim(eval(parse(text=datasets[j])))[1],
 			n1 = samplesizes$N.SRSWOR.plots[i],
 			m = temp$m
 		)
-		y_value_var_observed[i] <- var_y_HT(
+		y_value_var_observed[i,j] <- var_y_HT(
 			y = temp$y_value,
-			N = dim(dataset[j])[1],
+			N = dim(eval(parse(text=datasets[j])))[1],
 			n1 = samplesizes$N.SRSWOR.plots[i],
 			m = temp$m
 		)
-		total_sample_size[i] <- dim(temp)[1]
+		total_sample_size[i,j] <- dim(temp)[1]
 	}
 }
 ACSdata <- cbind(
 	samplesizes,
-	y_value_mean_observed,
-	y_value_var_observed,
-	total_sample_size
+	y_value_mean_observed = y_value_mean_observed %>% melt %$% .[,2],
+	y_value_var_observed = y_value_var_observed %>% melt %$% .[,2],
+	total_sample_size = total_sample_size %>% melt %$% .[,2]
 )
 temp <- ACSdata %>%
-	group_by(N.SRSWOR.plots) %>%
+	group_by(datasets, N.SRSWOR.plots) %>%
 	summarise(
 		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)
 	)
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")
+ACSdata_re <- ACSdata %>% merge(temp, by=c("datasets", "N.SRSWOR.plots"))
 
+population_data		= rbind.fill(
+	cbind(datasets = "lambdap_5_tau_10", lambdap_5_tau_10),
+	cbind(datasets = "lambdap_5_tau_1", lambdap_5_tau_1),
+	cbind(datasets = "lambdap_5_tau_25", lambdap_5_tau_25)
+)
 # summarise population data
 P_summary <- 
 	calculatePopulationSummaryStatistics(
-		population_data		= P, 
+		population_data		= population_data, 
 		summary.variables 	= "y_value", 
-		grouping.variables 	= NULL, 
+		grouping.variables 	= "datasets", 
 		ratio.variables 	= NULL
 	)
 
@@ -64,7 +85,7 @@ P_summary <-
 ACSdata_summary_stats <- calculateSamplingBias(
 	population_data_summary	= P_summary, 
 	simulation_data		= ACSdata_re, 
-	population.grouping.variables = NULL, 
+	population.grouping.variables = "datasets", 
 	sampling.grouping.variables	= "mean_total_sample_size", 
 	variables			= "y_value", 
 	rvar				= NULL 
@@ -72,16 +93,22 @@ ACSdata_summary_stats <- calculateSamplingBias(
 as.data.frame
 
 
-population_variance <- var(P$y_value)
+population_variance <- population_data %>% 
+	group_by(datasets) %>%
+	summarise(variance = var(y_value))
 		
-RE_values <-  
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / 
-	ACSdata_summary_stats$y_value_mean_MSE
+ACSdata_summary_stats %<>% merge(population_variance, by="datasets")
+RE_values <- ACSdata_summary_stats %>%
+mutate(
+	RE = (variance / mean_total_sample_size) / 
+	y_value_mean_MSE
+	
+	)
 	
 calculateRE(
 	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,
-	population_data = P,
-	population.grouping.variables = NULL,
+	population_data = population_data,
+	population.grouping.variables = "datasets",
 	sampling.grouping.variables = NULL,
 	sample.size.variable = "mean_total_sample_size",
 	variables = "y_value"
@@ -262,3 +289,5 @@ test_that("calculateSamplingBias and calculateRE", {
 		label="calculateRE"
 	)
 })
+
+save(RE_values, file="RE_values_25nov16.rda")
