@@ -42,7 +42,5 @@ createlambdap_5_tau_25 <- function() {
 	maxID <- max(lambdap_5_tau_25$NetworkID, na.rm=T)
 	lambdap_5_tau_25[which(is.na(lambdap_5_tau_25$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), 
 		to=(maxID + length(which(is.na(lambdap_5_tau_25$NetworkID)))), by=1)
-
-	ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 	return(lambdap_5_tau_25)
 }
