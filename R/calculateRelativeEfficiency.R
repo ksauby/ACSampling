@@ -28,39 +28,25 @@ calculateRE <- function(
 					~var(variable, na.rm = TRUE), 
 					variable = 
 					as.name(variables[i])
-				)
+				),
+				N = N[1]
 			)
 		X %<>% 
 			merge(variances, by=population.grouping.variables) %>%
-			group_by_(.dots=c(
-				population.grouping.variables, 
-				sampling.grouping.variables,
-				"sample.size.variable"
-			)) %>% 
-			summarise(
-				var_y_bar = population_variance[1]/sample.size.variable[1]
-			) %>%
-			merge(
-				X,
-				by=c(
-					population.grouping.variables, 
-					sampling.grouping.variables,
-					"sample.size.variable"
-				)
-			) %>%
 			mutate(
+				var_y_bar =  population_variance / sample.size.variable * (1 - sample.size.variable/N),
 				RE = var_y_bar /
 				# comparison sampling design
-				eval(
-					parse(
-						text=paste(
-							"X$",
-							variables[i], 
-							"_mean_MSE", 
-							sep=""
+					eval(
+						parse(
+							text=paste(
+								"X$",
+								variables[i], 
+								"_mean_MSE", 
+								sep=""
+							)
 						)
 					)
-				)
 			) %>%
 			setnames(
 				., 
@@ -71,7 +57,7 @@ calculateRE <- function(
 					sep=""
 				)
 			) %>%
-			dplyr::select(-var_y_bar)
+			dplyr::select(-c(var_y_bar,population_variance,N))
 	}
 	X %<>% setnames("sample.size.variable", sample.size.variable)
 	return(X)
