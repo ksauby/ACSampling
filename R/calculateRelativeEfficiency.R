@@ -11,7 +11,6 @@ calculateRE <- function(
 	MSE_ComparisonSamplingDesign,
 	population_data,
 	population.grouping.variables = population.grouping.variables,
-	sampling.grouping.variables = sampling.grouping.variables,
 	sample.size.variable = sample.size.variable,
 	variables = variables
 ) {	
@@ -28,13 +27,13 @@ calculateRE <- function(
 					~var(variable, na.rm = TRUE), 
 					variable = 
 					as.name(variables[i])
-				),
-				N = N[1]
+				)
 			)
 		X %<>% 
 			merge(variances, by=population.grouping.variables) %>%
 			mutate(
-				var_y_bar =  population_variance / sample.size.variable * (1 - sample.size.variable/N),
+				var_y_bar =  ((N - sample.size.variable)*population_variance) /
+					(sample.size.variable*N),
 				RE = var_y_bar /
 				# comparison sampling design
 					eval(
