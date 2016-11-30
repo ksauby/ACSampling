@@ -110,7 +110,7 @@ calculateRE <- function(
 			c("variable")
 		),
 		value.var="RE"
-		) %>% head
+		)
 	Z %<>% setnames("sample.size.variable", sample.size.variable)
 	return(Z)
 }
