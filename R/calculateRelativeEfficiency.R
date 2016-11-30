@@ -6,15 +6,6 @@
 #' @return Dataframe including original data and RE estimates.
 #' @export
 
-varybar <- function(x, N, sample.size.variable) {
-	((N - sample.size.variable)*x) / (sample.size.variable*N)
-}
-
-
-RE <- function(x, N, sample.size.variable, variable_MSE) {
-	varybar(x, N, sample.size.variable) / variable_MSE
-}
-
 calculateRE <- function(
 	MSE_ComparisonSamplingDesign,
 	population_data,
@@ -42,11 +33,11 @@ calculateRE <- function(
 	setnames(
 		variances,
 		names(variances)[
-			(length(population.grouping.variables) + 2):
+			(length(population.grouping.variables) + 1):
 			length(names(variances))
 		], 
 		paste(names(variances)[
-				(length(population.grouping.variables) + 2):
+				(length(population.grouping.variables) + 1):
 				length(names(variances))
 			],
 			"var",
@@ -58,80 +49,68 @@ calculateRE <- function(
 		"sample.size.variable",
 		paste(variables, "_mean_MSE", sep=""
 	)))
+	# calculate var_y_bar
 	Y %<>% 
 		merge(dimensions, by=population.grouping.variables) %>%
-		merge(variances, by=population.grouping.variables) %>%
-		group_by_(.dots=c(
-			population.grouping.variables,
-			paste(variables, "_mean_MSE", sep=""),
-			"N",
-			"sample.size.variable"
-			)) %>%
-		mutate_each(funs(
-			varybar(., N=N, sample.size.variable=sample.size.variable)
-		))
-		setnames(
-			Y,
-			names(Y)[
-				(length(c(
-					population.grouping.variables,
-					paste(variables, "_var", sep=""),
-					"N",
-					"sample.size.variable"
-				)) + 1):
-				length(names(Y))
-			], 
-			paste(
-				variables,
-				"varybar",
-				sep="_"
-			)
+		merge(variances, by=population.grouping.variables)
+	A <- Y %>% 
+		dplyr::select(-one_of(paste(variables, "_var", sep=""))) %>%
+		reshape2:::melt.data.frame(
+			data=.,
+			id.vars=c(
+				population.grouping.variables,
+				"N",
+				"sample.size.variable"
+			),
+			value.name="mean_MSE"
+		)
+	A$variable <- sub("*_mean_MSE", "", A$variable)
+	B <- Y %>% 
+		dplyr::select(-one_of(paste(variables, "_mean_MSE", sep=""))) %>%
+		reshape2:::melt.data.frame(
+			data=.,
+			id.vars=c(
+				population.grouping.variables,
+				"N",
+				"sample.size.variable"
+			),
+			value.name="population_variance"
 		)	
-		
-		
-		group_by_(.dots=c(
-			population.grouping.variables,
-			paste(variables, "_mean_MSE", sep=""),
-			"N",
-			"sample.size.variable"
-			)) %>%
-		mutate_each(funs(
-			varybar(., N=N, sample.size.variable=sample.size.variable)
-		))
-		
-		
-	for (i in 1:length(variables)) {
-			
-			
-		}
-		
-			mutate(
-				var_y_bar =  ((N - sample.size.variable)*population_variance) /
-					(sample.size.variable*N),
-				RE = var_y_bar /
-				# comparison sampling design
-					eval(
-						parse(
-							text=paste(
-								"X$",
-								variables[i], 
-								"_mean_MSE", 
-								sep=""
-							)
-						)
-					)
-			) %>%
-			setnames(
-				., 
-				"RE", 
-				paste(
-					variables[i], 
-					"_mean_RE", 
-					sep=""
-				)
-			) %>%
-			dplyr::select(-c(var_y_bar,population_variance,N))
-	}
-	X %<>% setnames("sample.size.variable", sample.size.variable)
-	return(X)
+	B$variable <- sub("*_var", "", B$variable)
+	Z <- A %>%
+		merge(
+			B, 
+			by=c(
+				population.grouping.variables, 
+				"N", 
+				"sample.size.variable", 
+				"variable"
+			)
+		)
+	Z %<>% mutate(
+		RE = (
+			((N - sample.size.variable)*population_variance) /
+			(sample.size.variable*N)
+		)
+		/	mean_MSE
+	)
+	Z %<>%
+	dplyr::select_(.dots=c(
+		population.grouping.variables, 
+		"N", 
+		"sample.size.variable", 
+		"variable",
+		"RE"
+	))
+	Z$variable <- paste(Z$variable, "_RE", sep="")
+	Z %<>%
+	reshape2::dcast(
+		list(
+			c(population.grouping.variables, "N", "sample.size.variable"),
+			c("variable")
+		),
+		value.var="RE"
+		) %>% head
+	Z %<>% setnames("sample.size.variable", sample.size.variable)
+	return(Z)
 }
