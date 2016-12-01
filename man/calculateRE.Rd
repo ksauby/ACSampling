@@ -6,7 +6,6 @@
 \usage{
 calculateRE(MSE_ComparisonSamplingDesign, population_data,
   population.grouping.variables = population.grouping.variables,
-  sampling.grouping.variables = sampling.grouping.variables,
   sample.size.variable = sample.size.variable, variables = variables)
 }
 \arguments{
