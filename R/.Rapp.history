@@ -1,3209 +1,2860 @@
-variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = dim(.)[1])#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+reload.project()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+# ACS INCLUSION PROBABILITIES#
+ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
+rbind.fill(simulatedInclusionProbabilities.ACS.2Dec16) %>%#
+rbind.fill(simulatedInclusionProbabilities.ACS.4Dec16) %>%#
+group_by(realization,#
+	n.networks,#
+	N.SRSWOR.plots,#
+	SamplingDesign,#
+	coords#
+) %>%#
+summarise(#
+	times_included = sum(times_included),#
+	simulations = sum(simulations)#
+)#
+#
+patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
+#
+A <- patch_data_3_temp %>% #
+	dplyr::select(-c(pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100)) %>% #
+	reshape2::melt(id.vars=c("m","x","y","N","coords")) %>%#
+	setnames("value", "new_pii_value") %>%#
+	setnames("variable", "new_pii_variable")#
+B <- patch_data_3_temp %>% #
+	dplyr::select(coords, pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100) %>% #
+	reshape2::melt(id.vars=c("coords")) %>%#
+	setnames("value", "Thompson_pii_value") %>%#
+	setnames("variable", "Thompson_pii_variable")#
+#
+A$N.SRSWOR.plots <- NA#
+A[which(grepl("_20_", A$new_pii_variable)),]$N.SRSWOR.plots <- 20#
+A[which(grepl("_30_", A$new_pii_variable)),]$N.SRSWOR.plots <- 30#
+A[which(grepl("_40_", A$new_pii_variable)),]$N.SRSWOR.plots <- 40#
+A[which(grepl("_75_", A$new_pii_variable)),]$N.SRSWOR.plots <- 75#
+A[which(grepl("_100_", A$new_pii_variable)),]$N.SRSWOR.plots <- 100#
+#
+A$m_threshold <- NA#
+A[which(grepl("_5", A$new_pii_variable)),]$m_threshold <- 5#
+A[which(grepl("_6", A$new_pii_variable)),]$m_threshold <- 6#
+A[which(grepl("_7", A$new_pii_variable)),]$m_threshold <- 7#
+A[which(grepl("_8", A$new_pii_variable)),]$m_threshold <- 8#
+A[which(grepl("_9", A$new_pii_variable)),]$m_threshold <- 9#
+A[which(grepl("_10", A$new_pii_variable)),]$m_threshold <- 10#
+A[which(grepl("_11", A$new_pii_variable)),]$m_threshold <- 11#
+A[which(grepl("_12", A$new_pii_variable)),]$m_threshold <- 12#
+A[which(grepl("_13", A$new_pii_variable)),]$m_threshold <- 13#
+A[which(grepl("_14", A$new_pii_variable)),]$m_threshold <- 14#
+#
+B$N.SRSWOR.plots <- NA#
+B[which(grepl("_20", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 20#
+B[which(grepl("_30", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 30#
+B[which(grepl("_40", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 40#
+B[which(grepl("_75", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 75#
+B[which(grepl("_100", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 100#
+#
+B %<>% dplyr::select(-Thompson_pii_variable)#
+A %<>% dplyr::select(-new_pii_variable)#
+#
+patch_data_3_results_ACS <- A %>%#
+	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
+	merge(ACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
+	mutate(#
+		inclusion_prob = times_included/simulations,#
+		inclusion_prob_diff_from_true_new_pii = #
+			inclusion_prob - new_pii_value,#
+		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
 	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))
-i
-i=1
+#
+# RACS INCLUSION PROBABILITIES#
+RACSinclusionprobs <- rbind.fill(#
+	simulatedInclusionProbabilities.RACS.20Nov16,#
+	simulatedInclusionProbabilities.RACS.20Nov16.2,#
+	simulatedInclusionProbabilities.RACS.20Nov16.3,#
+	simulatedInclusionProbabilities.RACS.20Nov16.4,#
+	simulatedInclusionProbabilities.RACS.20Nov16.5,#
+	simulatedInclusionProbabilities.RACS.20Nov16.6,#
+	simulatedInclusionProbabilities.RACS.2Dec16.3,#
+	simulatedInclusionProbabilities.RACS.2Dec16.2,#
+	simulatedInclusionProbabilities.RACS.2Dec16#
+) %>%#
+group_by(realization,#
+	n.networks,#
+	N.SRSWOR.plots,#
+	SamplingDesign,#
+	coords#
+) %>%#
+summarise(#
+	times_included = sum(times_included),#
+	simulations = sum(simulations)#
+)#
+#
+patch_data_3_results_RACS <- A %>%#
+	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
+	merge(RACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
+	mutate(#
+		inclusion_prob = times_included/simulations,#
+		inclusion_prob_diff_from_true_new_pii = #
+			inclusion_prob - new_pii_value,#
+		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
+	)#
+patch_data_3_results <- rbind.fill(#
+		patch_data_3_results_ACS,#
+		patch_data_3_results_RACS#
+	)#
+patch_data_3_results$N.SRSWOR.plots %<>% as.factor()#
+levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
+	"Primary Sample Size = 20", #
+	"Primary Sample Size = 30",#
+	"Primary Sample Size = 40",#
+	"Primary Sample Size = 75",#
+	"Primary Sample Size = 100"#
+)#
+#
+temp <- patch_data_3_results %>%#
+group_by(SamplingDesign, N.SRSWOR.plots, m_threshold) %>%#
+summarise(#
+	mean_error_old_pii = mean(inclusion_prob_diff_from_true_old_pii),#
+	mean_error_new_pii = mean(inclusion_prob_diff_from_true_new_pii)#
+	)#
+temp$mean_error_old_pii %<>% round(4)#
+temp$mean_error_new_pii %<>% round(4)#
+#
+temp %<>% #
+	as.data.frame %>% #
+	reshape2::melt(id.vars=c("SamplingDesign","N.SRSWOR.plots","m_threshold")) %>%#
+	setnames("variable", "Inclusion Probability Formula")#
+levels(temp$`Inclusion Probability Formula`) <- c("Thompson (1990) Formula",  "New Formula")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+source("1_set_variables.R")#
+source("2_create_realizations.R")#
+source("3_summarise_network_information.R")#
+source("4_calculate_realization_summary_statistics.R")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+select_columns <- c("m", "x", "y", "N", "pi_i_n1_20", "pi_i_n1_30", "pi_i_n1_40", "pi_i_n1_75", "pi_i_n1_100")#
+# PATCH 3#
+patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
+patch_data_3 %<>% dplyr::select_(.dots=select_columns)#
+#
+# if m is less than or equal to m_threshold#
+pi_i_less_x <- function(N, n1, m) {#
+  sapply(m, function(m) #
+    1 - exp(#
+		sum(log({N - m - n1 + 1} : {N - m})) - sum(log({N - n1 + 1} : N))#
+		)#
+  )#
+}
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+# if m is greater than m_threshold#
+pi_i_greater_x <- function(N, n1, m_threshold) {#
+    1 - exp(#
+		sum(log({N - m_threshold - n1 + 1} : {N - m_threshold})) - sum(log({N - n1 + 1} : N))#
+		)#
+}#
+#
+m_threshold = c(5:14)#
+#
+for (i in 1:length(m_threshold)) {#
+	A <- patch_data_3 %>% filter(m <= m_threshold[i])#
+	B <- patch_data_3 %>% filter(m > m_threshold[i])#
+	# CALCULATE NEW INCLUSION PROBS#
+	# N1 = 20#
+	A$pii_20 <- pi_i_less_x(N=900, n1=20, m=A$m)#
+	B$pii_20 <- pi_i_greater_x(N=900, n1=20, m_threshold=m_threshold[i])#
+	# N1 = 30#
+	A$pii_30 <- pi_i_less_x(N=900, n1=30, m=A$m)#
+	B$pii_30 <- pi_i_greater_x(N=900, n1=30, m_threshold=m_threshold[i])#
+	# N1 = 40#
+	A$pii_40 <- pi_i_less_x(N=900, n1=40, m=A$m)#
+	B$pii_40 <- pi_i_greater_x(N=900, n1=40, m_threshold=m_threshold[i])#
+	# N1 = 75#
+	A$pii_75 <- pi_i_less_x(N=900, n1=75, m=A$m)#
+	B$pii_75 <- pi_i_greater_x(N=900, n1=75, m_threshold=m_threshold[i])#
+	# N1 = 100#
+	A$pii_100 <- pi_i_less_x(N=900, n1=100, m=A$m)#
+	B$pii_100 <- pi_i_greater_x(N=900, n1=100, m_threshold=m_threshold[i])#
+	patch_data_3 <- rbind.fill(A,B) %>%#
+		setnames("pii_20", paste("pii_20", m_threshold[i], sep="_")) %>%#
+		setnames("pii_30", paste("pii_30", m_threshold[i], sep="_")) %>%#
+		setnames("pii_40", paste("pii_40", m_threshold[i], sep="_")) %>%#
+		setnames("pii_75", paste("pii_75", m_threshold[i], sep="_")) %>%#
+		setnames("pii_100", paste("pii_100", m_threshold[i], sep="_"))#
+}#
+#
+# ACS INCLUSION PROBABILITIES#
+ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
+rbind.fill(simulatedInclusionProbabilities.ACS.2Dec16) %>%#
+rbind.fill(simulatedInclusionProbabilities.ACS.4Dec16) %>%#
+group_by(realization,#
+	n.networks,#
+	N.SRSWOR.plots,#
+	SamplingDesign,#
+	coords#
+) %>%#
+summarise(#
+	times_included = sum(times_included),#
+	simulations = sum(simulations)#
+)#
+#
+patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
+#
+A <- patch_data_3_temp %>% #
+	dplyr::select(-c(pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100)) %>% #
+	reshape2::melt(id.vars=c("m","x","y","N","coords")) %>%#
+	setnames("value", "new_pii_value") %>%#
+	setnames("variable", "new_pii_variable")#
+B <- patch_data_3_temp %>% #
+	dplyr::select(coords, pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100) %>% #
+	reshape2::melt(id.vars=c("coords")) %>%#
+	setnames("value", "Thompson_pii_value") %>%#
+	setnames("variable", "Thompson_pii_variable")#
+#
+A$N.SRSWOR.plots <- NA#
+A[which(grepl("_20_", A$new_pii_variable)),]$N.SRSWOR.plots <- 20#
+A[which(grepl("_30_", A$new_pii_variable)),]$N.SRSWOR.plots <- 30#
+A[which(grepl("_40_", A$new_pii_variable)),]$N.SRSWOR.plots <- 40#
+A[which(grepl("_75_", A$new_pii_variable)),]$N.SRSWOR.plots <- 75#
+A[which(grepl("_100_", A$new_pii_variable)),]$N.SRSWOR.plots <- 100#
+#
+A$m_threshold <- NA#
+A[which(grepl("_5", A$new_pii_variable)),]$m_threshold <- 5#
+A[which(grepl("_6", A$new_pii_variable)),]$m_threshold <- 6#
+A[which(grepl("_7", A$new_pii_variable)),]$m_threshold <- 7#
+A[which(grepl("_8", A$new_pii_variable)),]$m_threshold <- 8#
+A[which(grepl("_9", A$new_pii_variable)),]$m_threshold <- 9#
+A[which(grepl("_10", A$new_pii_variable)),]$m_threshold <- 10#
+A[which(grepl("_11", A$new_pii_variable)),]$m_threshold <- 11#
+A[which(grepl("_12", A$new_pii_variable)),]$m_threshold <- 12#
+A[which(grepl("_13", A$new_pii_variable)),]$m_threshold <- 13#
+A[which(grepl("_14", A$new_pii_variable)),]$m_threshold <- 14#
+#
+B$N.SRSWOR.plots <- NA#
+B[which(grepl("_20", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 20#
+B[which(grepl("_30", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 30#
+B[which(grepl("_40", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 40#
+B[which(grepl("_75", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 75#
+B[which(grepl("_100", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 100#
+#
+B %<>% dplyr::select(-Thompson_pii_variable)#
+A %<>% dplyr::select(-new_pii_variable)#
+#
+patch_data_3_results_ACS <- A %>%#
+	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
+	merge(ACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
+	mutate(#
+		inclusion_prob = times_included/simulations,#
+		inclusion_prob_diff_from_true_new_pii = #
+			inclusion_prob - new_pii_value,#
+		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
+	)#
+#
+# RACS INCLUSION PROBABILITIES#
+RACSinclusionprobs <- rbind.fill(#
+	simulatedInclusionProbabilities.RACS.20Nov16,#
+	simulatedInclusionProbabilities.RACS.20Nov16.2,#
+	simulatedInclusionProbabilities.RACS.20Nov16.3,#
+	simulatedInclusionProbabilities.RACS.20Nov16.4,#
+	simulatedInclusionProbabilities.RACS.20Nov16.5,#
+	simulatedInclusionProbabilities.RACS.20Nov16.6,#
+	simulatedInclusionProbabilities.RACS.2Dec16.3,#
+	simulatedInclusionProbabilities.RACS.2Dec16.2,#
+	simulatedInclusionProbabilities.RACS.2Dec16#
+) %>%#
+group_by(realization,#
+	n.networks,#
+	N.SRSWOR.plots,#
+	SamplingDesign,#
+	coords#
+) %>%#
+summarise(#
+	times_included = sum(times_included),#
+	simulations = sum(simulations)#
+)#
+#
+patch_data_3_results_RACS <- A %>%#
+	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
+	merge(RACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
+	mutate(#
+		inclusion_prob = times_included/simulations,#
+		inclusion_prob_diff_from_true_new_pii = #
+			inclusion_prob - new_pii_value,#
+		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
+	)#
+patch_data_3_results <- rbind.fill(#
+		patch_data_3_results_ACS,#
+		patch_data_3_results_RACS#
+	)#
+patch_data_3_results$N.SRSWOR.plots %<>% as.factor()#
+levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
+	"Primary Sample Size = 20", #
+	"Primary Sample Size = 30",#
+	"Primary Sample Size = 40",#
+	"Primary Sample Size = 75",#
+	"Primary Sample Size = 100"#
+)#
+#
+temp <- patch_data_3_results %>%#
+group_by(SamplingDesign, N.SRSWOR.plots, m_threshold) %>%#
+summarise(#
+	mean_error_old_pii = mean(inclusion_prob_diff_from_true_old_pii),#
+	mean_error_new_pii = mean(inclusion_prob_diff_from_true_new_pii)#
+	)#
+temp$mean_error_old_pii %<>% round(4)#
+temp$mean_error_new_pii %<>% round(4)#
+#
+temp %<>% #
+	as.data.frame %>% #
+	reshape2::melt(id.vars=c("SamplingDesign","N.SRSWOR.plots","m_threshold")) %>%#
+	setnames("variable", "Inclusion Probability Formula")#
+levels(temp$`Inclusion Probability Formula`) <- c("Thompson (1990) Formula",  "New Formula")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+ggplot(data=temp, #
+		aes(#
+			m_threshold, #
+			value, #
+			colour = `Inclusion Probability Formula`,#
+		)) +#
+	geom_point() +#
+	geom_hline(yintercept=0) +#
+	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
+	KEStheme() +#
+	scale_x_continuous(breaks=c(5:14)) +#
+	xlab("m threshold") +#
+	ylab("Mean(Simulation Inclusion Probability -\nInclusion Probability from Formula)") +#
+	theme(#
+		legend.position="bottom"#
+	) +#
+	guides(#
+		colour=guide_legend(title="Inclusion Probability Formula",nrow=2)#
+	)
+data(Thompson1990Figure1Population)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_n",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
+population = Thompson1990Figure1Population
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed=26
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1=10
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_variable = "y_value"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+condition=0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
 	}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
+initial_sample=NA
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+head(Networks)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = list()
+step=1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][2, "x"] = L$x#
+    	    Z[[i]][2, "y"] = L$y + 1#
+    	    # if plot has cacti, survey its neighbors#
+  	      	if (dim(population %>% #
+				filter(#
+  					y_value > condition, #
+  			  		x==L$x,#
+  			  		y==L$y + 1,#
+					step > 1#
+				))[1] > 0#
+			) {#
+			    # neighbor to north#
+			    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
+			   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + 1#
+			    # neighbor to east#
+			    Z[[i]][7, "x"] = Z[[i]][2, "x"] + 1#
+			    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
+			    # neighbor to west#
+			    Z[[i]][8, "x"] = Z[[i]][2, "x"] - 1#
+			    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
+			}#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][3, "x"] = L$x#
+	      	Z[[i]][3, "y"] = L$y - 1#
+	      	# if plot has cacti, survey its neighbors#
+	      	if (dim(population %>% #
+				filter(#
+  					y_value > condition, #
+					x==L$x,#
+					y==L$y - 1,#
+					step > 1#
+				))[1] > 0#
+			) {#
+				# neighbor to south#
+			    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
+			    Z[[i]][9, "y"] = Z[[i]][3, "y"] - 1#
+			   	# neighbor to east#
+			    Z[[i]][10, "x"] = Z[[i]][3, "x"] + 1#
+			    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
+			    # neighbor to west#
+			    Z[[i]][11, "x"] = Z[[i]][3, "x"] - 1#
+			    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
+			}#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][4, "x"] = L$x + 1#
+	      	Z[[i]][4, "y"] = L$y#
+	      	# if plot has cacti, survey its neighbors#
+	      	if (dim(population %>% #
+			  	filter(#
+  					y_value > condition, #
+			  	 	x==L$x + 1,#
+			  	  	y==L$y,#
+					step > 1#
+				))[1] > 0#
+			) {#
+	        	# neighbor to south#
+	        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
+	        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - 1#
+	        	# neighbor to north#
+	        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
+	        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + 1#
+	        	# neighbor to east#
+	        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + 1#
+	        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
+			}#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][5, "x"] = L$x - 1#
+	      	Z[[i]][5, "y"] = L$y#
+	      	# if plot has cacti, survey its neighbors#
+	      	if (dim(population %>% #
+			  	filter(#
+  					y_value > condition, #
+			  	  	x==L$x - 1,#
+			  	  	y==L$y,#
+					step > 1#
+				))[1] > 0#
+			) {#
+	        	# neighbor to south#
+	        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
+	        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - 1#
+	        	# neighbor to north#
+	        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
+	        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + 1#
+	        	# neighbor to west#
+	        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - 1#
+	        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
+	      	}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
+	    }
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
+	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(Sampling)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Y = no_duplicates %>% filter(#
+				y_value == condition, #
+				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
 		)#
-	)
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>%#
-			mutate(#
-				var_observed_minus_true = #
-						# (observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)
-head(X)
-head(data_summary)
+Z = no_duplicates %>% filter(#
+				y_value == condition, #
+				is.na(Sampling)#
+		)
+Z
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>%#
-			mutate(#
-				var_observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)
+sample
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))
-str(X.grp)
-c(#
- 		population.grouping.variables, #
- 		sampling.grouping.variables, #
- 		"n_sims"
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				var_true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				var_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				var_mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					var_RB = 100 * #
-						(var_mean_of_observed_means - var_true_mean) / #
-						var_true_mean,#
-					var_MSE = var_sum_of_observed_minus_true_sqrd/n_sims,#
-					var_var_RB = 100 * (var_mean_of_var_estimates - #
-						var_var_of_mean_estimates) / #
-						var_var_of_mean_estimates,#
-					var_var_RB_n = min(#
-						var_mean_of_var_estimates_n, #
-						var_var_of_mean_estimates_n#
-					)#
-				)
-head(A[[i]])
-head(X)
-X %>% group_by(N.SRSWOR.plots) %>% summarise(sum(y_value_mean_observed_minus_true)/length(y_value_mean_observed_minus_true))
-X %>% group_by(N.SRSWOR.plots,n_sims) %>% summarise(sum(y_value_mean_observed_minus_true)/length(y_value_mean_observed_minus_true))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				var_true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				var_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				var_mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame
-A[[i]]
-1.4893824/150
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"
-)
-dim()
-dim(X)
-1.4893824/25
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)#
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).#
-#' @param variables Vector of variables for which sampling bias should be estimated.#
-#' @param rvar Variables for which to use ratio estimators#
-#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.#
-#' @examples#
-#' # Create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' Species.Fields = c("Stricta", "Pusilla", "Cactus")#
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,#
-#' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, #
-#' 	start.seed=1, Species.Fields)#
-#' #
-#' # Sample from the realizations#
-#' simulations=1#
-#' nsamples=c(5,10,20,40)#
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, #
-#' 	y_end = 30)#
-#' abundance.variables = NULL#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' patch_data = cactus.realizations#
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, #
-#' #	nsamples, population, abundance.variables, occupancy.variables)#
-#' #
-#' # summary.variables = occupancy.variables#
-#' # grouping.variables = c("n.networks", "realization")#
-#' # dataset = cactus.realizations#
-#' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, #
-#' # 	summary.variables, grouping.variables)#
-#' # avar = NULL#
-#' @export#
-#
-calculateSamplingBias <- function(#
-	population_data_summary, #
-	simulation_data, #
-	population.grouping.variables, #
-	sampling.grouping.variables,#
-	variables, #
-	rvar#
-) #
-{#
-	variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = dim(.)[1])#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_n",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
 	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	# calculate squared differences for each simulation and variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				var_observed_minus_true = #
-						# (observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate squared differences (observed - mean of observed) for each variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				var_observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate bias and MSE#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				var_true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				var_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				var_mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					var_RB = 100 * #
-						(var_mean_of_observed_means - var_true_mean) / #
-						var_true_mean,#
-					var_MSE = var_sum_of_observed_minus_true_sqrd/length(var_sum_of_observed_minus_true_sqrd),#
-					var_var_RB = 100 * (var_mean_of_var_estimates - #
-						var_var_of_mean_estimates) / #
-						var_var_of_mean_estimates,#
-					var_var_RB_n = min(#
-						var_mean_of_var_estimates_n, #
-						var_var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				dplyr::select(-c(#
-					var_mean_of_observed_means,#
-					var_sum_of_observed_minus_true_sqrd,#
-					var_mean_of_var_estimates,#
-					var_mean_of_var_estimates_n,#
-					var_var_of_mean_estimates,#
-					var_var_of_mean_estimates_n#
-				))#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-#	X$Prop.Area.Surveyed = with(X, N.Total.plots/N)		#
-	return(Y)#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in cluster/edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()
 }
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variances", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, MSE function", {#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_data_summary	= Thompson1990Figure1Population_summary
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-simulation_data		= data
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population.grouping.variables = NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-sampling.grouping.variables	= "N.SRSWOR.plots"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-variables			= "y_value"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-rvar				= NULL
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations
-head(X)
-dim(X)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = dim(.)[1])
-n_sims
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = length(#
-			c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1]#
-		)
-)
-n_sims
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = length(#
-			length(c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1])#
-		)
-)
-n_sims
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = length(#
-			length(eval(parse(text=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1])))#
-		)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-paste("X$", c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1], sep="")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = length(#
-			length(eval(parse(text=paste("X$", c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1], sep="")))#
-		)
-)
-)
-n_sims
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = length(#
-			eval(parse(text=paste("X$", c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1], sep=""))))#
-		)
-n_sims
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise_(n(.))#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise_(n_sims = n(#
-			eval(parse(text=paste("X$", c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1], sep=""))))#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-paste("X$", c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1], sep="")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-eval(parse(text=paste("X$", c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1], sep="")))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise_(n_sims = n(#
-			eval(parse(text=paste("X$", c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)[1], sep=""))))#
-		)
-head(X)
-?n
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise_(n_sims = n()#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)#
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).#
-#' @param variables Vector of variables for which sampling bias should be estimated.#
-#' @param rvar Variables for which to use ratio estimators#
-#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.#
-#' @examples#
-#' # Create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' Species.Fields = c("Stricta", "Pusilla", "Cactus")#
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,#
-#' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, #
-#' 	start.seed=1, Species.Fields)#
-#' #
-#' # Sample from the realizations#
-#' simulations=1#
-#' nsamples=c(5,10,20,40)#
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, #
-#' 	y_end = 30)#
-#' abundance.variables = NULL#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' patch_data = cactus.realizations#
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, #
-#' #	nsamples, population, abundance.variables, occupancy.variables)#
-#' #
-#' # summary.variables = occupancy.variables#
-#' # grouping.variables = c("n.networks", "realization")#
-#' # dataset = cactus.realizations#
-#' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, #
-#' # 	summary.variables, grouping.variables)#
-#' # avar = NULL#
-#' @export#
-#
-calculateSamplingBias <- function(#
-	population_data_summary, #
-	simulation_data, #
-	population.grouping.variables, #
-	sampling.grouping.variables,#
-	variables, #
-	rvar#
-) #
-{#
-	variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_n",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	# calculate squared differences for each simulation and variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				var_observed_minus_true = #
-						# (observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate squared differences (observed - mean of observed) for each variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				var_observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate bias and MSE#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				var_true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				var_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				var_mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					var_RB = 100 * #
-						(var_mean_of_observed_means - var_true_mean) / #
-						var_true_mean,#
-					var_MSE = var_sum_of_observed_minus_true_sqrd/length(var_sum_of_observed_minus_true_sqrd),#
-					var_var_RB = 100 * (var_mean_of_var_estimates - #
-						var_var_of_mean_estimates) / #
-						var_var_of_mean_estimates,#
-					var_var_RB_n = min(#
-						var_mean_of_var_estimates_n, #
-						var_var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				dplyr::select(-c(#
-					var_mean_of_observed_means,#
-					var_sum_of_observed_minus_true_sqrd,#
-					var_mean_of_var_estimates,#
-					var_mean_of_var_estimates_n,#
-					var_var_of_mean_estimates,#
-					var_var_of_mean_estimates_n#
-				))#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-#	X$Prop.Area.Surveyed = with(X, N.Total.plots/N)		#
-	return(Y)#
-}
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variances", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})#
-test_that("calculateSamplingBias, MSE function", {#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)#
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).#
-#' @param variables Vector of variables for which sampling bias should be estimated.#
-#' @param rvar Variables for which to use ratio estimators#
-#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.#
-#' @examples#
-#' # Create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' Species.Fields = c("Stricta", "Pusilla", "Cactus")#
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,#
-#' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, #
-#' 	start.seed=1, Species.Fields)#
-#' #
-#' # Sample from the realizations#
-#' simulations=1#
-#' nsamples=c(5,10,20,40)#
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, #
-#' 	y_end = 30)#
-#' abundance.variables = NULL#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' patch_data = cactus.realizations#
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, #
-#' #	nsamples, population, abundance.variables, occupancy.variables)#
-#' #
-#' # summary.variables = occupancy.variables#
-#' # grouping.variables = c("n.networks", "realization")#
-#' # dataset = cactus.realizations#
-#' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, #
-#' # 	summary.variables, grouping.variables)#
-#' # avar = NULL#
-#' @export#
-#
-calculateSamplingBias <- function(#
-	population_data_summary, #
-	simulation_data, #
-	population.grouping.variables, #
-	sampling.grouping.variables,#
-	variables, #
-	rvar#
-) #
-{#
-	variables <- c(variables, rvar)#
-	. <- NULL#
-	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)#
-	# number of simulations#
-	n_sims <- X %>% #
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(n_sims = n()#
-		)#
-	X <- merge(#
-		X, #
-		n_sims, #
-		by = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)#
-	)#
-	# mean of observed means	#
-	temp <- X %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	A <- vector("list", length(variables))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		# observed mean#
-		A[[i]] <- temp %>%#
-			summarise_(#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"var_n",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-	X <- merge(#
-		X, #
-		Y, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	# calculate squared differences for each simulation and variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				var_observed_minus_true = #
-						# (observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text=paste(#
-									"X$", #
-									variables[i], #
-									"_mean", #
-									sep=""#
-								)#
-							)#
-						)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_true", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate squared differences (observed - mean of observed) for each variable#
-	for (i in 1:length(variables)) {#
-		X %<>%#
-			mutate(#
-				var_observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									"X$", #
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"var_observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	# calculate bias and MSE#
-	A <- vector("list", length(variables))#
-	X.grp <- X %>% group_by_(.dots=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	for (i in 1:length(variables)) {#
-		A[[i]] <- list()#
-		A[[i]] <- X.grp %>%#
-			summarise_(#
-				# save true mean#
-				var_true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				var_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate sum of MSEs#
-				var_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_MSE_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of simulated HT variance estimates#
-				var_mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate variance of simulated HT mean estimates#
-				var_var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				),#
-				var_var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_observed_minus_mean_of_observed_means",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-				as.data.frame#
-			A[[i]] %<>% #
-				mutate(#
-					# var_mean = Mean()#
-					var_RB = 100 * #
-						(var_mean_of_observed_means - var_true_mean) / #
-						var_true_mean,#
-					var_MSE = var_sum_of_observed_minus_true_sqrd/n_sims,#
-					var_var_RB = 100 * (var_mean_of_var_estimates - #
-						var_var_of_mean_estimates) / #
-						var_var_of_mean_estimates,#
-					var_var_RB_n = min(#
-						var_mean_of_var_estimates_n, #
-						var_var_of_mean_estimates_n#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_true_mean",#
-		      		paste(#
-		      			variables[i],#
-		      			"_true_mean",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_MSE",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_var_RB",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB",#
-		      			sep=""#
-					)#
-				) %>%#
-				# rename sample size variables#
-				setnames(#
-		      		.,#
-		      		"var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_MSE_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_mean_MSE_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				setnames(#
-		      		.,#
-		      		"var_var_RB_n",#
-		      		paste(#
-		      			variables[i],#
-		      			"_var_RB_n",#
-		      			sep=""#
-					)#
-				) %>%#
-				dplyr::select(-c(#
-					var_mean_of_observed_means,#
-					var_sum_of_observed_minus_true_sqrd,#
-					var_mean_of_var_estimates,#
-					var_mean_of_var_estimates_n,#
-					var_var_of_mean_estimates,#
-					var_var_of_mean_estimates_n#
-				))#
-	}#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		A#
-	)#
-#	X$Prop.Area.Surveyed = with(X, N.Total.plots/N)		#
-	return(Y)#
-}
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variances", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})#
-test_that("calculateSamplingBias, MSE function", {#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp)#
-	)
-?expect_that
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(1),#
-		label="calculateSamplingBias, MSE function"#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(1),#
-		label="calculateSamplingBias, bias calculation of mean and variances"#
-	)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(1),#
-		label="calculateSamplingBias, MSE function"#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias, bias calculation of mean and variances", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(1),#
-		label="calculateSamplingBias, bias calculation of mean and variances"#
-	)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(1),#
-		label="calculateSamplingBias, MSE function"#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp),#
-		label="calculateSamplingBias, bias calculation of mean and variances"#
-	)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp),#
-		label="calculateSamplingBias, MSE function"#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateSamplingBias", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp),#
-		label="calculateSamplingBias, bias calculation of mean and variances"#
-	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp),#
-		label="calculateSamplingBias, MSE function"#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("calculateRE", {#
-	# ACS SAMPLING#
-	y_value_var_observed <- vector()#
-	total_sample_size <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i] <- dim(temp)[1]#
-	}#
-	ACSdata <- cbind(#
-		samplesizes,#
-		y_value_mean_observed,#
-		y_value_var_observed,#
-		total_sample_size#
-	)#
-	temp <- simdata_all %>%#
-		group_by_(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		summarise(#
-			N.ACS.plots_mean = round(mean(N.ACS.plots, na.rm=T),0),#
-			N.ACS.plots_var = var(N.ACS.plots, na.rm=T),#
-			N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0),#
-			N.Total.plots_var = var(N.Total.plots, na.rm=T)#
-		)#
-	ACSdata_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= ACSdata, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.Total.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-	RE_values <- data_summary_stats$y_value_mean_MSE / #
-		ACSdata_summary_stats$y_value_mean_MSE#
-	expect_that(#
-		calculateRE(#
-			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-			population_data = Thompson1990Figure1Population,#
-			population.grouping.variables = NULL,#
-			sampling.grouping.variables = "N.Total.plots",#
-			variables = "y_value"#
-		) %$% y_value_mean_RE,#
-		equals(RE_values)#
-	)#
-})
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# ACS SAMPLING#
-	y_value_var_observed <- vector()#
-	total_sample_size <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i] <- dim(temp)[1]#
-	}#
-	ACSdata <- cbind(#
-		samplesizes,#
-		y_value_mean_observed,#
-		y_value_var_observed,#
-		total_sample_size#
-	)
-dim(ACSdata)
-head(ACSdata)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- ACSdata %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(total_sample_size = round(mean(total_sample_size, na.rm=T),0))
-temp
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- ACSdata %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
-	ACSdata_re <- ACSdata %>% merge(temp, by=c(N.SRSWOR.plots))
-head(ACSdata)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- ACSdata %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
-	ACSdata_re <- ACSdata %>% merge(temp, by=c(N.SRSWOR.plots))
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- ACSdata %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
-	ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")
-head(ACSdata_re)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# ACS SAMPLING#
-	y_value_var_observed <- vector()#
-	total_sample_size <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i] <- dim(temp)[1]#
-	}#
-	ACSdata <- cbind(#
-		samplesizes,#
-		y_value_mean_observed,#
-		y_value_var_observed,#
-		total_sample_size#
-	)#
-	temp <- ACSdata %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
-	ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")
-head(ACSdata_re)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-y_value_var_observed <- vector()#
-	total_sample_size <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i] <- dim(temp)[1]#
-	}#
-	ACSdata <- cbind(#
-		samplesizes,#
-		y_value_mean_observed,#
-		y_value_var_observed,#
-		total_sample_size#
-	)#
-	temp <- ACSdata %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
-	ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")
-head(ACSdata_re)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= ACSdata_re, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "mean_total_sample_size", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame
-dim(ACSdata_summary_stats)
-ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-RE_values <- data_summary_stats$y_value_mean_MSE / #
-		ACSdata_summary_stats$y_value_mean_MSE
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-calculateRE(#
-			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-			population_data = Thompson1990Figure1Population,#
-			population.grouping.variables = NULL,#
-			sampling.grouping.variables = "mean_total_sample_size",#
-			variables = "y_value"#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-MSE_ComparisonSamplingDesign = ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population_data = Thompson1990Figure1Population
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-population.grouping.variables = NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-sampling.grouping.variables = NULL
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-sample.size.variable = "mean_total_sample_size"
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-variables = "y_value"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign
-head(X)
-head(ACSdata_summary_stats)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
-head(X)
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()
 i
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+L = Networks[i, ]#
+    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
+    	    # STEP 1: northern neighbor of SRSWOR plot#
+    	    Z[[i]][2, "x"] = L$x#
+    	    Z[[i]][2, "y"] = L$y + 1
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+L = Networks[i, ]#
+    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
+    	    # STEP 1: northern neighbor of SRSWOR plot#
+    	    Z[[i]][2, "x"] = L$x#
+    	    Z[[i]][2, "y"] = L$y + 1#
+    	    # STEP 2: if plot has cacti, survey its neighbors
+Z
+max=3
+i
+L
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+L = Networks[i, ]#
+    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][2, "x"] = L$x#
+    	    Z[[i]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][3, "x"] = L$x#
+	      	Z[[i]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][4, "x"] = L$x + 1#
+	      	Z[[i]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][5, "x"] = L$x - 1#
+	      	Z[[i]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
+					   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][7, "x"] = Z[[i]][2, "x"] + j#
+					    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][8, "x"] = Z[[i]][2, "x"] - j#
+					    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
+					    Z[[i]][9, "y"] = Z[[i]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][10, "x"] = Z[[i]][3, "x"] + j#
+					    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][11, "x"] = Z[[i]][3, "x"] - j#
+					    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
+			        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
+			        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + j#
+			        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
+			        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
+			        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - j#
+			        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
+			      	}#
+				}
+}
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
+	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(Sampling)#
+	    # remove duplicates#
+		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs#
+		Y = no_duplicates %>% filter(#
+				y_value == condition, #
+				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)#
+		# get list of cluster/edge plots not satifying condition#
+		Z = no_duplicates %>% filter(#
+				y_value == condition, #
+				is.na(Sampling)#
+		)#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+		} else {#
+			# merge back together		#
+			Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# rename filtering variable#
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
+		names(Z)[names(Z) == 'y_value'] <- y_variable#
+		# add species attribute data#
+		Z %<>% #
+			merge(population %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()
+}
+Z
+ggplot() +#
+	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+ 		shape=factor(y_value))) +#
+	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(data=Z, aes(x,y), shape=0, size=7)
+max
+j
+j=1
+j=2
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
+					   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][7, "x"] = Z[[i]][2, "x"] + j#
+					    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][8, "x"] = Z[[i]][2, "x"] - j#
+					    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
+					    Z[[i]][9, "y"] = Z[[i]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][10, "x"] = Z[[i]][3, "x"] + j#
+					    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][11, "x"] = Z[[i]][3, "x"] - j#
+					    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
+			        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
+			        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + j#
+			        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
+			        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
+			        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - j#
+			        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
+			      	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+i
+j
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+max
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = list()#
+		# fill in edge units#
+	    for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
+	    }
+}
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = list()#
+		# fill in edge units#
+	    for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+	    }
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.data.frame, Z[[i]][[j]])
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = list()
+i
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.data.frame, Z[[i]])
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
+	    } #
+	    sample <- do.call(rbind.data.frame, Z)
+sample
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in cluster/edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()#
+		# fill in edge units#
+	    for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
+	    } #
+	    sample <- do.call(rbind.data.frame, Z)#
+) # compress plot list to dataframe#
+	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(Sampling)#
+	    # remove duplicates#
+		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs#
+		Y = no_duplicates %>% filter(#
+				y_value == condition, #
+				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)#
+		# get list of cluster/edge plots not satifying condition#
+		Z = no_duplicates %>% filter(#
+				y_value == condition, #
+				is.na(Sampling)#
+		)#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+		} else {#
+			# merge back together		#
+			Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# rename filtering variable#
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
+		names(Z)[names(Z) == 'y_value'] <- y_variable#
+		# add species attribute data#
+		Z %<>% #
+			merge(population %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()#
+		}	#
+  		return(Z)#
+	}
+Z
+geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+		shape=factor(y_value))) +#
+ 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(data=Z, aes(x,y), shape=0, size=7)
+dagta(Thompson1990Figure1Population)
+data(Thompson1990Figure1Population)
+geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+		shape=factor(y_value))) +#
+ 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+	geom_point(data=Z, aes(x,y), shape=0, size=7)
+geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),shape=factor(y_value))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
+ggplot() +geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),shape=factor(y_value))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()#
+		# fill in edge units#
+	    for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 1:(max-1)) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
+	    } #
+	    sample <- do.call(rbind.data.frame, Z)#
+) # compress plot list to dataframe#
+	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(Sampling)#
+	    # remove duplicates#
+		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs#
+		Y = no_duplicates %>% filter(#
+				y_value == condition, #
+				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)#
+		# get list of cluster/edge plots not satifying condition#
+		Z = no_duplicates %>% filter(#
+				y_value == condition, #
+				is.na(Sampling)#
+		)#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+		} else {#
+			# merge back together		#
+			Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# rename filtering variable#
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
+		names(Z)[names(Z) == 'y_value'] <- y_variable#
+		# add species attribute data#
+		Z %<>% #
+			merge(population %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()#
+		}
+Z
+ggplot() +geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),shape=factor(y_value))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
+head(patch_data_3)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population = patch_data_3
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in cluster/edge units
+head(patch_data_3)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_variable = "Cactus"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dim(Networks)[1] > 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1=20
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dim(Networks)[1] > 0)
+dim(Networks)[1] > 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1=40
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_variable
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dim(Networks)[1] > 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()#
+		# fill in edge units#
+	    for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 1:(max-1)) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
+	    } #
+	    sample <- do.call(rbind.data.frame, Z)#
+) # compress plot list to dataframe#
+	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(Sampling)#
+	    # remove duplicates#
+		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs#
+		Y = no_duplicates %>% filter(#
+				y_value == condition, #
+				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)#
+		# get list of cluster/edge plots not satifying condition#
+		Z = no_duplicates %>% filter(#
+				y_value == condition, #
+				is.na(Sampling)#
+		)#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+		} else {#
+			# merge back together		#
+			Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# rename filtering variable#
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
+		names(Z)[names(Z) == 'y_value'] <- y_variable#
+		# add species attribute data#
+		Z %<>% #
+			merge(population %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()#
+		}
+dim(Z)
+Z
+ggplot() +geom_point(data=path_data_3, aes(x,y, size=factor(Cactus),shape=factor(Cactus))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
+ggplot() +geom_point(data=patch_data_3, aes(x,y, size=factor(Cactus),shape=factor(Cactus))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population = patch_data_3
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_variable = "Cactus"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1=40
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed=26
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dim(Networks)[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 1:(max-1)) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
+	    }
 i=1
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances <- population_data %>% #
-			group_by_(.dots=population.grouping.variables) %>% #
-			summarise_(#
-				population_variance = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(variables[i])#
-				)#
-			)
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 1:(max-1)) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])
+j
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>% #
-			merge(variances, by=population.grouping.variables) %>%#
-			group_by_(.dots=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)) %>% #
-			summarise(#
-				var_y_bar = population_variance[1]/sample.size.variable[1]#
-			) %>%#
-			merge(#
-				X,#
-				by=c(#
-					population.grouping.variables, #
-					sampling.grouping.variables#
-				)#
-			) %>%#
-			mutate(#
-				RE = var_y_bar /#
-				# comparison sampling design#
-				eval(#
-					parse(#
-						text=paste(#
-							"temp$",#
-							variables[i], #
-							"_mean_MSE", #
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			setnames(#
-				., #
-				"RE", #
-				paste(#
-					variables[i], #
-					"_mean_RE", #
-					sep=""#
-				)#
-			) %>%#
-			dplyr::select(-var_y_bar)
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y
+Z
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
+max
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances <- population_data %>% #
-			group_by_(.dots=population.grouping.variables) %>% #
-			summarise_(#
-				population_variance = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(variables[i])#
-				)#
-			)#
-		X %<>% #
-			merge(variances, by=population.grouping.variables) %>%#
-			group_by_(.dots=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			))
+Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>% #
-			merge(variances, by=population.grouping.variables) %>%#
-			group_by_(.dots=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)) %>% #
-			summarise(#
-				var_y_bar = population_variance[1]/sample.size.variable[1]#
-			)
+Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0
+}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
+dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances <- population_data %>% #
-			group_by_(.dots=population.grouping.variables) %>% #
-			summarise_(#
-				population_variance = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(variables[i])#
-				)#
-			)
+Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]
+j
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>% #
-			merge(variances, by=population.grouping.variables) %>%#
-			group_by_(.dots=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			)) %>% #
-			summarise(#
-				var_y_bar = population_variance[1]/sample.size.variable[1]#
-			)
+Z[[i]][[1]][2, "y"] + j
+Z
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y
+j
+j=2
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances <- population_data %>% #
-			group_by_(.dots=population.grouping.variables) %>% #
-			summarise_(#
-				population_variance = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(variables[i])#
-				)#
-			)
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in cluster/edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()#
+		# fill in edge units#
+	    for (i in 1:dim(Networks)[1]) {#
+  	    	L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y#
+			# steps 2 - max#
+			if (max > 1) {#
+				for (j in 2:max) {#
+					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
+					# northern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0#
+					) {#
+					    # neighbor to north#
+					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
+					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
+					    # neighbor to east#
+					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
+					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
+					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
+					}#
+			      	# southern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0#
+					) {#
+						# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}#
+			      	# eastern neighbor of cluster plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
+					}#
+			      	# western neighbor of SRSWOR plot#
+					# 		if plot has cacti, survey its neighbors#
+					if (dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0#
+					) {#
+			        	# neighbor to south#
+			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
+			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
+			        	# neighbor to west#
+			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
+			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
+			      	}#
+				}#
+	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
+			}	#
+		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
+	    } #
+	    sample <- do.call(rbind.data.frame, Z)#
+) # compress plot list to dataframe#
+	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(Sampling)#
+	    # remove duplicates#
+		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs#
+		Y = no_duplicates %>% filter(#
+				y_value == condition, #
+				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)#
+		# get list of cluster/edge plots not satifying condition#
+		Z = no_duplicates %>% filter(#
+				y_value == condition, #
+				is.na(Sampling)#
+		)#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+		} else {#
+			# merge back together		#
+			Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# rename filtering variable#
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
+		names(Z)[names(Z) == 'y_value'] <- y_variable#
+		# add species attribute data#
+		Z %<>% #
+			merge(population %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()#
+		}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
+	# if there are units that satisfy the condition, fill in cluster/edge units
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X %<>% #
-			merge(variances, by=population.grouping.variables) %>%#
-			group_by_(.dots=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables#
-			))
-dim(X)
-X
-X %>% as.data.frame
+population = patch_data_3
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
+n1=40
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances <- population_data %>% #
-			group_by_(.dots=population.grouping.variables) %>% #
-			summarise_(#
-				population_variance = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(variables[i])#
-				)#
-			)#
-		X %<>% #
-			merge(variances, by=population.grouping.variables)
-X %>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-MSE_ComparisonSamplingDesign = ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats
+y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population, n1)#
+	}#
+	Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population)[names(population) == y_variable] <- 'y_value'#
+		# List to save data#
+		Z = list()
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variances <- population_data %>% #
-			group_by_(.dots=population.grouping.variables) %>% #
-			summarise_(#
-				population_variance = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(variables[i])#
-				)#
-			)#
-		X %<>% #
-			merge(variances, by=population.grouping.variables)
-X
+L = Networks[i, ]#
+    	    Z[[i]] <- list()#
+			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
+    	    # northern neighbor of SRSWOR plot#
+    	    Z[[i]][[1]][2, "x"] = L$x#
+    	    Z[[i]][[1]][2, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][3, "x"] = L$x#
+	      	Z[[i]][[1]][3, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][4, "x"] = L$x + 1#
+	      	Z[[i]][[1]][4, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Z[[i]][[1]][5, "x"] = L$x - 1#
+	      	Z[[i]][[1]][5, "y"] = L$y
+j
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-MSE_ComparisonSamplingDesign = ACSdata_summary_stats
+Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-MSE_ComparisonSamplingDesign
+dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+		  			  		x==L$x,#
+		  			  		y==L$y + j#
+					))[1] > 0
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
+dim(population %>% #
+						filter(#
+		  					y_value > condition, #
+							x==L$x,#
+							y==L$y - j#
+					))[1] > 0
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-MSE_ComparisonSamplingDesign
+# neighbor to south#
+					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
+					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
+					   	# neighbor to east#
+					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
+					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
+					    # neighbor to west#
+					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
+					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
+					}
+Z
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- NULL#
-	X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-MSE_ComparisonSamplingDesign = ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-MSE_ComparisonSamplingDesign
+dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	 	x==L$x + j,#
+					  	  	y==L$y#
+					))[1] > 0
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X <- NULL#
-	X <- MSE_ComparisonSamplingDesign %>%#
-		setnames(sample.size.variable, "sample.size.variable")
+Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
+			        	# neighbor to north#
+			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
+			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
+			        	# neighbor to east#
+			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
+			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dim(population %>% #
+					  	filter(#
+		  					y_value > condition, #
+					  	  	x==L$x - j,#
+					  	  	y==L$y#
+					))[1] > 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+do.call(rbind.fill, Z[[i]])
+Z
+install.packages("RANN")
