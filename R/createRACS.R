@@ -45,7 +45,14 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 		Z = list()
 		# fill in edge units
 	    for (i in 1:dim(Networks)[1]) {
-  	    	L = Networks[i, ]
+  	    	
+			# for each unit that satisfies the condition, add its neighbors
+			# step 1: neighbors in four cardinal directions
+			# step 2: neighbors of neighbors....
+			# step 3: ....
+			
+			
+			L = Networks[i, ]
     	    Z[[i]] <- list()
 			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))
     	    # northern neighbor of SRSWOR plot
@@ -64,6 +71,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 			if (max > 1) {
 				for (j in 2:max) {
 					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))
+					Z[[i]][[j]][, "j"] <- j
 					# northern neighbor of cluster plot
 					# 		if plot has cacti, survey its neighbors
 					if (dim(population %>% 
