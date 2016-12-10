@@ -1,302 +1,533 @@
+library(lubridate)
+-v
+install.packages("rgeos", repos="http://R-Forge.R-project.org")#
+require(rgeos)
+library(rgeos)
+require(rgeos)
+library(rgeos)
+install.packages("rgdal", repos="http://R-Forge.R-project.org")#
+require(rgdal)
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
+ --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
+ --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+library(lme3)
+library(lme4)
+300/241
+.244*30
+1.25*300
+1.25*240
+7*12
+7849-7527
+322/1353
+8028-7527
+501/1353
+8028-7957
+1353-501
+852/71
+7956-7878
+8176-8029
+8176-8092
+250*.75
+250*.25
+42*2 + 17*2
+118/19
+21/6.2
+59.5*.75
+59.5*.5 + 59.5
+71/12
+597/80
+597/8
+432/8
+15*8 + 9*3
+?seq_len
+7.25/3
+7.25/4
+for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
+install.packages("ProjectTemplate")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("data.table")
+install.packages("corrgram")
+install.packages("survival")
+install.packages("shapefiles")
+install.packages("rgdal")
+install.packages("PBSmapping")
+install.packages("sp")
+install.packages("gdistance")
+install.packages("chron")
+install.packages("unmarked")
+install.packages("lme4")
+install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
+require(rgeos)
+install.packages('rgdal',repos="http://www.stats.ox.ac.uk/pub/RWin")
+library(rgdal)
+install.packages("http://cran.r-project.org/src/contrib/rgdal_0.9-1.tar.gz", repos = NULL, type="source", configure.args = "--with-gdal-config=/Library/Frameworks/GDAL.framework/Versions/1.10/unix/bin/gdal-config --with-proj-include=/Library/Frameworks/PROJ.framework/unix/include --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib")
+18/1.618
+189+114
+library(lubridate)
+library(magrittr)
+seasons <- data.frame(#
+	   SE = as.POSIXct(c("2009-3-20", "2010-3-20", "2011-3-20", "2012-3-20", #
+            "2013-3-20", "2014-3-20"), format="%Y-%m-%d"),#
+	   SS = as.POSIXct(c("2009-6-21", "2010-6-21", "2011-6-21", "2012-6-20",#
+            "2013-6-20", "2014-6-20"), format="%Y-%m-%d"),#
+	   FE = as.POSIXct(c("2009-9-22", "2010-9-23", "2011-9-23", "2012-9-22",#
+            "2013-9-22", "2014-9-22"), format="%Y-%m-%d"),#
+	   WS = as.POSIXct(c("2009-12-21", "2010-12-21", "2011-12-22", "2012-12-21", #
+            "2013-12-21", "2014-12-21"), format="%Y-%m-%d")#
+    )#
+#
+    assignSeason <- function(dat, SeasonStarts=seasons) {#
+	    dat %<>% mutate(#
+		    Season = lapply(Date,#
+				function(x) {#
+					findInterval(#
+						x, #
+						SeasonStarts[which(year(x)==year(SeasonStarts$WS)), ]#
+					)#
+				}#
+			) %>% unlist	#
+		)#
+	    dat[which(dat$Season==0 | dat$Season==4), ]$Season 	<- "Winter"#
+	    dat[which(dat$Season==1), ]$Season 					<- "Spring"#
+	    dat[which(dat$Season==2), ]$Season 					<- "Summer"#
+	    dat[which(dat$Season==3), ]$Season 					<- "Fall"#
+	    return(dat)#
+    }
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(dplyr)
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(devtoolks)
+library(devtools)
+?install_github
+devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+library(devtools)
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+??limit
+37-13
+24/37
+37-13
+26/37
+25/37
+23/37
+29/37
+30/37
+22/37
+30/37
+29/37
+28/37
+27/37
+35/37
+30/37
+29/37
+26/37
+26/37 - .6757
+28/37
+30/37
+29/37
+37-12
+25/37
+219*.8
+219*.8 - 17
+26/3
+17/900
+42/900
+49/900
+29/40
+1/25
+8/25
+10/25
+(7.5 + 3.75)/15
+12*0.75
+11 * 0.75
+11/15
+11*0.25
+11/15 * 6
+32/41 +0.03.5
+32/41 + 0.035
+(32/41 + 0.035)*100
+100/41
+23/40 * 100
+(23/40 * 100)+5
+(164 + 13.5 + 6)
+(164 + 13.5 + 6)/365
+(164 + 13.5 + 6 + (50))/365
+(164 + 13.5 + 6 + (60))/365
+(164 + 13.5 + 6 + (70))/365
+(164 + 13.5 + 6 + (75))/365
+102/40
+102/41
+?table
+9.49/2
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
-reload.project()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS INCLUSION PROBABILITIES#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-rbind.fill(simulatedInclusionProbabilities.ACS.2Dec16) %>%#
-rbind.fill(simulatedInclusionProbabilities.ACS.4Dec16) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
+library(ProjectTemplate)#
 #
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
+# when working on a Windows computer#
+# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
 #
-A <- patch_data_3_temp %>% #
-	dplyr::select(-c(pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100)) %>% #
-	reshape2::melt(id.vars=c("m","x","y","N","coords")) %>%#
-	setnames("value", "new_pii_value") %>%#
-	setnames("variable", "new_pii_variable")#
-B <- patch_data_3_temp %>% #
-	dplyr::select(coords, pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100) %>% #
-	reshape2::melt(id.vars=c("coords")) %>%#
-	setnames("value", "Thompson_pii_value") %>%#
-	setnames("variable", "Thompson_pii_variable")#
-#
-A$N.SRSWOR.plots <- NA#
-A[which(grepl("_20_", A$new_pii_variable)),]$N.SRSWOR.plots <- 20#
-A[which(grepl("_30_", A$new_pii_variable)),]$N.SRSWOR.plots <- 30#
-A[which(grepl("_40_", A$new_pii_variable)),]$N.SRSWOR.plots <- 40#
-A[which(grepl("_75_", A$new_pii_variable)),]$N.SRSWOR.plots <- 75#
-A[which(grepl("_100_", A$new_pii_variable)),]$N.SRSWOR.plots <- 100#
-#
-A$m_threshold <- NA#
-A[which(grepl("_5", A$new_pii_variable)),]$m_threshold <- 5#
-A[which(grepl("_6", A$new_pii_variable)),]$m_threshold <- 6#
-A[which(grepl("_7", A$new_pii_variable)),]$m_threshold <- 7#
-A[which(grepl("_8", A$new_pii_variable)),]$m_threshold <- 8#
-A[which(grepl("_9", A$new_pii_variable)),]$m_threshold <- 9#
-A[which(grepl("_10", A$new_pii_variable)),]$m_threshold <- 10#
-A[which(grepl("_11", A$new_pii_variable)),]$m_threshold <- 11#
-A[which(grepl("_12", A$new_pii_variable)),]$m_threshold <- 12#
-A[which(grepl("_13", A$new_pii_variable)),]$m_threshold <- 13#
-A[which(grepl("_14", A$new_pii_variable)),]$m_threshold <- 14#
-#
-B$N.SRSWOR.plots <- NA#
-B[which(grepl("_20", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 20#
-B[which(grepl("_30", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 30#
-B[which(grepl("_40", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 40#
-B[which(grepl("_75", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 75#
-B[which(grepl("_100", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 100#
-#
-B %<>% dplyr::select(-Thompson_pii_variable)#
-A %<>% dplyr::select(-new_pii_variable)#
-#
-patch_data_3_results_ACS <- A %>%#
-	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
-	merge(ACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true_new_pii = #
-			inclusion_prob - new_pii_value,#
-		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
-	)#
-#
-# RACS INCLUSION PROBABILITIES#
-RACSinclusionprobs <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6,#
-	simulatedInclusionProbabilities.RACS.2Dec16.3,#
-	simulatedInclusionProbabilities.RACS.2Dec16.2,#
-	simulatedInclusionProbabilities.RACS.2Dec16#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_results_RACS <- A %>%#
-	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
-	merge(RACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true_new_pii = #
-			inclusion_prob - new_pii_value,#
-		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_ACS,#
-		patch_data_3_results_RACS#
-	)#
-patch_data_3_results$N.SRSWOR.plots %<>% as.factor()#
-levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30",#
-	"Primary Sample Size = 40",#
-	"Primary Sample Size = 75",#
-	"Primary Sample Size = 100"#
-)#
-#
-temp <- patch_data_3_results %>%#
-group_by(SamplingDesign, N.SRSWOR.plots, m_threshold) %>%#
-summarise(#
-	mean_error_old_pii = mean(inclusion_prob_diff_from_true_old_pii),#
-	mean_error_new_pii = mean(inclusion_prob_diff_from_true_new_pii)#
-	)#
-temp$mean_error_old_pii %<>% round(4)#
-temp$mean_error_new_pii %<>% round(4)#
-#
-temp %<>% #
-	as.data.frame %>% #
-	reshape2::melt(id.vars=c("SamplingDesign","N.SRSWOR.plots","m_threshold")) %>%#
-	setnames("variable", "Inclusion Probability Formula")#
-levels(temp$`Inclusion Probability Formula`) <- c("Thompson (1990) Formula",  "New Formula")
+# load project#
+load.project()
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 source("1_set_variables.R")#
 source("2_create_realizations.R")#
 source("3_summarise_network_information.R")#
 source("4_calculate_realization_summary_statistics.R")
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-select_columns <- c("m", "x", "y", "N", "pi_i_n1_20", "pi_i_n1_30", "pi_i_n1_40", "pi_i_n1_75", "pi_i_n1_100")#
-# PATCH 3#
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
-patch_data_3 %<>% dplyr::select_(.dots=select_columns)#
+select_columns <- c(#
+	"m", "x", "y", "N",#
+	"pi_i_n1_20", "pi_i_n1_30", "pi_i_n1_40", "pi_i_n1_75", "pi_i_n1_100"#
+)#
+m_threshold = c(1:14)#
 #
-# if m is less than or equal to m_threshold#
-pi_i_less_x <- function(N, n1, m) {#
-  sapply(m, function(m) #
-    1 - exp(#
-		sum(log({N - m - n1 + 1} : {N - m})) - sum(log({N - n1 + 1} : N))#
-		)#
-  )#
+for (i in 1:3) {#
+	Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])#
+	Z %<>% dplyr::select_(.dots=select_columns)#
+	for (j in 1:length(m_threshold)) {#
+		A <- Z %>% filter(m <= m_threshold[j])#
+		B <- Z %>% filter(m > m_threshold[j])#
+		# CALCULATE NEW INCLUSION PROBS#
+		# N1 = 20#
+		A$pii_20 <- pi_i(N=900, n1=20, m=A$m)#
+		B$pii_20 <- pi_i(N=900, n1=20, m=m_threshold[j])#
+		# N1 = 30#
+		A$pii_30 <- pi_i(N=900, n1=30, m=A$m)#
+		B$pii_30 <- pi_i(N=900, n1=30, m=m_threshold[j])#
+		# N1 = 40#
+		A$pii_40 <- pi_i(N=900, n1=40, m=A$m)#
+		B$pii_40 <- pi_i(N=900, n1=40, m=m_threshold[j])#
+		# N1 = 75#
+		A$pii_75 <- pi_i(N=900, n1=75, m=A$m)#
+		B$pii_75 <- pi_i(N=900, n1=75, m=m_threshold[j])#
+		# N1 = 100#
+		A$pii_100 <- pi_i(N=900, n1=100, m=A$m)#
+		B$pii_100 <- pi_i(N=900, n1=100, m=m_threshold[j])#
+		Z <- rbind.fill(A,B) %>%#
+			setnames("pii_20", paste("pii_20", m_threshold[j], sep="__")) %>%#
+			setnames("pii_30", paste("pii_30", m_threshold[j], sep="__")) %>%#
+			setnames("pii_40", paste("pii_40", m_threshold[j], sep="__")) %>%#
+			setnames("pii_75", paste("pii_75", m_threshold[j], sep="__")) %>%#
+			setnames("pii_100", paste("pii_100", m_threshold[j], sep="__"))#
+	}#
+	Z %<>% mutate(coords = paste(x,y,sep="_"))#
+	A <- Z %>% #
+		dplyr::select(-c(#
+			pi_i_n1_20, #
+			pi_i_n1_30, #
+			pi_i_n1_40, #
+			pi_i_n1_75, #
+			pi_i_n1_100#
+		)) %>% #
+		reshape2::melt(id.vars=c("m","x","y","N","coords")) %>%#
+		setnames("value", "new_pii_value") %>%#
+		setnames("variable", "new_pii_variable")#
+	B <- Z %>% #
+		dplyr::select(#
+			coords, #
+			pi_i_n1_20, #
+			pi_i_n1_30, #
+			pi_i_n1_40, #
+			pi_i_n1_75, #
+			pi_i_n1_100#
+		) %>% #
+		reshape2::melt(id.vars=c("coords")) %>%#
+		setnames("value", "Thompson_pii_value") %>%#
+		setnames("variable", "Thompson_pii_variable")#
+	A$N.SRSWOR.plots <- NA#
+	A[which(grepl("_20_", A$new_pii_variable)),]$N.SRSWOR.plots <- 20#
+	A[which(grepl("_30_", A$new_pii_variable)),]$N.SRSWOR.plots <- 30#
+	A[which(grepl("_40_", A$new_pii_variable)),]$N.SRSWOR.plots <- 40#
+	A[which(grepl("_75_", A$new_pii_variable)),]$N.SRSWOR.plots <- 75#
+	A[which(grepl("_100_", A$new_pii_variable)),]$N.SRSWOR.plots <- 100#
+	A$m_threshold <- NA#
+	A[which(grepl("__1", A$new_pii_variable)),]$m_threshold <- 1#
+	A[which(grepl("__2", A$new_pii_variable)),]$m_threshold <- 2#
+	A[which(grepl("__3", A$new_pii_variable)),]$m_threshold <- 3#
+	A[which(grepl("__4", A$new_pii_variable)),]$m_threshold <- 4#
+	A[which(grepl("__5", A$new_pii_variable)),]$m_threshold <- 5#
+	A[which(grepl("__6", A$new_pii_variable)),]$m_threshold <- 6#
+	A[which(grepl("__7", A$new_pii_variable)),]$m_threshold <- 7#
+	A[which(grepl("__8", A$new_pii_variable)),]$m_threshold <- 8#
+	A[which(grepl("__9", A$new_pii_variable)),]$m_threshold <- 9#
+	A[which(grepl("__10", A$new_pii_variable)),]$m_threshold <- 10#
+	A[which(grepl("__11", A$new_pii_variable)),]$m_threshold <- 11#
+	A[which(grepl("__12", A$new_pii_variable)),]$m_threshold <- 12#
+	A[which(grepl("__13", A$new_pii_variable)),]$m_threshold <- 13#
+	A[which(grepl("__14", A$new_pii_variable)),]$m_threshold <- 14#
+	B$N.SRSWOR.plots <- NA#
+	B[which(grepl("_20", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 20#
+	B[which(grepl("_30", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 30#
+	B[which(grepl("_40", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 40#
+	B[which(grepl("_75", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 75#
+	B[which(grepl("_100", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 100#
+	B %<>% dplyr::select(-Thompson_pii_variable)#
+	A %<>% dplyr::select(-new_pii_variable)#
+#
+	Z <- A %>%#
+		merge(B, by=c("coords", "N.SRSWOR.plots"), all=T) #
+	assign(paste("results_pop", i, sep="_"), value = Z)#
+}
+i
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+select_columns <- c(#
+	"m", "x", "y", "N",#
+	"pi_i_n1_20", "pi_i_n1_30", "pi_i_n1_40", "pi_i_n1_75", "pi_i_n1_100"#
+)#
+m_threshold = c(1:14)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])#
+	Z %<>% dplyr::select_(.dots=select_columns)#
+	for (j in 1:length(m_threshold)) {#
+		A <- Z %>% filter(m <= m_threshold[j])#
+		B <- Z %>% filter(m > m_threshold[j])#
+		# CALCULATE NEW INCLUSION PROBS#
+		# N1 = 20#
+		A$pii_20 <- pi_i(N=900, n1=20, m=A$m)#
+		B$pii_20 <- pi_i(N=900, n1=20, m=m_threshold[j])#
+		# N1 = 30#
+		A$pii_30 <- pi_i(N=900, n1=30, m=A$m)#
+		B$pii_30 <- pi_i(N=900, n1=30, m=m_threshold[j])#
+		# N1 = 40#
+		A$pii_40 <- pi_i(N=900, n1=40, m=A$m)#
+		B$pii_40 <- pi_i(N=900, n1=40, m=m_threshold[j])#
+		# N1 = 75#
+		A$pii_75 <- pi_i(N=900, n1=75, m=A$m)#
+		B$pii_75 <- pi_i(N=900, n1=75, m=m_threshold[j])#
+		# N1 = 100#
+		A$pii_100 <- pi_i(N=900, n1=100, m=A$m)#
+		B$pii_100 <- pi_i(N=900, n1=100, m=m_threshold[j])#
+		Z <- rbind.fill(A,B) %>%#
+			setnames("pii_20", paste("pii_20", m_threshold[j], sep="__")) %>%#
+			setnames("pii_30", paste("pii_30", m_threshold[j], sep="__")) %>%#
+			setnames("pii_40", paste("pii_40", m_threshold[j], sep="__")) %>%#
+			setnames("pii_75", paste("pii_75", m_threshold[j], sep="__")) %>%#
+			setnames("pii_100", paste("pii_100", m_threshold[j], sep="__"))#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+A <- Z %>% filter(m <= m_threshold[j])#
+		B <- Z %>% filter(m > m_threshold[j])
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+dim(A)[1] > 0
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+select_columns <- c(#
+	"m", "x", "y", "N",#
+	"pi_i_n1_20", "pi_i_n1_30", "pi_i_n1_40", "pi_i_n1_75", "pi_i_n1_100"#
+)#
+m_threshold = c(1:14)#
+#
+for (i in 1:3) {#
+	Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])#
+	Z %<>% dplyr::select_(.dots=select_columns)#
+	for (j in 1:length(m_threshold)) {#
+		A <- Z %>% filter(m <= m_threshold[j])#
+		B <- Z %>% filter(m > m_threshold[j])#
+		# CALCULATE NEW INCLUSION PROBS#
+		if (dim(A)[1] > 0) {#
+			A$pii_20 <- pi_i(N=900, n1=20, m=A$m)#
+			A$pii_30 <- pi_i(N=900, n1=30, m=A$m)#
+			A$pii_40 <- pi_i(N=900, n1=40, m=A$m)#
+			A$pii_75 <- pi_i(N=900, n1=75, m=A$m)#
+			A$pii_100 <- pi_i(N=900, n1=100, m=A$m)#
+		}#
+		if (dim(B)[1] > 0) {#
+			B$pii_20 <- pi_i(N=900, n1=20, m=m_threshold[j])#
+			B$pii_30 <- pi_i(N=900, n1=30, m=m_threshold[j])#
+			B$pii_40 <- pi_i(N=900, n1=40, m=m_threshold[j])#
+			B$pii_75 <- pi_i(N=900, n1=75, m=m_threshold[j])#
+			B$pii_100 <- pi_i(N=900, n1=100, m=m_threshold[j])#
+		}#
+		Z <- rbind.fill(A,B) %>%#
+			setnames("pii_20", paste("pii_20", m_threshold[j], sep="__")) %>%#
+			setnames("pii_30", paste("pii_30", m_threshold[j], sep="__")) %>%#
+			setnames("pii_40", paste("pii_40", m_threshold[j], sep="__")) %>%#
+			setnames("pii_75", paste("pii_75", m_threshold[j], sep="__")) %>%#
+			setnames("pii_100", paste("pii_100", m_threshold[j], sep="__"))#
+	}
 }
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# if m is greater than m_threshold#
-pi_i_greater_x <- function(N, n1, m_threshold) {#
-    1 - exp(#
-		sum(log({N - m_threshold - n1 + 1} : {N - m_threshold})) - sum(log({N - n1 + 1} : N))#
-		)#
-}#
-#
-m_threshold = c(5:14)#
-#
-for (i in 1:length(m_threshold)) {#
-	A <- patch_data_3 %>% filter(m <= m_threshold[i])#
-	B <- patch_data_3 %>% filter(m > m_threshold[i])#
-	# CALCULATE NEW INCLUSION PROBS#
-	# N1 = 20#
-	A$pii_20 <- pi_i_less_x(N=900, n1=20, m=A$m)#
-	B$pii_20 <- pi_i_greater_x(N=900, n1=20, m_threshold=m_threshold[i])#
-	# N1 = 30#
-	A$pii_30 <- pi_i_less_x(N=900, n1=30, m=A$m)#
-	B$pii_30 <- pi_i_greater_x(N=900, n1=30, m_threshold=m_threshold[i])#
-	# N1 = 40#
-	A$pii_40 <- pi_i_less_x(N=900, n1=40, m=A$m)#
-	B$pii_40 <- pi_i_greater_x(N=900, n1=40, m_threshold=m_threshold[i])#
-	# N1 = 75#
-	A$pii_75 <- pi_i_less_x(N=900, n1=75, m=A$m)#
-	B$pii_75 <- pi_i_greater_x(N=900, n1=75, m_threshold=m_threshold[i])#
-	# N1 = 100#
-	A$pii_100 <- pi_i_less_x(N=900, n1=100, m=A$m)#
-	B$pii_100 <- pi_i_greater_x(N=900, n1=100, m_threshold=m_threshold[i])#
-	patch_data_3 <- rbind.fill(A,B) %>%#
-		setnames("pii_20", paste("pii_20", m_threshold[i], sep="_")) %>%#
-		setnames("pii_30", paste("pii_30", m_threshold[i], sep="_")) %>%#
-		setnames("pii_40", paste("pii_40", m_threshold[i], sep="_")) %>%#
-		setnames("pii_75", paste("pii_75", m_threshold[i], sep="_")) %>%#
-		setnames("pii_100", paste("pii_100", m_threshold[i], sep="_"))#
-}#
-#
-# ACS INCLUSION PROBABILITIES#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-rbind.fill(simulatedInclusionProbabilities.ACS.2Dec16) %>%#
-rbind.fill(simulatedInclusionProbabilities.ACS.4Dec16) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
+select_columns <- c(#
+	"m", "x", "y", "N",#
+	"pi_i_n1_20", "pi_i_n1_30", "pi_i_n1_40", "pi_i_n1_75", "pi_i_n1_100"#
 )#
+m_threshold = c(1:14)#
 #
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
+for (i in 1:3) {#
+	Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])#
+	Z %<>% dplyr::select_(.dots=select_columns)#
+	for (j in 1:length(m_threshold)) {#
+		A <- Z %>% filter(m <= m_threshold[j])#
+		B <- Z %>% filter(m > m_threshold[j])#
+		# CALCULATE NEW INCLUSION PROBS#
+		if (dim(A)[1] > 0) {#
+			A$pii_20 <- pi_i(N=900, n1=20, m=A$m)#
+			A$pii_30 <- pi_i(N=900, n1=30, m=A$m)#
+			A$pii_40 <- pi_i(N=900, n1=40, m=A$m)#
+			A$pii_75 <- pi_i(N=900, n1=75, m=A$m)#
+			A$pii_100 <- pi_i(N=900, n1=100, m=A$m)#
+		}#
+		if (dim(B)[1] > 0) {#
+			B$pii_20 <- pi_i(N=900, n1=20, m=m_threshold[j])#
+			B$pii_30 <- pi_i(N=900, n1=30, m=m_threshold[j])#
+			B$pii_40 <- pi_i(N=900, n1=40, m=m_threshold[j])#
+			B$pii_75 <- pi_i(N=900, n1=75, m=m_threshold[j])#
+			B$pii_100 <- pi_i(N=900, n1=100, m=m_threshold[j])#
+		}#
+		Z <- rbind.fill(A,B) %>%#
+			setnames("pii_20", paste("pii_20", m_threshold[j], sep="__")) %>%#
+			setnames("pii_30", paste("pii_30", m_threshold[j], sep="__")) %>%#
+			setnames("pii_40", paste("pii_40", m_threshold[j], sep="__")) %>%#
+			setnames("pii_75", paste("pii_75", m_threshold[j], sep="__")) %>%#
+			setnames("pii_100", paste("pii_100", m_threshold[j], sep="__"))#
+	}#
+	Z %<>% mutate(coords = paste(x,y,sep="_"))#
+	A <- Z %>% #
+		dplyr::select(-c(#
+			pi_i_n1_20, #
+			pi_i_n1_30, #
+			pi_i_n1_40, #
+			pi_i_n1_75, #
+			pi_i_n1_100#
+		)) %>% #
+		reshape2::melt(id.vars=c("m","x","y","N","coords")) %>%#
+		setnames("value", "new_pii_value") %>%#
+		setnames("variable", "new_pii_variable")#
+	B <- Z %>% #
+		dplyr::select(#
+			coords, #
+			pi_i_n1_20, #
+			pi_i_n1_30, #
+			pi_i_n1_40, #
+			pi_i_n1_75, #
+			pi_i_n1_100#
+		) %>% #
+		reshape2::melt(id.vars=c("coords")) %>%#
+		setnames("value", "Thompson_pii_value") %>%#
+		setnames("variable", "Thompson_pii_variable")#
+	A$N.SRSWOR.plots <- NA#
+	A[which(grepl("_20_", A$new_pii_variable)),]$N.SRSWOR.plots <- 20#
+	A[which(grepl("_30_", A$new_pii_variable)),]$N.SRSWOR.plots <- 30#
+	A[which(grepl("_40_", A$new_pii_variable)),]$N.SRSWOR.plots <- 40#
+	A[which(grepl("_75_", A$new_pii_variable)),]$N.SRSWOR.plots <- 75#
+	A[which(grepl("_100_", A$new_pii_variable)),]$N.SRSWOR.plots <- 100#
+	A$m_threshold <- NA#
+	A[which(grepl("__1", A$new_pii_variable)),]$m_threshold <- 1#
+	A[which(grepl("__2", A$new_pii_variable)),]$m_threshold <- 2#
+	A[which(grepl("__3", A$new_pii_variable)),]$m_threshold <- 3#
+	A[which(grepl("__4", A$new_pii_variable)),]$m_threshold <- 4#
+	A[which(grepl("__5", A$new_pii_variable)),]$m_threshold <- 5#
+	A[which(grepl("__6", A$new_pii_variable)),]$m_threshold <- 6#
+	A[which(grepl("__7", A$new_pii_variable)),]$m_threshold <- 7#
+	A[which(grepl("__8", A$new_pii_variable)),]$m_threshold <- 8#
+	A[which(grepl("__9", A$new_pii_variable)),]$m_threshold <- 9#
+	A[which(grepl("__10", A$new_pii_variable)),]$m_threshold <- 10#
+	A[which(grepl("__11", A$new_pii_variable)),]$m_threshold <- 11#
+	A[which(grepl("__12", A$new_pii_variable)),]$m_threshold <- 12#
+	A[which(grepl("__13", A$new_pii_variable)),]$m_threshold <- 13#
+	A[which(grepl("__14", A$new_pii_variable)),]$m_threshold <- 14#
+	B$N.SRSWOR.plots <- NA#
+	B[which(grepl("_20", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 20#
+	B[which(grepl("_30", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 30#
+	B[which(grepl("_40", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 40#
+	B[which(grepl("_75", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 75#
+	B[which(grepl("_100", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 100#
+	B %<>% dplyr::select(-Thompson_pii_variable)#
+	A %<>% dplyr::select(-new_pii_variable)#
 #
-A <- patch_data_3_temp %>% #
-	dplyr::select(-c(pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100)) %>% #
-	reshape2::melt(id.vars=c("m","x","y","N","coords")) %>%#
-	setnames("value", "new_pii_value") %>%#
-	setnames("variable", "new_pii_variable")#
-B <- patch_data_3_temp %>% #
-	dplyr::select(coords, pi_i_n1_20, pi_i_n1_30, pi_i_n1_40, pi_i_n1_75, pi_i_n1_100) %>% #
-	reshape2::melt(id.vars=c("coords")) %>%#
-	setnames("value", "Thompson_pii_value") %>%#
-	setnames("variable", "Thompson_pii_variable")#
-#
-A$N.SRSWOR.plots <- NA#
-A[which(grepl("_20_", A$new_pii_variable)),]$N.SRSWOR.plots <- 20#
-A[which(grepl("_30_", A$new_pii_variable)),]$N.SRSWOR.plots <- 30#
-A[which(grepl("_40_", A$new_pii_variable)),]$N.SRSWOR.plots <- 40#
-A[which(grepl("_75_", A$new_pii_variable)),]$N.SRSWOR.plots <- 75#
-A[which(grepl("_100_", A$new_pii_variable)),]$N.SRSWOR.plots <- 100#
-#
-A$m_threshold <- NA#
-A[which(grepl("_5", A$new_pii_variable)),]$m_threshold <- 5#
-A[which(grepl("_6", A$new_pii_variable)),]$m_threshold <- 6#
-A[which(grepl("_7", A$new_pii_variable)),]$m_threshold <- 7#
-A[which(grepl("_8", A$new_pii_variable)),]$m_threshold <- 8#
-A[which(grepl("_9", A$new_pii_variable)),]$m_threshold <- 9#
-A[which(grepl("_10", A$new_pii_variable)),]$m_threshold <- 10#
-A[which(grepl("_11", A$new_pii_variable)),]$m_threshold <- 11#
-A[which(grepl("_12", A$new_pii_variable)),]$m_threshold <- 12#
-A[which(grepl("_13", A$new_pii_variable)),]$m_threshold <- 13#
-A[which(grepl("_14", A$new_pii_variable)),]$m_threshold <- 14#
-#
-B$N.SRSWOR.plots <- NA#
-B[which(grepl("_20", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 20#
-B[which(grepl("_30", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 30#
-B[which(grepl("_40", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 40#
-B[which(grepl("_75", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 75#
-B[which(grepl("_100", B$Thompson_pii_variable)),]$N.SRSWOR.plots <- 100#
-#
-B %<>% dplyr::select(-Thompson_pii_variable)#
-A %<>% dplyr::select(-new_pii_variable)#
-#
-patch_data_3_results_ACS <- A %>%#
-	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
-	merge(ACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
+	Z <- A %>%#
+		merge(B, by=c("coords", "N.SRSWOR.plots"), all=T) #
+	assign(paste("results_pop", i, sep="_"), value = Z)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+RACSinclusionprobs.3 <- rbind.fill(#
+		simulatedInclusionProbabilities.RACS.20Nov16,#
+		simulatedInclusionProbabilities.RACS.20Nov16.2,#
+		simulatedInclusionProbabilities.RACS.20Nov16.3,#
+		simulatedInclusionProbabilities.RACS.20Nov16.4,#
+		simulatedInclusionProbabilities.RACS.20Nov16.5,#
+		simulatedInclusionProbabilities.RACS.20Nov16.6,#
+		simulatedInclusionProbabilities.RACS.2Dec16.3,#
+		simulatedInclusionProbabilities.RACS.2Dec16.2,#
+		simulatedInclusionProbabilities.RACS.2Dec16#
+	) %>%#
+	group_by(realization,#
+		n.networks,#
+		N.SRSWOR.plots,#
+		SamplingDesign,#
+		coords#
+	) %>%#
+	summarise(#
+		times_included = sum(times_included),#
+		simulations = sum(simulations)#
+	) %>%#
+	mutate(Population = 3) %>%#
+	merge(results_pop_3, by=c("coords", "N.SRSWOR.plots"), all=T)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+RACSinclusionprobs.2 <- simulatedInclusionProbabilities.patch2.RACS.9Dec16 %>%#
+	rbind.fill(simulatedInclusionProbabilities.patch2.RACS.9Dec16.2) %>%#
+	rbind.fill(simulatedInclusionProbabilities.patch2.RACS.9Dec16.3) %>%#
+	group_by(realization,#
+		n.networks,#
+		N.SRSWOR.plots,#
+		SamplingDesign,#
+		coords#
+	) %>%#
+	summarise(#
+		times_included = sum(times_included),#
+		simulations = sum(simulations)#
+	) %>%#
+	mutate(Population = 2) %>%#
+	merge(results_pop_2, by=c("coords", "N.SRSWOR.plots"), all=T)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+RACSinclusionprobs.1 <- simulatedInclusionProbabilities.patch1.RACS.9Dec16.2 %>%#
+		rbind.fill(simulatedInclusionProbabilities.patch1.RACS.9Dec16) %>%#
+		group_by(realization,#
+			n.networks,#
+			N.SRSWOR.plots,#
+			SamplingDesign,#
+			coords#
+		) %>%#
+		summarise(#
+			times_included = sum(times_included),#
+			simulations = sum(simulations)#
+		) %>%#
+		mutate(Population = 1) %>%#
+		merge(results_pop_1, by=c("coords", "N.SRSWOR.plots"), all=T)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+temp <- RACSinclusionprobs.2 %>%#
+	rbind.fill(RACSinclusionprobs.3) %>%#
+	rbind.fill(RACSinclusionprobs.1) %>%#
 	mutate(#
 		inclusion_prob = times_included/simulations,#
 		inclusion_prob_diff_from_true_new_pii = #
 			inclusion_prob - new_pii_value,#
-		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
-	)#
+		inclusion_prob_diff_from_true_old_pii = inclusion_prob - #
+			Thompson_pii_value#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+temp$N.SRSWOR.plots %<>% as.factor()#
 #
-# RACS INCLUSION PROBABILITIES#
-RACSinclusionprobs <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6,#
-	simulatedInclusionProbabilities.RACS.2Dec16.3,#
-	simulatedInclusionProbabilities.RACS.2Dec16.2,#
-	simulatedInclusionProbabilities.RACS.2Dec16#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_results_RACS <- A %>%#
-	merge(B, by=c("coords", "N.SRSWOR.plots")) %>%#
-	merge(RACSinclusionprobs, by=c("coords", "N.SRSWOR.plots")) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true_new_pii = #
-			inclusion_prob - new_pii_value,#
-		inclusion_prob_diff_from_true_old_pii = inclusion_prob - Thompson_pii_value#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_ACS,#
-		patch_data_3_results_RACS#
-	)#
-patch_data_3_results$N.SRSWOR.plots %<>% as.factor()#
-levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30",#
-	"Primary Sample Size = 40",#
-	"Primary Sample Size = 75",#
-	"Primary Sample Size = 100"#
-)#
-#
-temp <- patch_data_3_results %>%#
-group_by(SamplingDesign, N.SRSWOR.plots, m_threshold) %>%#
+temp <- temp %>%#
+filter(!(SamplingDesign=="ACS")) %>%#
+group_by(SamplingDesign, N.SRSWOR.plots, m_threshold, Population) %>%#
 summarise(#
 	mean_error_old_pii = mean(inclusion_prob_diff_from_true_old_pii),#
 	mean_error_new_pii = mean(inclusion_prob_diff_from_true_new_pii)#
@@ -306,7 +537,7 @@ temp$mean_error_new_pii %<>% round(4)#
 #
 temp %<>% #
 	as.data.frame %>% #
-	reshape2::melt(id.vars=c("SamplingDesign","N.SRSWOR.plots","m_threshold")) %>%#
+	reshape2::melt(id.vars=c("SamplingDesign","N.SRSWOR.plots","m_threshold", "Population")) %>%#
 	setnames("variable", "Inclusion Probability Formula")#
 levels(temp$`Inclusion Probability Formula`) <- c("Thompson (1990) Formula",  "New Formula")
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
@@ -315,2546 +546,498 @@ ggplot(data=temp, #
 			m_threshold, #
 			value, #
 			colour = `Inclusion Probability Formula`,#
+			shape=factor(N.SRSWOR.plots)#
 		)) +#
-	geom_point() +#
+	geom_point(size=5) +#
 	geom_hline(yintercept=0) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
+	stat_smooth() +#
+	facet_wrap(~Population) +#
 	KEStheme() +#
-	scale_x_continuous(breaks=c(5:14)) +#
+	scale_x_continuous(breaks=c(1:14)) +#
 	xlab("m threshold") +#
 	ylab("Mean(Simulation Inclusion Probability -\nInclusion Probability from Formula)") +#
 	theme(#
 		legend.position="bottom"#
 	) +#
 	guides(#
-		colour=guide_legend(title="Inclusion Probability Formula",nrow=2)#
+		colour=guide_legend(title="Inclusion Probability Formula",nrow=2),#
+		shape=guide_legend(title="Primary Sample Size")#
 	)
-data(Thompson1990Figure1Population)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population = Thompson1990Figure1Population
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-seed=26
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n1=10
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_variable = "y_value"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-condition=0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-initial_sample=NA
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-head(Networks)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z = list()
-step=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][2, "x"] = L$x#
-    	    Z[[i]][2, "y"] = L$y + 1#
-    	    # if plot has cacti, survey its neighbors#
-  	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-  			  		x==L$x,#
-  			  		y==L$y + 1,#
-					step > 1#
-				))[1] > 0#
-			) {#
-			    # neighbor to north#
-			    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
-			   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + 1#
-			    # neighbor to east#
-			    Z[[i]][7, "x"] = Z[[i]][2, "x"] + 1#
-			    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
-			    # neighbor to west#
-			    Z[[i]][8, "x"] = Z[[i]][2, "x"] - 1#
-			    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
-			}#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][3, "x"] = L$x#
-	      	Z[[i]][3, "y"] = L$y - 1#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-				filter(#
-  					y_value > condition, #
-					x==L$x,#
-					y==L$y - 1,#
-					step > 1#
-				))[1] > 0#
-			) {#
-				# neighbor to south#
-			    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
-			    Z[[i]][9, "y"] = Z[[i]][3, "y"] - 1#
-			   	# neighbor to east#
-			    Z[[i]][10, "x"] = Z[[i]][3, "x"] + 1#
-			    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
-			    # neighbor to west#
-			    Z[[i]][11, "x"] = Z[[i]][3, "x"] - 1#
-			    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
-			}#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][4, "x"] = L$x + 1#
-	      	Z[[i]][4, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	 	x==L$x + 1,#
-			  	  	y==L$y,#
-					step > 1#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
-	        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + 1#
-	        	# neighbor to east#
-	        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + 1#
-	        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
-			}#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][5, "x"] = L$x - 1#
-	      	Z[[i]][5, "y"] = L$y#
-	      	# if plot has cacti, survey its neighbors#
-	      	if (dim(population %>% #
-			  	filter(#
-  					y_value > condition, #
-			  	  	x==L$x - 1,#
-			  	  	y==L$y,#
-					step > 1#
-				))[1] > 0#
-			) {#
-	        	# neighbor to south#
-	        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - 1#
-	        	# neighbor to north#
-	        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
-	        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + 1#
-	        	# neighbor to west#
-	        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - 1#
-	        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
-	      	}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
-	    }
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-sample
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
-	# if there are units that satisfy the condition, fill in cluster/edge units#
-	if (dim(Networks)[1] > 0) {#
-		names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()
-}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()
-i
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
-    	    # STEP 1: northern neighbor of SRSWOR plot#
-    	    Z[[i]][2, "x"] = L$x#
-    	    Z[[i]][2, "y"] = L$y + 1
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
-    	    # STEP 1: northern neighbor of SRSWOR plot#
-    	    Z[[i]][2, "x"] = L$x#
-    	    Z[[i]][2, "y"] = L$y + 1#
-    	    # STEP 2: if plot has cacti, survey its neighbors
-Z
-max=3
-i
-L
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][2, "x"] = L$x#
-    	    Z[[i]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][3, "x"] = L$x#
-	      	Z[[i]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][4, "x"] = L$x + 1#
-	      	Z[[i]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][5, "x"] = L$x - 1#
-	      	Z[[i]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
-					   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][7, "x"] = Z[[i]][2, "x"] + j#
-					    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][8, "x"] = Z[[i]][2, "x"] - j#
-					    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
-					    Z[[i]][9, "y"] = Z[[i]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][10, "x"] = Z[[i]][3, "x"] + j#
-					    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][11, "x"] = Z[[i]][3, "x"] - j#
-					    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
-			        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
-			        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + j#
-			        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
-			        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
-			        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - j#
-			        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
-			      	}#
-				}
-}
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)#
-	    # remove duplicates#
-		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give primary sample plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# rename filtering variable#
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
-		names(Z)[names(Z) == 'y_value'] <- y_variable#
-		# add species attribute data#
-		Z %<>% #
-			merge(population %>% select(-NetworkID, -m)) %>%#
-			select(x, y, NetworkID, m, y_value, Sampling, everything())#
-		# warning	#
-		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
-			warning("Duplicates remaining in RACS sample")#
-			stop()
-}
-Z
-ggplot() +#
-	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
- 		shape=factor(y_value))) +#
-	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
-	geom_point(data=Z, aes(x,y), shape=0, size=7)
-max
-j
-j=1
-j=2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][6, "x"] = Z[[i]][2, "x"]#
-					   	Z[[i]][6, "y"] = Z[[i]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][7, "x"] = Z[[i]][2, "x"] + j#
-					    Z[[i]][7, "y"] = Z[[i]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][8, "x"] = Z[[i]][2, "x"] - j#
-					    Z[[i]][8, "y"] = Z[[i]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][9, "x"] = Z[[i]][3, "x"]#
-					    Z[[i]][9, "y"] = Z[[i]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][10, "x"] = Z[[i]][3, "x"] + j#
-					    Z[[i]][10, "y"] = Z[[i]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][11, "x"] = Z[[i]][3, "x"] - j#
-					    Z[[i]][11, "y"] = Z[[i]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][12, "x"] = Z[[i]][4, "x"]#
-			        	Z[[i]][12, "y"] = Z[[i]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][13, "x"] = Z[[i]][4, "x"]#
-			        	Z[[i]][13, "y"] = Z[[i]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][14, "x"] = Z[[i]][4, "x"] + j#
-			        	Z[[i]][14, "y"] = Z[[i]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][15, "x"] = Z[[i]][5, "x"]#
-			        	Z[[i]][15, "y"] = Z[[i]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][16, "x"] = Z[[i]][5, "x"]#
-			        	Z[[i]][16, "y"] = Z[[i]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][17, "x"] = Z[[i]][5, "x"] - j#
-			        	Z[[i]][17, "y"] = Z[[i]][5, "y"]#
-			      	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-i
-j
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-max
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}
-}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				#
-	    }
-}
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-	    }
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.data.frame, Z[[i]][[j]])
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z = list()
-i
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.data.frame, Z[[i]])
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z)
-sample
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
-	# if there are units that satisfy the condition, fill in cluster/edge units#
-	if (dim(Networks)[1] > 0) {#
-		names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z)#
-) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)#
-	    # remove duplicates#
-		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give primary sample plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# rename filtering variable#
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
-		names(Z)[names(Z) == 'y_value'] <- y_variable#
-		# add species attribute data#
-		Z %<>% #
-			merge(population %>% select(-NetworkID, -m)) %>%#
-			select(x, y, NetworkID, m, y_value, Sampling, everything())#
-		# warning	#
-		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
-			warning("Duplicates remaining in RACS sample")#
-			stop()#
-		}	#
-  		return(Z)#
-	}
-Z
-geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
-		shape=factor(y_value))) +#
- 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
-	geom_point(data=Z, aes(x,y), shape=0, size=7)
-dagta(Thompson1990Figure1Population)
-data(Thompson1990Figure1Population)
-geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
-		shape=factor(y_value))) +#
- 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
-	geom_point(data=Z, aes(x,y), shape=0, size=7)
-geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),shape=factor(y_value))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
-ggplot() +geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),shape=factor(y_value))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 1:(max-1)) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z)#
-) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)#
-	    # remove duplicates#
-		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give primary sample plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# rename filtering variable#
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
-		names(Z)[names(Z) == 'y_value'] <- y_variable#
-		# add species attribute data#
-		Z %<>% #
-			merge(population %>% select(-NetworkID, -m)) %>%#
-			select(x, y, NetworkID, m, y_value, Sampling, everything())#
-		# warning	#
-		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
-			warning("Duplicates remaining in RACS sample")#
-			stop()#
-		}
-Z
-ggplot() +geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),shape=factor(y_value))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
-head(patch_data_3)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])
+ggplot(data=temp, #
+		aes(#
+			m_threshold, #
+			value, #
+			colour = `Inclusion Probability Formula`,#
+			shape=factor(N.SRSWOR.plots)#
+		)) +#
+	geom_point(size=5) +#
+	geom_hline(yintercept=0) +#
+	geom_vline(xintercept=c(4,7,7)) +#
+	stat_smooth() +#
+	facet_wrap(~Population) +#
+	KEStheme() +#
+	scale_x_continuous(breaks=c(1:14)) +#
+	xlab("m threshold") +#
+	ylab("Mean(Simulation Inclusion Probability -\nInclusion Probability from Formula)") +#
+	theme(#
+		legend.position="bottom"#
+	) +#
+	guides(#
+		colour=guide_legend(title="Inclusion Probability Formula",nrow=2),#
+		shape=guide_legend(title="Primary Sample Size")#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+ggplot(data=temp, #
+		aes(#
+			m_threshold, #
+			value, #
+			colour = `Inclusion Probability Formula`,#
+			shape=factor(N.SRSWOR.plots)#
+		)) +#
+	geom_point(size=5) +#
+	geom_hline(yintercept=0) +#
+	geom_vline(xintercept=c(5,7,7)) +#
+	stat_smooth() +#
+	facet_wrap(~Population) +#
+	KEStheme() +#
+	scale_x_continuous(breaks=c(1:14)) +#
+	xlab("m threshold") +#
+	ylab("Mean(Simulation Inclusion Probability -\nInclusion Probability from Formula)") +#
+	theme(#
+		legend.position="bottom"#
+	) +#
+	guides(#
+		colour=guide_legend(title="Inclusion Probability Formula",nrow=2),#
+		shape=guide_legend(title="Primary Sample Size")#
+	)
+?y_HT
+S = merge(#
+	Thompson1990Figure1Population,#
+	Thompson1990Figure1Sample, #
+	all.y=TRUE#
+)#
+#
+Z = list()  					#
+S$Sampling <- "Initial_Sample"#
+# add the rest of the units for each network in the initial sample#
+Z = rbind.fill(S, Thompson1990Figure1Population %>% #
+	filter(Thompson1990Figure1Population$NetworkID %in% S$NetworkID))#
+Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+Networks = filter(Z, y_value > 0)#
+# fill in edge units#
+E = as.data.frame(cbind(#
+	x = rowSums(expand.grid(Networks$x, c(1,-1,0,0))),#
+	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1)))#
+)) %>% #
+mutate(Sampling="Edge")#
+# remove duplicate units#
+Z %<>% rbind.fill(E) %>%#
+mutate(temp_coords = paste(x, y, sep=""))#
+Z =  Z[!duplicated(Z$temp_coords),]#
+Z %<>% dplyr::select(-temp_coords)#
+# fill in y_value#
+Z[which(is.na(Z$y_value)), ]$y_value <- 0#
+# fill in m#
+Z[which(Z$y_value==0 & Z$Sampling=="Edge"), ]$m <- 0#
+#
+	N = dim(Thompson1990Figure1Population)[1] #
+	n1 = dim(Thompson1990Figure1Sample)[1]#
+	m = Z$m#
+	y = Z$y_value#
+	sampling = Z$Sampling#
+	criterion=0#
+# CALCULATE y_HT#
+y_HT(#
+	N = N, #
+	n1 = n1,#
+	m = m, #
+	y = y, #
+	sampling = Z$Sampling,#
+	criterion=0#
+)
+Z
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population = patch_data_3
+Z = data.frame(y=y, m=m)#
+		A <- Z %>% filter(m <= m_threshold)#
+		B <- Z %>% filter(m > m_threshold)#
+		A_pi_i_values = pi_i(N, n1, A$m)#
+		B_pi_i_values = pi_i(N, n1, B$m)
+m_threshold
+m_threshold=7
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
-	# if there are units that satisfy the condition, fill in cluster/edge units
-head(patch_data_3)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_variable = "Cactus"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(Networks)[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Networks
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n1=20
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(Networks)[1] > 0)
-dim(Networks)[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n1=40
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_variable
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(Networks)[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 1:(max-1)) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z)#
-) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)#
-	    # remove duplicates#
-		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give primary sample plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# rename filtering variable#
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
-		names(Z)[names(Z) == 'y_value'] <- y_variable#
-		# add species attribute data#
-		Z %<>% #
-			merge(population %>% select(-NetworkID, -m)) %>%#
-			select(x, y, NetworkID, m, y_value, Sampling, everything())#
-		# warning	#
-		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
-			warning("Duplicates remaining in RACS sample")#
-			stop()#
-		}
+Z = data.frame(y=y, m=m)#
+		A <- Z %>% filter(m <= m_threshold)#
+		B <- Z %>% filter(m > m_threshold)#
+		A_pi_i_values = pi_i(N, n1, A$m)#
+		B_pi_i_values = pi_i(N, n1, B$m)
+?createRACS
+Z = createRestrictedACS(i, seed=26, n1=10, "y_value")
+i
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])
+Z = createRestrictedACS(Z, seed=26, n1=40, "Cactus")
+Z = createRACS(Z, seed=26, n1=40, "Cactus")
 dim(Z)
-Z
-ggplot() +geom_point(data=path_data_3, aes(x,y, size=factor(Cactus),shape=factor(Cactus))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
-ggplot() +geom_point(data=patch_data_3, aes(x,y, size=factor(Cactus),shape=factor(Cactus))) +scale_shape_manual(values=c(1, rep(16, length(2:13)))) +geom_point(data=Z, aes(x,y), shape=0, size=7)
+head(Z)
+newsample = createRACS(Z, seed=26, n1=40, "Cactus")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])
+newsample = createRACS(Z, seed=26, n1=40, "Cactus")
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
+Z = data.frame(y=y, m=m)#
+		A <- Z %>% filter(m <= m_threshold)#
+		B <- Z %>% filter(m > m_threshold)#
+		A_pi_i_values = pi_i(N, n1, A$m)#
+		B_pi_i_values = pi_i(N, n1, B$m)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_HT = sum(#
+		sum(A$y*J/A$pi_i_values, na.rm=T),#
+		sum(B$y*J/B$pi_i_values, na.rm=T)#
+	) /N
+J=1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Calculate the Horvitz-Thompson mean of an adaptive cluster sample.#
+#' #
+#' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.#
+#' @param N Population size. #
+#' @param m Number of units satisfying the ACS criterion in network $i$.#
+#' @param n1 Initial sample size.#
+#' @param y Attribute data about species of interest (e.g., abundance, presence/absence).#
+#' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.#
+#' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.#
+#' @description This calculate the Horvitz-Thompson mean of an adaptive cluster sample done by sampling without replacement.#
+#'#
+#'where $v$ is the number of distinct units in the sample and#
+#'$J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.#
+#' #
+#' @return The Horvitz-Thompson mean.#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#'#
+#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.#
+#' @examples #
+#' library(magrittr)#
+#' library(plyr)#
+#' library(dplyr)#
+#' library(ggplot2)#
+#'#
+#' # EXAMPLE 1: Sampling of population from Figure 1, Thompson (1990)#
+#'#
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' #
+#' # plot sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)#
+#' #
+#' # REPLACE WITH CREATEACS FUNCTION#
+#'#
+#' # INITIATE ACS#
+#' # assign species information to units in the initial sample#
+#' S = merge(#
+#' 	Thompson1990Figure1Population,#
+#' 	Thompson1990Figure1Sample, #
+#' 	all.y=TRUE#
+#' )#
+#' #
+# create list of neighboring ("cluster") plots#
+#' Z = list()  					#
+#' S$Sampling <- "Initial_Sample"#
+#' # add the rest of the units for each network in the initial sample#
+#' Z = rbind.fill(S, Thompson1990Figure1Population %>% #
+#' 	filter(Thompson1990Figure1Population$NetworkID %in% S$NetworkID))#
+#' Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+#' Networks = filter(Z, y_value > 0)#
+#' # fill in edge units#
+#' E = as.data.frame(cbind(#
+#' 	x = rowSums(expand.grid(Networks$x, c(1,-1,0,0))),#
+#' 	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1)))#
+#' )) %>% #
+#' mutate(Sampling="Edge")#
+#' # remove duplicate units#
+#' Z %<>% rbind.fill(E) %>%#
+#' mutate(temp_coords = paste(x, y, sep=""))#
+#' Z =  Z[!duplicated(Z$temp_coords),]#
+#' Z %<>% dplyr::select(-temp_coords)#
+#' # fill in y_value#
+#' Z[which(is.na(Z$y_value)), ]$y_value <- 0#
+#' # fill in m#
+#' Z[which(Z$y_value==0 & Z$Sampling=="Edge"), ]$m <- 0#
+#' #
+#' 	N = dim(Thompson1990Figure1Population)[1] #
+#' 	n1 = dim(Thompson1990Figure1Sample)[1]#
+#' 	m = Z$m#
+#' 	y = Z$y_value#
+#' 	sampling = Z$Sampling#
+#' 	criterion=0#
+#
+#' # CALCULATE y_HT#
+#' y_HT(#
+#' 	N = N, #
+#' 	n1 = n1,#
+#' 	m = m, #
+#' 	y = y, #
+#' 	sampling = Z$Sampling,#
+#' 	criterion=0#
+#' ) #
+#'#
+#' # EXAMPLE 2: Table 1 from Thompson (1990)#
+#' data(Thompson1990Table1data)#
+#' (Thompson1990Table1 = Thompson1990Table1data %>%#
+#' group_by(sampling_effort) %>%#
+#' summarise(#
+#' 	`y (added through SRSWOR)` = toString(y_value[which(sampling=="SRSWOR")]),#
+#' 	`y (added through ACS)` = toString(y_value[which(sampling=="ACS")]),#
+#' 	y_bar_1 = mean(y_value[which(sampling=="SRSWOR")]),#
+#' 	y_HT = round(y_HT(N, n1, m, y_value, sampling, 5), 2),#
+#' 	y_bar = round(mean(y_value),2)#
+#' 	)#
+#' )#
+#' #
+#' # EXAMPLE 3: #
+#' # data(cactus_realizations)#
+#' # realization = cactus_realizations %>% filter(n.networks==40)#
+#
+#' # EXAMPLE 4:#
+#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+#' # Horvitz-Thompson mean times the population size; should equal 38#
+#' y_HT(#
+#'     N 		= 1000, #
+#'     n1 		= 100, #
+#'     m 		= c(2,3,rep(1,98)), #
+#'     y 		= c(3,6,rep(0, 98)),#
+#'     sampling = "SRSWOR",#
+#'     criterion =0#
+#' )*1000 %>% round(0)#
+#
+#' @export#
+#
+y_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {#
+	if (!(is.null(sampling)) & !(is.null(criterion))) {#
+		J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)#
 	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
+		J = 1#
 	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population = patch_data_3
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_variable = "Cactus"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n1=40
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-seed=26
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
+	if (is.null(pi_i_values)) {#
+		pi_i_values = pi_i(N, n1, m)#
+	}#
+	y_HT = sum(y*J/pi_i_values, na.rm=T)/N#
+	return(y_HT)	#
+}#
+#' Calculate the Horvitz-Thompson mean of an adaptive cluster sample, NEW FORMULA.#
+#' #
+#' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.#
+#' @param N Population size. #
+#' @param m Number of units satisfying the ACS criterion in network $i$.#
+#' @param n1 Initial sample size.#
+#' @param y Attribute data about species of interest (e.g., abundance, presence/absence).#
+#' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.#
+#' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.#
+#' @description This calculate the Horvitz-Thompson mean of an adaptive cluster sample done by sampling without replacement.#
+#'#
+#'where $v$ is the number of distinct units in the sample and#
+#'$J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.#
+#' #
+#' @return The Horvitz-Thompson mean.#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#'#
+#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.#
+#' @examples #
+#' library(magrittr)#
+#' library(plyr)#
+#' library(dplyr)#
+#' library(ggplot2)#
+#'#
+#' # EXAMPLE 1: Sampling of population from Figure 1, Thompson (1990)#
+#'#
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' #
+#' # plot sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)#
+#' #
+#' # REPLACE WITH CREATEACS FUNCTION#
+#'#
+#' # INITIATE ACS#
+#' # assign species information to units in the initial sample#
+#' S = merge(#
+#' 	Thompson1990Figure1Population,#
+#' 	Thompson1990Figure1Sample, #
+#' 	all.y=TRUE#
+#' )#
+#' #
+# create list of neighboring ("cluster") plots#
+#' Z = list()  					#
+#' S$Sampling <- "Initial_Sample"#
+#' # add the rest of the units for each network in the initial sample#
+#' Z = rbind.fill(S, Thompson1990Figure1Population %>% #
+#' 	filter(Thompson1990Figure1Population$NetworkID %in% S$NetworkID))#
+#' Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+#' Networks = filter(Z, y_value > 0)#
+#' # fill in edge units#
+#' E = as.data.frame(cbind(#
+#' 	x = rowSums(expand.grid(Networks$x, c(1,-1,0,0))),#
+#' 	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1)))#
+#' )) %>% #
+#' mutate(Sampling="Edge")#
+#' # remove duplicate units#
+#' Z %<>% rbind.fill(E) %>%#
+#' mutate(temp_coords = paste(x, y, sep=""))#
+#' Z =  Z[!duplicated(Z$temp_coords),]#
+#' Z %<>% dplyr::select(-temp_coords)#
+#' # fill in y_value#
+#' Z[which(is.na(Z$y_value)), ]$y_value <- 0#
+#' # fill in m#
+#' Z[which(Z$y_value==0 & Z$Sampling=="Edge"), ]$m <- 0#
+#' #
+#' 	N = dim(Thompson1990Figure1Population)[1] #
+#' 	n1 = dim(Thompson1990Figure1Sample)[1]#
+#' 	m = Z$m#
+#' 	y = Z$y_value#
+#' 	sampling = Z$Sampling#
+#' 	criterion=0#
+#
+#' # CALCULATE y_HT#
+#' y_HT(#
+#' 	N = N, #
+#' 	n1 = n1,#
+#' 	m = m, #
+#' 	y = y, #
+#' 	sampling = Z$Sampling,#
+#' 	criterion=0#
+#' ) #
+#'#
+#' # EXAMPLE 2: Table 1 from Thompson (1990)#
+#' data(Thompson1990Table1data)#
+#' (Thompson1990Table1 = Thompson1990Table1data %>%#
+#' group_by(sampling_effort) %>%#
+#' summarise(#
+#' 	`y (added through SRSWOR)` = toString(y_value[which(sampling=="SRSWOR")]),#
+#' 	`y (added through ACS)` = toString(y_value[which(sampling=="ACS")]),#
+#' 	y_bar_1 = mean(y_value[which(sampling=="SRSWOR")]),#
+#' 	y_HT = round(y_HT(N, n1, m, y_value, sampling, 5), 2),#
+#' 	y_bar = round(mean(y_value),2)#
+#' 	)#
+#' )#
+#' #
+#' # EXAMPLE 3: #
+#' # data(cactus_realizations)#
+#' # realization = cactus_realizations %>% filter(n.networks==40)#
+#
+#' # EXAMPLE 4:#
+#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+#' # Horvitz-Thompson mean times the population size; should equal 38#
+#' y_HT(#
+#'     N 		= 1000, #
+#'     n1 		= 100, #
+#'     m 		= c(2,3,rep(1,98)), #
+#'     y 		= c(3,6,rep(0, 98)),#
+#'     sampling = "SRSWOR",#
+#'     criterion =0#
+#' )*1000 %>% round(0)#
+#
+#' @export#
+#
+new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {#
+	if (!(is.null(sampling)) & !(is.null(criterion))) {#
+		J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)#
 	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
+		J = 1#
 	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(Networks)[1]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 1:(max-1)) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
-	    }
-i=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 1:(max-1)) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])
-j
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-max
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0
+	if (is.null(pi_i_values)) {#
+		Z = data.frame(y=y, m=m)#
+		A <- Z %>% filter(m <= m_threshold)#
+		B <- Z %>% filter(m > m_threshold)#
+		A_pi_i_values = pi_i(N, n1, A$m)#
+		B_pi_i_values = pi_i(N, n1, B$m)#
+	}#
+	y_HT = sum(#
+		sum(A$y*J/A$pi_i_values, na.rm=T),#
+		sum(B$y*J/B$pi_i_values, na.rm=T)#
+	) /N#
+	return(y_HT)	#
 }
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0
+y_HT = sum(#
+		sum(A$y*J/A$pi_i_values, na.rm=T),#
+		sum(B$y*J/B$pi_i_values, na.rm=T)#
+	) /N
+y_HT
+N
+N=900
+newsample = createRACS(Z, seed=26, n1=40, "Cactus")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])
+patch3 <- patch_data %>% filter(n.networks == levels(n.networks)[i])
+i
+newsample = createRACS(patch3, seed=26, n1=40, "Cactus")
+dim(newsample)
+head(newsample)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]
-j
+Z = data.frame(y=y, m=m)#
+		A <- Z %>% filter(m <= m_threshold)#
+		B <- Z %>% filter(m > m_threshold)#
+		A_pi_i_values = pi_i(N, n1, A$m)#
+		B_pi_i_values = pi_i(N, n1, B$m)
+A
+B
+newsample -> Z
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z[[i]][[1]][2, "y"] + j
-Z
+Z = data.frame(y=y, m=m)#
+		A <- Z %>% filter(m <= m_threshold)#
+		B <- Z %>% filter(m > m_threshold)#
+		A_pi_i_values = pi_i(N, n1, A$m)#
+		B_pi_i_values = pi_i(N, n1, B$m)
+A
+B
+dim(newsample)
+N
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y
-j
-j=2
+sum(#
+		sum(A$y*J/A_pi_i_values, na.rm=T),#
+		sum(B$y*J/B_pi_i_values, na.rm=T)#
+	) /N
+head(newsample)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
-	# if there are units that satisfy the condition, fill in cluster/edge units#
-	if (dim(Networks)[1] > 0) {#
-		names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()#
-		# fill in edge units#
-	    for (i in 1:dim(Networks)[1]) {#
-  	    	L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y#
-			# steps 2 - max#
-			if (max > 1) {#
-				for (j in 2:max) {#
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))#
-					# northern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0#
-					) {#
-					    # neighbor to north#
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]#
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j#
-					    # neighbor to east#
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j#
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j#
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]#
-					}#
-			      	# southern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0#
-					) {#
-						# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}#
-			      	# eastern neighbor of cluster plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]#
-					}#
-			      	# western neighbor of SRSWOR plot#
-					# 		if plot has cacti, survey its neighbors#
-					if (dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0#
-					) {#
-			        	# neighbor to south#
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]#
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j#
-			        	# neighbor to west#
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j#
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]#
-			      	}#
-				}#
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			#
-			}	#
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])#
-	    } #
-	    sample <- do.call(rbind.data.frame, Z)#
-) # compress plot list to dataframe#
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%#
-	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
-	    	rbind.fill(S) %>% # merge with SRSWOR plots#
-			arrange(Sampling)#
-	    # remove duplicates#
-		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
-		# give plots satisfying condition NetworkIDs#
-		X = no_duplicates %>% #
-			filter(y_value > condition) %>%#
-		  	assignNetworkMembership#
-		# give primary sample plots not satisfying condition NetworkIDs#
-		Y = no_duplicates %>% filter(#
-				y_value == condition, #
-				Sampling=="SRSWOR" | Sampling=="SRSWR" | Sampling=="Primary Sample"#
-		)#
-        Y$NetworkID <- seq(#
-			from = (max(X$NetworkID) + 1), #
-			to = (max(X$NetworkID) + dim(Y)[1]), #
-			by = 1#
-		)#
-		# get list of cluster/edge plots not satifying condition#
-		Z = no_duplicates %>% filter(#
-				y_value == condition, #
-				is.na(Sampling)#
-		)#
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
-		if (dim(Z)[1] > 0) {#
-			Z$NetworkID <- NA#
-			Z$Sampling <- "Edge"#
-			Z$m <- 0			#
-			# merge back together		#
-			Z = rbind.fill(X,Y,Z)	#
-		} else {#
-			# merge back together		#
-			Z = rbind.fill(X,Y)			#
-		}#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# rename filtering variable#
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)#
-		names(Z)[names(Z) == 'y_value'] <- y_variable#
-		# add species attribute data#
-		Z %<>% #
-			merge(population %>% select(-NetworkID, -m)) %>%#
-			select(x, y, NetworkID, m, y_value, Sampling, everything())#
-		# warning	#
-		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
-			warning("Duplicates remaining in RACS sample")#
-			stop()#
-		}
+patch3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
+newsample = createRACS(patch3, seed=26, n1=40, "Cactus")
+head(newsample)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)#
-	# if there are units that satisfy the condition, fill in cluster/edge units
+patch3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
+newsample = createRACS(patch3, seed=26, n1=40, "Cactus")#
+y = newsample$Cactus#
+N = 900#
+n1 = 40#
+m_threshold = 7
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population = patch_data_3
+Z = data.frame(y=y, m=m)
+head(newsample)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-n1=40
+patch3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
+newsample = createRACS(patch3, seed=26, n1=40, "Cactus")#
+y = newsample$Cactus#
+m = newsample$m#
+N = 900#
+n1 = 40#
+m_threshold = 7
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S = merge(population, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population, n1)#
-	}#
-	Networks <- S %>% #
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+Z = data.frame(y=y, m=m)#
+		A <- Z %>% filter(m <= m_threshold)#
+		B <- Z %>% filter(m > m_threshold)#
+		A_pi_i_values = pi_i(N, n1, A$m)#
+		B_pi_i_values = pi_i(N, n1, B$m)
+A
+B
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-names(S)[names(S) == y_variable] <- 'y_value'#
-		names(population)[names(population) == y_variable] <- 'y_value'#
-		# List to save data#
-		Z = list()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-L = Networks[i, ]#
-    	    Z[[i]] <- list()#
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))#
-    	    # northern neighbor of SRSWOR plot#
-    	    Z[[i]][[1]][2, "x"] = L$x#
-    	    Z[[i]][[1]][2, "y"] = L$y + 1#
-	      	# southern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][3, "x"] = L$x#
-	      	Z[[i]][[1]][3, "y"] = L$y - 1#
-	      	# eastern neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][4, "x"] = L$x + 1#
-	      	Z[[i]][[1]][4, "y"] = L$y#
-	      	# western neighbor of SRSWOR plot#
-	      	Z[[i]][[1]][5, "x"] = L$x - 1#
-	      	Z[[i]][[1]][5, "y"] = L$y
-j
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-		  			  		x==L$x,#
-		  			  		y==L$y + j#
-					))[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(population %>% #
-						filter(#
-		  					y_value > condition, #
-							x==L$x,#
-							y==L$y - j#
-					))[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# neighbor to south#
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]#
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j#
-					   	# neighbor to east#
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j#
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]#
-					    # neighbor to west#
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j#
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]#
-					}
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	 	x==L$x + j,#
-					  	  	y==L$y#
-					))[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j#
-			        	# neighbor to north#
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]#
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j#
-			        	# neighbor to east#
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j#
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(population %>% #
-					  	filter(#
-		  					y_value > condition, #
-					  	  	x==L$x - j,#
-					  	  	y==L$y#
-					))[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-do.call(rbind.fill, Z[[i]])
-Z
-install.packages("RANN")
+sum(#
+		sum(A$y*J/A_pi_i_values, na.rm=T),#
+		sum(B$y*J/B_pi_i_values, na.rm=T)#
+	) /N
+mean(patch3$Cactus)
