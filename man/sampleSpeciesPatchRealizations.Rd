@@ -5,7 +5,7 @@
 \title{cactus patch realizations simulations}
 \usage{
 sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
-  rvar, SamplingDesign = "ACS", y_variable)
+  rvar, SamplingDesign = "ACS", y_variable, y_HT_formula = NULL)
 }
 \arguments{
 \item{patchdat}{patch realizations}

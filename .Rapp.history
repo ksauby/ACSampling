@@ -1,3 +1,54 @@
+21.4*.813
+21.4 -21.4*.813
+library(lubridaste)
+library(lubrida=te)
+library(lubridate)
+-v
+install.packages("rgeos", repos="http://R-Forge.R-project.org")#
+require(rgeos)
+library(rgeos)
+require(rgeos)
+library(rgeos)
+install.packages("rgdal", repos="http://R-Forge.R-project.org")#
+require(rgdal)
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
+ --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
+ --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+library(lme3)
+library(lme4)
+300/241
+.244*30
+1.25*300
+1.25*240
+7*12
+7849-7527
+322/1353
+8028-7527
+501/1353
+8028-7957
+1353-501
+852/71
+7956-7878
+8176-8029
+8176-8092
+250*.75
+250*.25
+42*2 + 17*2
+118/19
+21/6.2
+59.5*.75
+59.5*.5 + 59.5
+71/12
+597/80
+597/8
+432/8
+15*8 + 9*3
+?seq_len
+7.25/3
+7.25/4
+for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
+install.packages("ProjectTemplate")
 install.packages("dplyr")
 install.packages("ggplot2")
 install.packages("data.table")
@@ -129,6 +180,7 @@ install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulation
 102/40
 102/41
 ?table
+9.49/2
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -137,536 +189,66 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
-library(ACSampling)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-data(lambdap_5_tau_10)#
-data(lambdap_5_tau_1)#
-data(lambdap_5_tau_25)#
-#
-nsims = 50#
-n1 = c(1,10,25,50)#
-datasets <- c("lambdap_5_tau_1", "lambdap_5_tau_10", "lambdap_5_tau_25")#
-samplesizes <- data.frame(#
-	datasets = rep(#
-		datasets,#
-		each = nsims * length(n1)#
-	),#
-	seed = 1:(nsims * length(n1) * length(datasets)),#
-	N.SRSWOR.plots = rep(#
-		rep(n1, each=nsims),#
-		length(datasets)#
-	)#
-)#
-X <- data.frame(#
-	matrix(#
-		nrow=nsims * length(n1),#
-		ncol=length(datasets),#
-		NA#
-	)#
-)#
-y_value_mean_observed <- X#
-y_value_var_observed <- X#
-total_sample_size <- X#
-for (j in 1:length(datasets)) {#
-	for (i in 1:(nsims * length(n1))) {#
-		temp <- createACS(#
-			population=eval(parse(text=datasets[j])), #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		) %>% filter(Sampling!="Edge")#
-		# I just filtered out the edge units, why don't these other calculations work?#
-		y_value_mean_observed[i,j] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(eval(parse(text=datasets[j])))[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i,j] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(eval(parse(text=datasets[j])))[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i,j] <- dim(temp)[1]#
-	}#
-}
-warnings*
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed = y_value_mean_observed %>% melt %$% .[,2],#
-	y_value_var_observed = y_value_var_observed %>% melt %$% .[,2],#
-	total_sample_size = total_sample_size %>% melt %$% .[,2]#
-)#
-temp <- ACSdata %>%#
-	group_by(datasets, N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by=c("datasets", "N.SRSWOR.plots"))#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= rbind.fill(#
-			cbind(datasets = "lambdap_5_tau_10", lambdap_5_tau_10),#
-			cbind(datasets = "lambdap_5_tau_1", lambdap_5_tau_1),#
-			cbind(datasets = "lambdap_5_tau_25", lambdap_5_tau_25)#
-		), #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= "datasets", #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = "datasets", #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame
-ACSdata_summary_stats
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-population_data		= rbind.fill(#
-	cbind(datasets = "lambdap_5_tau_10", lambdap_5_tau_10),#
-	cbind(datasets = "lambdap_5_tau_1", lambdap_5_tau_1),#
-	cbind(datasets = "lambdap_5_tau_25", lambdap_5_tau_25)#
-)#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= population_data, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= "datasets", #
-		ratio.variables 	= NULL#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-population_data %>% #
-	group_by(datasets) %>%#
-	mutate(var(y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-population_data %>% #
-	group_by(datasets) %>%#
-	summarise(var(y_value))
-head(ACSdata_summary_stats)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-ACSdata_summary_stats %<>% merge(population_variance, by="datasets")
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-population_variance <- population_data %>% #
-	group_by(datasets) %>%#
-	summarise(var(y_value))#
-ACSdata_summary_stats %<>% merge(population_variance, by="datasets")
-head(ACSdata_summary_stats)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-population_variance <- population_data %>% #
-	group_by(datasets) %>%#
-	summarise(variance = var(y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-population_variance <- population_data %>% #
-	group_by(datasets) %>%#
-	summarise(variance = var(y_value))#
-ACSdata_summary_stats %<>% merge(population_variance, by="datasets")
-head(ACSdata_summary_stats)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-RE_values <- ACSdata_summary_stats %>%#
-mutate(#
-	(variance / mean_total_sample_size) / #
-	y_value_mean_MSE#
-	)
-RE_values
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-ACSdata_summary_stats %>%#
-mutate(#
-	RE = (variance / mean_total_sample_size) / #
-	y_value_mean_MSE#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = population_data,#
-	population.grouping.variables = "datasets",#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
-# not calculating pi_i correctly#
-#
-data(lambdap_5_tau_10)#
-data(lambdap_5_tau_1)#
-data(lambdap_5_tau_25)#
-#
-nsims = 500#
-n1 = c(1,10,25,50)#
-datasets <- c("lambdap_5_tau_1", "lambdap_5_tau_10", "lambdap_5_tau_25")#
-samplesizes <- data.frame(#
-	datasets = rep(#
-		datasets,#
-		each = nsims * length(n1)#
-	),#
-	seed = 1:(nsims * length(n1) * length(datasets)),#
-	N.SRSWOR.plots = rep(#
-		rep(n1, each=nsims),#
-		length(datasets)#
-	)#
-)#
-X <- data.frame(#
-	matrix(#
-		nrow=nsims * length(n1),#
-		ncol=length(datasets),#
-		NA#
-	)#
-)#
-y_value_mean_observed <- X#
-y_value_var_observed <- X#
-total_sample_size <- X#
-for (j in 1:length(datasets)) {#
-	for (i in 1:(nsims * length(n1))) {#
-		temp <- createACS(#
-			population=eval(parse(text=datasets[j])), #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		) %>% filter(Sampling!="Edge")#
-		# I just filtered out the edge units, why don't these other calculations work?#
-		y_value_mean_observed[i,j] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(eval(parse(text=datasets[j])))[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i,j] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(eval(parse(text=datasets[j])))[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i,j] <- dim(temp)[1]#
-	}#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed = y_value_mean_observed %>% melt %$% .[,2],#
-	y_value_var_observed = y_value_var_observed %>% melt %$% .[,2],#
-	total_sample_size = total_sample_size %>% melt %$% .[,2]#
-)#
-temp <- ACSdata %>%#
-	group_by(datasets, N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by=c("datasets", "N.SRSWOR.plots"))#
-#
-population_data		= rbind.fill(#
-	cbind(datasets = "lambdap_5_tau_10", lambdap_5_tau_10),#
-	cbind(datasets = "lambdap_5_tau_1", lambdap_5_tau_1),#
-	cbind(datasets = "lambdap_5_tau_25", lambdap_5_tau_25)#
-)#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= population_data, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= "datasets", #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = "datasets", #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- population_data %>% #
-	group_by(datasets) %>%#
-	summarise(variance = var(y_value))#
-ACSdata_summary_stats %<>% merge(population_variance, by="datasets")#
-RE_values <- ACSdata_summary_stats %>%#
-mutate(#
-	RE = (variance / mean_total_sample_size) / #
-	y_value_mean_MSE#
-	)#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = population_data,#
-	population.grouping.variables = "datasets",#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)#
-test_that("calculateSamplingBias and calculateRE", {#
-	# PREP DATA#
-	data(Thompson1990Figure1Population)#
-	# calculate y_value estimates#
-	samplesizes <- data.frame(#
-		seed = 1:150,#
-		N.SRSWOR.plots = rep(seq(from=130, to=280, by=30), each=25)#
-	)#
-	y_value_mean_observed <- vector()#
-	y_value_var_observed <- vector()#
-		for (i in 1:dim(samplesizes)[1]) {#
-			temp <- createSRS(#
-				population=Thompson1990Figure1Population, #
-				seed=samplesizes$seed[i], #
-				n1=samplesizes$N.SRSWOR.plots[i]#
-			)#
-			y_value_mean_observed[i] <- mean(temp$y_value)#
-			y_value_var_observed[i] <- var(temp$y_value)#
-		}#
-	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)#
-	# summarise population data#
-	Thompson1990Figure1Population_summary <- #
-		calculatePopulationSummaryStatistics(#
-			population_data		= Thompson1990Figure1Population, #
-			summary.variables 	= "y_value", #
-			grouping.variables 	= NULL, #
-			ratio.variables 	= NULL#
-		)#
-	# sampling bias#
-	data_summary <- data %>%#
-		mutate(#
-			observed_minus_true_sqd = (#
-				y_value_mean_observed - #
-				Thompson1990Figure1Population_summary$y_value_mean#
-		)^2) %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(#
-			y_value_mean_RB = (#
-				# mean of HT estimates#
-				mean(y_value_mean_observed) - #
-				# mu, population mean#
-				Thompson1990Figure1Population_summary$y_value_mean#
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,#
-			y_value_var_RB = (#
-				mean(y_value_var_observed) - var(y_value_mean_observed)#
-			) / var(y_value_mean_observed) * 100,#
-			sum_observed_minus_true_sqd = sum(observed_minus_true_sqd), #
-				length_y_value_mean_observed = length(y_value_mean_observed),#
-			y_value_mean_MSE = sum(observed_minus_true_sqd) / #
-				length(y_value_mean_observed)#
-		) %>%#
-		as.data.frame#
-	temp <- data_summary %>% dplyr::select(y_value_mean_RB, y_value_var_RB)#
-#
-	temp$y_value_mean_RB %<>% round(3)#
-	temp$y_value_var_RB %<>% round(3)#
-#
-	data_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= data, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "N.SRSWOR.plots", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_RB,#
-			y_value_var_RB#
-		) %>%#
-		round(3),#
-		equals(temp),#
-		label="calculateSamplingBias, bias calculation of mean and variances"#
-	)#
-	temp <- data_summary %>% dplyr::select(y_value_mean_MSE)#
-	temp$y_value_mean_MSE %<>% round(3)#
-	expect_that(#
-		data_summary_stats %>%#
-		dplyr::select(#
-			y_value_mean_MSE#
-		) %>%#
-		round(3),#
-		equals(temp),#
-		label="calculateSamplingBias, MSE function"#
-	)#
-#
-	# ACS SAMPLING#
-	y_value_var_observed <- vector()#
-	total_sample_size <- vector()#
-	for (i in 1:dim(samplesizes)[1]) {#
-		temp <- createACS(#
-			population=Thompson1990Figure1Population, #
-			seed=samplesizes$seed[i], #
-			n1=samplesizes$N.SRSWOR.plots[i],#
-			y_variable="y_value"#
-		)#
-		y_value_mean_observed[i] <- y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		y_value_var_observed[i] <- var_y_HT(#
-			y = temp$y_value,#
-			N = dim(Thompson1990Figure1Population)[1],#
-			n1 = samplesizes$N.SRSWOR.plots[i],#
-			m = temp$m#
-		)#
-		total_sample_size[i] <- dim(temp)[1]#
-	}#
-	ACSdata <- cbind(#
-		samplesizes,#
-		y_value_mean_observed,#
-		y_value_var_observed,#
-		total_sample_size#
-	)#
-	temp <- ACSdata %>%#
-		group_by(N.SRSWOR.plots) %>%#
-		summarise(mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0))#
-	ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-	ACSdata_summary_stats <- calculateSamplingBias(#
-		population_data_summary	= Thompson1990Figure1Population_summary, #
-		simulation_data		= ACSdata_re, #
-		population.grouping.variables = NULL, #
-		sampling.grouping.variables	= "mean_total_sample_size", #
-		variables			= "y_value", #
-		rvar				= NULL #
-	) %>%#
-	as.data.frame#
-	population_variance <- var(Thompson1990Figure1Population$y_value)#
-	RE_values <-  #
-		(population_variance / ACSdata_summary_stats$mean_total_sample_size) / #
-		ACSdata_summary_stats$y_value_mean_MSE#
-	expect_that(#
-		calculateRE(#
-			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-			population_data = Thompson1990Figure1Population,#
-			population.grouping.variables = NULL,#
-			sampling.grouping.variables = NULL,#
-			sample.size.variable = "mean_total_sample_size",#
-			variables = "y_value"#
-		) %$% y_value_mean_RE,#
-		equals(RE_values),#
-		label="calculateRE"#
-	)#
-})
-RE_values
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-save(RE_values, "RE_values_25nov16.rda")
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat/drafts')
-save(RE_values, file="RE_values_25nov16.rda")
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 source("1_set_variables.R")#
 source("2_create_realizations.R")#
 source("3_summarise_network_information.R")#
-source("4_calculate_realization_summary_statistics.R")#
-Sys.time()
+source("4_calculate_realization_summary_statistics.R")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
+cl<-makeCluster(4)#
+registerDoParallel(cl)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simdata_SRSWOR_only <- rbind.fill(#
-	sim.12Nov16, # sample sizes from RACS sampling#
-	sim.12Nov16_ACS # sample sizes from ACS sampling, NOT included in RACS#
-	)#
-simdata_SRSWOR_only %$% unique(Plots)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simdata_SRSWOR_only <- rbind.fill(#
-	sim.12Nov16, # sample sizes from RACS sampling#
-	sim.12Nov16_ACS # sample sizes from ACS sampling, NOT included in RACS#
-	)#
-simdata_SRSWOR_only %$% unique(Plots)#
-#simdata_SRSWOR_only %<>% dplyr::select(-Plots)#
-levels(simdata_SRSWOR_only$n.networks) <- c("5","10","15","20","30","40")#
-#-----------------------------------------------------------------------------##
-simdata <- rbind.fill(#
-	sim.6Apr16,#
-	sim.6Apr16.2,#
-	sim.6Apr16.3#
-) %>%#
-dplyr::select(-c(#
-	Percent_Cover_Pusilla_mean_observed,#
-	Percent_Cover_Stricta_mean_observed,#
-	Height_Pusilla_mean_observed,#
-	Height_Stricta_mean_observed,#
-	Percent_Cover_Pusilla_var_observed,#
-	Percent_Cover_Stricta_var_observed,#
-	Height_Pusilla_var_observed,   #
-	Height_Stricta_var_observed#
-)) %>%#
-rbind.fill(#
-	sim.27June16,#
-	sim.27June16_1,#
-	sim.27June16_2#
-) %>%#
-setnames("Restricted", "SamplingDesign")#
-unique(simdata$SamplingDesign)#
-simdata %<>% mutate(SamplingDesign="ACS")#
-#simdata %<>% filter(Plots == "Horvitz Thompson Mean (All Plots)") %>% dplyr::select(-Plots)#
-simdata$n.networks %<>% as.factor#
-#-----------------------------------------------------------------------------##
-simdata_restricted <- rbind.fill(	#
-	sim.5Apr16.RACS,#
-	sim.5Apr16.RACS.2,#
-	sim.5Apr16.RACS.3,#
-	sim.5Apr16.RACS.4,#
-	sim.5Apr16.RACS.5,#
-	sim.5Apr16.RACS.6,#
-	sim.5Apr16.RACS.7#
-) %>%#
-# I Removed these because I had calculated them incorrectly?#
-# remove height and percent cover since I did not calculate those correctly#
-dplyr::select(-c(#
-	Percent_Cover_Pusilla_mean_observed,#
-	Percent_Cover_Stricta_mean_observed,#
-	Height_Pusilla_mean_observed,#
-	Height_Stricta_mean_observed,#
-	Percent_Cover_Pusilla_var_observed,#
-	Percent_Cover_Stricta_var_observed,#
-	Height_Pusilla_var_observed,   #
-	Height_Stricta_var_observed#
-)) %>%#
-rbind.fill(#
-	sim.16June16, #
-	sim.16June16.2, #
-	sim.16June16.3,#
-	sim.16June16.4,#
-	sim.16June16.5#
-) %>%#
-setnames("Restricted", "SamplingDesign")#
-unique(simdata_restricted$SamplingDesign)#
-simdata_restricted %<>% mutate(SamplingDesign="RACS")#
-#simdata_restricted %<>% filter(Plots == "Horvitz Thompson Mean (All Plots)") %>% dplyr::select(-Plots)#
-simdata_restricted$n.networks %<>% as.factor
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simdata_all <- rbind.fill(#
-	simdata_restricted,#
-	simdata,#
-	simdata_SRSWOR_only#
-)#
+simulations <- 100 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15#
+y_variable <- "Cactus"#
 #
-# -----------------------------------------------------------------------------##
-# Sampling Bias#
+nsamples			<- c(20, 30, 40, 75, 100) #, 150, 200)#
+#
+# nsamples <- unique(simdata$N.Total.plots)[!(unique(simdata$N.Total.plots) %in% unique(simdata_restricted$N.Total.plots))]#
+#
+# run simulations#
+(x = Sys.time())#
+temp_4 <- sampleSpeciesPatchRealizations(#
+	patchdat	= patch_data, #
+	simulations	= simulations, #
+	nsamples	= nsamples, #
+	#population, #
+	avar		= NULL, #
+	ovar		= ovar, #
+	rvar		= rvar,#
+	#ACS		= TRUE, #
+	SamplingDesign	= "RACS",#
+	y_variable	= y_variable,#
+	y_HT_formula = "new_y_HT"#
+) #
+Sys.time() - x#
+write.csv(temp_4, "simulation_data_10Dec16_RACS.csv")#
+write_feather(temp_4, "sim.10Dec16_RACS")#
+write("100 sims per sample size to test new_y_HT", "sim10Dec16_RACS_notes.txt")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulation_data_summary_table = calculateSamplingBias(#
+	population_data_summary	= patch_data_summary, #
+	simulation_data		= temp_4, #
+	sampling.grouping.variables	= sampling.grouping.variables, #
+	population.grouping.variables = population.grouping.variables,#
+	variables			= ovar, #
+	rvar				= rvar#
+)#
+# ---------------------------------------------------------------------
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 # -----------------------------------------------------------------------------##
 population.grouping.variables	<- c("n.networks", "realization")#
 sampling.grouping.variables <- c("N.SRSWOR.plots", "SamplingDesign", "Plots")#
 statistics 			<- c("mean", "var")#
-ratio.statistics	<- c("mean")#
-#
+ratio.statistics	<- c("mean")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 simulation_data_summary_table = calculateSamplingBias(#
 	population_data_summary	= patch_data_summary, #
-	simulation_data		= simdata_all, #
+	simulation_data		= temp_4, #
 	sampling.grouping.variables	= sampling.grouping.variables, #
 	population.grouping.variables = population.grouping.variables,#
 	variables			= ovar, #
 	rvar				= rvar#
 )
-hed(simulation_data_summary_table)
-head* simulation_data_summary_table
-ehad(simulation_data_summary_table)
-head(simulation_data_summary_table)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
 temp <- simulation_data_summary_table %>% filter(SamplingDesign=="ACS" | SamplingDesign=="RACS")#
 #
@@ -674,8 +256,8 @@ temp$Stricta_true_mean %<>% round(3)#
 temp$Pusilla_true_mean %<>% round(3)#
 temp$Cactus_true_mean %<>% round(3)#
 #
-levels(temp$n.networks) <- paste(" (Pop. ", 1:6, ")", sep="")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(temp$n.networks) <- paste(" (Pop. ", 1:6, ")", sep="")#
+#
 # bias#
 X <- temp %>%#
 	dplyr::select(#
@@ -696,35 +278,10 @@ X <- temp %>%#
 		"Plots"#
 	)) %>%#
 	arrange(N.SRSWOR.plots)#
-names(X)[6] <- "RB"#
+names(X)[7] <- "RB"#
 X$variable %<>% str_sub(1,6)#
 #
-# true values
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-X <- temp %>%#
-	dplyr::select(#
-		SamplingDesign,#
-		n.networks,#
-		n_sims,#
-		N.SRSWOR.plots, #
-		Plots,#
-		Stricta_mean_RB, #
-		Pusilla_mean_RB, #
-		Cactus_mean_RB#
-	) %>%#
-	reshape2::melt(id.vars=c(#
-		"SamplingDesign",#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"n_sims",#
-		"Plots"#
-	)) %>%#
-	arrange(N.SRSWOR.plots)
-names(X)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-names(X)[7] <- "RB"#
-X$variable %<>% str_sub(1,6)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+# true values#
 Y <- temp %>%#
 	dplyr::select(#
 		n.networks,#
@@ -739,8 +296,7 @@ names(Y)[3] <- "True_Value"#
 Y$variable %<>% str_sub(1,6)#
 #
 Y %<>% unique#
-Y$True_Value <- with(Y, paste(True_Value, n.networks))
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+Y$True_Value <- with(Y, paste(True_Value, n.networks))#
 X %<>% merge(Y, by=c("n.networks", "variable"))#
 names(X)[2] <- "Species"#
 X$Species %<>% as.factor	#
@@ -749,220 +305,11 @@ levels(X$Species) <- c(#
 	"b" = expression(paste(italic("O. pusilla"))), #
 	"c" = expression(paste(italic("O. stricta")))#
 )#
-X$SamplingDesign %<>% as.factor
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-plotSimulationResults(#
-	dataset 			= X, #
-	grouping_variable 	= "N.SRSWOR.plots", #
-	x_variable			= "True_Value",#
-	y_variable			= "RB",#
-	facet				= expression("SamplingDesign~Species + Plots"),#
-	legend_name 		= "Primary Sample Size",#
-	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
-	x_angle 			= 45,#
-	#roundn				= 2,#
-	ylab_name			= "Percent Relative Bias of the Occupancy Estimate",#
-	xlab_name			= "True Occupancy"#
-)
-head(X)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-X$Plots[which(X$Plots=="Horvitz Thompson Mean (All Plots)")] <- "HT"
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-plotSimulationResults(#
-	dataset 			= X, #
-	grouping_variable 	= "N.SRSWOR.plots", #
-	x_variable			= "True_Value",#
-	y_variable			= "RB",#
-	facet				= expression("SamplingDesign~Species + Plots"),#
-	legend_name 		= "Primary Sample Size",#
-	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
-	x_angle 			= 45,#
-	#roundn				= 2,#
-	ylab_name			= "Percent Relative Bias of the Occupancy Estimate",#
-	xlab_name			= "True Occupancy"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-plotSimulationResults(#
-	dataset 			= X, #
-	grouping_variable 	= "N.SRSWOR.plots", #
-	x_variable			= "True_Value",#
-	y_variable			= "RB",#
-	facet				= expression("Plots + SamplingDesign~Species"),#
-	legend_name 		= "Primary Sample Size",#
-	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
-	x_angle 			= 45,#
-	#roundn				= 2,#
-	ylab_name			= "Percent Relative Bias of the Occupancy Estimate",#
-	xlab_name			= "True Occupancy"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-plotSimulationResults(#
-	dataset 			= X, #
-	grouping_variable 	= "N.SRSWOR.plots", #
-	x_variable			= "True_Value",#
-	y_variable			= "RB",#
-	facet				= expression("SamplingDesign+Plots~Species"),#
-	legend_name 		= "Primary Sample Size",#
-	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
-	x_angle 			= 45,#
-	#roundn				= 2,#
-	ylab_name			= "Percent Relative Bias of the Occupancy Estimate",#
-	xlab_name			= "True Occupancy"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-X$Plots[which(X$Plots=="Horvitz Thompson Mean (All Plots)")] <- "HT"#
-X$Plots[which(X$Plots=="alldata")] <- "SRSWOR"#
-#
-X %<>% filter(Plots!="SRSWOR_data")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-plotSimulationResults(#
-	dataset 			= X, #
-	grouping_variable 	= "N.SRSWOR.plots", #
-	x_variable			= "True_Value",#
-	y_variable			= "RB",#
-	facet				= expression("SamplingDesign+Plots~Species"),#
-	legend_name 		= "Primary Sample Size",#
-	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
-	x_angle 			= 45,#
-	#roundn				= 2,#
-	ylab_name			= "Percent Relative Bias of the Occupancy Estimate",#
-	xlab_name			= "True Occupancy"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-temp <- simulation_data_summary_table %>% filter(SamplingDesign=="ACS" | SamplingDesign=="RACS")#
-#
-temp$Stricta_true_mean %<>% round(3)#
-temp$Pusilla_true_mean %<>% round(3)#
-temp$Cactus_true_mean %<>% round(3)#
-#
-levels(temp$n.networks) <- paste(" (Pop. ", 1:6, ")", sep="")#
-#
-# bias#
-X <- temp %>%#
-	dplyr::select(#
-		SamplingDesign,#
-		n.networks,#
-		n_sims,#
-		N.SRSWOR.plots, #
-		Plots,#
-		MEPR_on_Stricta_mean_RB, #
-		CACA_on_Stricta_mean_RB,#
-		Old_Moth_Evidence_Stricta_mean_RB#
-	) %>%#
-	reshape2::melt(id.vars=c(#
-		"SamplingDesign",#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"n_sims",#
-		"Plots"#
-	)) %>%#
-	arrange(N.SRSWOR.plots)#
-names(X)[7] <- "RB"#
-X$variable %<>% str_sub(1,6)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# true values#
-Y <- temp %>%#
-	dplyr::select(#
-		n.networks,#
-		Stricta_true_mean#
-	) %>%#
-	reshape2::melt(id.vars=c(#
-		"n.networks"#
-	)) %>%#
-	dplyr::select(-variable)#
-names(Y)[2] <- "True_Value"#
-#
-Y %<>% unique#
-Y$True_Value <- with(Y, paste(True_Value, n.networks))#
-#
-X %<>% merge(Y, by=c("n.networks"))#
-X$variable %<>% as.factor	#
-#
-levels(X$variable) <- c(#
-	"a" = expression(paste("Invasive Moth on ", italic("O. stricta"))),#
-	"b" = expression(paste("Native Moth on ", italic("O. stricta"))),#
-	"c" = expression(paste("Moth Damage on ", italic("O. stricta")))#
-)#
 X$SamplingDesign %<>% as.factor	#
+#
 X$Plots[which(X$Plots=="Horvitz Thompson Mean (All Plots)")] <- "HT"#
-X$Plots[which(X$Plots=="alldata")] <- "SRSWOR"#
-#
-X %<>% filter(Plots!="SRSWOR_data")
+X$Plots[which(X$Plots=="alldata")] <- "SRSWOR"
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-plotSimulationResults(#
-	dataset 			= X, #
-	grouping_variable 	= "N.SRSWOR.plots", #
-	x_variable			= "True_Value",#
-	y_variable			= "RB",#
-	facet				= expression("SamplingDesign+Plots~variable"),#
-	legend_name 		= "Primary Sample Size",#
-	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
-	x_angle 			= 45,#
-	#roundn				= 2,#
-	ylab_name			= "Percent Relative Bias\nof the Occupancy Estimate",#
-	xlab_name			= expression(paste("True ", italic("O. stricta"), " Occupancy"))#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-temp <- simulation_data_summary_table %>% filter(SamplingDesign=="ACS" | SamplingDesign=="RACS")#
-#
-temp$Stricta_true_mean %<>% round(3)#
-temp$Pusilla_true_mean %<>% round(3)#
-temp$Cactus_true_mean %<>% round(3)#
-#
-levels(temp$n.networks) <- paste(" (Pop. ", 1:6, ")", sep="")#
-#
-# bias#
-X <- temp %>%#
-	dplyr::select(#
-		SamplingDesign,#
-		n.networks,#
-		n_sims,#
-		N.SRSWOR.plots, #
-		Plots,#
-		MEPR_on_Stricta_mean_RB, #
-		CACA_on_Stricta_mean_RB,#
-		Old_Moth_Evidence_Stricta_mean_RB#
-	) %>%#
-	reshape2::melt(id.vars=c(#
-		"SamplingDesign",#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"n_sims",#
-		"Plots"#
-	)) %>%#
-	arrange(N.SRSWOR.plots)
-head(X)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-names(X)[7] <- "RB"#
-X$variable %<>% str_sub(1,6)#
-#
-# true values#
-Y <- temp %>%#
-	dplyr::select(#
-		n.networks,#
-		Stricta_true_mean#
-	) %>%#
-	reshape2::melt(id.vars=c(#
-		"n.networks"#
-	)) %>%#
-	dplyr::select(-variable)#
-names(Y)[2] <- "True_Value"#
-#
-Y %<>% unique#
-Y$True_Value <- with(Y, paste(True_Value, n.networks))#
-#
-X %<>% merge(Y, by=c("n.networks"))#
-X$variable %<>% as.factor	#
-#
-levels(X$variable) <- c(#
-	"a" = expression(paste("Invasive Moth on ", italic("O. stricta"))),#
-	"b" = expression(paste("Native Moth on ", italic("O. stricta"))),#
-	"c" = expression(paste("Moth Damage on ", italic("O. stricta")))#
-)#
-X$SamplingDesign %<>% as.factor	#
-X$Plots[which(X$Plots=="Horvitz Thompson Mean (All Plots)")] <- "HT"#
-X$Plots[which(X$Plots=="alldata")] <- "SRSWOR"#
-#
 X %<>% filter(Plots!="SRSWOR_data")#
 #
 plotSimulationResults(#
@@ -970,619 +317,31 @@ plotSimulationResults(#
 	grouping_variable 	= "N.SRSWOR.plots", #
 	x_variable			= "True_Value",#
 	y_variable			= "RB",#
-	facet				= expression("SamplingDesign+Plots~variable"),#
+	facet				= expression("SamplingDesign+Plots~Species"),#
 	legend_name 		= "Primary Sample Size",#
 	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
 	x_angle 			= 45,#
 	#roundn				= 2,#
-	ylab_name			= "Percent Relative Bias\nof the Occupancy Estimate",#
-	xlab_name			= expression(paste("True ", italic("O. stricta"), " Occupancy"))#
+	ylab_name			= "Percent Relative Bias of the Occupancy Estimate",#
+	xlab_name			= "True Occupancy"#
 )
+head(X)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
+X %<>% filter(Plots!="SRSWOR_data") %>% filter(Plots=="HT")#
 #
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
-#
-# ACS INCLUSION PROBABILITIES#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-#
-# RACS INCLUSION PROBABILITIES#
-RACSinclusionprobs <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
+plotSimulationResults(#
+	dataset 			= X, #
+	grouping_variable 	= "N.SRSWOR.plots", #
+	x_variable			= "True_Value",#
+	y_variable			= "RB",#
+	facet				= expression("SamplingDesign+Plots~Species"),#
+	legend_name 		= "Primary Sample Size",#
+	#x_breaks			= list(Cactus_scale, Pusill_scale, Strict_scale),#
+	x_angle 			= 45,#
+	#roundn				= 2,#
+	ylab_name			= "Percent Relative Bias of the Occupancy Estimate",#
+	xlab_name			= "True Occupancy"#
 )
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3_results_30_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_20_ACS,#
-		patch_data_3_results_30_ACS,#
-		patch_data_3_results_20_RACS,#
-		patch_data_3_results_30_RACS#
-	)#
-patch_data_3_results$N.SRSWOR.plots %<>% as.factor()#
-levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30"#
-)
-head(patch_data_3_results)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])#
-#
-# ACS INCLUSION PROBABILITIES#
-ACSinclusionprobs <- simulatedInclusionProbabilities.ACS.20Nov16 %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_temp <- patch_data_3 %>% mutate(coords = paste(x,y,sep="_"))#
-#
-patch_data_3_results_30_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_ACS <- patch_data_3_temp %>%#
-	merge(ACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-#
-# RACS INCLUSION PROBABILITIES#
-RACSinclusionprobs <- rbind.fill(#
-	simulatedInclusionProbabilities.RACS.20Nov16,#
-	simulatedInclusionProbabilities.RACS.20Nov16.2,#
-	simulatedInclusionProbabilities.RACS.20Nov16.3,#
-	simulatedInclusionProbabilities.RACS.20Nov16.4,#
-	simulatedInclusionProbabilities.RACS.20Nov16.5,#
-	simulatedInclusionProbabilities.RACS.20Nov16.6#
-) %>%#
-group_by(realization,#
-	n.networks,#
-	N.SRSWOR.plots,#
-	SamplingDesign,#
-	coords#
-) %>%#
-summarise(#
-	times_included = sum(times_included),#
-	simulations = sum(simulations)#
-)#
-#
-patch_data_3_results_30_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==30) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_30#
-	)#
-patch_data_3_results_20_RACS <- patch_data_3_temp %>%#
-	merge(RACSinclusionprobs, by="coords") %>%#
-	filter(N.SRSWOR.plots==20) %>%#
-	mutate(#
-		inclusion_prob = times_included/simulations,#
-		inclusion_prob_diff_from_true = inclusion_prob - pi_i_n1_20#
-	)#
-patch_data_3_results <- rbind.fill(#
-		patch_data_3_results_20_ACS,#
-		patch_data_3_results_30_ACS,#
-		patch_data_3_results_20_RACS,#
-		patch_data_3_results_30_RACS#
-	)
-head(patch_data_3_results)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3_results %<>% mutate(#
-	difference_from_sample_mean_inclusion_prob = #
-		inclusion_prob - (N.SRSWOR.plots/N)#
-)
-head(patch_data_3_results)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch_data_3_results$N.SRSWOR.plots %<>% as.factor()#
-levels(patch_data_3_results$N.SRSWOR.plots) <- c(#
-	"Primary Sample Size = 20", #
-	"Primary Sample Size = 30"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = difference_from_sample_mean_inclusion_prob,#
-			size = difference_from_sample_mean_inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = difference_from_sample_mean_inclusion_prob,#
-			size = difference_from_sample_mean_inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Inclusion Probability Based on Simulations",nrow=2),#
-		size=guide_legend(title="Inclusion Probability Based on Simulations",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	) +#
-	scale_size_continuous(#
-		trans="log10",range=c(0.01,6),#
-		breaks=c(0.0178,0.124,0.229,0.334,0.439,0.545,0.65)#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = difference_from_sample_mean_inclusion_prob,#
-			size = difference_from_sample_mean_inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	) +#
-	scale_colour_gradientn(#
-		colours = terrain.colors(15),trans="reverse",#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	) +#
-	scale_size_continuous(#
-		trans="reverse",range=c(0.01,6),#
-		breaks=c(-0.521,-0.433,-0.345,-0.258,-0.17,-0.0822,-0.01,0.01,0.00591)#
-	)
-range(patch_data_3_results$difference_from_sample_mean_inclusion_prob)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-ggplot() +#
-	geom_point(#
-		data=patch_data_3_results, #
-		aes(#
-			x, #
-			y, #
-			colour = difference_from_sample_mean_inclusion_prob,#
-			size = difference_from_sample_mean_inclusion_prob#
-		), #
-		show.legend=T#
-	) +#
-	facet_grid(SamplingDesign~N.SRSWOR.plots) +#
-	KEStheme() +#
-	theme(#
-		legend.position="bottom", #
-		panel.background = element_rect(linetype="solid", fill="white"),#
-		panel.border = element_rect(colour = "black", fill=NA, size=3),#
-		strip.text = element_text(face="bold", size=24),#
-		strip.background = element_rect(fill="white", colour="black", size=3)#
-	) +#
-	guides(#
-		colour=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2),#
-		size=guide_legend(title="Error of Simulated Inclusion Probability\n(Difference from Calculated Pi_i)",nrow=2)#
-	)
-20/900
-10
-108/12
-72/12
-20/6
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-lambdap_10_tau_50 <- expand.grid(#
-		x = 1:10,#
-		y = 1:10#
-	) %>%#
-		cbind(#
-			y_value = c(#
-				0,0,0,1,14,23,0,0,14,37,#
-				rep(0,5),4,0,0,0,5,#
-				rep(0,8),1,1,#
-				rep(0,8),3,7,#
-				8,4,0,6,2,2,1,0,23,27,#
-				17,20,3,12,22,4,0,2,8,42,#
-				3,2,1,4,12,1,3,23,20,5,#
-				rep(0,5),14,19,26,35,7,#
-				14,3,0,0,8,25,29,17,26,10,#
-				36,6,1,0,4,4,35,39,8,5#
-			)#
-		)#
-	lambdap_10_tau_50_networks <- assignNetworkMembership(#
-		lambdap_10_tau_50 %>% filter(y_value > 0), #
-		plot.size=1#
-	)#
-	# fill in m values#
-	lambdap_10_tau_50 %<>% merge(lambdap_10_tau_50_networks, all=T)#
-	lambdap_10_tau_50[which(lambdap_10_tau_50$y_value==0), ]$m <- 1#
-	# fill in NetworkIDs#
-	maxID <- max(lambdap_10_tau_50$NetworkID, na.rm=T)#
-	lambdap_10_tau_50[which(is.na(lambdap_10_tau_50$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-		to=(maxID + length(which(is.na(lambdap_10_tau_50$NetworkID)))), by=1)#
-#
-	ggplot(lambdap_10_tau_50 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-lambdap_10_tau_25 <- expand.grid(#
-		x = 1:10,#
-		y = 1:10#
-	) %>%#
-		cbind(#
-			y_value = c(#
-				rep(0,5),10,1,0,0,0,#
-				0,0,2,10,18,32,5,rep(0,3),#
-				0,0,30,26,16,1,34,1,0,7,#
-				0,0,0,0,12,25,7,0,9,42,#
-				0,0,0,0,1,21,1,2,12,0,#
-				9,0,0,49,33,15,2,3,26,9,#
-				43,0,0,7,5,0,0,0,0,34,#
-				1,rep(0,9),#
-				46,5,0,1,9,2,35,2,0,0,#
-				1,0,0,1,44,1,15,1,0,0#
-			)#
-		)#
-	lambdap_10_tau_25_networks <- assignNetworkMembership(#
-		lambdap_10_tau_25 %>% filter(y_value > 0), #
-		plot.size=1#
-	)#
-	# fill in m values#
-	lambdap_10_tau_25 %<>% merge(lambdap_10_tau_25_networks, all=T)#
-	lambdap_10_tau_25[which(lambdap_10_tau_25$y_value==0), ]$m <- 1#
-	# fill in NetworkIDs#
-	maxID <- max(lambdap_10_tau_25$NetworkID, na.rm=T)#
-	lambdap_10_tau_25[which(is.na(lambdap_10_tau_25$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-		to=(maxID + length(which(is.na(lambdap_10_tau_25$NetworkID)))), by=1)#
-#
-	ggplot(lambdap_10_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-lambdap_5_tau_10 <- expand.grid(#
-		x = 1:10,#
-		y = 1:10#
-	) %>%#
-		cbind(#
-			y_value = c(#
-				0,2,1,0,0,1,9,0,0,0,#
-				0,20,13,1,1,2,24,4,1,13,#
-				1,7,7,1,0,4,20,4,7,26,#
-				rep(0,5),5,14,2,2,0,#
-				rep(0,6),3,0,0,0,#
-				rep(0,10),#
-				rep(0,10),#
-				rep(0,10),#
-				rep(0,4),2,5,1,0,0,0,#
-				rep(0,4),16,20,rep(0,4)#
-			)#
-		)#
-	lambdap_5_tau_10_networks <- assignNetworkMembership(#
-		lambdap_5_tau_10 %>% filter(y_value > 0), #
-		plot.size=1#
-	)#
-	# fill in m values#
-	lambdap_5_tau_10 %<>% merge(lambdap_5_tau_10_networks, all=T)#
-	lambdap_5_tau_10[which(lambdap_5_tau_10$y_value==0), ]$m <- 1#
-	# fill in NetworkIDs#
-	maxID <- max(lambdap_5_tau_10$NetworkID, na.rm=T)#
-	lambdap_5_tau_10[which(is.na(lambdap_5_tau_10$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-		to=(maxID + length(which(is.na(lambdap_5_tau_10$NetworkID)))), by=1)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-lambdap_5_tau_5 <- expand.grid(#
-		x = 1:10,#
-		y = 1:10#
-	) %>%#
-		cbind(#
-			y_value = c(#
-				0,2,1,0,0,1,9,0,0,0,#
-				0,20,13,1,1,2,24,4,1,13,#
-				1,7,7,1,0,4,20,4,7,26,#
-				rep(0,5),5,14,2,2,0,#
-				rep(0,6),3,0,0,0,#
-				rep(0,10),#
-				rep(0,10),#
-				rep(0,10),#
-				rep(0,4),2,5,1,0,0,0,#
-				rep(0,4),16,20,rep(0,4)#
-			)#
-		)#
-	lambdap_5_tau_5_networks <- assignNetworkMembership(#
-		lambdap_5_tau_5 %>% filter(y_value > 0), #
-		plot.size=1#
-	)#
-	# fill in m values#
-	lambdap_5_tau_5 %<>% merge(lambdap_5_tau_5_networks, all=T)#
-	lambdap_5_tau_5[which(lambdap_5_tau_5$y_value==0), ]$m <- 1#
-	# fill in NetworkIDs#
-	maxID <- max(lambdap_5_tau_5$NetworkID, na.rm=T)#
-	lambdap_5_tau_5[which(is.na(lambdap_5_tau_5$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-		to=(maxID + length(which(is.na(lambdap_5_tau_5$NetworkID)))), by=1)#
-	ggplot(lambdap_5_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ggplot(lambdap_10_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)#
-#' #
-#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.#
-#' @examples #
-#' library(ggplot2)#
-#' data(lambdap_5_tau_5)#
-#' #
-#' ggplot(lambdap_5_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
-#' @export#
-#
-createlambdap_5_tau_5 <- function() {#
-	lambdap_5_tau_5 <- expand.grid(#
-		x = 1:10,#
-		y = 1:10#
-	) %>%#
-		cbind(#
-			y_value = c(#
-				0,2,1,0,0,1,9,0,0,0,#
-				0,20,13,1,1,2,24,4,1,13,#
-				1,7,7,1,0,4,20,4,7,26,#
-				rep(0,5),5,14,2,2,0,#
-				rep(0,6),3,0,0,0,#
-				rep(0,10),#
-				rep(0,10),#
-				rep(0,10),#
-				rep(0,4),2,5,1,0,0,0,#
-				rep(0,4),16,20,rep(0,4)#
-			)#
-		)#
-	lambdap_5_tau_5_networks <- assignNetworkMembership(#
-		lambdap_5_tau_5 %>% filter(y_value > 0), #
-		plot.size=1#
-	)#
-	# fill in m values#
-	lambdap_5_tau_5 %<>% merge(lambdap_5_tau_5_networks, all=T)#
-	lambdap_5_tau_5[which(lambdap_5_tau_5$y_value==0), ]$m <- 1#
-	# fill in NetworkIDs#
-	maxID <- max(lambdap_5_tau_5$NetworkID, na.rm=T)#
-	lambdap_5_tau_5[which(is.na(lambdap_5_tau_5$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-		to=(maxID + length(which(is.na(lambdap_5_tau_5$NetworkID)))), by=1)#
-	ggplot(lambdap_5_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
-	return(lambdap_5_tau_5)#
-}
-lambdap_5_tau_5 <- createlambdap_5_tau_5()
-save(lambdap_5_tau_5, file="lambdap_5_tau_5.rda")
-getwd()
-lambdap_10_tau_5 <- createlambdap_10_tau_5()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)#
-#' #
-#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.#
-#' @examples #
-#' library(ggplot2)#
-#' data(lambdap_5_tau_25)#
-#' #
-#' ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
-#' @export#
-#
-createlambdap_10_tau_5 <- function() {#
-	lambdap_10_tau_5 <- expand.grid(#
-		x = 1:10,#
-		y = 1:10#
-	) %>%#
-		cbind(#
-			y_value = c(#
-				0,0,0,1,14,23,0,0,14,37,#
-				rep(0,5),4,0,0,0,5,#
-				rep(0,8),1,1,#
-				rep(0,8),3,7,#
-				8,4,0,6,2,2,1,0,23,27,#
-				17,20,3,12,22,4,0,2,8,42,#
-				3,2,1,4,12,1,3,23,20,5,#
-				rep(0,5),14,19,26,35,7,#
-				14,3,0,0,8,25,29,17,26,10,#
-				36,6,1,0,4,4,35,39,8,5#
-			)#
-		)#
-	lambdap_10_tau_5_networks <- assignNetworkMembership(#
-		lambdap_10_tau_5 %>% filter(y_value > 0), #
-		plot.size=1#
-	)#
-	# fill in m values#
-	lambdap_10_tau_5 %<>% merge(lambdap_10_tau_5_networks, all=T)#
-	lambdap_10_tau_5[which(lambdap_10_tau_5$y_value==0), ]$m <- 1#
-	# fill in NetworkIDs#
-	maxID <- max(lambdap_10_tau_5$NetworkID, na.rm=T)#
-	lambdap_10_tau_5[which(is.na(lambdap_10_tau_5$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-		to=(maxID + length(which(is.na(lambdap_10_tau_5$NetworkID)))), by=1)#
-	return(lambdap_10_tau_5)#
-}
-lambdap_10_tau_5 <- createlambdap_10_tau_5()
-ggplot(lambdap_10_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-save(lambdap_10_tau_5, file="lambdap_10_tau_5.rda")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)#
-#' #
-#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.#
-#' @examples #
-#' library(ggplot2)#
-#' data(lambdap_10_tau_25)#
-#' #
-#' ggplot(lambdap_10_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))#
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.#
-#' @export#
-#
-createlambdap_10_tau_25 <- function() {#
-	lambdap_10_tau_25 <- expand.grid(#
-		x = 1:10,#
-		y = 1:10#
-	) %>%#
-		cbind(#
-			y_value = c(#
-				rep(0,5),10,1,0,0,0,#
-				0,0,2,10,18,32,5,rep(0,3),#
-				0,0,30,26,16,1,34,1,0,7,#
-				0,0,0,0,12,25,7,0,9,42,#
-				0,0,0,0,1,21,1,2,12,0,#
-				9,0,0,49,33,15,2,3,26,9,#
-				43,0,0,7,5,0,0,0,0,34,#
-				1,rep(0,9),#
-				46,5,0,1,9,2,35,2,0,0,#
-				1,0,0,1,44,1,15,1,0,0#
-			)#
-		)#
-	lambdap_10_tau_25_networks <- assignNetworkMembership(#
-		lambdap_10_tau_25 %>% filter(y_value > 0), #
-		plot.size=1#
-	)#
-	# fill in m values#
-	lambdap_10_tau_25 %<>% merge(lambdap_10_tau_25_networks, all=T)#
-	lambdap_10_tau_25[which(lambdap_10_tau_25$y_value==0), ]$m <- 1#
-	# fill in NetworkIDs#
-	maxID <- max(lambdap_10_tau_25$NetworkID, na.rm=T)#
-	lambdap_10_tau_25[which(is.na(lambdap_10_tau_25$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-		to=(maxID + length(which(is.na(lambdap_10_tau_25$NetworkID)))), by=1)#
-	return(lambdap_10_tau_25)#
-}
-lambdap_10_tau_25 <- createlambdap_10_tau_25()
-ggplot(lambdap_10_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-save(lambdap_10_tau_25, file="lambdap_10_tau_25.rda")
-lambdap_5_tau_5 <- createlambdap_5_tau_5()
-ggplot(lambdap_5_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#

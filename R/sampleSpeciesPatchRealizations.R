@@ -56,7 +56,8 @@ sampleSpeciesPatchRealizations <- function(
 	rvar,
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
-	y_variable
+	y_variable,
+	y_HT_formula = NULL
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -212,21 +213,32 @@ sampleSpeciesPatchRealizations <- function(
 					# summarise data for mean calculations
 					O <- alldata %>% 
 						filter(Sampling!="Edge") %>%
-						.[, c(
-							oavar, 
-							"NetworkID", 
-							"m"
-						), with=FALSE]
+						select_(.dots=c(oavar,"NetworkID","m")) %>%
+						as.data.table
 					# calculate y_HT
 					m <- O$m
-					HT_results[[1]] <- O[, c(oavar), with=FALSE] %>%
-						.[, lapply(
-							.SD,
-							y_HT,
-							N	= N, 
-							n1	= n1,
-							m	= m
-						)]
+					if (y_HT_formula == "new_y_HT") {
+						HT_results[[1]] <- O %>%
+							select_(.dots=oavar) %>%
+							.[, lapply(
+								.SD,
+								new_y_HT,
+								N	= N, 
+								n1	= n1,
+								m	= m,
+								m_threshold = 7
+							)]
+					} else {
+						HT_results[[1]] <- O %>%
+							select_(.dots=oavar) %>%
+							.[, lapply(
+								.SD,
+								y_HT,
+								N	= N, 
+								n1	= n1,
+								m	= m
+							)]
+					}
 					names(HT_results[[1]]) <- c(occ_abund_mean_names)
 					# summarise data for variance calculations
 					O_smd <- alldata %>% 
@@ -236,6 +248,7 @@ sampleSpeciesPatchRealizations <- function(
 							"m"
 						), with=FALSE] %>% 
 						filter(!(is.na(NetworkID))) %>%
+						as.data.table %>%
 						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
 					m <- O_smd$m
 					# var_y_HT
@@ -262,6 +275,7 @@ sampleSpeciesPatchRealizations <- function(
 							summarise(m = m[1])
 						R_smd <- alldata %>%
 							filter(Sampling!="Edge") %>%
+							as.data.table %>%
 							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%
 							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%
 							merge(mvals, by="NetworkID")
@@ -316,6 +330,8 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
 				A[[i]][[j]][[k]]$SamplingDesign 		= SamplingDesign
+				A[[i]][[j]][[k]]$y_HT_formula 		= y_HT_formula
+				
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
