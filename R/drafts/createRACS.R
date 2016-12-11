@@ -9,153 +9,189 @@
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' Z = createRACS(
-	population = patch_data_3, 
+population = patch_data_5
+seed=26
+n1=40
+y_variable = "Cactus"
+
+ Z = createRACS(
+	population = patch_data_5, 
 	seed=26, 
 	n1=40, 
 	y_variable = "Cactus"
 )
-#' ggplot() +
-#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
-#' 		shape=factor(y_value))) +
-#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)
+
+Z$step %<>% as.factor
+
+ggplot() +
+geom_point(data=patch_data_5, aes(x,y, size=factor(Cactus),
+		shape=factor(Cactus))) +
+scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+geom_point(data=Z, aes(x,y, shape=factor(Cactus), colour=factor(step)), size=7)
 
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
 
 #' @export
 	
 			
+# step 2: 
+
 createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
+	# get primary sample
 	if (is.data.frame(initial_sample)) {
 		S = merge(population, initial_sample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
+		S$step <- 0
 	} else {
 		if (!is.na(seed)) {set.seed(seed)}
 		S <- createSRS(population, n1)
+		S$step <- 0
 	}
+	# filter out primary samples matching condition
 	Networks <- S %>% 
 		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
 		names(S)[names(S) == y_variable] <- 'y_value'
 		names(population)[names(population) == y_variable] <- 'y_value'
-		# List to save data
+		# Lists to save data
+		Y = list()
 		Z = list()
-		# fill in edge units
+		# step 1: get all neighbors of primary samples matching condition
 	    for (i in 1:dim(Networks)[1]) {
-  	    	
-			# for each unit that satisfies the condition, add its neighbors
-			# step 1: neighbors in four cardinal directions
-			# step 2: neighbors of neighbors....
-			# step 3: ....
-			
-			
 			L = Networks[i, ]
-    	    Z[[i]] <- list()
-			Z[[i]][[1]] <- as.data.frame(matrix(NA,1,1))
+    	    Y[[i]] <- list()
+			# STEP 1
+			Y[[i]][[1]] <- data.frame()
     	    # northern neighbor of SRSWOR plot
-    	    Z[[i]][[1]][2, "x"] = L$x
-    	    Z[[i]][[1]][2, "y"] = L$y + 1
+    	    Y[[i]][[1]][1, "x"] = L$x
+    	    Y[[i]][[1]][1, "y"] = L$y + 1
 	      	# southern neighbor of SRSWOR plot
-	      	Z[[i]][[1]][3, "x"] = L$x
-	      	Z[[i]][[1]][3, "y"] = L$y - 1
+	      	Y[[i]][[1]][2, "x"] = L$x
+	      	Y[[i]][[1]][2, "y"] = L$y - 1
 	      	# eastern neighbor of SRSWOR plot
-	      	Z[[i]][[1]][4, "x"] = L$x + 1
-	      	Z[[i]][[1]][4, "y"] = L$y
+	      	Y[[i]][[1]][3, "x"] = L$x + 1
+	      	Y[[i]][[1]][3, "y"] = L$y
 	      	# western neighbor of SRSWOR plot
-	      	Z[[i]][[1]][5, "x"] = L$x - 1
-	      	Z[[i]][[1]][5, "y"] = L$y
-			# steps 2 - max
-			if (max > 1) {
-				for (j in 2:max) {
-					Z[[i]][[j]] <- as.data.frame(matrix(NA,1,1))
-					Z[[i]][[j]][, "j"] <- j
+	      	Y[[i]][[1]][4, "x"] = L$x - 1
+	      	Y[[i]][[1]][4, "y"] = L$y
+			Y[[i]] <- do.call(rbind.fill, Y[[i]])
+		}
+		Z[[1]] <- do.call(rbind.fill, Y)
+		# merge neighbors and primary samples matching condition
+		Z[[1]]$step <- 1
+		Z[[1]] -> B
+		# steps 2 to max
+		if (max > 1) {
+			# get all neighbors of c(primary samples matching condition, neighbors) matching condition
+			for (j in 2:max) {
+				last_step = j-1
+				A <- B %>% filter(step == last_step)
+				Z[[j]] <- list()
+				for (k in 1:dim(sample)[1]) {
+					Z[[j]][[k]] <- data.frame()
 					# northern neighbor of cluster plot
-					# 		if plot has cacti, survey its neighbors
+		    	    kx=A$x[k]
+		    	    ky=A$y[k] + 1
+					# if plot has cacti, survey its neighbors
 					if (dim(population %>% 
 						filter(
 		  					y_value > condition, 
-		  			  		x==L$x,
-		  			  		y==L$y + j
+		  			  		x==kx,
+		  			  		y==ky
 					))[1] > 0
 					) {
 					    # neighbor to north
-					    Z[[i]][[j]][1, "x"] = Z[[i]][[1]][2, "x"]
-					   	Z[[i]][[j]][1, "y"] = Z[[i]][[1]][2, "y"] + j
+					    Z[[j]][[k]][1, "x"] = kx
+					   	Z[[j]][[k]][1, "y"] = ky + 1
 					    # neighbor to east
-					    Z[[i]][[j]][2, "x"] = Z[[i]][[1]][2, "x"] + j
-					    Z[[i]][[j]][2, "y"] = Z[[i]][[1]][2, "y"]
+					    Z[[j]][[k]][2, "x"] = kx + 1
+					    Z[[j]][[k]][2, "y"] = ky
 					    # neighbor to west
-					    Z[[i]][[j]][3, "x"] = Z[[i]][[1]][2, "x"] - j
-					    Z[[i]][[j]][3, "y"] = Z[[i]][[1]][2, "y"]
+					    Z[[j]][[k]][3, "x"] = kx - 1
+					    Z[[j]][[k]][3, "y"] = ky
 					}
 			      	# southern neighbor of cluster plot
+		    	    kx=A$x[k]
+		    	    ky=A$y[k] - 1
 					# 		if plot has cacti, survey its neighbors
 					if (dim(population %>% 
 						filter(
 		  					y_value > condition, 
-							x==L$x,
-							y==L$y - j
+							x==kx,
+							y==ky
 					))[1] > 0
 					) {
 						# neighbor to south
-					    Z[[i]][[j]][4, "x"] = Z[[i]][[1]][3, "x"]
-					    Z[[i]][[j]][4, "y"] = Z[[i]][[1]][3, "y"] - j
+					    Z[[j]][[k]][4, "x"] = kx
+					    Z[[j]][[k]][4, "y"] = ky - 1
 					   	# neighbor to east
-					    Z[[i]][[j]][5, "x"] = Z[[i]][[1]][3, "x"] + j
-					    Z[[i]][[j]][5, "y"] = Z[[i]][[1]][3, "y"]
+					    Z[[j]][[k]][5, "x"] = kx + 1
+					    Z[[j]][[k]][5, "y"] = ky
 					    # neighbor to west
-					    Z[[i]][[j]][6, "x"] = Z[[i]][[1]][3, "x"] - j
-					    Z[[i]][[j]][6, "y"] = Z[[i]][[1]][3, "y"]
+					    Z[[j]][[k]][6, "x"] = kx - 1
+					    Z[[j]][[k]][6, "y"] = ky
 					}
 			      	# eastern neighbor of cluster plot
+		    	    kx=A$x[k] + 1
+		    	    ky=A$y[k]
 					# 		if plot has cacti, survey its neighbors
 					if (dim(population %>% 
 					  	filter(
 		  					y_value > condition, 
-					  	 	x==L$x + j,
-					  	  	y==L$y
+					  	 	x==kx,
+					  	  	y==ky
 					))[1] > 0
 					) {
 			        	# neighbor to south
-			        	Z[[i]][[j]][7, "x"] = Z[[i]][[1]][4, "x"]
-			        	Z[[i]][[j]][7, "y"] = Z[[i]][[1]][4, "y"] - j
+			        	Z[[j]][[k]][7, "x"] = kx
+			        	Z[[j]][[k]][7, "y"] = ky - 1
 			        	# neighbor to north
-			        	Z[[i]][[j]][8, "x"] = Z[[i]][[1]][4, "x"]
-			        	Z[[i]][[j]][8, "y"] = Z[[i]][[1]][4, "y"] + j
+			        	Z[[j]][[k]][8, "x"] = kx
+			        	Z[[j]][[k]][8, "y"] = ky + 1
 			        	# neighbor to east
-			        	Z[[i]][[j]][9, "x"] = Z[[i]][[1]][4, "x"] + j
-			        	Z[[i]][[j]][9, "y"] = Z[[i]][[1]][4, "y"]
+			        	Z[[j]][[k]][9, "x"] = kx + 1
+			        	Z[[j]][[k]][9, "y"] = ky
 					}
 			      	# western neighbor of SRSWOR plot
+		    	    kx=A$x[k] - 1
+		    	    ky=A$y[k]
 					# 		if plot has cacti, survey its neighbors
 					if (dim(population %>% 
 					  	filter(
 		  					y_value > condition, 
-					  	  	x==L$x - j,
-					  	  	y==L$y
+					  	  	x==kx,
+					  	  	y==ky
 					))[1] > 0
 					) {
 			        	# neighbor to south
-			        	Z[[i]][[j]][10, "x"] = Z[[i]][[1]][5, "x"]
-			        	Z[[i]][[j]][10, "y"] = Z[[i]][[1]][5, "y"] - j
+			        	Z[[j]][[k]][10, "x"] = kx
+			        	Z[[j]][[k]][10, "y"] = ky - 1
 			        	# neighbor to north
-			        	Z[[i]][[j]][11, "x"] = Z[[i]][[1]][5, "x"]
-			        	Z[[i]][[j]][11, "y"] = Z[[i]][[1]][5, "y"] + j
+			        	Z[[j]][[k]][11, "x"] = kx
+			        	Z[[j]][[k]][11, "y"] = ky + 1
 			        	# neighbor to west
-			        	Z[[i]][[j]][12, "x"] = Z[[i]][[1]][5, "x"] - j
-			        	Z[[i]][[j]][12, "y"] = Z[[i]][[1]][5, "y"]
+			        	Z[[j]][[k]][12, "x"] = kx - 1
+			        	Z[[j]][[k]][12, "y"] = ky
 			      	}
+					if (dim(Z[[j]][[k]])[1] > 0) {
+						Z[[j]][[k]]$step <- j
+					}
 				}
-	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]			
-			}	
-		    Z[[i]] <- do.call(rbind.fill, Z[[i]])
-	    } 
-	    sample <- do.call(rbind.data.frame, Z)
-) # compress plot list to dataframe
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%
+				B <- do.call(rbind.fill, Z[[j]]) %>% 
+					filter(!(is.na(x))) %>%
+					rbind.fill(B) %>%
+					.[!duplicated(.[, c("x", "y")]), ]	
+				Z[[j]] <- do.call(rbind.fill, Z[[j]])
+			}
+			sample <- do.call(rbind.data.frame, Z)# %>% rbind.fill(S)
+		}
+			
+	
+	# compress plot list to dataframe
+	    sample <- sample %>%
+			merge(population, by=c("x", "y")) %>%
 	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs
 	    	rbind.fill(S) %>% # merge with SRSWOR plots
 			arrange(Sampling)
@@ -195,7 +231,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
 		}
 		# rename filtering variable
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling)
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling, step)
 		names(Z)[names(Z) == 'y_value'] <- y_variable
 		# add species attribute data
 		Z %<>% 
