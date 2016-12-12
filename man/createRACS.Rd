@@ -5,7 +5,7 @@
 \title{Create a Restricted Adaptive Cluster Sample}
 \usage{
 createRACS(population, n1, y_variable, condition = 0, seed = NA,
-  initial_sample = NA)
+  initial_sample = NA, f_max = 2)
 }
 \arguments{
 \item{population}{grid of population to be sampled.}
@@ -28,12 +28,18 @@ Create a Restricted Adaptive Cluster Sample
 }
 \examples{
 library(ggplot2)
-Z = createRestrictedACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value")
+population = patch_data_5
+seed=26
+n1=40
+y_variable = "Cactus"
+f_max = 3
+Z = createRACS(population, seed, n1, y_variable, f_max)
 ggplot() +
-	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
-		shape=factor(y_value))) +
-	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-	geom_point(data=Z, aes(x,y), shape=0, size=7)
+geom_point(data=patch_data_5, aes(x,y, size=factor(Cactus),
+		shape=factor(Cactus))) +
+scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+geom_point(data=Z, aes(x,y), shape = 0, size=7) +
+ggtitle("f_max = 1")
 }
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.

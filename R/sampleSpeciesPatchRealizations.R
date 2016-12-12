@@ -219,7 +219,7 @@ sampleSpeciesPatchRealizations <- function(
 					m <- O$m
 					if (y_HT_formula == "new_y_HT") {
 						HT_results[[1]] <- O %>%
-							select_(.dots=oavar) %>%
+						.[, oavar, with=FALSE] %>% 
 							.[, lapply(
 								.SD,
 								new_y_HT,

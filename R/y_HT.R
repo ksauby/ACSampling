@@ -181,10 +181,19 @@ new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m=NULL, sampling=N
 		J = 1
 	}
 	Z = data.frame(y=y, m=m)
+	
+	# with replacement inclusion probability for cluster units
+	# pi_i = 1 - ( 1 - ((m + a)/N) )^ n
+	# how to make this work for a network
+	
 	A <- Z %>% filter(m <= m_threshold)
 	B <- Z %>% filter(m > m_threshold)
-	A$pi_i_values = pi_i(N, n1, A$m)
-	B$pi_i_values = pi_i(N, n1, B$m)
+	if (dim(A)[1] > 0) {
+		A$pi_i_values = pi_i(N, n1, A$m)	
+	}
+	if (dim(B)[1] > 0) {	
+		B$pi_i_values = pi_i(N, n1, m_threshold)
+	}
 	Z <- rbind.fill(A, B) %>% as.data.frame
 	y_HT = sum(unlist(Z$y)*J/unlist(Z$pi_i_values), na.rm=T)/N
 	return(y_HT)	
