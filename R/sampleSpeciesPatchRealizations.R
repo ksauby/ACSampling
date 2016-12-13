@@ -57,7 +57,8 @@ sampleSpeciesPatchRealizations <- function(
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
 	y_variable,
-	y_HT_formula = NULL
+	y_HT_formula = NULL,
+	m_threshold = NULL
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -226,7 +227,7 @@ sampleSpeciesPatchRealizations <- function(
 								N	= N, 
 								n1	= n1,
 								m	= m,
-								m_threshold = 7
+								m_threshold = m_threshold
 							)]
 					} else {
 						HT_results[[1]] <- O %>%
