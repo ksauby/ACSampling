@@ -5,7 +5,7 @@
 \title{Calculate Inclusion Probabilities Using Simulations}
 \usage{
 calculateInclusionProbabilities(patchdat = patch_data_3, simulations,
-  nsamples, SamplingDesign = "ACS", y_variable)
+  nsamples, SamplingDesign = "ACS", y_variable, f_max = NULL)
 }
 \arguments{
 \item{patchdat}{patch realizations}

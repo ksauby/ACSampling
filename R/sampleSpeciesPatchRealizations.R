@@ -330,12 +330,14 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$realization 		= P$realization[1]
 				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
-				A[[i]][[j]][[k]]$SamplingDesign 		= SamplingDesign
-				A[[i]][[j]][[k]]$y_HT_formula 		= y_HT_formula
-				
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
+	Z$m_threshold 		= m_threshold
+	Z$n_simulations 	= simulations
+	Z$simulation_date 	= format(Sys.time(), "%m-%d-%y")
+	Z$y_HT_formula 		= y_HT_formula
+	Z$SamplingDesign 	= SamplingDesign
 	print(Sys.time() - TIME)
 	return(Z)
 }

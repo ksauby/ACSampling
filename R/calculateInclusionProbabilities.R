@@ -15,7 +15,8 @@ calculateInclusionProbabilities <- function(
 	nsamples, 
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
-	y_variable
+	y_variable,
+	f_max = NULL
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -54,23 +55,24 @@ calculateInclusionProbabilities <- function(
 					) %>% 
 						as.data.table
 				} else {
-					alldata <- createRACS(
+					alldata <- createRACS_flex(
 						population=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						y_variable=y_variable
+						y_variable=y_variable,
+						f_max = f_max
 					) %>% 
 						as.data.table
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
 					dplyr::select(n.networks, realization, x, y)
-				A[[i]][[j]][[k]]$simulations 		= simulations
 				A[[i]][[j]][[k]]$seed 				= temp_seed
+				A[[i]][[j]][[k]]$SamplingDesign 	= SamplingDesign
+				A[[i]][[j]][[k]]$simulations 		= simulations
 				A[[i]][[j]][[k]]$realization 		= P$realization[1]
 				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
-				A[[i]][[j]][[k]]$SamplingDesign 	= SamplingDesign
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
 			X$coords <- with(X, paste(x,y,sep="_"))
@@ -86,6 +88,8 @@ calculateInclusionProbabilities <- function(
 				) %>%
 				summarise(times_included=n())	
 	}
+	B$simulation_date 	= format(Sys.time(), "%m-%d-%y")
+	B$f_max 		= f_max
 	print(Sys.time() - TIME)
 	return(B)
 }
