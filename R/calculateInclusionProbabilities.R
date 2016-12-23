@@ -67,12 +67,25 @@ calculateInclusionProbabilities <- function(
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
 					dplyr::select(n.networks, realization, x, y)
-				A[[i]][[j]][[k]]$seed 				= temp_seed
-				A[[i]][[j]][[k]]$SamplingDesign 	= SamplingDesign
-				A[[i]][[j]][[k]]$simulations 		= simulations
-				A[[i]][[j]][[k]]$realization 		= P$realization[1]
-				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
-				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
+				cactus_networks <- alldata %>%
+					filter(!(Cactus==0 & m==1)) %>%
+					group_by(n.networks) %>% 
+					summarise(
+						MEAN = mean(m),
+						MAX = max(m),
+						MIN = min(m),
+						MEDIAN = median(m)
+					)
+				A[[i]][[j]][[k]]$mean_m 			<- cactus_networks$MEAN
+				A[[i]][[j]][[k]]$max_m 				<- cactus_networks$MAX
+				A[[i]][[j]][[k]]$min_m 				<- cactus_networks$MIN
+				A[[i]][[j]][[k]]$median_m 			<- cactus_networks$MEDIAN
+				A[[i]][[j]][[k]]$seed 				<- temp_seed
+				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
+				A[[i]][[j]][[k]]$simulations 		<- simulations
+				A[[i]][[j]][[k]]$realization 		<- P$realization[1]
+				A[[i]][[j]][[k]]$n.networks 		<- P$n.networks[1]
+				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
 			X$coords <- with(X, paste(x,y,sep="_"))
@@ -84,7 +97,11 @@ calculateInclusionProbabilities <- function(
 					N.SRSWOR.plots, 
 					SamplingDesign,
 					simulations,
-					coords
+					coords,
+					mean_m,
+					max_m,
+					min_m,
+					median_m
 				) %>%
 				summarise(times_included=n())	
 	}
