@@ -69,17 +69,26 @@ calculateInclusionProbabilities <- function(
 					dplyr::select(n.networks, realization, x, y)
 				cactus_networks <- alldata %>%
 					filter(!(Cactus==0 & m==1)) %>%
-					group_by(n.networks) %>% 
-					summarise(
-						MEAN = mean(m),
-						MAX = max(m),
-						MIN = min(m),
-						MEDIAN = median(m)
-					)
-				A[[i]][[j]][[k]]$mean_m 			<- cactus_networks$MEAN
-				A[[i]][[j]][[k]]$max_m 				<- cactus_networks$MAX
-				A[[i]][[j]][[k]]$min_m 				<- cactus_networks$MIN
-				A[[i]][[j]][[k]]$median_m 			<- cactus_networks$MEDIAN
+					filter(m!=0)
+				if (dim(cactus_networks)[1] > 0) {
+					cactus_networks %<>%
+						group_by(n.networks) %>% 
+						summarise(
+							MEAN = mean(m),
+							MAX = max(m),
+							MIN = min(m),
+							MEDIAN = median(m)
+						)
+					A[[i]][[j]][[k]]$mean_m 	<- cactus_networks$MEAN
+					A[[i]][[j]][[k]]$max_m 		<- cactus_networks$MAX
+					A[[i]][[j]][[k]]$min_m 		<- cactus_networks$MIN
+					A[[i]][[j]][[k]]$median_m 	<- cactus_networks$MEDIAN		
+				} else {
+					A[[i]][[j]][[k]]$mean_m 	<- 0
+					A[[i]][[j]][[k]]$max_m 		<- 0
+					A[[i]][[j]][[k]]$min_m 		<- 0
+					A[[i]][[j]][[k]]$median_m 	<- 0
+				}
 				A[[i]][[j]][[k]]$seed 				<- temp_seed
 				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
 				A[[i]][[j]][[k]]$simulations 		<- simulations

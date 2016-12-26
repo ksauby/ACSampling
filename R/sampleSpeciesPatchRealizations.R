@@ -58,7 +58,8 @@ sampleSpeciesPatchRealizations <- function(
 	SamplingDesign="ACS",
 	y_variable,
 	y_HT_formula = NULL,
-	m_threshold = NULL
+	m_threshold = NULL,
+	f_max = 2
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -109,11 +110,12 @@ sampleSpeciesPatchRealizations <- function(
 					) %>% 
 						as.data.table
 				} else if (SamplingDesign=="RACS") {
-					alldata <- createRACS(
+					alldata <- createRACS_flex(
 						population=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						y_variable=y_variable
+						y_variable=y_variable,
+						f_max=f_max
 					) %>% 
 						as.data.table
 				} else {
@@ -333,6 +335,7 @@ sampleSpeciesPatchRealizations <- function(
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
+	Z$f_max 			= f_max
 	Z$m_threshold 		= m_threshold
 	Z$n_simulations 	= simulations
 	Z$simulation_date 	= format(Sys.time(), "%m-%d-%y")
