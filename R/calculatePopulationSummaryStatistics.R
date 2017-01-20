@@ -132,16 +132,28 @@ calculatePopulationSummaryStatistics <- function(
 		}
 	}
 	# for each grouping.variables combo, calculate summary statistics for m and number of species patches
-	Y = population_data %>%
+	# this calculates the m statistics for the unique Network sizes
+	Y1 = population_data %>%
 		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%
 		summarise(m = m[1]) %>%
+		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%
+		summarise(
+			m_min_unique_neigh = min(m),
+			m_max_unique_neigh = max(m),
+			m_mean_unique_neigh = mean(m),
+			m_var_unique_neigh = var(m),
+			n_Species_Patches = length(unique(NetworkID[which(m>1)]))
+		) %>%
+		ungroup %>%
+		as.data.frame
+	# this calculates the m statistics for all units
+	Y2 = population_data %>%
 		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%
 		summarise(
 			m_min = min(m),
 			m_max = max(m),
 			m_mean = mean(m),
-			m_var = var(m),
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))
+			m_var = var(m)
 		) %>%
 		ungroup %>%
 		as.data.frame
@@ -150,7 +162,8 @@ calculatePopulationSummaryStatistics <- function(
 		summarise(N = length(m)) %>%
 		ungroup %>%
 		as.data.frame
-	X %<>% merge(Y, by=grouping.variables) %>%
+	X %<>% merge(Y1, by=grouping.variables) %>%
+		merge(Y2, by=grouping.variables) %>%
 		merge(Z, by=grouping.variables)	
 	return(X)
 }

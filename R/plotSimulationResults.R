@@ -79,7 +79,8 @@ plotSimulationResults <- function(
 	x_angle=360,
 	xlength=6,
 	ylength=4,
-	roundn=2
+	roundn=2,
+	y_breaks=NULL
 ) {
 	# x_variable=variable
 	grouping.variable 	<- variable_error_estimate 	<- NULL
@@ -95,10 +96,6 @@ plotSimulationResults <- function(
 			x_variable 	<- paste(variable, "_mean", sep="")
 		}
 	}
-	
-	
-	
-	
 	x = dataset %>% 
 		as.data.table %>%
 		setnames(y_variable, "y_variable") %>%
@@ -107,51 +104,98 @@ plotSimulationResults <- function(
 		#setnames(variable, "x.variable") %>%
 		as.data.frame %>%
 		filter(y_variable!=-Inf)
-	
-				
-			p = ggplot(
-				x, 
-				aes(
-					x 		= factor(x_variable), 
-					y 		= y_variable, 
-					shape 	= factor(grouping_variable), 
-					group 	= factor(grouping_variable)
-				)
-			) +
-			geom_hline(aes(yintercept=0)) +  
-			geom_point(
-				aes(shape 	= factor(grouping_variable), 
-					group 	= factor(grouping_variable)
-					),
-					alpha=0.6, 
-				size=4, 
-				na.rm=T
-			) +
-			geom_line(
-				aes(linetype=factor(grouping_variable)), 
-				na.rm=T
-			) +
-			facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + 
-			guides(
-				shape=guide_legend(title=legend_name), 
-				linetype=guide_legend(title=legend_name)
-			) +
-			#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +
-			xlab(xlab_name) +
-			ylab(ylab_name) +
-			theme(
-				legend.position=legendposition,
-				legend.key = element_rect(colour=NA),
-				legend.text = element_text(colour=legendcolor), #
-				legend.title = element_text(colour=legendcolor), #
-				panel.border = element_rect(colour = "black", fill=NA, 
-					size=3),
-				panel.background = element_rect(linetype="solid", 
-					fill="white"),
-				strip.text = element_text(face="bold", size=20),
-				strip.background = element_rect(fill="white", 
-					colour="black", size=3),
-				axis.text.x = element_text(angle=x_angle, hjust=0.9)
+	if (is.null(y_breaks)==FALSE) {
+		p = ggplot(
+			x, 
+			aes(
+				x 		= factor(x_variable), 
+				y 		= y_variable, 
+				shape 	= factor(grouping_variable), 
+				group 	= factor(grouping_variable)
 			)
+		) +
+		geom_hline(aes(yintercept=0)) +  
+		geom_point(
+			aes(shape 	= factor(grouping_variable), 
+				group 	= factor(grouping_variable)
+				),
+				alpha=0.6, 
+			size=4, 
+			na.rm=T
+		) +
+		geom_line(
+			aes(linetype=factor(grouping_variable)), 
+			na.rm=T
+		) +
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + 
+		guides(
+			shape=guide_legend(title=legend_name), 
+			linetype=guide_legend(title=legend_name)
+		) +
+		scale_y_continuous(breaks=y_breaks) +
+		xlab(xlab_name) +
+		ylab(ylab_name) +
+		theme(
+			legend.position=legendposition,
+			legend.key = element_rect(colour=NA),
+			legend.text = element_text(colour=legendcolor), #
+			legend.title = element_text(colour=legendcolor), #
+			panel.border = element_rect(colour = "black", fill=NA, 
+				size=3),
+			panel.background = element_rect(linetype="solid", 
+				fill="white"),
+			strip.text = element_text(face="bold", size=20),
+			strip.background = element_rect(fill="white", 
+				colour="black", size=3),
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)
+		)
+				
+	} else {
+		p = ggplot(
+			x, 
+			aes(
+				x 		= factor(x_variable), 
+				y 		= y_variable, 
+				shape 	= factor(grouping_variable), 
+				group 	= factor(grouping_variable)
+			)
+		) +
+		geom_hline(aes(yintercept=0)) +  
+		geom_point(
+			aes(shape 	= factor(grouping_variable), 
+				group 	= factor(grouping_variable)
+				),
+				alpha=0.6, 
+			size=4, 
+			na.rm=T
+		) +
+		geom_line(
+			aes(linetype=factor(grouping_variable)), 
+			na.rm=T
+		) +
+		facet_grid(eval(parse(text=facet)), scales="free_x", labeller=label_parsed) + 
+		guides(
+			shape=guide_legend(title=legend_name), 
+			linetype=guide_legend(title=legend_name)
+		) +
+		#scale_y_continuous(breaks=y_equal_breaks(n=ylength)) +
+		xlab(xlab_name) +
+		ylab(ylab_name) +
+		theme(
+			legend.position=legendposition,
+			legend.key = element_rect(colour=NA),
+			legend.text = element_text(colour=legendcolor), #
+			legend.title = element_text(colour=legendcolor), #
+			panel.border = element_rect(colour = "black", fill=NA, 
+				size=3),
+			panel.background = element_rect(linetype="solid", 
+				fill="white"),
+			strip.text = element_text(face="bold", size=20),
+			strip.background = element_rect(fill="white", 
+				colour="black", size=3),
+			axis.text.x = element_text(angle=x_angle, hjust=0.9)
+		)
+				
+	}
 	return(p)
 }

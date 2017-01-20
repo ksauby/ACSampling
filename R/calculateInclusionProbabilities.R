@@ -68,21 +68,37 @@ calculateInclusionProbabilities <- function(
 					filter(Sampling!="Edge") %>%
 					dplyr::select(n.networks, realization, x, y)
 				cactus_networks <- alldata %>%
-					filter(!(Cactus==0 & m==1)) %>%
+					#filter(!(Cactus==0 & m==1)) %>%
 					filter(m!=0)
 				if (dim(cactus_networks)[1] > 0) {
-					cactus_networks %<>%
-						group_by(n.networks) %>% 
+					temp <- cactus_networks %>%
+						group_by(NetworkID) %>%
+						summarise(m = m[1]) %>%
 						summarise(
 							MEAN = mean(m),
 							MAX = max(m),
 							MIN = min(m),
 							MEDIAN = median(m)
 						)
-					A[[i]][[j]][[k]]$mean_m 	<- cactus_networks$MEAN
-					A[[i]][[j]][[k]]$max_m 		<- cactus_networks$MAX
-					A[[i]][[j]][[k]]$min_m 		<- cactus_networks$MIN
-					A[[i]][[j]][[k]]$median_m 	<- cactus_networks$MEDIAN		
+					A[[i]][[j]][[k]]$mean_m_unique_neigh 		<- temp$MEAN
+					A[[i]][[j]][[k]]$max_m_unique_neigh 		<- temp$MAX
+					A[[i]][[j]][[k]]$min_m_unique_neigh 		<- temp$MIN
+					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
+					temp2 <- cactus_networks %>%
+						summarise(
+							MEAN = mean(m),
+							MAX = max(m),
+							MIN = min(m),
+							MEDIAN = median(m)
+						)
+					A[[i]][[j]][[k]]$mean_m 	<- temp2$MEAN
+					A[[i]][[j]][[k]]$max_m 		<- temp2$MAX
+					A[[i]][[j]][[k]]$min_m 		<- temp2$MIN
+					A[[i]][[j]][[k]]$median_m 	<- temp2$MEDIAN
+					
+					
+					
+							
 				} else {
 					A[[i]][[j]][[k]]$mean_m 	<- 0
 					A[[i]][[j]][[k]]$max_m 		<- 0
