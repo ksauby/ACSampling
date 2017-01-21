@@ -189,6 +189,54 @@ install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulation
 3/8
 5/8
 6/8
+30*1.5
+40*15
+40*1.5
+13.25 - 4.5
+(276.29+8.75)/365
+install.packages("lubridate"; "xtable"; "magrittr"; "")
+install.packages("lubridate"; "xtable"; "magrittr"; "knitr")
+install.packages("lubridate","xtable","magrittr","knitr")
+install.packages("lubridate","xtable","magrittr","knitr")ipak <- function(pkg){#
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]#
+    if (length(new.pkg)) #
+        install.packages(new.pkg, dependencies = TRUE)#
+    sapply(pkg, require, character.only = TRUE)#
+}
+ipak <- function(pkg){#
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]#
+    if (length(new.pkg)) #
+        install.packages(new.pkg, dependencies = TRUE)#
+    sapply(pkg, require, character.only = TRUE)#
+}
+packages <- c("lubridate","xtable","magrittr","knitr")
+ipak(packages)
+packages <- c("igraph", "network", "intergraph", "data.table", "foreach", "doParallel", "compiler", "tables", "dataproc", "pander", "doRNG", "profvis", "microbenchmark", "testthat")
+ipak(packages)
+packages <- c("captioner", "feather", "lazyeval", "RColorBrewer", "stringr", "broom", "gridExtra", "maptools", "shapefiles", "PBSmapping", "sp", "gdistance", "chron", "unmarked", "lme4", "spdep", "mvtnorm", "lattice", "corrgram", "grid", "gstat", "RANN", "arm", "MuMIn", "pscl", "zoo", "igraph", "network", "intergraph", "foreach", "doParallel", "compiler", "pander", "popbio", "captioner", "survival", "rms", "rgdal", "rgeos", "broom")
+ipak(packages)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./dataproc")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
+setwd("./ACSampling")#
+devtools::test()#
+devtools::document()#
+devtools::install()
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -197,22 +245,117 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
+install.packages("ProjectTemplate")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+library(ProjectTemplate)#
+#
+# when working on a Windows computer#
+# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
+#
+# load project#
+load.project()
+ProjectTemplate::migrate.project()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+ProjectTemplate::migrate.project()
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 source("1_set_variables.R")#
 source("2_create_realizations.R")#
 source("3_summarise_network_information.R")#
-source("4_calculate_realization_summary_statistics.R")#
-Sys.time()#
-#source("5_run_simulations.R")#
-source("6_merge_simulation_results.R")#
-source("7_simulation_summary_statistics.R")#
-source("8_number_of_bootstraps_per_realization_sampling.R")
+source("4_calculate_realization_summary_statistics.R")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+load.project()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+source("1_set_variables.R")#
+source("2_create_realizations.R")#
+source("3_summarise_network_information.R")#
+source("4_calculate_realization_summary_statistics.R")
+library(ACSampling)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+source("1_set_variables.R")#
+source("2_create_realizations.R")#
+source("3_summarise_network_information.R")#
+source("4_calculate_realization_summary_statistics.R")
+? createSpeciesPatchRealizations
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# REALIZATION DATA#
+x_start 		<- 1#
+x_end 			<- 30#
+y_start 		<- 1#
+y_end 			<- 30#
+n.networks 		<- c(5, 15, 10, 20, 30, 40)#
+n.realizations 	<- 1#
+SpeciesInfo 	<- PlotSurveys_season1#
+buffer			<- 5#
+start.seed		<- 1#
+variables		<- ovar#
+# CREATE REALIZATIONS#
+patch_data <- createSpeciesPatchRealizations(#
+	x_start, #
+	x_end,#
+	y_start, #
+	y_end, #
+	buffer, #
+	n.networks, #
+	n.realizations, #
+	SpeciesInfo, #
+	start.seed,#
+	variables#
+)#
+#
+patch_data_for_tables <- patch_data#
+# convert NAs to zeros#
+# patch_data[,c(#
+# 	"CACA_on_Pusilla",#
+# 	"CACA_on_Stricta",#
+# 	"MEPR_on_Pusilla",#
+# 	"MEPR_on_Stricta",#
+# 	"Old_Moth_Evidence_Pusilla",#
+# 	"Old_Moth_Evidence_Stricta",#
+# 	"Percent_Cover_Pusilla",#
+# 	"Percent_Cover_Stricta",#
+# 	"Height_Pusilla",#
+# 	"Height_Stricta"#
+# )] %<>% apply(., 2, NA_is_Zero_Function)
+createSpeciesPatchRealizations
+? createSpeciesPatchRealizations
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
 setwd("./ACSampling")#
 devtools::test()#
 devtools::document()#
-devtools::install()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
+setwd("./ACSampling")
+getwd()
+packages<- c("Rcpp",   "plyr",    "igraph",    "intergraph",    "network", "foreach",    "stringr")
+ipak(packages)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+reload.project()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+source("1_set_variables.R")#
+source("2_create_realizations.R")#
+source("3_summarise_network_information.R")#
+source("4_calculate_realization_summary_statistics.R")
 library(ACSampling)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+source("1_set_variables.R")#
+source("2_create_realizations.R")#
+source("3_summarise_network_information.R")#
+source("4_calculate_realization_summary_statistics.R")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
+setwd("./ACSampling")
+getwd()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
