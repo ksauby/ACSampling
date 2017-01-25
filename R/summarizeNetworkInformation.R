@@ -1,16 +1,16 @@
 #' Calculate the number of units per network and the unit inclusion probability for each network. 
 #' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is boostrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
-#' @param patch_data patch realization data
+#' @param population_data population data
 #' @param variables variables to summarise
 #' @param grouping.variables categories that group networks
 #' @param nsamples Size(s) of the initial simple random sample(s) without replacement. Can be a single value or a vector values.
 #' @param m_var The variable on which the ACS sampling criterion is based
-#' @return vector of inclusion probabilities
+#' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{nsamples}) and the number of units per network for each of the \code{variables}.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export
 #' @importFrom dplyr funs
 
-summarizeNetworkInformation <- function(patch_data, variables, grouping.variables=NULL, nsamples, m_var) {
+summarizeNetworkInformation <- function(population_data, variables, grouping.variables=NULL, nsamples, m_var) {
 	stopifnot(length(unique(patch_data$N)) == 1)
 	N <- unique(patch_data$N) #. <- NULL
 	# calculate the number of units per network for each variable

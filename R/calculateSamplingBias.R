@@ -63,6 +63,7 @@ calculateSamplingBias <- function(
 	rvar
 )
 {
+	#rvar <- paste(rvar, "_ratio", sep="")
 	variables <- c(variables, rvar)
 	. <- NULL
 	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)
@@ -175,23 +176,15 @@ calculateSamplingBias <- function(
 						) - 
 						# true
 						eval(
-							parse(text = ifelse(
-								variables[i] %in% rvar,
-								paste(
-									"X$", 
-									variables[i], 
-									"_ratio_mean", 
-									sep=""
-								),
-								paste(
-									"X$", 
-									variables[i], 
-									"_mean", 
-									sep=""
-								)
+							parse(
+								text = paste(
+								"X$", 
+								variables[i], 
+								"_mean", 
+								sep=""
 							)
 						)
-					)
+						)
 				)^2
 			) %>%
 			setnames(

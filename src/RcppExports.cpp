@@ -20,7 +20,7 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// var_x_HT_cpp
+// var_y_HT_cpp
 Rcpp::NumericMatrix var_y_HT_cpp(Rcpp::NumericVector m, Rcpp::NumericVector pi_i_values, Rcpp::NumericMatrix pi_ij_values, Rcpp::NumericVector y);
 RcppExport SEXP ACSampling_var_y_HT_cpp(SEXP mSEXP, SEXP pi_i_valuesSEXP, SEXP pi_ij_valuesSEXP, SEXP ySEXP) {
 BEGIN_RCPP

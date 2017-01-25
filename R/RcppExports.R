@@ -6,7 +6,7 @@ pi_ij_cpp <- function(m, N_n1, N_m_n1, N_m_m_n1) {
 }
 
 var_y_HT_cpp <- function(m, pi_i_values, pi_ij_values, y) {
-    .Call('ACSampling_var_x_HT_cpp', PACKAGE = 'ACSampling', m, pi_i_values, pi_ij_values, y)
+    .Call('ACSampling_var_y_HT_cpp', PACKAGE = 'ACSampling', m, pi_i_values, pi_ij_values, y)
 }
 
 R_hat_cpp <- function(y_hat, pi_i_values, pi_ij_values) {

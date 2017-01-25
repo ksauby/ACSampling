@@ -4,11 +4,11 @@
 \alias{summarizeNetworkInformation}
 \title{Calculate the number of units per network and the unit inclusion probability for each network.}
 \usage{
-summarizeNetworkInformation(patch_data, variables, grouping.variables = NULL,
-  nsamples, m_var)
+summarizeNetworkInformation(population_data, variables,
+  grouping.variables = NULL, nsamples, m_var)
 }
 \arguments{
-\item{patch_data}{patch realization data}
+\item{population_data}{population data}
 
 \item{variables}{variables to summarise}
 
@@ -19,7 +19,7 @@ summarizeNetworkInformation(patch_data, variables, grouping.variables = NULL,
 \item{m_var}{The variable on which the ACS sampling criterion is based}
 }
 \value{
-vector of inclusion probabilities
+The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{nsamples}) and the number of units per network for each of the \code{variables}.
 }
 \description{
 The purpose of this is to reduce computation time by calculating some necessary information before the data is boostrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.

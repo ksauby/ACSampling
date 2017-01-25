@@ -57,9 +57,10 @@ sampleSpeciesPatchRealizations <- function(
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
 	y_variable,
-	y_HT_formula = NULL,
+	y_HT_formula = "Thompson",
 	m_threshold = NULL,
-	f_max = 2
+	f_max = 2,
+	SampleEstimators = FALSE
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -127,87 +128,98 @@ sampleSpeciesPatchRealizations <- function(
 						as.data.table
 				}
 				alldata_all <- alldata
-				################ SRSWOR Sampling #####################
-				if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
-					# datasets to apply simple mean/variance and simple ratio estimator
-					dats <- "alldata"
-				}
-				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
-					################ SRSWOR Data, alldata ################
-					SRSWOR_data <- alldata %>% 
-						filter(Sampling=="SRSWOR") %>% 
-						as.data.table
-					alldata %<>% filter(Sampling!="Edge") %>% 
-						as.data.table
-					# datasets to apply simple mean/variance and simple ratio estimatr
-					dats <- c("SRSWOR_data", "alldata")
-				}
-				# datasets to apply simple mean/variance and simple ratio estimator
-				# sample mean and variance applied to alldata, SRSWOR_data
-				SampleMeanVar <- list()
-				for (n in 1:length(dats)) {
-					dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% 
-						summarise_each(funs(
-							mean(., na.rm=T), 
-							var(., na.rm=T)
-						))
-					setnames(
-						dat,
-						names(dat), 
-						paste(names(dat), "observed", sep="_")
-					)
-					dat$Plots <- dats[n]
-					SampleMeanVar[[n]] <- dat
-				}
-				SampleMeanVar %<>% rbind.fill
-				# simple ratio estimators applied to alldata, SRSWOR_data
-				if (!(is.null(rvar))) {
-					Ratio <- list()
-					for (n in 1:length(dats)) {
-						Ratio[[n]] <- data.frame(Var1 = NA)
-						for (l in 1:length(rvar)) {
-							y = eval(parse(
-									text=paste(
-										dats[n], 
-										"$", 
-										rvar[l], 
-										sep=""
-									)
-							))
-							x = eval(parse(
-									text = paste(
-										dats[n], 
-										"$",
-										str_sub(rvar[l],-7,-1), 
-										sep=""
-									)
-							))
-							m = rep(1, length(y)) # equal P(inclusion) for all
-							Ratio[[n]]$Var1 <- R_hat(
-								y = y,
-								x = x,
-								N = N,
-								n1 = n1,
-								m = m
-							)
-						 	Ratio[[n]]$Var2 = var_R_hat(
-						 		y = y, 
-						 		x = x,
-								N = N, 
-						 		n1 = n1, 
-						 		m = m
-						 	)
-							names(Ratio[[n]])[(dim(Ratio[[n]])[2] - 1) : 
-								dim(Ratio[[n]])[2]] <- 
-								c(
-									paste(rvar[l], "_mean_observed", sep=""),
-									paste(rvar[l], "_var_observed", sep="")
-								)
-						}
-						Ratio[[n]] %<>% mutate(Plots = dats[n])
+				if (SampleEstimators == TRUE) {
+					################ SRSWOR Sampling #####################
+					if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
+						# datasets to apply simple mean/variance and simple ratio estimator
+						dats <- "alldata"
 					}
-					Ratio <- do.call(rbind.data.frame, Ratio)
-				}		
+					if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
+						################ SRSWOR Data, alldata ################
+						SRSWOR_data <- alldata %>% 
+							filter(Sampling=="SRSWOR") %>% 
+							as.data.table
+						alldata %<>% filter(Sampling!="Edge") %>% 
+							as.data.table
+						# datasets to apply simple mean/variance and simple ratio estimatr
+						dats <- c("SRSWOR_data", "alldata")
+					}
+					# datasets to apply simple mean/variance and simple ratio estimator
+					# sample mean and variance applied to alldata, SRSWOR_data
+					SampleMeanVar <- list()
+					for (n in 1:length(dats)) {
+						dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% 
+							summarise_each(funs(
+								mean(., na.rm=T), 
+								var(., na.rm=T)
+							))
+						setnames(
+							dat,
+							names(dat), 
+							paste(names(dat), "observed", sep="_")
+						)
+						dat$Plots <- dats[n]
+						SampleMeanVar[[n]] <- dat
+					}
+					SampleMeanVar %<>% rbind.fill
+					# simple ratio estimators applied to alldata, SRSWOR_data
+					if (!(is.null(rvar))) {
+						SampleRatio <- list()
+						for (n in 1:length(dats)) {
+							SampleRatio[[n]] <- data.frame(Var1 = NA)
+							for (l in 1:length(rvar)) {
+								y = eval(parse(
+										text=paste(
+											dats[n], 
+											"$", 
+											rvar[l], 
+											sep=""
+										)
+								))
+								x = eval(parse(
+										text = paste(
+											dats[n], 
+											"$",
+											str_sub(rvar[l],-7,-1), 
+											sep=""
+										)
+								))
+								m = rep(1, length(y)) # equal P(inclusion) for all
+								SampleRatio[[n]]$Var1 <- R_hat(
+									y = y,
+									x = x,
+									N = N,
+									n1 = n1,
+									m = m
+								)
+							 	SampleRatio[[n]]$Var2 = var_R_hat(
+							 		y = y, 
+							 		x = x,
+									N = N, 
+							 		n1 = n1, 
+							 		m = m
+							 	)
+								names(SampleRatio[[n]])[(dim(SampleRatio[[n]])[2] - 1) : 
+									dim(SampleRatio[[n]])[2]] <- 
+									c(
+										paste(
+											rvar[l], 
+											"_ratio_mean_observed", 
+											sep=""
+										),
+										paste(
+											rvar[l], 
+											"_ratio_var_observed", 
+											sep=""
+										)
+									)
+							}
+							SampleRatio[[n]] %<>% mutate(Plots = dats[n])
+						}
+						SampleRatio <- do.call(rbind.data.frame, Ratio)
+					}
+				    SampleMeanVar %<>% merge(SampleRatio)	
+				}
 				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
 					################ HORVITZ-THOMPSON ESTIMATORS ###############
 					HT_results <- list()
@@ -231,7 +243,7 @@ sampleSpeciesPatchRealizations <- function(
 								m	= m,
 								m_threshold = m_threshold
 							)]
-					} else {
+					} else if (y_HT_formula == "Thompson") {
 						HT_results[[1]] <- O %>%
 							select_(.dots=oavar) %>%
 							.[, lapply(
@@ -306,10 +318,20 @@ sampleSpeciesPatchRealizations <- function(
 						 		n1 = n1, 
 						 		m = R_smd$m
 						 	)
-							names(HT_results[[3]])[(dim(HT_results[[3]])[2] - 1) : 
-								dim(HT_results[[3]])[2]] <- c(
-									paste(rvar[l], "_mean_observed", sep=""),
-									paste(rvar[l], "_var_observed", sep="")
+							names(HT_results[[3]])[ 
+								(dim(HT_results[[3]])[2] - 1) : 
+								dim(HT_results[[3]])[2]
+							] <- c(
+									paste(
+										rvar[l], 
+										"_ratio_mean_observed", 
+										sep=""
+									),
+									paste(
+										rvar[l], 
+										"_ratio_var_observed", 
+										sep=""
+									)
 								)
 						}
 					}
@@ -317,9 +339,12 @@ sampleSpeciesPatchRealizations <- function(
 					All_HT <- HT_results %>% 
 						as.data.frame %>%
 						mutate(Plots = "Horvitz Thompson Mean (All Plots)")
-					# merge estimates 
-				    SampleMeanVar %<>% merge(Ratio)
-					A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)
+					# merge estimates
+					if (SampleEstimators == TRUE) {
+						A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)
+					} else {
+						A[[i]][[j]][[k]] <- All_HT
+					}
 				}
 				else {
 					A[[i]][[j]][[k]] <- SampleMeanVar
