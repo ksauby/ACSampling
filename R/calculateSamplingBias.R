@@ -63,7 +63,7 @@ calculateSamplingBias <- function(
 	rvar
 )
 {
-	#rvar <- paste(rvar, "_ratio", sep="")
+	rvar <- paste(rvar, "_ratio", sep="")
 	variables <- c(variables, rvar)
 	. <- NULL
 	X <- merge(population_data_summary, simulation_data, by=population.grouping.variables)

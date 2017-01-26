@@ -219,6 +219,9 @@ sampleSpeciesPatchRealizations <- function(
 						SampleRatio <- do.call(rbind.data.frame, Ratio)
 					}
 				    SampleMeanVar %<>% merge(SampleRatio)	
+				} else {
+					alldata %<>% filter(Sampling!="Edge") %>% 
+						as.data.table
 				}
 				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
 					################ HORVITZ-THOMPSON ESTIMATORS ###############
