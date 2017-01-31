@@ -85,7 +85,7 @@ sampleSpeciesPatchRealizations <- function(
 		i = 1:n.patches, # for each species density
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
-		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), 
+		 	"ACSampling", "intergraph", "network", "igraph", "stringr", "ape", "sp", "automap"), 
 		.combine = "rbind.fill"
 		) %:%
 	 	foreach (
@@ -102,7 +102,8 @@ sampleSpeciesPatchRealizations <- function(
 			seeds 		<- runif(simulations)
 		    for (k in 1:simulations) {
 				temp_seed <- seeds[k]*100000
-				if (SamplingDesign=="ACS") {
+				if (SamplingDesign=="ACS")
+				{
 					alldata <- createACS(
 						population=P, 
 						seed=temp_seed, 
@@ -110,7 +111,8 @@ sampleSpeciesPatchRealizations <- function(
 						y_variable=y_variable
 					) %>% 
 						as.data.table
-				} else if (SamplingDesign=="RACS") {
+				} else if (SamplingDesign=="RACS")
+				{
 					alldata <- createRACS_flex(
 						population=P, 
 						seed=temp_seed, 
@@ -119,7 +121,8 @@ sampleSpeciesPatchRealizations <- function(
 						f_max=f_max
 					) %>% 
 						as.data.table
-				} else {
+				} else
+				{
 					alldata <- createSRS(
 						population=P, 
 						seed=temp_seed, 
@@ -219,7 +222,8 @@ sampleSpeciesPatchRealizations <- function(
 						SampleRatio <- do.call(rbind.data.frame, Ratio)
 					}
 				    SampleMeanVar %<>% merge(SampleRatio)	
-				} else {
+				} else
+				{
 					alldata %<>% filter(Sampling!="Edge") %>% 
 						as.data.table
 				}
@@ -235,7 +239,8 @@ sampleSpeciesPatchRealizations <- function(
 						as.data.table
 					# calculate y_HT
 					m <- O$m
-					if (y_HT_formula == "new_y_HT") {
+					if (y_HT_formula == "new_y_HT")
+					{
 						HT_results[[1]] <- O %>%
 						.[, oavar, with=FALSE] %>% 
 							.[, lapply(
@@ -246,7 +251,8 @@ sampleSpeciesPatchRealizations <- function(
 								m	= m,
 								m_threshold = m_threshold
 							)]
-					} else if (y_HT_formula == "Thompson") {
+					} else if (y_HT_formula == "Thompson")
+					{
 						HT_results[[1]] <- O %>%
 							select_(.dots=oavar) %>%
 							.[, lapply(
@@ -345,11 +351,12 @@ sampleSpeciesPatchRealizations <- function(
 					# merge estimates
 					if (SampleEstimators == TRUE) {
 						A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)
-					} else {
+					} else
+					{
 						A[[i]][[j]][[k]] <- All_HT
 					}
-				}
-				else {
+				} else
+				{
 					A[[i]][[j]][[k]] <- SampleMeanVar
 				}
 				# add other information
@@ -360,6 +367,30 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$realization 		= P$realization[1]
 				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
+				# Spatial Statistics
+				if (sum(alldata_all$Cactus) > 0) {
+					coordinates(alldata_all) = ~ x+y
+					data_dist <- as.matrix(
+						dist(cbind(alldata_all$x, alldata_all$y)))
+					data_dist <- 1/data_dist
+					diag(data_dist) <- 0
+					A[[i]][[j]][[k]]$MoransI <- Moran.I(
+						alldata_all$Cactus, data_dist
+					)$observed
+					# semivariogram
+					Variog <- autofitVariogram(Cactus ~ 1, alldata_all)
+					Variog_parms <- Variog$var_model
+					A[[i]][[j]][[k]]$semivar_nugget <- Variog_parms[1, ]$psill
+					A[[i]][[j]][[k]]$partial_sill 	<- Variog_parms[2, ]$psill
+					A[[i]][[j]][[k]]$range 			<- Variog_parms[2, ]$range
+				} else
+				{
+					A[[i]][[j]][[k]]$MoransI <- NA
+					# semivariogram
+					A[[i]][[j]][[k]]$semivar_nugget <- NA
+					A[[i]][[j]][[k]]$partial_sill 	<- NA
+					A[[i]][[j]][[k]]$range 			<- NA
+				}
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
