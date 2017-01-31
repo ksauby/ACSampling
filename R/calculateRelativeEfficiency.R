@@ -11,7 +11,8 @@ calculateRE <- function(
 	population_data,
 	population.grouping.variables = population.grouping.variables,
 	sample.size.variable = sample.size.variable,
-	variables = variables
+	rvar = rvar,
+	ovar = ovar
 ) {	
 	X <- NULL
 	X <- MSE_ComparisonSamplingDesign
@@ -23,36 +24,76 @@ calculateRE <- function(
 		group_by_(.dots=population.grouping.variables) %>%
 		summarise(N = n())
 	# variances of populations
-	variances <- population_data %>% 
-		dplyr::select_(.dots=c(
-			population.grouping.variables,
-			variables
-		)) %>%
-		group_by_(.dots=population.grouping.variables) %>% 
-		summarise_each(funs(var(., na.rm=T)))
-	setnames(
-		variances,
-		names(variances)[
-			(length(population.grouping.variables) + 1):
-			length(names(variances))
-		], 
-		paste(names(variances)[
+	if (!is.null(ovar)) {
+		variances <- population_data %>% 
+			dplyr::select_(.dots=c(
+				population.grouping.variables,
+				ovar,
+				rvar
+			)) %>%
+			group_by_(.dots=population.grouping.variables) %>% 
+			summarise_each(funs(var(., na.rm=T)))
+		setnames(
+			variances,
+			names(variances)[
 				(length(population.grouping.variables) + 1):
 				length(names(variances))
-			],
-			"var",
-			sep="_"
-		)
-	)	
+			], 
+			paste(names(variances)[
+					(length(population.grouping.variables) + 1):
+					length(names(variances))
+				],
+				"var",
+				sep="_"
+			)
+		)	
+	}
+	if (!is.null(rvar)) {
+		variances_ratio <- population_data %>% 
+			dplyr::select_(.dots=c(
+				population.grouping.variables,
+				rvar
+			)) %>%
+			group_by_(.dots=population.grouping.variables) %>% 
+			summarise_each(funs(var(., na.rm=T)))
+		setnames(
+			variances_ratio,
+			names(variances_ratio)[
+				(length(population.grouping.variables) + 1):
+				length(names(variances_ratio))
+			], 
+			paste(names(variances_ratio)[
+					(length(population.grouping.variables) + 1):
+					length(names(variances_ratio))
+				],
+				"ratio_var",
+				sep="_"
+			)
+		)	
+	}
 	Y <- X %>% dplyr::select_(.dots=c(
 		population.grouping.variables,
 		"sample.size.variable",
-		paste(variables, "_mean_MSE", sep=""
-	)))
+		paste(ovar, "_mean_MSE", sep=""),
+		paste(rvar, "_ratio_mean_MSE", sep="")		
+	))
 	# calculate var_y_bar
-	Y %<>% 
-		merge(dimensions, by=population.grouping.variables) %>%
-		merge(variances, by=population.grouping.variables)
+	if (!is.null(rvar) & is.null(ovar)) {
+		Y %<>% 
+			merge(dimensions, by=population.grouping.variables) %>%
+			merge(variances_ratio, by=population.grouping.variables)
+	}
+	if (is.null(rvar) & !is.null(ovar)) {
+		Y %<>% 
+			merge(dimensions, by=population.grouping.variables) %>%
+			merge(variances, by=population.grouping.variables)
+	}
+	if (!is.null(rvar) & !is.null(ovar)) {
+		Y %<>% 
+			merge(dimensions, by=population.grouping.variables) %>%
+			merge(variances, by=population.grouping.variables) %>%
+			merge(variances_ratio, by=population.grouping.variables)
+	}
 	A <- Y %>% 
 		dplyr::select(-one_of(paste(variables, "_var", sep=""))) %>%
 		reshape2:::melt.data.frame(
@@ -66,7 +107,10 @@ calculateRE <- function(
 		)
 	A$variable <- sub("*_mean_MSE", "", A$variable)
 	B <- Y %>% 
-		dplyr::select(-one_of(paste(variables, "_mean_MSE", sep=""))) %>%
+		dplyr::select(-one_of(
+			paste(ovar, "_mean_MSE", sep=""),
+			paste(rvar, "_ratio_mean_MSE", sep="")		
+		)) %>%
 		reshape2:::melt.data.frame(
 			data=.,
 			id.vars=c(
