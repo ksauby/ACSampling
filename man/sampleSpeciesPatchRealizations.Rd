@@ -6,7 +6,8 @@
 \usage{
 sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
   rvar, SamplingDesign = "ACS", y_variable, y_HT_formula = "Thompson",
-  m_threshold = NULL, f_max = 2, SampleEstimators = FALSE)
+  m_threshold = NULL, f_max = 2, SampleEstimators = FALSE,
+  SpatialStatistics = FALSE, mCharacteristics = TRUE)
 }
 \arguments{
 \item{patchdat}{patch realizations}

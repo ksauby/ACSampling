@@ -60,7 +60,11 @@ sampleSpeciesPatchRealizations <- function(
 	y_HT_formula = "Thompson",
 	m_threshold = NULL,
 	f_max = 2,
-	SampleEstimators = FALSE
+	SampleEstimators = FALSE,
+	SpatialStatistics = FALSE,
+	mCharacteristics = TRUE,
+	population.grouping.variables = c("n.networks", "realization")
+	
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -367,29 +371,53 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$realization 		= P$realization[1]
 				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
+				# m characteristics
+				if (mCharacteristics == TRUE) {
+					temp <- alldata[which(eval(parse(text=y_variable)) > 0),] 
+					A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
+					A[[i]][[j]][[k]]$median_m <- median(temp$m)
+					A[[i]][[j]][[k]]$max_m <- max(temp$m)
+					A[[i]][[j]][[k]]$min_m <- min(temp$m)
+					temp %<>%
+						group_by(NetworkID) %>%
+						summarise(m = m[1]) %>%
+						summarise(
+							MEAN = mean(m),
+							MAX = max(m),
+							MIN = min(m),
+							MEDIAN = median(m)
+						)
+					A[[i]][[j]][[k]]$mean_unique_m <- temp$MEAN
+					A[[i]][[j]][[k]]$median_unique_m <- temp$MEDIAN
+					A[[i]][[j]][[k]]$max_unique_m <- temp$MAX
+					A[[i]][[j]][[k]]$min_unique_m <- temp$MIN
+				}
 				# Spatial Statistics
-				if (sum(alldata_all$Cactus) > 0) {
-					coordinates(alldata_all) = ~ x+y
-					data_dist <- as.matrix(
-						dist(cbind(alldata_all$x, alldata_all$y)))
-					data_dist <- 1/data_dist
-					diag(data_dist) <- 0
-					A[[i]][[j]][[k]]$MoransI <- Moran.I(
-						alldata_all$Cactus, data_dist
-					)$observed
-					# semivariogram
-					Variog <- autofitVariogram(Cactus ~ 1, alldata_all)
-					Variog_parms <- Variog$var_model
-					A[[i]][[j]][[k]]$semivar_nugget <- Variog_parms[1, ]$psill
-					A[[i]][[j]][[k]]$partial_sill 	<- Variog_parms[2, ]$psill
-					A[[i]][[j]][[k]]$range 			<- Variog_parms[2, ]$range
-				} else
-				{
-					A[[i]][[j]][[k]]$MoransI <- NA
-					# semivariogram
-					A[[i]][[j]][[k]]$semivar_nugget <- NA
-					A[[i]][[j]][[k]]$partial_sill 	<- NA
-					A[[i]][[j]][[k]]$range 			<- NA
+				if (SpatialStatistics == TRUE) {
+					if (sum(alldata_all$Cactus) > 0) {
+						coordinates(alldata_all) = ~ x+y
+						data_dist <- as.matrix(
+							dist(cbind(alldata_all$x, alldata_all$y)))
+						data_dist <- 1/data_dist
+						diag(data_dist) <- 0
+						A[[i]][[j]][[k]]$MoransI <- Moran.I(
+							alldata_all$Cactus, data_dist
+						)$observed
+						# semivariogram
+						Variog <- autofitVariogram(Cactus ~ 1, alldata_all)
+						Variog_parms <- Variog$var_model
+						A[[i]][[j]][[k]]$semivar_nugget <- 
+							Variog_parms[1, ]$psill
+						A[[i]][[j]][[k]]$partial_sill <- Variog_parms[2, ]$psill
+						A[[i]][[j]][[k]]$range <- Variog_parms[2, ]$range
+					} else
+					{
+						A[[i]][[j]][[k]]$MoransI 		<- NA
+						# semivariogram
+						A[[i]][[j]][[k]]$semivar_nugget <- NA
+						A[[i]][[j]][[k]]$partial_sill 	<- NA
+						A[[i]][[j]][[k]]$range 			<- NA
+					}	
 				}
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
