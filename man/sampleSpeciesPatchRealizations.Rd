@@ -7,7 +7,8 @@
 sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
   rvar, SamplingDesign = "ACS", y_variable, y_HT_formula = "Thompson",
   m_threshold = NULL, f_max = 2, SampleEstimators = FALSE,
-  SpatialStatistics = FALSE, mCharacteristics = TRUE)
+  SpatialStatistics = FALSE, mCharacteristics = TRUE,
+  patch_variable = "n.networks", realization_variable = "realization")
 }
 \arguments{
 \item{patchdat}{patch realizations}

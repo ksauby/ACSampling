@@ -63,15 +63,23 @@ sampleSpeciesPatchRealizations <- function(
 	SampleEstimators = FALSE,
 	SpatialStatistics = FALSE,
 	mCharacteristics = TRUE,
-	population.grouping.variables = c("n.networks", "realization")
+	patch_variable = "n.networks",
+	realization_variable = "realization"
 	
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 					<- Sys.time()
-	patchdat 				%<>% arrange(n.networks, realization)
+	patchdat 				%<>% arrange_(.dots=c(
+								patch_variable,
+								realization_variable
+							))
 	var 					<- c(ovar, avar, rvar)
-	n.patches 				<- length(unique(patchdat$n.networks))
+	n.patches 				<- length(unique(eval(parse(text=paste(
+								"patchdat$",
+								patch_variable,
+								sep=""
+							)))))
 	nsample.length 			<- length(nsamples)
 	A 						<- vector("list", n.patches)
 	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance
@@ -98,7 +106,13 @@ sampleSpeciesPatchRealizations <- function(
 			.inorder = FALSE
 		) %dopar% {
 			P 			<- patchdat %>% 
-							filter(n.networks==unique(patchdat$n.networks)[i])
+							filter(n.networks==unique(
+								eval(parse(text=paste(
+									"patchdat$",
+									patch_variable,
+									sep=""
+								)))
+							)[i])
 			N 			<- dim(P)[1]
 			n1 			<- nsamples[j]
 			A[[i]][[j]] <- list()
@@ -368,8 +382,16 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$seed 				= temp_seed
 				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1
 				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]
-				A[[i]][[j]][[k]]$realization 		= P$realization[1]
-				A[[i]][[j]][[k]]$n.networks 		= P$n.networks[1]
+				A[[i]][[j]][[k]]$realization_variable = eval(parse(text=paste(
+														"P$",
+														realization_variable,
+														sep=""
+													)))[1]
+				A[[i]][[j]][[k]]$patch_variable		= eval(parse(text=paste(
+														"P$",
+														patch_variable,
+														sep=""
+													)))[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
 				# m characteristics
 				if (mCharacteristics == TRUE) {
