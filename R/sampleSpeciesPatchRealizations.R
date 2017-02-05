@@ -61,7 +61,7 @@ sampleSpeciesPatchRealizations <- function(
 	m_threshold = NULL,
 	f_max = 2,
 	SampleEstimators = FALSE,
-	SpatialStatistics = FALSE,
+	SpatialStatistics = TRUE,
 	mCharacteristics = TRUE,
 	patch_variable = "n.networks",
 	realization_variable = "realization"
@@ -395,24 +395,38 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
 				# m characteristics
 				if (mCharacteristics == TRUE) {
-					temp <- alldata[which(eval(parse(text=y_variable)) > 0),] 
-					A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
-					A[[i]][[j]][[k]]$median_m <- median(temp$m)
-					A[[i]][[j]][[k]]$max_m <- max(temp$m)
-					A[[i]][[j]][[k]]$min_m <- min(temp$m)
-					temp %<>%
-						group_by(NetworkID) %>%
-						summarise(m = m[1]) %>%
-						summarise(
-							MEAN = mean(m),
-							MAX = max(m),
-							MIN = min(m),
-							MEDIAN = median(m)
-						)
-					A[[i]][[j]][[k]]$mean_unique_m <- temp$MEAN
-					A[[i]][[j]][[k]]$median_unique_m <- temp$MEDIAN
-					A[[i]][[j]][[k]]$max_unique_m <- temp$MAX
-					A[[i]][[j]][[k]]$min_unique_m <- temp$MIN
+					if (sum(alldata_all$Cactus) > 0) {
+						temp <- alldata_all[which(
+							eval(parse(text=y_variable)) > 0
+						),] 
+						A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
+						A[[i]][[j]][[k]]$median_m <- median(temp$m)
+						A[[i]][[j]][[k]]$max_m <- max(temp$m)
+						A[[i]][[j]][[k]]$min_m <- min(temp$m)
+						temp %<>%
+							group_by(NetworkID) %>%
+							summarise(m = m[1]) %>%
+							summarise(
+								MEAN = mean(m),
+								MAX = max(m),
+								MIN = min(m),
+								MEDIAN = median(m)
+							)
+						A[[i]][[j]][[k]]$mean_unique_m <- temp$MEAN
+						A[[i]][[j]][[k]]$median_unique_m <- temp$MEDIAN
+						A[[i]][[j]][[k]]$max_unique_m <- temp$MAX
+						A[[i]][[j]][[k]]$min_unique_m <- temp$MIN
+					} else
+					{
+						A[[i]][[j]][[k]]$mean_m <- NA
+						A[[i]][[j]][[k]]$median_m <- NA
+						A[[i]][[j]][[k]]$max_m <- NA
+						A[[i]][[j]][[k]]$min_m <- NA
+						A[[i]][[j]][[k]]$mean_unique_m <- NA
+						A[[i]][[j]][[k]]$median_unique_m <- NA
+						A[[i]][[j]][[k]]$max_unique_m <- NA
+						A[[i]][[j]][[k]]$min_unique_m <- NA
+					}
 				}
 				# Spatial Statistics
 				if (SpatialStatistics == TRUE) {
