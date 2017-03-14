@@ -1,19 +1,32 @@
 #' cactus patch realizations simulations
-#' @param rvar Vector of variables for which ratio estimators should be used.
+
 #' @param y_variable variable upon which adaptive cluster sampling criterion is based
 #' @param patchdat patch realizations
 #' @param simulations Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param avar Vector of variables for which abundance should be estimated.
 #' @param ovar Vector of variables for which occupancy should be estimated.
+#' @param rvar Vector of variables for which ratio estimators should be used.
 #' @param SamplingDesign Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.
+#' @param y_HT_formula Default is "Thompson".
+#' @param m_threshold Default is NULL.
+#' @param f_max Default is 2.
+#' @param SampleEstimators If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.
+#' @param SpatialStatistics If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE
+#' @param mCharacteristics If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.
+#' @param patch_variable Default is "n.networks"
+#' @param realization_variable Default is "realization"
+
 #' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
+
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+
 #' @importFrom foreach foreach 
 #' @importFrom foreach %dopar% 
 #' @importFrom foreach %:%
  
 #' @export
+
 #' @examples
 #' simulations=200
 #' nsamples=c(5,10,20,40)
