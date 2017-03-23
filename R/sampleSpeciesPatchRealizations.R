@@ -78,7 +78,7 @@ sampleSpeciesPatchRealizations <- function(
 	mCharacteristics = TRUE,
 	patch_variable = "n.networks",
 	realization_variable = "realization"
-	
+	WeightMatrix=="network membership"
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -106,6 +106,7 @@ sampleSpeciesPatchRealizations <- function(
 	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")
 	ratio_mean_names 		<- paste(rvar, "_ratio_mean_observed", sep="")
 	ratio_var_names 		<- paste(rvar, "_ratio_var_observed", sep="")
+	# i=1;j=1;k=1
 	Z = foreach (
 		i = 1:n.patches, # for each species density
 		.inorder = FALSE, 
@@ -444,16 +445,36 @@ sampleSpeciesPatchRealizations <- function(
 				# Spatial Statistics
 				if (SpatialStatistics == TRUE) {
 					if (sum(alldata_all$Cactus) > 0) {
-						coordinates(alldata_all) = ~ x+y
-						data_dist <- as.matrix(
-							dist(cbind(alldata_all$x, alldata_all$y)))
-						data_dist <- 1/data_dist
-						diag(data_dist) <- 0
-						A[[i]][[j]][[k]]$MoransI <- Moran.I(
-							alldata_all$Cactus, data_dist
-						)$observed
+						temp <- alldata_all %>%
+							as.data.frame %>%
+							# get rid of edge units - not involved in calculation of m
+							filter(!(is.na(NetworkID))) %>%
+							arrange(NetworkID)
+						if (WeightMatrix=="inverse distance") {
+							coordinates(temp) = ~ x+y
+							data_dist <- as.matrix(dist(cbind(temp$x, temp$y)))
+							data_dist <- 1/data_dist
+							diag(data_dist) <- 0
+							A[[i]][[j]][[k]]$MoransI <- Moran.I(
+								temp$Cactus, data_dist
+							)$observed
+						}
+						if (WeightMatrix=="network membership") {
+							temp$ID <- seq(1,dim(temp)[1])
+							temp2 <- temp %>%
+								dcast(ID~NetworkID) %>% 
+								dplyr::select(-c(ID, NA))
+							temp2[is.na(temp2)] <- 0
+							temp2[temp2 > 0] <- 1
+							 m2 <- tcrossprod(as.matrix(temp2))
+						     # because it's between pairs of locations and shouldn't have a value for association with itself
+							 diag(m2) <- 0
+ 							A[[i]][[j]][[k]]$MoransI <- Moran.I(
+ 								temp$Cactus, m2
+ 							)$observed
+						}
 						# semivariogram
-						Variog <- autofitVariogram(Cactus ~ 1, alldata_all)
+						Variog <- autofitVariogram(Cactus ~ 1, temp)
 						Variog_parms <- Variog$var_model
 						A[[i]][[j]][[k]]$semivar_nugget <- 
 							Variog_parms[1, ]$psill

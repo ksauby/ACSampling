@@ -1,143 +1,53 @@
-install.packages("chron")
-install.packages("unmarked")
-install.packages("lme4")
-install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
-require(rgeos)
-install.packages('rgdal',repos="http://www.stats.ox.ac.uk/pub/RWin")
-library(rgdal)
-install.packages("http://cran.r-project.org/src/contrib/rgdal_0.9-1.tar.gz", repos = NULL, type="source", configure.args = "--with-gdal-config=/Library/Frameworks/GDAL.framework/Versions/1.10/unix/bin/gdal-config --with-proj-include=/Library/Frameworks/PROJ.framework/unix/include --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib")
-18/1.618
-189+114
-library(lubridate)
-library(magrittr)
-seasons <- data.frame(#
-	   SE = as.POSIXct(c("2009-3-20", "2010-3-20", "2011-3-20", "2012-3-20", #
-            "2013-3-20", "2014-3-20"), format="%Y-%m-%d"),#
-	   SS = as.POSIXct(c("2009-6-21", "2010-6-21", "2011-6-21", "2012-6-20",#
-            "2013-6-20", "2014-6-20"), format="%Y-%m-%d"),#
-	   FE = as.POSIXct(c("2009-9-22", "2010-9-23", "2011-9-23", "2012-9-22",#
-            "2013-9-22", "2014-9-22"), format="%Y-%m-%d"),#
-	   WS = as.POSIXct(c("2009-12-21", "2010-12-21", "2011-12-22", "2012-12-21", #
-            "2013-12-21", "2014-12-21"), format="%Y-%m-%d")#
-    )#
-#
-    assignSeason <- function(dat, SeasonStarts=seasons) {#
-	    dat %<>% mutate(#
-		    Season = lapply(Date,#
-				function(x) {#
-					findInterval(#
-						x, #
-						SeasonStarts[which(year(x)==year(SeasonStarts$WS)), ]#
-					)#
-				}#
-			) %>% unlist	#
-		)#
-	    dat[which(dat$Season==0 | dat$Season==4), ]$Season 	<- "Winter"#
-	    dat[which(dat$Season==1), ]$Season 					<- "Spring"#
-	    dat[which(dat$Season==2), ]$Season 					<- "Summer"#
-	    dat[which(dat$Season==3), ]$Season 					<- "Fall"#
-	    return(dat)#
-    }
-dat = data.frame(#
-	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
-            (0:10)*30, format="%Y-%m-%d" ))#
-    )#
-    dat %>% assignSeason
-library(dplyr)
-dat = data.frame(#
-	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
-            (0:10)*30, format="%Y-%m-%d" ))#
-    )#
-    dat %>% assignSeason
-library(devtoolks)
-library(devtools)
-?install_github
-devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
-devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
-devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-library(devtools)
-devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-??limit
-37-13
-24/37
-37-13
-26/37
-25/37
-23/37
-29/37
-30/37
-22/37
-30/37
-29/37
-28/37
-27/37
-35/37
-30/37
-29/37
-26/37
-26/37 - .6757
-28/37
-30/37
-29/37
-37-12
-25/37
-219*.8
-219*.8 - 17
-26/3
-17/900
-42/900
-49/900
-29/40
-1/25
-8/25
-10/25
-(7.5 + 3.75)/15
-12*0.75
-11 * 0.75
-11/15
-11*0.25
-11/15 * 6
-32/41 +0.03.5
-32/41 + 0.035
-(32/41 + 0.035)*100
-100/41
-23/40 * 100
-(23/40 * 100)+5
-(164 + 13.5 + 6)
-(164 + 13.5 + 6)/365
-(164 + 13.5 + 6 + (50))/365
-(164 + 13.5 + 6 + (60))/365
-(164 + 13.5 + 6 + (70))/365
-(164 + 13.5 + 6 + (75))/365
-102/40
-102/41
-?table
-9.49/2
-12.75+8.25
-(10.5 + 6.5)/(12.75+8.25)
-.25^2 * 2
-(.25^2 * 2)^0.5
-(.25^2 * 2)^0.5 * 2
-3/8
-5/8
-6/8
-30*1.5
-40*15
-40*1.5
-13.25 - 4.5
-(276.29+8.75)/365
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-source("1_set_variables.R")#
-source("2_create_realizations.R")#
-source("3_summarise_network_information.R")#
-source("4_calculate_realization_summary_statistics.R")
+22+60+78+80+88+98
+22+38+18+2+8+10
+239/785
+(239+53)/785
+.492+.139
+.412+.166+.002
+.412/.58
+.166/.58
+.412*.58
+.71*.58
+98-54
+22+49+43+33+36+44
+60-11
+78-26
+80-35
+88-47
+98-52
+22+49+52+45+41+46
+library(RMark)
+?test_ddl
+data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    release.gof(dipper.processed)
+4+19+7+12
+4+17.83+7+12
+40.83/42
+40.83/42*14
+14
+(11.25+5)/(25.5 + 10.25 - 14)
+365*0.6666
+365*0.6666 - 75.89
+5/6 * 2
+5/6 * 2 + 75.89
+365*0.6666 -77.55667
+365*0.6666 -77.55667 - 6 - 13 - 1
+145.7523/2
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/better_inclusion_probability')
+RACS.newyHT.spatial.data %>%#
+dplyr::select(#
+	median_m,#
+	max_m,#
+	min_m,#
+	mean_unique_m,#
+	median_unique_m,#
+	max_unique_m,#
+	min_unique_m,#
+	MoransI,#
+	semivar_nugget,#
+	partial_sill,#
+	range#
+) %>%#
+corrgram(upper.panel=panel.cor)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -146,560 +56,121 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/better_inclusion_probability')
+RACS.newyHT.spatial.data %>%#
+dplyr::select(#
+	median_m,#
+	max_m,#
+	min_m,#
+	mean_unique_m,#
+	median_unique_m,#
+	max_unique_m,#
+	min_unique_m,#
+	MoransI,#
+	semivar_nugget,#
+	partial_sill,#
+	range#
+) %>%#
+corrgram(upper.panel=panel.cor)
+library(corrgram)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/better_inclusion_probability')
+RACS.newyHT.spatial.data %>%#
+dplyr::select(#
+	median_m,#
+	max_m,#
+	min_m,#
+	mean_unique_m,#
+	median_unique_m,#
+	max_unique_m,#
+	min_unique_m,#
+	MoransI,#
+	semivar_nugget,#
+	partial_sill,#
+	range#
+) %>%#
+corrgram(upper.panel=panel.cor)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/better_inclusion_probability')
+RACS.newyHT.spatial.data %>%#
+dplyr::select(#
+	mean_unique_m,#
+	MoransI,#
+	semivar_nugget,#
+	partial_sill#
+) %>%#
+corrgram(upper.panel=panel.cor)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 source("1_set_variables.R")#
 source("2_create_realizations.R")#
 source("3_summarise_network_information.R")#
 source("4_calculate_realization_summary_statistics.R")
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patch_data_summary
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-grouping.variables
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population_data 	= patch_data
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-summary.variables 	= variables
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-ratio.variables 	= rvar
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-funs <- . <- m <- NetworkID <- NULL#
-	# for each grouping.variables combo, calculate mean, var, sum#
-	X = population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		dplyr::select_(.dots=lapply(#
-			c(#
-				summary.variables, #
-				ratio.variables#
-			), #
-			as.symbol#
-		)) %>% #
-		summarise_each(#
-			funs(#
-				mean(., na.rm=T), #
-				sum(., na.rm=T)#
-			)#
-		) %>%#
-		ungroup#
-	if (length(c(summary.variables, ratio.variables)) == 1) {#
-		X %<>%#
-		setnames(#
-			., #
-			"mean", #
-			paste(#
-				c(summary.variables, ratio.variables), #
-				"_", #
-				"mean", #
-				sep=""#
-			)#
-		) %>%#
-		setnames(#
-			., #
-			"sum", #
-			paste(#
-				c(summary.variables, ratio.variables), #
-				"_", #
-				"sum", #
-				sep="" #
-			)#
-		)#
-	} #
-	if (!(is.null(ratio.variables))) {#
-		for (l in 1:length(ratio.variables)) {#
-			y <- eval(parse(text=paste(#
-				"X$", #
-				ratio.variables[l], #
-				"_sum", #
-				sep=""#
-			)))#
-			z <- eval(parse(text = paste(#
-				"X$", #
-				str_sub(ratio.variables[l],-7,-1), #
-				"_sum", #
-				sep=""#
-			)))#
-			X[, dim(X)[2] + 1] <- ifelse(z!=0, y/z, 0)#
-			names(X)[dim(X)[2]] <- paste(#
-				ratio.variables[l], #
-				"_ratio_mean", #
-				sep=""#
-			)#
-		}#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Y = population_data %>%#
-		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%#
-		summarise(m = m[1]) %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(#
-			m_min = min(m),#
-			m_max = max(m),#
-			m_mean = mean(m),#
-			m_var = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame
-Y
-head(population_data)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data %>%#
-		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%#
-		summarise(m = m[1]) %>%
-head
-population_data %>%#
-		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%#
-		summarise(m = m[1]) %>% arrange(n.networks) %>% head
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data %>%#
-		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%#
-		summarise(m = m[1]) %>%
-dim
-dim(population_data)
-population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(length(unique(NetworksID)))
-population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(length(unique(NetworksID)))
-population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(length(unique(NetworkID)))
-population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(length(unique(NetworkID))) %$% sum(`length(unique(NetworkID))`)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(N = length(m))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(#
-			m_min = min(m),#
-			m_max = max(m),#
-			m_mean = mean(m),#
-			m_var = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data %>%#
-		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%#
-		summarise(m = m[1]) %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(#
-			m_min_unique_neigh = min(m),#
-			m_max_unique_neigh = max(m),#
-			m_mean_unique_neigh = mean(m),#
-			m_var_unique_neigh = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate Summary Statistics for Patch Population Data#
-#' #
-#' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).#
-#' @param summary.variables Vector of variables for which summary statistics should be calculated.#
-#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).#
-#' @param ratio.variables Variables for which to use ratio estimators#
-#' @return Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.#
-#' @examples#
-#' library(magrittr)#
-#' library(dplyr)#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' summary.variables = occupancy.variables#
-#' grouping.variables = c("n.networks", "realization")#
-#' # create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' start.seed=1#
-#' buffer=5#
-#' cactus.realizations <- createSpeciesPatchPopulations(x_start, x_end,#
-#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,#
-#' 	occupancy.variables)#
-#' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, #
-#' 	summary.variables=occupancy.variables, grouping.variables=grouping.variables)#
-#' patch_data_summary %<>% #
-#' 	round(3) %>% #
-#' 	arrange(n.networks) %>% #
-#' 	dplyr::select(#
-#' 		starts_with("Pusilla"), #
-#' 		starts_with("Stricta"), #
-#' 		starts_with("Cactus"), #
-#' 		starts_with("CACA_on_Pusilla"),#
-#' 		starts_with("CACA_on_Stricta"),#
-#' 		starts_with("MEPR_on_Pusilla"),#
-#' 		starts_with("MEPR_on_Stricta"),#
-#' 		starts_with("Old_Moth_Evidence_Pusilla"),#
-#' 		starts_with("Old_Moth_Evidence_Stricta"),#
-#' 		everything()#
-#' 	)#
-#' write.csv(patch_data_summary, file=paste("patch_data_summary", #
-#' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))#
-#' @export#
-#' @importFrom dplyr group_by_#
-#' @importFrom dplyr ungroup#
-#' @importFrom stringr str_sub#
+simulations <- 250 # 2.211062 minutes for unrestricted, 4.866115 minutes for restricted 8 dec 15#
+y_variable <- "Cactus"#
 #
-calculatePopulationSummaryStatistics <- function(#
-	population_data, #
-	summary.variables, #
-	ratio.variables=NULL, #
-	grouping.variables#
-) {#
-	funs <- . <- m <- NetworkID <- NULL#
-	# for each grouping.variables combo, calculate mean, var, sum#
-	X = population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		dplyr::select_(.dots=lapply(#
-			c(#
-				summary.variables, #
-				ratio.variables#
-			), #
-			as.symbol#
-		)) %>% #
-		summarise_each(#
-			funs(#
-				mean(., na.rm=T), #
-				sum(., na.rm=T)#
-			)#
-		) %>%#
-		ungroup#
-	if (length(c(summary.variables, ratio.variables)) == 1) {#
-		X %<>%#
-		setnames(#
-			., #
-			"mean", #
-			paste(#
-				c(summary.variables, ratio.variables), #
-				"_", #
-				"mean", #
-				sep=""#
-			)#
-		) %>%#
-		setnames(#
-			., #
-			"sum", #
-			paste(#
-				c(summary.variables, ratio.variables), #
-				"_", #
-				"sum", #
-				sep="" #
-			)#
-		)#
-	} #
-	if (!(is.null(ratio.variables))) {#
-		for (l in 1:length(ratio.variables)) {#
-			y <- eval(parse(text=paste(#
-				"X$", #
-				ratio.variables[l], #
-				"_sum", #
-				sep=""#
-			)))#
-			z <- eval(parse(text = paste(#
-				"X$", #
-				str_sub(ratio.variables[l],-7,-1), #
-				"_sum", #
-				sep=""#
-			)))#
-			X[, dim(X)[2] + 1] <- ifelse(z!=0, y/z, 0)#
-			names(X)[dim(X)[2]] <- paste(#
-				ratio.variables[l], #
-				"_ratio_mean", #
-				sep=""#
-			)#
-		}#
-	}#
-	# for each grouping.variables combo, calculate summary statistics for m and number of species patches#
-	# this calculates the m statistics for the unique Network sizes#
-	Y1 = population_data %>%#
-		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%#
-		summarise(m = m[1]) %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(#
-			m_min_unique_neigh = min(m),#
-			m_max_unique_neigh = max(m),#
-			m_mean_unique_neigh = mean(m),#
-			m_var_unique_neigh = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	# this calculates the m statistics for all units#
-	Y2 = population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(#
-			m_min = min(m),#
-			m_max = max(m),#
-			m_mean = mean(m),#
-			m_var = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Z = population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(N = length(m)) %>%#
-		ungroup %>%#
-		as.data.frame#
-	X %<>% merge(Y1, by=grouping.variables) %>%#
-		merge(Y2, by=grouping.variables) %>%#
-		merge(Z, by=grouping.variables)	#
-	return(X)#
-}
+nsamples			<- c(20, 30, 40, 75, 100) #, , 20, 30, 40 150, 200)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-calculatePopulationSummaryStatistics(#
-	population_data 	= patch_data, #
-	summary.variables 	= variables, #
-	grouping.variables 	= grouping.variables, #
-	ratio.variables 	= rvar#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate Summary Statistics for Patch Population Data#
-#' #
-#' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).#
-#' @param summary.variables Vector of variables for which summary statistics should be calculated.#
-#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).#
-#' @param ratio.variables Variables for which to use ratio estimators#
-#' @return Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.#
-#' @examples#
-#' library(magrittr)#
-#' library(dplyr)#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' summary.variables = occupancy.variables#
-#' grouping.variables = c("n.networks", "realization")#
-#' # create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' start.seed=1#
-#' buffer=5#
-#' cactus.realizations <- createSpeciesPatchPopulations(x_start, x_end,#
-#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,#
-#' 	occupancy.variables)#
-#' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, #
-#' 	summary.variables=occupancy.variables, grouping.variables=grouping.variables)#
-#' patch_data_summary %<>% #
-#' 	round(3) %>% #
-#' 	arrange(n.networks) %>% #
-#' 	dplyr::select(#
-#' 		starts_with("Pusilla"), #
-#' 		starts_with("Stricta"), #
-#' 		starts_with("Cactus"), #
-#' 		starts_with("CACA_on_Pusilla"),#
-#' 		starts_with("CACA_on_Stricta"),#
-#' 		starts_with("MEPR_on_Pusilla"),#
-#' 		starts_with("MEPR_on_Stricta"),#
-#' 		starts_with("Old_Moth_Evidence_Pusilla"),#
-#' 		starts_with("Old_Moth_Evidence_Stricta"),#
-#' 		everything()#
-#' 	)#
-#' write.csv(patch_data_summary, file=paste("patch_data_summary", #
-#' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))#
-#' @export#
-#' @importFrom dplyr group_by_#
-#' @importFrom dplyr ungroup#
-#' @importFrom stringr str_sub#
-#
-calculatePopulationSummaryStatistics <- function(#
-	population_data, #
-	summary.variables, #
-	ratio.variables=NULL, #
-	grouping.variables#
-) {#
-	funs <- . <- m <- NetworkID <- NULL#
-	# for each grouping.variables combo, calculate mean, var, sum#
-	X = population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		dplyr::select_(.dots=lapply(#
-			c(#
-				summary.variables, #
-				ratio.variables#
-			), #
-			as.symbol#
-		)) %>% #
-		summarise_each(#
-			funs(#
-				mean(., na.rm=T), #
-				sum(., na.rm=T)#
-			)#
-		) %>%#
-		ungroup#
-	if (length(c(summary.variables, ratio.variables)) == 1) {#
-		X %<>%#
-		setnames(#
-			., #
-			"mean", #
-			paste(#
-				c(summary.variables, ratio.variables), #
-				"_", #
-				"mean", #
-				sep=""#
-			)#
-		) %>%#
-		setnames(#
-			., #
-			"sum", #
-			paste(#
-				c(summary.variables, ratio.variables), #
-				"_", #
-				"sum", #
-				sep="" #
-			)#
-		)#
-	} #
-	if (!(is.null(ratio.variables))) {#
-		for (l in 1:length(ratio.variables)) {#
-			y <- eval(parse(text=paste(#
-				"X$", #
-				ratio.variables[l], #
-				"_sum", #
-				sep=""#
-			)))#
-			z <- eval(parse(text = paste(#
-				"X$", #
-				str_sub(ratio.variables[l],-7,-1), #
-				"_sum", #
-				sep=""#
-			)))#
-			X[, dim(X)[2] + 1] <- ifelse(z!=0, y/z, 0)#
-			names(X)[dim(X)[2]] <- paste(#
-				ratio.variables[l], #
-				"_ratio_mean", #
-				sep=""#
-			)#
-		}#
-	}#
-	# for each grouping.variables combo, calculate summary statistics for m and number of species patches#
-	# this calculates the m statistics for the unique Network sizes#
-	Y1 = population_data %>%#
-		group_by_(.dots=lapply(c("NetworkID", grouping.variables), as.symbol)) %>%#
-		summarise(m = m[1]) %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(#
-			m_min_unique_neigh = min(m),#
-			m_max_unique_neigh = max(m),#
-			m_mean_unique_neigh = mean(m),#
-			m_var_unique_neigh = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	# this calculates the m statistics for all units#
-	Y2 = population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(#
-			m_min = min(m),#
-			m_max = max(m),#
-			m_mean = mean(m),#
-			m_var = var(m)#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Z = population_data %>%#
-		group_by_(.dots=lapply(grouping.variables, as.symbol)) %>%#
-		summarise(N = length(m)) %>%#
-		ungroup %>%#
-		as.data.frame#
-	X %<>% merge(Y1, by=grouping.variables) %>%#
-		merge(Y2, by=grouping.variables) %>%#
-		merge(Z, by=grouping.variables)	#
-	return(X)#
-}
+patchdat	= patch_data
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-calculatePopulationSummaryStatistics(#
-	population_data 	= patch_data, #
-	summary.variables 	= variables, #
-	grouping.variables 	= grouping.variables, #
-	ratio.variables 	= rvar#
-)
+avar		= NULL
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patchdat = patch_data_6
+SamplingDesign	= "RACS"
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patch_data_6 <- patch_data %>% filter(#
-	n.networks == levels(n.networks)[3] |#
-	n.networks == levels(n.networks)[4] |#
-	n.networks == levels(n.networks)[5]#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patchdat = patch_data_6
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-nsamples = 40
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-SamplingDesign="RACS"
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-y_variable = "Cactus"
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+f_max = 3,
 f_max = 3
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+SpatialStatistics = TRUE
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+patch_variable = "n.networks"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+realization_variable = "realization"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
 n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
 	TIME 					<- Sys.time()#
-	patchdat 				%<>% arrange(n.networks, realization)#
-	n.patches 				<- length(unique(patchdat$n.networks))#
+	patchdat 				%<>% arrange_(.dots=c(#
+								patch_variable,#
+								realization_variable#
+							))#
+	var 					<- c(ovar, avar, rvar)#
+	n.patches 				<- length(unique(eval(parse(text=paste(#
+								"patchdat$",#
+								patch_variable,#
+								sep=""#
+							)))))#
 	nsample.length 			<- length(nsamples)#
-	A 						<- vector("list", n.patches)
+	A 						<- vector("list", n.patches)#
+	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
+	oavar 					<- c(ovar, avar)#
+	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
+	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
+	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
+	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
+	# the names to assign the estimates#
+	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
+	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
+	ratio_mean_names 		<- paste(rvar, "_ratio_mean_observed", sep="")#
+	ratio_var_names 		<- paste(rvar, "_ratio_var_observed", sep="")
 i=1
 j=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-simulations=500
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			A[[i]][[j]] <- list()#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
 k=1
+l=1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+P 			<- patchdat %>% #
+							filter(n.networks==unique(#
+								eval(parse(text=paste(#
+									"patchdat$",#
+									patch_variable,#
+									sep=""#
+								)))#
+							)[i])#
+			N 			<- dim(P)[1]#
+			n1 			<- nsamples[j]#
+			A[[i]][[j]] <- list()#
+			r 			<- (i - 1) * j + j#
+			seeds 		<- runif(simulations)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
 temp_seed <- seeds[k]*100000#
-				if (SamplingDesign=="ACS") {#
+				if (SamplingDesign=="ACS")#
+				{#
 					alldata <- createACS(#
 						population=P, #
 						seed=temp_seed, #
@@ -707,178 +178,569 @@ temp_seed <- seeds[k]*100000#
 						y_variable=y_variable#
 					) %>% #
 						as.data.table#
-				} else {#
+				} else if (SamplingDesign=="RACS")#
+				{#
 					alldata <- createRACS_flex(#
 						population=P, #
 						seed=temp_seed, #
 						n1=n1, #
 						y_variable=y_variable,#
-						f_max = f_max#
+						f_max=f_max#
+					) %>% #
+						as.data.table#
+				} else#
+				{#
+					alldata <- createSRS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1#
 					) %>% #
 						as.data.table#
 				}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(n.networks, realization, x, y)#
-				cactus_networks <- alldata %>%#
-					filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-if (dim(cactus_networks)[1] > 0) {#
-					cactus_networks %<>%#
-						group_by(n.networks) %>%#
-						summarise(m = m[1]) %>%#
-						ungroup %>%#
-						mutate(#
-							MEAN = mean(m),#
-							MAX = max(m),#
-							MIN = min(m),#
-							MEDIAN = median(m)#
+alldata_all <- alldata#
+				if (SampleEstimators == TRUE) {#
+					################ SRSWOR Sampling ######################
+					if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {#
+						# datasets to apply simple mean/variance and simple ratio estimator#
+						dats <- "alldata"#
+					}#
+					if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {#
+						################ SRSWOR Data, alldata #################
+						SRSWOR_data <- alldata %>% #
+							filter(Sampling=="SRSWOR") %>% #
+							as.data.table#
+						alldata %<>% filter(Sampling!="Edge") %>% #
+							as.data.table#
+						# datasets to apply simple mean/variance and simple ratio estimatr#
+						dats <- c("SRSWOR_data", "alldata")#
+					}#
+					# datasets to apply simple mean/variance and simple ratio estimator#
+					# sample mean and variance applied to alldata, SRSWOR_data#
+					SampleMeanVar <- list()#
+					for (n in 1:length(dats)) {#
+						dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
+							summarise_each(funs(#
+								mean(., na.rm=T), #
+								var(., na.rm=T)#
+							))#
+						setnames(#
+							dat,#
+							names(dat), #
+							paste(names(dat), "observed", sep="_")#
 						)#
-					A[[i]][[j]][[k]]$mean_m 	<- cactus_networks$MEAN#
-					A[[i]][[j]][[k]]$max_m 		<- cactus_networks$MAX#
-					A[[i]][[j]][[k]]$min_m 		<- cactus_networks$MIN#
-					A[[i]][[j]][[k]]$median_m 	<- cactus_networks$MEDIAN
+						dat$Plots <- dats[n]#
+						SampleMeanVar[[n]] <- dat#
+					}#
+					SampleMeanVar %<>% rbind.fill#
+					# simple ratio estimators applied to alldata, SRSWOR_data#
+					if (!(is.null(rvar))) {#
+						SampleRatio <- list()#
+						for (n in 1:length(dats)) {#
+							SampleRatio[[n]] <- data.frame(Var1 = NA)#
+							for (l in 1:length(rvar)) {#
+								y = eval(parse(#
+										text=paste(#
+											dats[n], #
+											"$", #
+											rvar[l], #
+											sep=""#
+										)#
+								))#
+								x = eval(parse(#
+										text = paste(#
+											dats[n], #
+											"$",#
+											str_sub(rvar[l],-7,-1), #
+											sep=""#
+										)#
+								))#
+								m = rep(1, length(y)) # equal P(inclusion) for all#
+								SampleRatio[[n]]$Var1 <- R_hat(#
+									y = y,#
+									x = x,#
+									N = N,#
+									n1 = n1,#
+									m = m#
+								)#
+							 	SampleRatio[[n]]$Var2 = var_R_hat(#
+							 		y = y, #
+							 		x = x,#
+									N = N, #
+							 		n1 = n1, #
+							 		m = m#
+							 	)#
+								names(SampleRatio[[n]])[(dim(SampleRatio[[n]])[2] - 1) : #
+									dim(SampleRatio[[n]])[2]] <- #
+									c(#
+										paste(#
+											rvar[l], #
+											"_ratio_mean_observed", #
+											sep=""#
+										),#
+										paste(#
+											rvar[l], #
+											"_ratio_var_observed", #
+											sep=""#
+										)#
+									)#
+							}#
+							SampleRatio[[n]] %<>% mutate(Plots = dats[n])#
+						}#
+						SampleRatio <- do.call(rbind.data.frame, Ratio)#
+					}#
+				    SampleMeanVar %<>% merge(SampleRatio)	#
+				} else#
+				{#
+					alldata %<>% filter(Sampling!="Edge") %>% #
+						as.data.table#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+HT_results <- list()#
+					alldata %<>% setkey(NetworkID)#
+					# OCCUPANCY AND ABUNDANCE#
+					# summarise data for mean calculations#
+					O <- alldata %>% #
+						filter(Sampling!="Edge") %>%#
+						select_(.dots=c(oavar,"NetworkID","m")) %>%#
+						as.data.table#
+					# calculate y_HT#
+					m <- O$m#
+					if (y_HT_formula == "new_y_HT")#
+					{#
+						HT_results[[1]] <- O %>%#
+						.[, oavar, with=FALSE] %>% #
+							.[, lapply(#
+								.SD,#
+								new_y_HT,#
+								N	= N, #
+								n1	= n1,#
+								m	= m,#
+								m_threshold = m_threshold#
+							)]#
+					} else if (y_HT_formula == "Thompson")#
+					{#
+						HT_results[[1]] <- O %>%#
+							select_(.dots=oavar) %>%#
+							.[, lapply(#
+								.SD,#
+								y_HT,#
+								N	= N, #
+								n1	= n1,#
+								m	= m#
+							)]#
+					}#
+					names(HT_results[[1]]) <- c(occ_abund_mean_names)#
+					# summarise data for variance calculations#
+					O_smd <- alldata %>% #
+						.[, c(#
+							paste(oavar, "_network_sum", sep=""), #
+							"NetworkID", #
+							"m"#
+						), with=FALSE] %>% #
+						filter(!(is.na(NetworkID))) %>%#
+						as.data.table %>%#
+						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
+					m <- O_smd$m#
+					# var_y_HT#
+					HT_results[[2]] <- O_smd[, paste(#
+						oavar, #
+						"_network_sum", #
+						sep=""#
+					), with=FALSE] %>%#
+						.[, lapply(#
+							.SD, #
+							var_y_HT, #
+							N 	= N, #
+							n1 	= n1, #
+							m	= m#
+						)] # this line is slow#
+					names(HT_results[[2]]) <- c(occ_abund_var_names)	#
+					# RATIO DATA#
+					if (!(is.null(rvar))) {#
+						# RATIO#
+						# summarise data for variance calculations#
+						# do I want to use summarised for everything??????????????#
+						mvals <- alldata %>%#
+							group_by(NetworkID) %>%#
+							summarise(m = m[1])#
+						R_smd <- alldata %>%#
+							filter(Sampling!="Edge") %>%#
+							as.data.table %>%#
+							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
+							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
+							merge(mvals, by="NetworkID")#
+						# summarise data for mean calculations#
+						# R <- alldata %>% #
+						#	filter(Sampling!="Edge") %>%#
+						#	.[, c(rvar, ovar, "m"), with=FALSE]#
+						HT_results[[3]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(text=paste("R_smd$", rvar[l], #
+								sep="")))#
+							x = eval(parse(text = paste("R_smd$", #
+								str_sub(rvar[l],-7,-1), sep="")))#
+							HT_results[[3]]$Var1 = R_hat(#
+								y = y,#
+								x = x,#
+								N = N, #
+								n1 = n1, #
+								m = R_smd$m#
+							)#
+						 	HT_results[[3]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		x = x,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = R_smd$m#
+						 	)#
+							names(HT_results[[3]])[ #
+								(dim(HT_results[[3]])[2] - 1) : #
+								dim(HT_results[[3]])[2]#
+							] <- c(#
+									paste(#
+										rvar[l], #
+										"_ratio_mean_observed", #
+										sep=""#
+									),#
+									paste(#
+										rvar[l], #
+										"_ratio_var_observed", #
+										sep=""#
+									)#
+								)#
+						}#
+					}#
+					# merge together			#
+					All_HT <- HT_results %>% #
+						as.data.frame %>%#
+						mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
+					# merge estimates#
+					if (SampleEstimators == TRUE) {#
+						A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
+					} else#
+					{#
+						A[[i]][[j]][[k]] <- All_HT#
+					}#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_HT_formula = "Thompson"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+HT_results <- list()#
+					alldata %<>% setkey(NetworkID)#
+					# OCCUPANCY AND ABUNDANCE#
+					# summarise data for mean calculations#
+					O <- alldata %>% #
+						filter(Sampling!="Edge") %>%#
+						select_(.dots=c(oavar,"NetworkID","m")) %>%#
+						as.data.table#
+					# calculate y_HT#
+					m <- O$m#
+					if (y_HT_formula == "new_y_HT")
 }
-A[[i]][[j]][[k]]
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(cactus_networks)[1] > 0
+HT_results <- list()#
+					alldata %<>% setkey(NetworkID)#
+					# OCCUPANCY AND ABUNDANCE#
+					# summarise data for mean calculations#
+					O <- alldata %>% #
+						filter(Sampling!="Edge") %>%#
+						select_(.dots=c(oavar,"NetworkID","m")) %>%#
+						as.data.table#
+					# calculate y_HT#
+					m <- O$m#
+					if (y_HT_formula == "new_y_HT")
+}
+y_HT_formula = "Thompson"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
+HT_results <- list()#
+					alldata %<>% setkey(NetworkID)#
+					# OCCUPANCY AND ABUNDANCE#
+					# summarise data for mean calculations#
+					O <- alldata %>% #
+						filter(Sampling!="Edge") %>%#
+						select_(.dots=c(oavar,"NetworkID","m")) %>%#
+						as.data.table
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(cactus_networks)[1] > 0
+m <- O$m
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks %<>%#
-						group_by(n.networks) %>%#
-						summarise(m = m[1])
+if (y_HT_formula == "new_y_HT")#
+					{#
+						HT_results[[1]] <- O %>%#
+						.[, oavar, with=FALSE] %>% #
+							.[, lapply(#
+								.SD,#
+								new_y_HT,#
+								N	= N, #
+								n1	= n1,#
+								m	= m,#
+								m_threshold = m_threshold#
+							)]#
+					} else if (y_HT_formula == "Thompson")#
+					{#
+						HT_results[[1]] <- O %>%#
+							select_(.dots=oavar) %>%#
+							.[, lapply(#
+								.SD,#
+								y_HT,#
+								N	= N, #
+								n1	= n1,#
+								m	= m#
+							)]#
+					}#
+					names(HT_results[[1]]) <- c(occ_abund_mean_names)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
-head(cactus_networks)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dim(cactus_networks)[1] > 0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1]) %>%#
-						ungroup %>%#
-						mutate(#
-							MEAN = mean(m),#
-							MAX = max(m),#
-							MIN = min(m),#
-							MEDIAN = median(m)#
-						)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1]) %>%#
-						mutate(#
-							MEAN = mean(m),#
-							MAX = max(m),#
-							MIN = min(m),#
-							MEDIAN = median(m)#
-						)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1]) %>%#
-						summarise(#
-							MEAN = mean(m),#
-							MAX = max(m),#
-							MIN = min(m),#
-							MEDIAN = median(m)#
-						)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1])
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks
-mean(cactus_networks$m)
-max(cactus_networks$m)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)#
-				if (dim(cactus_networks)[1] > 0) {#
-					cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1]) %>%#
-						summarise(#
-							MEAN = mean(m),#
-							MAX = max(m),#
-							MIN = min(m),#
-							MEDIAN = median(m)#
-						)#
-					A[[i]][[j]][[k]]$mean_m 	<- cactus_networks$MEAN#
-					A[[i]][[j]][[k]]$max_m 		<- cactus_networks$MAX#
-					A[[i]][[j]][[k]]$min_m 		<- cactus_networks$MIN#
-					A[[i]][[j]][[k]]$median_m 	<- cactus_networks$MEDIAN		#
-				} else {#
-					A[[i]][[j]][[k]]$mean_m 	<- 0#
-					A[[i]][[j]][[k]]$max_m 		<- 0#
-					A[[i]][[j]][[k]]$min_m 		<- 0#
-					A[[i]][[j]][[k]]$median_m 	<- 0#
+O_smd <- alldata %>% #
+						.[, c(#
+							paste(oavar, "_network_sum", sep=""), #
+							"NetworkID", #
+							"m"#
+						), with=FALSE] %>% #
+						filter(!(is.na(NetworkID))) %>%#
+						as.data.table %>%#
+						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
+					m <- O_smd$m#
+					# var_y_HT#
+					HT_results[[2]] <- O_smd[, paste(#
+						oavar, #
+						"_network_sum", #
+						sep=""#
+					), with=FALSE] %>%#
+						.[, lapply(#
+							.SD, #
+							var_y_HT, #
+							N 	= N, #
+							n1 	= n1, #
+							m	= m#
+						)] # this line is slow#
+					names(HT_results[[2]]) <- c(occ_abund_var_names)	#
+					# RATIO DATA#
+					if (!(is.null(rvar))) {#
+						# RATIO#
+						# summarise data for variance calculations#
+						# do I want to use summarised for everything??????????????#
+						mvals <- alldata %>%#
+							group_by(NetworkID) %>%#
+							summarise(m = m[1])#
+						R_smd <- alldata %>%#
+							filter(Sampling!="Edge") %>%#
+							as.data.table %>%#
+							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
+							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
+							merge(mvals, by="NetworkID")#
+						# summarise data for mean calculations#
+						# R <- alldata %>% #
+						#	filter(Sampling!="Edge") %>%#
+						#	.[, c(rvar, ovar, "m"), with=FALSE]#
+						HT_results[[3]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(text=paste("R_smd$", rvar[l], #
+								sep="")))#
+							x = eval(parse(text = paste("R_smd$", #
+								str_sub(rvar[l],-7,-1), sep="")))#
+							HT_results[[3]]$Var1 = R_hat(#
+								y = y,#
+								x = x,#
+								N = N, #
+								n1 = n1, #
+								m = R_smd$m#
+							)#
+						 	HT_results[[3]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		x = x,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = R_smd$m#
+						 	)#
+							names(HT_results[[3]])[ #
+								(dim(HT_results[[3]])[2] - 1) : #
+								dim(HT_results[[3]])[2]#
+							] <- c(#
+									paste(#
+										rvar[l], #
+										"_ratio_mean_observed", #
+										sep=""#
+									),#
+									paste(#
+										rvar[l], #
+										"_ratio_var_observed", #
+										sep=""#
+									)#
+								)#
+						}#
+					}#
+					# merge together			#
+					All_HT <- HT_results %>% #
+						as.data.frame %>%#
+						mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
+					# merge estimates#
+					if (SampleEstimators == TRUE) {#
+						A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
+					} else#
+					{#
+						A[[i]][[j]][[k]] <- All_HT#
+					}#
+				} else#
+				{#
+					A[[i]][[j]][[k]] <- SampleMeanVar#
 				}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]]
+,#
+	SampleEstimators = FALSE
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# summarise data for variance calculations#
+					O_smd <- alldata %>% #
+						.[, c(#
+							paste(oavar, "_network_sum", sep=""), #
+							"NetworkID", #
+							"m"#
+						), with=FALSE] %>% #
+						filter(!(is.na(NetworkID))) %>%#
+						as.data.table %>%#
+						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
+					m <- O_smd$m#
+					# var_y_HT#
+					HT_results[[2]] <- O_smd[, paste(#
+						oavar, #
+						"_network_sum", #
+						sep=""#
+					), with=FALSE] %>%#
+						.[, lapply(#
+							.SD, #
+							var_y_HT, #
+							N 	= N, #
+							n1 	= n1, #
+							m	= m#
+						)] # this line is slow#
+					names(HT_results[[2]]) <- c(occ_abund_var_names)	#
+					# RATIO DATA#
+					if (!(is.null(rvar))) {#
+						# RATIO#
+						# summarise data for variance calculations#
+						# do I want to use summarised for everything??????????????#
+						mvals <- alldata %>%#
+							group_by(NetworkID) %>%#
+							summarise(m = m[1])#
+						R_smd <- alldata %>%#
+							filter(Sampling!="Edge") %>%#
+							as.data.table %>%#
+							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
+							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
+							merge(mvals, by="NetworkID")#
+						# summarise data for mean calculations#
+						# R <- alldata %>% #
+						#	filter(Sampling!="Edge") %>%#
+						#	.[, c(rvar, ovar, "m"), with=FALSE]#
+						HT_results[[3]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(text=paste("R_smd$", rvar[l], #
+								sep="")))#
+							x = eval(parse(text = paste("R_smd$", #
+								str_sub(rvar[l],-7,-1), sep="")))#
+							HT_results[[3]]$Var1 = R_hat(#
+								y = y,#
+								x = x,#
+								N = N, #
+								n1 = n1, #
+								m = R_smd$m#
+							)#
+						 	HT_results[[3]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		x = x,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = R_smd$m#
+						 	)#
+							names(HT_results[[3]])[ #
+								(dim(HT_results[[3]])[2] - 1) : #
+								dim(HT_results[[3]])[2]#
+							] <- c(#
+									paste(#
+										rvar[l], #
+										"_ratio_mean_observed", #
+										sep=""#
+									),#
+									paste(#
+										rvar[l], #
+										"_ratio_var_observed", #
+										sep=""#
+									)#
+								)#
+						}#
+					}#
+					# merge together			#
+					All_HT <- HT_results %>% #
+						as.data.frame %>%#
+						mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
+					# merge estimates#
+					if (SampleEstimators == TRUE) {#
+						A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
+					} else#
+					{#
+						A[[i]][[j]][[k]] <- All_HT#
+					}#
+				} else#
+				{#
+					A[[i]][[j]][[k]] <- SampleMeanVar#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]][[k]]$simulation 		= k#
+				A[[i]][[j]][[k]]$seed 				= temp_seed#
+				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1#
+				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]#
+				A[[i]][[j]][[k]]$realization_variable = eval(parse(text=paste(#
+														"P$",#
+														realization_variable,#
+														sep=""#
+													)))[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]][[k]]$patch_variable		= eval(parse(text=paste(#
+														"P$",#
+														patch_variable,#
+														sep=""#
+													)))[1]#
+				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sum(alldata_all$Cactus) > 0
+nsamples=100
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
 n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL#
 	TIME 					<- Sys.time()#
-	patchdat 				%<>% arrange(n.networks, realization)#
-	n.patches 				<- length(unique(patchdat$n.networks))#
+	patchdat 				%<>% arrange_(.dots=c(#
+								patch_variable,#
+								realization_variable#
+							))#
+	var 					<- c(ovar, avar, rvar)#
+	n.patches 				<- length(unique(eval(parse(text=paste(#
+								"patchdat$",#
+								patch_variable,#
+								sep=""#
+							)))))#
 	nsample.length 			<- length(nsamples)#
-	A 						<- vector("list", n.patches)
+	A 						<- vector("list", n.patches)#
+	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance#
+	oavar 					<- c(ovar, avar)#
+	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated#
+	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) #
+	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))#
+	Ratio 					<- data.frame(row.names = 1:length(rvar)) #
+	# the names to assign the estimates#
+	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")#
+	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")#
+	ratio_mean_names 		<- paste(rvar, "_ratio_mean_observed", sep="")#
+	ratio_var_names 		<- paste(rvar, "_ratio_var_observed", sep="")
 i=1
 j=1
 k=1
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
 P 			<- patchdat %>% #
-							filter(n.networks==unique(patchdat$n.networks)[i])#
+							filter(n.networks==unique(#
+								eval(parse(text=paste(#
+									"patchdat$",#
+									patch_variable,#
+									sep=""#
+								)))#
+							)[i])#
 			N 			<- dim(P)[1]#
 			n1 			<- nsamples[j]#
 			A[[i]][[j]] <- list()#
@@ -886,7 +748,8 @@ P 			<- patchdat %>% #
 			seeds 		<- runif(simulations)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
 temp_seed <- seeds[k]*100000#
-				if (SamplingDesign=="ACS") {#
+				if (SamplingDesign=="ACS")#
+				{#
 					alldata <- createACS(#
 						population=P, #
 						seed=temp_seed, #
@@ -894,60 +757,501 @@ temp_seed <- seeds[k]*100000#
 						y_variable=y_variable#
 					) %>% #
 						as.data.table#
-				} else {#
+				} else if (SamplingDesign=="RACS")#
+				{#
 					alldata <- createRACS_flex(#
 						population=P, #
 						seed=temp_seed, #
 						n1=n1, #
 						y_variable=y_variable,#
-						f_max = f_max#
+						f_max=f_max#
+					) %>% #
+						as.data.table#
+				} else#
+				{#
+					alldata <- createSRS(#
+						population=P, #
+						seed=temp_seed, #
+						n1=n1#
 					) %>% #
 						as.data.table#
 				}#
-				A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(n.networks, realization, x, y)#
-				cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)#
-				if (dim(cactus_networks)[1] > 0) {#
-					cactus_networks %<>%#
-						group_by(NetworkID) %>%#
-						summarise(m = m[1]) %>%#
-						summarise(#
-							MEAN = mean(m),#
-							MAX = max(m),#
-							MIN = min(m),#
-							MEDIAN = median(m)#
+				alldata_all <- alldata#
+				if (SampleEstimators == TRUE) {#
+					################ SRSWOR Sampling ######################
+					if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {#
+						# datasets to apply simple mean/variance and simple ratio estimator#
+						dats <- "alldata"#
+					}#
+					if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {#
+						################ SRSWOR Data, alldata #################
+						SRSWOR_data <- alldata %>% #
+							filter(Sampling=="SRSWOR") %>% #
+							as.data.table#
+						alldata %<>% filter(Sampling!="Edge") %>% #
+							as.data.table#
+						# datasets to apply simple mean/variance and simple ratio estimatr#
+						dats <- c("SRSWOR_data", "alldata")#
+					}#
+					# datasets to apply simple mean/variance and simple ratio estimator#
+					# sample mean and variance applied to alldata, SRSWOR_data#
+					SampleMeanVar <- list()#
+					for (n in 1:length(dats)) {#
+						dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% #
+							summarise_each(funs(#
+								mean(., na.rm=T), #
+								var(., na.rm=T)#
+							))#
+						setnames(#
+							dat,#
+							names(dat), #
+							paste(names(dat), "observed", sep="_")#
 						)#
-					A[[i]][[j]][[k]]$mean_m 	<- cactus_networks$MEAN#
-					A[[i]][[j]][[k]]$max_m 		<- cactus_networks$MAX#
-					A[[i]][[j]][[k]]$min_m 		<- cactus_networks$MIN#
-					A[[i]][[j]][[k]]$median_m 	<- cactus_networks$MEDIAN		#
-				} else {#
-					A[[i]][[j]][[k]]$mean_m 	<- 0#
-					A[[i]][[j]][[k]]$max_m 		<- 0#
-					A[[i]][[j]][[k]]$min_m 		<- 0#
-					A[[i]][[j]][[k]]$median_m 	<- 0#
+						dat$Plots <- dats[n]#
+						SampleMeanVar[[n]] <- dat#
+					}#
+					SampleMeanVar %<>% rbind.fill#
+					# simple ratio estimators applied to alldata, SRSWOR_data#
+					if (!(is.null(rvar))) {#
+						SampleRatio <- list()#
+						for (n in 1:length(dats)) {#
+							SampleRatio[[n]] <- data.frame(Var1 = NA)#
+							for (l in 1:length(rvar)) {#
+								y = eval(parse(#
+										text=paste(#
+											dats[n], #
+											"$", #
+											rvar[l], #
+											sep=""#
+										)#
+								))#
+								x = eval(parse(#
+										text = paste(#
+											dats[n], #
+											"$",#
+											str_sub(rvar[l],-7,-1), #
+											sep=""#
+										)#
+								))#
+								m = rep(1, length(y)) # equal P(inclusion) for all#
+								SampleRatio[[n]]$Var1 <- R_hat(#
+									y = y,#
+									x = x,#
+									N = N,#
+									n1 = n1,#
+									m = m#
+								)#
+							 	SampleRatio[[n]]$Var2 = var_R_hat(#
+							 		y = y, #
+							 		x = x,#
+									N = N, #
+							 		n1 = n1, #
+							 		m = m#
+							 	)#
+								names(SampleRatio[[n]])[(dim(SampleRatio[[n]])[2] - 1) : #
+									dim(SampleRatio[[n]])[2]] <- #
+									c(#
+										paste(#
+											rvar[l], #
+											"_ratio_mean_observed", #
+											sep=""#
+										),#
+										paste(#
+											rvar[l], #
+											"_ratio_var_observed", #
+											sep=""#
+										)#
+									)#
+							}#
+							SampleRatio[[n]] %<>% mutate(Plots = dats[n])#
+						}#
+						SampleRatio <- do.call(rbind.data.frame, Ratio)#
+					}#
+				    SampleMeanVar %<>% merge(SampleRatio)	#
+				} else#
+				{#
+					alldata %<>% filter(Sampling!="Edge") %>% #
+						as.data.table#
 				}#
-				A[[i]][[j]][[k]]$seed 				<- temp_seed#
-				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign#
-				A[[i]][[j]][[k]]$simulations 		<- simulations#
-				A[[i]][[j]][[k]]$realization 		<- P$realization[1]#
-				A[[i]][[j]][[k]]$n.networks 		<- P$n.networks[1]#
-				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
+				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {#
+					################ HORVITZ-THOMPSON ESTIMATORS ################
+					HT_results <- list()#
+					alldata %<>% setkey(NetworkID)#
+					# OCCUPANCY AND ABUNDANCE#
+					# summarise data for mean calculations#
+					O <- alldata %>% #
+						filter(Sampling!="Edge") %>%#
+						select_(.dots=c(oavar,"NetworkID","m")) %>%#
+						as.data.table#
+					# calculate y_HT#
+					m <- O$m#
+					if (y_HT_formula == "new_y_HT")#
+					{#
+						HT_results[[1]] <- O %>%#
+						.[, oavar, with=FALSE] %>% #
+							.[, lapply(#
+								.SD,#
+								new_y_HT,#
+								N	= N, #
+								n1	= n1,#
+								m	= m,#
+								m_threshold = m_threshold#
+							)]#
+					} else if (y_HT_formula == "Thompson")#
+					{#
+						HT_results[[1]] <- O %>%#
+							select_(.dots=oavar) %>%#
+							.[, lapply(#
+								.SD,#
+								y_HT,#
+								N	= N, #
+								n1	= n1,#
+								m	= m#
+							)]#
+					}#
+					names(HT_results[[1]]) <- c(occ_abund_mean_names)#
+					# summarise data for variance calculations#
+					O_smd <- alldata %>% #
+						.[, c(#
+							paste(oavar, "_network_sum", sep=""), #
+							"NetworkID", #
+							"m"#
+						), with=FALSE] %>% #
+						filter(!(is.na(NetworkID))) %>%#
+						as.data.table %>%#
+						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]#
+					m <- O_smd$m#
+					# var_y_HT#
+					HT_results[[2]] <- O_smd[, paste(#
+						oavar, #
+						"_network_sum", #
+						sep=""#
+					), with=FALSE] %>%#
+						.[, lapply(#
+							.SD, #
+							var_y_HT, #
+							N 	= N, #
+							n1 	= n1, #
+							m	= m#
+						)] # this line is slow#
+					names(HT_results[[2]]) <- c(occ_abund_var_names)	#
+					# RATIO DATA#
+					if (!(is.null(rvar))) {#
+						# RATIO#
+						# summarise data for variance calculations#
+						# do I want to use summarised for everything??????????????#
+						mvals <- alldata %>%#
+							group_by(NetworkID) %>%#
+							summarise(m = m[1])#
+						R_smd <- alldata %>%#
+							filter(Sampling!="Edge") %>%#
+							as.data.table %>%#
+							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%#
+							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%#
+							merge(mvals, by="NetworkID")#
+						# summarise data for mean calculations#
+						# R <- alldata %>% #
+						#	filter(Sampling!="Edge") %>%#
+						#	.[, c(rvar, ovar, "m"), with=FALSE]#
+						HT_results[[3]] <- data.frame(Var1 = NA)#
+						for (l in 1:length(rvar)) {#
+							y = eval(parse(text=paste("R_smd$", rvar[l], #
+								sep="")))#
+							x = eval(parse(text = paste("R_smd$", #
+								str_sub(rvar[l],-7,-1), sep="")))#
+							HT_results[[3]]$Var1 = R_hat(#
+								y = y,#
+								x = x,#
+								N = N, #
+								n1 = n1, #
+								m = R_smd$m#
+							)#
+						 	HT_results[[3]]$Var2 = var_R_hat(#
+						 		y = y, #
+						 		x = x,#
+								N = N, #
+						 		n1 = n1, #
+						 		m = R_smd$m#
+						 	)#
+							names(HT_results[[3]])[ #
+								(dim(HT_results[[3]])[2] - 1) : #
+								dim(HT_results[[3]])[2]#
+							] <- c(#
+									paste(#
+										rvar[l], #
+										"_ratio_mean_observed", #
+										sep=""#
+									),#
+									paste(#
+										rvar[l], #
+										"_ratio_var_observed", #
+										sep=""#
+									)#
+								)#
+						}#
+					}#
+					# merge together			#
+					All_HT <- HT_results %>% #
+						as.data.frame %>%#
+						mutate(Plots = "Horvitz Thompson Mean (All Plots)")#
+					# merge estimates#
+					if (SampleEstimators == TRUE) {#
+						A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)#
+					} else#
+					{#
+						A[[i]][[j]][[k]] <- All_HT#
+					}#
+				} else#
+				{#
+					A[[i]][[j]][[k]] <- SampleMeanVar#
+				}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]]
+# add other information#
+				A[[i]][[j]][[k]]$simulation 		= k#
+				A[[i]][[j]][[k]]$seed 				= temp_seed#
+				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1#
+				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]#
+				A[[i]][[j]][[k]]$realization_variable = eval(parse(text=paste(#
+														"P$",#
+														realization_variable,#
+														sep=""#
+													)))[1]#
+				A[[i]][[j]][[k]]$patch_variable		= eval(parse(text=paste(#
+														"P$",#
+														patch_variable,#
+														sep=""#
+													)))[1]#
+				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-cactus_networks <- alldata %>%#
-					#filter(!(Cactus==0 & m==1)) %>%#
-					filter(m!=0)
+sum(alldata_all$Cactus) > 0
+cntr <- c('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J')#
+UNO <- c(0, 1, 1, 1, 1, 1, 1, 1, 1, 1)#
+APEC <- c(0, 0, 0, 0, 1, 1, 1, 0, 0, 0)#
+ASEAN <- c(0, 0, 0, 0, 1, 1, 0, 0, 0, 0)#
+data <- data.frame(cntr, UNO, APEC, ASEAN)
+d <- structure(list(cntr = structure(1:10, .Label = c("A", "B", "C", #
+"D", "E", "F", "G", "H", "I", "J"), class = "factor"), UNO = c(0L, #
+1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), APEC = c(0L, 0L, 0L, 0L, #
+1L, 1L, 1L, 0L, 0L, 0L), ASEAN = c(0L, 0L, 0L, 0L, 1L, 1L, 0L, #
+0L, 0L, 0L)), .Names = c("cntr", "UNO", "APEC", "ASEAN"), class = "data.frame", row.names = c(NA, #
+-10L))
+d
+str(d)
+m <- as.matrix(d[,-1])#
+  m2 <- m %*% t(m)
+m
+m3
+m2
+head(alldata_all)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp2 <- cactus_networks %>%#
-						summarise(#
-							MEAN = mean(m),#
-							MAX = max(m),#
-							MIN = min(m),#
-							MEDIAN = median(m)#
-						)
-head(temp2)
+alldata_all %>% dcast(x ~ NetworkID)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all %>% dcast(NetworkID~x)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all$ID <- seq(1,length(alldata_all))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all$ID <- seq(1,dim(alldata_all)[1,])
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all$ID <- seq(1,dim(alldata_all)[1])
+alldata_all$ID
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all %>% dcast(NetworkID~ID)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all %>% dcast(NetworkID~1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp[is.na(temp), ]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% dcast(NetworkID~ID)#
+							temp[is.na(temp), ]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% dcast(NetworkID~ID)#
+							temp[is.na(temp), ] <- 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp[is.na(temp)] <- 0
+temp
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m2 <- temp %*% t(temp)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp[is.na(temp)] <- 0#
+							 m2 <- temp %*% t(temp)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% dcast(NetworkID~ID)#
+							temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- temp %*% t(temp)
+dim(temp)
+?tcrossprod
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m2 <- tcrossprod(temp)
+temp
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% dcast(ID~NetworkID)#
+							temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- tcrossprod(temp)
+temp
+str(temp)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% dcast(ID~NetworkID) %>% dplyr::select(-c(ID, NA))#
+							temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- tcrossprod(temp)
+temp
+d
+m
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+as.matrix(temp)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m2 <- tcrossprod(as.matrix(temp))
+m2
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+diag(m2) <- 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+write.csv(m2, "temp.csv")
+alldata_all %>% dplyr::select(NetworkID)
+alldata_all %>% dplyr::select(NetworkID) %$% unique(NetworkID)
+alldata_all %>% dplyr::select(NetworkID) arrange(NetworkID) %$% unique(NetworkID)
+alldata_all %>% dplyr::select(NetworkID) %>% arrange(NetworkID) %$% unique(NetworkID)
+table(alldata_all$NetworkID)
+dim(alldata_all)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all$ID <- seq(1,dim(alldata_all)[1])
+alldata_all$ID
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all %>% dcast(ID~NetworkID) %>% dplyr::select(-c(ID, NA))
+head(alldata_all)
+alldata_all %>% filter(is.na(NetworkID))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% dcast(ID~NetworkID) %>% dplyr::select(-c(ID, NA)) %>% filter(!(is.na(NetworkID)))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>%  %>% filter(!(is.na(NetworkID))) %>%  dcast(ID~NetworkID) %>% dplyr::select(-c(ID, NA))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all  %>% filter(!(is.na(NetworkID))) %>%  dcast(ID~NetworkID) %>% dplyr::select(-c(ID, NA))
+temp
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- tcrossprod(as.matrix(temp))#
+						     diag(m2) <- 0
+temp
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+write.csv(m2, "temp.csv")
+getwd()
+table(alldata_all$NetworkID)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+coordinates(alldata_all) = ~ x+y
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+data_dist <- as.matrix(#
+								dist(cbind(alldata_all$x, alldata_all$y)))#
+							data_dist <- 1/data_dist#
+							diag(data_dist) <- 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+data_dist
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% filter(!(is.na(NetworkID)))#
+							data_dist <- as.matrix(#
+								dist(cbind(temp$x, temp$y)))#
+							data_dist <- 1/data_dist#
+							diag(data_dist) <- 0#
+							A[[i]][[j]][[k]]$MoransI <- Moran.I(#
+								temp$Cactus, data_dist#
+							)$observed
+head(alldata_all)
+alldata_all %<>% as.data.frame
+head(alldata_all)
+str(alldata_all)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>% filter(!(is.na(NetworkID)))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+coordinates(alldata_all) = ~ x+y#
+							data_dist <- as.matrix(#
+								dist(cbind(temp$x, temp$y)))#
+							data_dist <- 1/data_dist#
+							diag(data_dist) <- 0#
+							A[[i]][[j]][[k]]$MoransI <- Moran.I(#
+								temp$Cactus, data_dist#
+							)$observed
+A[[i]][[j]][[k]]$MoransI
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all  %>% #
+							filter(!(is.na(NetworkID))) %>%  #
+							dcast(ID~NetworkID) %>% #
+							dplyr::select(-c(ID, NA))#
+							temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- tcrossprod(as.matrix(temp))#
+						     diag(m2) <- 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>%#
+							as.data.frame %>% #
+							filter(!(is.na(NetworkID))) %>%  #
+							dcast(ID~NetworkID) %>% #
+							dplyr::select(-c(ID, NA))#
+							temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- tcrossprod(as.matrix(temp))#
+						     diag(m2) <- 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all %>%#
+							as.data.frame %>%
+str
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alldata_all %>%#
+							as.data.frame %>% #
+							filter(!(is.na(NetworkID))) %>%
+str
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>%#
+							as.data.frame %>% #
+							filter(!(is.na(NetworkID)))#
+							temp$ID <- seq(1,dim(temp)[1])#
+							temp %<>%#
+							dcast(ID~NetworkID) %>% #
+							dplyr::select(-c(ID, NA))#
+							temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- tcrossprod(as.matrix(temp))#
+						     diag(m2) <- 0
+m2
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]][[k]]$MoransI <- Moran.I(#
+ 								temp$Cactus, m2#
+ 							)$observed
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp$Cactus
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>%#
+							as.data.frame %>% #
+							filter(!(is.na(NetworkID)))#
+							temp$ID <- seq(1,dim(temp)[1])#
+							temp2 <- temp %>%#
+							dcast(ID~NetworkID) %>% #
+							dplyr::select(-c(ID, NA))#
+							temp[is.na(temp)] <- 0#
+							temp[temp > 0] <- 1#
+							 m2 <- tcrossprod(as.matrix(temp))#
+						     diag(m2) <- 0#
+ 							A[[i]][[j]][[k]]$MoransI <- Moran.I(#
+ 								temp$Cactus, m2#
+ 							)$observed
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>%#
+							as.data.frame %>% #
+							filter(!(is.na(NetworkID)))#
+							temp$ID <- seq(1,dim(temp)[1])
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- alldata_all %>%#
+							as.data.frame %>% #
+							filter(!(is.na(NetworkID)))#
+							temp$ID <- seq(1,dim(temp)[1])#
+							temp2 <- temp %>%#
+							dcast(ID~NetworkID) %>% #
+							dplyr::select(-c(ID, NA))#
+							temp2[is.na(temp2)] <- 0#
+							temp2[temp2 > 0] <- 1#
+							 m2 <- tcrossprod(as.matrix(temp2))#
+						     diag(m2) <- 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Moran.I(#
+ 								temp$Cactus, m2#
+ 							)$observed
