@@ -8,7 +8,8 @@ sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
   rvar, SamplingDesign = "ACS", y_variable, y_HT_formula = "Thompson",
   m_threshold = NULL, f_max = 2, SampleEstimators = FALSE,
   SpatialStatistics = TRUE, mCharacteristics = TRUE,
-  patch_variable = "n.networks", realization_variable = "realization")
+  patch_variable = "n.networks", realization_variable = "realization",
+  WeightMatrix = "network membership")
 }
 \arguments{
 \item{patchdat}{patch realizations}
@@ -26,6 +27,22 @@ sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
 \item{SamplingDesign}{Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.}
 
 \item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
+
+\item{y_HT_formula}{Default is "Thompson".}
+
+\item{m_threshold}{Default is NULL.}
+
+\item{f_max}{Default is 2.}
+
+\item{SampleEstimators}{If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.}
+
+\item{SpatialStatistics}{If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE}
+
+\item{mCharacteristics}{If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.}
+
+\item{patch_variable}{Default is "n.networks"}
+
+\item{realization_variable}{Default is "realization"}
 }
 \description{
 This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.

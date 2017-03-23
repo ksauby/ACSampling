@@ -77,8 +77,8 @@ sampleSpeciesPatchRealizations <- function(
 	SpatialStatistics = TRUE,
 	mCharacteristics = TRUE,
 	patch_variable = "n.networks",
-	realization_variable = "realization"
-	WeightMatrix=="network membership"
+	realization_variable = "realization",
+	WeightMatrix = "network membership"
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -451,14 +451,15 @@ sampleSpeciesPatchRealizations <- function(
 							filter(!(is.na(NetworkID))) %>%
 							arrange(NetworkID)
 						if (WeightMatrix=="inverse distance") {
-							coordinates(temp) = ~ x+y
-							data_dist <- as.matrix(dist(cbind(temp$x, temp$y)))
+							A <- temp
+							coordinates(A) = ~ x+y
+							data_dist <- as.matrix(dist(cbind(A$x, A$y)))
 							data_dist <- 1/data_dist
 							diag(data_dist) <- 0
 							A[[i]][[j]][[k]]$MoransI <- Moran.I(
 								temp$Cactus, data_dist
 							)$observed
-						}
+						} else
 						if (WeightMatrix=="network membership") {
 							temp$ID <- seq(1,dim(temp)[1])
 							temp2 <- temp %>%
@@ -474,6 +475,7 @@ sampleSpeciesPatchRealizations <- function(
  							)$observed
 						}
 						# semivariogram
+						coordinates(temp) = ~ x+y
 						Variog <- autofitVariogram(Cactus ~ 1, temp)
 						Variog_parms <- Variog$var_model
 						A[[i]][[j]][[k]]$semivar_nugget <- 
