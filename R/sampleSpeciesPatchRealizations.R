@@ -112,13 +112,16 @@ sampleSpeciesPatchRealizations <- function(
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
 		 	"ACSampling", "intergraph", "network", "igraph", "stringr", "ape", "sp", "automap"), 
-		.combine = "rbind.fill"
+		.combine = "rbind.fill",
+		#.errorhandling = "pass",
+		.verbose = TRUE
 		) %:%
 	 	foreach (
 			j = 1:nsample.length, # for each sampling effort
 			.combine = "rbind.fill",
 			.inorder = FALSE
 		) %dopar% {
+			cat(paste(i,j, sep="_"))
 			P 			<- patchdat %>% 
 							filter(n.networks==unique(
 								eval(parse(text=paste(
@@ -444,7 +447,7 @@ sampleSpeciesPatchRealizations <- function(
 				}
 				# Spatial Statistics
 				if (SpatialStatistics == TRUE) {
-					if (sum(alldata_all$Cactus) > 0) {
+					if (sum(alldata_all$Cactus) > 1) {
 						temp <- alldata_all %>%
 							as.data.frame %>%
 							# get rid of edge units - not involved in calculation of m
@@ -461,8 +464,9 @@ sampleSpeciesPatchRealizations <- function(
 							)$observed
 						} else
 						if (WeightMatrix=="network membership") {
-							temp$ID <- seq(1,dim(temp)[1])
-							temp2 <- temp %>%
+							temp2 <- temp
+							temp2$ID <- seq(1,dim(temp)[1])
+							temp2 %<>%
 								dcast(ID~NetworkID) %>% 
 								dplyr::select(-c(ID, NA))
 							temp2[is.na(temp2)] <- 0
