@@ -498,12 +498,13 @@ sampleSpeciesPatchRealizations <- function(
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
-	Z$f_max 			= f_max
-	Z$m_threshold 		= m_threshold
-	Z$n_simulations 	= simulations
-	Z$simulation_date 	= format(Sys.time(), "%m-%d-%y")
-	Z$y_HT_formula 		= y_HT_formula
-	Z$SamplingDesign 	= SamplingDesign
+	Z$f_max 				= f_max
+	Z$m_threshold 			= m_threshold
+	Z$n_simulations 		= simulations
+	Z$simulation_date 		= format(Sys.time(), "%m-%d-%y")
+	Z$y_HT_formula 			= y_HT_formula
+	Z$SamplingDesign 		= SamplingDesign
+	Z$MoransIWeightMatrix 	= WeightMatrix
 	print(Sys.time() - TIME)
 	return(Z)
 }
