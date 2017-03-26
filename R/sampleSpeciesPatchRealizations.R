@@ -454,9 +454,9 @@ sampleSpeciesPatchRealizations <- function(
 							filter(!(is.na(NetworkID))) %>%
 							arrange(NetworkID)
 						if (WeightMatrix=="inverse distance") {
-							A <- temp
-							coordinates(A) = ~ x+y
-							data_dist <- as.matrix(dist(cbind(A$x, A$y)))
+							B <- temp
+							coordinates(B) = ~ x+y
+							data_dist <- as.matrix(dist(cbind(B$x, B$y)))
 							data_dist <- 1/data_dist
 							diag(data_dist) <- 0
 							A[[i]][[j]][[k]]$MoransI <- Moran.I(
