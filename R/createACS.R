@@ -67,12 +67,21 @@ createACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_
 		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),
 			Sampling = "Edge",
 			key = c("x", "y")
-		)
+		) %>%
+		rowwise() %>%
+		mutate(xy = paste(x,y)) %>%
+		ungroup()
+		Z %<>% 
+			rowwise() %>%
+			mutate(xy = paste(x,y)) %>% 
+			ungroup()
+		E %<>% filter(!(xy %in% Z$xy))
 		Z %<>% 
 			rbind.fill(E) %>% 
 			as.data.table %>% 
 			setkey("x", "y") %>% 
-	 	   	unique
+	 	   	unique %>%
+			dplyr::select(-xy)
 		# remove plots outside of population extent
 		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]
 		# fill in values for Edge units
@@ -81,6 +90,8 @@ createACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_
 			Z[ Sampling=="Edge" ]$m <- 0
 		}	
 		setnames(Z, "y_val", y_variable)
+		Z %<>%
+			arrange()
 		return(Z)
 	} else {
 		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample
