@@ -63,23 +63,20 @@ var_y_HT <- function(N, n1, m, y, pi_i_values=NULL) {
 }
 
 
+#' Calculate the variance of the Horvitz-Thompson estimator of the mean using the RACS correction
+#' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
+#' @param N Population size
+#' @param n1 Initial sample size
+#' @param m Vector of $m$, each corresponding to a unique network.
+#' @param y Vector of $y$ total, each corresponding to a unique network.
+#' @param m_threshold threshold value above which to calculate pi_i and pi_j differently.
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @useDynLib ACSampling
+#' @importFrom Rcpp sourceCpp
+#' @export
 
-
-
-
-
-new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
-	if (!(is.null(sampling)) & !(is.null(criterion))) {
-		J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
-	} else {
-		J = 1
-	}
+var_y_HT_RACS <- function(N, n1, m, y, m_threshold, pi_i_values=NULL) {
 	Z = data.frame(y=y, m=m)
-	
-	# with replacement inclusion probability for cluster units
-	# pi_i = 1 - ( 1 - ((m + a)/N) )^ n
-	# how to make this work for a network
-	
 	A <- Z %>% filter(m <= m_threshold)
 	B <- Z %>% filter(m > m_threshold)
 	if (dim(A)[1] > 0) {
@@ -89,37 +86,9 @@ new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m=NULL, sampling=N
 		B$pi_i_values = pi_i(N, n1, m_threshold)
 	}
 	Z <- rbind.fill(A, B) %>% as.data.frame
-	y_HT = sum(unlist(Z$y)*J/unlist(Z$pi_i_values), na.rm=T)/N
-	return(y_HT)	
-}
-
-
-var_y_HT_RACS <- function(N, n1, m, y, pi_i_values=NULL) {
-	pi_ij_values 		<- pi_ij(N, n1, m) %>% as.matrix
-	
-	
-	
-	
-	N_m_n1 	<- sapply(m, function(m) choose(N - m, n1)) 
-	N_m_m_n1 = matrix(
-		nrow = length(m), 
-		ncol = length(m), 
-		NA
-	) # store binom(N-mj-mh, n1)
-	
-	
-	
-	A <- Z %>% filter(m <= m_threshold)
-	B <- Z %>% filter(m > m_threshold)
-	if (dim(A)[1] > 0) {
-		A$pi_i_values = pi_i(N, n1, A$m)	
-	}
-	if (dim(B)[1] > 0) {	
-		B$pi_i_values = pi_i(N, n1, m_threshold)
-	}
-	Z <- rbind.fill(A, B) %>% as.data.frame
+	pi_ij_values 		<- pi_ij_RACS(N, n1, m) %>% as.matrix
 	# replace diagonal (where h = j)
-	diag(pi_ij_values) 	<- pi_i_values	
+	diag(pi_ij_values) 	<- Z$pi_i_values	
 	# dataframe to store sum(k=1 to kappa) sum(m=1 to kappa)
 	V = as.data.frame(matrix(nrow=length(m), ncol=length(m), NA))
 	# calculate for all pairs
