@@ -22,6 +22,13 @@ var_y_HT_RACS(N, n1, m, y, m_threshold, pi_i_values = NULL)
 \description{
 Calculate the variance of the Horvitz-Thompson estimator of the mean using the RACS correction
 }
+\examples{
+patch = patch_data \%>\% filter(n.networks==unique(patch_data$n.networks)[3])
+S <- createSRS(population=patch, seed=26, n1=10)
+initial_sample <- S[, c("x", "y")]
+RACS = createRACS(population=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) \%>\% mutate(Design="(b) RACS, n = 45")
+var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
+}
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }

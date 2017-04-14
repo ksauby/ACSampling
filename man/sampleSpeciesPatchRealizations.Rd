@@ -5,11 +5,11 @@
 \title{cactus patch realizations simulations}
 \usage{
 sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
-  rvar, SamplingDesign = "ACS", y_variable, y_HT_formula = "Thompson",
-  m_threshold = NULL, f_max = 2, SampleEstimators = FALSE,
-  SpatialStatistics = TRUE, mCharacteristics = TRUE,
-  patch_variable = "n.networks", realization_variable = "realization",
-  WeightMatrix = "network membership")
+  rvar, SamplingDesign = "ACS", y_variable, y_HT_formula = "y_HT",
+  var_y_HT_formula = "var_y_HT", m_threshold = NULL, f_max = 2,
+  SampleEstimators = FALSE, SpatialStatistics = TRUE,
+  mCharacteristics = TRUE, patch_variable = "n.networks",
+  realization_variable = "realization", WeightMatrix = "network membership")
 }
 \arguments{
 \item{patchdat}{patch realizations}

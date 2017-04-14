@@ -70,7 +70,8 @@ sampleSpeciesPatchRealizations <- function(
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
 	y_variable,
-	y_HT_formula = "Thompson",
+	y_HT_formula = "y_HT",
+	var_y_HT_formula = "var_y_HT",
 	m_threshold = NULL,
 	f_max = 2,
 	SampleEstimators = FALSE,
@@ -274,7 +275,7 @@ sampleSpeciesPatchRealizations <- function(
 						as.data.table
 					# calculate y_HT
 					m <- O$m
-					if (y_HT_formula == "new_y_HT")
+					if (y_HT_formula == "y_HT_RACS")
 					{
 						HT_results[[1]] <- O %>%
 						.[, oavar, with=FALSE] %>% 
@@ -286,7 +287,7 @@ sampleSpeciesPatchRealizations <- function(
 								m	= m,
 								m_threshold = m_threshold
 							)]
-					} else if (y_HT_formula == "Thompson")
+					} else if (y_HT_formula == "y_HT")
 					{
 						HT_results[[1]] <- O %>%
 							select_(.dots=oavar) %>%
@@ -311,19 +312,36 @@ sampleSpeciesPatchRealizations <- function(
 						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
 					m <- O_smd$m
 					# var_y_HT
-					HT_results[[2]] <- O_smd[, paste(
-						oavar, 
-						"_network_sum", 
-						sep=""
-					), with=FALSE] %>%
-						.[, lapply(
-							.SD, 
-							var_y_HT, 
-							N 	= N, 
-							n1 	= n1, 
-							m	= m
-						)] # this line is slow
-					names(HT_results[[2]]) <- c(occ_abund_var_names)	
+					if (var_y_HT_formula == "var_y_HT_RACS") {
+						HT_results[[2]] <- O_smd[, paste(
+							oavar, 
+							"_network_sum", 
+							sep=""
+						), with=FALSE] %>%
+							.[, lapply(
+								.SD, 
+								var_y_HT_RACS, 
+								N 	= N, 
+								n1 	= n1, 
+								m	= m,
+								m_threshold = m_threshold
+							)]
+						names(HT_results[[2]]) <- c(occ_abund_var_names)
+					} else if (var_y_HT_formula == "var_y_HT") {
+						HT_results[[2]] <- O_smd[, paste(
+							oavar, 
+							"_network_sum", 
+							sep=""
+						), with=FALSE] %>%
+							.[, lapply(
+								.SD, 
+								var_y_HT, 
+								N 	= N, 
+								n1 	= n1, 
+								m	= m
+							)]
+						names(HT_results[[2]]) <- c(occ_abund_var_names)
+					}
 					# RATIO DATA
 					if (!(is.null(rvar))) {
 						# RATIO

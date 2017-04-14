@@ -9,18 +9,19 @@
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' Z = createRestrictedACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value")
+#' Z = createRACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value")
 #' ggplot() +
-#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
-#' 		shape=factor(y_value))) +
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y,shape=factor(y_value))) +
 #' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)
-
+#' 	geom_text(data=Z, aes(x,y, label=NetworkID), shape=0, size=7)
+	
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
 
 #' @export
+
+
 	
-			
+	
 createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
 	if (is.data.frame(initial_sample)) {

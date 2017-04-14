@@ -1,171 +1,3 @@
-21.4*.813
-21.4 -21.4*.813
-library(lubridaste)
-library(lubrida=te)
-library(lubridate)
--v
-install.packages("rgeos", repos="http://R-Forge.R-project.org")#
-require(rgeos)
-library(rgeos)
-require(rgeos)
-library(rgeos)
-install.packages("rgdal", repos="http://R-Forge.R-project.org")#
-require(rgdal)
-R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
- --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
- --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
-R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
-library(lme3)
-library(lme4)
-300/241
-.244*30
-1.25*300
-1.25*240
-7*12
-7849-7527
-322/1353
-8028-7527
-501/1353
-8028-7957
-1353-501
-852/71
-7956-7878
-8176-8029
-8176-8092
-250*.75
-250*.25
-42*2 + 17*2
-118/19
-21/6.2
-59.5*.75
-59.5*.5 + 59.5
-71/12
-597/80
-597/8
-432/8
-15*8 + 9*3
-?seq_len
-7.25/3
-7.25/4
-for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
-install.packages("ProjectTemplate")
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("data.table")
-install.packages("corrgram")
-install.packages("survival")
-install.packages("shapefiles")
-install.packages("rgdal")
-install.packages("PBSmapping")
-install.packages("sp")
-install.packages("gdistance")
-install.packages("chron")
-install.packages("unmarked")
-install.packages("lme4")
-install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
-require(rgeos)
-install.packages('rgdal',repos="http://www.stats.ox.ac.uk/pub/RWin")
-library(rgdal)
-install.packages("http://cran.r-project.org/src/contrib/rgdal_0.9-1.tar.gz", repos = NULL, type="source", configure.args = "--with-gdal-config=/Library/Frameworks/GDAL.framework/Versions/1.10/unix/bin/gdal-config --with-proj-include=/Library/Frameworks/PROJ.framework/unix/include --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib")
-18/1.618
-189+114
-library(lubridate)
-library(magrittr)
-seasons <- data.frame(#
-	   SE = as.POSIXct(c("2009-3-20", "2010-3-20", "2011-3-20", "2012-3-20", #
-            "2013-3-20", "2014-3-20"), format="%Y-%m-%d"),#
-	   SS = as.POSIXct(c("2009-6-21", "2010-6-21", "2011-6-21", "2012-6-20",#
-            "2013-6-20", "2014-6-20"), format="%Y-%m-%d"),#
-	   FE = as.POSIXct(c("2009-9-22", "2010-9-23", "2011-9-23", "2012-9-22",#
-            "2013-9-22", "2014-9-22"), format="%Y-%m-%d"),#
-	   WS = as.POSIXct(c("2009-12-21", "2010-12-21", "2011-12-22", "2012-12-21", #
-            "2013-12-21", "2014-12-21"), format="%Y-%m-%d")#
-    )#
-#
-    assignSeason <- function(dat, SeasonStarts=seasons) {#
-	    dat %<>% mutate(#
-		    Season = lapply(Date,#
-				function(x) {#
-					findInterval(#
-						x, #
-						SeasonStarts[which(year(x)==year(SeasonStarts$WS)), ]#
-					)#
-				}#
-			) %>% unlist	#
-		)#
-	    dat[which(dat$Season==0 | dat$Season==4), ]$Season 	<- "Winter"#
-	    dat[which(dat$Season==1), ]$Season 					<- "Spring"#
-	    dat[which(dat$Season==2), ]$Season 					<- "Summer"#
-	    dat[which(dat$Season==3), ]$Season 					<- "Fall"#
-	    return(dat)#
-    }
-dat = data.frame(#
-	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
-            (0:10)*30, format="%Y-%m-%d" ))#
-    )#
-    dat %>% assignSeason
-library(dplyr)
-dat = data.frame(#
-	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
-            (0:10)*30, format="%Y-%m-%d" ))#
-    )#
-    dat %>% assignSeason
-library(devtoolks)
-library(devtools)
-?install_github
-devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
-devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
-devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-library(devtools)
-devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-??limit
-37-13
-24/37
-37-13
-26/37
-25/37
-23/37
-29/37
-30/37
-22/37
-30/37
-29/37
-28/37
-27/37
-35/37
-30/37
-29/37
-26/37
-26/37 - .6757
-28/37
-30/37
-29/37
-37-12
-25/37
-219*.8
-219*.8 - 17
-26/3
-17/900
-42/900
-49/900
-29/40
-1/25
-8/25
-10/25
-(7.5 + 3.75)/15
-12*0.75
-11 * 0.75
-11/15
-11*0.25
-11/15 * 6
-32/41 +0.03.5
 32/41 + 0.035
 (32/41 + 0.035)*100
 100/41
@@ -180,6 +12,907 @@ install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulation
 102/40
 102/41
 ?table
+9.49/2
+12.75+8.25
+(10.5 + 6.5)/(12.75+8.25)
+.25^2 * 2
+(.25^2 * 2)^0.5
+(.25^2 * 2)^0.5 * 2
+3/8
+5/8
+6/8
+30*1.5
+40*15
+40*1.5
+13.25 - 4.5
+(276.29+8.75)/365
+16*3
+16*4
+84/12
+9/12
+9/12*14
+22+60+78+80+88+98
+22+38+18+2+8+10
+239/785
+(239+53)/785
+.492+.139
+.412+.166+.002
+.412/.58
+.166/.58
+.412*.58
+.71*.58
+98-54
+22+49+43+33+36+44
+60-11
+78-26
+80-35
+88-47
+98-52
+22+49+52+45+41+46
+library(RMark)
+?test_ddl
+data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    release.gof(dipper.processed)
+4+19+7+12
+4+17.83+7+12
+40.83/42
+40.83/42*14
+14
+(11.25+5)/(25.5 + 10.25 - 14)
+365*0.6666
+365*0.6666 - 75.89
+5/6 * 2
+5/6 * 2 + 75.89
+365*0.6666 -77.55667
+365*0.6666 -77.55667 - 6 - 13 - 1
+145.7523/2
+15*3
+11*5
+8/12*14
+4+15.33+5.5+12
+(4+15.33+5.5+12)
+(4+15.33+5.5+12)/(4+19+7+12)
+(4+19+7+12)
+(4+15.33+5.5+12)/(4+19+7+12)*14
+2.5+17.5+12
+32/42
+32/42 * 14
+4+12+6.5+12
+(4+12+6.5+12)/42 * 14
+5/6*2
+5/6*2 + 0.25
+5/6*2 + 0.5
+2577.77/12
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)
+length(m)
+library(ACSampling)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)#
+	m_threshold=4#
+	pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+1 - (#
+	choose(N-m_threshold,n1) +#
+	choose(N-m[6],n1) - #
+	choose(N-m_threshold-m[6],n1)#
+) / choose(N,n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4[1,6]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# (1,6)#
+		# 5 is over threshold#
+		# 3 is not#
+		1 - (#
+			choose(N-m_threshold,n1) +#
+			choose(N-m[6],n1) - #
+			choose(N-m_threshold-m[6],n1)#
+		) / choose(N,n1),#
+		equals(pi_ij_RACS_mthresh_4[1,6])
+)
+library(testthat)
+expect_that(#
+		# (1,6)#
+		# 5 is over threshold#
+		# 3 is not#
+		1 - (#
+			choose(N-m_threshold,n1) +#
+			choose(N-m[6],n1) - #
+			choose(N-m_threshold-m[6],n1)#
+		) / choose(N,n1),#
+		equals(pi_ij_RACS_mthresh_4[1,6])
+)
+expect_that(#
+		# (1,6)#
+		# 5 is over threshold#
+		# 3 is not#
+		1 - (#
+			choose(N-m_threshold,n1) +#
+			choose(N-m[6],n1) - #
+			choose(N-m_threshold-m[6],n1)#
+		) / choose(N,n1),#
+		equals(pi_ij_RACS_mthresh_4[1,2])
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4[1:5,6]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4[1:5,6:8]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# (1,6)#
+		# 5 is over threshold#
+		# 3 is not#
+		1 - (#
+			choose(N-m_threshold,n1) +#
+			choose(N-m[6],n1) - #
+			choose(N-m_threshold-m[6],n1)#
+		) / choose(N,n1),#
+		equals(c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8]),#
+			pi_ij_RACS_mthresh_4[6:8,1:5])#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# (1,6)#
+		# 5 is over threshold#
+		# 3 is not#
+		1 - (#
+			choose(N-m_threshold,n1) +#
+			choose(N-m[6],n1) - #
+			choose(N-m_threshold-m[6],n1)#
+		) / choose(N,n1),#
+		equals(c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		))#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+vector(c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+as.vector(c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		))
+c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)) %>% class
+c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		) %>% class
+c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		) %>% str
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# (1,6)#
+		# 5 is over threshold#
+		# 3 is not#
+		1 - (#
+			choose(N-m_threshold,n1) +#
+			choose(N-m[6],n1) - #
+			choose(N-m_threshold-m[6],n1)#
+		) / choose(N,n1),#
+		equals(c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		))#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# 5 is over threshold#
+		# 3 is not#
+		c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		),#
+		is_equivalent_to(#
+			1 - (#
+				choose(N-m_threshold,n1) +#
+				choose(N-m[6],n1) - #
+				choose(N-m_threshold-m[6],n1)#
+			) / choose(N,n1)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# 5 is over threshold#
+		# 3 is not#
+		c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		),#
+		matches(#
+			1 - (#
+				choose(N-m_threshold,n1) +#
+				choose(N-m[6],n1) - #
+				choose(N-m_threshold-m[6],n1)#
+			) / choose(N,n1)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# 5 is over threshold#
+		# 3 is not#
+		c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		),#
+		equals(#
+			1 - (#
+				choose(N-m_threshold,n1) +#
+				choose(N-m[6],n1) - #
+				choose(N-m_threshold-m[6],n1)#
+			) / choose(N,n1)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# 5 is over threshold#
+		# 3 is not#
+		c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		),#
+		is_identical_to(#
+			1 - (#
+				choose(N-m_threshold,n1) +#
+				choose(N-m[6],n1) - #
+				choose(N-m_threshold-m[6],n1)#
+			) / choose(N,n1)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# 5 is over threshold#
+		# 3 is not#
+		c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		),#
+		 is_equivalent_to(#
+			1 - (#
+				choose(N-m_threshold,n1) +#
+				choose(N-m[6],n1) - #
+				choose(N-m_threshold-m[6],n1)#
+			) / choose(N,n1)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+is_equivalent_to
+? is_equivalent_to
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+rep(1 - (#
+				choose(N-m_threshold,n1) +#
+				choose(N-m[6],n1) - #
+				choose(N-m_threshold-m[6],n1)#
+			) / choose(N,n1), length(vec))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+rep(1 - (#
+				choose(N-m_threshold,n1) +#
+				choose(N-m[6],n1) - #
+				choose(N-m_threshold-m[6],n1)#
+			) / choose(N,n1), length(vec))
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# 5 is over threshold#
+		# 3 is not#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-m[6],n1) - #
+					choose(N-m_threshold-m[6],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4[6:8,6:8]
+write.csv(pi_ij_RACS_mthresh_4)
+write.csv(pi_ij_RACS_mthresh_4, "pi_ij_RACS_mthresh_4.csv")
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4[6:8,6:8]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+pi_ij_RACS_mthresh_4[1:5,6:8]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		# 3 is not over m_threshold#
+		# 3 is not over m_threshold#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[6],n1) +#
+					choose(N-m[6],n1) - #
+					choose(N-m[6]-m[6],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m_threshold-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+as.vector(pi_ij_RACS_mthresh_4[1:5,1:5])
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[1:5,1:5])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					2*choose(N-m_threshold,n1) -#
+					choose(N-2*m_threshold,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8],#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 is_equivalent_to(#
+			1 - (#
+				choose(N-m[6],n1) +#
+				choose(N-m[9],n1) - #
+				choose(N-m[6]-m[9],n1)#
+			) / choose(N,n1)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+1 - (#
+				choose(N-m[6],n1) +#
+				choose(N-m[9],n1) - #
+				choose(N-m[6]-m[9],n1)#
+			) / choose(N,n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[6],n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m[6]-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+as.vector(pi_ij_RACS_mthresh_4[9:13,9:13]))
+as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[9],n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m[9]-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)#
+	m_threshold=4#
+	pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)#
+#
+	# 3 is not over m_threshold#
+	# 3 is not over m_threshold#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[6],n1) +#
+					choose(N-m[6],n1) - #
+					choose(N-m[6]-m[6],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	),#
+	# 5 is over threshold#
+	# 3 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-m[6],n1) - #
+					choose(N-m_threshold-m[6],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	),#
+	# 5 is over threshold#
+	# 1 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m_threshold-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	),#
+	# 3 is not over the threshold#
+	# 1 is not over the threshold#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[6],n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m[6]-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	),#
+	# 1 is not over the threshold#
+	# 1 is not over the threshold	#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[9],n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m[9]-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)	#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)#
+	m_threshold=4#
+	pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)#
+#
+	# 3 is not over m_threshold#
+	# 3 is not over m_threshold#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[6],n1) +#
+					choose(N-m[6],n1) - #
+					choose(N-m[6]-m[6],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 3 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-m[6],n1) - #
+					choose(N-m_threshold-m[6],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 1 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m_threshold-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 3 is not over the threshold#
+	# 1 is not over the threshold#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[6],n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m[6]-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 1 is not over the threshold#
+	# 1 is not over the threshold	#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m[9],n1) +#
+					choose(N-m[9],n1) - #
+					choose(N-m[9]-m[9],n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)	#
+}
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-3,n1) - #
+					choose(N-m_threshold-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-3,n1) - #
+					choose(N-3-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)#
+	m_threshold=4#
+	pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)#
+#
+	# ARE PI_IJ FORMULAS EQUIVALENT WHEN ALL M ARE BELOW M_THRESHOLD#
+	# MANUALLY CALCULATE AND CHECK VALUES IN MATRIX#
+	# 3 is not over m_threshold#
+	# 3 is not over m_threshold#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-3,n1) - #
+					choose(N-3-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 3 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-3,n1) - #
+					choose(N-m_threshold-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 1 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-1,n1) - #
+					choose(N-m_threshold-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 3 is not over the threshold#
+	# 1 is not over the threshold#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-1,n1) - #
+					choose(N-3-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 1 is not over the threshold#
+	# 1 is not over the threshold	#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),#
+		 is_equivalent_to(#
+			rep(#
+				1 - (#
+					choose(N-1,n1) +#
+					choose(N-1,n1) - #
+					choose(N-1-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)	#
+}#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-1,n1) - #
+					choose(N-3-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 1 is not over the threshold
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		pi_ij_RACS_mthresh_6,#
+		 equals(pi_ij_RACS_no_mthresh)	#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)#
+	m_threshold=4#
+	pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)#
+#
+	# ARE PI_IJ FORMULAS EQUIVALENT WHEN ALL M ARE BELOW M_THRESHOLD#
+	expect_that(#
+		pi_ij_RACS_mthresh_6,#
+		 equals(pi_ij_RACS_no_mthresh)	#
+	)#
+	# MANUALLY CALCULATE AND CHECK VALUES IN MATRIX#
+	# 3 is not over m_threshold#
+	# 3 is not over m_threshold#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-3,n1) - #
+					choose(N-3-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 3 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-3,n1) - #
+					choose(N-m_threshold-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 1 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-1,n1) - #
+					choose(N-m_threshold-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 3 is not over the threshold#
+	# 1 is not over the threshold#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-1,n1) - #
+					choose(N-3-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 1 is not over the threshold#
+	# 1 is not over the threshold	#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-1,n1) +#
+					choose(N-1,n1) - #
+					choose(N-1-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)	#
+}#
+)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -188,685 +921,203 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-source("1_set_variables.R")#
-source("2_create_realizations.R")#
-source("3_summarise_network_information.R")#
-source("4_calculate_realization_summary_statistics.R")#
-Sys.time()#
-#source("5_run_simulations.R")#
-source("6_merge_simulation_results.R")#
-source("7_simulation_summary_statistics.R")#
-source("8_number_of_bootstraps_per_realization_sampling.R")
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# create population#
-lambdap_5_tau_10 <- expand.grid(#
-	x = 1:10,#
-	y = 1:10#
-) %>%#
-	cbind(#
-		y_value = c(#
-			rep(0,4),3,10,22,16,7,7,#
-			rep(0,3),2,1,10,10,13,16,9,#
-			0,0,1,5,1,5,8,5,8,6,#
-			2,1,4,9,8,1,0,1,1,1,#
-			1,6,7,9,3,5,1,1,2,0,#
-			0,4,8,6,5,2,4,3,2,2,#
-			1,1,rep(0,4),3,9,8,3,#
-			0,0,0,2,0,0,0,2,3,1,#
-			rep(0,7),1,0,0,#
-			rep(0,10)#
-		)#
-	)#
-lambdap_5_tau_10_networks <- assignNetworkMembership(#
-	lambdap_5_tau_10 %>% filter(y_value > 0), #
-	plot.size=1#
-)#
-# fill in m values#
-P = merge(lambdap_5_tau_10, lambdap_5_tau_10_networks, all=T)#
-P[which(P$y_value==0), ]$m <- 1#
-# fill in NetworkIDs#
-maxID <- max(P$NetworkID, na.rm=T)#
-P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+patch = patch_data %>% filter(n.networks==unique(patch_data$n.networks)[3])#
 #
-ggplot(temp, aes(x, y)) + geom_text(aes(label=y_value))
-head(P)
+S <- createSRS(population=patch, seed=26, n1=10)#
+initial_sample <- S[, c("x", "y")]#
+RACS = createRACS(population=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) %>%#
+mutate(Design="(b) RACS, n = 45")
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ggplot(temp, aes(x, y)) + geom_text(aes(label="y_value"))
+RACS
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
-#
-samplesizes <- data.frame(#
-	seed = 1:8000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()
-i=8000
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")#
-	# I just filtered out the edge units, why don't these other calculations work?#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]
-temp
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-temp$y_value
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-dim(P)[1]
+var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-criterion=NULL
+var_y_HT_RACS <- function(N, n1, m, y, m_threshold, pi_i_values=NULL) {#
+	Z = data.frame(y=y, m=m)#
+	A <- Z %>% filter(m <= m_threshold)#
+	B <- Z %>% filter(m > m_threshold)#
+	if (dim(A)[1] > 0) {#
+		A$pi_i_values = pi_i(N, n1, A$m)	#
+	}#
+	if (dim(B)[1] > 0) {	#
+		B$pi_i_values = pi_i(N, n1, m_threshold)#
+	}#
+	Z <- rbind.fill(A, B) %>% as.data.frame#
+	pi_ij_values 		<- pi_ij_RACS(N, n1, m) %>% as.matrix#
+	# replace diagonal (where h = j)#
+	diag(pi_ij_values) 	<- Z$pi_i_values	#
+	# dataframe to store sum(k=1 to kappa) sum(m=1 to kappa)#
+	V = as.data.frame(matrix(nrow=length(m), ncol=length(m), NA))#
+	# calculate for all pairs#
+	V <- var_y_HT_cpp(m, pi_i_values, pi_ij_values, y)#
+	sum(V, na.rm=T)/(N^2)#
+}
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-J = 1
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-m = temp$m
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-n1 = samplesizes$N.SRSWOR.plots[i]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-N = dim(P)[1]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-y = temp$y_value
+var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-pi_i_values = pi_i(N, n1, m)
-warnings()
-pi_i_values
-pi_i_values = pi_i(N, n1, m[2])
-m[2]
-N
-n1
-(1 - nchoosek((N-m[2])/n1))
-choose((N-m[2]), n1)
-N-m[2]
-n1
-choose(42,50)
-choose(100,50)
+N=dim(patch)[1]
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# create population#
-lambdap_5_tau_10 <- expand.grid(#
-	x = 1:10,#
-	y = 1:10#
-) %>%#
-	cbind(#
-		y_value = c(#
-			rep(0,10),#
-			rep(0,4), 49, rep(0,5),#
-			rep(0,4), 1, rep(0,5),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,7), 52, 5, 0,#
-			rep(0,8), 45, 0,#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,10)#
-		)#
-	)#
-lambdap_5_tau_10_networks <- assignNetworkMembership(#
-	lambdap_5_tau_10 %>% filter(y_value > 0), #
-	plot.size=1#
-)#
-# fill in m values#
-P = merge(lambdap_5_tau_10, lambdap_5_tau_10_networks, all=T)#
-P[which(P$y_value==0), ]$m <- 1#
-# fill in NetworkIDs#
-maxID <- max(P$NetworkID, na.rm=T)#
-P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
-#
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+n1=10
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# create population#
-lambdap_5_tau_1 <- expand.grid(#
-	x = 1:10,#
-	y = 1:10#
-) %>%#
-	cbind(#
-		y_value = c(#
-			rep(0,10),#
-			rep(0,4), 49, rep(0,5),#
-			rep(0,4), 1, rep(0,5),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,7), 52, 5, 0,#
-			rep(0,8), 45, 0,#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,10)#
-		)#
-	)#
-lambdap_5_tau_10_networks <- assignNetworkMembership(#
-	lambdap_5_tau_10 %>% filter(y_value > 0), #
-	plot.size=1#
-)#
-# fill in m values#
-P = merge(lambdap_5_tau_10, lambdap_5_tau_10_networks, all=T)#
-P[which(P$y_value==0), ]$m <- 1#
-# fill in NetworkIDs#
-maxID <- max(P$NetworkID, na.rm=T)#
-P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
-#
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+m=RACS$m
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y=RACS$Cactus
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m_threshold=7
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = data.frame(y=y, m=m)#
+	A <- Z %>% filter(m <= m_threshold)#
+	B <- Z %>% filter(m > m_threshold)#
+	if (dim(A)[1] > 0) {#
+		A$pi_i_values = pi_i(N, n1, A$m)	#
+	}#
+	if (dim(B)[1] > 0) {	#
+		B$pi_i_values = pi_i(N, n1, m_threshold)#
+	}#
+	Z <- rbind.fill(A, B) %>% as.data.frame#
+	pi_ij_values 		<- pi_ij_RACS(N, n1, m) %>% as.matrix
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_y_HT_RACS <- function(N, n1, m, y, m_threshold, pi_i_values=NULL) {#
+	Z = data.frame(y=y, m=m)#
+	A <- Z %>% filter(m <= m_threshold)#
+	B <- Z %>% filter(m > m_threshold)#
+	if (dim(A)[1] > 0) {#
+		A$pi_i_values = pi_i(N, n1, A$m)	#
+	}#
+	if (dim(B)[1] > 0) {	#
+		B$pi_i_values = pi_i(N, n1, m_threshold)#
+	}#
+	Z <- rbind.fill(A, B) %>% as.data.frame#
+	pi_ij_values 		<- pi_ij_RACS(N, n1, m, m_threshold) %>% as.matrix#
+	# replace diagonal (where h = j)#
+	diag(pi_ij_values) 	<- Z$pi_i_values	#
+	# dataframe to store sum(k=1 to kappa) sum(m=1 to kappa)#
+	V = as.data.frame(matrix(nrow=length(m), ncol=length(m), NA))#
+	# calculate for all pairs#
+	V <- var_y_HT_cpp(m, pi_i_values, pi_ij_values, y)#
+	sum(V, na.rm=T)/(N^2)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
+library(testthat)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-P <- lambdap_5_tau_1#
-samplesizes <- data.frame(#
-	seed = 1:4000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")#
-	# I just filtered out the edge units, why don't these other calculations work?#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
+#### TESTING#
 #
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
+test_that("y_HT, Horvitz-Thompson Mean Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(38)#
 	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# create population#
-lambdap_5_tau_1 <- expand.grid(#
-	x = 1:10,#
-	y = 1:10#
-) %>%#
-	cbind(#
-		y_value = c(#
-			rep(0,10),#
-			rep(0,4), 49, rep(0,5),#
-			rep(0,4), 1, rep(0,5),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,7), 52, 5, 0,#
-			rep(0,8), 45, 0,#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,10)#
-		)#
+	# Example from Thompson (1990), end of second full paragraph, p. 1055#
+	mk <- c(1,0,2,2)#
+	y_value <- c(1,2,10,1000)#
+	sampling <- c("S","C","S","C")#
+	dat <- data.frame(mk, y_value, sampling)#
+	dat$mk %<>% as.numeric#
+	dat$y_value %<>% as.numeric#
+	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
+	expect_that(#
+		round(#
+			y_HT(#
+				N = 5, #
+				m = dat_filter$mk, #
+				n1 = 2, #
+				y = dat_filter$y_value#
+			), 2#
+		),#
+		equals(289.07)#
 	)#
-lambdap_5_tau_1_networks <- assignNetworkMembership(#
-	lambdap_5_tau_1 %>% filter(y_value > 0), #
-	plot.size=1#
-)#
-# fill in m values#
-P = merge(lambdap_5_tau_1, lambdap_5_tau_1_networks, all=T)#
-P[which(P$y_value==0), ]$m <- 1#
-# fill in NetworkIDs#
-maxID <- max(P$NetworkID, na.rm=T)#
-P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
-#
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+})
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-P <- lambdap_5_tau_1#
-samplesizes <- data.frame(#
-	seed = 1:4000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")#
-	# I just filtered out the edge units, why don't these other calculations work?#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-head(P)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# create population#
-lambdap_5_tau_1 <- expand.grid(#
-	x = 1:10,#
-	y = 1:10#
-) %>%#
-	cbind(#
-		y_value = c(#
-			rep(0,10),#
-			rep(0,4), 49, rep(0,5),#
-			rep(0,4), 1, rep(0,5),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,7), 52, 5, 0,#
-			rep(0,8), 45, 0,#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,10)#
-		)#
-	)#
-lambdap_5_tau_1_networks <- assignNetworkMembership(#
-	lambdap_5_tau_1 %>% filter(y_value > 0), #
-	plot.size=1#
-)#
-# fill in m values#
-P = merge(lambdap_5_tau_1, lambdap_5_tau_1_networks, all=T)#
-P[which(P$y_value==0), ]$m <- 1#
-# fill in NetworkIDs#
-maxID <- max(P$NetworkID, na.rm=T)#
-P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
-#
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
+expect_that(#
+		round(#
+			y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(38)#
+	)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
-# not calculating pi_i correctly#
-samplesizes <- data.frame(#
-	seed = 1:4000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=1000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")#
-	# I just filtered out the edge units, why don't these other calculations work?#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
+y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
-# not calculating pi_i correctly#
-samplesizes <- data.frame(#
-	seed = 1:8000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=2000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")#
-	# I just filtered out the edge units, why don't these other calculations work?#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# create population#
-lambdap_5_tau_25 <- expand.grid(#
-	x = 1:10,#
-	y = 1:10#
-) %>%#
-	cbind(#
-		y_value = c(#
-			0,0,0,4,rep(0,6),#
-			0,0,0,43,17,rep(0,5),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,2), rep(1,4), rep(0,4),#
-			rep(0,2), 50, 51, 41, 5, rep(0,4),#
-			rep(0,2), 2, 1, rep(0,6),#
-			rep(0,10),#
-			rep(0,10)#
-		)#
-	)#
-lambdap_5_tau_25_networks <- assignNetworkMembership(#
-	lambdap_5_tau_25 %>% filter(y_value > 0), #
-	plot.size=1#
-)#
-# fill in m values#
-P = merge(lambdap_5_tau_25, lambdap_5_tau_25_networks, all=T)#
-P[which(P$y_value==0), ]$m <- 1#
-# fill in NetworkIDs#
-maxID <- max(P$NetworkID, na.rm=T)#
-P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
-#
-ggplot(P, aes(x, y)) + geom_text(aes(label=y_value))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ggplot(P %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-66.95/20
-P
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# create population#
-lambdap_5_tau_25 <- expand.grid(#
-	x = 1:10,#
-	y = 1:10#
-) %>%#
-	cbind(#
-		y_value = c(#
-			0,0,0,4,rep(0,6),#
-			0,0,0,43,17,rep(0,5),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,10),#
-			rep(0,2), rep(1,4), rep(0,4),#
-			rep(0,2), 50, 51, 41, 5, rep(0,4),#
-			rep(0,2), 2, 1, rep(0,6),#
-			rep(0,10),#
-			rep(0,10)#
-		)#
-	)#
-lambdap_5_tau_25_networks <- assignNetworkMembership(#
-	lambdap_5_tau_25 %>% filter(y_value > 0), #
-	plot.size=1#
-)#
-# fill in m values#
-P = merge(lambdap_5_tau_25, lambdap_5_tau_25_networks, all=T)#
-P[which(P$y_value==0), ]$m <- 1#
-# fill in NetworkIDs#
-maxID <- max(P$NetworkID, na.rm=T)#
-P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
-	to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
-#
-ggplot(P %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+round(#
+			y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		)
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# why is mean of observed means 0.020100 for N.SRSWOR.plots=50?#
-# not calculating pi_i correctly#
-samplesizes <- data.frame(#
-	seed = 1:12000,#
-	N.SRSWOR.plots = rep(c(1,10,25,50),each=3000)#
-)#
-y_value_mean_observed <- vector()#
-y_value_var_observed <- vector()#
-total_sample_size <- vector()#
-for (i in 1:dim(samplesizes)[1]) {#
-	temp <- createACS(#
-		population=P, #
-		seed=samplesizes$seed[i], #
-		n1=samplesizes$N.SRSWOR.plots[i],#
-		y_variable="y_value"#
-	) %>% filter(Sampling!="Edge")#
-	# I just filtered out the edge units, why don't these other calculations work?#
-	y_value_mean_observed[i] <- y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	y_value_var_observed[i] <- var_y_HT(#
-		y = temp$y_value,#
-		N = dim(P)[1],#
-		n1 = samplesizes$N.SRSWOR.plots[i],#
-		m = temp$m#
-	)#
-	total_sample_size[i] <- dim(temp)[1]#
-}#
-ACSdata <- cbind(#
-	samplesizes,#
-	y_value_mean_observed,#
-	y_value_var_observed,#
-	total_sample_size#
-)#
-temp <- ACSdata %>%#
-	group_by(N.SRSWOR.plots) %>%#
-	summarise(#
-		mean_total_sample_size = round(mean(total_sample_size, na.rm=T),0)#
-	)#
-ACSdata_re <- ACSdata %>% merge(temp, by="N.SRSWOR.plots")#
-#
-# summarise population data#
-P_summary <- #
-	calculatePopulationSummaryStatistics(#
-		population_data		= P, #
-		summary.variables 	= "y_value", #
-		grouping.variables 	= NULL, #
-		ratio.variables 	= NULL#
-	)#
-ACSdata_summary_stats <- calculateSamplingBias(#
-	population_data_summary	= P_summary, #
-	simulation_data		= ACSdata_re, #
-	population.grouping.variables = NULL, #
-	sampling.grouping.variables	= "mean_total_sample_size", #
-	variables			= "y_value", #
-	rvar				= NULL #
-) %>%#
-as.data.frame#
-population_variance <- var(P$y_value)#
-RE_values <-  #
-	(var(P$y_value) / ACSdata_summary_stats$mean_total_sample_size) / #
-	ACSdata_summary_stats$y_value_mean_MSE#
-calculateRE(#
-	MSE_ComparisonSamplingDesign = ACSdata_summary_stats,#
-	population_data = P,#
-	population.grouping.variables = NULL,#
-	sampling.grouping.variables = NULL,#
-	sample.size.variable = "mean_total_sample_size",#
-	variables = "y_value"#
-)
+expect_that(#
+		round(#
+			y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(38)#
+	)
+?expect_that
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+round(#
+			y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		)

@@ -74,9 +74,19 @@ var_y_HT <- function(N, n1, m, y, pi_i_values=NULL) {
 #' @useDynLib ACSampling
 #' @importFrom Rcpp sourceCpp
 #' @export
+#' @examples
+#' patch = patch_data %>% filter(n.networks==unique(patch_data$n.networks)[3])
+
+#' S <- createSRS(population=patch, seed=26, n1=10)
+#' initial_sample <- S[, c("x", "y")]
+
+
+#' RACS = createRACS(population=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) %>% mutate(Design="(b) RACS, n = 45")
+
+#' var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
 
 var_y_HT_RACS <- function(N, n1, m, y, m_threshold, pi_i_values=NULL) {
-	Z = data.frame(y=y, m=m)
+	Z = data.frame(y=y, m=m) %>% arrange(m)
 	A <- Z %>% filter(m <= m_threshold)
 	B <- Z %>% filter(m > m_threshold)
 	if (dim(A)[1] > 0) {
@@ -86,7 +96,8 @@ var_y_HT_RACS <- function(N, n1, m, y, m_threshold, pi_i_values=NULL) {
 		B$pi_i_values = pi_i(N, n1, m_threshold)
 	}
 	Z <- rbind.fill(A, B) %>% as.data.frame
-	pi_ij_values 		<- pi_ij_RACS(N, n1, m) %>% as.matrix
+	pi_i_values 		<- Z$pi_i_values
+	pi_ij_values 		<- pi_ij_RACS(N, n1, m, m_threshold) %>% as.matrix
 	# replace diagonal (where h = j)
 	diag(pi_ij_values) 	<- Z$pi_i_values	
 	# dataframe to store sum(k=1 to kappa) sum(m=1 to kappa)
