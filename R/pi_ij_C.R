@@ -53,16 +53,21 @@ pi_ij_RACS <- function(N, n1, m, m_threshold) {
 		ncol = length(m), 
 		NA
 	) # store binom(N-mj-mh, n1)
+	N_m_threshold_m_n1 = NA
 	for (j in 1 : length(m)) {
 	  N_m_m_n1[j, ] = choose((N - m[j] - m), n1)
-	}	
+	}
+	for (j in 1 : length(m)) {
+	  N_m_threshold_m_n1[j] = choose((N - m_threshold - m[j]), n1)
+	}
 	pi_ij_RACS_cpp(
 		m, 
 		N_n1, 
 		N_m_threshold_n1, 
 		N_2m_threshold_n1,
 		m_threshold,
-		N_m_n1, 
+		N_m_n1,
+		N_m_threshold_m_n1,
 		N_m_m_n1
 	)
 }

@@ -21,8 +21,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // pi_ij_RACS_cpp
-Rcpp::NumericMatrix pi_ij_RACS_cpp(Rcpp::NumericVector m, double N_n1, double N_m_threshold_n1, double N_2m_threshold_n1, double m_threshold, Rcpp::NumericVector N_m_n1, Rcpp::NumericMatrix N_m_m_n1);
-RcppExport SEXP ACSampling_pi_ij_RACS_cpp(SEXP mSEXP, SEXP N_n1SEXP, SEXP N_m_threshold_n1SEXP, SEXP N_2m_threshold_n1SEXP, SEXP m_thresholdSEXP, SEXP N_m_n1SEXP, SEXP N_m_m_n1SEXP) {
+Rcpp::NumericMatrix pi_ij_RACS_cpp(Rcpp::NumericVector m, double N_n1, double N_m_threshold_n1, double N_2m_threshold_n1, double m_threshold, Rcpp::NumericVector N_m_n1, Rcpp::NumericVector N_m_threshold_m_n1, Rcpp::NumericMatrix N_m_m_n1);
+RcppExport SEXP ACSampling_pi_ij_RACS_cpp(SEXP mSEXP, SEXP N_n1SEXP, SEXP N_m_threshold_n1SEXP, SEXP N_2m_threshold_n1SEXP, SEXP m_thresholdSEXP, SEXP N_m_n1SEXP, SEXP N_m_threshold_m_n1SEXP, SEXP N_m_m_n1SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,8 +32,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type N_2m_threshold_n1(N_2m_threshold_n1SEXP);
     Rcpp::traits::input_parameter< double >::type m_threshold(m_thresholdSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type N_m_n1(N_m_n1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type N_m_threshold_m_n1(N_m_threshold_m_n1SEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type N_m_m_n1(N_m_m_n1SEXP);
-    rcpp_result_gen = Rcpp::wrap(pi_ij_RACS_cpp(m, N_n1, N_m_threshold_n1, N_2m_threshold_n1, m_threshold, N_m_n1, N_m_m_n1));
+    rcpp_result_gen = Rcpp::wrap(pi_ij_RACS_cpp(m, N_n1, N_m_threshold_n1, N_2m_threshold_n1, m_threshold, N_m_n1, N_m_threshold_m_n1, N_m_m_n1));
     return rcpp_result_gen;
 END_RCPP
 }

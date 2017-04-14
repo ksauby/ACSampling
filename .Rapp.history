@@ -1,65 +1,3 @@
-21.4*.813
-21.4 -21.4*.813
-library(lubridaste)
-library(lubrida=te)
-library(lubridate)
--v
-install.packages("rgeos", repos="http://R-Forge.R-project.org")#
-require(rgeos)
-library(rgeos)
-require(rgeos)
-library(rgeos)
-install.packages("rgdal", repos="http://R-Forge.R-project.org")#
-require(rgdal)
-R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
- --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
- --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
-R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
-library(lme3)
-library(lme4)
-300/241
-.244*30
-1.25*300
-1.25*240
-7*12
-7849-7527
-322/1353
-8028-7527
-501/1353
-8028-7957
-1353-501
-852/71
-7956-7878
-8176-8029
-8176-8092
-250*.75
-250*.25
-42*2 + 17*2
-118/19
-21/6.2
-59.5*.75
-59.5*.5 + 59.5
-71/12
-597/80
-597/8
-432/8
-15*8 + 9*3
-?seq_len
-7.25/3
-7.25/4
-for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
-install.packages("ProjectTemplate")
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("data.table")
-install.packages("corrgram")
-install.packages("survival")
-install.packages("shapefiles")
-install.packages("rgdal")
-install.packages("PBSmapping")
-install.packages("sp")
-install.packages("gdistance")
-install.packages("chron")
 install.packages("unmarked")
 install.packages("lme4")
 install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
@@ -194,13 +132,63 @@ install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulation
 40*1.5
 13.25 - 4.5
 (276.29+8.75)/365
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-#devtools::test()#
-devtools::document()#
-devtools::install()
-library(ACSampling)
+16*3
+16*4
+84/12
+9/12
+9/12*14
+22+60+78+80+88+98
+22+38+18+2+8+10
+239/785
+(239+53)/785
+.492+.139
+.412+.166+.002
+.412/.58
+.166/.58
+.412*.58
+.71*.58
+98-54
+22+49+43+33+36+44
+60-11
+78-26
+80-35
+88-47
+98-52
+22+49+52+45+41+46
+library(RMark)
+?test_ddl
+data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    release.gof(dipper.processed)
+4+19+7+12
+4+17.83+7+12
+40.83/42
+40.83/42*14
+14
+(11.25+5)/(25.5 + 10.25 - 14)
+365*0.6666
+365*0.6666 - 75.89
+5/6 * 2
+5/6 * 2 + 75.89
+365*0.6666 -77.55667
+365*0.6666 -77.55667 - 6 - 13 - 1
+145.7523/2
+15*3
+11*5
+8/12*14
+4+15.33+5.5+12
+(4+15.33+5.5+12)
+(4+15.33+5.5+12)/(4+19+7+12)
+(4+19+7+12)
+(4+15.33+5.5+12)/(4+19+7+12)*14
+2.5+17.5+12
+32/42
+32/42 * 14
+4+12+6.5+12
+(4+12+6.5+12)/42 * 14
+5/6*2
+5/6*2 + 0.25
+5/6*2 + 0.5
+2577.77/12
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -212,25 +200,532 @@ load.project()
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 source("1_set_variables.R")#
 source("2_create_realizations.R")#
-source("3_summarise_network_information.R")#
-source("4_calculate_realization_summary_statistics.R")
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-#devtools::test()#
-devtools::document()
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-#devtools::test()#
-devtools::document()#
-devtools::install()#
-devtools::build()
-sessionInfo()
-?Sigma
+source("3_summarise_network_information.R")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# calculate realization summary statistics#
+patch_data_summary <- calculatePopulationSummaryStatistics(#
+	population_data 	= patch_data, #
+	summary.variables 	= c(ovar,rvar), #
+	grouping.variables 	= grouping.variables, #
+	ratio.variables 	= rvar#
+)#
+patch_data_summary$n.networks %<>% factor(levels=c("5","10","15","20","30","40"))#
+#
+patch_data_summary %<>% arrange(n.networks)#
+#
+# within-network sum of squares#
+	A <- vector("list", length(variables))#
+	for (i in 1:length(variables)) {#
+		A[[i]] <- list()#
+		variable_value <- patch_data %>%#
+			mutate_(#
+				variable_value = interp(#
+					~var, #
+					var = #
+					as.name(variables[i])#
+				)#
+			)#
+		network_mean <- patch_data %>%#
+			group_by(n.networks, NetworkID) %>%#
+			summarise_(#
+				network_mean = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(variables[i])#
+				)#
+			)#
+		overall_mean <- patch_data %>%#
+			group_by(n.networks) %>%#
+			summarise_(#
+				overall_mean = interp(#
+					~mean(var, na.rm = TRUE), #
+					var = #
+					as.name(variables[i])#
+				)#
+			)#
+		A[[i]] <- variable_value %>% merge(#
+			network_mean, #
+			by=c("n.networks", "NetworkID")#
+		) %>%#
+			merge(overall_mean, by = "n.networks") %>%#
+			mutate(#
+				sqd_diff_network_mean = (variable_value - network_mean)^2,#
+				sqd_diff_overall_mean = (variable_value - overall_mean)^2#
+			) %>%#
+			group_by(n.networks) %>%#
+			summarise(#
+				within_network_SS = sum(sqd_diff_network_mean),#
+				total_SS = sum(sqd_diff_overall_mean)#
+			) %>%#
+			mutate(SSQr = within_network_SS / total_SS) %>%#
+			setnames(#
+		      	.,#
+		      	"SSQr",#
+		      	paste(#
+		      		variables[i],#
+		      		"_SSQr",#
+		      		sep=""#
+				)#
+			) %>%#
+			dplyr::select(-c(within_network_SS, total_SS))#
+	}#
+	SSQr <- Reduce(#
+		function(x, y) merge(#
+			x, y,#
+			by="n.networks"#
+		),#
+		A#
+	)#
+### ADD LEVELS TO PATCH_DATA BASED ON THIS SUMMARY#
+# LEVELS OF CACTUS OCCUPANCY#
+patch_data$n.networks %<>% factor(levels = c("5","10","15","20","30","40"))#
+Cactus_mean <- patch_data_summary$Cactus_mean %>% round(3)#
+patch_data$n.networks.for.plotting <- patch_data$n.networks#
+levels(patch_data$n.networks.for.plotting) <- c(#
+	expression(atop(#
+		'Population 1',#
+		'Cactus Occupancy'~mu[C]~' = 0.032'#
+	)), #
+	expression(atop(#
+		'Population 2',#
+		mu[C]~' = 0.064'#
+	)), #
+	expression(atop(#
+		'Population 3',#
+		mu[C]~' = 0.098'#
+	)), #
+	expression(atop(#
+		'Population 4',#
+		mu[C]~' = 0.144'#
+	)), #
+	expression(atop(#
+		'Population 5',#
+		mu[C]~' = 0.157'#
+	)), #
+	expression(atop(#
+		'Population 6',#
+		mu[C]~' = 0.24'#
+	))#
+)#
+#
+# LEVELS OF STRICTA OCCUPANCY#
+patch_data$n.networks.for.plotting -> patch_data$stricta_occ#
+Stricta_mean <- patch_data_summary$Stricta_mean %>% round(3)#
+#
+levels(patch_data$stricta_occ) <- c(#
+	expression(atop(#
+		'Population 1',#
+		italic("O. stricta")*","~mu[s]~' = 0.019'#
+	)), #
+	expression(atop(#
+		'Population 2',#
+		mu[s]~' = 0.047'#
+	)), #
+	expression(atop(#
+		'Population 3',#
+		mu[s]~' = 0.063'#
+	)), #
+	expression(atop(#
+		'Population 4',#
+		mu[s]~' = 0.091'#
+	)), #
+	expression(atop(#
+		'Population 5',#
+		mu[s]~' = 0.111'#
+	)), #
+	expression(atop(#
+		'Population 6',#
+		mu[s]~' = 0.152'#
+	))#
+)#
+#
+# LEVELS OF PUSILLA OCCUPANCY#
+patch_data$n.networks.for.plotting -> patch_data$pusilla_occ#
+Pusilla_mean <- patch_data_summary$Pusilla_mean %>% round(3)#
+levels(patch_data$pusilla_occ) <- c(#
+	expression(atop(#
+		'Population 1',#
+		italic("O. pusilla")*","~mu[p]~' = 0.014'#
+	)), #
+	expression(atop(#
+		'Population 2',#
+		mu[p]~' = 0.03'#
+	)), #
+	expression(atop(#
+		'Population 3',#
+		mu[p]~' = 0.042'#
+	)), #
+	expression(atop(#
+		'Population 4',#
+		mu[p]~' = 0.078'#
+	)), #
+	expression(atop(#
+		'Population 5',#
+		mu[p]~' = 0.053'#
+	)), #
+	expression(atop(#
+		'Population 6',#
+		mu[p]~' = 0.11'#
+	))#
+) #
+patch_data %<>% mutate(#
+	Stricta_vars = paste(Stricta, CACA_on_Stricta, MEPR_on_Stricta),#
+	Pusilla_vars = paste(Pusilla, CACA_on_Pusilla, MEPR_on_Pusilla),#
+	Cactus_vars = paste(Pusilla, Stricta),#
+	Cactus_occ = Cactus,#
+	Moth_damage_vars = paste(#
+		Cactus,#
+		Old_Moth_Evidence_Pusilla,#
+		Old_Moth_Evidence_Stricta#
+	)#
+)#
+patch_data$Cactus_occ %<>% as.factor#
+levels(patch_data$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
+#
+patch = patch_data %>% filter(n.networks==unique(patch_data$n.networks)[3])#
+#
+patch_data_stricta <- patch_data %>% filter(Stricta_vars!="0 0 0")#
+patch_data_stricta$Stricta_vars %<>% as.factor#
+patch_data_pusilla <- patch_data %>% filter(Pusilla_vars!="0 0 0")#
+patch_data_pusilla$Pusilla_vars %<>% as.factor#
+patch_data_cactus <- patch_data %>% filter(Cactus_vars!="0 0")#
+patch_data_cactus$Cactus_vars %<>% as.factor#
+patch_data_moth_damage <- patch_data %>% filter(Moth_damage_vars!="0 0 0")#
+patch_data_moth_damage$Moth_damage_vars %<>% as.factor#
+#
+patch_data %<>% arrange(x,y)#
+#
+patch_data_40 <- patch_data %>% filter(n.networks==40)#
+coordinates(patch_data_40) = ~ x+y#
+patch_data_30 <- patch_data %>% filter(n.networks==30)#
+coordinates(patch_data_30) = ~ x+y#
+patch_data_20 <- patch_data %>% filter(n.networks==20)#
+coordinates(patch_data_20) = ~ x+y#
+patch_data_15 <- patch_data %>% filter(n.networks==15)#
+coordinates(patch_data_15) = ~ x+y#
+patch_data_10 <- patch_data %>% filter(n.networks==10)#
+coordinates(patch_data_10) = ~ x+y#
+patch_data_5 <- patch_data %>% filter(n.networks==5)#
+coordinates(patch_data_5) = ~ x+y#
+#
+# semivariogram#
+#
+var5 <- autofitVariogram(Cactus ~ 1, patch_data_5)#
+var10 <- autofitVariogram(Cactus ~ 1, patch_data_10)#
+var15 <- autofitVariogram(Cactus ~ 1, patch_data_15)#
+var20 <- autofitVariogram(Cactus ~ 1, patch_data_20)#
+var30 <- autofitVariogram(Cactus ~ 1, patch_data_30)#
+var40 <- autofitVariogram(Cactus ~ 1, patch_data_40)#
+#
+var5_parms <- var5$var_model#
+var10_parms <-  var10$var_model#
+var15_parms <-  var15$var_model#
+var20_parms <-  var20$var_model#
+var30_parms <-  var30$var_model#
+var40_parms <-  var40$var_model#
+patch_data_summary$semivar_nugget <- c(#
+	var5_parms[1, ]$psill,#
+	var10_parms[1, ]$psill,#
+	var15_parms[1, ]$psill,#
+	var20_parms[1, ]$psill,#
+	var30_parms[1, ]$psill,#
+	var40_parms[1, ]$psill#
+)#
+#
+# psill, partial sill (?): asymptote#
+# range: lag at which the sill is reached#
+# nugget: y-intercept#
+# sill: partial sill + nugget; the variance of a second-order stationary process#
+#
+patch_data_summary$partial_sill <- c(#
+	var5_parms[2, ]$psill,#
+	var10_parms[2, ]$psill,#
+	var15_parms[2, ]$psill,#
+	var20_parms[2, ]$psill,#
+	var30_parms[2, ]$psill,#
+	var40_parms[2, ]$psill#
+)#
+#
+patch_data_summary$range <- c(#
+	var5_parms[2, ]$range,#
+	var10_parms[2, ]$range,#
+	var15_parms[2, ]$range,#
+	var20_parms[2, ]$range,#
+	var30_parms[2, ]$range,#
+	var40_parms[2, ]$range#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+expand.grid.df <- function(...) Reduce(function(...) merge(..., by=NULL), list(...))#
+patch_data_summary_f_max <- expand.grid.df(patch_data_summary, f_max = 1:3) %>%#
+setnames("y", "f_max")#
+#
+patch_data_summary_f_max$optimal_m_threshold <- c(#
+	3,3,3,4,3,4,#
+	5,7,7,8,7,9,#
+	7,10,10,12,11,14#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+source("6_merge_simulation_results.R")#
+source("7_simulation_summary_statistics.R")#
+source("8_number_of_bootstraps_per_realization_sampling.R")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# number of bootstraps per sampling design#
+temp <- rbind.fill(simdata_restricted, simdata)#
+n.bootstraps <- temp %>% #
+	group_by(n.networks, N.SRSWOR.plots, SamplingDesign) %>%#
+	summarise(#
+		seed = length(unique(seed))#
+		) %>%#
+	group_by(SamplingDesign) %>%#
+	summarise(n.bootstraps = paste(unique(seed), collapse=",")) %>%#
+	.[1,2] %>%#
+	as.data.frame#
+	primary.sample.size <- unique(#
+		c(#
+			simulation_data_summary_table_ACS$N.SRSWOR.plots,#
+			simulation_data_summary_table_RACS$N.SRSWOR.plots#
+		)#
+	) %>% as.numeric %>% .[order(.)]#
+n.bootstraps.ACS <- n.bootstraps %>%#
+	.[1,2] %>%#
+	as.data.frame#
+n.bootstraps.RACS <- n.bootstraps %>%#
+	.[2,2] %>%#
+	as.data.frame#
+primary.sample.size <- unique(simulation_data_summary_table_original_yHT$N.SRSWOR.plots) %>%#
+	as.vector#
+length_height <- rbind.fill(sim.16June16, sim.16June16.2, sim.16June16.3, sim.16June16.4, sim.16June16.5) %>% #
+	filter(!(is.na(Height_Stricta_mean_observed))) %>%#
+	group_by(Plots, realization, n.networks,N.SRSWOR.plots) %>% 	summarise(length(Height_Stricta_mean_observed))#
+#
+setwd("/Users/KSauby/Documents/Projects/ACSampling_project")#
+	cache("n.bootstraps")	#
+	cache("n.bootstraps.ACS")	#
+	cache("n.bootstraps.RACS")	#
+	cache("primary.sample.size")	#
+	cache("primary.sample.size")
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rmarkdown::render('Manuscript.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rmarkdown::render('Manuscript.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+rmarkdown::render('Manuscript.Rmd')
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N=1000
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1=100
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m=c(2,3,rep(1,98))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N_n1 	<- choose(N, n1)#
+	# vector of binom(N-mj, n1)#
+	N_m_n1 	<- sapply(m, function(m) choose(N - m, n1)) #
+	N_m_m_n1 = matrix(#
+		nrow = length(m), #
+		ncol = length(m), #
+		NA#
+	) # store binom(N-mj-mh, n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (j in 1 : length(m)) {#
+	  N_m_m_n1[j, ] = choose((N - m[j] - m), n1)#
+	}
+N_m_m_n1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_ij_cpp(m, N_n1, N_m_n1, N_m_m_n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N_m_n1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_ij(N, n1, m)
+pi_ij(N, n1, m) %>% head
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sapply(m, function(m) choose(N - m, n1)) #
+	N_m_m_n1 = matrix(
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_ij(N, n1, m) %>% as.matrix
+?choose
+sapply(m, function(m) choose(N - m, n1))
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
 #devtools::test()#
 devtools::document()#
 devtools::install()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
+pi_ij_RACS
+pi_ij_RACS(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1),m_threshold=6)
+pi_ij(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1))
+pi_ij_RACS(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1),m_threshold=4)
+1 - (#
+					choose(N-m_threshold,n1) + #
+					choose(N-m,n1) - #
+					choose(N-m-m,n1)#
+				) / choose(N,n1)
+N=100;n1=10;m=c(5,5,5,5,5,1,1,1,1,1);m_threshold=4
+1 - (#
+					choose(N-m_threshold,n1) + #
+					choose(N-m[6],n1) - #
+					choose(N-m_threshold-m[6],n1)#
+				) / choose(N,n1)
+m[6]
+1 - (#
+					choose(N-m[1],n1) + #
+					choose(N-m[6],n1) - #
+					choose(N-m[1]-m[6],n1)#
+				) / choose(N,n1)
+pi_ij_RACS(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1),m_threshold=4)
+pi_ij(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1))
+1 - (#
+					choose(N-m[1],n1) + #
+					choose(N-m[6],n1) - #
+					choose(N-m[1]-m[6],n1)#
+				) / choose(N,n1)
+pi_ij_RACS(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1),m_threshold=4)
+1 - (#
+					choose(N-m_threshold,n1) + #
+					choose(N-m[6],n1) - #
+					choose(N-m_threshold-m[6],n1)#
+				) / choose(N,n1)
+m[1] > m_threshold & m[6] <= m_threshold
+1 - (#
+					2*choose(N-m_threshold,n1) -#
+					choose(N-2*m_threshold,n1)#
+				) / choose(N,n1)
+1 - (#
+					choose(N-m_threshold,n1) + #
+					choose(N-m[6],n1) - #
+					choose(N-m[6]-m_threshold,n1)#
+				) / choose(N,n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+vector(length(m), NA)
+?vector
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+vector(length(m))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N_m_threshold_m_n1 = NA # store binom(N-mj-mh, n1)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (j in 1 : length(m)) {#
+	  N_m_threshold_m_n1[j] = choose((N - m_threshold - m[j]), n1)#
+	}
+N_m_threshold_m_n1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N_m_m_threshold_n1 = NA
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (j in 1 : length(m)) {#
+	  N_m_m_threshold_n1[j, ] = choose((N - m[j] - m_threshold), n1)#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Calculate joint inclusion probability of unit $j$ and $h$#
+#' @param N Population size.#
+#' @param n1 Initial sample size.#
+#' @param m Vector of values giving the number of units satisfying the ACS criterion in network $i$.#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' @examples #
+#' # Thompson sampling book, ch. 24 exercises, p. 307, number 2#
+#' library(magrittr)#
+#' N=1000#
+#' n1=100#
+#' m=c(2,3,rep(1,98))#
+#' pi_ij(N, n1, m) %>% .[1,2]#
+#' @export#
+#
+pi_ij <- function(N, n1, m) {#
+	N_n1 	<- choose(N, n1)#
+	# vector of binom(N-mj, n1)#
+	N_m_n1 	<- sapply(m, function(m) choose(N - m, n1)) #
+	N_m_m_n1 = matrix(#
+		nrow = length(m), #
+		ncol = length(m), #
+		NA#
+	) # store binom(N-mj-mh, n1)#
+	for (j in 1 : length(m)) {#
+	  N_m_m_n1[j, ] = choose((N - m[j] - m), n1)#
+	}	#
+	pi_ij_cpp(m, N_n1, N_m_n1, N_m_m_n1)#
+}#
+#
+#' Calculate joint inclusion probability of unit $j$ and $h$, using the RACS correction#
+#' @param N Population size.#
+#' @param n1 Initial sample size.#
+#' @param m Vector of values giving the number of units satisfying the ACS criterion in network $i$.#
+#' @param m_threshold threshold value above which to calculate pi_i and pi_j differently.#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' @examples #
+#' # Thompson sampling book, ch. 24 exercises, p. 307, number 2#
+#' library(magrittr)#
+#' N=1000#
+#' n1=100#
+#' m=c(2,3,rep(1,98))#
+#' pi_ij(N, n1, m) %>% .[1,2]#
+#' @export#
+#
+pi_ij_RACS <- function(N, n1, m, m_threshold) {#
+	N_n1 				<- choose(N, n1)#
+	N_m_threshold_n1 	<- choose(N - m_threshold, n1)#
+	N_2m_threshold_n1 	<- choose(N - 2*m_threshold, n1)#
+	# vector of binom(N-mj, n1)#
+	N_m_n1 	<- sapply(m, function(m) choose(N - m, n1)) #
+	N_m_m_n1 = matrix(#
+		nrow = length(m), #
+		ncol = length(m), #
+		NA#
+	) # store binom(N-mj-mh, n1)#
+	N_m_threshold_m_n1 = NA#
+	N_m_m_threshold_n1 = NA#
+	for (j in 1 : length(m)) {#
+	  N_m_m_n1[j, ] = choose((N - m[j] - m), n1)#
+	}#
+	for (j in 1 : length(m)) {#
+	  N_m_threshold_m_n1[j] = choose((N - m_threshold - m[j]), n1)#
+	}#
+	for (j in 1 : length(m)) {#
+	  N_m_m_threshold_n1[j] = choose((N - m[j] - m_threshold), n1)#
+	}	#
+	pi_ij_RACS_cpp(#
+		m, #
+		N_n1, #
+		N_m_threshold_n1, #
+		N_2m_threshold_n1,#
+		m_threshold,#
+		N_m_n1, #
+		N_m_m_n1#
+	)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N_m_threshold_m_n1 = NA#
+	N_m_m_threshold_n1 = NA#
+	for (j in 1 : length(m)) {#
+	  N_m_m_n1[j, ] = choose((N - m[j] - m), n1)#
+	}#
+	for (j in 1 : length(m)) {#
+	  N_m_threshold_m_n1[j] = choose((N - m_threshold - m[j]), n1)#
+	}#
+	for (j in 1 : length(m)) {#
+	  N_m_m_threshold_n1[j] = choose((N - m[j] - m_threshold), n1)#
+	}
+N_m_m_threshold_n1
+N_m_threshold_m_n1
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::document()#
+devtools::install()
+pi_ij_RACS(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1),m_threshold=4)
+library(ACSampling)
+pi_ij_RACS(N=100,n1=10,m=c(5,5,5,5,5,1,1,1,1,1),m_threshold=4)

@@ -29,6 +29,7 @@ Rcpp::NumericMatrix pi_ij_RACS_cpp(
 	double N_2m_threshold_n1,
 	double m_threshold,
 	Rcpp::NumericVector N_m_n1,
+	Rcpp::NumericVector N_m_threshold_m_n1,
 	Rcpp::NumericMatrix N_m_m_n1
 ) {
 	int ms = m.size();
@@ -46,14 +47,14 @@ Rcpp::NumericMatrix pi_ij_RACS_cpp(
 				pi_(i, j) = 1 - (
 					N_m_threshold_n1 + 
 					N_m_n1(j) - 
-					N_m_m_n1(i, j)
+					N_m_threshold_m_n1(j)
 				) / N_n1;
 			}
 			if ( m(i) <= m_threshold & m(j) > m_threshold ) {
 				pi_(i, j) = 1 - (
 					N_m_n1(i) + 
 					N_m_threshold_n1 - 
-					N_m_m_n1(i, j)
+					N_m_threshold_m_n1(i)
 				) / N_n1;
 			}
 			if ( m(i) > m_threshold & m(j) > m_threshold ) {
