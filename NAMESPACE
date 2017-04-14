@@ -3,6 +3,7 @@
 export(R_hat)
 export(assignNetworkMembership)
 export(calculateInclusionProbabilities)
+export(calculateJointInclusionProbabilities)
 export(calculatePopulationSummaryStatistics)
 export(calculateRE)
 export(calculateSamplingBias)

@@ -1,45 +1,54 @@
-#' Calculate Inclusion Probabilities Using Simulations
+#' Calculate Joint Inclusion Probabilities Using Simulations
 #' @param patchdat patch realizations
 #' @param simulations Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param SamplingDesign Sampling design; ACS or RACS.
 #' @param y_variable variable upon which adaptive cluster sampling criterion is based
+#' population.grouping.variable variable identifying unique populations
 #' @description Calculate inclusion probabilities for each unit in a population using simulations.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
 #' @export
 
-calculateInclusionProbabilities <- function(
+calculateJointInclusionProbabilities <- function(
 	patchdat = patch_data_3, 
 	simulations, 
 	nsamples, 
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
 	y_variable,
-	f_max = NULL
+	f_max = NULL,
+	population.grouping.variable="population"
 ) 
 {
-	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
-	TIME 					<- Sys.time()
-	patchdat 				%<>% arrange(n.networks, realization)
-	n.patches 				<- length(unique(patchdat$n.networks))
-	nsample.length 			<- length(nsamples)
-	A 						<- vector("list", n.patches)
-	B 						<- vector("list", n.patches)
+	pop <- i <- j <- Sampling <- . <- NetworkID <- NULL
+	TIME 			<- Sys.time()
+	patchdat 		%<>% arrange_(.dots=population.grouping.variable)
+	if (population.grouping.variable != "pop") {
+		patchdat	%<>% setnames(population.grouping.variable, "pop") 
+	}
+	n.pop 			<- length(unique(patchdat$pop))
+	nsample.length 	<- length(nsamples)
+	A 				<- vector("list", n.pop)
+	B 				<- vector("list", n.pop)
 	C = foreach (
-		i = 1:n.patches, # for each species density
+		i = 1:n.pop, # for each species density
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
 		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), 
-		.combine = "rbind.fill"
+		.combine = function(X, Y) {
+				Xnew2 = rbind.fill(X)
+				Ynew2 = rbind.fill(Y)
+				list(Xnew2, Ynew2)
+			},
+		.multicombine = TRUE
 		) %:%
 	 	foreach (
 			j = 1:nsample.length, # for each sampling effort
-			.combine = "rbind.fill",
+			.multicombine = TRUE,
 			.inorder = FALSE
 		) %dopar% {
-			P 			<- patchdat %>% 
-							filter(n.networks==unique(patchdat$n.networks)[i])
+			P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])
 			P$coords <- with(P, paste(x,y,sep="_"))
 			N 			<- dim(P)[1]
 			n1 			<- nsamples[j]
@@ -78,7 +87,7 @@ calculateInclusionProbabilities <- function(
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
-					dplyr::select(n.networks, realization, x, y)
+					dplyr::select(pop, x, y)
 				cactus_networks <- alldata %>%
 					#filter(!(Cactus==0 & m==1)) %>%
 					filter(m!=0)
@@ -111,51 +120,7 @@ calculateInclusionProbabilities <- function(
 				B1 <- pop.matrix
 				B1[indxB] <- Z
 				B[[i]][[j]][[k]] <- B1
-				
-				
-				B1 <- A1
-				indxA <- outer(rAB, cAB, FUN=paste) %in% outer(rownames(pop.matrix), colnames(pop.matrix), FUN=paste) 
-				A1[indxA] <- pop.matrix
-				
-				
-				
-				
-				
-				
-				
-				m3 <- pop.matrix
-				mcol <- match(
-					colnames(pop.matrix),
-					colnames(B[[i]][[j]][[k]])
-				)
-				
-				
-				new <- m3[,mcol]<-m3[,mcol]+B[[i]][[j]][[k]]
-				
-				
-		B[[i]][[j]][[1]][,colnames(m3)]		
-				
-				
-				
-				
-				
-				
-		m1<-matrix(1,3,5)
-		colnames(m1)<-LETTERS[1:5]
-		m2<-matrix(1:9,3,3)
-		colnames(m2)<-c("D","A","C")
-		m1
-		m2
-		m3<-m1
-		mcol<-match(colnames(m2),colnames(m1))
-		m3[,mcol]<-m3[,mcol]+m2
-		m3
-				
-				
-				
-				
-				
-				
+				# SUMMARIZE M INFORMATION
 				if (dim(cactus_networks)[1] > 0) {
 					temp <- cactus_networks %>%
 						group_by(NetworkID) %>%
@@ -191,33 +156,17 @@ calculateInclusionProbabilities <- function(
 				A[[i]][[j]][[k]]$seed 				<- temp_seed
 				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
 				A[[i]][[j]][[k]]$simulations 		<- simulations
-				A[[i]][[j]][[k]]$realization 		<- P$realization[1]
-				A[[i]][[j]][[k]]$n.networks 		<- P$n.networks[1]
+				A[[i]][[j]][[k]]$pop 		<- P$pop[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
-			X$coords <- with(X, paste(x,y,sep="_"))
-			X <- P %>% 
-				dplyr::select(coords, NetworkID) %>%
-				merge(X, by="coords")
-			B[[i]][[j]][[k]]$joint.inclusion <- matrix(
-				nrow=length(unique(X$NetworkID)),
-				ncol=length(unique(X$NetworkID)),
-				dimnames=list(unique(X$NetworkID),unique(X$NetworkID))
-			)
-			
-			
-			joint.inclusions <- matrix(
-				nrow=max(max(P$NetworkID)),
-				ncol=max(max(P$NetworkID))
-			)
-			X %>% group_by(sample,NetworkID) %>%
-			summarise(n())
-			# total number of cells sample per realization, n.networks, N.SRSWOR.plots and SamplingDesign
-			X %>%
+			X %>% 
+				group_by(sample,NetworkID) %>%
+				summarise(n())
+			# total number of cells sample per population, N.SRSWOR.plots and SamplingDesign
+			X %<>%
 				group_by(
-					realization, 
-					n.networks, 
+					pop, 
 					N.SRSWOR.plots, 
 					SamplingDesign,
 					simulations,
@@ -227,10 +176,12 @@ calculateInclusionProbabilities <- function(
 					min_m,
 					median_m
 				) %>%
-				summarise(times_included=n())	
+				summarise(times_included=n())
+			Y <- Reduce("+", B[[i]][[j]])
+			list(X, Y)
 	}
-	C$simulation_date 	= format(Sys.time(), "%m-%d-%y")
-	C$f_max 		= f_max
+	C[[1]][[1]]$simulation_date 	= format(Sys.time(), "%m-%d-%y")
+	C[[1]][[1]]$f_max 		= f_max
 	print(Sys.time() - TIME)
 	return(C)
 }
