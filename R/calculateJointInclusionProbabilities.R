@@ -37,16 +37,22 @@ calculateJointInclusionProbabilities <- function(
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
 		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), 
 		.combine = function(X, Y) {
-				Xnew2 = rbind.fill(X)
-				Ynew2 = rbind.fill(Y)
+				Xnew2 = rbind.fill(Xnew1)
+				Ynew2 = rbind.fill(Ynew1)
 				list(Xnew2, Ynew2)
 			},
-		.multicombine = TRUE
+		.multicombine = TRUE,
+		.verbose = TRUE
 		) %:%
 	 	foreach (
 			j = 1:nsample.length, # for each sampling effort
 			.multicombine = TRUE,
-			.inorder = FALSE
+			.inorder = FALSE,
+			.combine = function(X, Y) {
+				Xnew1 = rbind.fill(X)
+				Ynew1 = rbind.fill(Y)
+				list(Xnew1, Ynew1)
+			}
 		) %dopar% {
 			P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])
 			P$coords <- with(P, paste(x,y,sep="_"))
@@ -88,7 +94,7 @@ calculateJointInclusionProbabilities <- function(
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
 					dplyr::select(pop, x, y)
-				cactus_networks <- alldata %>%
+				data_networks <- alldata %>%
 					#filter(!(Cactus==0 & m==1)) %>%
 					filter(m!=0)
 				# GET INCLUSION MATRIX FOR NETWORKS
@@ -121,8 +127,8 @@ calculateJointInclusionProbabilities <- function(
 				B1[indxB] <- Z
 				B[[i]][[j]][[k]] <- B1
 				# SUMMARIZE M INFORMATION
-				if (dim(cactus_networks)[1] > 0) {
-					temp <- cactus_networks %>%
+				if (dim(data_networks)[1] > 0) {
+					temp <- data_networks %>%
 						group_by(NetworkID) %>%
 						summarise(m = m[1]) %>%
 						summarise(
@@ -135,7 +141,7 @@ calculateJointInclusionProbabilities <- function(
 					A[[i]][[j]][[k]]$max_m_unique_neigh 		<- temp$MAX
 					A[[i]][[j]][[k]]$min_m_unique_neigh 		<- temp$MIN
 					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
-					temp2 <- cactus_networks %>%
+					temp2 <- data_networks %>%
 						summarise(
 							MEAN = mean(m),
 							MAX = max(m),
