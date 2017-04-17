@@ -235,12 +235,6 @@ calculateSamplingBias <- function(
 				)
 			)
 	}
-	
-	
-	
-	
-	
-	
 	# calculate bias and MSE
 	A <- vector("list", length(variables))
 	X.grp <- X %>% group_by_(.dots=c(
