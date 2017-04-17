@@ -68,84 +68,7 @@ calculatePopulationSummaryStatistics <- function(
 	ratio.variables=NULL, 
 	population.grouping.variable
 ) {
-	funs <- . <- m <- NetworkID <- NULL
-	# for each population.grouping.variable combo, calculate mean, var, sum
-	X = population_data %>%
-		group_by_(.dots=population.grouping.variable) %>%
-		dplyr::select_(.dots=lapply(
-			c(
-				summary.variables, 
-				ratio.variables
-			), 
-			as.symbol
-		)) %>% 
-		summarise_each(
-			funs(
-				mean(., na.rm=T), 
-				sum(., na.rm=T),
-				PopVariance,
-				popCV
-			)
-		) %>%
-		ungroup
-	if (length(c(summary.variables, ratio.variables)) == 1) {
-		X %<>%
-		setnames(
-			., 
-			"mean", 
-			paste(
-				c(summary.variables, ratio.variables), 
-				"_", 
-				"mean", 
-				sep=""
-			)
-		) %>%
-		setnames(
-			., 
-			"sum", 
-			paste(
-				c(summary.variables, ratio.variables), 
-				"_", 
-				"sum", 
-				sep="" 
-			)
-		)
-	} 
-	if (!(is.null(ratio.variables))) {
-		for (l in 1:length(ratio.variables)) {
-			y <- eval(parse(text=paste(
-				"X$", 
-				ratio.variables[l], 
-				"_sum", 
-				sep=""
-			)))
-			z <- eval(parse(text = paste(
-				"X$", 
-				str_sub(ratio.variables[l],-7,-1), 
-				"_sum", 
-				sep=""
-			)))
-			X[, dim(X)[2] + 1] <- ifelse(z!=0, y/z, 0)
-			names(X)[dim(X)[2]] <- paste(
-				ratio.variables[l], 
-				"_ratio_mean", 
-				sep=""
-			)
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	population_data %<>% arrange_(.dots=population.grouping.variable)
 	# for each population.grouping.variable combo, calculate summary statistics for m and number of species patches
 	# this calculates the m statistics for the unique Network sizes
 	Y1 = population_data %>%
@@ -175,13 +98,13 @@ calculatePopulationSummaryStatistics <- function(
 		) %>%
 		ungroup %>%
 		as.data.frame
-		Z = population_data %>%
-			group_by_(.dots=population.grouping.variable) %>%
-			summarise(N = length(m)) %>%
-			ungroup %>%
-			as.data.frame
-		Y1 %<>% merge(Y2, by=population.grouping.variable) %>%
-			merge(Z, by=population.grouping.variable)	
+	Z = population_data %>%
+		group_by_(.dots=population.grouping.variable) %>%
+		summarise(N = length(m)) %>%
+		ungroup %>%
+		as.data.frame
+	Y1 %<>% merge(Y2, by=population.grouping.variable) %>%
+		merge(Z, by=population.grouping.variable)	
 	# spatial statistics and other characteristics of variables
 	A <- list()
 	for (i in 1:length(unique(eval(parse(
@@ -292,25 +215,20 @@ calculatePopulationSummaryStatistics <- function(
 		)))[i]
 	}
 	B <- do.call(rbind.data.frame, A)
+	B %<>% arrange(variable, population)
 	if (!(is.null(ratio.variables))) {
 		for (l in 1:length(ratio.variables)) {
 			temp <- B %>% filter(variable ==ratio.variables[l])
 			AuxVar <- B %>% filter(variable ==str_sub(ratio.variables[l],-7,-1))
 			temp$Mean_tempvar <- temp$Total_tempvar/AuxVar$Total_tempvar
-			
-			y <- eval(parse(text=paste(
-				"B$", 
-				ratio.variables[l], 
-				"_sum", 
-				sep=""
-			)))
-			z <- eval(parse(text = paste(
-				"B$", 
-				str_sub(ratio.variables[l],-7,-1), 
-				"_sum", 
-				sep=""
-			)))
-			X[, dim(X)[2] + 1] <- ifelse(z!=0, y/z, 0)
-	
-	return(X)
+			B %<>% filter(variable !=ratio.variables[l]) %>%
+				rbind.fill(temp)
+		}
+	}
+	B %<>%
+		setnames("Mean_tempvar", "Mean") %>%
+		setnames("Var_tempvar", "Var") %>%
+		setnames("CV_tempvar", "CV") %>%
+		setnames("Total_tempvar", "Total")
+	return(list(Y1, B))
 }
