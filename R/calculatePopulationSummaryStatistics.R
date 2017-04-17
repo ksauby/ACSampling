@@ -133,6 +133,19 @@ calculatePopulationSummaryStatistics <- function(
 			)
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	# for each population.grouping.variable combo, calculate summary statistics for m and number of species patches
 	# this calculates the m statistics for the unique Network sizes
 	Y1 = population_data %>%
@@ -162,54 +175,142 @@ calculatePopulationSummaryStatistics <- function(
 		) %>%
 		ungroup %>%
 		as.data.frame
-	# spatial statistics	
-	for (i in 1:length(unique(eval(parse(text=paste("population_data$", population.grouping.variable, sep="")))))) {
-		temp <- patch_data %>% 
-			filter(
-				## NEED TO DO THIS FOR SAMPLE SPECIES REALIZATIONS AS WELL
-				eval(parse(text=population.grouping.variable))) ==
-				unique(eval(parse(
-					text=paste(
-						"population_data$", 
-						population.grouping.variable, 
-						sep=""
-					)
-				)))[i]
-			)
+		Z = population_data %>%
+			group_by_(.dots=population.grouping.variable) %>%
+			summarise(N = length(m)) %>%
+			ungroup %>%
+			as.data.frame
+		Y1 %<>% merge(Y2, by=population.grouping.variable) %>%
+			merge(Z, by=population.grouping.variable)	
+	# spatial statistics and other characteristics of variables
+	A <- list()
+	for (i in 1:length(unique(eval(parse(
+		text=paste(
+			"population_data$", 
+			population.grouping.variable, 
+			sep=""
+	)))))) 
+	{
+		temp <- population_data[which(
+			eval(parse(
+				text=paste(
+					"population_data$", 
+					population.grouping.variable, 
+					sep=""
+				))
+			) == unique(eval(parse(
+				text=paste(
+					"population_data$", 
+					population.grouping.variable, 
+					sep=""
+				)
+			)))[i]
+		), ]
+		temp %<>% arrange(x,y)
+		# spatial statistics
 		coordinates(temp) = ~ x+y
+		A[[i]] <- list()
 		for (j in 1:length(summary.variables)) {
+			tempvar <- eval(parse(text =
+				paste("temp$", summary.variables[j], sep="")
+			))
+			Mean_tempvar 	<- Mean(tempvar)
+			Var_tempvar 	<- PopVariance(tempvar)
+			CV_tempvar 		<- popCV(tempvar)
+			Total_tempvar 	<- Sum(tempvar)
+			SSQ_R			<- calculateSSQR(
+				patch_data = as.data.frame(temp),
+				variable = summary.variables[j],
+				population.grouping.variable
+			)$SSQ_R
 			# variogram information
-			A1 <- autofitVariogram(
-				eval(parse(text=summary.variables[j])) ~ 1,
-				temp
-			)$var_model
-			A2 <- var5_parms[1, ]$psill
-			A3 <- var5_parms[2, ]$psill
-			A4 <- var5_parms[2, ]$range
-			# join counts and moran's i
-			nb <- cell2nb(nrow = 30, ncol = 30)
-			lwb <- nb2listw(nb, style = "S") # convert to weights
-			A5 <- joincount.test(as.factor(
-				temp$eval(parse(text=summary.variables[j]))),
-				lwb
-			)[[2]]$estimate[1]
-			A6 <- moran.test(
-				temp$eval(parse(text=summary.variables[j])), 
-				lwb
-			)$estimate[1]
-		}		
+			
+			if (length(tempvar[which(tempvar > 0)]) > 0) {
+				A1 <- autofitVariogram(
+					eval(parse(text=summary.variables[j])) ~ 1,
+					temp
+				)$var_model
+				# nugget: y-intercept
+				semivar_nugget 	<- A1[1, ]$psill
+				# psill, partial sill (?): asymptote
+				partial_sill 	<- A1[2, ]$psill
+				# range: lag at which the sill is reached
+				semivar_range 	<- A1[2, ]$range
+				# join counts and moran's i
+				nb <- cell2nb(nrow = 30, ncol = 30)
+				lwb <- nb2listw(nb, style = "S") # convert to weights
+				# I think cells are indexed by row, then column
+				JoinCountTest <- joincount.test(as.factor(
+					eval(parse(text=paste(
+						"temp$",
+						summary.variables[j],
+						sep=""
+					)))),
+					lwb
+				)[[2]]$estimate[1]
+				MoranI <- moran.test(
+					eval(parse(text=paste(
+						"temp$",
+						summary.variables[j],
+						sep=""
+					))),
+					lwb
+				)$estimate[1]
+			} else {
+				semivar_nugget 	<- NA
+				partial_sill 	<- NA 
+				semivar_range 	<- NA 
+				JoinCountTest 	<- NA 
+				MoranI 			<- NA 
+			}
+			A[[i]][[j]] <- data.frame(
+				Mean_tempvar,
+				Var_tempvar,
+				CV_tempvar,
+				Total_tempvar,
+				semivar_nugget,
+				partial_sill,
+				semivar_range,
+				JoinCountTest,
+				MoranI,
+				SSQ_R,
+				variable = summary.variables[j],
+				row.names = NULL
+			)
+		}
+		A[[i]] <- do.call(rbind.data.frame, A[[i]])
+	
+	
+	
+		
+		A[[i]]$population <- unique(eval(parse(
+			text=paste(
+				"population_data$", 
+				population.grouping.variable, 
+				sep=""
+			)
+		)))[i]
 	}
-	Z
+	B <- do.call(rbind.data.frame, A)
+	if (!(is.null(ratio.variables))) {
+		for (l in 1:length(ratio.variables)) {
+			temp <- B %>% filter(variable ==ratio.variables[l])
+			AuxVar <- B %>% filter(variable ==str_sub(ratio.variables[l],-7,-1))
+			temp$Mean_tempvar <- temp$Total_tempvar/AuxVar$Total_tempvar
+			
+			y <- eval(parse(text=paste(
+				"B$", 
+				ratio.variables[l], 
+				"_sum", 
+				sep=""
+			)))
+			z <- eval(parse(text = paste(
+				"B$", 
+				str_sub(ratio.variables[l],-7,-1), 
+				"_sum", 
+				sep=""
+			)))
+			X[, dim(X)[2] + 1] <- ifelse(z!=0, y/z, 0)
 	
-	
-	
-	A = population_data %>%
-		group_by_(.dots=population.grouping.variable) %>%
-		summarise(N = length(m)) %>%
-		ungroup %>%
-		as.data.frame
-	X %<>% merge(Y1, by=population.grouping.variable) %>%
-		merge(Y2, by=population.grouping.variable) %>%
-		merge(A, by=population.grouping.variable)	
 	return(X)
 }

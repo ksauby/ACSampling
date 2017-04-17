@@ -5,7 +5,7 @@
 \title{Calculate Summary Statistics for Patch Population Data}
 \usage{
 calculatePopulationSummaryStatistics(population_data, summary.variables,
-  ratio.variables = NULL, grouping.variables)
+  ratio.variables = NULL, population.grouping.variable)
 }
 \arguments{
 \item{population_data}{Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).}
@@ -14,7 +14,7 @@ calculatePopulationSummaryStatistics(population_data, summary.variables,
 
 \item{ratio.variables}{Variables for which to use ratio estimators}
 
-\item{grouping.variables}{Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).}
+\item{population.grouping.variable}{Categorical variable identifying the different populations.}
 }
 \value{
 Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.
