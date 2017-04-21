@@ -194,12 +194,33 @@ calculateJointInclusionProbabilities <- function(
 			)
 			XY
 	}
-	list.map(calc_20Nov16_5[[1]], dat)
+	
+	k=1
+	newlist <- list()
+	for (i in 1:n.pop) {
+		for (j in 1:nsample.length) {
+			newlist[[k]] <- C[[i]][[j]][grep("nsamples", names(C[[i]][[j]]))]
+			k <- k+1
+		}
+	}
+	k=1
+	newlist2 <- list()
+	for (i in 1:n.pop) {
+		for (j in 1:nsample.length) {
+			newlist2[[k]] <- C[[i]][[j]][grep("dat", names(C[[i]][[j]]))]
+			k <- k+1
+		}
+	}
+	#newlist2 <- do.call(rbind.data.fill, newlist2)
+	
+	
+	
+#	Z <- list.map(C[[1]], dat)
 	#A_1 <- lapply(C, `[[`, 1) %>% do.call(rbind.data.frame, .)
 	#A_2 <- lapply(C, `[[`, 2)
 	#C <- list(A_1, A_2)
 #	C[[3]]$simulation_date 	= format(Sys.time(), "%m-%d-%y")
 #	C[[4]]$f_max 		= f_max
 	print(Sys.time() - TIME)
-	return(C)
+	return(newlist2)
 }
