@@ -36,13 +36,8 @@ calculateJointInclusionProbabilities <- function(
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
 		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), 
-		.combine = function(X, Y) {
-				Xnew2 = rbind.fill(X)
-				Ynew2 = rbind.fill(Y)
-				list(Xnew2, Ynew2)
-			},
-		.multicombine = TRUE,
-		.verbose = TRUE
+		.combine = "list",
+		.multicombine = TRUE
 		) %:%
 	 	foreach (
 			j = 1:nsample.length, # for each sampling effort
@@ -185,15 +180,21 @@ calculateJointInclusionProbabilities <- function(
 				summarise(times_included=n()) %>%
 				as.data.frame
 			Y <- Reduce("+", B[[i]][[j]])
-			names(Y) <- paste(
-				"nsamples",
-				nsamples[j],
-				"pop",
-				unique(patchdat$pop)[i],
-				sep="_"
+			XY <- list(X, Y)
+			names(XY) <- 
+			c(
+				"dat",
+				paste(
+					"nsamples",
+					nsamples[j],
+					"pop",
+					unique(patchdat$pop)[i],
+					sep="_"
+				)
 			)
-			list(X, Y)
+			XY
 	}
+	list.map(calc_20Nov16_5[[1]], dat)
 	#A_1 <- lapply(C, `[[`, 1) %>% do.call(rbind.data.frame, .)
 	#A_2 <- lapply(C, `[[`, 2)
 	#C <- list(A_1, A_2)
