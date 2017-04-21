@@ -18,7 +18,7 @@ calculateJointInclusionProbabilities <- function(
 	SamplingDesign="ACS",
 	y_variable,
 	f_max = NULL,
-	population.grouping.variable="population"
+	population.grouping.variable=NULL
 ) 
 {
 	pop <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -37,8 +37,8 @@ calculateJointInclusionProbabilities <- function(
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
 		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), 
 		.combine = function(X, Y) {
-				Xnew2 = rbind.fill(Xnew1)
-				Ynew2 = rbind.fill(Ynew1)
+				Xnew2 = rbind.fill(X)
+				Ynew2 = rbind.fill(Y)
 				list(Xnew2, Ynew2)
 			},
 		.multicombine = TRUE,
@@ -47,12 +47,12 @@ calculateJointInclusionProbabilities <- function(
 	 	foreach (
 			j = 1:nsample.length, # for each sampling effort
 			.multicombine = TRUE,
-			.inorder = FALSE,
-			.combine = function(X, Y) {
-				Xnew1 = rbind.fill(X)
-				Ynew1 = rbind.fill(Y)
-				list(Xnew1, Ynew1)
-			}
+			.inorder = FALSE#,
+			#.combine = function(X, Y) {
+			# 	Xnew1 = rbind.fill(X)
+			#	Ynew1 = rbind.fill(Y)
+			#	list(Xnew1, Ynew1)
+			#}
 		) %dopar% {
 			P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])
 			P$coords <- with(P, paste(x,y,sep="_"))
@@ -166,9 +166,9 @@ calculateJointInclusionProbabilities <- function(
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
-			X %>% 
-				group_by(sample,NetworkID) %>%
-				summarise(n())
+			# X %>% 
+			#	group_by(sample,NetworkID) %>%
+			#	summarise(n())
 			# total number of cells sample per population, N.SRSWOR.plots and SamplingDesign
 			X %<>%
 				group_by(
@@ -182,12 +182,23 @@ calculateJointInclusionProbabilities <- function(
 					min_m,
 					median_m
 				) %>%
-				summarise(times_included=n())
+				summarise(times_included=n()) %>%
+				as.data.frame
 			Y <- Reduce("+", B[[i]][[j]])
+			names(Y) <- paste(
+				"nsamples",
+				nsamples[j],
+				"pop",
+				unique(patchdat$pop)[i],
+				sep="_"
+			)
 			list(X, Y)
 	}
-	C[[1]][[1]]$simulation_date 	= format(Sys.time(), "%m-%d-%y")
-	C[[1]][[1]]$f_max 		= f_max
+	#A_1 <- lapply(C, `[[`, 1) %>% do.call(rbind.data.frame, .)
+	#A_2 <- lapply(C, `[[`, 2)
+	#C <- list(A_1, A_2)
+#	C[[3]]$simulation_date 	= format(Sys.time(), "%m-%d-%y")
+#	C[[4]]$f_max 		= f_max
 	print(Sys.time() - TIME)
 	return(C)
 }
