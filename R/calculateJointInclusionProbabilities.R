@@ -203,6 +203,7 @@ calculateJointInclusionProbabilities <- function(
 			k <- k+1
 		}
 	}
+	newlist %<>% unlist(recursive=F)
 	k=1
 	newlist2 <- list()
 	for (i in 1:n.pop) {
@@ -211,7 +212,7 @@ calculateJointInclusionProbabilities <- function(
 			k <- k+1
 		}
 	}
-	#newlist2 <- do.call(rbind.data.fill, newlist2)
+	newlist2 %<>% unlist(recursive=F) %>% do.call(rbind.data.frame, .)
 	
 	
 	
@@ -222,5 +223,5 @@ calculateJointInclusionProbabilities <- function(
 #	C[[3]]$simulation_date 	= format(Sys.time(), "%m-%d-%y")
 #	C[[4]]$f_max 		= f_max
 	print(Sys.time() - TIME)
-	return(newlist2)
+	return(list(newlist2, newlist))
 }
