@@ -6,7 +6,7 @@
 \usage{
 calculateJointInclusionProbabilities(patchdat = patch_data_3, simulations,
   nsamples, SamplingDesign = "ACS", y_variable, f_max = NULL,
-  population.grouping.variable = "population")
+  population.grouping.variable = NULL)
 }
 \arguments{
 \item{patchdat}{patch realizations}
