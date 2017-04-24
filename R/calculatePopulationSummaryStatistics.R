@@ -4,6 +4,7 @@
 #' @param summary.variables Vector of variables for which summary statistics should be calculated.
 #' @param population.grouping.variable Categorical variable identifying the different populations.
 #' @param ratio.variables Variables for which to use ratio estimators
+#' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
 #' @return Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.
 #' @examples
 #' library(magrittr)
@@ -66,7 +67,8 @@ calculatePopulationSummaryStatistics <- function(
 	population_data, 
 	summary.variables, 
 	ratio.variables=NULL, 
-	population.grouping.variable
+	population.grouping.variable,
+	weights="S"
 ) {
 	population_data %<>% arrange_(.dots=population.grouping.variable)
 	# for each population.grouping.variable combo, calculate summary statistics for m and number of species patches
@@ -134,78 +136,170 @@ calculatePopulationSummaryStatistics <- function(
 		coordinates(temp) = ~ x+y
 		A[[i]] <- list()
 		for (j in 1:length(summary.variables)) {
+			A[[i]][[j]] <- data.frame(variable = summary.variables[j])
 			tempvar <- eval(parse(text =
 				paste("temp$", summary.variables[j], sep="")
 			))
-			Mean_tempvar 	<- Mean(tempvar)
-			Var_tempvar 	<- PopVariance(tempvar)
-			CV_tempvar 		<- popCV(tempvar)
-			Total_tempvar 	<- Sum(tempvar)
-			SSQ_R			<- calculateSSQR(
+			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(
 				patch_data = as.data.frame(temp),
 				variable = summary.variables[j],
 				population.grouping.variable
 			)$SSQ_R
-			# variogram information
-			
 			if (length(tempvar[which(tempvar > 0)]) > 0) {
-				A1 <- autofitVariogram(
-					eval(parse(text=summary.variables[j])) ~ 1,
-					temp
-				)$var_model
-				# nugget: y-intercept
-				semivar_nugget 	<- A1[1, ]$psill
-				# psill, partial sill (?): asymptote
-				partial_sill 	<- A1[2, ]$psill
-				# range: lag at which the sill is reached
-				semivar_range 	<- A1[2, ]$range
 				# join counts and moran's i
 				nb <- cell2nb(nrow = 30, ncol = 30)
-				lwb <- nb2listw(nb, style = "S") # convert to weights
-				# I think cells are indexed by row, then column
-				JoinCountTest <- joincount.test(as.factor(
-					eval(parse(text=paste(
-						"temp$",
-						summary.variables[j],
-						sep=""
-					)))),
-					lwb
-				)[[2]]$estimate[1]
-				MoranI <- moran.test(
-					eval(parse(text=paste(
-						"temp$",
-						summary.variables[j],
-						sep=""
-					))),
-					lwb
-				)$estimate[1]
+				if ("W" %in% weights) {
+					lwb <- nb2listw(nb, style = "W") # convert to weights
+					# I think cells are indexed by row, then column
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						)))),
+						lwb
+					)[[2]]$estimate[1]
+					A[[i]][[j]]$MoranI.W <- moran.test(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						))),
+						lwb
+					)$estimate[1]
+				}
+				if ("B" %in% weights) {
+					lwb <- nb2listw(nb, style = "B") # convert to weights
+					# I think cells are indexed by row, then column
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						)))),
+						lwb
+					)[[2]]$estimate[1]
+					A[[i]][[j]]$MoranI.B <- moran.test(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						))),
+						lwb
+					)$estimate[1]
+				}	
+				if ("C" %in% weights) {
+					lwb <- nb2listw(nb, style = "C") # convert to weights
+					# I think cells are indexed by row, then column
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						)))),
+						lwb
+					)[[2]]$estimate[1]
+					A[[i]][[j]]$MoranI.C <- moran.test(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						))),
+						lwb
+					)$estimate[1]
+				}	
+				if ("U" %in% weights) {
+					lwb <- nb2listw(nb, style = "U") # convert to weights
+					# I think cells are indexed by row, then column
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						)))),
+						lwb
+					)[[2]]$estimate[1]
+					A[[i]][[j]]$MoranI.U <- moran.test(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						))),
+						lwb
+					)$estimate[1]
+				}	
+				if ("S" %in% weights) {
+					lwb <- nb2listw(nb, style = "S") # convert to weights
+					# I think cells are indexed by row, then column
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						)))),
+						lwb
+					)[[2]]$estimate[1]
+					A[[i]][[j]]$MoranI.S <- moran.test(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						))),
+						lwb
+					)$estimate[1]
+				}	
+				if ("minmax" %in% weights) {
+					lwb <- nb2listw(nb, style = "minmax") # convert to weights
+					# I think cells are indexed by row, then column
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						)))),
+						lwb
+					)[[2]]$estimate[1]
+					A[[i]][[j]]$MoranI.minmax <- moran.test(
+						eval(parse(text=paste(
+							"temp$",
+							summary.variables[j],
+							sep=""
+						))),
+						lwb
+					)$estimate[1]
+				}	
 			} else {
-				semivar_nugget 	<- NA
-				partial_sill 	<- NA 
-				semivar_range 	<- NA 
-				JoinCountTest 	<- NA 
-				MoranI 			<- NA 
+				if ("W" %in% weights) {
+					A[[i]][[j]]$JoinCountTest.W <- NA
+					A[[i]][[j]]$MoranI.W <- NA
+				}
+				if ("B" %in% weights) {
+					A[[i]][[j]]$JoinCountTest.B <- NA
+					A[[i]][[j]]$MoranI.B <- NA
+				}	
+				if ("C" %in% weights) {
+					A[[i]][[j]]$JoinCountTest.C <- NA
+					A[[i]][[j]]$MoranI.C <- NA
+				}	
+				if ("U" %in% weights) {
+					A[[i]][[j]]$JoinCountTest.U <- NA
+					A[[i]][[j]]$MoranI.U <- NA
+				}	
+				if ("S" %in% weights) {
+					A[[i]][[j]]$JoinCountTest.S <- NA
+					A[[i]][[j]]$MoranI.S <- NA
+				}	
+				if ("minmax" %in% weights) {
+					A[[i]][[j]]$JoinCountTest.minmax <- NA
+					A[[i]][[j]]$MoranI.minmax <- NA
+				}	
 			}
-			A[[i]][[j]] <- data.frame(
-				Mean_tempvar,
-				Var_tempvar,
-				CV_tempvar,
-				Total_tempvar,
-				semivar_nugget,
-				partial_sill,
-				semivar_range,
-				JoinCountTest,
-				MoranI,
-				SSQ_R,
-				variable = summary.variables[j],
-				row.names = NULL
-			)
 		}
 		A[[i]] <- do.call(rbind.data.frame, A[[i]])
-	
-	
-	
-		
 		A[[i]]$population <- unique(eval(parse(
 			text=paste(
 				"population_data$", 

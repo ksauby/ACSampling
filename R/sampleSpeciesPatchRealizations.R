@@ -13,6 +13,7 @@
 #' @param f_max Default is 2.
 #' @param SampleEstimators If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.
 #' @param SpatialStatistics If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE
+#' @param weights If SpatialStatistics is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
 #' @param mCharacteristics If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.
 #' @param patch_variable Default is "n.networks"
 #' @param realization_variable Default is "realization"
@@ -79,7 +80,7 @@ sampleSpeciesPatchRealizations <- function(
 	mCharacteristics = TRUE,
 	patch_variable = "n.networks",
 	realization_variable = "realization",
-	WeightMatrix = "network membership"
+	weights="S"
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
@@ -112,7 +113,7 @@ sampleSpeciesPatchRealizations <- function(
 		i = 1:n.patches, # for each species density
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
-		 	"ACSampling", "intergraph", "network", "igraph", "stringr", "ape", "sp", "automap"), 
+		 	"ACSampling", "intergraph", "network", "igraph", "stringr", "spdep"), 
 		.combine = "rbind.fill",
 		#.errorhandling = "pass",
 		.verbose = TRUE
@@ -470,48 +471,121 @@ sampleSpeciesPatchRealizations <- function(
 							as.data.frame %>%
 							# get rid of edge units - not involved in calculation of m
 							filter(!(is.na(NetworkID))) %>%
-							arrange(NetworkID)
-						if (WeightMatrix=="inverse distance") {
-							B <- temp
-							coordinates(B) = ~ x+y
-							data_dist <- as.matrix(dist(cbind(B$x, B$y)))
-							data_dist <- 1/data_dist
-							diag(data_dist) <- 0
-							A[[i]][[j]][[k]]$MoransI <- Moran.I(
-								temp$Cactus, data_dist
-							)$observed
-						} else
-						if (WeightMatrix=="network membership") {
-							temp2 <- temp
-							temp2$ID <- seq(1,dim(temp)[1])
-							temp2 %<>%
-								dcast(ID~NetworkID) %>% 
-								dplyr::select(-c(ID, NA))
-							temp2[is.na(temp2)] <- 0
-							temp2[temp2 > 0] <- 1
-							 m2 <- tcrossprod(as.matrix(temp2))
-						     # because it's between pairs of locations and shouldn't have a value for association with itself
-							 diag(m2) <- 0
- 							A[[i]][[j]][[k]]$MoransI <- Moran.I(
- 								temp$Cactus, m2
- 							)$observed
-						}
-						# semivariogram
+							arrange(x, y)
+							
+							dnearneigh
+							
+							
+						nb <- cell2nb(
+							nrow = max(temp$x) - min(temp$x), 
+							ncol = max(temp$y) - min(temp$y)
+						)
 						coordinates(temp) = ~ x+y
-						Variog <- autofitVariogram(Cactus ~ 1, temp)
-						Variog_parms <- Variog$var_model
-						A[[i]][[j]][[k]]$semivar_nugget <- 
-							Variog_parms[1, ]$psill
-						A[[i]][[j]][[k]]$partial_sill <- Variog_parms[2, ]$psill
-						A[[i]][[j]][[k]]$range <- Variog_parms[2, ]$range
-					} else
-					{
-						A[[i]][[j]][[k]]$MoransI 		<- NA
-						# semivariogram
-						A[[i]][[j]][[k]]$semivar_nugget <- NA
-						A[[i]][[j]][[k]]$partial_sill 	<- NA
-						A[[i]][[j]][[k]]$range 			<- NA
-					}	
+						data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
+						if ("W" %in% weights) {
+							lwb <- nb2listw(nb, style = "W") # convert to weights
+							# I think cells are indexed by row, then column
+							A[[i]][[j]][[k]]$JoinCountTest.W <- 
+								joincount.test(as.factor(temp$Cactus),
+								lwb
+							)[[2]]$estimate[1]
+							A[[i]][[j]][[k]]$MoranI.W <- moran.test(
+								temp$Cactus,
+								lwb
+							)$estimate[1]
+						}
+						if ("B" %in% weights) {
+							lwb <- nb2listw(nb, style = "B") # convert to weights
+							# I think cells are indexed by row, then column
+							A[[i]][[j]][[k]]$JoinCountTest.B <- 
+								joincount.test(as.factor(
+								temp$Cactus),
+								lwb
+							)[[2]]$estimate[1]
+							A[[i]][[j]][[k]]$MoranI.B <- moran.test(
+								temp$Cactus,
+								lwb
+							)$estimate[1]
+						}	
+						if ("C" %in% weights) {
+							lwb <- nb2listw(nb, style = "C") # convert to weights
+							# I think cells are indexed by row, then column
+							A[[i]][[j]][[k]]$JoinCountTest.C <- 
+								joincount.test(as.factor(
+								temp$Cactus),
+								lwb
+							)[[2]]$estimate[1]
+							A[[i]][[j]][[k]]$MoranI.C <- moran.test(
+								temp$Cactus,
+								lwb
+							)$estimate[1]
+						}	
+						if ("U" %in% weights) {
+							lwb <- nb2listw(nb, style = "U") # convert to weights
+							# I think cells are indexed by row, then column
+							A[[i]][[j]][[k]]$JoinCountTest.U <- 
+								joincount.test(as.factor(
+								temp$Cactus),
+								lwb
+							)[[2]]$estimate[1]
+							A[[i]][[j]][[k]]$MoranI.U <- moran.test(
+								temp$Cactus,
+								lwb
+							)$estimate[1]
+						}	
+						if ("S" %in% weights) {
+							lwb <- nb2listw(nb, style = "S") # convert to weights
+							# I think cells are indexed by row, then column
+							A[[i]][[j]][[k]]$JoinCountTest.S <- 
+								joincount.test(as.factor(
+								temp$Cactus),
+								lwb
+							)[[2]]$estimate[1]
+							A[[i]][[j]][[k]]$MoranI.S <- moran.test(
+								temp$Cactus,
+								lwb
+							)$estimate[1]
+						}	
+						if ("minmax" %in% weights) {
+							lwb <- nb2listw(nb, style = "minmax") # convert to weights
+							# I think cells are indexed by row, then column
+							A[[i]][[j]][[k]]$JoinCountTest.minmax <- 
+								joincount.test(as.factor(
+								temp$Cactus),
+								lwb
+							)[[2]]$estimate[1]
+							A[[i]][[j]][[k]]$MoranI.minmax <- 
+								moran.test(
+								temp$Cactus,
+								lwb
+							)$estimate[1]
+						}
+					} else {
+						if ("W" %in% weights) {
+							A[[i]][[j]][[k]]$JoinCountTest.W <- NA
+							A[[i]][[j]][[k]]$MoranI.W <- NA
+						}
+						if ("B" %in% weights) {
+							A[[i]][[j]][[k]]$JoinCountTest.B <- NA
+							A[[i]][[j]][[k]]$MoranI.B <- NA
+						}	
+						if ("C" %in% weights) {
+							A[[i]][[j]][[k]]$JoinCountTest.C <- NA
+							A[[i]][[j]][[k]]$MoranI.C <- NA
+						}	
+						if ("U" %in% weights) {
+							A[[i]][[j]][[k]]$JoinCountTest.U <- NA
+							A[[i]][[j]][[k]]$MoranI.U <- NA
+						}	
+						if ("S" %in% weights) {
+							A[[i]][[j]][[k]]$JoinCountTest.S <- NA
+							A[[i]][[j]][[k]]$MoranI.S <- NA
+						}	
+						if ("minmax" %in% weights) {
+							A[[i]][[j]][[k]]$JoinCountTest.minmax <- NA
+							A[[i]][[j]][[k]]$MoranI.minmax <- NA
+						}	
+					}
 				}
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
