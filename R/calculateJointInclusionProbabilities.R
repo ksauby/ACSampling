@@ -53,11 +53,10 @@ calculateJointInclusionProbabilities <- function(
 			P$coords <- with(P, paste(x,y,sep="_"))
 			N 			<- dim(P)[1]
 			n1 			<- nsamples[j]
+			# save simulation attributes
 			A[[i]][[j]] <- list()
-			B[[i]][[j]] <- list()
-			r 			<- (i - 1) * j + j
-			seeds 		<- runif(simulations)
-			pop.matrix <- matrix(
+			# save counts of joint inclusions
+			B[[i]][[j]] <- matrix(
 				nrow=length(unique(P$NetworkID)),
 				ncol=length(unique(P$NetworkID)),
 				dimnames=list(
@@ -66,6 +65,18 @@ calculateJointInclusionProbabilities <- function(
 				),
 				0
 			)
+			# zeros
+			zeros <- matrix(
+				nrow=length(unique(P$NetworkID)),
+				ncol=length(unique(P$NetworkID)),
+				dimnames=list(
+					unique(P$NetworkID),
+					unique(P$NetworkID)
+				),
+				0
+			)
+			r 			<- (i - 1) * j + j
+			seeds 		<- runif(simulations)
 		   for (k in 1:simulations) {
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS") {
@@ -110,17 +121,18 @@ calculateJointInclusionProbabilities <- function(
 					1
 				)
 				indxB <- outer(
-					rownames(pop.matrix), 
-					colnames(pop.matrix), 
+					rownames(B[[i]][[j]]), 
+					colnames(B[[i]][[j]]), 
 					FUN=paste
 				) %in% outer(
 					rownames(Z), 
 					colnames(Z), 
 					FUN=paste
 				)
-				B1 <- pop.matrix
+				B1 <- zeros
+				# fill B1 with values from Z at indxB locations
 				B1[indxB] <- Z
-				B[[i]][[j]][[k]] <- B1
+				B[[i]][[j]] <- B1 + B[[i]][[j]]
 				# SUMMARIZE M INFORMATION
 				if (dim(data_networks)[1] > 0) {
 					temp <- data_networks %>%
@@ -179,8 +191,8 @@ calculateJointInclusionProbabilities <- function(
 				) %>%
 				summarise(times_included=n()) %>%
 				as.data.frame
-			Y <- Reduce("+", B[[i]][[j]])
-			XY <- list(X, Y)
+			#Y <- Reduce("+", B[[i]][[j]])
+			XY <- list(X, B[[i]][[j]])
 			names(XY) <- 
 			c(
 				"dat",
