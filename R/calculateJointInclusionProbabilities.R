@@ -1,3 +1,9 @@
+# remove inclusion probability calculation
+
+
+
+
+
 #' Calculate Joint Inclusion Probabilities Using Simulations
 #' @param patchdat patch realizations
 #' @param simulations Number of simulations per population.
