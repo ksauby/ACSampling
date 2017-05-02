@@ -154,17 +154,13 @@ calculateJointInclusionProbabilities <- function(
 					A[[i]][[j]][[k]]$max_m_unique_neigh 		<- temp$MAX
 					A[[i]][[j]][[k]]$min_m_unique_neigh 		<- temp$MIN
 					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
-					temp2 <- data_networks %>%
+					A[[i]][[j]][[k]] <- data_networks %>%
 						summarise(
 							MEAN = mean(m),
 							MAX = max(m),
 							MIN = min(m),
 							MEDIAN = median(m)
 						)
-					A[[i]][[j]][[k]]$mean_m 	<- temp2$MEAN
-					A[[i]][[j]][[k]]$max_m 		<- temp2$MAX
-					A[[i]][[j]][[k]]$min_m 		<- temp2$MIN
-					A[[i]][[j]][[k]]$median_m 	<- temp2$MEDIAN
 				} else {
 					A[[i]][[j]][[k]]$mean_m 	<- 0
 					A[[i]][[j]][[k]]$max_m 		<- 0
@@ -179,25 +175,6 @@ calculateJointInclusionProbabilities <- function(
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
-			# X %>% 
-			#	group_by(sample,NetworkID) %>%
-			#	summarise(n())
-			# total number of cells sample per population, N.SRSWOR.plots and SamplingDesign
-			X %<>%
-				group_by(
-					pop, 
-					N.SRSWOR.plots, 
-					SamplingDesign,
-					simulations,
-					coords,
-					mean_m,
-					max_m,
-					min_m,
-					median_m
-				) %>%
-				summarise(times_included=n()) %>%
-				as.data.frame
-			#Y <- Reduce("+", B[[i]][[j]])
 			XY <- list(X, B[[i]][[j]])
 			names(XY) <- 
 			c(
@@ -212,7 +189,6 @@ calculateJointInclusionProbabilities <- function(
 			)
 			XY
 	}
-	
 	k=1
 	newlist <- list()
 	for (i in 1:n.pop) {
@@ -231,15 +207,6 @@ calculateJointInclusionProbabilities <- function(
 		}
 	}
 	newlist2 %<>% unlist(recursive=F) %>% do.call(rbind.data.frame, .)
-	
-	
-	
-#	Z <- list.map(C[[1]], dat)
-	#A_1 <- lapply(C, `[[`, 1) %>% do.call(rbind.data.frame, .)
-	#A_2 <- lapply(C, `[[`, 2)
-	#C <- list(A_1, A_2)
-#	C[[3]]$simulation_date 	= format(Sys.time(), "%m-%d-%y")
-#	C[[4]]$f_max 		= f_max
 	print(Sys.time() - TIME)
 	return(list(newlist2, newlist))
 }
