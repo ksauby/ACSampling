@@ -105,18 +105,18 @@ calculateJointInclusionProbabilities <- function(
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
-					dplyr::select(pop, x, y)
+					dplyr::select(pop, x, y, NetworkID)
+				# save for m summary data
 				data_networks <- alldata %>%
-					#filter(!(Cactus==0 & m==1)) %>%
 					filter(m!=0)
 				# GET INCLUSION MATRIX FOR NETWORKS
 				A[[i]][[j]][[k]]$coords <- with(
 					A[[i]][[j]][[k]], 
 					paste(x,y,sep="_")
 				)
-				A[[i]][[j]][[k]] <- P %>% 
-					dplyr::select(coords, NetworkID) %>%
-					merge(A[[i]][[j]][[k]], by="coords")
+				#A[[i]][[j]][[k]] <- P %>% 
+				#	dplyr::select(coords, NetworkID) %>%
+				#	merge(A[[i]][[j]][[k]], by="coords")
 				Z <- matrix(
 					nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
 					ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),
@@ -126,6 +126,7 @@ calculateJointInclusionProbabilities <- function(
 					),
 					1
 				)
+				# get B[[i]][[j]] indices for Z information
 				indxB <- outer(
 					rownames(B[[i]][[j]]), 
 					colnames(B[[i]][[j]]), 
@@ -138,6 +139,7 @@ calculateJointInclusionProbabilities <- function(
 				B1 <- zeros
 				# fill B1 with values from Z at indxB locations
 				B1[indxB] <- Z
+# need to replace diagonal with zeros? or it should be equal to pi_i, how would I do that?
 				B[[i]][[j]] <- B1 + B[[i]][[j]]
 				# SUMMARIZE M INFORMATION
 				if (dim(data_networks)[1] > 0) {
@@ -171,7 +173,7 @@ calculateJointInclusionProbabilities <- function(
 				A[[i]][[j]][[k]]$seed 				<- temp_seed
 				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
 				A[[i]][[j]][[k]]$simulations 		<- simulations
-				A[[i]][[j]][[k]]$pop 		<- P$pop[1]
+				A[[i]][[j]][[k]]$pop 				<- P$pop[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
