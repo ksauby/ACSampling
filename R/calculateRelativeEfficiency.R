@@ -32,7 +32,7 @@ calculateRE <- function(
 				rvar
 			)) %>%
 			group_by_(.dots=population.grouping.variables) %>% 
-			summarise_each(funs(var(., na.rm=T)))
+			summarise_all(funs(var(., na.rm=T)))
 		setnames(
 			variances,
 			names(variances)[
@@ -55,7 +55,7 @@ calculateRE <- function(
 				rvar
 			)) %>%
 			group_by_(.dots=population.grouping.variables) %>% 
-			summarise_each(funs(var(., na.rm=T)))
+			summarise_all(funs(var(., na.rm=T)))
 		setnames(
 			variances_ratio,
 			names(variances_ratio)[

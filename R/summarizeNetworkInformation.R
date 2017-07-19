@@ -20,7 +20,7 @@ summarizeNetworkInformation <- function(population_data, variables, grouping.var
 		# group_by these columns
 		group_by_(.dots=c("NetworkID", grouping.variables, "m")) %>%
 		# calculate the sum of the remaining columns (the "variables" columns)
-		summarise_each(funs(sum(., na.rm=T)))
+		summarise_all(funs(sum(., na.rm=T)))
 	m <- paste("Networks$", m_var, sep="")
 	# calculate pi_i for each network and sample size (nsample)
 	for (i in 1:length(nsamples)) {

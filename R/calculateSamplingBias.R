@@ -167,7 +167,6 @@ calculateSamplingBias <- function(
 						(eval(
 							parse(
 								text=paste(
-									"X$", 
 									variables[i], 
 									"_mean_observed", 
 									sep=""
@@ -178,7 +177,6 @@ calculateSamplingBias <- function(
 						eval(
 							parse(
 								text = paste(
-								"X$", 
 								variables[i], 
 								"_mean", 
 								sep=""
@@ -206,7 +204,6 @@ calculateSamplingBias <- function(
 						eval(
 							parse(
 								text = paste(
-									"X$", 
 									variables[i], 
 									"_mean_observed", 
 									sep=""
@@ -217,7 +214,6 @@ calculateSamplingBias <- function(
 						eval(
 							parse(
 								text = paste(
-									"X$", 
 									variables[i], 
 									"_mean_of_observed_means", 
 									sep=""
