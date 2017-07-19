@@ -9,7 +9,7 @@ sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
   var_y_HT_formula = "var_y_HT", m_threshold = NULL, f_max = 2,
   SampleEstimators = FALSE, SpatialStatistics = TRUE,
   mCharacteristics = TRUE, patch_variable = "n.networks",
-  realization_variable = "realization", WeightMatrix = "network membership")
+  realization_variable = "realization", weights = "S")
 }
 \arguments{
 \item{patchdat}{patch realizations}
@@ -43,6 +43,8 @@ sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
 \item{patch_variable}{Default is "n.networks"}
 
 \item{realization_variable}{Default is "realization"}
+
+\item{weights}{If SpatialStatistics is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
 }
 \description{
 This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
