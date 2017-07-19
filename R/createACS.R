@@ -38,20 +38,20 @@
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot
 
-createACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
+createACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
 	. <- Sampling <- y_val <- NULL
 	if (is.data.frame(initial_sample)) {
-		S <- merge(population, initial_sample, all.y=TRUE) 	
+		S <- merge(population_data, initial_sample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
 	} else {
 		if (!is.na(seed)) {set.seed(seed)}
-		S <- createSRS(population=population, n1=n1)
+		S <- createSRS(population=population_data, n1=n1)
 	}
 	# add the rest of the units for each network in the initial sample
 	Z = population %>%
 		dplyr::filter(NetworkID %in% S$NetworkID) %>%
 		merge(S, all.x=T)
-	Networks = Z %>% dplyr::filter(eval(parse(text=paste("Z$", y_variable,  sep=""))) > condition)
+	Networks = Z %>% dplyr::filter(eval(parse(text=y_variable)) > condition)
 	# if there are units that satisfy the condition, fill in edge units
 	if (dim(Networks)[1] > 0) {
 		names(Z)[names(Z) == y_variable] <- 'y_val'
@@ -83,7 +83,11 @@ createACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_
 	 	   	unique %>%
 			dplyr::select(-xy)
 		# remove plots outside of population extent
-		Z %<>% .[which(Z$x %in% population$x & Z$y %in% population$y)]
+		Z %<>% subset(
+			.,
+			x %in% population_data$x &
+			y %in% population_data$y
+		)
 		# fill in values for Edge units
 		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {
 			Z[ Sampling=="Edge" ]$y_val <- 0
