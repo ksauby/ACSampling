@@ -48,7 +48,7 @@ createACS <- function(population_data, n1, y_variable, condition=0, seed=NA, ini
 		S <- createSRS(population=population_data, n1=n1)
 	}
 	# add the rest of the units for each network in the initial sample
-	Z = population %>%
+	Z = population_data %>%
 		dplyr::filter(NetworkID %in% S$NetworkID) %>%
 		merge(S, all.x=T)
 	Networks = Z %>% dplyr::filter(eval(parse(text=y_variable)) > condition)

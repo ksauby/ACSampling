@@ -56,7 +56,6 @@ calculateJointInclusionProbabilities <- function(
 			#}
 		) %dopar% {
 			P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])
-			P$coords <- with(P, paste(x,y,sep="_"))
 			N 			<- dim(P)[1]
 			n1 			<- nsamples[j]
 			# save simulation attributes
@@ -72,15 +71,7 @@ calculateJointInclusionProbabilities <- function(
 				0
 			)
 			# zeros
-			zeros <- matrix(
-				nrow=length(unique(P$NetworkID)),
-				ncol=length(unique(P$NetworkID)),
-				dimnames=list(
-					unique(P$NetworkID),
-					unique(P$NetworkID)
-				),
-				0
-			)
+			zeros <- B[[i]][[j]]
 			r 			<- (i - 1) * j + j
 			seeds 		<- runif(simulations)
 		   for (k in 1:simulations) {
@@ -110,13 +101,6 @@ calculateJointInclusionProbabilities <- function(
 				data_networks <- alldata %>%
 					filter(m!=0)
 				# GET INCLUSION MATRIX FOR NETWORKS
-				A[[i]][[j]][[k]]$coords <- with(
-					A[[i]][[j]][[k]], 
-					paste(x,y,sep="_")
-				)
-				#A[[i]][[j]][[k]] <- P %>% 
-				#	dplyr::select(coords, NetworkID) %>%
-				#	merge(A[[i]][[j]][[k]], by="coords")
 				Z <- matrix(
 					nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
 					ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),
