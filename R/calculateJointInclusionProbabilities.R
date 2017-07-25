@@ -84,6 +84,18 @@ calculateJointInclusionProbabilities <- function(
 						y_variable=y_variable
 					) %>% 
 						as.data.table
+						
+						
+						
+						
+						WHAT IF NETWORK IS INCLUDED TWICE OR MORE?
+						
+						NEED TO FIX FOR PIJ = PI
+						
+						
+						
+						
+						
 				} else {
 					alldata <- createRACS_flex(
 						population=P, 
@@ -96,7 +108,8 @@ calculateJointInclusionProbabilities <- function(
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
-					dplyr::select(pop, x, y, NetworkID)
+					dplyr::select(pop, x, y, NetworkID) %>%
+					arrange(NetworkID)
 				# save for m summary data
 				data_networks <- alldata %>%
 					filter(m!=0)
