@@ -100,7 +100,7 @@ calculateJointInclusionProbabilities <- function(
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
-					dplyr::select(pop, x, y, NetworkID) %>%
+					dplyr::select(pop, x, y, NetworkID, Sampling) %>%
 					arrange(NetworkID)
 				# save for m summary data
 				data_networks <- alldata %>%
@@ -109,6 +109,7 @@ calculateJointInclusionProbabilities <- function(
 				
 				temp <- 
 					A[[i]][[j]][[k]] %>%
+					filter(Sampling=="SRSWOR") %>%
 					group_by(NetworkID) %>% summarise(n())
 				Z <- matrix(
 					temp$`n()`, 
