@@ -84,15 +84,7 @@ calculateJointInclusionProbabilities <- function(
 						y_variable=y_variable
 					) %>% 
 						as.data.table
-						
-						
-						
-						
-						WHAT IF NETWORK IS INCLUDED TWICE OR MORE?
-						
-						NEED TO FIX FOR PIJ = PI
-						
-						
+					
 						
 						
 						
@@ -114,15 +106,27 @@ calculateJointInclusionProbabilities <- function(
 				data_networks <- alldata %>%
 					filter(m!=0)
 				# GET INCLUSION MATRIX FOR NETWORKS
+				
+				temp <- 
+					A[[i]][[j]][[k]] %>%
+					group_by(NetworkID) %>% summarise(n())
 				Z <- matrix(
-					nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
-					ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),
-					dimnames=list(
-						unique(A[[i]][[j]][[k]]$NetworkID),
-						unique(A[[i]][[j]][[k]]$NetworkID)
-					),
-					1
+					temp$`n()`, 
+					nrow=dim(temp)[1], 
+					ncol=dim(temp)[1], 
+					dimnames=list(temp$NetworkID, temp$NetworkID)
 				)
+				
+				
+				# Z <- matrix(
+				# 	nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
+				# 	ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),
+				# 	dimnames=list(
+				# 		unique(A[[i]][[j]][[k]]$NetworkID),
+				# 		unique(A[[i]][[j]][[k]]$NetworkID)
+				# 	),
+				# 	1
+				# )
 				# get B[[i]][[j]] indices for Z information
 				indxB <- outer(
 					rownames(B[[i]][[j]]), 
