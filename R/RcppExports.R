@@ -2,18 +2,18 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 pi_ij_cpp <- function(m, N_n1, N_m_n1, N_m_m_n1) {
-    .Call('ACSampling_pi_ij_cpp', PACKAGE = 'ACSampling', m, N_n1, N_m_n1, N_m_m_n1)
+    .Call('_ACSampling_pi_ij_cpp', PACKAGE = 'ACSampling', m, N_n1, N_m_n1, N_m_m_n1)
 }
 
 pi_ij_RACS_cpp <- function(m, N_n1, N_m_threshold_n1, N_2m_threshold_n1, m_threshold, N_m_n1, N_m_threshold_m_n1, N_m_m_n1) {
-    .Call('ACSampling_pi_ij_RACS_cpp', PACKAGE = 'ACSampling', m, N_n1, N_m_threshold_n1, N_2m_threshold_n1, m_threshold, N_m_n1, N_m_threshold_m_n1, N_m_m_n1)
+    .Call('_ACSampling_pi_ij_RACS_cpp', PACKAGE = 'ACSampling', m, N_n1, N_m_threshold_n1, N_2m_threshold_n1, m_threshold, N_m_n1, N_m_threshold_m_n1, N_m_m_n1)
 }
 
 var_y_HT_cpp <- function(m, pi_i_values, pi_ij_values, y) {
-    .Call('ACSampling_var_y_HT_cpp', PACKAGE = 'ACSampling', m, pi_i_values, pi_ij_values, y)
+    .Call('_ACSampling_var_y_HT_cpp', PACKAGE = 'ACSampling', m, pi_i_values, pi_ij_values, y)
 }
 
 R_hat_cpp <- function(y_hat, pi_i_values, pi_ij_values) {
-    .Call('ACSampling_R_hat_cpp', PACKAGE = 'ACSampling', y_hat, pi_i_values, pi_ij_values)
+    .Call('_ACSampling_R_hat_cpp', PACKAGE = 'ACSampling', y_hat, pi_i_values, pi_ij_values)
 }
 

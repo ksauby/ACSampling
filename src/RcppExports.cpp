@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // pi_ij_cpp
 Rcpp::NumericMatrix pi_ij_cpp(Rcpp::NumericVector m, double N_n1, Rcpp::NumericVector N_m_n1, Rcpp::NumericMatrix N_m_m_n1);
-RcppExport SEXP ACSampling_pi_ij_cpp(SEXP mSEXP, SEXP N_n1SEXP, SEXP N_m_n1SEXP, SEXP N_m_m_n1SEXP) {
+RcppExport SEXP _ACSampling_pi_ij_cpp(SEXP mSEXP, SEXP N_n1SEXP, SEXP N_m_n1SEXP, SEXP N_m_m_n1SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -22,7 +22,7 @@ END_RCPP
 }
 // pi_ij_RACS_cpp
 Rcpp::NumericMatrix pi_ij_RACS_cpp(Rcpp::NumericVector m, double N_n1, double N_m_threshold_n1, double N_2m_threshold_n1, double m_threshold, Rcpp::NumericVector N_m_n1, Rcpp::NumericVector N_m_threshold_m_n1, Rcpp::NumericMatrix N_m_m_n1);
-RcppExport SEXP ACSampling_pi_ij_RACS_cpp(SEXP mSEXP, SEXP N_n1SEXP, SEXP N_m_threshold_n1SEXP, SEXP N_2m_threshold_n1SEXP, SEXP m_thresholdSEXP, SEXP N_m_n1SEXP, SEXP N_m_threshold_m_n1SEXP, SEXP N_m_m_n1SEXP) {
+RcppExport SEXP _ACSampling_pi_ij_RACS_cpp(SEXP mSEXP, SEXP N_n1SEXP, SEXP N_m_threshold_n1SEXP, SEXP N_2m_threshold_n1SEXP, SEXP m_thresholdSEXP, SEXP N_m_n1SEXP, SEXP N_m_threshold_m_n1SEXP, SEXP N_m_m_n1SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -40,7 +40,7 @@ END_RCPP
 }
 // var_y_HT_cpp
 Rcpp::NumericMatrix var_y_HT_cpp(Rcpp::NumericVector m, Rcpp::NumericVector pi_i_values, Rcpp::NumericMatrix pi_ij_values, Rcpp::NumericVector y);
-RcppExport SEXP ACSampling_var_y_HT_cpp(SEXP mSEXP, SEXP pi_i_valuesSEXP, SEXP pi_ij_valuesSEXP, SEXP ySEXP) {
+RcppExport SEXP _ACSampling_var_y_HT_cpp(SEXP mSEXP, SEXP pi_i_valuesSEXP, SEXP pi_ij_valuesSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -54,7 +54,7 @@ END_RCPP
 }
 // R_hat_cpp
 Rcpp::NumericMatrix R_hat_cpp(Rcpp::NumericVector y_hat, Rcpp::NumericVector pi_i_values, Rcpp::NumericMatrix pi_ij_values);
-RcppExport SEXP ACSampling_R_hat_cpp(SEXP y_hatSEXP, SEXP pi_i_valuesSEXP, SEXP pi_ij_valuesSEXP) {
+RcppExport SEXP _ACSampling_R_hat_cpp(SEXP y_hatSEXP, SEXP pi_i_valuesSEXP, SEXP pi_ij_valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -64,4 +64,17 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(R_hat_cpp(y_hat, pi_i_values, pi_ij_values));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_ACSampling_pi_ij_cpp", (DL_FUNC) &_ACSampling_pi_ij_cpp, 4},
+    {"_ACSampling_pi_ij_RACS_cpp", (DL_FUNC) &_ACSampling_pi_ij_RACS_cpp, 8},
+    {"_ACSampling_var_y_HT_cpp", (DL_FUNC) &_ACSampling_var_y_HT_cpp, 4},
+    {"_ACSampling_R_hat_cpp", (DL_FUNC) &_ACSampling_R_hat_cpp, 3},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_ACSampling(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

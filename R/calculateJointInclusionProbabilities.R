@@ -101,7 +101,9 @@ calculateJointInclusionProbabilities <- function(
 				temp <- 
 					A[[i]][[j]][[k]] %>%
 					filter(Sampling=="SRSWOR") %>%
-					group_by(NetworkID) %>% dplyr::summarise(n())
+					group_by(NetworkID) %>%
+					dplyr::summarise(n()) %>%
+					arrange(-`n()`)
 				Z <- matrix(
 					temp$`n()`, 
 					nrow=dim(temp)[1], 
@@ -133,6 +135,13 @@ calculateJointInclusionProbabilities <- function(
 				# fill B1 with values from Z at indxB locations
 				B1[indxB] <- Z
 # need to replace diagonal with zeros? or it should be equal to pi_i, how would I do that?
+
+# ARE B and B ordered the same?
+				rowcolequal <- paste(
+					all(rownames(B1)==rownames(B[[i]][[j]])),
+					all(colnames(B1)==colnames(B[[i]][[j]]))
+				)
+				
 				B[[i]][[j]] <- B1 + B[[i]][[j]]
 				# SUMMARIZE M INFORMATION
 				if (dim(data_networks)[1] > 0) {
@@ -156,11 +165,14 @@ calculateJointInclusionProbabilities <- function(
 							MIN = min(m),
 							MEDIAN = median(m)
 						)
+					A[[i]][[j]][[k]]$rowcolequal <- rowcolequal
 				} else {
 					A[[i]][[j]][[k]]$mean_m 	<- 0
 					A[[i]][[j]][[k]]$max_m 		<- 0
 					A[[i]][[j]][[k]]$min_m 		<- 0
 					A[[i]][[j]][[k]]$median_m 	<- 0
+					A[[i]][[j]][[k]]$rowcolequal <- NA
+					
 				}
 				A[[i]][[j]][[k]]$sample 			<- k
 				A[[i]][[j]][[k]]$seed 				<- temp_seed
