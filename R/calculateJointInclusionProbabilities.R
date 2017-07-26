@@ -98,29 +98,29 @@ calculateJointInclusionProbabilities <- function(
 					filter(m!=0)
 				# GET INCLUSION MATRIX FOR NETWORKS
 				
-				temp <- 
-					A[[i]][[j]][[k]] %>%
-					filter(Sampling=="SRSWOR") %>%
-					group_by(NetworkID) %>%
-					dplyr::summarise(n()) %>%
-					arrange(-`n()`)
-				Z <- matrix(
-					temp$`n()`, 
-					nrow=dim(temp)[1], 
-					ncol=dim(temp)[1], 
-					dimnames=list(temp$NetworkID, temp$NetworkID)
-				)
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-				
+				# temp <- 
+				# 	A[[i]][[j]][[k]] %>%
+				# 	filter(Sampling=="SRSWOR") %>%
+				# 	group_by(NetworkID) %>%
+				# 	dplyr::summarise(n()) %>%
+				# 	arrange(-`n()`)
 				# Z <- matrix(
-				# 	nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
-				# 	ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),
-				# 	dimnames=list(
-				# 		unique(A[[i]][[j]][[k]]$NetworkID),
-				# 		unique(A[[i]][[j]][[k]]$NetworkID)
-				# 	),
-				# 	1
+				# 	temp$`n()`, 
+				# 	nrow=dim(temp)[1], 
+				# 	ncol=dim(temp)[1], 
+				# 	dimnames=list(temp$NetworkID, temp$NetworkID)
 				# )
+				# Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
+				
+				Z <- matrix(
+					nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
+					ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),
+					dimnames=list(
+						unique(A[[i]][[j]][[k]]$NetworkID),
+						unique(A[[i]][[j]][[k]]$NetworkID)
+					),
+					1
+				)
 				# get B[[i]][[j]] indices for Z information
 				indxB <- outer(
 					rownames(B[[i]][[j]]), 
