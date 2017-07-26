@@ -1,9 +1,3 @@
-# remove inclusion probability calculation
-
-
-
-
-
 #' Calculate Joint Inclusion Probabilities Using Simulations
 #' @param patchdat patch realizations
 #' @param simulations Number of simulations per population.
@@ -31,7 +25,8 @@ calculateJointInclusionProbabilities <- function(
 	TIME 			<- Sys.time()
 	patchdat 		%<>% arrange_(.dots=population.grouping.variable)
 	if (population.grouping.variable != "pop") {
-		patchdat	%<>% setnames(population.grouping.variable, "pop") 
+		# patchdat	%<>% setnames(population.grouping.variable, "pop")
+		colnames(patchdat)[which(names(patchdat) == population.grouping.variable)] <- "pop"
 	}
 	n.pop 			<- length(unique(patchdat$pop))
 	nsample.length 	<- length(nsamples)
@@ -84,10 +79,6 @@ calculateJointInclusionProbabilities <- function(
 						y_variable=y_variable
 					) %>% 
 						as.data.table
-					
-						
-						
-						
 				} else {
 					alldata <- createRACS_flex(
 						population=P, 
@@ -110,14 +101,14 @@ calculateJointInclusionProbabilities <- function(
 				temp <- 
 					A[[i]][[j]][[k]] %>%
 					filter(Sampling=="SRSWOR") %>%
-					group_by(NetworkID) %>% summarise(n())
+					group_by(NetworkID) %>% dplyr::summarise(n())
 				Z <- matrix(
 					temp$`n()`, 
 					nrow=dim(temp)[1], 
 					ncol=dim(temp)[1], 
 					dimnames=list(temp$NetworkID, temp$NetworkID)
 				)
-				
+				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
 				
 				# Z <- matrix(
 				# 	nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
@@ -147,8 +138,8 @@ calculateJointInclusionProbabilities <- function(
 				if (dim(data_networks)[1] > 0) {
 					temp <- data_networks %>%
 						group_by(NetworkID) %>%
-						summarise(m = m[1]) %>%
-						summarise(
+						dplyr::summarise(m = m[1]) %>%
+						dplyr::summarise(
 							MEAN = mean(m),
 							MAX = max(m),
 							MIN = min(m),
@@ -159,7 +150,7 @@ calculateJointInclusionProbabilities <- function(
 					A[[i]][[j]][[k]]$min_m_unique_neigh 		<- temp$MIN
 					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
 					A[[i]][[j]][[k]] <- data_networks %>%
-						summarise(
+						dplyr::summarise(
 							MEAN = mean(m),
 							MAX = max(m),
 							MIN = min(m),

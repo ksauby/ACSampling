@@ -1,3 +1,57 @@
+-v
+install.packages("rgeos", repos="http://R-Forge.R-project.org")#
+require(rgeos)
+library(rgeos)
+require(rgeos)
+library(rgeos)
+install.packages("rgdal", repos="http://R-Forge.R-project.org")#
+require(rgdal)
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
+ --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
+ --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+library(lme3)
+library(lme4)
+300/241
+.244*30
+1.25*300
+1.25*240
+7*12
+7849-7527
+322/1353
+8028-7527
+501/1353
+8028-7957
+1353-501
+852/71
+7956-7878
+8176-8029
+8176-8092
+250*.75
+250*.25
+42*2 + 17*2
+118/19
+21/6.2
+59.5*.75
+59.5*.5 + 59.5
+71/12
+597/80
+597/8
+432/8
+15*8 + 9*3
+?seq_len
+7.25/3
+7.25/4
+for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
+install.packages("ProjectTemplate")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("data.table")
+install.packages("corrgram")
+install.packages("survival")
+install.packages("shapefiles")
+install.packages("rgdal")
+install.packages("PBSmapping")
 install.packages("sp")
 install.packages("gdistance")
 install.packages("chron")
@@ -237,557 +291,23 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-rmarkdown::render('Manuscript.Rmd')
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-# -----------------------------------------------------------------------------##
-# ABUNDANCE VARIABLES#
-# -----------------------------------------------------------------------------##
-# -----------------------------------------------------------------------------##
-# OCCUPANCY VARIABLES#
-# -----------------------------------------------------------------------------##
-ovar <- c(#
-	"Stricta",#
-	"Pusilla",#
-	"Cactus"#
-)#
-# -----------------------------------------------------------------------------##
-# RATIO VARIABLES#
-# -----------------------------------------------------------------------------##
-rvar <- c(#
-	"MEPR_on_Stricta",#
-	"CACA_on_Stricta",#
-	"Percent_Cover_Stricta",#
-	"Height_Stricta",#
-	"Old_Moth_Evidence_Pusilla",#
-	"Old_Moth_Evidence_Stricta"#
-)#
-#
-# "Percent_Cover_Pusilla",#
-# "Height_Pusilla",#
-# )
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-# REALIZATION DATA#
-x_start 		<- 1#
-x_end 			<- 30#
-y_start 		<- 1#
-y_end 			<- 30#
-n.networks 		<- c(5, 15, 10, 20, 30, 40)#
-n.realizations 	<- 1#
-SpeciesInfo 	<- PlotSurveys_season1#
-buffer			<- 5#
-start.seed		<- 1#
-variables		<- ovar#
-# CREATE REALIZATIONS#
-patch_data <- createSpeciesPatchRealizations(#
-	x_start, #
-	x_end,#
-	y_start, #
-	y_end, #
-	buffer, #
-	n.networks, #
-	n.realizations, #
-	SpeciesInfo, #
-	start.seed,#
-	variables#
-)#
-#
-patch_data_for_tables <- patch_data#
-#
-# convert NAs to zeros#
- patch_data[,c(#
- 	"CACA_on_Pusilla",#
- 	"CACA_on_Stricta",#
- 	"MEPR_on_Pusilla",#
- 	"MEPR_on_Stricta",#
- 	"Old_Moth_Evidence_Pusilla",#
- 	"Old_Moth_Evidence_Stricta",#
- 	"Percent_Cover_Pusilla",#
- 	"Percent_Cover_Stricta",#
- 	"Height_Pusilla",#
- 	"Height_Stricta"#
- )] %<>% apply(., 2, NA_is_Zero_Function)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-N 					<- patch_data$N[1]#
-nsamples			<- c( 20, 30, 40, 75, 100) #, 150, 200)#
-grouping.variables	<- c("n.networks", "realization")#
-#
-patch_data <- summarizeNetworkInformation(#
-	population_data = patch_data, #
-	variables = c(ovar, rvar), #
-	grouping.variables = grouping.variables, #
-	nsamples = nsamples, #
-	m_var="Cactus"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-# calculate realization summary statistics#
-#
-patch_data_summary <- calculatePopulationSummaryStatistics(#
-	population_data 				= patch_data, #
-	summary.variables 				= c(ovar,rvar), #
-	population.grouping.variable 	= "n.networks", #
-	ratio.variables 				= rvar#
-)#
-#
-# fix population name#
-patch_data_summary[[2]]$population %<>% as.factor()#
-levels(patch_data_summary[[2]]$population) <- 1:6#
-#
-patch_data_summary[[1]] %<>% setnames("n.networks", "population")#
-patch_data_summary[[1]]$population %<>% as.factor()#
-levels(patch_data_summary[[1]]$population) <- 1:6#
-#
-patch_data %<>% setnames("n.networks", "population")#
-patch_data$population %<>% as.factor()#
-levels(patch_data$population) <- 1:6#
-### ADD LEVELS TO PATCH_DATA BASED ON THIS SUMMARY#
-#
-# LEVELS OF CACTUS OCCUPANCY#
-Cactus_mean <- patch_data_summary[[2]] %>% filter(variable=="Cactus") %$% Mean#
-patch_data$population.for.plotting <- patch_data$population#
-levels(patch_data$population.for.plotting) <- c(#
-	expression(atop(#
-		'Population 1',#
-		'Cactus Occupancy'~mu[C]~' = 0.032'#
-	)), #
-	expression(atop(#
-		'Population 2',#
-		mu[C]~' = 0.064'#
-	)), #
-	expression(atop(#
-		'Population 3',#
-		mu[C]~' = 0.098'#
-	)), #
-	expression(atop(#
-		'Population 4',#
-		mu[C]~' = 0.144'#
-	)), #
-	expression(atop(#
-		'Population 5',#
-		mu[C]~' = 0.157'#
-	)), #
-	expression(atop(#
-		'Population 6',#
-		mu[C]~' = 0.24'#
-	))#
-)#
-#
-# LEVELS OF STRICTA OCCUPANCY#
-patch_data$population.for.plotting -> patch_data$stricta_occ#
-Stricta_mean <- patch_data_summary[[2]] %>% filter(variable=="Stricta") %$% Mean#
-#
-levels(patch_data$stricta_occ) <- c(#
-	expression(atop(#
-		'Population 1',#
-		italic("O. stricta")*","~mu[s]~' = 0.019'#
-	)), #
-	expression(atop(#
-		'Population 2',#
-		mu[s]~' = 0.047'#
-	)), #
-	expression(atop(#
-		'Population 3',#
-		mu[s]~' = 0.063'#
-	)), #
-	expression(atop(#
-		'Population 4',#
-		mu[s]~' = 0.091'#
-	)), #
-	expression(atop(#
-		'Population 5',#
-		mu[s]~' = 0.111'#
-	)), #
-	expression(atop(#
-		'Population 6',#
-		mu[s]~' = 0.152'#
-	))#
-)#
-#
-# LEVELS OF PUSILLA OCCUPANCY#
-patch_data$population.for.plotting -> patch_data$pusilla_occ#
-Pusilla_mean <- patch_data_summary[[2]] %>% filter(variable=="Pusilla") %$% Mean#
-levels(patch_data$pusilla_occ) <- c(#
-	expression(atop(#
-		'Population 1',#
-		italic("O. pusilla")*","~mu[p]~' = 0.014'#
-	)), #
-	expression(atop(#
-		'Population 2',#
-		mu[p]~' = 0.03'#
-	)), #
-	expression(atop(#
-		'Population 3',#
-		mu[p]~' = 0.042'#
-	)), #
-	expression(atop(#
-		'Population 4',#
-		mu[p]~' = 0.078'#
-	)), #
-	expression(atop(#
-		'Population 5',#
-		mu[p]~' = 0.053'#
-	)), #
-	expression(atop(#
-		'Population 6',#
-		mu[p]~' = 0.11'#
-	))#
-) #
-patch_data %<>% mutate(#
-	Stricta_vars = paste(Stricta, CACA_on_Stricta, MEPR_on_Stricta),#
-	Pusilla_vars = paste(Pusilla, CACA_on_Pusilla, MEPR_on_Pusilla),#
-	Cactus_vars = paste(Pusilla, Stricta),#
-	Cactus_occ = Cactus,#
-	Moth_damage_vars = paste(#
-		Cactus,#
-		Old_Moth_Evidence_Pusilla,#
-		Old_Moth_Evidence_Stricta#
-	)#
-)#
-patch_data$Cactus_occ %<>% as.factor#
-levels(patch_data$Cactus_occ) <- c("Cacti Absent", "Cacti Present")#
-#
-patch = patch_data %>% filter(population==unique(patch_data$population)[3])#
-#
-patch_data_stricta <- patch_data %>% filter(Stricta_vars!="0 0 0")#
-patch_data_stricta$Stricta_vars %<>% as.factor#
-patch_data_pusilla <- patch_data %>% filter(Pusilla_vars!="0 0 0")#
-patch_data_pusilla$Pusilla_vars %<>% as.factor#
-patch_data_cactus <- patch_data %>% filter(Cactus_vars!="0 0")#
-patch_data_cactus$Cactus_vars %<>% as.factor#
-patch_data_moth_damage <- patch_data %>% filter(Moth_damage_vars!="0 0 0")#
-patch_data_moth_damage$Moth_damage_vars %<>% as.factor#
-# Optimal m_threshold#
-#
-expand.grid.df <- function(...) Reduce(function(...) merge(..., by=NULL), list(...))#
-patch_data_summary_f_max <- expand.grid.df(patch_data_summary[[1]], f_max = 1:3) %>%#
-setnames("y", "f_max")#
-#
-patch_data_summary_f_max$optimal_m_threshold <- c(#
-	3,3,3,4,3,4,#
-	5,7,7,8,7,9,#
-	7,10,10,12,11,14#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-addNSRSWORplotsVar <- function(A, variable) {#
-	A %<>%#
-		setnames(variable, "temp_var") %>%#
-		mutate(#
-			N.SRSWOR.plots = NA,#
-			N.SRSWOR.plots = gsub(#
-				"^.*_",#
-				"",#
-				gsub(#
-					"__.*$", #
-					"", #
-					temp_var#
-				)#
-			)#
-		) %>%#
-		setnames("temp_var", variable)#
-	return(A)#
-}	#
-addMThresholdVar <- function(A, variable) {#
-	A %<>%#
-		setnames(variable, "temp_var") %>%#
-		mutate(#
-			m_threshold = NA,#
-			m_threshold = gsub(#
-				"^.*__",#
-				"",#
-				temp_var#
-			)#
-		) %>%#
-		setnames("temp_var", variable)#
-	return(A)#
-}	#
-# columns to select#
-select_columns <- c(#
-	"m", "x", "y", "N",#
-	"pi_i_n1_20", "pi_i_n1_30", "pi_i_n1_40", "pi_i_n1_75", "pi_i_n1_100"#
-)#
-m_threshold = c(1:14)#
-#
-results <- list()#
-for (i in 1:6) {#
-	Z <- patch_data %>% filter(n.networks == levels(n.networks)[i])#
-	Z %<>% dplyr::select_(.dots=select_columns)#
-	# calculate expected inclusion probabilities with new pi_i (m_threshold)#
-	# add to population data#
-	for (j in 1:length(m_threshold)) {#
-		A <- Z %>% filter(m <= m_threshold[j])#
-		B <- Z %>% filter(m > m_threshold[j])#
-		if (dim(A)[1] > 0) {#
-			A$pii_20 <- pi_i(N=900, n1=20, m=A$m)#
-			A$pii_30 <- pi_i(N=900, n1=30, m=A$m)#
-			A$pii_40 <- pi_i(N=900, n1=40, m=A$m)#
-			A$pii_75 <- pi_i(N=900, n1=75, m=A$m)#
-			A$pii_100 <- pi_i(N=900, n1=100, m=A$m)#
-		}#
-		if (dim(B)[1] > 0) {#
-			B$pii_20 <- pi_i(N=900, n1=20, m=m_threshold[j])#
-			B$pii_30 <- pi_i(N=900, n1=30, m=m_threshold[j])#
-			B$pii_40 <- pi_i(N=900, n1=40, m=m_threshold[j])#
-			B$pii_75 <- pi_i(N=900, n1=75, m=m_threshold[j])#
-			B$pii_100 <- pi_i(N=900, n1=100, m=m_threshold[j])#
-		}#
-		Z <- rbind.fill(A,B) %>%#
-			setnames("pii_20", paste("pii_20", m_threshold[j], sep="__")) %>%#
-			setnames("pii_30", paste("pii_30", m_threshold[j], sep="__")) %>%#
-			setnames("pii_40", paste("pii_40", m_threshold[j], sep="__")) %>%#
-			setnames("pii_75", paste("pii_75", m_threshold[j], sep="__")) %>%#
-			setnames("pii_100", paste("pii_100", m_threshold[j], sep="__"))#
-	}#
-	Z %<>% mutate(coords = paste(x,y,sep="_"))#
-	A <- Z %>% #
-		dplyr::select(-c(#
-			pi_i_n1_20, #
-			pi_i_n1_30, #
-			pi_i_n1_40, #
-			pi_i_n1_75, #
-			pi_i_n1_100#
-		)) %>% #
-		reshape2::melt(id.vars=c("m","x","y","N","coords")) %>%#
-		setnames("value", "new_pii_value") %>%#
-		setnames("variable", "new_pii_variable")#
-	B <- Z %>% #
-		dplyr::select(#
-			coords, #
-			pi_i_n1_20, #
-			pi_i_n1_30, #
-			pi_i_n1_40, #
-			pi_i_n1_75, #
-			pi_i_n1_100#
-		) %>% #
-		reshape2::melt(id.vars=c("coords")) %>%#
-		setnames("value", "Thompson_pii_value") %>%#
-		setnames("variable", "Thompson_pii_variable")#
-	A %<>% addNSRSWORplotsVar(variable = "new_pii_variable") %>% #
-		addMThresholdVar(variable = "new_pii_variable") %>% #
-		dplyr::select(-new_pii_variable)#
-	B %<>% addNSRSWORplotsVar(variable = "Thompson_pii_variable") %>% #
-		dplyr::select(-Thompson_pii_variable)#
-	results[[i]] <- A %>%#
-		merge(B, by=c("coords", "N.SRSWOR.plots"), all=T) %>%#
-		mutate(n.networks = i)#
-	assign(paste("results_pop", i, sep="_"), value = Z)#
-}#
-results <- do.call(rbind.data.frame, results)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-rmarkdown::render('Manuscript.Rmd')
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-patch = patch_data %>% filter(population==unique(patch_data$population)[3])
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-S <- createSRS(population=patch, seed=26, n1=10) %>%#
-mutate(Design="Simple Random Sampling w/o Replacement (SRSWOR)")#
-S[5, c("x", "y")] <- c(22,24)#
-S[8, c("x", "y")] <- c(23,6)#
-S[10, c("x", "y")] <- c(14,19)#
-initial_sample <- S[, c("x", "y")]#
-#
-S196 <- createSRS(population=patch, seed=26, n1=196) %>%#
-mutate(Design="(c) SRSWOR, n = 196")#
-S196[5, c("x", "y")] <- c(22,24)#
-S196[8, c("x", "y")] <- c(23,6)#
-S196[10, c("x", "y")] <- c(14,19)#
-#
-S45 <- createSRS(population=patch, seed=26, n1=45) %>%#
-mutate(Design="(d) SRSWOR, n = 45")#
-S45[5, c("x", "y")] <- c(22,24)#
-S45[8, c("x", "y")] <- c(23,6)#
-S45[10, c("x", "y")] <- c(14,19)#
-#
-## Example of ACS Sampling
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-sampling_example_patch_occupancy = dataproc::Mean(patch$Cactus)#
-#
-#patch[patch$Cactus == 0,]$Cactus <- "Cacti Absent"#
-#patch[patch$Cactus == 1,]$Cactus <- "Cacti Present"#
-#
-ACS = createACS(population_data=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) %>%#
-mutate(Design="(a) ACS, n = 196")#
-RACS = createRACS(population=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) %>%#
-mutate(Design="(b) RACS, n = 45")
-? createACS
-str(patch)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-population_data=patch
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-seed=26
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-n1=10
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-y_variable="Cactus"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- Sampling <- y_val <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S <- merge(population_data, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population=population_data, n1=n1)#
-	}#
-	# add the rest of the units for each network in the initial sample#
-	Z = population %>%#
-		dplyr::filter(NetworkID %in% S$NetworkID) %>%#
-		merge(S, all.x=T)#
-	Networks = Z %>% dplyr::filter(eval(parse(text=y_variable)) > condition)#
-	# if there are units that satisfy the condition, fill in edge units#
-	if (dim(Networks)[1] > 0) {#
-		names(Z)[names(Z) == y_variable] <- 'y_val'#
-		#Z %<>%#
-		#	as.data.table %>%#
-		#	setnames(y_variable, "y_val")#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# fill in edge units#
-		E = data.table(#
-			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
-		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
-			Sampling = "Edge",#
-			key = c("x", "y")#
-		) %>%#
-		rowwise() %>%#
-		mutate(xy = paste(x,y)) %>%#
-		ungroup()#
-		Z %<>% #
-			rowwise() %>%#
-			mutate(xy = paste(x,y)) %>% #
-			ungroup()#
-		E %<>% filter(!(xy %in% Z$xy))#
-		Z %<>% #
-			rbind.fill(E) %>% #
-			as.data.table %>% #
-			setkey("x", "y") %>% #
-	 	   	unique %>%#
-			dplyr::select(-xy)#
-		# remove plots outside of population extent
-Z %<>% subset(#
-			.,#
-			x %in% population_data$x &#
-			y %in% population_data$y#
-		)#
-		# fill in values for Edge units#
-		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {#
-			Z[ Sampling=="Edge" ]$y_val <- 0#
-			Z[ Sampling=="Edge" ]$m <- 0#
-		}	#
-		setnames(Z, "y_val", y_variable)#
-		Z %<>%#
-			arrange()#
-		return(Z)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- Sampling <- y_val <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S <- merge(population_data, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population=population_data, n1=n1)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z = population %>%#
-		dplyr::filter(NetworkID %in% S$NetworkID) %>%#
-		merge(S, all.x=T)#
-	Networks = Z %>% dplyr::filter(eval(parse(text=y_variable)) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- Sampling <- y_val <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S <- merge(population_data, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population=population_data, n1=n1)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-initial_sample
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-is.data.frame(initial_sample)
-str(S)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- Sampling <- y_val <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S <- merge(population_data, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population=population_data, n1=n1)#
-	}#
-	# add the rest of the units for each network in the initial sample#
-	Z = population_data %>%#
-		dplyr::filter(NetworkID %in% S$NetworkID) %>%#
-		merge(S, all.x=T)#
-	Networks = Z %>% dplyr::filter(eval(parse(text=y_variable)) > condition)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-condition=0
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-. <- Sampling <- y_val <- NULL#
-	if (is.data.frame(initial_sample)) {#
-		S <- merge(population_data, initial_sample, all.y=TRUE) 	#
-		S$Sampling <- "Primary Sample"#
-	} else {#
-		if (!is.na(seed)) {set.seed(seed)}#
-		S <- createSRS(population=population_data, n1=n1)#
-	}#
-	# add the rest of the units for each network in the initial sample#
-	Z = population_data %>%#
-		dplyr::filter(NetworkID %in% S$NetworkID) %>%#
-		merge(S, all.x=T)#
-	Networks = Z %>% dplyr::filter(eval(parse(text=y_variable)) > condition)#
-	# if there are units that satisfy the condition, fill in edge units#
-	if (dim(Networks)[1] > 0) {#
-		names(Z)[names(Z) == y_variable] <- 'y_val'#
-		#Z %<>%#
-		#	as.data.table %>%#
-		#	setnames(y_variable, "y_val")#
-		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
-			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
-		}#
-		# fill in edge units#
-		E = data.table(#
-			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
-		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
-			Sampling = "Edge",#
-			key = c("x", "y")#
-		) %>%#
-		rowwise() %>%#
-		mutate(xy = paste(x,y)) %>%#
-		ungroup()#
-		Z %<>% #
-			rowwise() %>%#
-			mutate(xy = paste(x,y)) %>% #
-			ungroup()#
-		E %<>% filter(!(xy %in% Z$xy))#
-		Z %<>% #
-			rbind.fill(E) %>% #
-			as.data.table %>% #
-			setkey("x", "y") %>% #
-	 	   	unique %>%#
-			dplyr::select(-xy)#
-		# remove plots outside of population extent#
-		Z %<>% subset(#
-			.,#
-			x %in% population_data$x &#
-			y %in% population_data$y#
-		)#
-		# fill in values for Edge units#
-		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {#
-			Z[ Sampling=="Edge" ]$y_val <- 0#
-			Z[ Sampling=="Edge" ]$m <- 0#
-		}	#
-		setnames(Z, "y_val", y_variable)#
-		Z %<>%#
-			arrange()#
-		return(Z)#
-	} else {#
-		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample#
-		return(Z)#
-	}
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
 #devtools::test()#
 devtools::document()#
 devtools::install()
-library(ACSampling)
+patch_data_6 <- patch_data %>% filter(#
+	population == levels(population)[6]#
+)#
+#
+calc_20Nov16_5 <- calculateJointInclusionProbabilities(#
+	patchdat = patch_data_6, #
+	simulations = 2, #
+	nsamples = c(20, 40), # 40 and 75 took 3.4 hours! #
+	#ACS=TRUE, #
+	SamplingDesign="ACS",#
+	y_variable = "Cactus",#
+	f_max = 2,#
+	population.grouping.variable = "population"#
+) %>% str
