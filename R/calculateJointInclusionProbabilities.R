@@ -110,7 +110,7 @@ calculateJointInclusionProbabilities <- function(
 				# 	ncol=dim(temp)[1], 
 				# 	dimnames=list(temp$NetworkID, temp$NetworkID)
 				# )
-				# Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
+				#Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
 				
 				Z <- matrix(
 					nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
@@ -121,6 +121,7 @@ calculateJointInclusionProbabilities <- function(
 					),
 					1
 				)
+				print(unique(A[[i]][[j]][[k]]$NetworkID))
 				# get B[[i]][[j]] indices for Z information
 				indxB <- outer(
 					rownames(B[[i]][[j]]), 
