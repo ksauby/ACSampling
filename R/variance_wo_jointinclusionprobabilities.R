@@ -2,21 +2,46 @@
 
 
 #' # Initiate ACS
-#' Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)
+#' Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)
+
+var_pi(
+	N = dim(Thompson1990Figure1Population)[1],
+	n1 = 30, 
+	m = Z %>% filter(Sampling!="Edge") %$% m, 
+	y = Z %>% filter(Sampling!="Edge") %$% y_value, 
+	alpha_i = "Hajek", 
+	z_i = 1
+)
+
+Z_summary <- Z %>% 
+	filter(Sampling!="Edge") %>%
+	group_by(NetworkID) %>%
+	summarise(
+		m = m[1],
+		y_total = sum(y_value, rm.na=TRUE)
+		) %>%
+		filter(NetworkID > 0)
+
+var_y_HT(
+	N = dim(Thompson1990Figure1Population)[1], 
+	n1 = dim(Thompson1990Figure1Sample)[1], 
+	m = Z_summary$m, 
+	y = Z_summary$y_total
+)
 
 
-
-var_pi <- function(N, n1, m, y, pi_i_values, alpha_i, z_i) {
+var_pi <- function(N, n1, m, y, alpha_i, z_i) {
 	pi_i_values <- pi_i(N, n1, m)
 	n <- length(y)
 	if (length(y) != length(pi_i_values)) {
 		stop("y and pi_i must be of equal length.")
 	}
 	alpha_i <- eval(parse(text=alpha_i))
-	B_hat <- sum(alpha_i(pi_i_values, n) * z_i * y/pi_i_values) / 
-		sum(alpha_i(pi_i_values, n) * z_i^2)
+	alpha_i_values <- alpha_i(pi_i_values, n)
+	B_hat <- sum(alpha_i_values * z_i * y/pi_i_values) / 
+		sum(alpha_i_values * z_i^2)
 	epsilon_i <- y/pi_i_values - B_hat * z_i
-	sum(alpha_i * epsilon_i^2)
+	sum(alpha_i_values * epsilon_i^2)
 }
 
 Hartley_Rao <- function(pi_i, n) {
