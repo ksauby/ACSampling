@@ -313,7 +313,7 @@ sampleSpeciesPatchRealizations <- function(
 						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
 					m <- O_smd$m
 					# var_y_HT
-					if (var_y_HT_formula == "var_y_HT_RACS") {
+					if (var_formula == "var_y_HT_RACS") {
 						HT_results[[2]] <- O_smd[, paste(
 							oavar, 
 							"_network_sum", 
@@ -328,7 +328,7 @@ sampleSpeciesPatchRealizations <- function(
 								m_threshold = m_threshold
 							)]
 						names(HT_results[[2]]) <- c(occ_abund_var_names)
-					} else if (var_y_HT_formula == "var_y_HT") {
+					} else if (var_formula == "var_y_HT") {
 						HT_results[[2]] <- O_smd[, paste(
 							oavar, 
 							"_network_sum", 
@@ -337,6 +337,21 @@ sampleSpeciesPatchRealizations <- function(
 							.[, lapply(
 								.SD, 
 								var_y_HT, 
+								N 	= N, 
+								n1 	= n1, 
+								m	= m
+							)]
+						names(HT_results[[2]]) <- c(occ_abund_var_names)
+						######################################################
+					} else if (var_formula == "var_pi") {
+						HT_results[[2]] <- O_smd[, paste(
+							oavar, 
+							"_network_sum", 
+							sep=""
+						), with=FALSE] %>%
+							.[, lapply(
+								.SD, 
+								var_pi, 
 								N 	= N, 
 								n1 	= n1, 
 								m	= m
