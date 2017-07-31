@@ -7,10 +7,11 @@
 #' @description Option for the "var_pi" function.
 #' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
 #' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1–17.
+#' @export
 
 
-Hajek <- function(pi_i, n) {
-	pi_i * (1 - pi_i) * n / (n - 1)
+Hajek <- function(pi_i, N) {
+	pi_i * (1 - pi_i) * N / (N - 1)
 }
 
 
@@ -21,19 +22,19 @@ Hajek <- function(pi_i, n) {
 #' @param estimator Options include "Hartley_Rao", "Hajek", "Rosen", "Berger", and "Deville".
 #' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
 #' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1–17.
+#' @export
 
-var_pi <- function(n, y, pi_i_values, estimator) {
+var_pi <- function(N, y, pi_i_values, estimator) {
 	#n <- length(y)
 	#if (length(y) != length(pi_i_values)) {
 	#	stop("y and pi_i must be of equal length.")
 	#}
-	z_i <- 1
 	#if (estimator == "Hartley_Rao") {
 	#	alpha_i_values <- Hartley_Rao(pi_i_values, n)
 	#	lambda_i_values <- 1
 	#}
 	if (estimator == "Hajek") {
-		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)
+		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, N)
 	}
 	#if (estimator == "Rosen") {
 	#	lambda_i_values <- alpha_i_values <- Rosen(pi_i_values, n)
@@ -45,9 +46,9 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 	#}
 	#alpha_i <- eval(parse(text=alpha_i))
 	
-	B_hat <- sum(lambda_i_values * z_i * y/pi_i_values) / 
-		sum(lambda_i_values * z_i^2)
-	epsilon_i <- y/pi_i_values - B_hat * z_i
+	B_hat <- sum(lambda_i_values * y/pi_i_values) / 
+		sum(lambda_i_values)
+	epsilon_i <- y/pi_i_values - B_hat
 	sum(alpha_i_values * epsilon_i^2)
 	
 	

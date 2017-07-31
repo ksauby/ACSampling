@@ -1,4 +1,3 @@
--v
 install.packages("rgeos", repos="http://R-Forge.R-project.org")#
 require(rgeos)
 library(rgeos)
@@ -283,6 +282,12 @@ data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    releas
 library(dplyr)
 library(plyr)
 600*.22
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()#
+devtools::document()#
+devtools::install()
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -294,20 +299,6 @@ load.project()
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
-#devtools::test()#
+devtools::test()#
 devtools::document()#
 devtools::install()
-patch_data_6 <- patch_data %>% filter(#
-	population == levels(population)[6]#
-)#
-#
-calc_20Nov16_5 <- calculateJointInclusionProbabilities(#
-	patchdat = patch_data_6, #
-	simulations = 2, #
-	nsamples = c(20, 40), # 40 and 75 took 3.4 hours! #
-	#ACS=TRUE, #
-	SamplingDesign="ACS",#
-	y_variable = "Cactus",#
-	f_max = 2,#
-	population.grouping.variable = "population"#
-) %>% str

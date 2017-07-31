@@ -1,942 +1,813 @@
+15/20*6
+300 - 4*50
+300 - 4*40
+4.5/12*14
+9+9+7+9
+33.5/34 * 14
+32/34 * 14
+32/34*14
+7+8.5+7+7
+(7+8.5+7+7)/34 * 14
+(7+5.5+5.5+8.5)/34 * 14
+(7+5.5+5.5+8.5)/(9+7+9+9) * 14
+9+7+9+9
+(14.25+7.25)/(24.75+10.25-9)
+(16.5+7.75)/(24.75+10.25)
+(16.5+7.75)/(24.75+10.25)*6
+(5.25+5.5)/(22.5+10.5)
+(5.25+5.5)/(22.5+10.5)*6
+(9.75+5.5)/(24.7+10.25-5)*6
+(9.75+5.5)/(24.7+10.25-5)
+3.98/6
+(9.75+5.5)/(24.7+10.25-10)
+(9.75+5.5)/(24.7+10.25-10)*6
+5/6*2
+1.83-5/6*2
+1.83-4/6*2
+5/6*2 + 0.5
+4/6*2 + 0.5
+4/6*2
+4/6 + 0.5
+4/6*2 + 0.5
+33/34 * 14
+17.5*4
+24*4 + 1.75*4
+library(dplyr)
+library(plyr)
+600*.22
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS#
-				temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>% dplyr::summarise(n())
-temp
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-Z
-k=2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>% dplyr::summarise(n())
-temp
-k=3
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>% dplyr::summarise(n())
-j=2
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			# save simulation attributes#
-			A[[i]][[j]] <- list()#
-			# save counts of joint inclusions#
-			B[[i]][[j]] <- matrix(#
-				nrow=length(unique(P$NetworkID)),#
-				ncol=length(unique(P$NetworkID)),#
-				dimnames=list(#
-					unique(P$NetworkID),#
-					unique(P$NetworkID)#
-				),#
-				0#
-			)#
-			# zeros#
-			zeros <- B[[i]][[j]]#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS#
-				temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>% dplyr::summarise(n())
-temp
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(`n()`)#
-				Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(-`n()`)#
-				Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n())
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(-`n()`)#
-				Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-Z
-k=4
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(-`n()`)#
-				Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-Z
-k=10
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS#
-				temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(-`n()`)#
-				Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-Z
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-indxB <- outer(#
-					rownames(B[[i]][[j]]), #
-					colnames(B[[i]][[j]]), #
-					FUN=paste#
-				) %in% outer(#
-					rownames(Z), #
-					colnames(Z), #
-					FUN=paste#
-				)#
-				B1 <- zeros#
-				# fill B1 with values from Z at indxB locations#
-				B1[indxB] <- Z
-head(B1)
-tail(Z)
-str(B1)
-rownames(B1)
-tail(B1)
-tail(B[[i]][[j]])
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-#devtools::test()#
-devtools::document()#
-devtools::install()#
-devtools::build()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
-# How to load functions in ACSampling package#
-#
-library(ggplot2)#
-library(magrittr) #
-library(dplyr)#
-library(plyr) #
-library(intergraph) #
-library(igraph)#
-library(network)#
-library(devtools)#
-setwd("YOUR WORKING DIRECTORY /Restricted_ACS_Simulations/ACSampling/R")#
-# for Kristen: setwd("./ACSampling")#
-devtools::test()#
-devtools::document()#
-devtools::install()#
-library(ACSampling)#
-#
-setwd("./ACSampling")#
-# devtools::check()#
-devtools::build()#
-devtools::RCMD()#
-#devtools::build_vignette()#
-#
-cl<-makeCluster(4)#
-registerDoParallel(cl)#
-#
-stopCluster(cl)#
-#
-# to track progress#
-library(doSNOW)#
-cl <- makeCluster(4, outfile="")#
-registerDoSNOW(cl)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
-stopCluster(cl)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code')
-cl<-makeCluster(4)#
-registerDoParallel(cl)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patch_data %<>% setnames("pop","population")#
-patch_data_6 <- patch_data %>% filter(#
-	population == levels(population)[5] |#
-	population == levels(population)[6]	#
-)#
-#
-calc_20Nov16_5 <- calculateJointInclusionProbabilities(#
-	patchdat = patch_data_6, #
-	simulations = 500, #
-	nsamples = c(20, 40), # 40 and 75 took 3.4 hours! #
-	#ACS=TRUE, #
-	SamplingDesign="ACS",#
-	y_variable = "Cactus",#
-	f_max = 2,#
-	population.grouping.variable = "population"#
-) #
-#
-write.csv(calc_20Nov16_5[[1]], "/Users/KSauby/Documents/Projects/ACSampling_project/data/csv_data_files/simulatedJointInclusProb_patch1_2_ACS_25Jul17_attr_symmmatrix_2.csv")#
-list.save(calc_20Nov16_5[[2]], file="simulatedJointInclusProb_patch1_2_ACS_25Jul17_attr_symmmatrix_2.RData")
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-#devtools::test()#
-devtools::document()#
-devtools::install()#
-devtools::build()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patch_data %<>% setnames("pop","population")#
-patch_data_6 <- patch_data %>% filter(#
-	population == levels(population)[5] |#
-	population == levels(population)[6]	#
-)#
-#
-calc_20Nov16_5 <- calculateJointInclusionProbabilities(#
-	patchdat = patch_data_6, #
-	simulations = 500, #
-	nsamples = c(20, 40), # 40 and 75 took 3.4 hours! #
-	#ACS=TRUE, #
-	SamplingDesign="ACS",#
-	y_variable = "Cactus",#
-	f_max = 2,#
-	population.grouping.variable = "population"#
-) #
-#
-write.csv(calc_20Nov16_5[[1]], "/Users/KSauby/Documents/Projects/ACSampling_project/data/csv_data_files/simulatedJointInclusProb_patch1_2_ACS_25Jul17_attr_symmmatrix_2.csv")#
-list.save(calc_20Nov16_5[[2]], file="simulatedJointInclusProb_patch1_2_ACS_25Jul17_attr_symmmatrix_2.RData")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-plotJointInclusionProbs <- function(population_data, simulation_data, simulation_sample_size, calculated_pi_ijs, calculated_pi_ijs_networks, sample_size) {#
-	# calculate pi_ij from simulations#
-	D <- simulation_data/simulation_sample_size#
-	# average calculated pi_ij per network#
-	calculated_pi_ijs %<>% rowMeans %>% as.data.frame#
-	names(calculated_pi_ijs) <- "calculated_pi_ij"#
-	calculated_pi_ijs$NetworkID <- calculated_pi_ijs_networks#
-	# average pi_ij per network, estimated from simulations#
-	D %<>% rowMeans %>% as.data.frame#
-	names(D) <- "simulated_pi_ij"#
-	D$NetworkID <- rownames(D)#
-	D %<>% #
-		merge(calculated_pi_ijs, by="NetworkID") %>%#
-		mutate(sim_error = calculated_pi_ij - simulated_pi_ij)#
-	# mean joint inclusion probability error PER network#
-	E <- population_data %>% merge(D, by="NetworkID")#
+# total sample size?#
+var_pi <- function(alpha_i, z_i, y_i, pi_i) {#
+	alpha_i <- eval(parse(text="alpha_i"))#
+	B_hat <- sum(alpha_i(pi_i, n) * z_i * y_i/pi_i) / #
+		sum(alpha_i(pi_i, n) * z_i^2)#
+	epsilon_i <- y_i/pi_i - B_hat * z_i#
+	sum(alpha_i * epsilon_i^2)#
 }#
 #
-#################################################################################
-# Christman data#
-#
-X_5_20 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="6"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_20_pop_6, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop6$piij_20,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop6$NetworkID,#
-	sample_size=20#
-) #
-#
-X_5_20 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 20",#
-		population = "Population 6"#
-	)#
-#################################################################################
-# PLOT POP. 5, nsamples=40#
-#
-X_5_40 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="6"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_40_pop_6, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop6$piij_40,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop6$NetworkID,#
-	sample_size=40#
-) #
-#
-X_5_40 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 40",#
-		population = "Population 6"#
-	)#
-#################################################################################
-# PLOT POP. 10, nsamples=20#
-#
-X_10_20 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="5"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_20_pop_5, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop5$piij_20,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop5$NetworkID,#
-	sample_size=20#
-) #
-X_10_20 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 20",#
-		population = "Population 5"#
-	)#
-#
-#################################################################################
-	# PLOT POP. 10, nsamples=40#
-#
-X_10_40 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="5"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_40_pop_5, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop5$piij_40,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop5$NetworkID,#
-	sample_size=40#
-) #
-#
-X_10_40 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 40",#
-		population = "Population 5"#
-	)#
-#
-X <- rbind.fill(#
-	X_5_20,#
-	X_5_40,#
-	X_10_20,#
-	X_10_40#
-)#
-ggplot(X, aes(x,y,size=sim_error,colour=sim_error)) + geom_point() +#
-facet_grid(population ~ `primary sample size`) + scale_colour_gradient2() + theme_dark()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patch_data_1 <- patch_data %>% #
-	filter(population=="6") %>% #
-	arrange(NetworkID) %>%#
-	dplyr::select(#
-		m,#
-		NetworkID,#
-		x,#
-		y#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-ggplot(patch_data_1, aes(x,y,colour=NetworkID, label=NetworkID)) + geom_text() +#
-facet_wrap(~pop)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-ggplot(patch_data_1, aes(x,y,colour=NetworkID, label=NetworkID)) + geom_text()
-plotJointInclusionProbs <- function(population_data, simulation_data, simulation_sample_size, calculated_pi_ijs, calculated_pi_ijs_networks, sample_size) {#
-	# calculate pi_ij from simulations#
-	D <- simulation_data/simulation_sample_size#
-	# average calculated pi_ij per network#
-	calculated_pi_ijs %<>% rowMeans %>% as.data.frame#
-	names(calculated_pi_ijs) <- "calculated_pi_ij"#
-	calculated_pi_ijs$NetworkID <- calculated_pi_ijs_networks#
-	# average pi_ij per network, estimated from simulations#
-	D %<>% rowMeans %>% as.data.frame#
-	names(D) <- "simulated_pi_ij"#
-	D$NetworkID <- rownames(D)#
-	D %<>% #
-		merge(calculated_pi_ijs, by="NetworkID") %>%#
-		mutate(sim_error = calculated_pi_ij - simulated_pi_ij)#
-	# mean joint inclusion probability error PER network#
-	E <- population_data %>% merge(D, by="NetworkID")#
+Hartley_Rao <- function(pi_i, n) {#
+	1 - pi_i * (n - 1)/n#
 }#
 #
-#################################################################################
-# Christman data#
+Hajek <- function(pi_i, n) {#
+	(1 - pi_i) * n / (n - 1)#
+}#
 #
-X_5_20 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="6"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_20_pop_6, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop6$piij_20,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop6$NetworkID,#
-	sample_size=20#
-) #
+Rosen <- function(pi_i, n) {#
+	(1 - pi_i) * log10(1 - pi_i) / pi_i#
+}#
 #
-X_5_20 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 20",#
-		population = "Population 6"#
-	)#
-#################################################################################
-# PLOT POP. 5, nsamples=40#
+Berger <- function(pi_i, n) {#
+	A <- pi_i * (1 - pi_i)#
+	A <- sum(A)#
+	B <- 1 - pi_i#
+	B <- sum(B)#
+	(1 - pi_i) * n * (n - 1) * B / A#
+}#
 #
-X_5_40 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="6"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_40_pop_6, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop6$piij_40,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop6$NetworkID,#
-	sample_size=40#
-) #
+Deville <- function(pi_i, n) {#
+	A <- 1 - pi_i#
+	A <- sum(A)#
+	D <- pi_i * (1 - pi_i)#
+	D <- sum(D)#
+	1 / (1 - pi_i) * (1 - (1/D^2) * A)#
+}#
 #
-X_5_40 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 40",#
-		population = "Population 6"#
-	)#
-#################################################################################
-# PLOT POP. 10, nsamples=20#
-#
-X_10_20 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="5"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_20_pop_5, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop5$piij_20,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop5$NetworkID,#
-	sample_size=20#
-) #
-X_10_20 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 20",#
-		population = "Population 5"#
-	)#
-#
-#################################################################################
-	# PLOT POP. 10, nsamples=40#
-#
-X_10_40 <- plotJointInclusionProbs(#
-	population_data = patch_data %>% filter(population=="5"), #
-	simulation_data = calc_20Nov16_5[[2]]$nsamples_40_pop_5, #
-	simulation_sample_size = 500, #
-	calculated_pi_ijs = population_inclusion_probabilities$pop5$piij_40,#
-	calculated_pi_ijs_networks = population_inclusion_probabilities$pop5$NetworkID,#
-	sample_size=40#
-) #
-#
-X_10_40 %<>%#
-	mutate(#
-		`primary sample size` = "Primary Sample Size = 40",#
-		population = "Population 5"#
-	)#
-#
-X <- rbind.fill(#
-	X_5_20,#
-	X_5_40,#
-	X_10_20,#
-	X_10_40#
-)#
-ggplot(X, aes(x,y,size=sim_error,colour=sim_error)) + geom_point() +#
-facet_grid(population ~ `primary sample size`) + scale_colour_gradient2() + theme_dark()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population_data = patch_data %>% filter(population=="6")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data = calc_20Nov16_5[[2]]$nsamples_20_pop_6
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_sample_size = 500
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-calculated_pi_ijs = population_inclusion_probabilities$pop6$piij_20
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-calculated_pi_ijs_networks = population_inclusion_probabilities$pop6$NetworkID
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-sample_size=20
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-D <- simulation_data/simulation_sample_size
-head(D)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-calculated_pi_ijs %<>% rowMeans %>% as.data.frame#
-	names(calculated_pi_ijs) <- "calculated_pi_ij"#
-	calculated_pi_ijs$NetworkID <- calculated_pi_ijs_networks
-head(calculated_pi_ijs)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-D %<>% rowMeans %>% as.data.frame#
-	names(D) <- "simulated_pi_ij"
-head(D)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-D$NetworkID <- rownames(D)
-head(D)
-head(calculated_pi_ijs)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-D %<>% #
-		merge(calculated_pi_ijs, by="NetworkID")
-head(D)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-D %<>% #
-		merge(calculated_pi_ijs, by="NetworkID") %>%#
-		mutate(sim_error = calculated_pi_ij - simulated_pi_ij)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-calculated_pi_ijs = population_inclusion_probabilities$pop6$piij_20
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-D <- simulation_data/simulation_sample_size#
-	# average calculated pi_ij per network#
-	calculated_pi_ijs %<>% rowMeans %>% as.data.frame#
-	names(calculated_pi_ijs) <- "calculated_pi_ij"#
-	calculated_pi_ijs$NetworkID <- calculated_pi_ijs_networks#
-	# average pi_ij per network, estimated from simulations#
-	D %<>% rowMeans %>% as.data.frame#
-	names(D) <- "simulated_pi_ij"#
-	D$NetworkID <- rownames(D)#
-	D %<>% #
-		merge(calculated_pi_ijs, by="NetworkID") %>%#
-		mutate(sim_error = calculated_pi_ij - simulated_pi_ij)
-head(D)
-tail(D)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patch_data %<>% setnames("pop","population")#
-patch_data_6 <- patch_data %>% filter(#
-	population == levels(population)[5] |#
-	population == levels(population)[6]	#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patchdat = patch_data_6
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulations = 500
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-nsamples = c(20, 40)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-SamplingDesign="ACS"
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-y_variable = "Cactus"
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-f_max = 2
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population.grouping.variable = "population"
+# Brewer 1 and 2
+alpha_i <- "Hartley_Rao"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-pop <- i <- j <- Sampling <- . <- NetworkID <- NULL#
-	TIME 			<- Sys.time()#
-	patchdat 		%<>% arrange_(.dots=population.grouping.variable)#
-	if (population.grouping.variable != "pop") {#
-		# patchdat	%<>% setnames(population.grouping.variable, "pop")#
-		colnames(patchdat)[which(names(patchdat) == population.grouping.variable)] <- "pop"#
+alpha_i <- eval(parse(text=alpha_i))
+alpha_i
+stop
+?stop
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+library(ProjectTemplate)#
+#
+# when working on a Windows computer#
+# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
+#
+# load project#
+load.project()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)
+Z
+Z = createACS(Thompson1990Figure1Population, seed=2, n1=20, "y_value", condition=0)
+Z
+Z = createACS(Thompson1990Figure1Population, seed=2, n1=30, "y_value", condition=0)
+Z
+Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1 = 30
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+m = Z %>% filter(Sampling!="Edge") %$% m
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y = Z %>% filter(Sampling!="Edge") %$% y_value
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alpha_i = "Hartley_Rao"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+z_i = 1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values <- pi_i(N, n1, m)#
+	n <- length(y)#
+	if (length(y) != length(pi_i_values)) {#
+		stop("y and pi_i must be of equal length.")#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N = dim(Thompson1990Figure1Population)[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values <- pi_i(N, n1, m)#
+	n <- length(y)#
+	if (length(y) != length(pi_i_values)) {#
+		stop("y and pi_i must be of equal length.")#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alpha_i <- eval(parse(text=alpha_i))#
+	B_hat <- sum(alpha_i(pi_i_values, n) * z_i * y/pi_i_values) / #
+		sum(alpha_i(pi_i_values, n) * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i * epsilon_i^2)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values <- pi_i(N, n1, m)#
+	n <- length(y)#
+	if (length(y) != length(pi_i_values)) {#
+		stop("y and pi_i must be of equal length.")#
 	}#
-	n.pop 			<- length(unique(patchdat$pop))#
-	nsample.length 	<- length(nsamples)#
-	A 				<- vector("list", n.pop)#
-	B 				<- vector("list", n.pop)
-i=1
-j=1
-k=1
+	alpha_i <- eval(parse(text=alpha_i))#
+	alpha_i_values <- alpha_i(pi_i_values, n)#
+	B_hat <- sum(alpha_i_values * z_i * y/pi_i_values) / #
+		sum(alpha_i_values * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i_values * epsilon_i^2)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			# save simulation attributes#
-			A[[i]][[j]] <- list()#
-			# save counts of joint inclusions#
-			B[[i]][[j]] <- matrix(#
-				nrow=length(unique(P$NetworkID)),#
-				ncol=length(unique(P$NetworkID)),#
-				dimnames=list(#
-					unique(P$NetworkID),#
-					unique(P$NetworkID)#
-				),#
-				0#
-			)#
-			# zeros#
-			zeros <- B[[i]][[j]]#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
+alpha_i = "Hartley_Rao"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
+pi_i_values <- pi_i(N, n1, m)#
+	n <- length(y)#
+	if (length(y) != length(pi_i_values)) {#
+		stop("y and pi_i must be of equal length.")#
+	}#
+	alpha_i <- eval(parse(text=alpha_i))#
+	alpha_i_values <- alpha_i(pi_i_values, n)#
+	B_hat <- sum(alpha_i_values * z_i * y/pi_i_values) / #
+		sum(alpha_i_values * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i_values * epsilon_i^2)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
+alpha_i = "Hajek"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS#
-				temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(-`n()`)#
-				Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]#
-				# Z <- matrix(#
-				# 	nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),#
-				# 	ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),#
-				# 	dimnames=list(#
-				# 		unique(A[[i]][[j]][[k]]$NetworkID),#
-				# 		unique(A[[i]][[j]][[k]]$NetworkID)#
-				# 	),#
-				# 	1#
-				# )#
-				# get B[[i]][[j]] indices for Z information#
-				indxB <- outer(
-)
-str(Z)
-head(Z)
-rownames(B1)
+pi_i_values <- pi_i(N, n1, m)#
+	n <- length(y)#
+	if (length(y) != length(pi_i_values)) {#
+		stop("y and pi_i must be of equal length.")#
+	}#
+	alpha_i <- eval(parse(text=alpha_i))#
+	alpha_i_values <- alpha_i(pi_i_values, n)#
+	B_hat <- sum(alpha_i_values * z_i * y/pi_i_values) / #
+		sum(alpha_i_values * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i_values * epsilon_i^2)
+?var_y_HT
+Z
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-indxB <- outer(#
-					rownames(B[[i]][[j]]), #
-					colnames(B[[i]][[j]]), #
-					FUN=paste#
-				) %in% outer(#
-					rownames(Z), #
-					colnames(Z), #
-					FUN=paste#
-				)#
-				B1 <- zeros#
-				# fill B1 with values from Z at indxB locations#
-				B1[indxB] <- Z
-rownames(B1)
-rownames(B[[i]][[j]])
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-B1_sorted <- B1#
-				sorted[] <- B1[cbind(#
-					as.vector(B[[i]][[j]]), #
-					as.vector(col(B[[i]][[j]]))#
-				)]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-B1_sorted <- B1#
-				B1_sorted[] <- B1[cbind(#
-					as.vector(B[[i]][[j]]), #
-					as.vector(col(B[[i]][[j]]))#
-				)]
-str(B[[i]][[j]])
-str(B1)
-sortMe <- matrix(rnorm(6), ncol=2)#
-sortBy <- matrix(c(2,1,3, 1,3,2), ncol=2)
-sortMe
-sortBy
-sorted <- sortMe#
-sorted[] <- sortMe[cbind(as.vector(sortBy), as.vector(col(sortBy)))]
-sorted
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rownames(B1)==rownames(B[[i]][[j]])
-?all
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-all(rownames(B1)==rownames(B[[i]][[j]]))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-all(colnames(B1)==colnames(B[[i]][[j]]))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rowcolequal <- paste(#
-					all(rownames(B1)==rownames(B[[i]][[j]])),#
-					all(colnames(B1)==colnames(B[[i]][[j]]))#
-				)
-rowcolequal
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-#devtools::test()#
-devtools::document()#
-devtools::install()
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-patch_data %<>% setnames("pop","population")#
-patch_data_6 <- patch_data %>% filter(#
-	population == levels(population)[5] |#
-	population == levels(population)[6]	#
-)#
+Z_summary <- Z %>% group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
 #
-calc_20Nov16_5 <- calculateJointInclusionProbabilities(#
-	patchdat = patch_data_6, #
-	simulations = 5, #
-	nsamples = c(20, 40), # 40 and 75 took 3.4 hours! #
-	#ACS=TRUE, #
-	SamplingDesign="ACS",#
-	y_variable = "Cactus",#
-	f_max = 2,#
-	population.grouping.variable = "population"#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
 )
-str(calc_20Nov16_5)
-calc_20Nov16_5[[1]] %>% str
-calc_20Nov16_5[[1]] %$% unique(rowcolequal)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z_summary <- Z %>% group_by(NetworkID) %>%#
+	%>% filter(Sampling!="Edge") %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	N = dim(Thompson1990Figure1Population)[1],#
+	n1 = 30, #
+	m = Z_summary$m, #
+	y = Z_summary$y_total, #
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi <- function(N, n1, m, y, alpha_i, z_i) {#
+	pi_i_values <- pi_i(N, n1, m)#
+	n <- length(y)#
+	if (length(y) != length(pi_i_values)) {#
+		stop("y and pi_i must be of equal length.")#
+	}#
+	alpha_i <- eval(parse(text=alpha_i))#
+	alpha_i_values <- alpha_i(pi_i_values, n)#
+	B_hat <- sum(alpha_i_values * z_i * y/pi_i_values) / #
+		sum(alpha_i_values * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i_values * epsilon_i^2)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	N = dim(Thompson1990Figure1Population)[1],#
+	n1 = 30, #
+	m = Z_summary$m, #
+	y = Z_summary$y_total, #
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)#
+#
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	N = dim(Thompson1990Figure1Population)[1],#
+	n1 = 30, #
+	m = Z_summary$m, #
+	y = Z_summary$y_total, #
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z_summary$m
+Z_summary$m %>% length
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z_summary$y_total
+%>% length
+Z_summary$y_total %>% length
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alpha_i_values
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+lambda_i_values
+lambda_i_values == alpha_i_values
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hartley_Rao_data <- data.frame(#
+	y_i = c(#
+		19,9,17,14,21,22,27,35,20,15,#
+		18,37,12,47,27,25,25,13,19,12#
+	),#
+	x_i = c(#
+		18,9,14,12,24,25,23,24,17,14,#
+		18,40,12,30,27,26,21,9,19,12#
+	)#
+)#
+pi_i_value <- 2 * Hartley_Rao_data$x_i/(sum(Hartley_Rao_data$x_i))#
+# total sample size?
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_value
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values <- 2 * Hartley_Rao_data$x_i/(sum(Hartley_Rao_data$x_i))
+sum(pi_i_values)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hartley_Rao_data <- data.frame(#
+	y_i = c(#
+		19,9,17,14,21,22,27,35,20,15,#
+		18,37,12,47,27,25,25,13,19,12#
+	),#
+	x_i = c(#
+		18,9,14,12,24,25,23,24,17,14,#
+		18,40,12,30,27,26,21,9,19,12#
+	)#
+)#
+pi_i_values <- 2 * Hartley_Rao_data$x_i/(sum(Hartley_Rao_data$x_i))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+length(pi_i_values)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	N = length(pi_i_values),#
+	n1 = 20, #
+	y = Hartley_Rao_data$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hartley_Rao", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi <- function(n, pi_i_values, y, alpha_i, lambda_i, z_i) {#
+	n <- length(y)#
+	if (length(y) != length(pi_i_values)) {#
+		stop("y and pi_i must be of equal length.")#
+	}#
+	if (alpha_i == "Hartley_Rao") {#
+		alpha_i_values <- Hartley_Rao(pi_i_values, n)#
+		lambda_i_values <- 1#
+	}#
+	if (alpha_i == "Hajek") {#
+		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)#
+	}#
+	if (alpha_i == "Rosen") {#
+		lambda_i_values <- alpha_i_values <- Rosen(pi_i_values, n)#
+	}#
+	if (alpha_i == "Berger") {#
+	}#
+	if (alpha_i == "Deville") {#
+		lambda_i_values <- alpha_i_values <- Deville(pi_i_values, n)#
+	}#
+	#alpha_i <- eval(parse(text=alpha_i))#
+	B_hat <- sum(lambda_i_values * z_i * y/pi_i_values) / #
+		sum(lambda_i_values * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i_values * epsilon_i^2)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	N = length(pi_i_values),#
+	n1 = 20, #
+	y = Hartley_Rao_data$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hartley_Rao", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	n = 20, #
+	y = Hartley_Rao_data$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hartley_Rao", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Rao Example#
+#
+Hartley_Rao_data <- data.frame(#
+	y_i = c(#
+		19,9,17,14,21,22,27,35,20,15,#
+		18,37,12,47,27,25,25,13,19,12#
+	),#
+	x_i = c(#
+		18,9,14,12,24,25,23,24,17,14,#
+		18,40,12,30,27,26,21,9,19,12#
+	)#
+)#
+pi_i_values <- Hartley_Rao_data$x_i/(sum(Hartley_Rao_data$x_i))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	n = 20, #
+	y = Hartley_Rao_data$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hartley_Rao", #
+	z_i = 1#
+)
+pi_i_values
+Hartley_Rao_data
+install.packages("survey")
+library(survey)
+data(election)    dpps<- svydesign(id=~1, fpc=~p, data=election_pps, pps="brewer")
+dpps
+summary(ddps)
+summary(dpps)
+dpps
+dpps %>% print
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+# Hajek approximation example, Tille 2006 book#
+N=6#
+n=3#
+pi_i_values = c(0.07, 0.17, 0.41, 0.61, 0.83, 0.91)#
+#
+Hajek(pi_i = pi_i_values, n = n)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hajek <- function(pi_i, n) {#
+	pi_i * (1 - pi_i) * n / (n - 1)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+N=6#
+n=3#
+pi_i_values = c(0.07, 0.17, 0.41, 0.61, 0.83, 0.91)#
+#
+Hajek(pi_i = pi_i_values, n = n)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hajek(pi_i = pi_i_values, n = N)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)#
+#
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	n = 100, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+pi_i
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values <= pi_i(N=100,n1=30, m=Z$m)#
+#
+var_pi(#
+	n = 100, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi <- function(n, pi_i_values, y, alpha_i, lambda_i, z_i) {#
+	#n <- length(y)#
+	#if (length(y) != length(pi_i_values)) {#
+	#	stop("y and pi_i must be of equal length.")#
+	#}#
+	if (alpha_i == "Hartley_Rao") {#
+		alpha_i_values <- Hartley_Rao(pi_i_values, n)#
+		lambda_i_values <- 1#
+	}#
+	if (alpha_i == "Hajek") {#
+		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)#
+	}#
+	if (alpha_i == "Rosen") {#
+		lambda_i_values <- alpha_i_values <- Rosen(pi_i_values, n)#
+	}#
+	if (alpha_i == "Berger") {#
+	}#
+	if (alpha_i == "Deville") {#
+		lambda_i_values <- alpha_i_values <- Deville(pi_i_values, n)#
+	}#
+	#alpha_i <- eval(parse(text=alpha_i))#
+	B_hat <- sum(lambda_i_values * z_i * y/pi_i_values) / #
+		sum(lambda_i_values * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i_values * epsilon_i^2)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	n = 100, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("Hajek, Hajek Variance Approximation", {#
+	# p. 138, from Tille, Y (2006) Sampling Algorithms. Springer.#
+	N=6#
+	n=3#
+	pi_i_values = c(0.07, 0.17, 0.41, 0.61, 0.83, 0.91)#
+	expect_that(#
+		Hajek(pi_i = pi_i_values, n = N),#
+		equals(c(0.07812, 0.16932, 0.29028, 0.28548, 0.16932, 0.09828))#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+Hajek(pi_i = pi_i_values, n = N)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("Hajek, Hajek Variance Approximation", {#
+	# p. 138, from Tille, Y (2006) Sampling Algorithms. Springer.#
+	N=6#
+	n=3#
+	pi_i_values = c(0.07, 0.17, 0.41, 0.61, 0.83, 0.91)#
+	expect_that(#
+		Hajek(pi_i = pi_i_values, n = N),#
+		equals(c(0.07812, 0.16932, 0.29028, 0.28548, 0.16932, 0.09824))#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("Hajek, Hajek Variance Approximation", {#
+	# p. 138, from Tille, Y (2006) Sampling Algorithms. Springer.#
+	N=6#
+	n=3#
+	pi_i_values = c(0.07, 0.17, 0.41, 0.61, 0.83, 0.91)#
+	expect_that(#
+		Hajek(pi_i = pi_i_values, n = N),#
+		equals(c(0.07812, 0.16932, 0.29028, 0.28548, 0.16932, 0.09828))#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hartley_Rao(pi_i = pi_i_values, n = N)#
+Rosen(pi_i = pi_i_values, n = N)#
+Berger(pi_i = pi_i_values, n = N)#
+Deville(pi_i = pi_i_values, n = N)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hajek <- function(pi_i, n) {#
+	pi_i * (1 - pi_i) * n / (n - 1)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)#
+#
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	n = 900, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	n = 30, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)#
+#
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)#
+pi_i_values <= pi_i(N=900,n1=30, m=Z$m)#
+#
+var_pi(#
+	n = 30, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)#
+pi_i_values <- pi_i(N=900,n1=30, m=Z$m)#
+#
+var_pi(#
+	n = 30, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+pi_i_values
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+var_pi(#
+	n = 900, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hajek(pi_i=pi_i_values, n=900)
+n
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n = 900
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y = Z$y_i
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+alpha_i = "Hajek"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+z_i = 1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+B_hat <- sum(lambda_i_values * z_i * y/pi_i_values) / #
+		sum(lambda_i_values * z_i^2)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Hajek <- function(pi_i, n) {#
+	pi_i * (1 - pi_i) * n / (n - 1)#
+}#
+#######################################################################################
+Hartley_Rao(pi_i = pi_i_values, n = N)#
+# negative numbers#
+Rosen(pi_i = pi_i_values, n = N)#
+# really large numbers#
+Berger(pi_i = pi_i_values, n = N)#
+# negative numbers#
+Deville(pi_i = pi_i_values, n = N)#
+# Hartley and Rao Example#
+#
+Hartley_Rao_data <- data.frame(#
+	y_i = c(#
+		19,9,17,14,21,22,27,35,20,15,#
+		18,37,12,47,27,25,25,13,19,12#
+	),#
+	x_i = c(#
+		18,9,14,12,24,25,23,24,17,14,#
+		18,40,12,30,27,26,21,9,19,12#
+	)#
+)#
+pi_i_values <- Hartley_Rao_data$x_i/(sum(Hartley_Rao_data$x_i))#
+# total sample size?#
+#' # Initiate ACS#
+#' Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)#
+#
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)#
+Hajek(pi_i=pi_i_values, n=900)#
+#
+pi_i_values <- pi_i(N=900,n1=30, m=Z$m)#
+#
+var_pi(#
+	n = 900, #
+	y = Z$y_i, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)#
+var_pi <- function(n, pi_i_values, y, alpha_i, lambda_i, z_i) {#
+	#n <- length(y)#
+	#if (length(y) != length(pi_i_values)) {#
+	#	stop("y and pi_i must be of equal length.")#
+	#}#
+	if (alpha_i == "Hartley_Rao") {#
+		alpha_i_values <- Hartley_Rao(pi_i_values, n)#
+		lambda_i_values <- 1#
+	}#
+	if (alpha_i == "Hajek") {#
+		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)#
+	}#
+	if (alpha_i == "Rosen") {#
+		lambda_i_values <- alpha_i_values <- Rosen(pi_i_values, n)#
+	}#
+	if (alpha_i == "Berger") {#
+	}#
+	if (alpha_i == "Deville") {#
+		lambda_i_values <- alpha_i_values <- Deville(pi_i_values, n)#
+	}#
+	#alpha_i <- eval(parse(text=alpha_i))#
+	B_hat <- sum(lambda_i_values * z_i * y/pi_i_values) / #
+		sum(lambda_i_values * z_i^2)#
+	epsilon_i <- y/pi_i_values - B_hat * z_i#
+	sum(alpha_i_values * epsilon_i^2)#
+}#
+#
+Hartley_Rao <- function(pi_i, n) {#
+	1 - pi_i * (n - 1)/n#
+}#
+Rosen <- function(pi_i, n) {#
+	(1 - pi_i) * log10(1 - pi_i) / pi_i#
+}#
+#
+Berger <- function(pi_i, n) {#
+	A <- pi_i * (1 - pi_i)#
+	A <- sum(A)#
+	B <- 1 - pi_i#
+	B <- sum(B)#
+	(1 - pi_i) * n * (n - 1) * B / A#
+}#
+#
+Deville <- function(pi_i, n) {#
+	A <- 1 - pi_i#
+	A <- sum(A)#
+	D <- pi_i * (1 - pi_i)#
+	D <- sum(D)#
+	1 / (1 - pi_i) * (1 - (1/D^2) * A)#
+}#
+#
+# Brewer 1 and 2
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+B_hat
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n = 900
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)#
+#
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	summarise(#
+		m = m[1],#
+		y_total = sum(y_value, rm.na=TRUE)#
+		) %>%#
+		filter(NetworkID > 0)#
+#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y = Z$y_i
+y
 Z
-k=1
-k=10
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
+var_pi(#
+	n = 900, #
+	y = Z$y_value, #
+	pi_i_values = pi_i_values,#
+	alpha_i = "Hajek", #
+	z_i = 1#
+)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
+pi_i_values <- pi_i(N=900,n1=30, m=Z$m)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)
+y = Z$y_value
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS#
-				temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(-`n()`)
-temp
-j=2
+alpha_i = "Hajek"
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])#
-			N 			<- dim(P)[1]#
-			n1 			<- nsamples[j]#
-			# save simulation attributes#
-			A[[i]][[j]] <- list()#
-			# save counts of joint inclusions#
-			B[[i]][[j]] <- matrix(#
-				nrow=length(unique(P$NetworkID)),#
-				ncol=length(unique(P$NetworkID)),#
-				dimnames=list(#
-					unique(P$NetworkID),#
-					unique(P$NetworkID)#
-				),#
-				0#
-			)#
-			# zeros#
-			zeros <- B[[i]][[j]]#
-			r 			<- (i - 1) * j + j#
-			seeds 		<- runif(simulations)
+z_i = 1
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
+lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
+sum(lambda_i_values * z_i * y/pi_i_values)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS#
-				temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%
-arrange(-`n()`)
-temp
-k=20
+lambda_i_values
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_seed <- seeds[k]*100000
+lambda_i_values * z_i * y/
+)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-alldata <- createACS(#
-						population=P, #
-						seed=temp_seed, #
-						n1=n1, #
-						y_variable=y_variable#
-					) %>% #
-						as.data.table
+lambda_i_values * z_i * y
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]][[k]] <- alldata %>% #
-					filter(Sampling!="Edge") %>%#
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%#
-					arrange(NetworkID)#
-				# save for m summary data#
-				data_networks <- alldata %>%#
-					filter(m!=0)#
-				# GET INCLUSION MATRIX FOR NETWORKS#
-				temp <- #
-					A[[i]][[j]][[k]] %>%#
-					filter(Sampling=="SRSWOR") %>%#
-					group_by(NetworkID) %>%#
-					dplyr::summarise(n()) %>%#
-					arrange(-`n()`)
-temp
+z_i
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Z <- matrix(#
-					temp$`n()`, #
-					nrow=dim(temp)[1], #
-					ncol=dim(temp)[1], #
-					dimnames=list(temp$NetworkID, temp$NetworkID)#
-				)#
-				Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-Z
+y
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-indxB <- outer(#
-					rownames(B[[i]][[j]]), #
-					colnames(B[[i]][[j]]), #
-					FUN=paste#
-				) %in% outer(#
-					rownames(Z), #
-					colnames(Z), #
-					FUN=paste#
-				)#
-				B1 <- zeros#
-				# fill B1 with values from Z at indxB locations#
-				B1[indxB] <- Z
-B1[which(B1!=0)]
-B1[which(B1!=0,arr.ind=T)]
-B1[which(B1!=0,arr.ind=T),]
-B1[which(B1!=0,arr.ind=T),which(B1!=0,arr.ind=T)]
-B1[which(B1!=0),which(B1!=0)]
-B1[which(B1!=0,arr.in=T)]
-[which(B1!=0,arr.in=T)]
-which(B1!=0,arr.in=T)]
-which(B1!=0,arr.in=T)
-dim(Z)
-B1[which(B1!=0,arr.in=T)]
-matrix(B1[which(B1!=0,arr.in=T)],nrow=dim(Z)[1],ncol=dim(Z)[1])
+lambda_i_values * z_i * y/pi_i_values
