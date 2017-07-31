@@ -282,12 +282,6 @@ data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    releas
 library(dplyr)
 library(plyr)
 600*.22
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
 library(ProjectTemplate)#
 #
@@ -296,6 +290,30 @@ library(ProjectTemplate)#
 #
 # load project#
 load.project()
+?var_pi
+Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)#
+Z_summary <- Z %>% #
+	filter(Sampling!="Edge") %>%#
+	group_by(NetworkID) %>%#
+	filter(NetworkID > 0) %>%#
+	dplyr::summarise(#
+		m = m[1],#
+		y_total = sum(y_value, na.rm=TRUE)#
+	)#
+var_y_HT(#
+	N = dim(Thompson1990Figure1Population)[1], #
+	n1 = dim(Thompson1990Figure1Sample)[1], #
+	m = Z_summary$m, #
+	y = Z_summary$y_total#
+)#
+pi_i_values <- pi_i(N=900,n1=30, m=Z_summary$m)#
+Hajek(pi_i=pi_i_values, N=900)#
+var_pi(#
+	n = 30, #
+	y = Z_summary$y_total, #
+	pi_i_values = pi_i_values,#
+	estimator = "Hajek"#
+)
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#

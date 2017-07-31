@@ -11,13 +11,28 @@
 
 
 
-Hajek <- function(pi_i, N) {
-	pi_i * (1 - pi_i) * N / (N - 1)
+Hajek <- function(pi_i, n) {
+	pi_i * (1 - pi_i) * n / (n - 1)
+}
+
+
+#' Variance estimator free of joint inclusion probability calculations for unequal probability sampling, Hajek
+#' @param n sample size
+#' @param y Vector of $y$ values.
+#' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{pi_i}.
+#' @references Berger, Y. G. (2005). Variance estimation with Chao's sampling scheme. Journal of Statistical Planning and Inference, 127(1-2), 253–277. http://doi.org/10.1016/j.jspi.2003.08.014
+#' @export
+
+var_Hajek <- function(n, y, pi_i_values) {
+	d_hat <- sum(1 - pi_i_values)
+	G_hat <- 1/d_hat * sum((y/pi_i_values) * (1 - pi_i_values))
+	
+	n/(n - 1) * sum(y^2 * (1/pi_i_values - 1) * (1/pi_i_values) - d_hat * G_hat^2)
 }
 
 
 #' Variance estimator free of joint inclusion probability calculations for unequal probability sampling
-#' @param N Population size
+#' @param n sample size
 #' @param y Vector of $y$ values.
 #' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{pi_i}.
 #' @param estimator Options include "Hartley_Rao", "Hajek", "Rosen", "Berger", and "Deville".
@@ -41,31 +56,30 @@ Hajek <- function(pi_i, N) {
 #' 	m = Z_summary$m, 
 #' 	y = Z_summary$y_total
 #' )
-
-Hajek(pi_i=pi_i_values, n=900)
-pi_i_values <- pi_i(N=900,n1=30, m=Z_summary$m)
-
-var_pi(
-	n = 30, 
-	y = Z_summary$y_total, 
-	pi_i_values = pi_i_values,
-	estimator = "Hajek"
-)
+#' pi_i_values <- pi_i(N=900,n1=30, m=Z_summary$m)
+#' Hajek(pi_i=pi_i_values, N=900)
+#' var_pi(
+#' 	n = 30, 
+#' 	y = Z_summary$y_total, 
+#' 	pi_i_values = pi_i_values,
+#' 	estimator = "Hajek"
+#' )
 
 
-
-var_pi <- function(N, y, pi_i_values, estimator) {
-	#n <- length(y)
-	#if (length(y) != length(pi_i_values)) {
-	#	stop("y and pi_i must be of equal length.")
-	#}
+var_pi <- function(n, y, pi_i_values, estimator) {
+	if (estimator == "Hajek") {
+		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)
+	}
+	
+	B_hat <- sum(lambda_i_values * y/pi_i_values) / 
+		sum(lambda_i_values)
+	epsilon_i <- y/pi_i_values - B_hat
+	
+	sum(alpha_i_values * epsilon_i^2)
 	#if (estimator == "Hartley_Rao") {
 	#	alpha_i_values <- Hartley_Rao(pi_i_values, n)
 	#	lambda_i_values <- 1
 	#}
-	if (estimator == "Hajek") {
-		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, N)
-	}
 	#if (estimator == "Rosen") {
 	#	lambda_i_values <- alpha_i_values <- Rosen(pi_i_values, n)
 	#}
@@ -74,12 +88,4 @@ var_pi <- function(N, y, pi_i_values, estimator) {
 	#if (estimator == "Deville") {
 	#	lambda_i_values <- alpha_i_values <- Deville(pi_i_values, n)
 	#}
-	#alpha_i <- eval(parse(text=alpha_i))
-	
-	B_hat <- sum(lambda_i_values * y/pi_i_values) / 
-		sum(lambda_i_values)
-	epsilon_i <- y/pi_i_values - B_hat
-	sum(alpha_i_values * epsilon_i^2)
-	
-	
 }
