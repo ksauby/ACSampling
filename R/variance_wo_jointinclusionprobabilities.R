@@ -10,6 +10,7 @@
 #' @export
 
 
+
 Hajek <- function(pi_i, N) {
 	pi_i * (1 - pi_i) * N / (N - 1)
 }
@@ -23,6 +24,35 @@ Hajek <- function(pi_i, N) {
 #' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
 #' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1–17.
 #' @export
+#' @examples
+#' # Hajek Approximation
+#' Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)
+#' Z_summary <- Z %>% 
+#' 	filter(Sampling!="Edge") %>%
+#' 	group_by(NetworkID) %>%
+#' 	filter(NetworkID > 0) %>%
+#' 	dplyr::summarise(
+#' 		m = m[1],
+#' 		y_total = sum(y_value, na.rm=TRUE)
+#' 	)
+#' var_y_HT(
+#' 	N = dim(Thompson1990Figure1Population)[1], 
+#' 	n1 = dim(Thompson1990Figure1Sample)[1], 
+#' 	m = Z_summary$m, 
+#' 	y = Z_summary$y_total
+#' )
+
+Hajek(pi_i=pi_i_values, n=900)
+pi_i_values <- pi_i(N=900,n1=30, m=Z_summary$m)
+
+var_pi(
+	n = 30, 
+	y = Z_summary$y_total, 
+	pi_i_values = pi_i_values,
+	estimator = "Hajek"
+)
+
+
 
 var_pi <- function(N, y, pi_i_values, estimator) {
 	#n <- length(y)
