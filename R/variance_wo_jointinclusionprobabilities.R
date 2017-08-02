@@ -25,9 +25,9 @@ Hajek <- function(pi_i, n) {
 
 var_Hajek <- function(n, y, pi_i_values) {
 	d_hat <- sum(1 - pi_i_values)
-	G_hat <- 1/d_hat * sum((y/pi_i_values) * (1 - pi_i_values))
+	G_hat <- 1/d_hat * sum( (y/pi_i_values) * (1 - pi_i_values) )
 	
-	n/(n - 1) * sum(y^2 * (1/pi_i_values - 1) * (1/pi_i_values) - d_hat * G_hat^2)
+	n/(n - 1) * sum( (1 - pi_i_values) * (y/pi_i_values - G_hat)^2 )
 }
 
 
@@ -73,9 +73,9 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 	
 	B_hat <- sum(lambda_i_values * y/pi_i_values) / 
 		sum(lambda_i_values)
-	epsilon_i <- y/pi_i_values - B_hat
+	e_i <- y/pi_i_values - B_hat
 	
-	sum(alpha_i_values * epsilon_i^2)
+	sum(alpha_i_values * e_i^2)
 	#if (estimator == "Hartley_Rao") {
 	#	alpha_i_values <- Hartley_Rao(pi_i_values, n)
 	#	lambda_i_values <- 1
