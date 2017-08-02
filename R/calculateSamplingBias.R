@@ -83,6 +83,11 @@ calculateSamplingBias <- function(
 		sampling.grouping.variables,
 		paste(
 			ovar,
+			"_mean",
+			sep=""
+		),
+		paste(
+			ovar,
 			"_mean_observed",
 			sep=""
 		)
@@ -181,6 +186,11 @@ calculateSamplingBias <- function(
 		sampling.grouping.variables,
 		paste(
 			rvar_variables,
+			"_mean",
+			sep=""
+		),
+		paste(
+			rvar_variables,
 			"_mean_observed",
 			sep=""
 		),
@@ -275,8 +285,10 @@ calculateSamplingBias <- function(
 			"n_sims"
 		)
 	)
-	B %<>% calculatedSquaredDifferences
-	E %<>% calculatedSquaredDifferences
+	B %<>% calculatedSquaredDifferences(variables=ovar)
+	E %<>% calculatedSquaredDifferences(variables=paste(rvar, "_ratio", sep=""))
+	B %<>% calculateDifferencesinMeans(variables=ovar)
+	E %<>% calculateDifferencesinMeans(variables=paste(rvar, "_ratio", sep=""))
 	
 	
 	
@@ -324,9 +336,6 @@ calculateSamplingBias <- function(
 		}
 		return(dataframe)
 	}
-	
-	
-	
 	calculateDifferencesinMeans <- function(dataframe, variables) {
 		for (i in 1:length(ovar)) {
 			dataframe %<>%
@@ -363,127 +372,120 @@ calculateSamplingBias <- function(
 					)
 				)
 		}
+		return(dataframe)
 	}
-	# calculate squared differences (observed - mean of observed) for each variable - for variance of simulated mean estimates
-	
-	# calculate bias and MSE
-	A <- vector("list", length(ovar))
-	X.grp <- X %>% group_by_(.dots=c(
-		population.grouping.variables, 
-		sampling.grouping.variables, 
-		"n_sims"
-	))
-	for (i in 1:length(ovar)) {
-		A[[i]] <- list()
-		A[[i]] <- X.grp %>%
-			summarise_(
-				# save true mean
-				true_mean = interp(
-					~var[1], 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_mean", 
-							sep=""
+	calculateBiasComponents	<- function(dataframe, resultslist, variables) {
+		for (i in 1:length(ovar)) {
+			resultslist[[i]] <- list()
+			resultslist[[i]] <- dataframe %>%
+				summarise_(
+					# save true mean
+					true_mean = interp(
+						~var[1], 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_mean", 
+								sep=""
+							)
+						)
+					),
+					# calculate mean of observed means
+					mean_of_observed_means = interp(
+						~mean(var, na.rm = TRUE), 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_mean_observed",
+								sep=""
+							)
+						)
+					),
+					RB_n = interp(
+						~length(var[which(!is.na(var))]), 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_mean_observed",
+								sep=""
+							)
+						)
+					),
+					# calculate sum of MSEs
+					sum_of_observed_minus_true_sqrd = interp(
+						~sum(var, na.rm = TRUE), 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_mean_observed_minus_true",
+								sep=""
+							)
+						)
+					),
+					MSE_n = interp(
+						~length(var[which(!is.na(var))]), 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_mean_observed_minus_true",
+								sep=""
+							)
+						)
+					),
+					# calculate mean of simulated HT variance estimates
+					mean_of_var_estimates = interp(
+						~mean(var, na.rm = TRUE), 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_var_observed",
+								sep=""
+							)
+						)
+					),
+					mean_of_var_estimates_n = interp(
+						~length(var[which(!is.na(var))]), 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_var_observed",
+								sep=""
+							)
+						)
+					),
+					# calculate variance of simulated HT mean estimates
+					var_of_mean_estimates = interp(
+						~var(variable, na.rm = TRUE), 
+						variable = 
+						as.name(
+							paste(
+								variables[i],
+								"_observed_minus_mean_of_observed_means",
+								sep=""
+							)
+						)
+					),
+					var_of_mean_estimates_n = interp(
+						~length(var[which(!is.na(var))]), 
+						var = 
+						as.name(
+							paste(
+								variables[i],
+								"_observed_minus_mean_of_observed_means",
+								sep=""
+							)
 						)
 					)
-				),
-				# calculate mean of observed means
-				mean_of_observed_means = interp(
-					~mean(var, na.rm = TRUE), 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
-				),
-				RB_n = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
-				),
-				# calculate sum of MSEs
-				sum_of_observed_minus_true_sqrd = interp(
-					~sum(var, na.rm = TRUE), 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_mean_observed_minus_true",
-							sep=""
-						)
-					)
-				),
-				MSE_n = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_mean_observed_minus_true",
-							sep=""
-						)
-					)
-				),
-				# calculate mean of simulated HT variance estimates
-				mean_of_var_estimates = interp(
-					~mean(var, na.rm = TRUE), 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_var_observed",
-							sep=""
-						)
-					)
-				),
-				mean_of_var_estimates_n = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_var_observed",
-							sep=""
-						)
-					)
-				),
-				# calculate variance of simulated HT mean estimates
-				var_of_mean_estimates = interp(
-					~var(variable, na.rm = TRUE), 
-					variable = 
-					as.name(
-						paste(
-							ovar[i],
-							"_observed_minus_mean_of_observed_means",
-							sep=""
-						)
-					)
-				),
-				var_of_mean_estimates_n = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							ovar[i],
-							"_observed_minus_mean_of_observed_means",
-							sep=""
-						)
-					)
-				)
-			) %>%
+				) %>%
 				as.data.frame
-			A[[i]] %<>% 
+			resultslist[[i]] %<>% 
 				mutate(
 					# var_mean = Mean()
 					RB = 100 * 
@@ -502,7 +504,7 @@ calculateSamplingBias <- function(
 		      		.,
 		      		"true_mean",
 		      		paste(
-		      			ovar[i],
+		      			variables[i],
 		      			"_true_mean",
 		      			sep=""
 					)
@@ -511,7 +513,7 @@ calculateSamplingBias <- function(
 		      		.,
 		      		"RB",
 		      		paste(
-		      			ovar[i],
+		      			variables[i],
 		      			"_mean_RB",
 		      			sep=""
 					)
@@ -520,7 +522,7 @@ calculateSamplingBias <- function(
 		      		.,
 		      		"MSE",
 		      		paste(
-		      			ovar[i],
+		      			variables[i],
 		      			"_mean_MSE",
 		      			sep=""
 					)
@@ -529,7 +531,7 @@ calculateSamplingBias <- function(
 		      		.,
 		      		"var_RB",
 		      		paste(
-		      			ovar[i],
+		      			variables[i],
 		      			"_var_RB",
 		      			sep=""
 					)
@@ -539,7 +541,7 @@ calculateSamplingBias <- function(
 		      		.,
 		      		"RB_n",
 		      		paste(
-		      			ovar[i],
+		      			variables[i],
 		      			"_mean_RB_n",
 		      			sep=""
 					)
@@ -548,7 +550,7 @@ calculateSamplingBias <- function(
 		      		.,
 		      		"MSE_n",
 		      		paste(
-		      			ovar[i],
+		      			variables[i],
 		      			"_mean_MSE_n",
 		      			sep=""
 					)
@@ -557,7 +559,7 @@ calculateSamplingBias <- function(
 		      		.,
 		      		"var_RB_n",
 		      		paste(
-		      			ovar[i],
+		      			variables[i],
 		      			"_var_RB_n",
 		      			sep=""
 					)
@@ -570,7 +572,17 @@ calculateSamplingBias <- function(
 					var_of_mean_estimates,
 					var_of_mean_estimates_n
 				))
+		}
+		return(resultslist)
 	}
+	# calculate bias and MSE
+	H <- vector("list", length(ovar))
+	X.grp <- B %>% group_by_(.dots=c(
+		population.grouping.variables, 
+		sampling.grouping.variables, 
+		"n_sims"
+	)) %>% calculateBiasComponents(., resultslist=H, variables=ovar)
+	
 	Y <- Reduce(
 		function(x, y) merge(
 			x, y,
@@ -580,8 +592,9 @@ calculateSamplingBias <- function(
 				"n_sims"
 			)
 		),
-		A
+		X.grp
 	)
+	
 #	X$Prop.Area.Surveyed = with(X, N.Total.plots/N)		
 	return(Y)
 }
