@@ -49,7 +49,9 @@ calculateRE <- function(
 		)	
 	}
 	if (!is.null(rvar)) {
+		# should I only calculate this using samples that included at least one unit with cactus species?
 		variances_ratio <- population_data %>% 
+			filter(Stricta==1) %>%
 			dplyr::select_(.dots=c(
 				population.grouping.variables,
 				rvar
@@ -94,8 +96,11 @@ calculateRE <- function(
 			merge(variances, by=population.grouping.variables) %>%
 			merge(variances_ratio, by=population.grouping.variables)
 	}
+	# dataframe of mean MSE
 	A <- Y %>% 
-		dplyr::select(-one_of(paste(variables, "_var", sep=""))) %>%
+		dplyr::select(-one_of(paste(ovar, "_var", sep=""))) %>%
+		dplyr::select(-one_of(paste(rvar, "_ratio_var", sep=""))) %>%
+		dplyr::select(-one_of(paste(rvar, "_var", sep=""))) %>%
 		reshape2:::melt.data.frame(
 			data=.,
 			id.vars=c(
@@ -106,10 +111,12 @@ calculateRE <- function(
 			value.name="mean_MSE"
 		)
 	A$variable <- sub("*_mean_MSE", "", A$variable)
+	# dataframe of y_var
 	B <- Y %>% 
 		dplyr::select(-one_of(
 			paste(ovar, "_mean_MSE", sep=""),
-			paste(rvar, "_ratio_mean_MSE", sep="")		
+			paste(rvar, "_ratio_mean_MSE", sep=""),		
+			paste(rvar, "_var", sep="")		
 		)) %>%
 		reshape2:::melt.data.frame(
 			data=.,
@@ -133,8 +140,8 @@ calculateRE <- function(
 		)
 	Z %<>% mutate(
 		RE = (
-			((N - sample.size.variable)*population_variance) /
-			(sample.size.variable*N)
+			population_variance/sample.size.variable *
+			(1 - sample.size.variable/N)
 		)
 		/	mean_MSE
 	)

@@ -63,6 +63,13 @@ calculateSamplingBias <- function(
 	rvar
 )
 {
+	
+	# limit MSE of ratio variables to samples including at least one unit with cacti
+	
+	# have to know correct number of simulations
+		
+	
+	
 	rvar <- paste(rvar, "_ratio", sep="")
 	variables <- c(variables, rvar)
 	. <- NULL
@@ -96,6 +103,13 @@ calculateSamplingBias <- function(
 		# observed mean
 		A[[i]] <- temp %>%
 			summarise_(
+				
+				
+				
+				# DO THIS SEPARATELY FOR OVAR AND RVAR?
+				
+				
+				
 				mean_of_observed_means = interp(
 					~mean(var, na.rm = TRUE), 
 					var = 
