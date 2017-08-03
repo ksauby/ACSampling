@@ -414,24 +414,16 @@ calculateSamplingBias <- function(
 					)
 				)
 			) %>%
-			setnames(
-		      	.,
-		      	"mean_of_observed_means",
-		      	paste(
-		      		ovar[i],
-		      		"_mean_of_observed_means",
-		      		sep=""
-				)
-			) %>%
-			setnames(
-		      	.,
-		      	"sample_size",
-		      	paste(
-		      		ovar[i],
-		      		"_mean_of_observed_means_n",
-		      		sep=""
-				)
-			)
+		colnames(C[[i]])[names(C[[i]]) == "mean_of_observed_means")] <- paste(
+			ovar[i],
+			"_mean_of_observed_means",
+			sep=""
+		)
+		colnames(C[[i]])[names(C[[i]]) == "sample_size")] <- paste(
+			ovar[i],
+			"_mean_of_observed_means_n",
+			sep=""
+		)
 	}
 	D <- Reduce(
 		function(x, y) merge(
@@ -596,8 +588,7 @@ calculateSamplingBias <- function(
 			population.grouping.variables, 
 			sampling.grouping.variables
 		)
-	) %>%
-	setnames("sample.size.variable", sample.size.variable)
+	)
 	
 	return(Y)
 }
