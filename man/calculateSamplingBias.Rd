@@ -5,7 +5,7 @@
 \title{Calculate Simulation Data Sampling Bias}
 \usage{
 calculateSamplingBias(population_data_summary, simulation_data,
-  population.grouping.variables, sampling.grouping.variables, variables, rvar)
+  population.grouping.variables, sampling.grouping.variables, ovar, rvar)
 }
 \arguments{
 \item{population_data_summary}{Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).}
@@ -16,7 +16,7 @@ calculateSamplingBias(population_data_summary, simulation_data,
 
 \item{sampling.grouping.variables}{Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).}
 
-\item{variables}{Vector of variables for which sampling bias should be estimated.}
+\item{ovar}{Vector of variables for which sampling bias should be estimated.}
 
 \item{rvar}{Variables for which to use ratio estimators}
 }
