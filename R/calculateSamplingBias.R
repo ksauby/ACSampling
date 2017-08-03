@@ -357,7 +357,7 @@ calculateSamplingBias <- function(
 	)
 	
 	rvar_variables <- paste(rvar, "_ratio", sep="")
-	. <- NULL
+	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL
 	A <- merge(
 		population_data_summary, 
 		simulation_data, 
@@ -413,13 +413,13 @@ calculateSamplingBias <- function(
 						)
 					)
 				)
-			) %>%
-		colnames(C[[i]])[names(C[[i]]) == "mean_of_observed_means")] <- paste(
+			)
+		colnames(C[[i]])[names(C[[i]]) == "mean_of_observed_means"] <- paste(
 			ovar[i],
 			"_mean_of_observed_means",
 			sep=""
 		)
-		colnames(C[[i]])[names(C[[i]]) == "sample_size")] <- paste(
+		colnames(C[[i]])[names(C[[i]]) == "sample_size"] <- paste(
 			ovar[i],
 			"_mean_of_observed_means_n",
 			sep=""
@@ -445,10 +445,10 @@ calculateSamplingBias <- function(
 		)
 	)
 	### RATIO VARIABLES	
-	E <- A
+	E <- A %>% filter(Stricta_mean_observed>0)
 	# number of simulations
+	n_sims <- NULL
 	n_sims <- E %>% 
-		filter(Stricta_mean_observed>0) %>%
 		group_by_(.dots = c(
 			population.grouping.variables, 
 			sampling.grouping.variables
@@ -462,16 +462,17 @@ calculateSamplingBias <- function(
 		)
 	)
 	# mean of observed means	
-	temp <- E %>% group_by_(.dots = c(
+	temp <- E %>% 
+		group_by_(.dots = c(
 		population.grouping.variables, 
 		sampling.grouping.variables, 
 		"n_sims"
 	))
-	F <- vector("list", length(ovar))
+	I <- vector("list", length(ovar))
 	for (i in 1:length(c(rvar_variables, "Stricta"))) {
-		F[[i]] <- list()
+		I[[i]] <- list()
 		# observed mean
-		F[[i]] <- temp %>%
+		I[[i]] <- temp %>%
 			summarise_(
 				mean_of_observed_means = interp(
 					~mean(var, na.rm = TRUE), 
@@ -524,7 +525,7 @@ calculateSamplingBias <- function(
 				"n_sims"
 			)
 		),
-		F
+		I
 	)
 	E %<>% merge(
 		G, 

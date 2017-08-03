@@ -17,7 +17,7 @@ calculateRE <- function(
 	X <- NULL
 	X <- MSE_ComparisonSamplingDesign
 	if (sample.size.variable %in% names(X)) {
-		colnames(X)[names(X) == sample.size.variable)] <- "sample.size.variable"
+		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"
 	}
 	# dimensions of populations
 	dimensions <- population_data %>% 
@@ -162,6 +162,6 @@ calculateRE <- function(
 		),
 		value.var="RE"
 		)
-	colnames(Z)[names(Z) == "sample.size.variable")] <- sample.size.variable
+	colnames(Z)[names(Z) == "sample.size.variable"] <- sample.size.variable
 	return(Z)
 }
