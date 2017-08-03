@@ -109,27 +109,15 @@ calculatePopulationSummaryStatistics <- function(
 		merge(Z, by=population.grouping.variable)	
 	# spatial statistics and other characteristics of variables
 	A <- list()
-	for (i in 1:length(unique(eval(parse(
-		text=paste(
-			"population_data$", 
-			population.grouping.variable, 
-			sep=""
-	)))))) 
-	{
+	population_variable <- paste(
+		"population_data$", 
+		population.grouping.variable, 
+		sep=""
+	)
+	for (i in 1:length(unique(eval(parse(text=population_variable))))) {
 		temp <- population_data[which(
-			eval(parse(
-				text=paste(
-					"population_data$", 
-					population.grouping.variable, 
-					sep=""
-				))
-			) == unique(eval(parse(
-				text=paste(
-					"population_data$", 
-					population.grouping.variable, 
-					sep=""
-				)
-			)))[i]
+			eval(parse(text=population_variable)) == 
+			unique(eval(parse(text=population_variable)))[i]
 		), ]
 		temp %<>% arrange(x,y)
 		# spatial statistics
@@ -137,9 +125,19 @@ calculatePopulationSummaryStatistics <- function(
 		A[[i]] <- list()
 		for (j in 1:length(summary.variables)) {
 			A[[i]][[j]] <- data.frame(variable = summary.variables[j])
-			tempvar <- eval(parse(text =
-				paste("temp$", summary.variables[j], sep="")
-			))
+			if (summary.variables[j] %in% ratio.variables) {
+				temp_ratio <- temp %>% as.data.frame
+				temp_ratio %<>% 
+					.[.[colnames(.)==str_sub(summary.variables[j],-7,-1)]==1, ]	
+				tempvar <- eval(parse(text =
+						paste("temp_ratio$", summary.variables[j], sep="")
+					))
+				coordinates(temp_ratio) = ~ x+y
+			} else {
+				tempvar <- eval(parse(text =
+					paste("temp$", summary.variables[j], sep="")
+				))	
+			}
 			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)
 			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)
 			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)
@@ -309,17 +307,7 @@ calculatePopulationSummaryStatistics <- function(
 		)))[i]
 	}
 	B <- do.call(rbind.data.frame, A)
-	B %<>% arrange(variable, population)
-	if (!(is.null(ratio.variables))) {
-		for (l in 1:length(ratio.variables)) {
-			temp <- B %>% filter(variable ==ratio.variables[l])
-			AuxVar <- B %>% filter(variable ==str_sub(ratio.variables[l],-7,-1))
-			temp$Mean_tempvar <- temp$Total_tempvar/AuxVar$Total_tempvar
-			B %<>% filter(variable !=ratio.variables[l]) %>%
-				rbind.fill(temp)
-		}
-	}
-	B %<>%
+	B %<>% arrange(variable, population) %>%
 		setnames("Mean_tempvar", "Mean") %>%
 		setnames("Var_tempvar", "Var") %>%
 		setnames("CV_tempvar", "CV") %>%
