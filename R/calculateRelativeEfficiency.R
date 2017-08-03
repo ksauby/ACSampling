@@ -6,6 +6,13 @@
 #' @return Dataframe including original data and RE estimates.
 #' @export
 
+
+# dimensions of populations
+# dimensions <- population_data %>% 
+#	group_by_(.dots=population.grouping.variables) %>%
+#	summarise(N = n())
+# variances of populations
+
 calculateRE <- function(
 	MSE_ComparisonSamplingDesign,
 	population_data,
@@ -19,125 +26,49 @@ calculateRE <- function(
 	if (sample.size.variable %in% names(X)) {
 		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"
 	}
-	# dimensions of populations
-	dimensions <- population_data %>% 
-		group_by_(.dots=population.grouping.variables) %>%
-		summarise(N = n())
-	# variances of populations
-	if (!is.null(ovar)) {
-		variances <- population_data %>% 
-			dplyr::select_(.dots=c(
-				population.grouping.variables,
-				ovar,
-				rvar
-			)) %>%
-			group_by_(.dots=population.grouping.variables) %>% 
-			summarise_all(funs(var(., na.rm=T)))
-		setnames(
-			variances,
-			names(variances)[
-				(length(population.grouping.variables) + 1):
-				length(names(variances))
-			], 
-			paste(names(variances)[
-					(length(population.grouping.variables) + 1):
-					length(names(variances))
-				],
-				"var",
-				sep="_"
-			)
-		)	
-	}
-	if (!is.null(rvar)) {
-		# should I only calculate this using samples that included at least one unit with cactus species?
-		variances_ratio <- population_data %>% 
-			filter(Stricta==1) %>%
-			dplyr::select_(.dots=c(
-				population.grouping.variables,
-				rvar
-			)) %>%
-			group_by_(.dots=population.grouping.variables) %>% 
-			summarise_all(funs(var(., na.rm=T)))
-		setnames(
-			variances_ratio,
-			names(variances_ratio)[
-				(length(population.grouping.variables) + 1):
-				length(names(variances_ratio))
-			], 
-			paste(names(variances_ratio)[
-					(length(population.grouping.variables) + 1):
-					length(names(variances_ratio))
-				],
-				"ratio_var",
-				sep="_"
-			)
-		)	
-	}
-	Y <- X %>% dplyr::select_(.dots=c(
+	# "long" format of mean MSE
+	A <- X %>% dplyr::select_(.dots=c(
 		population.grouping.variables,
 		"sample.size.variable",
 		paste(ovar, "_mean_MSE", sep=""),
 		paste(rvar, "_ratio_mean_MSE", sep="")		
-	))
-	# calculate var_y_bar
-	if (!is.null(rvar) & is.null(ovar)) {
-		Y %<>% 
-			merge(dimensions, by=population.grouping.variables) %>%
-			merge(variances_ratio, by=population.grouping.variables)
-	}
-	if (is.null(rvar) & !is.null(ovar)) {
-		Y %<>% 
-			merge(dimensions, by=population.grouping.variables) %>%
-			merge(variances, by=population.grouping.variables)
-	}
-	if (!is.null(rvar) & !is.null(ovar)) {
-		Y %<>% 
-			merge(dimensions, by=population.grouping.variables) %>%
-			merge(variances, by=population.grouping.variables) %>%
-			merge(variances_ratio, by=population.grouping.variables)
-	}
-	# dataframe of mean MSE
-	A <- Y %>% 
-		dplyr::select(-one_of(paste(ovar, "_var", sep=""))) %>%
-		dplyr::select(-one_of(paste(rvar, "_ratio_var", sep=""))) %>%
-		dplyr::select(-one_of(paste(rvar, "_var", sep=""))) %>%
-		reshape2:::melt.data.frame(
-			data=.,
-			id.vars=c(
-				population.grouping.variables,
-				"N",
-				"sample.size.variable"
-			),
-			value.name="mean_MSE"
-		)
+	)) %>%
+	reshape2:::melt.data.frame(
+		data=.,
+		id.vars=c(
+			population.grouping.variables,
+			"sample.size.variable"
+		),
+		value.name="mean_MSE"
+	)
 	A$variable <- sub("*_mean_MSE", "", A$variable)
-	# dataframe of y_var
-	B <- Y %>% 
-		dplyr::select(-one_of(
-			paste(ovar, "_mean_MSE", sep=""),
-			paste(rvar, "_ratio_mean_MSE", sep=""),		
-			paste(rvar, "_var", sep="")		
-		)) %>%
+	# "long" format of population variance
+	B <- population_data %>% 
+		dplyr::select_(.dots=c(
+			population.grouping.variables,
+			paste(ovar, "_var", sep=""),
+			paste(rvar, "_ratio_var", sep=""),
+			"N"
+		)) %>%			
 		reshape2:::melt.data.frame(
 			data=.,
 			id.vars=c(
 				population.grouping.variables,
-				"N",
-				"sample.size.variable"
+				"N"
 			),
 			value.name="population_variance"
 		)	
 	B$variable <- sub("*_var", "", B$variable)
+	# merge together
 	Z <- A %>%
 		merge(
 			B, 
 			by=c(
 				population.grouping.variables, 
-				"N", 
-				"sample.size.variable", 
 				"variable"
 			)
 		)
+	# calculate efficiency
 	Z %<>% mutate(
 		RE = (
 			population_variance/sample.size.variable *
@@ -145,14 +76,6 @@ calculateRE <- function(
 		)
 		/	mean_MSE
 	)
-	Z %<>%
-	dplyr::select_(.dots=c(
-		population.grouping.variables, 
-		"N", 
-		"sample.size.variable", 
-		"variable",
-		"RE"
-	))
 	Z$variable <- paste(Z$variable, "_RE", sep="")
 	Z %<>%
 	reshape2::dcast(

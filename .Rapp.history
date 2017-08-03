@@ -1,246 +1,475 @@
-25/37
-219*.8
-219*.8 - 17
-26/3
-17/900
-42/900
-49/900
-29/40
-1/25
-8/25
-10/25
-(7.5 + 3.75)/15
-12*0.75
-11 * 0.75
-11/15
-11*0.25
-11/15 * 6
-32/41 +0.03.5
-32/41 + 0.035
-(32/41 + 0.035)*100
-100/41
-23/40 * 100
-(23/40 * 100)+5
-(164 + 13.5 + 6)
-(164 + 13.5 + 6)/365
-(164 + 13.5 + 6 + (50))/365
-(164 + 13.5 + 6 + (60))/365
-(164 + 13.5 + 6 + (70))/365
-(164 + 13.5 + 6 + (75))/365
-102/40
-102/41
-?table
-9.49/2
-12.75+8.25
-(10.5 + 6.5)/(12.75+8.25)
-.25^2 * 2
-(.25^2 * 2)^0.5
-(.25^2 * 2)^0.5 * 2
-3/8
-5/8
-6/8
-30*1.5
-40*15
-40*1.5
-13.25 - 4.5
-(276.29+8.75)/365
-16*3
-16*4
-84/12
-9/12
-9/12*14
-22+60+78+80+88+98
-22+38+18+2+8+10
-239/785
-(239+53)/785
-.492+.139
-.412+.166+.002
-.412/.58
-.166/.58
-.412*.58
-.71*.58
-98-54
-22+49+43+33+36+44
-60-11
-78-26
-80-35
-88-47
-98-52
-22+49+52+45+41+46
-library(RMark)
-?test_ddl
-data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    release.gof(dipper.processed)
-4+19+7+12
-4+17.83+7+12
-40.83/42
-40.83/42*14
-14
-(11.25+5)/(25.5 + 10.25 - 14)
-365*0.6666
-365*0.6666 - 75.89
-5/6 * 2
-5/6 * 2 + 75.89
-365*0.6666 -77.55667
-365*0.6666 -77.55667 - 6 - 13 - 1
-145.7523/2
-15*3
-11*5
-8/12*14
-4+15.33+5.5+12
-(4+15.33+5.5+12)
-(4+15.33+5.5+12)/(4+19+7+12)
-(4+19+7+12)
-(4+15.33+5.5+12)/(4+19+7+12)*14
-2.5+17.5+12
-32/42
-32/42 * 14
-4+12+6.5+12
-(4+12+6.5+12)/42 * 14
-5/6*2
-5/6*2 + 0.25
-5/6*2 + 0.5
-2577.77/12
-15/20
-15/20*6
-300 - 4*50
-300 - 4*40
-4.5/12*14
-9+9+7+9
-33.5/34 * 14
-32/34 * 14
-32/34*14
-7+8.5+7+7
-(7+8.5+7+7)/34 * 14
-(7+5.5+5.5+8.5)/34 * 14
-(7+5.5+5.5+8.5)/(9+7+9+9) * 14
-9+7+9+9
-(14.25+7.25)/(24.75+10.25-9)
-(16.5+7.75)/(24.75+10.25)
-(16.5+7.75)/(24.75+10.25)*6
-(5.25+5.5)/(22.5+10.5)
-(5.25+5.5)/(22.5+10.5)*6
-(9.75+5.5)/(24.7+10.25-5)*6
-(9.75+5.5)/(24.7+10.25-5)
-3.98/6
-(9.75+5.5)/(24.7+10.25-10)
-(9.75+5.5)/(24.7+10.25-10)*6
-5/6*2
-1.83-5/6*2
-1.83-4/6*2
-5/6*2 + 0.5
-4/6*2 + 0.5
-4/6*2
-4/6 + 0.5
-4/6*2 + 0.5
-33/34 * 14
-17.5*4
-24*4 + 1.75*4
-library(dplyr)
-library(plyr)
-600*.22
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
-library(ProjectTemplate)#
-#
-# when working on a Windows computer#
-# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
-#
-# load project#
-load.project()
+population_6 <- patch_data_summary_wide %>% filter(population==6)
+head(patch_data)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-# -----------------------------------------------------------------------------##
-# ABUNDANCE VARIABLES#
-# -----------------------------------------------------------------------------##
-# -----------------------------------------------------------------------------##
-# OCCUPANCY VARIABLES#
-# -----------------------------------------------------------------------------##
-ovar <- c(#
-	"Stricta",#
-	"Pusilla",#
-	"Cactus"#
-)#
-# -----------------------------------------------------------------------------##
-# RATIO VARIABLES#
-# -----------------------------------------------------------------------------##
-rvar <- c(#
-	"MEPR_on_Stricta",#
-	"CACA_on_Stricta",#
-	"Percent_Cover_Stricta",#
-	"Height_Stricta",#
-	#"Old_Moth_Evidence_Pusilla",#
-	"Old_Moth_Evidence_Stricta"#
+patch_data_6 <- patch_data %>% filter(population==6)
+names(patch_data)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+patch_data_6 <- patch_data %>% filter(population==6) %>% filter(Stricta==1)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+mean(patch_data_6$Old_Moth_Evidence_Stricta)
+head(population_6)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# manually calculated mean of Old Moth Evidence#
+patch_data_6 <- patch_data %>% filter(population==6) %>% filter(Stricta==1)#
+# function calculated mean#
+population_6 <- patch_data_summary_wide %>% filter(population==6)#
+# verify that the means are the same#
+mean(patch_data_6$Old_Moth_Evidence_Stricta) == population_6$Old_Moth_Evidence_Stricta_ratio_mean
+names(simdata_all_re)
+head(simdata_all_re)
+population_6
+head(simdata_all_re)
+12+36+34+10+300+18+5
+2/415
+300+10+18+5
+9+36+34+300+18+5
+300/365
+302/365
+names(simdata_all_re)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+population_6$Old_Moth_Evidence_Stricta_ratio_mean
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+(#
+		# observed#
+		simdata_all_re$Old_Moth_Evidence_Stricta_ratio_mean_observed - #
+		# true#
+		population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+	)^2
+302.4/365
+300/365
+302.4/365 - 300/365
+302.4/365*100 - 300/365*100
+head(simdata_all_re)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100#
+) %>% dim
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
+) %>% dim
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
+) %>% head
+5/365
+5/365*100
+18/365
+14*3/365
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+ovar
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+rvar
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulation_data_summary_table_re = calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.SRSWOR.plots", "SamplingDesign", "Plots"), #
+	population.grouping.variables = "population",#
+	ovar			= ovar, #
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+sim_data_6_100_ACS <- simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulation_data_summary_table_re = calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.SRSWOR.plots", "SamplingDesign", "Plots"), #
+	population.grouping.variables = "population",#
+	ovar			= ovar, #
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulation_data_summary_table_re
+simulation_data_summary_table_re
+head(sim_data_6_100_ACS)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# CONFIRM OLD MOTH EVIDENCE MEAN CALCULATED CORRECTLY#
+# manually calculated mean of Old Moth Evidence#
+patch_data_6 <- patch_data %>% filter(population==6) %>% filter(Stricta==1)#
+# function calculated mean#
+population_6 <- patch_data_summary_wide %>% filter(population==6)#
+# verify that the means are the same#
+mean(patch_data_6$Old_Moth_Evidence_Stricta) == population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+#
+# MANUALLY CALCULATE RE OF OLD MOTH EVIDENCE#
+#
+sim_data_6_100_ACS <- simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
 )#
 #
-# "Percent_Cover_Pusilla",#
-# "Height_Pusilla",#
-# )
+mean_MSE <- sum(#
+	(#
+		# observed#
+		sim_data_6_100_ACS$Old_Moth_Evidence_Stricta_ratio_mean_observed - #
+		# true#
+		population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+	)^2#
+)/dim(sim_data_6_100_ACS)[1] # n_sims#
+RE = (#
+	Old_Moth_Evidence_Stricta_ratio_var/mean(sim_data_6_100_ACS$N.Total.plots) *#
+	(1 - mean(sim_data_6_100_ACS$N.Total.plots)/900)#
+)#
+/	mean_MSE
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simdata_SRSWOR_only <- rbind.fill(#
-	sim.12Nov16, # sample sizes from RACS sampling#
-	sim.12Nov16_ACS # sample sizes from ACS sampling, NOT included in RACS#
-	)#
-simdata_SRSWOR_only %$% unique(Plots)#
-#simdata_SRSWOR_only %<>% dplyr::select(-Plots)#
-levels(simdata_SRSWOR_only$n.networks) <- c("5","10","15","20","30","40")#
-#-----------------------------------------------------------------------------##
-simdata <- rbind.fill(#
-	sim.6Apr16,#
-	sim.6Apr16.2,#
-	sim.6Apr16.3#
-) %>%#
-dplyr::select(-c(#
-	Percent_Cover_Pusilla_mean_observed,#
-	Percent_Cover_Stricta_mean_observed,#
-	Height_Pusilla_mean_observed,#
-	Height_Stricta_mean_observed,#
-	Percent_Cover_Pusilla_var_observed,#
-	Percent_Cover_Stricta_var_observed,#
-	Height_Pusilla_var_observed,   #
-	Height_Stricta_var_observed#
-)) %>%#
-rbind.fill(#
-	sim.27June16,#
-	sim.27June16_1,#
-	sim.27June16_2#
-) %>%#
-setnames("Restricted", "SamplingDesign")#
-unique(simdata$SamplingDesign)#
-simdata %<>% mutate(SamplingDesign="ACS")#
-#simdata %<>% filter(Plots == "Horvitz Thompson Mean (All Plots)") %>% dplyr::select(-Plots)#
-simdata$n.networks %<>% as.factor#
-#-----------------------------------------------------------------------------##
-simdata_restricted <- rbind.fill(	#
-	sim.5Apr16.RACS,#
-	sim.5Apr16.RACS.2,#
-	sim.5Apr16.RACS.3,#
-	sim.5Apr16.RACS.4,#
-	sim.5Apr16.RACS.5,#
-	sim.5Apr16.RACS.6,#
-	sim.5Apr16.RACS.7#
-) %>%#
-# I Removed these because I had calculated them incorrectly?#
-# remove height and percent cover since I did not calculate those correctly#
-dplyr::select(-c(#
-	Percent_Cover_Pusilla_mean_observed,#
-	Percent_Cover_Stricta_mean_observed,#
-	Height_Pusilla_mean_observed,#
-	Height_Stricta_mean_observed,#
-	Percent_Cover_Pusilla_var_observed,#
-	Percent_Cover_Stricta_var_observed,#
-	Height_Pusilla_var_observed,   #
-	Height_Stricta_var_observed#
-)) %>%#
-rbind.fill(#
-	sim.16June16, #
-	sim.16June16.2, #
-	sim.16June16.3,#
-	sim.16June16.4,#
-	sim.16June16.5#
-) %>%#
-setnames("Restricted", "SamplingDesign")#
-unique(simdata_restricted$SamplingDesign)#
-simdata_restricted %<>% mutate(SamplingDesign="RACS")#
-#simdata_restricted %<>% filter(Plots == "Horvitz Thompson Mean (All Plots)") %>% dplyr::select(-Plots)#
-simdata_restricted$n.networks %<>% as.factor
+(#
+	population_6$Old_Moth_Evidence_Stricta_ratio_var/mean(sim_data_6_100_ACS$N.Total.plots) *#
+	(1 - mean(sim_data_6_100_ACS$N.Total.plots)/900)#
+)#
+/	mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+(#
+	population_6$Old_Moth_Evidence_Stricta_ratio_var/mean(sim_data_6_100_ACS$N.Total.plots) *#
+	(1 - mean(sim_data_6_100_ACS$N.Total.plots)/900)#
+) /	mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.SRSWOR.plots", "SamplingDesign", "Plots"), #
+	population.grouping.variables = "population",#
+	ovar			= ovar, #
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+mean(sim_data_6_100_ACS$N.Total.plots)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+RE_values <- calculateRE(#
+	population_data = patch_data_6,#
+	MSE_ComparisonSamplingDesign = example_bias,#
+	population.grouping.variables = "population",#
+	sample.size.variable = "N.Total.plots_mean",#
+	ovar = ovar,#
+	rvar = "Old_Moth_Evidence_Stricta"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+example_bias = calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.SRSWOR.plots", "SamplingDesign", "Plots"), #
+	population.grouping.variables = "population",#
+	ovar			= ovar, #
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)#
+RE_values <- calculateRE(#
+	population_data = patch_data_6,#
+	MSE_ComparisonSamplingDesign = example_bias,#
+	population.grouping.variables = "population",#
+	sample.size.variable = "N.Total.plots_mean",#
+	ovar = ovar,#
+	rvar = "Old_Moth_Evidence_Stricta"#
+)
+head(example_bias)
+names(example_bias)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# CONFIRM OLD MOTH EVIDENCE MEAN CALCULATED CORRECTLY#
+# manually calculated mean of Old Moth Evidence#
+patch_data_6 <- patch_data %>% filter(population==6) %>% filter(Stricta==1)#
+# function calculated mean#
+population_6 <- patch_data_summary_wide %>% filter(population==6)#
+# verify that the means are the same#
+mean(patch_data_6$Old_Moth_Evidence_Stricta) == population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+#
+# MANUALLY CALCULATE RE OF OLD MOTH EVIDENCE#
+#
+sim_data_6_100_ACS <- simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
+)
+names(sim_data_6_100_ACS)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+example_bias = calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.SRSWOR.plots", "SamplingDesign", "Plots"), #
+	population.grouping.variables = "population",#
+	ovar			= ovar, #
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)#
+RE_values <- calculateRE(
+)
+head(example_bias)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+RE_values <- calculateRE(#
+	population_data = patch_data_6,#
+	MSE_ComparisonSamplingDesign = example_bias,#
+	population.grouping.variables = "population",#
+	sample.size.variable = "N.Total.plots_mean",#
+	ovar = ovar,#
+	rvar = "Old_Moth_Evidence_Stricta"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulation_data_summary_table_re = calculateSamplingBias(#
+	population_data_summary	= patch_data_summary_wide, #
+	simulation_data		= simdata_all_re, #
+	sampling.grouping.variables	= sampling.grouping.variables, #
+	population.grouping.variables = population.grouping.variables,#
+	ovar			= ovar, #
+	rvar				= rvar#
+)#
+RE_values <- calculateRE(#
+	population_data = patch_data,#
+	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,#
+	population.grouping.variables = "population",#
+	sample.size.variable = "N.Total.plots_mean",#
+	ovar = ovar,#
+	rvar = rvar#
+)
+5/365
+5/365*100
+11.49/3
+14/120
+14/365
+14*3/365
+18/365
+300/365
+3.83*3
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+simulation_data_summary_table_new_y_HT_re <- calculateSamplingBias(#
+	population_data_summary	= patch_data_summary_wide, #
+	simulation_data		= simdata_new_yHT_re, #
+	sampling.grouping.variables	= sampling.grouping.variables, #
+	population.grouping.variables = population.grouping.variables,#
+	ovar				= ovar, #
+	rvar				= rvar#
+)#
+#
+RE_values <- calculateRE(#
+	population_data = patch_data,#
+	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
+	population.grouping.variables = "population",#
+	sample.size.variable = "N.Total.plots_mean",#
+	rvar = rvar,#
+	ovar = ovar#
+)
+head(simulation_data_summary_table_new_y_HT_re)
+population.grouping.variables
+sampling.grouping.variables
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+example_bias = calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.Total.plots_mean" "N.SRSWOR.plots"     "SamplingDesign"), #
+	population.grouping.variables = "population",#
+	ovar			= ovar, #
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)#
+RE_values <- calculateRE(#
+	population_data = patch_data_6,#
+	MSE_ComparisonSamplingDesign = example_bias,#
+	population.grouping.variables = "population",#
+	sample.size.variable = "N.Total.plots_mean",#
+	ovar = ovar,#
+	rvar = "Old_Moth_Evidence_Stricta"#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+example_bias = calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.Total.plots_mean", "N.SRSWOR.plots",     "SamplingDesign"), #
+	population.grouping.variables = "population",#
+	ovar			= ovar, #
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)#
+RE_values <- calculateRE(#
+	population_data = patch_data_6,#
+	MSE_ComparisonSamplingDesign = example_bias,#
+	population.grouping.variables = "population",#
+	sample.size.variable = "N.Total.plots_mean",#
+	ovar = ovar,#
+	rvar = "Old_Moth_Evidence_Stricta"#
+)
+RE_values
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# CONFIRM OLD MOTH EVIDENCE MEAN CALCULATED CORRECTLY#
+# manually calculated mean of Old Moth Evidence#
+patch_data_6 <- patch_data %>% filter(population==6) %>% filter(Stricta==1)#
+# function calculated mean#
+population_6 <- patch_data_summary_wide %>% filter(population==6)#
+# verify that the means are the same#
+mean(patch_data_6$Old_Moth_Evidence_Stricta) == population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+#
+# MANUALLY CALCULATE RE OF OLD MOTH EVIDENCE#
+#
+sim_data_6_100_ACS <- simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
+)#
+#
+mean_MSE <- sum(#
+	(#
+		# observed#
+		sim_data_6_100_ACS$Old_Moth_Evidence_Stricta_ratio_mean_observed - #
+		# true#
+		population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+	)^2#
+)/dim(sim_data_6_100_ACS)[1] # n_sims
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+(#
+	population_6$Old_Moth_Evidence_Stricta_ratio_var/mean(sim_data_6_100_ACS$N.Total.plots) *#
+	(1 - mean(sim_data_6_100_ACS$N.Total.plots)/900)#
+) /	mean_MSE
+example_bias
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+example_bias
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+(#
+	population_6$Old_Moth_Evidence_Stricta_ratio_var/example_bias$N.Total.plots_mean *#
+	(1 - example_bias$N.Total.plots_mean/900)#
+) /	mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+MSE_ComparisonSamplingDesign = example_bias
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+population_data = patch_data_6
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+MSE_ComparisonSamplingDesign = example_bias,#
+	population.grouping.variables = "population"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+sample.size.variable = "N.Total.plots_mean"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+rvar = "Old_Moth_Evidence_Stricta"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X <- NULL#
+	X <- MSE_ComparisonSamplingDesign#
+	if (sample.size.variable %in% names(X)) {#
+		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dimensions <- population_data %>% #
+		group_by_(.dots=population.grouping.variables) %>%#
+		summarise(N = n())#
+	# variances of populations#
+	if (!is.null(ovar)) {#
+		variances <- population_data %>% #
+			dplyr::select_(.dots=c(#
+				population.grouping.variables,#
+				ovar,#
+				rvar#
+			)) %>%#
+			group_by_(.dots=population.grouping.variables) %>% #
+			summarise_all(funs(var(., na.rm=T)))#
+		setnames(#
+			variances,#
+			names(variances)[#
+				(length(population.grouping.variables) + 1):#
+				length(names(variances))#
+			], #
+			paste(names(variances)[#
+					(length(population.grouping.variables) + 1):#
+					length(names(variances))#
+				],#
+				"var",#
+				sep="_"#
+			)#
+		)	#
+	}#
+	if (!is.null(rvar)) {#
+		# should I only calculate this using samples that included at least one unit with cactus species?#
+		variances_ratio <- population_data %>% #
+			filter(Stricta==1) %>%#
+			dplyr::select_(.dots=c(#
+				population.grouping.variables,#
+				rvar#
+			)) %>%#
+			group_by_(.dots=population.grouping.variables) %>% #
+			summarise_all(funs(var(., na.rm=T)))#
+		setnames(#
+			variances_ratio,#
+			names(variances_ratio)[#
+				(length(population.grouping.variables) + 1):#
+				length(names(variances_ratio))#
+			], #
+			paste(names(variances_ratio)[#
+					(length(population.grouping.variables) + 1):#
+					length(names(variances_ratio))#
+				],#
+				"ratio_var",#
+				sep="_"#
+			)#
+		)	#
+	}#
+	Y <- X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
+	))#
+	# calculate var_y_bar#
+	if (!is.null(rvar) & is.null(ovar)) {#
+		Y %<>% #
+			merge(dimensions, by=population.grouping.variables) %>%#
+			merge(variances_ratio, by=population.grouping.variables)#
+	}#
+	if (is.null(rvar) & !is.null(ovar)) {#
+		Y %<>% #
+			merge(dimensions, by=population.grouping.variables) %>%#
+			merge(variances, by=population.grouping.variables)#
+	}#
+	if (!is.null(rvar) & !is.null(ovar)) {#
+		Y %<>% #
+			merge(dimensions, by=population.grouping.variables) %>%#
+			merge(variances, by=population.grouping.variables) %>%#
+			merge(variances_ratio, by=population.grouping.variables)#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A <- Y %>% #
+		dplyr::select(-one_of(paste(ovar, "_var", sep=""))) %>%#
+		dplyr::select(-one_of(paste(rvar, "_ratio_var", sep=""))) %>%#
+		dplyr::select(-one_of(paste(rvar, "_var", sep="")))
+names(A)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+B <- Y %>% #
+		dplyr::select(-one_of(#
+			paste(ovar, "_mean_MSE", sep=""),#
+			paste(rvar, "_ratio_mean_MSE", sep=""),		#
+			paste(rvar, "_var", sep="")		#
+		))
+names(B)
+population_6
+dim(B)
+B
+population_6
+names(patch_data_summary_wide)
+str(patch_data_summary)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+patch_data_summary[[2]] %>%#
+	dplyr::select(Var, variable, population) %>%#
+	rowwise() %>%#
+	mutate(#
+		variable = replace(#
+			variable,#
+			which(variable %in% rvar),#
+			paste(variable, "ratio", sep="_")#
+			)#
+	) %>%#
+	ungroup() %>%#
+	reshape2::dcast(., population ~ variable, value.var="Var")
+head(patch_data_summary[[2]] %>%#
+	dplyr::select(Var, variable, population))
+head(patch_data_summary_wide)
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
 population.grouping.variables	<- c("population")#
 sampling.grouping.variables <- c("N.SRSWOR.plots", "SamplingDesign", "Plots")#
@@ -275,2698 +504,522 @@ B <- patch_data_summary[[2]] %>%#
 	ungroup() %>%#
 	reshape2::dcast(., population ~ variable, value.var="Mean")#
 names(B)[2:10] <- paste(names(B)[2:10], "mean", sep="_")#
-patch_data_summary_wide <- merge(A, B)#
+patch_data_summary_wide <- merge(A, B) %>% mutate(N=900)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# CONFIRM OLD MOTH EVIDENCE MEAN CALCULATED CORRECTLY#
+# manually calculated mean of Old Moth Evidence#
+patch_data_6 <- patch_data %>% filter(population==6) %>% filter(Stricta==1)#
+# function calculated mean#
+population_6 <- patch_data_summary_wide %>% filter(population==6)#
+# verify that the means are the same#
+mean(patch_data_6$Old_Moth_Evidence_Stricta) == population_6$Old_Moth_Evidence_Stricta_ratio_mean#
 #
-# -----------------------------------------------------------------------------##
-# Simulations testing biased-ness of insects variables NOT using ratio estimator#
-# -----------------------------------------------------------------------------##
+# MANUALLY CALCULATE RE OF OLD MOTH EVIDENCE#
 #
-# simdatainsect_denom <- rbind.fill(#
-# 	simulation_data_25Jan17_RACS, #
-# 	simulation_data_30Jan17_ACS#
-# )#
-# simdata %<>% setnames("n.networks", "population")#
-# simdata$population %<>% as.factor()#
-# levels(simdata$population) <- 1:6#
-# simulation_data_summary_table_original_insectdenom = calculateSamplingBias(#
-# 	population_data_summary	= patch_data_summary_wide, #
-# 	simulation_data		= simdata,#
-# 	sampling.grouping.variables	= sampling.grouping.variables, #
-# 	population.grouping.variables = "population",#
-# 	ovar			= c(ovar,rvar), #
-# 	rvar				= rvar#
-# )#
+sim_data_6_100_ACS <- simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
+)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+mean_MSE <- sum(#
+	(#
+		# observed#
+		sim_data_6_100_ACS$Old_Moth_Evidence_Stricta_ratio_mean_observed - #
+		# true#
+		population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+	)^2#
+)/dim(sim_data_6_100_ACS)[1] # n_sims#
+RE = (#
+	population_6$Old_Moth_Evidence_Stricta_ratio_var/example_bias$N.Total.plots_mean *#
+	(1 - example_bias$N.Total.plots_mean/900)#
+) /	mean_MSE
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+population_data = population_6
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+MSE_ComparisonSamplingDesign = example_bias
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+population.grouping.variables = "population"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+sample.size.variable = "N.Total.plots_mean"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+rvar = "Old_Moth_Evidence_Stricta"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population.grouping.variables
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Y <- X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
+	))
+head(Y)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X <- NULL#
+	X <- MSE_ComparisonSamplingDesign#
+	if (sample.size.variable %in% names(X)) {#
+		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"#
+	}#
 #
-# simulation_data_summary_table_original_insectdenom %<>% filter(SamplingDesign=="RACS")#
+	Y <- X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
+	))
+head(Y)
+dim(Y)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+MSE_ComparisonSamplingDesign = example_bias
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+population_data = population_6
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+population.grouping.variables = "population"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+sample.size.variable = "N.Total.plots_mean"
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+rvar = "Old_Moth_Evidence_Stricta"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X <- NULL#
+	X <- MSE_ComparisonSamplingDesign#
+	if (sample.size.variable %in% names(X)) {#
+		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"#
+	}#
 #
-# -----------------------------------------------------------------------------##
-# Sampling Bias - original Y_HT formula#
-# -----------------------------------------------------------------------------##
-#
-simdata_all <- rbind.fill(#
-	simdata_restricted,#
-	simdata#
-)#
-#
-names(simdata_all)[#
-	which(names(simdata_all) %in% c(#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed"#
+	Y <- X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
+	))
+dim(Y)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Y %>% #
+		dplyr::select(-one_of(paste(ovar, "_var", sep=""))) %>%#
+		dplyr::select(-one_of(paste(rvar, "_ratio_var", sep=""))) %>%#
+		dplyr::select(-one_of(paste(rvar, "_var", sep=""))) %>%#
+		reshape2:::melt.data.frame(#
+			data=.,#
+			id.vars=c(#
+				population.grouping.variables,#
+				"N",#
+				"sample.size.variable"#
+			),#
+			value.name="mean_MSE"#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Y <- X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
 	))#
-] <- c(#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed"#
-)#
-#
-simdata_all %<>% setnames("n.networks", "population")#
-simdata_all$population %<>% as.factor()#
-levels(simdata_all$population) <- 1:6#
-simulation_data_summary_table_original_yHT = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-)#
-#
-simulation_data_summary_table_ACS <- simulation_data_summary_table_original_yHT %>% filter(SamplingDesign=="ACS")#
-#
-simulation_data_summary_table_RACS <- simulation_data_summary_table_original_yHT %>% filter(SamplingDesign=="RACS")#
-#
-# -----------------------------------------------------------------------------##
-# Sampling Bias - new Y_HT formula#
-# -----------------------------------------------------------------------------##
-#
-# sim.12Dec16_RACS_6 %>% mutate(m_threshold = 5) %>% filter(n.networks==5) %>% dim#
-sim.12Dec16_RACS_7 %<>% mutate(m_threshold = 8) %>% filter(n.networks==20)#
-#
-# new y_HT formula#
-simdata_new_yHT <- rbind.fill(#
-	sim.12Dec16_RACS_7, # only for m_threshold = 8, n.networks = 20 (pop 4), 2000 simulations#
-	sim.17Dec16_RACS,  # only for m_threshold = 7, n.networks = 10, 15, 30 (pops 2, 3, 5), 2000 simulations#
-	sim.17Dec16_RACS_2, # only for m_threshold = 5, n.networks = 5 (pop 1), 5000 simulations#
-	sim.18Dec16_RACS, # only for m_threshold = 9, n.networks = 40 (pop 6),#
-	sim_20Dec16_RACS, # only for m_threshold = 8, n.networks = 20 (pop 4), 3000 simulations#
-	sim_20Dec16_RACS_2,#
-	#sim_20Dec16_RACS_3,#
-	sim_20Dec16_RACS_4#
-)#
-simdata_new_yHT %<>% setnames("n.networks", "population")#
-simdata_new_yHT$population %<>% as.factor()#
-levels(simdata_new_yHT$population) <- 1:6#
-#
-names(simdata_new_yHT)[#
-	which(names(simdata_new_yHT) %in% c(#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed"#
-	))#
-] <- c(#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed"#
-)#
-simulation_data_summary_table_new_yHT = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT,#
-	sampling.grouping.variables	= c(sampling.grouping.variables, "m_threshold"), #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-) %>%#
-mutate(f_max = 2)#
-#
-simulation_data_summary_table_new_yHT %>%#
-group_by(population, m_threshold, N.SRSWOR.plots, Plots, f_max) %>%#
-summarise(n())#
-#
-simdata_new_yHT %>%#
-group_by(population, m_threshold, N.SRSWOR.plots, Plots) %>%#
-summarise(n()) %>%#
-filter(Plots=="Horvitz Thompson Mean (All Plots)")#
-# #### CORRECTED VARIANCE#
-#
-# mar2417_RACS %<>%#
-# setnames("realization_variable", "realization") %>%#
-# setnames("patch_variable", "n.networks")	#
-# mar2417_RACS %<>% setnames("n.networks", "population")#
-# mar2417_RACS$population %<>% as.factor()#
-# levels(mar2417_RACS$population) <- 1:6#
-#
-# simulation_data_summary_table_new_var_yHT = calculateSamplingBias(#
-# 	population_data_summary	= patch_data_summary_wide, #
-# 	simulation_data		= mar2417_RACS,#
-# 	sampling.grouping.variables	= c(sampling.grouping.variables, # "m_threshold"), #
-# 	population.grouping.variables = population.grouping.variables,#
-# 	variables			= ovar, #
-# 	rvar				= rvar#
-# ) %>%#
-# mutate(f_max = 2)#
-# -----------------------------------------------------------------------------##
-# Sampling Bias - new Y_HT formula, F_MAX = 1#
-# -----------------------------------------------------------------------------##
-#
-names(sim_24Dec16_RACS_2)[#
-	which(names(sim_24Dec16_RACS_2) %in% c(#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed"#
-	))#
-] <- c(#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed"#
-)#
-sim_24Dec16_RACS_2 %<>% setnames("n.networks", "population")#
-sim_24Dec16_RACS_2$population %<>% as.factor()#
-levels(sim_24Dec16_RACS_2$population) <- 1:6#
-#
-unique(sim_24Dec16_RACS_2$f_max)#
-simulation_data_summary_table_new_yHT_fmax_1 = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= sim_24Dec16_RACS_2,#
-	sampling.grouping.variables	= c(sampling.grouping.variables, "m_threshold"), #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-) %>%#
-mutate(f_max = 1)#
-#
-#simulation_data_summary_table_new_yHT_fmax_1 %>%#
-#	group_by(n.networks, m_threshold, N.SRSWOR.plots, Plots, f_max) %>%#
-#	summarise(n())#
-#
-# -----------------------------------------------------------------------------##
-# Sampling Bias - new Y_HT formula, F_MAX = 1, m_threshold = 4#
-# -----------------------------------------------------------------------------##
-#
-names(sim_24Dec16_RACS_3)[#
-	which(names(sim_24Dec16_RACS_3) %in% c(#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed"#
-	))#
-] <- c(#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed"#
-)#
-sim_24Dec16_RACS_3 %<>% setnames("n.networks", "population")#
-sim_24Dec16_RACS_3$population %<>% as.factor()#
-levels(sim_24Dec16_RACS_3$population) <- 1:6#
-#
-unique(sim_24Dec16_RACS_3$f_max)#
-#
-simulation_data_summary_table_new_yHT_fmax_1_4 = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= sim_24Dec16_RACS_3,#
-	sampling.grouping.variables	= c(sampling.grouping.variables, "m_threshold"), #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-) %>%#
-mutate(f_max = 1)#
-#
-simulation_data_summary_table_new_yHT_fmax_1_4 %>%#
-group_by(population, m_threshold, N.SRSWOR.plots, Plots, f_max) %>%#
-summarise(n())#
-setwd("/Users/KSauby/Documents/Projects/ACSampling_project")#
-	cache("simulation_data_summary_table_ACS")	#
-	cache("simulation_data_summary_table_RACS")	#
-	cache("simulation_data_summary_table_original_insectdenom")	#
-	cache("simulation_data_summary_table_new_y_HT_re")	#
-	cache("simulation_data_summary_table_new_yHT")#
-	cache("simulation_data_summary_table_new_yHT_fmax_1_4")#
-	cache("simulation_data_summary_table_new_yHT_fmax_1")#
-	cache("simulation_data_summary_table_re")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-# -----------------------------------------------------------------------------##
-# RELATIVE EFFICIENCY#
-# -----------------------------------------------------------------------------##
-temp <- simdata_all %>%#
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-	group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
+	Y$variable <- sub("*_mean_MSE", "", Y$variable)
+Y
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sub("*_mean_MSE", "", Y$variable)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
+	))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
 	)) %>%#
-	summarise(#
-		N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0)#
-	)#
-#
-simdata_all_re <- simdata_all %>% #
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-merge(#
-	temp, by=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)#
-)#
-#
-sampling.grouping.variables <- c("N.Total.plots_mean", "N.SRSWOR.plots", "SamplingDesign")#
-#
-# use ratio mean rather than regular mean#
-simulation_data_summary_table_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	variables			= ovar, #
-	rvar				= rvar#
-)#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	ovar = ovar,#
-	rvar = rvar#
-)#
-#
-simulation_data_summary_table_re %<>%#
-	merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)#
-# -----------------------------------------------------------------------------##
-# RELATIVE EFFICIENCY - F_max = 2, new y_HT#
-# -----------------------------------------------------------------------------##
-sampling.grouping.variables <- c("N.SRSWOR.plots", "SamplingDesign", "Plots")#
-#
-temp <- simdata_new_yHT %>%#
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-	group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)) %>%#
-	summarise(#
-		N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0)#
-	)#
-#
-simdata_new_yHT_re <- simdata_new_yHT %>% #
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-merge(#
-	temp, by=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)#
-)#
-#
-sampling.grouping.variables <- c("N.Total.plots_mean", "N.SRSWOR.plots", "SamplingDesign")#
-#
-# use ratio mean rather than regular mean#
-#
-simulation_data_summary_table_new_y_HT_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)#
-#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	rvar = rvar,#
-	ovar = ovar#
-)#
-#
-temp <- simulation_data_summary_table_new_y_HT_re %>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
+	reshape2:::melt.data.frame(#
+		data=.,#
+		id.vars=c(#
+			population.grouping.variables,#
+			"N",#
+			"sample.size.variable"#
+		),#
+		value.name="mean_MSE"#
 	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)#
-#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	rvar = rvar,#
-	ovar = ovar#
-)
-names(simulation_data_summary_table_new_y_HT_re)
-simulation_data_summary_table_new_y_HT_re %>% dplyr::select(population,N.Total.plots_mean) %>% head
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)
-simulation_data_summary_table_new_y_HT_re %>% dplyr::select(population,N.Total.plots_mean) %>% head
-RE_values %>% dplyr::select(population,N.Total.plots_mean) %>% head
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-temp <- simulation_data_summary_table_new_y_HT_re %>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)#
-#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	rvar = rvar,#
-	ovar = ovar#
-)#
-#
-temp <- simulation_data_summary_table_new_y_HT_re %>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-names(simulation_data_summary_table_new_y_HT_re)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-) %>%#
-setnames()#
-#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	rvar = rvar,#
-	ovar = ovar#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-temp <- simulation_data_summary_table_new_y_HT_re %>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)#
-#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	rvar = rvar,#
-	ovar = ovar#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re <- calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)#
-#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	rvar = rvar,#
-	ovar = ovar#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-temp <- simulation_data_summary_table_new_y_HT_re %>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-str(simulation_data_summary_table_new_y_HT_re)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-colnames(simulation_data_summary_table_new_y_HT_re)[names(simulation_data_summary_table_new_y_HT_re) == "sample.size.variable")] <- "N.Total.plots_mean"#
-temp <- simulation_data_summary_table_new_y_HT_re %>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-str(simulation_data_summary_table_new_y_HT_re)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-colnames(simulation_data_summary_table_new_y_HT_re)[names(simulation_data_summary_table_new_y_HT_re) == "sample.size.variable")] <- "N.Total.plots_mean"
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-colnames(simulation_data_summary_table_new_y_HT_re)[names(simulation_data_summary_table_new_y_HT_re) == "sample.size.variable")]
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-colnames(simulation_data_summary_table_new_y_HT_re)[names(simulation_data_summary_table_new_y_HT_re) == "sample.size.variable"] <- "N.Total.plots_mean"#
-temp <- simulation_data_summary_table_new_y_HT_re %>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_new_y_HT_re %<>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	n.networks,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("n.networks", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("N.Total.plots_mean", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("N.Total.plots_mean", "$E[\\nu]$")
-str(simulation_data_summary_table_re)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
 		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
+	)) %>%#
+	reshape2:::melt.data.frame(#
+		data=.,#
+		id.vars=c(#
+			population.grouping.variables,#
+			"sample.size.variable"#
+		),#
+		value.name="mean_MSE"#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			"sample.size.variable",#
+			paste(ovar, "_var", sep=""),#
+			paste(rvar, "_ratio_var", sep=""),#
+			"N"#
+		))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			paste(ovar, "_var", sep=""),#
+			paste(rvar, "_ratio_var", sep=""),#
+			"N"#
+		))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			paste(ovar, "_var", sep=""),#
+			paste(rvar, "_ratio_var", sep=""),#
+			"N"#
+		)) %>%			#
+		reshape2:::melt.data.frame(#
+			data=.,#
+			id.vars=c(#
+				population.grouping.variables,#
+				"N",#
+			),#
+			value.name="population_variance"#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			paste(ovar, "_var", sep=""),#
+			paste(rvar, "_ratio_var", sep=""),#
+			"N"#
+		)) %>%			#
+		reshape2:::melt.data.frame(#
+			data=.,#
+			id.vars=c(#
+				population.grouping.variables,#
+				"N"#
+			),#
+			value.name="population_variance"#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			paste(ovar, "_var", sep=""),#
+			paste(rvar, "_ratio_var", sep=""),#
+			"N"#
+		)) %>%			#
+		reshape2:::melt.data.frame(#
+			data=.,#
+			id.vars=c(#
+				population.grouping.variables,#
+				"N"#
+			),#
+			value.name="population_variance"#
+		)
+? reshape2:::melt.data.frame
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A <- X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
 		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-```{r n.racs.sim, echo=F,warning=F, message=F, fig.width=11, fig.height=12, eval=F}#
-#
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
 	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("N.Total.plots_mean", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6#
-#
-temp$Species %<>% as.factor	#
-levels(temp$Species) <- c(#
-	"a" = "Cactus", #
-	"b" = expression(paste(italic("O. pusilla"))), #
-	"c" = expression(paste(italic("O. stricta")))#
-)#
-#
-temp$Estimator <- "y_HT"#
-temp -> RE_original_y_HT#
-#
-# RE of new y_HT ------------------------------------------------------------- ##
-A <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	n.networks,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	n.networks,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	n.networks,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	n.networks,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("n.networks", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("N.Total.plots_mean", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6#
-#
-temp$Species %<>% as.factor	#
-levels(temp$Species) <- c(#
-	"a" = "Cactus", #
-	"b" = expression(paste(italic("O. pusilla"))), #
-	"c" = expression(paste(italic("O. stricta")))#
-)#
-#
-temp$Estimator <- "y_RACS_HT"#
-temp -> RE_new_y_HT#
-#
-RE_y_HT <- rbind.fill(#
-	RE_original_y_HT,#
-	RE_new_y_HT#
-)#
-RE_y_HT$Estimator %<>% as.factor#
-levels(RE_y_HT$Estimator) <- c(#
-	expression(y[HT]),#
-	expression(y["HT,RACS"])#
-)#
-#
-ggplot(#
-	RE_y_HT, #
-	aes(#
-		x 		= `$E[\\nu]$`, #
-		y 		= `RE$(T_{HT})$`		#
+	reshape2:::melt.data.frame(#
+		data=.,#
+		id.vars=c(#
+			population.grouping.variables,#
+			"sample.size.variable"#
+		),#
+		value.name="mean_MSE"#
 	)#
-) +#
-geom_hline(aes(yintercept=1)) +  #
-geom_point(#
-	aes(shape 	= factor(n1), #
-		colour 	= factor(Population)#
-		), #
-	size=6, #
-	na.rm=T#
-) +#
-stat_smooth(#
-	aes(#
-		linetype 	= factor(Population),#
-		colour=factor(Population)#
-	),#
-	method="lm", se=F, colour="black"#
-) + #
-facet_grid(Estimator+SamplingDesign~Species, labeller=label_parsed, scales="free_y") + #
-#scale_y_continuous(limits=c(0,10)) +#
-scale_shape_manual(values=c(12,16,17,15,3,8)) +#
-KEStheme() +#
-theme(#
-	panel.border = element_rect(colour = "black", fill=NA, #
-		size=3),#
-	panel.background = element_rect(linetype="solid", #
-		fill="white"),#
-	strip.text = element_text(face="bold", size=20),#
-	strip.background = element_rect(fill="white", #
-		colour="black", size=3),#
-	legend.position = "bottom"	#
-) +#
-guides(#
-	colour=guide_legend(title="Artificial Population", keywidth=4, nrow=3),#
-	linetype=guide_legend(title="Artificial Population", keywidth=4, nrow=3),#
-	shape=guide_legend(title="Primary Sample Size", keywidth=4, nrow=3)#
-) +#
-xlab("Mean Total Sample Size") +#
-ylab("Relative Efficiency Compared to SRSWOR")#
-#
-# Mary would rather have this be a table, it is too noisy with the lines.#
-```#
-#
-\noindent#
-![](/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/figures/n.racs.sim-1.pdf)#
-#
-\noindent `r figure_captions("relative_efficiency")` Relative efficiency of ACS and RACS compared to SRSWOR. Values greater than 1 indicate that the particular cluster sampling design is more efficient for that total sample size than SRSWOR.#
-#
-\newpage
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("sample.size.variable", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6#
-#
-temp$Species %<>% as.factor	#
-levels(temp$Species) <- c(#
-	"a" = "Cactus", #
-	"b" = expression(paste(italic("O. pusilla"))), #
-	"c" = expression(paste(italic("O. stricta")))#
-)#
-#
-temp$Estimator <- "y_HT"#
-temp -> RE_original_y_HT
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("sample.size.variable", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6#
-#
-temp$Species %<>% as.factor	#
-levels(temp$Species) <- c(#
-	"a" = "Cactus", #
-	"b" = expression(paste(italic("O. pusilla"))), #
-	"c" = expression(paste(italic("O. stricta")))#
-)#
-#
-temp$Estimator <- "y_HT"#
-temp -> RE_original_y_HT
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)
-names(simulation_data_summary_table_re)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-temp <- simdata_all %>%#
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-	group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)) %>%#
-	summarise(#
-		N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0)#
-	)#
-#
-simdata_all_re <- simdata_all %>% #
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-merge(#
-	temp, by=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)#
-)#
-#
-sampling.grouping.variables <- c("N.Total.plots_mean", "N.SRSWOR.plots", "SamplingDesign")#
-#
-# use ratio mean rather than regular mean#
-simulation_data_summary_table_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-)#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	ovar = ovar,#
-	rvar = rvar#
-)
-str(simdata_all)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population.grouping.variables	<- c("population")#
-sampling.grouping.variables <- c("N.SRSWOR.plots", "SamplingDesign", "Plots")#
-statistics 			<- c("mean", "var")#
-ratio.statistics	<- c("mean")#
-#
-# variance#
-A <- patch_data_summary[[2]] %>%#
-	dplyr::select(Var, variable, population) %>%#
-	rowwise() %>%#
-	mutate(#
-		variable = replace(#
-			variable,#
-			which(variable %in% rvar),#
-			paste(variable, "ratio", sep="_")#
+	A$variable <- sub("*_mean_MSE", "", A$variable)
+A
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+B <- population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			paste(ovar, "_var", sep=""),#
+			paste(rvar, "_ratio_var", sep=""),#
+			"N"#
+		)) %>%			#
+		reshape2:::melt.data.frame(#
+			data=.,#
+			id.vars=c(#
+				population.grouping.variables,#
+				"N"#
+			),#
+			value.name="population_variance"#
+		)	#
+		B$variable <- sub("*_var", "", B$variable)
+B
+A
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A %>%#
+		merge(#
+			B, #
+			by=c(#
+				population.grouping.variables, #
+				"variable"#
 			)#
-	) %>%#
-	ungroup() %>%#
-	reshape2::dcast(., population ~ variable, value.var="Var")#
-names(A)[2:10] <- paste(names(A)[2:10], "var", sep="_")#
-# mean#
-B <- patch_data_summary[[2]] %>%#
-	dplyr::select(Mean, variable, population) %>%#
-	rowwise() %>%#
-	mutate(#
-		variable = replace(#
-			variable,#
-			which(variable %in% rvar),#
-			paste(variable, "ratio", sep="_")#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z %<>% mutate(#
+		RE = (#
+			population_variance/sample.size.variable *#
+			(1 - sample.size.variable/N)#
+		)#
+		/	mean_MSE#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z <- A %>%#
+		merge(#
+			B, #
+			by=c(#
+				population.grouping.variables, #
+				"variable"#
 			)#
-	) %>%#
-	ungroup() %>%#
-	reshape2::dcast(., population ~ variable, value.var="Mean")#
-names(B)[2:10] <- paste(names(B)[2:10], "mean", sep="_")#
-patch_data_summary_wide <- merge(A, B)#
-#
-# -----------------------------------------------------------------------------##
-# Simulations testing biased-ness of insects variables NOT using ratio estimator#
-# -----------------------------------------------------------------------------##
-#
-# simdatainsect_denom <- rbind.fill(#
-# 	simulation_data_25Jan17_RACS, #
-# 	simulation_data_30Jan17_ACS#
-# )#
-# simdata %<>% setnames("n.networks", "population")#
-# simdata$population %<>% as.factor()#
-# levels(simdata$population) <- 1:6#
-# simulation_data_summary_table_original_insectdenom = calculateSamplingBias(#
-# 	population_data_summary	= patch_data_summary_wide, #
-# 	simulation_data		= simdata,#
-# 	sampling.grouping.variables	= sampling.grouping.variables, #
-# 	population.grouping.variables = "population",#
-# 	ovar			= c(ovar,rvar), #
-# 	rvar				= rvar#
-# )#
-#
-# simulation_data_summary_table_original_insectdenom %<>% filter(SamplingDesign=="RACS")#
-#
-# -----------------------------------------------------------------------------##
-# Sampling Bias - original Y_HT formula#
-# -----------------------------------------------------------------------------##
-#
-simdata_all <- rbind.fill(#
-	simdata_restricted,#
-	simdata#
-)#
-#
-names(simdata_all)[#
-	which(names(simdata_all) %in% c(#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed"#
-	))#
-] <- c(#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed"#
-)#
-#
-simdata_all %<>% setnames("n.networks", "population")#
-simdata_all$population %<>% as.factor()#
-levels(simdata_all$population) <- 1:6#
-simulation_data_summary_table_original_yHT = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-)#
-#
-simulation_data_summary_table_ACS <- simulation_data_summary_table_original_yHT %>% filter(SamplingDesign=="ACS")#
-#
-simulation_data_summary_table_RACS <- simulation_data_summary_table_original_yHT %>% filter(SamplingDesign=="RACS")#
-#
-# -----------------------------------------------------------------------------##
-# Sampling Bias - new Y_HT formula#
-# -----------------------------------------------------------------------------##
-#
-# sim.12Dec16_RACS_6 %>% mutate(m_threshold = 5) %>% filter(n.networks==5) %>% dim#
-sim.12Dec16_RACS_7 %<>% mutate(m_threshold = 8) %>% filter(n.networks==20)#
-#
-# new y_HT formula#
-simdata_new_yHT <- rbind.fill(#
-	sim.12Dec16_RACS_7, # only for m_threshold = 8, n.networks = 20 (pop 4), 2000 simulations#
-	sim.17Dec16_RACS,  # only for m_threshold = 7, n.networks = 10, 15, 30 (pops 2, 3, 5), 2000 simulations#
-	sim.17Dec16_RACS_2, # only for m_threshold = 5, n.networks = 5 (pop 1), 5000 simulations#
-	sim.18Dec16_RACS, # only for m_threshold = 9, n.networks = 40 (pop 6),#
-	sim_20Dec16_RACS, # only for m_threshold = 8, n.networks = 20 (pop 4), 3000 simulations#
-	sim_20Dec16_RACS_2,#
-	#sim_20Dec16_RACS_3,#
-	sim_20Dec16_RACS_4#
-)#
-simdata_new_yHT %<>% setnames("n.networks", "population")#
-simdata_new_yHT$population %<>% as.factor()#
-levels(simdata_new_yHT$population) <- 1:6#
-#
-names(simdata_new_yHT)[#
-	which(names(simdata_new_yHT) %in% c(#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed"#
-	))#
-] <- c(#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed"#
-)#
-simulation_data_summary_table_new_yHT = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT,#
-	sampling.grouping.variables	= c(sampling.grouping.variables, "m_threshold"), #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-) %>%#
-mutate(f_max = 2)#
-#
-simulation_data_summary_table_new_yHT %>%#
-group_by(population, m_threshold, N.SRSWOR.plots, Plots, f_max) %>%#
-summarise(n())#
-#
-simdata_new_yHT %>%#
-group_by(population, m_threshold, N.SRSWOR.plots, Plots) %>%#
-summarise(n()) %>%#
-filter(Plots=="Horvitz Thompson Mean (All Plots)")#
-# #### CORRECTED VARIANCE#
-#
-# mar2417_RACS %<>%#
-# setnames("realization_variable", "realization") %>%#
-# setnames("patch_variable", "n.networks")	#
-# mar2417_RACS %<>% setnames("n.networks", "population")#
-# mar2417_RACS$population %<>% as.factor()#
-# levels(mar2417_RACS$population) <- 1:6#
-#
-# simulation_data_summary_table_new_var_yHT = calculateSamplingBias(#
-# 	population_data_summary	= patch_data_summary_wide, #
-# 	simulation_data		= mar2417_RACS,#
-# 	sampling.grouping.variables	= c(sampling.grouping.variables, # "m_threshold"), #
-# 	population.grouping.variables = population.grouping.variables,#
-# 	variables			= ovar, #
-# 	rvar				= rvar#
-# ) %>%#
-# mutate(f_max = 2)#
-# -----------------------------------------------------------------------------##
-# Sampling Bias - new Y_HT formula, F_MAX = 1#
-# -----------------------------------------------------------------------------##
-#
-names(sim_24Dec16_RACS_2)[#
-	which(names(sim_24Dec16_RACS_2) %in% c(#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed"#
-	))#
-] <- c(#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed"#
-)#
-sim_24Dec16_RACS_2 %<>% setnames("n.networks", "population")#
-sim_24Dec16_RACS_2$population %<>% as.factor()#
-levels(sim_24Dec16_RACS_2$population) <- 1:6#
-#
-unique(sim_24Dec16_RACS_2$f_max)#
-simulation_data_summary_table_new_yHT_fmax_1 = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= sim_24Dec16_RACS_2,#
-	sampling.grouping.variables	= c(sampling.grouping.variables, "m_threshold"), #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-) %>%#
-mutate(f_max = 1)#
-#
-#simulation_data_summary_table_new_yHT_fmax_1 %>%#
-#	group_by(n.networks, m_threshold, N.SRSWOR.plots, Plots, f_max) %>%#
-#	summarise(n())#
-#
-# -----------------------------------------------------------------------------##
-# Sampling Bias - new Y_HT formula, F_MAX = 1, m_threshold = 4#
-# -----------------------------------------------------------------------------##
-#
-names(sim_24Dec16_RACS_3)[#
-	which(names(sim_24Dec16_RACS_3) %in% c(#
-		"MEPR_on_Stricta_mean_observed",#
-		"MEPR_on_Stricta_var_observed",#
-		"CACA_on_Stricta_mean_observed",#
-		"CACA_on_Stricta_var_observed",#
-		"Percent_Cover_Stricta_mean_observed",    #
-		"Percent_Cover_Stricta_var_observed",#
-		"Height_Stricta_mean_observed",#
-		"Height_Stricta_var_observed",#
-		"Old_Moth_Evidence_Pusilla_mean_observed",#
-		"Old_Moth_Evidence_Pusilla_var_observed",#
-		"Old_Moth_Evidence_Stricta_mean_observed", 		"Old_Moth_Evidence_Stricta_var_observed"#
-	))#
-] <- c(#
-	"MEPR_on_Stricta_ratio_mean_observed",#
-	"MEPR_on_Stricta_ratio_var_observed",#
-	"CACA_on_Stricta_ratio_mean_observed",#
-	"CACA_on_Stricta_ratio_var_observed",#
-	"Percent_Cover_Stricta_ratio_mean_observed",    #
-	"Percent_Cover_Stricta_ratio_var_observed",#
-	"Height_Stricta_ratio_mean_observed",#
-	"Height_Stricta_ratio_var_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_mean_observed",#
-	"Old_Moth_Evidence_Pusilla_ratio_var_observed",#
-	"Old_Moth_Evidence_Stricta_ratio_mean_observed", 	"Old_Moth_Evidence_Stricta_ratio_var_observed"#
-)#
-sim_24Dec16_RACS_3 %<>% setnames("n.networks", "population")#
-sim_24Dec16_RACS_3$population %<>% as.factor()#
-levels(sim_24Dec16_RACS_3$population) <- 1:6#
-#
-unique(sim_24Dec16_RACS_3$f_max)#
-#
-simulation_data_summary_table_new_yHT_fmax_1_4 = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= sim_24Dec16_RACS_3,#
-	sampling.grouping.variables	= c(sampling.grouping.variables, "m_threshold"), #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar				= rvar#
-) %>%#
-mutate(f_max = 1)#
-#
-simulation_data_summary_table_new_yHT_fmax_1_4 %>%#
-group_by(population, m_threshold, N.SRSWOR.plots, Plots, f_max) %>%#
-summarise(n())#
-setwd("/Users/KSauby/Documents/Projects/ACSampling_project")#
-	cache("simulation_data_summary_table_ACS")	#
-	cache("simulation_data_summary_table_RACS")	#
-	cache("simulation_data_summary_table_original_insectdenom")	#
-	cache("simulation_data_summary_table_new_y_HT_re")	#
-	cache("simulation_data_summary_table_new_yHT")#
-	cache("simulation_data_summary_table_new_yHT_fmax_1_4")#
-	cache("simulation_data_summary_table_new_yHT_fmax_1")#
-	cache("simulation_data_summary_table_re")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-# -----------------------------------------------------------------------------##
-# RELATIVE EFFICIENCY#
-# -----------------------------------------------------------------------------##
-temp <- simdata_all %>%#
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-	group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
+		)#
+	# calculate efficiency#
+	Z %<>% mutate(#
+		RE = (#
+			population_variance/sample.size.variable *#
+			(1 - sample.size.variable/N)#
+		)#
+		/	mean_MSE#
+	)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z$variable <- paste(Z$variable, "_RE", sep="")
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z %<>%#
+	reshape2::dcast(#
+		list(#
+			c(population.grouping.variables, "N", "sample.size.variable"),#
+			c("variable")#
+		),#
+		value.var="RE"#
+		)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+colnames(Z)[names(Z) == "sample.size.variable"] <- sample.size.variable
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Calculate Relative Efficiency (RE)#
+#' #
+#' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.#
+#' @param MSE_BaselineSamplingDesign The sampling design to which the "comparison sampling design" is compared to and its efficiency, relative to this one, is calculated.#
+#' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).#
+#' @return Dataframe including original data and RE estimates.#
+#' @export#
+# dimensions of populations#
+# dimensions <- population_data %>% #
+#	group_by_(.dots=population.grouping.variables) %>%#
+#	summarise(N = n())#
+# variances of populations#
+if (!is.null(ovar)) {#
+	variances <- population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			ovar,#
+			rvar#
+		)) %>%#
+		group_by_(.dots=population.grouping.variables) %>% #
+		summarise_all(funs(var(., na.rm=T)))#
+	setnames(#
+		variances,#
+		names(variances)[#
+			(length(population.grouping.variables) + 1):#
+			length(names(variances))#
+		], #
+		paste(names(variances)[#
+				(length(population.grouping.variables) + 1):#
+				length(names(variances))#
+			],#
+			"var",#
+			sep="_"#
+		)#
+	)	#
+}#
+if (!is.null(rvar)) {#
+	# should I only calculate this using samples that included at least one unit with cactus species?#
+	variances_ratio <- population_data %>% #
+		filter(Stricta==1) %>%#
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			rvar#
+		)) %>%#
+		group_by_(.dots=population.grouping.variables) %>% #
+		summarise_all(funs(var(., na.rm=T)))#
+	setnames(#
+		variances_ratio,#
+		names(variances_ratio)[#
+			(length(population.grouping.variables) + 1):#
+			length(names(variances_ratio))#
+		], #
+		paste(names(variances_ratio)[#
+				(length(population.grouping.variables) + 1):#
+				length(names(variances_ratio))#
+			],#
+			"ratio_var",#
+			sep="_"#
+		)#
+	)	#
+}#
+# calculate var_y_bar#
+if (!is.null(rvar) & is.null(ovar)) {#
+	Y %<>% #
+		merge(dimensions, by=population.grouping.variables) %>%#
+		merge(variances_ratio, by=population.grouping.variables)#
+}#
+if (is.null(rvar) & !is.null(ovar)) {#
+	Y %<>% #
+		merge(dimensions, by=population.grouping.variables) %>%#
+		merge(variances, by=population.grouping.variables)#
+}#
+if (!is.null(rvar) & !is.null(ovar)) {#
+	Y %<>% #
+		merge(dimensions, by=population.grouping.variables) %>%#
+		merge(variances, by=population.grouping.variables) %>%#
+		merge(variances_ratio, by=population.grouping.variables)#
+}#
+calculateRE <- function(#
+	MSE_ComparisonSamplingDesign,#
+	population_data,#
+	population.grouping.variables,#
+	sample.size.variable,#
+	rvar,#
+	ovar#
+) {	#
+	X <- NULL#
+	X <- MSE_ComparisonSamplingDesign#
+	if (sample.size.variable %in% names(X)) {#
+		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"#
+	}#
+	# "long" format of mean MSE#
+	A <- X %>% dplyr::select_(.dots=c(#
+		population.grouping.variables,#
+		"sample.size.variable",#
+		paste(ovar, "_mean_MSE", sep=""),#
+		paste(rvar, "_ratio_mean_MSE", sep="")		#
 	)) %>%#
-	summarise(#
-		N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0)#
+	reshape2:::melt.data.frame(#
+		data=.,#
+		id.vars=c(#
+			population.grouping.variables,#
+			"sample.size.variable"#
+		),#
+		value.name="mean_MSE"#
 	)#
+	A$variable <- sub("*_mean_MSE", "", A$variable)#
+	# "long" format of population variance#
+	B <- population_data %>% #
+		dplyr::select_(.dots=c(#
+			population.grouping.variables,#
+			paste(ovar, "_var", sep=""),#
+			paste(rvar, "_ratio_var", sep=""),#
+			"N"#
+		)) %>%			#
+		reshape2:::melt.data.frame(#
+			data=.,#
+			id.vars=c(#
+				population.grouping.variables,#
+				"N"#
+			),#
+			value.name="population_variance"#
+		)	#
+	B$variable <- sub("*_var", "", B$variable)#
+	# merge together#
+	Z <- A %>%#
+		merge(#
+			B, #
+			by=c(#
+				population.grouping.variables, #
+				"variable"#
+			)#
+		)#
+	# calculate efficiency#
+	Z %<>% mutate(#
+		RE = (#
+			population_variance/sample.size.variable *#
+			(1 - sample.size.variable/N)#
+		)#
+		/	mean_MSE#
+	)#
+	Z$variable <- paste(Z$variable, "_RE", sep="")#
+	Z %<>%#
+	reshape2::dcast(#
+		list(#
+			c(population.grouping.variables, "N", "sample.size.variable"),#
+			c("variable")#
+		),#
+		value.var="RE"#
+		)#
+	colnames(Z)[names(Z) == "sample.size.variable"] <- sample.size.variable#
+	return(Z)#
+}
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+# CONFIRM OLD MOTH EVIDENCE MEAN CALCULATED CORRECTLY#
+# manually calculated mean of Old Moth Evidence#
+patch_data_6 <- patch_data %>% filter(population==6) %>% filter(Stricta==1)#
+# function calculated mean#
+population_6 <- patch_data_summary_wide %>% filter(population==6)#
+# verify that the means are the same#
+mean(patch_data_6$Old_Moth_Evidence_Stricta) == population_6$Old_Moth_Evidence_Stricta_ratio_mean#
 #
-simdata_all_re <- simdata_all %>% #
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-merge(#
-	temp, by=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)#
+# MANUALLY CALCULATE RE OF OLD MOTH EVIDENCE#
+#
+sim_data_6_100_ACS <- simdata_all_re %>% filter(#
+	population==6, #
+	SamplingDesign=="ACS", #
+	N.SRSWOR.plots==100,#
+	Stricta_mean_observed > 0#
 )#
 #
-sampling.grouping.variables <- c("N.Total.plots_mean", "N.SRSWOR.plots", "SamplingDesign")#
+mean_MSE <- sum(#
+	(#
+		# observed#
+		sim_data_6_100_ACS$Old_Moth_Evidence_Stricta_ratio_mean_observed - #
+		# true#
+		population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+	)^2#
+)/dim(sim_data_6_100_ACS)[1] # n_sims#
+RE = (#
+	population_6$Old_Moth_Evidence_Stricta_ratio_var/example_bias$N.Total.plots_mean *#
+	(1 - example_bias$N.Total.plots_mean/900)#
+) /	mean_MSE#
 #
-# use ratio mean rather than regular mean#
-simulation_data_summary_table_re = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
+# need sample size in population_6#
+example_bias = calculateSamplingBias(#
+	population_data_summary	= population_6, #
+	simulation_data		= sim_data_6_100_ACS, #
+	sampling.grouping.variables	= c("N.Total.plots_mean", "N.SRSWOR.plots",     "SamplingDesign"), #
+	population.grouping.variables = "population",#
 	ovar			= ovar, #
-	rvar				= rvar#
-)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+	rvar				= "Old_Moth_Evidence_Stricta"#
+)#
 RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,#
+	population_data = population_6,#
+	MSE_ComparisonSamplingDesign = example_bias,#
 	population.grouping.variables = "population",#
 	sample.size.variable = "N.Total.plots_mean",#
 	ovar = ovar,#
-	rvar = rvar#
-)#
-#
-simulation_data_summary_table_re %<>%#
-	merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-colnames(simulation_data_summary_table_re)[names(simulation_data_summary_table_re) == "sample.size.variable"] <- "N.Total.plots_mean"#
-simulation_data_summary_table_re %<>%#
-	merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-# -----------------------------------------------------------------------------##
-# RELATIVE EFFICIENCY - F_max = 2, new y_HT#
-# -----------------------------------------------------------------------------##
-sampling.grouping.variables <- c("N.SRSWOR.plots", "SamplingDesign", "Plots")#
-#
-temp <- simdata_new_yHT %>%#
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-	group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)) %>%#
-	summarise(#
-		N.Total.plots_mean = round(mean(N.Total.plots, na.rm=T),0)#
-	)#
-#
-simdata_new_yHT_re <- simdata_new_yHT %>% #
-filter(Plots=="Horvitz Thompson Mean (All Plots)") %>%#
-merge(#
-	temp, by=c(#
-		population.grouping.variables, #
-		sampling.grouping.variables#
-	)#
-)#
-#
-sampling.grouping.variables <- c("N.Total.plots_mean", "N.SRSWOR.plots", "SamplingDesign")#
-#
-# use ratio mean rather than regular mean#
-#
-simulation_data_summary_table_new_y_HT_re <- calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_new_yHT_re, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar				= ovar, #
-	rvar				= rvar#
-)#
-#
-RE_values <- calculateRE(#
-	population_data = patch_data,#
-	MSE_ComparisonSamplingDesign = simulation_data_summary_table_new_y_HT_re,#
-	population.grouping.variables = "population",#
-	sample.size.variable = "N.Total.plots_mean",#
-	rvar = rvar,#
-	ovar = ovar#
-)#
-#
-colnames(simulation_data_summary_table_new_y_HT_re)[names(simulation_data_summary_table_new_y_HT_re) == "sample.size.variable"] <- "N.Total.plots_mean"#
-simulation_data_summary_table_new_y_HT_re %<>%#
-	base::merge(#
-		RE_values, #
-		by=c("population","N.Total.plots_mean")#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	sample.size.variable,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"sample.size.variable", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("sample.size.variable", "$E[\\nu]$")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("N.Total.plots_mean", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6#
-#
-temp$Species %<>% as.factor	#
-levels(temp$Species) <- c(#
-	"a" = "Cactus", #
-	"b" = expression(paste(italic("O. pusilla"))), #
-	"c" = expression(paste(italic("O. stricta")))#
-)#
-#
-temp$Estimator <- "y_HT"#
-temp -> RE_original_y_HT#
-#
-# RE of new y_HT ------------------------------------------------------------- ##
-A <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	n.networks,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"n.networks",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
-A <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("N.Total.plots_mean", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6#
-#
-temp$Species %<>% as.factor	#
-levels(temp$Species) <- c(#
-	"a" = "Cactus", #
-	"b" = expression(paste(italic("O. pusilla"))), #
-	"c" = expression(paste(italic("O. stricta")))#
-)#
-#
-temp$Estimator <- "y_HT"#
-temp -> RE_original_y_HT#
-#
-# RE of new y_HT ------------------------------------------------------------- ##
-A <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_RB,#
-	Stricta_mean_RB,#
-	Pusilla_mean_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-A$Species <- sub("*_mean_RB", "", A$Species)#
-A$`RB$(T_{HT})$` %<>% round(2)#
-#
-B <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_mean_MSE,#
-	Stricta_mean_MSE,#
-	Pusilla_mean_MSE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "MSE",#
-	variable.name = "Species"#
-)#
-B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
-C <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_RE,#
-	Pusilla_RE,#
-	Stricta_RE#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RE$(T_{HT})$",#
-	variable.name = "Species"#
-)#
-C$Species <- sub("*_RE", "", C$Species)#
-C$`RE$(T_{HT})$` %<>% round(2)#
-#
-D <- simulation_data_summary_table_new_y_HT_re %>%#
-#filter(SamplingDesign=="ACS") %>%#
-dplyr::select(#
-	population,#
-	N.SRSWOR.plots,#
-	N.Total.plots_mean,#
-	SamplingDesign,#
-	Cactus_var_RB,#
-	Stricta_var_RB,#
-	Pusilla_var_RB#
-) %>%#
-reshape2:::melt.data.frame(#
-	id.vars=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean",#
-		"SamplingDesign"#
-	),#
-	value.name = "RB(var$(T_{HT})$)",#
-	variable.name = "Species"#
-)#
-D$Species <- sub("*_var_RB", "", D$Species)#
-D$`RB(var$(T_{HT})$)` %<>% round(2)#
-#
-temp <- A %>%#
-	merge(B, by=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(C, by=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>%#
-	merge(D, by=c(#
-		"population",#
-		"N.SRSWOR.plots",#
-		"N.Total.plots_mean", #
-		"Species",#
-		"SamplingDesign"#
-	)) %>% #
-	setnames("population", "Population") %>%#
-	setnames("N.SRSWOR.plots", "n1") %>%#
-	setnames("N.Total.plots_mean", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6#
-#
-temp$Species %<>% as.factor	#
-levels(temp$Species) <- c(#
-	"a" = "Cactus", #
-	"b" = expression(paste(italic("O. pusilla"))), #
-	"c" = expression(paste(italic("O. stricta")))#
-)#
-#
-temp$Estimator <- "y_RACS_HT"#
-temp -> RE_new_y_HT#
-#
-RE_y_HT <- rbind.fill(#
-	RE_original_y_HT,#
-	RE_new_y_HT#
+	rvar = "Old_Moth_Evidence_Stricta"#
 )
+RE_values
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
+RE
 setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-RE_y_HT$Estimator %<>% as.factor#
-levels(RE_y_HT$Estimator) <- c(#
-	expression(y[HT]),#
-	expression(y["HT,RACS"])#
-)#
-#
-ggplot(#
-	RE_y_HT, #
-	aes(#
-		x 		= `$E[\\nu]$`, #
-		y 		= `RE$(T_{HT})$`		#
-	)#
-) +#
-geom_hline(aes(yintercept=1)) +  #
-geom_point(#
-	aes(shape 	= factor(n1), #
-		colour 	= factor(Population)#
-		), #
-	size=6, #
-	na.rm=T#
-) +#
-stat_smooth(#
-	aes(#
-		linetype 	= factor(Population),#
-		colour=factor(Population)#
-	),#
-	method="lm", se=F, colour="black"#
-) + #
-facet_grid(Estimator+SamplingDesign~Species, labeller=label_parsed, scales="free_y") + #
-#scale_y_continuous(limits=c(0,10)) +#
-scale_shape_manual(values=c(12,16,17,15,3,8)) +#
-KEStheme() +#
-theme(#
-	panel.border = element_rect(colour = "black", fill=NA, #
-		size=3),#
-	panel.background = element_rect(linetype="solid", #
-		fill="white"),#
-	strip.text = element_text(face="bold", size=20),#
-	strip.background = element_rect(fill="white", #
-		colour="black", size=3),#
-	legend.position = "bottom"	#
-) +#
-guides(#
-	colour=guide_legend(title="Artificial Population", keywidth=4, nrow=3),#
-	linetype=guide_legend(title="Artificial Population", keywidth=4, nrow=3),#
-	shape=guide_legend(title="Primary Sample Size", keywidth=4, nrow=3)#
-) +#
-xlab("Mean Total Sample Size") +#
-ylab("Relative Efficiency Compared to SRSWOR")
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
-# ACS ------------------------------------------------------------------------ ##
 A <- simulation_data_summary_table_re %>%#
 #filter(SamplingDesign=="ACS") %>%#
 dplyr::select(#
@@ -2974,9 +1027,9 @@ dplyr::select(#
 	N.SRSWOR.plots,#
 	N.Total.plots_mean,#
 	SamplingDesign,#
-	CACA_on_Stricta_mean_RB,#
-	MEPR_on_Stricta_mean_RB,#
-	Old_Moth_Evidence_Stricta_mean_RB#
+	CACA_on_Stricta_ratio_mean_RB,#
+	MEPR_on_Stricta_ratio_mean_RB,#
+	Old_Moth_Evidence_Stricta_ratio_mean_RB#
 ) %>%#
 reshape2:::melt.data.frame(#
 	id.vars=c(#
@@ -2998,9 +1051,9 @@ dplyr::select(#
 	N.SRSWOR.plots,#
 	N.Total.plots_mean,#
 	SamplingDesign,#
-	CACA_on_Stricta_mean_MSE,#
-	MEPR_on_Stricta_mean_MSE,#
-	Old_Moth_Evidence_Stricta_mean_MSE#
+	CACA_on_Stricta_ratio_mean_MSE,#
+	MEPR_on_Stricta_ratio_mean_MSE,#
+	Old_Moth_Evidence_Stricta_ratio_mean_MSE#
 ) %>%#
 reshape2:::melt.data.frame(#
 	id.vars=c(#
@@ -3013,8 +1066,8 @@ reshape2:::melt.data.frame(#
 	variable.name = "Species"#
 )#
 B$Species <- sub("*_mean_MSE", "", B$Species)#
-B$`MSE` %<>% round(4)#
-#
+B$`MSE` %<>% round(4)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
 C <- simulation_data_summary_table_re %>%#
 #filter(SamplingDesign=="ACS") %>%#
 dplyr::select(#
@@ -3022,9 +1075,9 @@ dplyr::select(#
 	N.SRSWOR.plots,#
 	N.Total.plots_mean,#
 	SamplingDesign,#
-	CACA_on_Stricta_RE,#
-	Old_Moth_Evidence_Stricta_RE,#
-	MEPR_on_Stricta_RE#
+	CACA_on_Stricta_ratio_RE,#
+	Old_Moth_Evidence_Stricta_ratio_RE,#
+	MEPR_on_Stricta_ratio_RE#
 ) %>%#
 reshape2:::melt.data.frame(#
 	id.vars=c(#
@@ -3046,9 +1099,9 @@ dplyr::select(#
 	N.SRSWOR.plots,#
 	N.Total.plots_mean,#
 	SamplingDesign,#
-	CACA_on_Stricta_var_RB,#
-	MEPR_on_Stricta_var_RB,#
-	Old_Moth_Evidence_Stricta_var_RB#
+	CACA_on_Stricta_ratio_var_RB,#
+	MEPR_on_Stricta_ratio_var_RB,#
+	Old_Moth_Evidence_Stricta_ratio_var_RB#
 ) %>%#
 reshape2:::melt.data.frame(#
 	id.vars=c(#
@@ -3088,8 +1141,9 @@ temp <- A %>%#
 	setnames("population", "Population") %>%#
 	setnames("N.SRSWOR.plots", "n1") %>%#
 	setnames("N.Total.plots_mean", "$E[\\nu]$")#
-levels(temp$Population) <- 1:6
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+levels(temp$Population) <- 1:6#
+#
+# RACS#
 temp2 <- temp %>% #
 	arrange(Species, n1, Population) %>%#
 	filter(SamplingDesign=="RACS")#
@@ -3106,161 +1160,82 @@ temp3 <- temp %>% #
 Species <- temp3$Species#
 temp3 %<>% #
 	dplyr::select(-SamplingDesign) %>% #
-	split(Species)#
-```#
-#
-## Evaluation of RACS Using Estimates of the Presence of the Invasive Moth on *O. stricta*#
-#
-```{r echo=F, results="asis"}#
-row.names(temp2[[1]]) <- NULL#
-#
-X <- temp2[[1]] %>% dplyr::select(-Species)#
-#
-pandoc.table(X, split.tables=200)#
-```#
-\newpage#
-#
-## Evaluation of RACS Using Estimates of the Presence of the Native Moth on *O. stricta*#
-#
-```{r echo=F, results="asis"}#
-row.names(temp2[[2]]) <- NULL#
-# O. pusilla#
-X <- temp2[[2]] %>% dplyr::select(-Species)#
-#
-pandoc.table(X, split.tables=200)#
-```#
-\newpage#
-#
-## Evaluation of RACS Using Estimates of the Presence of Moth Damage on *O. stricta*#
-#
-```{r echo=F, results="asis"}#
-row.names(temp2[[3]]) <- NULL#
-# O. stricta#
-X <- temp2[[3]] %>% dplyr::select(-Species)#
-#
-pandoc.table(X, split.tables=200)#
-```#
-\newpage#
-#
-## Comparison with ACS#
-#
-In comparison, here are results evaluating the ACS design using my simulation sampling data. This is partly to verify that values are being calculated correctly.#
-#
-The RB(Variance) (relative bias of the variance) seems large here, considering this was done with ACS.#
-#
-### Evaluation of ACS Using Estimates of of the Presence of the Invasive Moth on *O. stricta*#
-#
-```{r echo=F, results="asis"}#
-row.names(temp3[[1]]) <- NULL#
-X <- temp3[[1]] %>% dplyr::select(-Species)#
-#
-emphasize.strong.rows(which(X$`RE$(T_{HT})$` >= 1))#
-pandoc.table(X, split.tables=200)#
-```#
-\newpage#
-#
-### Evaluation of ACS Using Estimates of the Presence of the Native Moth on *O. stricta*#
-#
-```{r echo=F, results="asis"}#
-row.names(temp3[[2]]) <- NULL#
-X <- temp3[[2]] %>%#
-	dplyr::select(-Species)#
-#
-emphasize.strong.rows(which(X$`RE$(T_{HT})$` >= 1))#
-pandoc.table(X, split.tables=200)#
-```#
-\newpage#
-#
-### Evaluation of ACS Using Estimates of the Presence of Moth Damage on *O. stricta*#
-#
-```{r echo=F, results="asis"}#
-row.names(temp3[[3]]) <- NULL#
-X <- temp3[[3]] %>%#
-	dplyr::select(-Species)#
-#
-emphasize.strong.rows(which(X$`RE$(T_{HT})$` >= 1))#
-pandoc.table(X, split.tables=200)#
-```#
-\newpage#
-#
-## Plot of Relative Efficiency of Estimates of Cactus Species Presence#
-#
-```{r echo=F, results="asis", echo=F, fig.width=10, fig.height=12, warnings=F}#
-#
-temp$Species %<>% as.factor#
-levels(temp$Species) =c(#
-	"a" = expression(atop("Invasive Moth on", italic("O. stricta"))),#
-	"b" = expression(atop("Native Moth on", italic("O. stricta"))),#
-	"c" = expression(atop("Moth Damage on", italic("O. stricta")))#
-)#
-#
-ggplot(#
-	temp, #
-	aes(#
-		x 		= `$E[\\nu]$`, #
-		y 		= `RE$(T_{HT})$`		#
-	)#
-) +#
-geom_hline(aes(yintercept=1)) +  #
-geom_point(#
-	aes(shape 	= factor(n1), #
-		colour 	= factor(Population)#
-		),#
-		size=6, #
-	na.rm=T#
-) +#
-stat_smooth(#
-	aes(#
-		linetype 	= factor(n1)#
+	split(Species)
+head(A)
+head(B)
+head(C)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript')
+A <- simulation_data_summary_table_re %>%#
+#filter(SamplingDesign=="ACS") %>%#
+dplyr::select(#
+	population,#
+	N.SRSWOR.plots,#
+	N.Total.plots_mean,#
+	SamplingDesign,#
+	CACA_on_Stricta_ratio_mean_RB,#
+	MEPR_on_Stricta_ratio_mean_RB,#
+	Old_Moth_Evidence_Stricta_ratio_mean_RB#
+) %>%#
+reshape2:::melt.data.frame(#
+	id.vars=c(#
+		"population",#
+		"N.SRSWOR.plots",#
+		"N.Total.plots_mean",#
+		"SamplingDesign"#
 	),#
-	method="lm", se=F, colour="black"#
-) + #
-facet_grid(SamplingDesign~Species, labeller=label_parsed, scales="free_y") + #
-#scale_y_continuous(limits=c(0,10)) +#
-scale_shape_manual(values=c(12,16,17,15,3,8)) +#
-KEStheme() +#
-theme(#
-	panel.border = element_rect(colour = "black", fill=NA, #
-		size=3),#
-	panel.background = element_rect(linetype="solid", #
-		fill="white"),#
-	strip.text = element_text(face="bold", size=20),#
-	strip.background = element_rect(fill="white", #
-		colour="black", size=3),#
-	legend.position = "bottom"	#
-) +#
-guides(#
-	colour=guide_legend(title="Artificial Population"),#
-	linetype=guide_legend(title="Primary Sample Size", keywidth=4),#
-	shape=guide_legend(title="Primary Sample Size", keywidth=4)#
-) +#
-xlab("Mean Total Sample Size") +#
-ylab("Relative Efficiency Compared to SRSWOR")
-2/365
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
-setwd('/Users/KSauby/Documents/Projects')
-setwd("./ACS")#
-#setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
+	value.name = "RB$(T_{HT})$",#
+	variable.name = "Species"#
+)#
+A$Species <- sub("*_mean_RB", "", A$Species)#
+A$`RB$(T_{HT})$` %<>% round(2)#
+#
+B <- simulation_data_summary_table_re %>%#
+#filter(SamplingDesign=="ACS") %>%#
+dplyr::select(#
+	population,#
+	N.SRSWOR.plots,#
+	N.Total.plots_mean,#
+	SamplingDesign,#
+	CACA_on_Stricta_ratio_mean_MSE,#
+	MEPR_on_Stricta_ratio_mean_MSE,#
+	Old_Moth_Evidence_Stricta_ratio_mean_MSE#
+) %>%#
+reshape2:::melt.data.frame(#
+	id.vars=c(#
+		"population",#
+		"N.SRSWOR.plots",#
+		"N.Total.plots_mean",#
+		"SamplingDesign"#
+	),#
+	value.name = "MSE",#
+	variable.name = "Species"#
+)#
+B$Species <- sub("*_mean_MSE", "", B$Species)#
+B$`MSE` %<>% round(4)#
+#
+C <- simulation_data_summary_table_re %>%#
+#filter(SamplingDesign=="ACS") %>%#
+dplyr::select(#
+	population,#
+	N.SRSWOR.plots,#
+	N.Total.plots_mean,#
+	SamplingDesign,#
+	CACA_on_Stricta_ratio_RE,#
+	Old_Moth_Evidence_Stricta_ratio_RE,#
+	MEPR_on_Stricta_ratio_RE#
+) %>%#
+reshape2:::melt.data.frame(#
+	id.vars=c(#
+		"population",#
+		"N.SRSWOR.plots",#
+		"N.Total.plots_mean",#
+		"SamplingDesign"#
+	),#
+	value.name = "RE$(T_{HT})$",#
+	variable.name = "Species"#
+)#
+C$Species <- sub("*_RE", "", C$Species)#
+C$`RE$(T_{HT})$` %<>% round(2)
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
