@@ -1,1703 +1,295 @@
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-ovar
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-rvar
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-# REALIZATION DATA#
-	x_start 		<- 1#
-	x_end 			<- 30#
-	y_start 		<- 1#
-	y_end 			<- 30#
-	n.networks 		<- c(5, 15, 10, 20, 30, 40)#
-	n.realizations 	<- 1#
-	SpeciesInfo 	<- PlotSurveys_season1#
-	buffer			<- 5#
-	start.seed		<- 1#
-	variables		<- ovar#
-	# CREATE REALIZATIONS#
-	patch_data <- createSpeciesPatchRealizations(#
-		x_start, #
-		x_end,#
-		y_start, #
-		y_end, #
-		buffer, #
-		n.networks, #
-		n.realizations, #
-		SpeciesInfo, #
-		start.seed,#
-		variables#
-	)#
-	colnames(patch_data)[names(patch_data) == "n.networks"] <- "population"#
-	patch_data$population %<>% as.factor()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-levels(patch_data$population)
-CactusRealizationSummary<- createCactusRealizationSummary(CactusRealizations)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Create Summary of Cactus Realization Data#
-#' #
-#' @return The data from Sauby and Christman.#
-#' #
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
-#' @export#
+library(rgeos)
+require(rgeos)
+library(rgeos)
+install.packages("rgdal", repos="http://R-Forge.R-project.org")#
+require(rgdal)
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
+ --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
+ --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
+library(lme3)
+library(lme4)
+300/241
+.244*30
+1.25*300
+1.25*240
+7*12
+7849-7527
+322/1353
+8028-7527
+501/1353
+8028-7957
+1353-501
+852/71
+7956-7878
+8176-8029
+8176-8092
+250*.75
+250*.25
+42*2 + 17*2
+118/19
+21/6.2
+59.5*.75
+59.5*.5 + 59.5
+71/12
+597/80
+597/8
+432/8
+15*8 + 9*3
+?seq_len
+7.25/3
+7.25/4
+for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
+install.packages("ProjectTemplate")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("data.table")
+install.packages("corrgram")
+install.packages("survival")
+install.packages("shapefiles")
+install.packages("rgdal")
+install.packages("PBSmapping")
+install.packages("sp")
+install.packages("gdistance")
+install.packages("chron")
+install.packages("unmarked")
+install.packages("lme4")
+install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
+require(rgeos)
+install.packages('rgdal',repos="http://www.stats.ox.ac.uk/pub/RWin")
+library(rgdal)
+install.packages("http://cran.r-project.org/src/contrib/rgdal_0.9-1.tar.gz", repos = NULL, type="source", configure.args = "--with-gdal-config=/Library/Frameworks/GDAL.framework/Versions/1.10/unix/bin/gdal-config --with-proj-include=/Library/Frameworks/PROJ.framework/unix/include --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib")
+18/1.618
+189+114
+library(lubridate)
+library(magrittr)
+seasons <- data.frame(#
+	   SE = as.POSIXct(c("2009-3-20", "2010-3-20", "2011-3-20", "2012-3-20", #
+            "2013-3-20", "2014-3-20"), format="%Y-%m-%d"),#
+	   SS = as.POSIXct(c("2009-6-21", "2010-6-21", "2011-6-21", "2012-6-20",#
+            "2013-6-20", "2014-6-20"), format="%Y-%m-%d"),#
+	   FE = as.POSIXct(c("2009-9-22", "2010-9-23", "2011-9-23", "2012-9-22",#
+            "2013-9-22", "2014-9-22"), format="%Y-%m-%d"),#
+	   WS = as.POSIXct(c("2009-12-21", "2010-12-21", "2011-12-22", "2012-12-21", #
+            "2013-12-21", "2014-12-21"), format="%Y-%m-%d")#
+    )#
 #
-createCactusRealizationSummary <- function() {#
-	calculatePopulationSummaryStatistics(#
-		population_data = CactusRealizations, #
-		summary.variables = c("Stricta", "Pusilla", "Cactus",#
-			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
-			"Height_Stricta", "Old_Moth_Evidence_Stricta"), #
-		population.grouping.variable = "population", #
-		ratio.variables = c("MEPR_on_Stricta", "CACA_on_Stricta", #
-			"Percent_Cover_Stricta", "Height_Stricta", #
-			"Old_Moth_Evidence_Stricta")#
-	)
-}
-CactusRealizationSummary<- createCactusRealizationSummary(CactusRealizations)
-CactusRealizationSummary<- createCactusRealizationSummary()
-head(CactusRealizationSummary)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Create Summary of Cactus Realization Data#
-#' #
-#' @return The data from Sauby and Christman.#
-#' #
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
-#' @export#
-#
-createCactusRealizationSummary <- function(CactusRealizations) {#
-	calculatePopulationSummaryStatistics(#
-		population_data = CactusRealizations, #
-		summary.variables = c("Stricta", "Pusilla", "Cactus",#
-			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
-			"Height_Stricta", "Old_Moth_Evidence_Stricta"), #
-		population.grouping.variable = "population", #
-		ratio.variables = c("MEPR_on_Stricta", "CACA_on_Stricta", #
-			"Percent_Cover_Stricta", "Height_Stricta", #
-			"Old_Moth_Evidence_Stricta")#
-	)#
-}
-CactusRealizationSummary<- createCactusRealizationSummary(CactusRealizations)
-head(CactusRealizationSummary)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Create Cactus Realization Data#
-#' #
-#' @return The data from Sauby and Christman.#
-#' @examples #
-#' library(ggplot2)#
-#' CactusRealizations <- createCactusRealizations()#
-#' ggplot(#
-#' 	CactusRealizations,#
-#' 	aes(#
-#' 		x, #
-#' 		y, #
-#' 		shape = factor(Cactus)#
-#' )) +#
-#' 	geom_point() +#
-#' 	facet_wrap(~population) +#
-#' 	scale_shape_manual(values=c(4,16))#
-#' #
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
-#' @export#
-#
-createCactusRealizations <- function() {#
-	# REALIZATION DATA#
-	x_start 		<- 1#
-	x_end 			<- 30#
-	y_start 		<- 1#
-	y_end 			<- 30#
-	n.networks 		<- c(5, 15, 10, 20, 30, 40)#
-	n.realizations 	<- 1#
-	SpeciesInfo 	<- PlotSurveys_season1#
-	buffer			<- 5#
-	start.seed		<- 1#
-	variables		<- ovar#
-	# CREATE REALIZATIONS#
-	patch_data <- createSpeciesPatchRealizations(#
-		x_start, #
-		x_end,#
-		y_start, #
-		y_end, #
-		buffer, #
-		n.networks, #
-		n.realizations, #
-		SpeciesInfo, #
-		start.seed,#
-		variables#
-	)#
-	colnames(patch_data)[names(patch_data) == "n.networks"] <- "population"#
-	patch_data$population %<>% as.factor()#
-	levels(patch_data$population) <- 1:6#
-	# convert NAs to zeros#
-	 patch_data[,c(#
-	 	"CACA_on_Pusilla",#
-	 	"CACA_on_Stricta",#
-	 	"MEPR_on_Pusilla",#
-	 	"MEPR_on_Stricta",#
-	 	"Old_Moth_Evidence_Pusilla",#
-	 	"Old_Moth_Evidence_Stricta",#
-	 	"Percent_Cover_Pusilla",#
-	 	"Percent_Cover_Stricta",#
-	 	"Height_Pusilla",#
-	 	"Height_Stricta"#
-	 )] %<>% apply(., 2, NA_is_Zero_Function)#
-	 return(patch_data)#
-}
-CactusRealizations <- createCactusRealizations()
-CactusRealizationSummary<- createCactusRealizationSummary(CactusRealizations)
-head(CactusRealizationSummary)
-save(CactusRealizations, file="CactusRealizations.rda")
-save(CactusRealizationSummary, file="CactusRealizationSummary.rda")
-getwd()
-head(CactusRealizationSummary[[2]])
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-PopulationSummaryStatistics = patch_data_summary
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")
-head(A)
-head(A)
-head(PopulationSummaryStatistics[[2]])
-length(unique(PopulationSummaryStatistics[[2]]$variable))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")#
-	names(A)[2:(length(unique(PopulationSummaryStatistics[[2]]$variable)) + 1)] <- paste(names(A)[2:(length(unique(PopulationSummaryStatistics[[2]]$variable)) + 1)], "var", sep="_")
-head(A)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-2:(nvar + 1)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")#
-	nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))#
-	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-B <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Mean, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-				)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Mean")#
-	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "var", sep="_")
-head(B)
-head( PopulationSummaryStatistics[[2]] )
-head( PopulationSummaryStatistics[[1]] )
-dim( PopulationSummaryStatistics[[2]] )
-dim( PopulationSummaryStatistics[[1]] )
-PopulationSummaryStatistics[[1]] %>%#
-		dplyr::select(population, N) %>% t
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")#
-	nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))#
-	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")#
-	# mean#
-	B <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Mean, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-				)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Mean")#
-	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "var", sep="_")#
-	# population size#
-	C <- PopulationSummaryStatistics[[1]] %>%#
-		dplyr::select(population, N)#
-	# merge all together#
-	patch_data_summary_wide <- merge(A, B) %>% merge(C)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-patch_data_summary_wide
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-patch_data_summary_wide <- merge(A, B)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-patch_data_summary_wide
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")#
-	nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))#
-	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")#
-	# mean#
-	B <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Mean, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-				)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Mean")#
-	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "var", sep="_")#
-	# population size
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")
-A
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")#
-	nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))#
-	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")
-A
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-B <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Mean, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-				)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Mean")#
-	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "var", sep="_")
-B
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-PopulationSummaryStatistics[[1]] %>%#
-		dplyr::select(population, N)#
-	# merge all together
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-merge(A, B, by="population")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")#
-	nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))#
-	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")#
-	# mean#
-	B <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Mean, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-				)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Mean")#
-	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "mean", sep="_")#
-	# population size#
-	C <- PopulationSummaryStatistics[[1]] %>%#
-		dplyr::select(population, N)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-patch_data_summary_wide <- merge(A, B, by="population") %>% merge(C, by="population")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-patch_data_summary_wide
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Create "Wide" Format Population Summary Statistics for Patch Population Data#
-#' #
-#' @param PopulationSummaryStatistics Created by the function calculatePopulationSummaryStatistics.#
-#' @param ovar list of occupancy variables#
-#' @param rvar list of ratio variables#
-#' @return Dataframe with a column per mean/variance of each variable and a row per population.#
-#' @export#
-#' @examples#
-createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, ovar, rvar) {#
-	# variance#
-	A <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Var, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-			)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Var")#
-	nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))#
-	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")#
-	# mean#
-	B <- PopulationSummaryStatistics[[2]] %>%#
-		dplyr::select(Mean, variable, population) %>%#
-		rowwise() %>%#
-		mutate(#
-			variable = replace(#
-				variable,#
-				which(variable %in% rvar),#
-				paste(variable, "ratio", sep="_")#
-				)#
-		) %>%#
-		ungroup() %>%#
-		reshape2::dcast(., population ~ variable, value.var="Mean")#
-	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "mean", sep="_")#
-	# population size#
-	C <- PopulationSummaryStatistics[[1]] %>%#
-		dplyr::select(population, N)#
-	# merge all together#
-	merge(A, B, by="population") %>% merge(C, by="population")#
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population.grouping.variables	<- c("population")#
-sampling.grouping.variables <- c("N.SRSWOR.plots", "SamplingDesign", "Plots")#
-statistics 			<- c("mean", "var")#
-ratio.statistics	<- c("mean")#
-#
-patch_data_summary_wide <- createWidePopulationSummaryStatistics(#
-	PopulationSummaryStatistics = patch_data_summary,#
-	ovar = ovar,#
-	rvar = rvar#
-)
-patch_data_summary_wide
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-CactusRealizationSummary <- createCactusRealizationSummary(CactusRealizations)
-head(CactusRealizations)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-CactusRealizations <- createCactusRealizations()
-head(CactusRealizations)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-pop_1_stricta <- CactusRealizations %>% filter(population==1, Stricta==1)#
-	mean(pop_1_stricta$CACA_on_Stricta)#
-	mean(pop_1_stricta$MEPR_on_Stricta)#
-	mean(pop_1_stricta$Old_Moth_Evidence_Stricta)
-head(CactusRealizationSummary[[2]])
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-CactusRealizationSummary[[2]] %>% filter(population==1, variable==CACA_on_Stricta) %$% Mean
-unique(CactusRealizationSummary[[2]]$variable)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-CactusRealizationSummary[[2]] %>% filter(population==1, variable=="CACA_on_Stricta") %$% Mean
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		CactusRealizationSummary[[2]] %>% #
-			filter(population==1, variable=="CACA_on_Stricta") %$% #
-			Mean,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		CactusRealizationSummary[[2]] %>% #
-			filter(population==1, variable=="CACA_on_Pusilla") %$% #
-			Mean,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Mean
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		mean_pop_1_CACA_on_Stricta,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="MEPR_on_Stricta") %$% #
-		Mean
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		mean_pop_1_CACA_on_Stricta,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Mean#
-	mean(pop_1_stricta$MEPR_on_Stricta)#
-	mean(pop_1_stricta$Old_Moth_Evidence_Stricta)#
-#
-	expect_that(#
-		mean_pop_1_CACA_on_Stricta,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# some ratio variables#
-	pop_1_stricta <- CactusRealizations %>% filter(population==1, Stricta==1)#
-	mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Mean#
-	mean_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="MEPR_on_Stricta") %$% #
-		Mean#
-	mean_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Mean#
-	expect_that(#
-		mean_pop_1_CACA_on_Stricta,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_MEPR_on_Stricta,#
-		equals(mean(pop_1_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_Old_Moth_Evidence_Stricta,#
-		equals(mean(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-pop_6_stricta <- CactusRealizations %>% filter(population==6, Stricta==1)#
-	mean_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Mean#
-	mean_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="MEPR_on_Stricta") %$% #
-		Mean#
-	mean_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Mean#
-	expect_that(#
-		mean_pop_6_CACA_on_Stricta,#
-		equals(mean(pop_6_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_6_MEPR_on_Stricta,#
-		equals(mean(pop_6_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_6_Old_Moth_Evidence_Stricta,#
-		equals(mean(pop_6_stricta$Old_Moth_Evidence_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-pop_6_stricta <- CactusRealizations %>% filter(population==6, Stricta==1)#
-	mean_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="CACA_on_Stricta") %$% #
-		Mean#
-	mean_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="MEPR_on_Stricta") %$% #
-		Mean#
-	mean_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Mean#
-	expect_that(#
-		mean_pop_6_CACA_on_Stricta,#
-		equals(mean(pop_6_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_6_MEPR_on_Stricta,#
-		equals(mean(pop_6_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_6_Old_Moth_Evidence_Stricta,#
-		equals(mean(pop_6_stricta$Old_Moth_Evidence_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-pop_1_stricta <- CactusRealizations %>% filter(population==1, Stricta==1)#
-	mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Mean#
-	mean_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="MEPR_on_Stricta") %$% #
-		Mean#
-	mean_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Mean#
-	var_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Var#
-	var_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="MEPR_on_Stricta") %$% #
-		Var#
-	var_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Var#
-	expect_that(#
-		mean_pop_1_CACA_on_Stricta,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_MEPR_on_Stricta,#
-		equals(mean(pop_1_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_Old_Moth_Evidence_Stricta,#
-		equals(mean(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_CACA_on_Stricta,#
-		equals(var(pop_1_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_MEPR_on_Stricta,#
-		equals(var(pop_1_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_Old_Moth_Evidence_Stricta,#
-		equals(var(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		var_pop_1_CACA_on_Stricta,#
-		equals(PopVariance(pop_1_stricta$CACA_on_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-tion_data = CactusRealiza
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data = CactusRealizations
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-summary.variables = c("Stricta", "Pusilla", "Cactus",#
-			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
-			"Height_Stricta", "Old_Moth_Evidence_Stricta")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-"Height_Stricta", "Old_Moth_Evidence_Stricta"), #
-		population.grouping.variable = "population"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ratio.variables = c("MEPR_on_Stricta", "CACA_on_Stricta", #
-			"Percent_Cover_Stricta", "Height_Stricta", #
-			"Old_Moth_Evidence_Stricta")
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data %<>% arrange_(.dots=population.grouping.variable)#
-	# for each population.grouping.variable combo, calculate summary statistics for m and number of species patches#
-	# this calculates the m statistics for the unique Network sizes#
-	Y1 = population_data %>%#
-		group_by_(.dots=lapply(#
-			c("NetworkID", population.grouping.variable), #
-			as.symbol#
-		)) %>%#
-		summarise(m = m[1]) %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(#
-			m_min_unique_neigh = min(m),#
-			m_max_unique_neigh = max(m),#
-			m_mean_unique_neigh = mean(m),#
-			m_var_unique_neigh = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	# this calculates the m statistics for all units#
-	Y2 = population_data %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(#
-			m_min = min(m),#
-			m_max = max(m),#
-			m_mean = mean(m),#
-			m_var = var(m)#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Z = population_data %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(N = length(m)) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Y1 %<>% merge(Y2, by=population.grouping.variable) %>%#
-		merge(Z, by=population.grouping.variable)	#
-	# spatial statistics and other characteristics of variables#
-	A <- list()#
-	for (i in 1:length(unique(eval(parse(#
-		text=paste(#
-			"population_data$", #
-			population.grouping.variable, #
-			sep=""#
-	)))))) #
-	{#
-		temp <- population_data[which(#
-			eval(parse(#
-				text=paste(#
-					"population_data$", #
-					population.grouping.variable, #
-					sep=""#
-				))#
-			) == unique(eval(parse(#
-				text=paste(#
-					"population_data$", #
-					population.grouping.variable, #
-					sep=""#
-				)#
-			)))[i]#
-		), ]#
-		temp %<>% arrange(x,y)#
-		# spatial statistics#
-		coordinates(temp) = ~ x+y#
-		A[[i]] <- list()#
-		for (j in 1:length(summary.variables)) {#
-			A[[i]][[j]] <- data.frame(variable = summary.variables[j])#
-			tempvar <- eval(parse(text =#
-				paste("temp$", summary.variables[j], sep="")#
-			))#
-			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
-			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
-			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
-			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
-			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
-				patch_data = as.data.frame(temp),#
-				variable = summary.variables[j],#
-				population.grouping.variable#
-			)$SSQ_R#
-			if (length(tempvar[which(tempvar > 0)]) > 0) {#
-				# join counts and moran's i#
-				nb <- cell2nb(nrow = 30, ncol = 30)#
-				if ("W" %in% weights) {#
-					lwb <- nb2listw(nb, style = "W") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.W <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
+    assignSeason <- function(dat, SeasonStarts=seasons) {#
+	    dat %<>% mutate(#
+		    Season = lapply(Date,#
+				function(x) {#
+					findInterval(#
+						x, #
+						SeasonStarts[which(year(x)==year(SeasonStarts$WS)), ]#
+					)#
 				}#
-				if ("B" %in% weights) {#
-					lwb <- nb2listw(nb, style = "B") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.B <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("C" %in% weights) {#
-					lwb <- nb2listw(nb, style = "C") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.C <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("U" %in% weights) {#
-					lwb <- nb2listw(nb, style = "U") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.U <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("S" %in% weights) {#
-					lwb <- nb2listw(nb, style = "S") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.S <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("minmax" %in% weights) {#
-					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.minmax <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-			} else {#
-				if ("W" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.W <- NA#
-					A[[i]][[j]]$MoranI.W <- NA#
-				}#
-				if ("B" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.B <- NA#
-					A[[i]][[j]]$MoranI.B <- NA#
-				}	#
-				if ("C" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.C <- NA#
-					A[[i]][[j]]$MoranI.C <- NA#
-				}	#
-				if ("U" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.U <- NA#
-					A[[i]][[j]]$MoranI.U <- NA#
-				}	#
-				if ("S" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.S <- NA#
-					A[[i]][[j]]$MoranI.S <- NA#
-				}	#
-				if ("minmax" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.minmax <- NA#
-					A[[i]][[j]]$MoranI.minmax <- NA#
-				}	#
-			}#
-		}#
-		A[[i]] <- do.call(rbind.data.frame, A[[i]])#
-		A[[i]]$population <- unique(eval(parse(#
-			text=paste(#
-				"population_data$", #
-				population.grouping.variable, #
-				sep=""#
-			)#
-		)))[i]#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-weights="S"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_data %<>% arrange_(.dots=population.grouping.variable)#
-	# for each population.grouping.variable combo, calculate summary statistics for m and number of species patches#
-	# this calculates the m statistics for the unique Network sizes#
-	Y1 = population_data %>%#
-		group_by_(.dots=lapply(#
-			c("NetworkID", population.grouping.variable), #
-			as.symbol#
-		)) %>%#
-		summarise(m = m[1]) %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(#
-			m_min_unique_neigh = min(m),#
-			m_max_unique_neigh = max(m),#
-			m_mean_unique_neigh = mean(m),#
-			m_var_unique_neigh = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	# this calculates the m statistics for all units#
-	Y2 = population_data %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(#
-			m_min = min(m),#
-			m_max = max(m),#
-			m_mean = mean(m),#
-			m_var = var(m)#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Z = population_data %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(N = length(m)) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Y1 %<>% merge(Y2, by=population.grouping.variable) %>%#
-		merge(Z, by=population.grouping.variable)	#
-	# spatial statistics and other characteristics of variables#
-	A <- list()#
-	for (i in 1:length(unique(eval(parse(#
-		text=paste(#
-			"population_data$", #
-			population.grouping.variable, #
-			sep=""#
-	)))))) #
-	{#
-		temp <- population_data[which(#
-			eval(parse(#
-				text=paste(#
-					"population_data$", #
-					population.grouping.variable, #
-					sep=""#
-				))#
-			) == unique(eval(parse(#
-				text=paste(#
-					"population_data$", #
-					population.grouping.variable, #
-					sep=""#
-				)#
-			)))[i]#
-		), ]#
-		temp %<>% arrange(x,y)#
-		# spatial statistics#
-		coordinates(temp) = ~ x+y#
-		A[[i]] <- list()#
-		for (j in 1:length(summary.variables)) {#
-			A[[i]][[j]] <- data.frame(variable = summary.variables[j])#
-			tempvar <- eval(parse(text =#
-				paste("temp$", summary.variables[j], sep="")#
-			))#
-			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
-			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
-			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
-			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
-			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
-				patch_data = as.data.frame(temp),#
-				variable = summary.variables[j],#
-				population.grouping.variable#
-			)$SSQ_R#
-			if (length(tempvar[which(tempvar > 0)]) > 0) {#
-				# join counts and moran's i#
-				nb <- cell2nb(nrow = 30, ncol = 30)#
-				if ("W" %in% weights) {#
-					lwb <- nb2listw(nb, style = "W") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.W <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}#
-				if ("B" %in% weights) {#
-					lwb <- nb2listw(nb, style = "B") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.B <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("C" %in% weights) {#
-					lwb <- nb2listw(nb, style = "C") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.C <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("U" %in% weights) {#
-					lwb <- nb2listw(nb, style = "U") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.U <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("S" %in% weights) {#
-					lwb <- nb2listw(nb, style = "S") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.S <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("minmax" %in% weights) {#
-					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.minmax <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-			} else {#
-				if ("W" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.W <- NA#
-					A[[i]][[j]]$MoranI.W <- NA#
-				}#
-				if ("B" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.B <- NA#
-					A[[i]][[j]]$MoranI.B <- NA#
-				}	#
-				if ("C" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.C <- NA#
-					A[[i]][[j]]$MoranI.C <- NA#
-				}	#
-				if ("U" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.U <- NA#
-					A[[i]][[j]]$MoranI.U <- NA#
-				}	#
-				if ("S" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.S <- NA#
-					A[[i]][[j]]$MoranI.S <- NA#
-				}	#
-				if ("minmax" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.minmax <- NA#
-					A[[i]][[j]]$MoranI.minmax <- NA#
-				}	#
-			}#
-		}#
-		A[[i]] <- do.call(rbind.data.frame, A[[i]])#
-		A[[i]]$population <- unique(eval(parse(#
-			text=paste(#
-				"population_data$", #
-				population.grouping.variable, #
-				sep=""#
-			)#
-		)))[i]#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-B <- do.call(rbind.data.frame, A)#
-	B %<>% arrange(variable, population)
-head(B)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-ratio.variables
-l=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- B %>% filter(variable == ratio.variables[l])#
-			AuxVar <- B %>% filter(variable ==str_sub(ratio.variables[l],-7,-1))
-temp %>% head
-AuxVar %>% head
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp$Total_tempvar/AuxVar$Total_tempvar
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population.grouping.variable
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-summary.variables
-j=4
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-summary.variables[j]
-summary.variables[j] %in% ratio.variables
-summary.variables[3] %in% ratio.variables
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- temp %>% #
-					filter_(~ str_sub(summary.variables[j],-7,-1) == 1)
-dim(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A <- list()
-i=1
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-paste(#
-			"population_data$", #
-			population.grouping.variable, #
-			sep=""#
-	)
-i
-''
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- population_data[which(#
-			eval(parse(text=population_variable)) == #
-			unique(eval(parse(text=population_variable))))[i]#
-		), ]#
-		temp %<>% arrange(x,y)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- population_data[which(#
-			eval(parse(text=population_variable)) == #
-			unique(eval(parse(text=population_variable)))[i]#
-		), ]#
-		temp %<>% arrange(x,y)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population_variable <- paste(#
-		"population_data$", #
-		population.grouping.variable, #
-		sep=""#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- population_data[which(#
-			eval(parse(text=population_variable)) == #
-			unique(eval(parse(text=population_variable)))[i]#
-		), ]#
-		temp %<>% arrange(x,y)
-dim(temp)
-head(tempo)
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-coordinates(temp) = ~ x+y#
-		A[[i]] <- list()
-j
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-A[[i]][[j]] <- data.frame(variable = summary.variables[j])#
-			tempvar <- eval(parse(text =#
-				paste("temp$", summary.variables[j], sep="")#
-			))#
-			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
-			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
-			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
-			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
-			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
-				patch_data = as.data.frame(temp),#
-				variable = summary.variables[j],#
-				population.grouping.variable#
-			)$SSQ_R
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- temp %>% #
-					filter_(~ str_sub(summary.variables[j],-7,-1) == 1)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- as.data.frame(temp) %>% #
-					filter_(~ str_sub(summary.variables[j],-7,-1) == 1)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- temp %>%#
-					as.data.frame %>%#
-					filter_(~ str_sub(summary.variables[j],-7,-1) == 1)
-dim(temp_ratio)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-str_sub(summary.variables[j],-7,-1)
-head(temp)
-temp %>% as.data.frame %?% filter(Stricta==1) %>% dim
-temp %>% as.data.frame %>% filter(Stricta==1) %>% dim
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-					as.data.frame %>%#
-					filter_(~ str_sub(summary.variables[j],-7,-1) == 1)#
-			}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-str_sub(summary.variables[j],-7,-1)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-quot(str_sub(summary.variables[j])
-)
-?guo
-?quo
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-quo(str_sub(summary.variables[j])
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-which_column = quo(str_sub(summary.variables[j],-7,-1))#
-				temp_ratio <- temp %>%#
-					as.data.frame %>%#
-					filter(!!which_column == 1)
-dim(temp_ratio)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-which_column = quo(parse(text=str_sub(summary.variables[j],-7,-1)))#
-				temp_ratio <- temp %>%#
-					as.data.frame %>%#
-					filter(!!which_column == 1)#
-			}
-dim(temp_ratio)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- temp %>%#
-					as.data.frame %>%#
-					filter_(interp(~str_sub(summary.variables[j],-7,-1) == 1))
-dim(temp_ratio)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- temp %>%#
-					as.data.frame %>%#
-					filter_(interp(~str_sub(summary.variables[j],-7,-1)) == 1)
-dim(temp_ratio)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-interp(~str_sub(summary.variables[j],-7,-1))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- temp %>%#
-					as.data.frame#
-				temp_ratio[temp_ratio[colnames(temp_ratio)==str_sub(summary.variables[j],-7,-1)]==1, ]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio <- temp %>%#
-					as.data.frame#
-				temp_ratio %<>% #
-					.[.[colnames(.)==str_sub(summary.variables[j],-7,-1)]==1, ]
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp_ratio
-dim(str_sub(summary.variables[j],-7,-1))
-dim(temp_ratio)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-#' Calculate Summary Statistics for Patch Population Data#
-#' #
-#' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).#
-#' @param summary.variables Vector of variables for which summary statistics should be calculated.#
-#' @param population.grouping.variable Categorical variable identifying the different populations.#
-#' @param ratio.variables Variables for which to use ratio estimators#
-#' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.#
-#' @return Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.#
-#' @examples#
-#' library(magrittr)#
-#' library(dplyr)#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' summary.variables = occupancy.variables#
-#' grouping.variables = c("n.networks", "realization")#
-#' # create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' start.seed=1#
-#' buffer=5#
-#' cactus.realizations <- createSpeciesPatchPopulations(x_start, x_end,#
-#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,#
-#' 	occupancy.variables)#
-#' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, #
-#' 	summary.variables=occupancy.variables, grouping.variables=grouping.variables)#
-#' patch_data_summary %<>% #
-#' 	round(3) %>% #
-#' 	arrange(n.networks) %>% #
-#' 	dplyr::select(#
-#' 		starts_with("Pusilla"), #
-#' 		starts_with("Stricta"), #
-#' 		starts_with("Cactus"), #
-#' 		starts_with("CACA_on_Pusilla"),#
-#' 		starts_with("CACA_on_Stricta"),#
-#' 		starts_with("MEPR_on_Pusilla"),#
-#' 		starts_with("MEPR_on_Stricta"),#
-#' 		starts_with("Old_Moth_Evidence_Pusilla"),#
-#' 		starts_with("Old_Moth_Evidence_Stricta"),#
-#' 		everything()#
-#' 	)#
-#' write.csv(patch_data_summary, file=paste("patch_data_summary", #
-#' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))#
-#' @export#
-#' @importFrom dplyr group_by_#
-#' @importFrom dplyr ungroup#
-#' @importFrom stringr str_sub#
-#
-calculatePopulationSummaryStatistics <- function(#
-	population_data, #
-	summary.variables, #
-	ratio.variables=NULL, #
-	population.grouping.variable,#
-	weights="S"#
-) {#
-	population_data %<>% arrange_(.dots=population.grouping.variable)#
-	# for each population.grouping.variable combo, calculate summary statistics for m and number of species patches#
-	# this calculates the m statistics for the unique Network sizes#
-	Y1 = population_data %>%#
-		group_by_(.dots=lapply(#
-			c("NetworkID", population.grouping.variable), #
-			as.symbol#
-		)) %>%#
-		summarise(m = m[1]) %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(#
-			m_min_unique_neigh = min(m),#
-			m_max_unique_neigh = max(m),#
-			m_mean_unique_neigh = mean(m),#
-			m_var_unique_neigh = var(m),#
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	# this calculates the m statistics for all units#
-	Y2 = population_data %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(#
-			m_min = min(m),#
-			m_max = max(m),#
-			m_mean = mean(m),#
-			m_var = var(m)#
-		) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Z = population_data %>%#
-		group_by_(.dots=population.grouping.variable) %>%#
-		summarise(N = length(m)) %>%#
-		ungroup %>%#
-		as.data.frame#
-	Y1 %<>% merge(Y2, by=population.grouping.variable) %>%#
-		merge(Z, by=population.grouping.variable)	#
-	# spatial statistics and other characteristics of variables#
-	A <- list()#
-	population_variable <- paste(#
-		"population_data$", #
-		population.grouping.variable, #
-		sep=""#
-	)#
-	for (i in 1:length(unique(eval(parse(text=population_variable))))) {#
-		temp <- population_data[which(#
-			eval(parse(text=population_variable)) == #
-			unique(eval(parse(text=population_variable)))[i]#
-		), ]#
-		temp %<>% arrange(x,y)#
-		# spatial statistics#
-		coordinates(temp) = ~ x+y#
-		A[[i]] <- list()#
-		for (j in 1:length(summary.variables)) {#
-			A[[i]][[j]] <- data.frame(variable = summary.variables[j])#
-			if (summary.variables[j] %in% ratio.variables) {#
-				temp_ratio <- temp %>% as.data.frame#
-				temp_ratio %<>% #
-					.[.[colnames(.)==str_sub(summary.variables[j],-7,-1)]==1, ]	#
-				tempvar <- eval(parse(text =#
-						paste("temp_ratio$", summary.variables[j], sep="")#
-					))#
-				coordinates(temp_ratio) = ~ x+y#
-			} else {#
-				tempvar <- eval(parse(text =#
-					paste("temp$", summary.variables[j], sep="")#
-				))	#
-			}#
-			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
-			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
-			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
-			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
-			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
-				patch_data = as.data.frame(temp),#
-				variable = summary.variables[j],#
-				population.grouping.variable#
-			)$SSQ_R#
-			if (length(tempvar[which(tempvar > 0)]) > 0) {#
-				# join counts and moran's i#
-				nb <- cell2nb(nrow = 30, ncol = 30)#
-				if ("W" %in% weights) {#
-					lwb <- nb2listw(nb, style = "W") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.W <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}#
-				if ("B" %in% weights) {#
-					lwb <- nb2listw(nb, style = "B") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.B <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("C" %in% weights) {#
-					lwb <- nb2listw(nb, style = "C") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.C <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("U" %in% weights) {#
-					lwb <- nb2listw(nb, style = "U") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.U <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("S" %in% weights) {#
-					lwb <- nb2listw(nb, style = "S") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.S <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-				if ("minmax" %in% weights) {#
-					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
-					# I think cells are indexed by row, then column#
-					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						)))),#
-						lwb#
-					)[[2]]$estimate[1]#
-					A[[i]][[j]]$MoranI.minmax <- moran.test(#
-						eval(parse(text=paste(#
-							"temp$",#
-							summary.variables[j],#
-							sep=""#
-						))),#
-						lwb#
-					)$estimate[1]#
-				}	#
-			} else {#
-				if ("W" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.W <- NA#
-					A[[i]][[j]]$MoranI.W <- NA#
-				}#
-				if ("B" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.B <- NA#
-					A[[i]][[j]]$MoranI.B <- NA#
-				}	#
-				if ("C" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.C <- NA#
-					A[[i]][[j]]$MoranI.C <- NA#
-				}	#
-				if ("U" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.U <- NA#
-					A[[i]][[j]]$MoranI.U <- NA#
-				}	#
-				if ("S" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.S <- NA#
-					A[[i]][[j]]$MoranI.S <- NA#
-				}	#
-				if ("minmax" %in% weights) {#
-					A[[i]][[j]]$JoinCountTest.minmax <- NA#
-					A[[i]][[j]]$MoranI.minmax <- NA#
-				}	#
-			}#
-		}#
-		A[[i]] <- do.call(rbind.data.frame, A[[i]])#
-		A[[i]]$population <- unique(eval(parse(#
-			text=paste(#
-				"population_data$", #
-				population.grouping.variable, #
-				sep=""#
-			)#
-		)))[i]#
-	}#
-	B <- do.call(rbind.data.frame, A)#
-	B %<>% arrange(variable, population) %>%#
-		setnames("Mean_tempvar", "Mean") %>%#
-		setnames("Var_tempvar", "Var") %>%#
-		setnames("CV_tempvar", "CV") %>%#
-		setnames("Total_tempvar", "Total")#
-	return(list(Y1, B))#
-}
+			) %>% unlist	#
+		)#
+	    dat[which(dat$Season==0 | dat$Season==4), ]$Season 	<- "Winter"#
+	    dat[which(dat$Season==1), ]$Season 					<- "Spring"#
+	    dat[which(dat$Season==2), ]$Season 					<- "Summer"#
+	    dat[which(dat$Season==3), ]$Season 					<- "Fall"#
+	    return(dat)#
+    }
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(dplyr)
+dat = data.frame(#
+	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
+            (0:10)*30, format="%Y-%m-%d" ))#
+    )#
+    dat %>% assignSeason
+library(devtoolks)
+library(devtools)
+?install_github
+devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
+devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+library(devtools)
+devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
+??limit
+37-13
+24/37
+37-13
+26/37
+25/37
+23/37
+29/37
+30/37
+22/37
+30/37
+29/37
+28/37
+27/37
+35/37
+30/37
+29/37
+26/37
+26/37 - .6757
+28/37
+30/37
+29/37
+37-12
+25/37
+219*.8
+219*.8 - 17
+26/3
+17/900
+42/900
+49/900
+29/40
+1/25
+8/25
+10/25
+(7.5 + 3.75)/15
+12*0.75
+11 * 0.75
+11/15
+11*0.25
+11/15 * 6
+32/41 +0.03.5
+32/41 + 0.035
+(32/41 + 0.035)*100
+100/41
+23/40 * 100
+(23/40 * 100)+5
+(164 + 13.5 + 6)
+(164 + 13.5 + 6)/365
+(164 + 13.5 + 6 + (50))/365
+(164 + 13.5 + 6 + (60))/365
+(164 + 13.5 + 6 + (70))/365
+(164 + 13.5 + 6 + (75))/365
+102/40
+102/41
+?table
+9.49/2
+12.75+8.25
+(10.5 + 6.5)/(12.75+8.25)
+.25^2 * 2
+(.25^2 * 2)^0.5
+(.25^2 * 2)^0.5 * 2
+3/8
+5/8
+6/8
+30*1.5
+40*15
+40*1.5
+13.25 - 4.5
+(276.29+8.75)/365
+16*3
+16*4
+84/12
+9/12
+9/12*14
+22+60+78+80+88+98
+22+38+18+2+8+10
+239/785
+(239+53)/785
+.492+.139
+.412+.166+.002
+.412/.58
+.166/.58
+.412*.58
+.71*.58
+98-54
+22+49+43+33+36+44
+60-11
+78-26
+80-35
+88-47
+98-52
+22+49+52+45+41+46
+library(RMark)
+?test_ddl
+data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    release.gof(dipper.processed)
+4+19+7+12
+4+17.83+7+12
+40.83/42
+40.83/42*14
+14
+(11.25+5)/(25.5 + 10.25 - 14)
+365*0.6666
+365*0.6666 - 75.89
+5/6 * 2
+5/6 * 2 + 75.89
+365*0.6666 -77.55667
+365*0.6666 -77.55667 - 6 - 13 - 1
+145.7523/2
+15*3
+11*5
+8/12*14
+4+15.33+5.5+12
+(4+15.33+5.5+12)
+(4+15.33+5.5+12)/(4+19+7+12)
+(4+19+7+12)
+(4+15.33+5.5+12)/(4+19+7+12)*14
+2.5+17.5+12
+32/42
+32/42 * 14
+4+12+6.5+12
+(4+12+6.5+12)/42 * 14
+5/6*2
+5/6*2 + 0.25
+5/6*2 + 0.5
+2577.77/12
+15/20
+15/20*6
+300 - 4*50
+300 - 4*40
+4.5/12*14
+9+9+7+9
+33.5/34 * 14
+32/34 * 14
+32/34*14
+7+8.5+7+7
+(7+8.5+7+7)/34 * 14
+(7+5.5+5.5+8.5)/34 * 14
+(7+5.5+5.5+8.5)/(9+7+9+9) * 14
+9+7+9+9
+(14.25+7.25)/(24.75+10.25-9)
+(16.5+7.75)/(24.75+10.25)
+(16.5+7.75)/(24.75+10.25)*6
+(5.25+5.5)/(22.5+10.5)
+(5.25+5.5)/(22.5+10.5)*6
+(9.75+5.5)/(24.7+10.25-5)*6
+(9.75+5.5)/(24.7+10.25-5)
+3.98/6
+(9.75+5.5)/(24.7+10.25-10)
+(9.75+5.5)/(24.7+10.25-10)*6
+5/6*2
+1.83-5/6*2
+1.83-4/6*2
+5/6*2 + 0.5
+4/6*2 + 0.5
+4/6*2
+4/6 + 0.5
+4/6*2 + 0.5
+33/34 * 14
+17.5*4
+24*4 + 1.75*4
+library(dplyr)
+library(plyr)
+600*.22
+library(ACSampling)
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+devtools::test()
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-CactusRealizationSummary <- createCactusRealizationSummary(CactusRealizations)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-pop_1_stricta <- CactusRealizations %>% filter(population==1, Stricta==1)#
-	mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Mean#
-	mean_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="MEPR_on_Stricta") %$% #
-		Mean#
-	mean_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Mean#
-	var_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="CACA_on_Stricta") %$% #
-		Var#
-	var_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="MEPR_on_Stricta") %$% #
-		Var#
-	var_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Var#
-	expect_that(#
-		mean_pop_1_CACA_on_Stricta,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_MEPR_on_Stricta,#
-		equals(mean(pop_1_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_Old_Moth_Evidence_Stricta,#
-		equals(mean(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_CACA_on_Stricta,#
-		equals(PopVariance(pop_1_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_MEPR_on_Stricta,#
-		equals(var(pop_1_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_Old_Moth_Evidence_Stricta,#
-		equals(var(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-expect_that(#
-		mean_pop_1_CACA_on_Stricta,#
-		equals(mean(pop_1_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_MEPR_on_Stricta,#
-		equals(mean(pop_1_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_1_Old_Moth_Evidence_Stricta,#
-		equals(mean(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_CACA_on_Stricta,#
-		equals(PopVariance(pop_1_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_MEPR_on_Stricta,#
-		equals(PopVariance(pop_1_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_1_Old_Moth_Evidence_Stricta,#
-		equals(PopVariance(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-pop_6_stricta <- CactusRealizations %>% filter(population==6, Stricta==1)#
-	mean_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="CACA_on_Stricta") %$% #
-		Mean#
-	mean_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="MEPR_on_Stricta") %$% #
-		Mean#
-	mean_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Mean#
-	var_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="CACA_on_Stricta") %$% #
-		Var#
-	var_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="MEPR_on_Stricta") %$% #
-		Var#
-	var_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
-		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% #
-		Var#
-	expect_that(#
-		mean_pop_6_CACA_on_Stricta,#
-		equals(mean(pop_6_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_6_MEPR_on_Stricta,#
-		equals(mean(pop_6_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		mean_pop_6_Old_Moth_Evidence_Stricta,#
-		equals(mean(pop_6_stricta$Old_Moth_Evidence_Stricta))#
-	)#
-	expect_that(#
-		var_pop_6_CACA_on_Stricta,#
-		equals(PopVariance(pop_6_stricta$CACA_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_6_MEPR_on_Stricta,#
-		equals(PopVariance(pop_6_stricta$MEPR_on_Stricta))#
-	)#
-	expect_that(#
-		var_pop_6_Old_Moth_Evidence_Stricta,#
-		equals(PopVariance(pop_6_stricta$Old_Moth_Evidence_Stricta))#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-actusRealizationSummary[[2]]
-CactusRealizationSummary[[2]]
-setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-# population 1#
+test_that("calculatePopulationSummaryStatistics", {#
+	CactusRealizationSummary <- createCactusRealizationSummary(CactusRealizations)#
+	# TEST RATIO VARIABLE CALCULATIONS#
+	# population 1#
 	pop_1_stricta <- CactusRealizations %>% filter(population==1, Stricta==1)#
 	mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
 		filter(population==1, variable=="CACA_on_Stricta") %$% #
@@ -1761,7 +353,322 @@ setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
 	expect_that(#
 		CV_pop_1_Old_Moth_Evidence_Stricta,#
 		equals(popCV(pop_1_stricta$Old_Moth_Evidence_Stricta))#
-	)
+	)#
+	# population 6#
+	pop_6_stricta <- CactusRealizations %>% filter(population==6, Stricta==1)#
+	mean_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="CACA_on_Stricta") %$% #
+		Mean#
+	mean_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="MEPR_on_Stricta") %$% #
+		Mean#
+	mean_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% #
+		Mean#
+	var_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="CACA_on_Stricta") %$% #
+		Var#
+	var_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="MEPR_on_Stricta") %$% #
+		Var#
+	var_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% #
+		Var#
+	expect_that(#
+		mean_pop_6_CACA_on_Stricta,#
+		equals(mean(pop_6_stricta$CACA_on_Stricta))#
+	)#
+	expect_that(#
+		mean_pop_6_MEPR_on_Stricta,#
+		equals(mean(pop_6_stricta$MEPR_on_Stricta))#
+	)#
+	expect_that(#
+		mean_pop_6_Old_Moth_Evidence_Stricta,#
+		equals(mean(pop_6_stricta$Old_Moth_Evidence_Stricta))#
+	)#
+	expect_that(#
+		var_pop_6_CACA_on_Stricta,#
+		equals(PopVariance(pop_6_stricta$CACA_on_Stricta))#
+	)#
+	expect_that(#
+		var_pop_6_MEPR_on_Stricta,#
+		equals(PopVariance(pop_6_stricta$MEPR_on_Stricta))#
+	)#
+	expect_that(#
+		var_pop_6_Old_Moth_Evidence_Stricta,#
+		equals(PopVariance(pop_6_stricta$Old_Moth_Evidence_Stricta))#
+	)#
+})#
+# ALSO TEST OVAR#
+#
+test_that("Sampling Bias and Relative Efficiency, population 6, SamplingDesign=ACS, N.SRSWOR.plots==100", {	#
+	patch_data_summary_wide <- createWidePopulationSummaryStatistics(#
+		PopulationSummaryStatistics = CactusRealizationSummary,#
+		ovar = "Stricta",#
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta")#
+	)#
+	population_6 <- patch_data_summary_wide %>% filter(population==6)#
+	# MANUALLY CALCULATE MSE and RE#
+	temp_sim_data <- simulation_data %>% filter(#
+		population==6, #
+		SamplingDesign=="ACS", #
+		N.SRSWOR.plots==100#
+	)#
+	temp_sim_data_ratio <- simulation_data %>% filter(#
+		population==6, #
+		SamplingDesign=="ACS", #
+		N.SRSWOR.plots==100,#
+		Stricta_mean_observed > 0#
+	)#
+	# occupancy variables#
+	mean_MSE_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data$Stricta_mean_observed - #
+			# true#
+			population_6$Stricta_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data)[1]#
+	RE_Stricta = (#
+		population_6$Stricta_var/unique(temp_sim_data$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data$N.Total.plots_mean)/population_6$N)#
+	) /	mean_MSE_Stricta#
+	# ratio variables#
+	mean_MSE_CACA_on_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data_ratio$CACA_on_Stricta_ratio_mean_observed - #
+			# true#
+			population_6$CACA_on_Stricta_ratio_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data_ratio)[1]#
+	mean_MSE_MEPR_on_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data_ratio$MEPR_on_Stricta_ratio_mean_observed - #
+			# true#
+			population_6$MEPR_on_Stricta_ratio_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data_ratio)[1]#
+	mean_MSE_Old_Moth_Evidence_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data_ratio$Old_Moth_Evidence_Stricta_ratio_mean_observed - #
+			# true#
+			population_6$Old_Moth_Evidence_Stricta_ratio_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data_ratio)[1]#
+	RE_CACA_on_Stricta = (#
+		population_6$CACA_on_Stricta_ratio_var/unique(temp_sim_data_ratio$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data_ratio$N.Total.plots_mean)/population_6$N)#
+	) /	mean_MSE_CACA_on_Stricta#
+	RE_MEPR_on_Stricta = (#
+		population_6$MEPR_on_Stricta_ratio_var/unique(temp_sim_data_ratio$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data_ratio$N.Total.plots_mean)/population_6$N)#
+	) /	mean_MSE_MEPR_on_Stricta#
+	RE_Old_Moth_Evidence_Stricta = (#
+		population_6$Old_Moth_Evidence_Stricta_ratio_var/unique(temp_sim_data_ratio$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data_ratio$N.Total.plots_mean)/population_6$N)#
+	) /	mean_MSE_Old_Moth_Evidence_Stricta#
+	# CALCULATE MSE and RE USING FUNCTIONS#
+	example_bias = calculateSamplingBias(#
+		population_data_summary	= population_6, #
+		temp_sim_data = temp_sim_data, #
+		sampling.grouping.variables	= c("N.Total.plots_mean", "N.SRSWOR.plots", #
+			"SamplingDesign"), #
+		population.grouping.variables = "population",#
+		ovar = "Stricta", #
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta")#
+	)#
+	RE_values <- calculateRE(#
+		population_data = population_6,#
+		MSE_ComparisonSamplingDesign = example_bias,#
+		population.grouping.variables = "population",#
+		sample.size.variable = "N.Total.plots_mean",#
+		ovar = "Stricta",#
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta")#
+	)#
+	# TEST FUNCTION CALCULATIONS	#
+	# 	occupancy variables#
+	# 		MSE#
+	expect_that(#
+		mean_MSE_Stricta,#
+		equals(example_bias$Stricta_mean_MSE)#
+	)#
+	#		RE#
+	expect_that(#
+		RE_Stricta,#
+		equals(RE_values$Stricta_RE)#
+	)#
+	# 	ratio variables#
+	# 		MSE#
+	expect_that(#
+		mean_MSE_CACA_on_Stricta,#
+		equals(example_bias$CACA_on_Stricta_ratio_mean_MSE)#
+	)#
+	expect_that(#
+		mean_MSE_MEPR_on_Stricta,#
+		equals(example_bias$MEPR_on_Stricta_ratio_mean_MSE)#
+	)#
+	expect_that(#
+		mean_MSE_Old_Moth_Evidence_Stricta,#
+		equals(example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE)#
+	)#
+	#		RE#
+	expect_that(#
+		RE_CACA_on_Stricta,#
+		equals(RE_values$CACA_on_Stricta_ratio_RE)#
+	)#
+	expect_that(#
+		RE_MEPR_on_Stricta,#
+		equals(RE_values$MEPR_on_Stricta_ratio_RE)#
+	)#
+	expect_that(#
+		RE_Old_Moth_Evidence_Stricta,#
+		equals(RE_values$Old_Moth_Evidence_Stricta_ratio_RE)#
+	)#
+})#
+test_that("Sampling Bias and Relative Efficiency, population 1, SamplingDesign=ACS, N.SRSWOR.plots==40", {	#
+	patch_data_summary_wide <- createWidePopulationSummaryStatistics(#
+		PopulationSummaryStatistics = CactusRealizationSummary,#
+		ovar = "Stricta",#
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta")#
+	)#
+	population_1 <- patch_data_summary_wide %>% filter(population==1)#
+	# MANUALLY CALCULATE MSE and RE#
+	temp_sim_data <- simulation_data %>% filter(#
+		population==1, #
+		SamplingDesign=="ACS", #
+		N.SRSWOR.plots==40#
+	)#
+	temp_sim_data_ratio <- simulation_data %>% filter(#
+		population==1, #
+		SamplingDesign=="ACS", #
+		N.SRSWOR.plots==40,#
+		Stricta_mean_observed > 0#
+	)#
+	# occupancy variables#
+	mean_MSE_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data$Stricta_mean_observed - #
+			# true#
+			population_1$Stricta_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data)[1]#
+	RE_Stricta = (#
+		population_1$Stricta_var/unique(temp_sim_data$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data$N.Total.plots_mean)/population_1$N)#
+	) /	mean_MSE_Stricta#
+	# ratio variables#
+	mean_MSE_CACA_on_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data_ratio$CACA_on_Stricta_ratio_mean_observed - #
+			# true#
+			population_1$CACA_on_Stricta_ratio_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data_ratio)[1]#
+	mean_MSE_MEPR_on_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data_ratio$MEPR_on_Stricta_ratio_mean_observed - #
+			# true#
+			population_1$MEPR_on_Stricta_ratio_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data_ratio)[1]#
+	mean_MSE_Old_Moth_Evidence_Stricta <- sum(#
+		(#
+			# observed#
+			temp_sim_data_ratio$Old_Moth_Evidence_Stricta_ratio_mean_observed - #
+			# true#
+			population_1$Old_Moth_Evidence_Stricta_ratio_mean#
+		)^2#
+	# n simulations#
+	)/dim(temp_sim_data_ratio)[1]#
+	RE_CACA_on_Stricta = (#
+		population_1$CACA_on_Stricta_ratio_var/unique(temp_sim_data_ratio$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data_ratio$N.Total.plots_mean)/population_1$N)#
+	) /	mean_MSE_CACA_on_Stricta#
+	RE_MEPR_on_Stricta = (#
+		population_1$MEPR_on_Stricta_ratio_var/unique(temp_sim_data_ratio$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data_ratio$N.Total.plots_mean)/population_1$N)#
+	) /	mean_MSE_MEPR_on_Stricta#
+	RE_Old_Moth_Evidence_Stricta = (#
+		population_1$Old_Moth_Evidence_Stricta_ratio_var/unique(temp_sim_data_ratio$N.Total.plots_mean) *#
+		(1 - unique(temp_sim_data_ratio$N.Total.plots_mean)/population_1$N)#
+	) /	mean_MSE_Old_Moth_Evidence_Stricta#
+	# CALCULATE MSE and RE USING FUNCTIONS#
+	example_bias = calculateSamplingBias(#
+		population_data_summary	= population_1, #
+		temp_sim_data = temp_sim_data, #
+		sampling.grouping.variables	= c("N.Total.plots_mean", "N.SRSWOR.plots", #
+			"SamplingDesign"), #
+		population.grouping.variables = "population",#
+		ovar = "Stricta", #
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta")#
+	)#
+	RE_values <- calculateRE(#
+		population_data = population_1,#
+		MSE_ComparisonSamplingDesign = example_bias,#
+		population.grouping.variables = "population",#
+		sample.size.variable = "N.Total.plots_mean",#
+		ovar = "Stricta",#
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta")#
+	)#
+	# TEST FUNCTION CALCULATIONS	#
+	# 	occupancy variables#
+	# 		MSE#
+	expect_that(#
+		mean_MSE_Stricta,#
+		equals(example_bias$Stricta_mean_MSE)#
+	)#
+	#		RE#
+	expect_that(#
+		RE_Stricta,#
+		equals(RE_values$Stricta_RE)#
+	)#
+	# 	ratio variables#
+	# 		MSE#
+	expect_that(#
+		mean_MSE_CACA_on_Stricta,#
+		equals(example_bias$CACA_on_Stricta_ratio_mean_MSE)#
+	)#
+	expect_that(#
+		mean_MSE_MEPR_on_Stricta,#
+		equals(example_bias$MEPR_on_Stricta_ratio_mean_MSE)#
+	)#
+	expect_that(#
+		mean_MSE_Old_Moth_Evidence_Stricta,#
+		equals(example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE)#
+	)#
+	#		RE#
+	expect_that(#
+		RE_CACA_on_Stricta,#
+		equals(RE_values$CACA_on_Stricta_ratio_RE)#
+	)#
+	expect_that(#
+		RE_MEPR_on_Stricta,#
+		equals(RE_values$MEPR_on_Stricta_ratio_RE)#
+	)#
+	expect_that(#
+		RE_Old_Moth_Evidence_Stricta,#
+		equals(RE_values$Old_Moth_Evidence_Stricta_ratio_RE)#
+	)#
+})
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
