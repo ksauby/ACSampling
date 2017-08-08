@@ -447,13 +447,13 @@ calculateSamplingBias <- function(
 	### RATIO VARIABLES	
 	E <- A %>% filter(Stricta_mean_observed>0)
 	# number of simulations
-	n_sims <- NULL
-	n_sims <- E %>% 
-		group_by_(.dots = c(
+	# n_sims <- NULL
+	#n_sims <- E %>% 
+	#	group_by_(.dots = c(
 			population.grouping.variables, 
 			sampling.grouping.variables
 		)) %>%
-		summarise(n_sims = n())
+	#	summarise(n_sims = n())
 	E %<>% merge(
 		n_sims, 
 		by = c(
