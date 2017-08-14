@@ -40,6 +40,7 @@ test_that("createACS, Does the function work when providing the seed and without
 	)
 })
 test_that("createACS, Does the function work when providing the seed and without providing the initial sample? Example 2: adaptive cluster sampling takes place", {
+	data(Thompson1990Figure1Population)
 	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=26)
 	expect_that(
 		dim(Z[which(Z$y_value > 0), ])[1],

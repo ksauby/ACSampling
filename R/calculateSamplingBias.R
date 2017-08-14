@@ -348,14 +348,6 @@ calculateSamplingBias <- function(
 	
 	# have to know correct number of simulations
 		
-	rvar <- c(
-		"MEPR_on_Stricta",
-		"CACA_on_Stricta",
-		"Percent_Cover_Stricta",
-		"Height_Stricta",
-		"Old_Moth_Evidence_Stricta"
-	)
-	
 	rvar_variables <- paste(rvar, "_ratio", sep="")
 	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL
 	A <- merge(
@@ -445,14 +437,14 @@ calculateSamplingBias <- function(
 		)
 	)
 	### RATIO VARIABLES	
-	E <- A %>% filter(Stricta_mean_observed>0)
+	E <- A #%>% filter(Stricta_mean_observed>0)
 	# number of simulations
 	# n_sims <- NULL
 	#n_sims <- E %>% 
 	#	group_by_(.dots = c(
-			population.grouping.variables, 
-			sampling.grouping.variables
-		)) %>%
+	#		population.grouping.variables, 
+	#		sampling.grouping.variables
+	#	)) %>%
 	#	summarise(n_sims = n())
 	E %<>% merge(
 		n_sims, 
