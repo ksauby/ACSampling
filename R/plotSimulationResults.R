@@ -193,7 +193,8 @@ plotSimulationResults <- function(
 			strip.text = element_text(face="bold", size=20),
 			strip.background = element_rect(fill="white", 
 				colour="black", size=3),
-			axis.text.x = element_text(angle=x_angle, hjust=0.9)
+			axis.text.x = element_text(angle=x_angle, hjust=0.9),
+			text=element_text(family="serif")
 		)
 				
 	}

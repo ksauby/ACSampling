@@ -3,7 +3,11 @@
 #' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
 #' @param MSE_BaselineSamplingDesign The sampling design to which the "comparison sampling design" is compared to and its efficiency, relative to this one, is calculated.
 #' @param grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).
+
+#' @description
+
 #' @return Dataframe including original data and RE estimates.
+
 #' @export
 
 

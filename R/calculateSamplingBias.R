@@ -286,7 +286,11 @@ calculateBiasComponents	<- function(dataframe, resultslist, variables) {
 #' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
 #' @param ovar Vector of variables for which sampling bias should be estimated.
 #' @param rvar Variables for which to use ratio estimators
+
+#' @description
+
 #' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.
+
 #' @examples
 #' # Create realizations
 #' x_start = 1

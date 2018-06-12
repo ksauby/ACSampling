@@ -1,8 +1,12 @@
 #' Assign network membership of adaptive cluster sample units.
+
 #' @param dataframe Dataset to be used, containing information about units containing the species of interest, including x and y coordinates.
 #' @param plot.size The length and width of plots, in coordinate units. Defaults to 1.
+
 #' @description This function assigns network membership to units in an adaptive cluster sampling; if units are neighbors, they are assigned to the same network ID. 
+
 #' @return Returns dataframe with a new column for Network ID as well as a column for m, the number of units in the network.
+
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
 #' @examples

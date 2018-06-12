@@ -1,10 +1,15 @@
 #' Calculate Inclusion Probabilities Using Simulations
+
 #' @param patchdat patch realizations
 #' @param simulations Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param SamplingDesign Sampling design; ACS or RACS.
 #' @param y_variable variable upon which adaptive cluster sampling criterion is based
+
 #' @description Calculate inclusion probabilities for each unit in a population using simulations.
+
+#' @return NEEDS INFO
+
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
 #' @export

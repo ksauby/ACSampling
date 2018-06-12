@@ -1,9 +1,11 @@
 #' Calculate the inclusion probability of unit $i$ in a simple random sample without replacement. 
-#' 
+
 #' @param N Population size.
 #' @param n1 Initial sample size.
 #' @param m Vector of values giving the number of units satisfying the ACS criterion in network $i$.
+
 #' @return vector of inclusion probabilities
+
 #' @examples 
 #' # example from section 4, p. 1055 (first column) in Thompson (1990)
 #' N = 5

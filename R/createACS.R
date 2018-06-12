@@ -6,7 +6,9 @@
 #' @param y_variable The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.
 #' @param condition Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).
 #' @param initial_sample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
+
 #' @return A restricted adaptive cluster sample.
+
 #' @examples
 #' library(ggplot2)
 #' data(Thompson1990Figure1Population)
