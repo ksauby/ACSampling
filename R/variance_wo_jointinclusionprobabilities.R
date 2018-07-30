@@ -92,13 +92,16 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 
 
 
+#' Tille (2006) variance estimator free of joint inclusion probability calculations for unequal probability sampling
+#' @param n sample size
+#' @param y Vector of $y$ values.
+#' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{Hajek}.
+#' Tille, Y. (2006).
+#' @export
 
 
-var_Tille <- function(n, y, pi_i_values, estimator) {
-	if (estimator == "Hajek") {
-		b_k_values <- Hajek(pi_i_values, n)
-	}
-	
+var_Tille <- function(n, y, pi_i_values) {
+	b_k_values <- Hajek(pi_i_values, n)
 	# get the matrix of values by multiplying the vector by itself, 
 	#	THEN set diagnonal to zero, 
 	#	THEN set lower triangle to zero so that we are not counting pairwise combos of k and l twice
