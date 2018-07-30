@@ -89,3 +89,42 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 	#	lambda_i_values <- alpha_i_values <- Deville(pi_i_values, n)
 	#}
 }
+
+
+
+
+
+var_Tille <- function(n, y, pi_i_values, estimator) {
+	if (estimator == "Hajek") {
+		b_k_values <- Hajek(pi_i_values, n)
+	}
+	
+	# get the matrix of values by multiplying the vector by itself, 
+	#	THEN set diagnonal to zero, 
+	#	THEN set lower triangle to zero so that we are not counting pairwise combos of k and l twice
+	b_k_b_l_values <- b_k_values %x% b_k_values %>% 
+		matrix(length(b_k_values), length(b_k_values))
+	diag(b_k_b_l_values) <- 0	
+	b_k_b_l_values[lower.tri(b_k_b_l_values)] <- 0
+	
+	# do the same thing for y that we did for b
+	y_k_y_l_values <- y %x% y %>% matrix(length(y), length(y))
+	diag(y_k_y_l_values) <- 0
+	y_k_y_l_values[lower.tri(y_k_y_l_values)] <- 0
+	# do the same thing for pi that we did for b
+	pi_k_pi_l_values <- pi_i_values %x% pi_i_values %>%
+		matrix(length(pi_i_values), length(pi_i_values))
+	diag(pi_k_pi_l_values) <- 0
+	pi_k_pi_l_values[lower.tri(pi_k_pi_l_values)] <- 0
+	
+	# var approx of y_hat HT on page 139 of Tille 2006
+	sum(
+		y^2/pi_i_values^2 *
+		(
+			b_k_values - b_k_values^2 / sum(b_k_values)
+		)
+	) -
+	1 / sum(b_k_values) * 
+	sum(y_k_y_l_values * b_k_b_l_values / pi_k_pi_l_values)
+
+}
