@@ -18,6 +18,9 @@ calculateInclusionProbabilities(patchdat = patch_data_3, simulations,
 
 \item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
 }
+\value{
+NEEDS INFO
+}
 \description{
 Calculate inclusion probabilities for each unit in a population using simulations.
 }

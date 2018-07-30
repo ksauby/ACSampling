@@ -32,6 +32,7 @@ var_Hajek <- function(n, y, pi_i_values) {
 
 
 #' Variance estimator free of joint inclusion probability calculations for unequal probability sampling
+#' @description This gives equation 9 on page 10 in Berger and Tille 2009.
 #' @param n sample size
 #' @param y Vector of $y$ values.
 #' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{pi_i}.
@@ -101,7 +102,7 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 
 
 var_Tille <- function(n, y, pi_i_values) {
-	b_k_values <- Hajek(pi_i_values, n)
+	b_k_values <- Hajek(pi_i_values, n=n)
 	# get the matrix of values by multiplying the vector by itself, 
 	#	THEN set diagnonal to zero, 
 	#	THEN set lower triangle to zero so that we are not counting pairwise combos of k and l twice
@@ -119,6 +120,12 @@ var_Tille <- function(n, y, pi_i_values) {
 		matrix(length(pi_i_values), length(pi_i_values))
 	diag(pi_k_pi_l_values) <- 0
 	pi_k_pi_l_values[lower.tri(pi_k_pi_l_values)] <- 0
+	# Now, create the product ykyl bkbl / pikpil
+	#	THEN set diag to zero
+	#	THEN set lower triangle to zero
+	ykyl_bkbl__pikpil <- y_k_y_l_values * b_k_b_l_values / pi_k_pi_l_values
+	diag(ykyl_bkbl__pikpil) <- 0	
+	ykyl_bkbl__pikpil[lower.tri(ykyl_bkbl__pikpil)] <- 0
 	
 	# var approx of y_hat HT on page 139 of Tille 2006
 	sum(
@@ -128,6 +135,6 @@ var_Tille <- function(n, y, pi_i_values) {
 		)
 	) -
 	1 / sum(b_k_values) * 
-	sum(y_k_y_l_values * b_k_b_l_values / pi_k_pi_l_values)
+	sum(ykyl_bkbl__pikpil)
 
 }

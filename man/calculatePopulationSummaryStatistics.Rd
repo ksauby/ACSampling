@@ -21,9 +21,6 @@ calculatePopulationSummaryStatistics(population_data, summary.variables,
 \value{
 Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.
 }
-\description{
-Calculate Summary Statistics for Patch Population Data
-}
 \examples{
 library(magrittr)
 library(dplyr)

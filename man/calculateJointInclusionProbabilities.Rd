@@ -17,8 +17,9 @@ calculateJointInclusionProbabilities(patchdat = patch_data_3, simulations,
 
 \item{SamplingDesign}{Sampling design; ACS or RACS.}
 
-\item{y_variable}{variable upon which adaptive cluster sampling criterion is based
-population.grouping.variable variable identifying unique populations}
+\item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
+
+\item{population.grouping.variable}{variable identifying unique populations}
 }
 \description{
 Calculate inclusion probabilities for each unit in a population using simulations.

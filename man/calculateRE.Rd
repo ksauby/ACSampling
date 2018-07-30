@@ -17,7 +17,4 @@ calculateRE(MSE_ComparisonSamplingDesign, population_data,
 \value{
 Dataframe including original data and RE estimates.
 }
-\description{
-Calculate Relative Efficiency (RE)
-}
 
