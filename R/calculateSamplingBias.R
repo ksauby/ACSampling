@@ -464,7 +464,7 @@ calculateSamplingBias <- function(
 		sampling.grouping.variables, 
 		"n_sims"
 	))
-	I <- vector("list", length(ovar))
+	I <- vector("list", length(rvar_variables))
 	for (i in 1:length(c(rvar_variables, "Stricta"))) {
 		I[[i]] <- list()
 		# observed mean
@@ -531,10 +531,11 @@ calculateSamplingBias <- function(
 			"n_sims"
 		)
 	)
-	B %<>% calculatedSquaredDifferences(variables=ovar)
 	E %<>% calculatedSquaredDifferences(variables=c("Stricta", rvar_variables))
-	B %<>% calculateDifferencesinMeans(variables=ovar)
 	E %<>% calculateDifferencesinMeans(variables=c("Stricta", rvar_variables))
+
+	B %<>% calculatedSquaredDifferences(variables=ovar)
+	B %<>% calculateDifferencesinMeans(variables=ovar)
 	
 	# calculate bias and MSE
 	# occupancy variables
