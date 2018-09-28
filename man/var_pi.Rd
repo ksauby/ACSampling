@@ -16,7 +16,7 @@ var_pi(n, y, pi_i_values, estimator)
 \item{estimator}{Options include "Hartley_Rao", "Hajek", "Rosen", "Berger", and "Deville".}
 }
 \description{
-Variance estimator free of joint inclusion probability calculations for unequal probability sampling
+This gives equation 9 on page 10 in Berger and Tille 2009.
 }
 \examples{
 # Hajek Approximation
