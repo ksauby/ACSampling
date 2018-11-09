@@ -358,14 +358,6 @@ calculateSamplingBias <- function(
 	rvar
 )
 {
-	
-	# limit MSE of ratio variables to samples including at least one unit with cacti
-	
-	# have to know correct number of simulations
-		
-		
-		
-		
 	rvar_variables <- paste(rvar, "_ratio", sep="")
 	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL
 	A <- merge(
@@ -391,11 +383,16 @@ calculateSamplingBias <- function(
 			sampling.grouping.variables
 		)
 	)
+	# group data to prep for processing by 
+	#		population.grouping.variables, 
+	#		sampling.grouping.variables, and
+	#		n_sims
 	temp <- B %>% group_by_(.dots = c(
 		population.grouping.variables, 
 		sampling.grouping.variables, 
 		"n_sims"
 	))
+	# list for saving results
 	C <- vector("list", length(ovar))
 	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:
 	#	mean of observed means
@@ -460,6 +457,19 @@ calculateSamplingBias <- function(
 	# RATIO VARIABLES	
 	# ------------------------------------------------------------------------ #
 	E <- A
+	
+	
+	
+	E %<>% filter(Stricta_mean_observed!=0)
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	E %<>% merge(
 		n_sims, 
 		by = c(
@@ -467,13 +477,18 @@ calculateSamplingBias <- function(
 			sampling.grouping.variables
 		)
 	)
-	# mean of observed means	
+	# group data to prep for processing by 
+	#		population.grouping.variables, 
+	#		sampling.grouping.variables, and
+	#		n_sims
+	temp <- NULL
 	temp <- E %>% 
 		group_by_(.dots = c(
 		population.grouping.variables, 
 		sampling.grouping.variables, 
 		"n_sims"
 	))
+	# list for saving results
 	I <- vector("list", length(rvar_variables))
 	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:
 	#	mean of observed means
@@ -573,7 +588,14 @@ calculateSamplingBias <- function(
 	) %>%
 		setnames("n_sims", "ovar_n_sims")
 	# ratio variables
-	H <- vector("list", length(ovar))
+	H <- vector("list", length(rvar))
+	
+	
+	
+	
+
+	
+	
 	X.grp <- E %>% 
 		group_by_(.dots=c(
 			population.grouping.variables, 
@@ -597,7 +619,8 @@ calculateSamplingBias <- function(
 		by=c(
 			population.grouping.variables, 
 			sampling.grouping.variables
-		)
+		),
+		all=T
 	)
 	
 	return(Y)

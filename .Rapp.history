@@ -1,293 +1,414 @@
-library(rgeos)
-install.packages("rgdal", repos="http://R-Forge.R-project.org")#
-require(rgdal)
-R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config#
- --with-proj-include=/Library/Frameworks/PROJ.framework/Headers#
- --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
-R CMD INSTALL ~/Downloads/rgdal_0.9-1.tar.gz --configure-args='--with-gdal-config=/Library/Frameworks/GDAL.framework/Programs/gdal-config--with-proj-include=/Library/Frameworks/PROJ.framework/Headers--with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib'
-library(lme3)
-library(lme4)
-300/241
-.244*30
-1.25*300
-1.25*240
-7*12
-7849-7527
-322/1353
-8028-7527
-501/1353
-8028-7957
-1353-501
-852/71
-7956-7878
-8176-8029
-8176-8092
-250*.75
-250*.25
-42*2 + 17*2
-118/19
-21/6.2
-59.5*.75
-59.5*.5 + 59.5
-71/12
-597/80
-597/8
-432/8
-15*8 + 9*3
-?seq_len
-7.25/3
-7.25/4
-for(i in 0:9){x=cos(2*pi/10*i);y=x+1;z=(y-2)*22;pie(c(y,8-y),col=c(0,7),init.angl=135-z,bo=F,la=NA)}
-install.packages("ProjectTemplate")
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("data.table")
-install.packages("corrgram")
-install.packages("survival")
-install.packages("shapefiles")
-install.packages("rgdal")
-install.packages("PBSmapping")
-install.packages("sp")
-install.packages("gdistance")
-install.packages("chron")
-install.packages("unmarked")
-install.packages("lme4")
-install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")#
-require(rgeos)
-install.packages('rgdal',repos="http://www.stats.ox.ac.uk/pub/RWin")
-library(rgdal)
-install.packages("http://cran.r-project.org/src/contrib/rgdal_0.9-1.tar.gz", repos = NULL, type="source", configure.args = "--with-gdal-config=/Library/Frameworks/GDAL.framework/Versions/1.10/unix/bin/gdal-config --with-proj-include=/Library/Frameworks/PROJ.framework/unix/include --with-proj-lib=/Library/Frameworks/PROJ.framework/unix/lib")
-18/1.618
-189+114
-library(lubridate)
-library(magrittr)
-seasons <- data.frame(#
-	   SE = as.POSIXct(c("2009-3-20", "2010-3-20", "2011-3-20", "2012-3-20", #
-            "2013-3-20", "2014-3-20"), format="%Y-%m-%d"),#
-	   SS = as.POSIXct(c("2009-6-21", "2010-6-21", "2011-6-21", "2012-6-20",#
-            "2013-6-20", "2014-6-20"), format="%Y-%m-%d"),#
-	   FE = as.POSIXct(c("2009-9-22", "2010-9-23", "2011-9-23", "2012-9-22",#
-            "2013-9-22", "2014-9-22"), format="%Y-%m-%d"),#
-	   WS = as.POSIXct(c("2009-12-21", "2010-12-21", "2011-12-22", "2012-12-21", #
-            "2013-12-21", "2014-12-21"), format="%Y-%m-%d")#
-    )#
+100000*1.015
+100000*1.004
+120/40
+40*10
+aztec12
+120/.13
+29+32+5+32+13+3
+setwd('/Users/KSauby/Documents')
+library(magrittr)#
+library(dplyr)#
+library(ggplot2)#
 #
-    assignSeason <- function(dat, SeasonStarts=seasons) {#
-	    dat %<>% mutate(#
-		    Season = lapply(Date,#
-				function(x) {#
-					findInterval(#
-						x, #
-						SeasonStarts[which(year(x)==year(SeasonStarts$WS)), ]#
-					)#
-				}#
-			) %>% unlist	#
-		)#
-	    dat[which(dat$Season==0 | dat$Season==4), ]$Season 	<- "Winter"#
-	    dat[which(dat$Season==1), ]$Season 					<- "Spring"#
-	    dat[which(dat$Season==2), ]$Season 					<- "Summer"#
-	    dat[which(dat$Season==3), ]$Season 					<- "Fall"#
-	    return(dat)#
-    }
-dat = data.frame(#
-	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
-            (0:10)*30, format="%Y-%m-%d" ))#
-    )#
-    dat %>% assignSeason
-library(dplyr)
-dat = data.frame(#
-	    Date = as.POSIXct(strptime(as.Date("2011-12-01", format = "%Y-%m-%d") + #
-            (0:10)*30, format="%Y-%m-%d" ))#
-    )#
-    dat %>% assignSeason
-library(devtoolks)
-library(devtools)
-?install_github
-devtools::install_github("ksauby/ACSampling", auth_token="2ab30a602e52fae481f4249cc25e892c0a9ccfc7", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
-devtools::install_github("ksauby/ACSampling", auth_token="2794c3f10db92f525181a0b1f6c19064fe3a2ef3", subdir="/code/Restricted_ACS_Simulations/ACSampling", repos=NULL)
-devtools::install("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="~/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-library(devtools)
-devtools::install_local(path="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-devtools::install(pkg="/Users/KSauby/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-install.packages("~/Documents/Projects/ACSampling/code/Restricted_ACS_Simulations/ACSampling_0.0.0.9000.tar.gz")
-??limit
-37-13
-24/37
-37-13
-26/37
-25/37
-23/37
-29/37
-30/37
-22/37
-30/37
-29/37
-28/37
-27/37
-35/37
-30/37
-29/37
-26/37
-26/37 - .6757
-28/37
-30/37
-29/37
-37-12
-25/37
-219*.8
-219*.8 - 17
-26/3
-17/900
-42/900
-49/900
-29/40
-1/25
-8/25
-10/25
-(7.5 + 3.75)/15
-12*0.75
-11 * 0.75
-11/15
-11*0.25
-11/15 * 6
-32/41 +0.03.5
-32/41 + 0.035
-(32/41 + 0.035)*100
-100/41
-23/40 * 100
-(23/40 * 100)+5
-(164 + 13.5 + 6)
-(164 + 13.5 + 6)/365
-(164 + 13.5 + 6 + (50))/365
-(164 + 13.5 + 6 + (60))/365
-(164 + 13.5 + 6 + (70))/365
-(164 + 13.5 + 6 + (75))/365
-102/40
-102/41
-?table
-9.49/2
-12.75+8.25
-(10.5 + 6.5)/(12.75+8.25)
-.25^2 * 2
-(.25^2 * 2)^0.5
-(.25^2 * 2)^0.5 * 2
-3/8
-5/8
-6/8
-30*1.5
-40*15
-40*1.5
-13.25 - 4.5
-(276.29+8.75)/365
-16*3
-16*4
-84/12
-9/12
-9/12*14
-22+60+78+80+88+98
-22+38+18+2+8+10
-239/785
-(239+53)/785
-.492+.139
-.412+.166+.002
-.412/.58
-.166/.58
-.412*.58
-.71*.58
-98-54
-22+49+43+33+36+44
-60-11
-78-26
-80-35
-88-47
-98-52
-22+49+52+45+41+46
-library(RMark)
-?test_ddl
-data(dipper)    dipper.processed=process.data(dipper,groups=("sex"))    release.gof(dipper.processed)
-4+19+7+12
-4+17.83+7+12
-40.83/42
-40.83/42*14
-14
-(11.25+5)/(25.5 + 10.25 - 14)
-365*0.6666
-365*0.6666 - 75.89
-5/6 * 2
-5/6 * 2 + 75.89
-365*0.6666 -77.55667
-365*0.6666 -77.55667 - 6 - 13 - 1
-145.7523/2
-15*3
-11*5
-8/12*14
-4+15.33+5.5+12
-(4+15.33+5.5+12)
-(4+15.33+5.5+12)/(4+19+7+12)
-(4+19+7+12)
-(4+15.33+5.5+12)/(4+19+7+12)*14
-2.5+17.5+12
-32/42
-32/42 * 14
-4+12+6.5+12
-(4+12+6.5+12)/42 * 14
-5/6*2
-5/6*2 + 0.25
-5/6*2 + 0.5
-2577.77/12
-15/20
-15/20*6
-300 - 4*50
-300 - 4*40
-4.5/12*14
-9+9+7+9
-33.5/34 * 14
-32/34 * 14
-32/34*14
-7+8.5+7+7
-(7+8.5+7+7)/34 * 14
-(7+5.5+5.5+8.5)/34 * 14
-(7+5.5+5.5+8.5)/(9+7+9+9) * 14
-9+7+9+9
-(14.25+7.25)/(24.75+10.25-9)
-(16.5+7.75)/(24.75+10.25)
-(16.5+7.75)/(24.75+10.25)*6
-(5.25+5.5)/(22.5+10.5)
-(5.25+5.5)/(22.5+10.5)*6
-(9.75+5.5)/(24.7+10.25-5)*6
-(9.75+5.5)/(24.7+10.25-5)
-3.98/6
-(9.75+5.5)/(24.7+10.25-10)
-(9.75+5.5)/(24.7+10.25-10)*6
-5/6*2
-1.83-5/6*2
-1.83-4/6*2
-5/6*2 + 0.5
-4/6*2 + 0.5
-4/6*2
-4/6 + 0.5
-4/6*2 + 0.5
-33/34 * 14
-17.5*4
-24*4 + 1.75*4
-library(dplyr)
-library(plyr)
-600*.22
-library(Mage)
-??prepDataTransitionMatrix
-??projection.matrix
-1/0.167
-0.167*3
-library(ACSamplibng)
+Exam2 <- read.csv(file = "Projects/Exam2_Grades.csv", header = TRUE, stringsAsFactors = FALSE)
+setwd('/Users/KSauby/Documents')
+library(magrittr)#
+library(dplyr)#
+library(ggplot2)#
+#
+Exam2 <- read.csv(file = "Projects/Exam2_Grades.csv", header = TRUE, stringsAsFactors = FALSE)
+head(Exam2)
+setwd('/Users/KSauby/Documents')
+Exam2 %<>% #
+	filter(Exam.2..3398477.>0)
+dim(Exam2)
+setwd('/Users/KSauby/Documents')
+Exam2 <- read.csv(file = "Projects/Exam2_Grades.csv", header = TRUE, stringsAsFactors = FALSE)
+dim(Exam2)
+setwd('/Users/KSauby/Documents')
+Exam2 %<>% #
+	filter(Exam.2..3398477.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Exam.2..3398477.),#
+		sd_Exam1 = sd(Exam.2..3398477.),#
+		zvar = #
+			(Exam.2..3398477. - mean(Exam.2..3398477.)) / sd(Exam.2..3398477.),#
+		zvar_back = zvar*sd(Exam.2..3398477.) + mean(Exam.2..3398477.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Exam 2 (3398477)` = max(Exam.2..3398477., curved_Exam1))
+Exam2
+setwd('/Users/KSauby/Documents')
+Exam2 %>% write.csv("Exam2_curved.csv")
+100+4+16+16
+136/400
+setwd('/Users/KSauby/Documents')
+ggplot(Exam1, aes(Exam.2..3398477., fill=Section)) + geom_histogram() + xlab("Exam 1")
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(Exam.2..3398477., fill=Section)) + geom_histogram() + xlab("Exam 2")
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(curved_Exam1, fill=Section)) + geom_histogram() + xlab("Exam 2 (Curved)")
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(Exam.2..3398477., fill=Section)) + geom_histogram() + xlab("Exam 2")
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(Exam.2..3398477.)) + geom_histogram() + xlab("Exam 2")
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(Exam.2..3398477.)) + geom_histogram() + xlab("Exam 2")
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(curved_Exam1)) + geom_histogram() + xlab("Exam 2 (Curved)")
+setwd('/Users/KSauby/Documents')
+Exam2 <- read.csv(file = "Projects/Exam2_Grades.csv", header = TRUE, stringsAsFactors = FALSE)#
+#
+Exam2 %<>% #
+	filter(Exam.2..3398477.>0)
+setwd('/Users/KSauby/Documents')
+mean(Exam2$Exam.2..3398477, na.rm=T)#
+sd(Exam2$Exam.2..3398477, na.rm=T)
+setwd('/Users/KSauby/Documents')
+Exam2 %<>% #
+	filter(Exam.2..3398477.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Exam.2..3398477.),#
+		sd_Exam1 = sd(Exam.2..3398477.),#
+		zvar = #
+			(Exam.2..3398477. - mean(Exam.2..3398477.)) / sd(Exam.2..3398477.),#
+		zvar_back = zvar*sd(Exam.2..3398477.) + mean(Exam.2..3398477.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Exam 2 (3398477)` = max(Exam.2..3398477., curved_Exam1))
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(Exam.2..3398477.)) + geom_histogram() + xlab("Exam 2")
+setwd('/Users/KSauby/Documents')
+ggplot(Exam2, aes(curved_Exam1)) + geom_histogram() + xlab("Exam 2 (Curved)")
+.85*47
+264+604+218
+(63+113+40)/1086
+7+1+6+1
+13+12+12+9
+15/46
+60000*.08
+11+3+9+3
+13+12+12+9
+26/46
+.64
+.2*.8*2
+8/9
+.32/34
+.32/.34
+.32/.36
+3.8 - 1.2
+3.8-1.5
+.7*.7
+.7*.3*.2
+.3*.3
+.7*.3*2
+.49+.42+.09
+.6*.6
+.6*.4*2
+.4*.4
+.2*.8*2
+.2*.2
+.8*.8
+.9*.9
+.9*.1*2
+.1*.1
+.6*.6
+.6*.4*2
+.4*.4
+.6*.4*2
+.6*.6
+.7*.7
+.7*.3*2
+.3*.3
+263+599+216
+1-0.25396
+sqrt(48)
+sqrt(48)*6*2
+4*6*2
+233.27*3
+setwd('/Users/KSauby/Documents')
+library(magrittr)#
+library(dplyr)#
+library(ggplot2)
+setwd('/Users/KSauby/Documents')
+Exam2 <- read.csv(file = "Projects/Exam2_Grades.csv", header = TRUE, stringsAsFactors = FALSE)#
+#
+Exam2 %<>% #
+	filter(Exam.2..3398477.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Exam.2..3398477.),#
+		sd_Exam1 = sd(Exam.2..3398477.),#
+		zvar = #
+			(Exam.2..3398477. - mean(Exam.2..3398477.)) / sd(Exam.2..3398477.),#
+		zvar_back = zvar*sd(Exam.2..3398477.) + mean(Exam.2..3398477.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Exam 2 (3398477)` = max(Exam.2..3398477., curved_Exam1))
+setwd('/Users/KSauby/Documents')
+mean(Exam2$Exam.2..3398477, na.rm=T)#
+sd(Exam2$Exam.2..3398477, na.rm=T)
+head(Exam2)
+head(Exam2) %>% as.data.frame
+Exam2 %>% filter(Student=="Cui, Quentin") %>% as.data.frame
+(84.5 - 76.27222)/14.79748
+setwd('/Users/KSauby/Documents')
+84.5*sd(Exam1$Exam2$Exam.2..3398477.) + mean(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+84.5*sd(Exam2$Exam.2..3398477.) + mean(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+0.5560256*sd(Exam2$Exam.2..3398477.) + mean(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+(84.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+(84.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+(85.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+0.6236047*10 + 83
+setwd('/Users/KSauby/Documents')
+(85.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)*10 + 83
+setwd('/Users/KSauby/Documents')
+mean(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+sd(Exam2$Exam.2..3398477.)
+setwd('/Users/KSauby/Documents')
+(85.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)*10 + 83
+(69.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)
+(69.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)*10 + 83
+setwd('/Users/KSauby/Documents')
+library(magrittr)#
+library(dplyr)#
+library(ggplot2)#
+#
+Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)
+head(Exam2)
+setwd('/Users/KSauby/Documents')
+library(magrittr)#
+library(dplyr)#
+library(ggplot2)#
+#
+Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)
+head(Exam2)
+setwd('/Users/KSauby/Documents')
+Exam2 %<>% #
+	filter(Final.Exam..3510129.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Final.Exam..3510129.),#
+		sd_Exam1 = sd(Final.Exam..3510129.),#
+		zvar = #
+			(Exam.2..3398477. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
+		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1))
+head(Exam2)
+setwd('/Users/KSauby/Documents')
+Exam2 %<>% #
+	filter(Final.Exam..3510129.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Final.Exam..3510129.),#
+		sd_Exam1 = sd(Final.Exam..3510129.),#
+		zvar = #
+			(Exam.2..3398477. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
+		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
+	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, curved_Exam1, `Final Exam (3510129)`)
+Exam2
+Exam2 %>% as.data.frame
+setwd('/Users/KSauby/Documents')
+Exam2 %<>% #
+	filter(Final.Exam..3510129.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Final.Exam..3510129.),#
+		sd_Exam1 = sd(Final.Exam..3510129.),#
+		zvar = #
+			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
+		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
+	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, curved_Exam1, `Final Exam (3510129)`)
+setwd('/Users/KSauby/Documents')
+Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)#
+#
+Exam2 %<>% #
+	filter(Final.Exam..3510129.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Final.Exam..3510129.),#
+		sd_Exam1 = sd(Final.Exam..3510129.),#
+		zvar = #
+			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
+		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
+	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, curved_Exam1, `Final Exam (3510129)`)
+Exam2 %>% as.data.frame
+setwd('/Users/KSauby/Documents')
+Exam2 %<>% #
+	filter(Final.Exam..3510129.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Final.Exam..3510129.),#
+		sd_Exam1 = sd(Final.Exam..3510129.),#
+		zvar = #
+			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
+		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
+	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, Final.Exam..3510129., curved_Exam1, `Final Exam (3510129)`)
+setwd('/Users/KSauby/Documents')
+Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)#
+#
+Exam2 %<>% #
+	filter(Final.Exam..3510129.>0) %>%#
+	mutate(#
+		mean_Exam1 = mean(Final.Exam..3510129.),#
+		sd_Exam1 = sd(Final.Exam..3510129.),#
+		zvar = #
+			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
+		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
+		curved_Exam1 = zvar*10 + 83#
+	) %>%#
+	group_by(Student) %>%#
+	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
+	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, Final.Exam..3510129., curved_Exam1, `Final Exam (3510129)`)
+Exam2 %>% as.data.frame
+1849/8
+1997/8
+1294/89
+1294/8
+2172/3
+2172/8
+1920=3
+1920/3
+1920 + 32*3
+2025+97*3
+1809+86(3)
+1809+86*3
+835+350
+2445/3
+44.95/15
+69/20
+185000*.05
+93 887,907.69
+887,907.69
+887907.69 + 39734.68
+887907.69 + 39734.68 + 185073.33
+887907.69 + 39734.68 + 185073.33+150000
+887907.69 + 39734.68 + 185073.33+150000+50000
+1000/40
+89.95/3120
+89.95/310
+89.95/310*43
+13.3/11.35
+410.26/348.6
+37.66/32
+50/7
+1000/78
+78/1000
+80*110
+8*.33
+68/1000
+20000/17.2
+33.95*1000
+94161.58-33950
+13711.35+288.66+110.04
+1000/35.15
+1000/15.79
+5566.46/35.15
+6000.00/15.79
+10000/17.92
+16+12+4210
+16+12+42+10
+93/33203.91
+33203.91/93
+2364.0000-1162.7910
+21054.65/1207.262
+26x3
+26*3
+78+1+0.4
+55*75
++8800
+55*75 + 8800
+42/12
+94.93*.1170+90.24*5+(92.13+6+87.2)/3*.833
+94.93*.1170+90.24*.05+(92.13+6+87.2)/3*.833
+94.93*.1170+90.24*.05+(92.13+6+87.2+79.5)/3*.833
+.117*94.93+.05*90.24+.833*(92.13+87.2+6)/3
+.117*94.93+.05*90.24+.833*(92.13+87.2+6+79.4)/3
+.117+.05+.833
+20000/11.26
+60000/11.26
+.58+4.66+11.64
+.29*3
+88-4-3-1-16
+2.03*.8
+*.84.07
+4.07*.8
+4.95*.8
+4.95*.9
+42+1+5+6
+?calculateSSQR
 library(ACSampling)
+?calculateSSQR
+??parse_Rd
+devtools::check()
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
-devtools::test()#
-devtools::document()#
-devtools::install()
+#devtools::test()#
+devtools::check()
+?:::
+??:::
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::check()
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::check()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+#devtools::check()#
+#devtools::check()#
+devtools::document()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::check()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+#devtools::check()#
+#devtools::check()#
+devtools::document()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+#devtools::check()#
+#devtools::check()#
+devtools::document()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::check()
+.29+2.91+.29
