@@ -383,30 +383,35 @@ calculateSamplingBias <- function(
 			sampling.grouping.variables
 		)
 	)
-	# group data to prep for processing by 
-	#		population.grouping.variables, 
-	#		sampling.grouping.variables, and
-	#		n_sims
-	temp <- B %>% group_by_(.dots = c(
-		population.grouping.variables, 
-		sampling.grouping.variables, 
-		"n_sims"
-	))
-	# list for saving results
-	C <- vector("list", length(ovar))
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:
-	#	mean of observed means
-	#	sample size used for those calculations
-	for (i in 1:length(ovar)) {
-		C[[i]] <- list()
-		# observed mean
-		C[[i]] <- temp %>%
+	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)
+		
+		
+		calculateMeanofObservedMeans <- function(dataframe, variables) {
+			# group data to prep for processing by 
+			#		population.grouping.variables, 
+			#		sampling.grouping.variables, and
+			#		n_sims
+			temp <- dataframe %>% group_by_(.dots = c(
+				population.grouping.variables, 
+				sampling.grouping.variables, 
+				"n_sims"
+			))
+			# list for saving results
+			C <- vector("list", length(variables))
+			# for each of the population.grouping.variables and sampling.grouping.variables, calculate:
+			#	mean of observed means
+			#	sample size used for those calculations
+			for (i in 1:length(variables)) {
+				C[[i]] <- list()
+				# observed mean
+				C[[i]] <- temp %>%
+		
 			summarise_(
 				mean_of_observed_means = interp(
 					~mean(var, na.rm = TRUE), 
 					var = as.name(
 						paste(
-							ovar[i],
+							variables[i],
 							"_mean_observed",
 							sep=""
 						)
@@ -416,7 +421,7 @@ calculateSamplingBias <- function(
 					~length(var[which(!is.na(var))]), 
 					var = as.name(
 						paste(
-							ovar[i],
+							variables[i],
 							"_mean_observed",
 							sep=""
 						)
@@ -424,12 +429,12 @@ calculateSamplingBias <- function(
 				)
 			)
 		colnames(C[[i]])[names(C[[i]]) == "mean_of_observed_means"] <- paste(
-			ovar[i],
+			variables[i],
 			"_mean_of_observed_means",
 			sep=""
 		)
 		colnames(C[[i]])[names(C[[i]]) == "sample_size"] <- paste(
-			ovar[i],
+			variables[i],
 			"_mean_of_observed_means_n",
 			sep=""
 		)
