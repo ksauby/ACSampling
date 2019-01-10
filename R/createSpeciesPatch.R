@@ -52,8 +52,6 @@
 #'  	scale_colour_gradientn(colours = rainbow(7)) +
 #'  	geom_text(aes(label=NetworkID), hjust=0, vjust=0)
 
-#' @export
-
 createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, Rel_x=Rel_x, Rel_y=Rel_y) {
 	NetworkID <- temp_coords <- NULL
 	cluster.centers <- filter(cluster.info, Rel_x==0 & Rel_y==0)
