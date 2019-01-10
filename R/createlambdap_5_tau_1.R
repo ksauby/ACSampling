@@ -8,7 +8,7 @@
 #' ggplot(lambdap_5_tau_1 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations.. \emph{Environmetrics}, 8: 145--166.
+#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
 #' @export
 
 createlambdap_5_tau_1 <- function() {

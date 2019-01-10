@@ -286,60 +286,52 @@ calculateBiasComponents	<- function(dataframe, resultslist, variables) {
 	}
 	return(resultslist)
 }
-	calculateMeanofObservedMeans <- function(dataframe, variables, nsims) {
-		# add number of simulations to dataset
-		B %<>% merge(
-			n_sims, 
-			by = c(
-				population.grouping.variables, 
-				sampling.grouping.variables
-			)
-		)
-		# group data to prep for processing by 
-		#		population.grouping.variables, 
-		#		sampling.grouping.variables, and
-		#		n_sims
-		temp <- dataframe %>% group_by_(.dots = c(
-			population.grouping.variables, 
-			sampling.grouping.variables, 
-			"n_sims"
-		))
-		# list for saving results
-		C <- vector("list", length(variables))
-		# for each of the population.grouping.variables and sampling.grouping.variables, calculate:
-		#	mean of observed means
-		#	sample size used for those calculations
-		for (i in 1:length(variables)) {
-			C[[i]] <- list()
-			# observed mean
-			C[[i]] <- temp %>%
-				summarise_(
-					mean_of_observed_means = interp(
-						~mean(var, na.rm = TRUE), 
-						var = as.name(
-							paste(
-								variables[i],
-								"_mean_observed",
-								sep=""
-							)
-						)
-					),
-					sample_size = interp(
-						~length(var[which(!is.na(var))]), 
-						var = as.name(
-							paste(
-								variables[i],
-								"_mean_observed",
-								sep=""
-							)
+calculateMeanofObservedMeans <- function(dataframe, variables, nsims) {
+	# group data to prep for processing by 
+	#		population.grouping.variables, 
+	#		sampling.grouping.variables, and
+	#		n_sims
+	temp <- dataframe %>% group_by_(.dots = c(
+		population.grouping.variables, 
+		sampling.grouping.variables, 
+		"n_sims"
+	))
+	# list for saving results
+	C <- vector("list", length(variables))
+	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:
+	#	mean of observed means
+	#	sample size used for those calculations
+	for (i in 1:length(variables)) {
+		C[[i]] <- list()
+		# observed mean
+		C[[i]] <- temp %>%
+			summarise_(
+				mean_of_observed_means = interp(
+					~mean(var, na.rm = TRUE), 
+					var = as.name(
+						paste(
+							variables[i],
+							"_mean_observed",
+							sep=""
 						)
 					)
-				) %>%
+				),
+				sample_size = interp(
+					~length(var[which(!is.na(var))]), 
+					var = as.name(
+						paste(
+							variables[i],
+							"_mean_observed",
+							sep=""
+						)
+					)
+				)
+			) %>%
 			setnames(
 		      	.,
 		      	"mean_of_observed_means",
 		      	paste(
-		      		c(rvar_variables, o_rvar)[i],
+		      		variables[i],
 		      		"_mean_of_observed_means",
 		      		sep=""
 				)
@@ -348,11 +340,12 @@ calculateBiasComponents	<- function(dataframe, resultslist, variables) {
 		      	.,
 		      	"sample_size",
 		      	paste(
-		      		c(rvar_variables, o_rvar)[i],
+		      		variables[i],
 		      		"_mean_of_observed_means_n",
 		      		sep=""
 				)
 			)
+	}
 	D <- Reduce(
 		function(x, y) merge(
 			x, y,
@@ -457,27 +450,30 @@ calculateSamplingBias <- function(
 	# ------------------------------------------------------------------------ #
 	B <- A 
 	# add number of simulations to dataset
-	n_sims <- B %>% 
+	B %<>% 
 		group_by_(.dots = c(
 			population.grouping.variables, 
 			sampling.grouping.variables
 		)) %>%
-		summarise(n_sims = n())
+		mutate(n_sims = n())
 	
 	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)
+	
+	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?
+	
+	
+	
+	
+	
+	
+	
 	# ------------------------------------------------------------------------ #
 	# RATIO VARIABLES	
 	# ------------------------------------------------------------------------ #
 	E <- A
-	E %<>% filter(Stricta_mean_observed!=0)
+	# E %<>% filter(Stricta_mean_observed!=0)
 	
-	
-	
-
-	
-	
-	
-	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables, o_rvar))
+	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables))
 	
 	
 	E %<>% calculatedSquaredDifferences(variables=c(o_rvar, rvar_variables))
