@@ -47,4 +47,3 @@ Plot of the true variable parameter values (x-axis) versus variable bias (y-axis
 \description{
 Plot Simulation Results
 }
-

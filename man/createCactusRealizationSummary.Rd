@@ -15,4 +15,3 @@ Create Summary of Cactus Realization Data
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

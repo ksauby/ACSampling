@@ -65,4 +65,3 @@ Survey information for plots containing cacti, surveyed during Summer 2012.
 		\item Rel_y
 }
 }
-

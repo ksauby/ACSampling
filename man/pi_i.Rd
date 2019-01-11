@@ -38,4 +38,3 @@ Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluste
 
 Thompson. 1990.
 }
-

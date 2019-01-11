@@ -4,7 +4,8 @@
 \alias{createWidePopulationSummaryStatistics}
 \title{Create "Wide" Format Population Summary Statistics for Patch Population Data}
 \usage{
-createWidePopulationSummaryStatistics(PopulationSummaryStatistics, ovar, rvar)
+createWidePopulationSummaryStatistics(PopulationSummaryStatistics, ovar,
+  rvar)
 }
 \arguments{
 \item{PopulationSummaryStatistics}{Created by the function calculatePopulationSummaryStatistics.}
@@ -19,4 +20,3 @@ Dataframe with a column per mean/variance of each variable and a row per populat
 \description{
 Create "Wide" Format Population Summary Statistics for Patch Population Data
 }
-

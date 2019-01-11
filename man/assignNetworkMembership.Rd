@@ -15,7 +15,7 @@ assignNetworkMembership(dataframe, plot.size = 1)
 Returns dataframe with a new column for Network ID as well as a column for m, the number of units in the network.
 }
 \description{
-This function assigns network membership to units in an adaptive cluster sampling; if units are neighbors, they are assigned to the same network ID.
+This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned to the same network ID.
 }
 \examples{
 data(Thompson1990Figure1Population)
@@ -36,4 +36,3 @@ ggplot(data=P_networks, aes(x,y, size=factor(y_value), shape=factor(NetworkID)))
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

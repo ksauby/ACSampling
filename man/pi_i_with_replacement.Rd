@@ -22,4 +22,3 @@ Calculate the inclusion probability of unit $i$ in a simple random sample with r
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

@@ -4,9 +4,9 @@
 \alias{calculateJointInclusionProbabilities}
 \title{Calculate Joint Inclusion Probabilities Using Simulations}
 \usage{
-calculateJointInclusionProbabilities(patchdat = patch_data_3, simulations,
-  nsamples, SamplingDesign = "ACS", y_variable, f_max = NULL,
-  population.grouping.variable = NULL)
+calculateJointInclusionProbabilities(patchdat = patch_data_3,
+  simulations, nsamples, SamplingDesign = "ACS", y_variable,
+  f_max = NULL, population.grouping.variable = NULL)
 }
 \arguments{
 \item{patchdat}{patch realizations}
@@ -27,4 +27,3 @@ Calculate inclusion probabilities for each unit in a population using simulation
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

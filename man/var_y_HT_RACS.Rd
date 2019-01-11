@@ -32,4 +32,3 @@ var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

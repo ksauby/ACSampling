@@ -125,4 +125,3 @@ p + annotate("rect", xmin=x_start, xmax=x_end, ymin=y_start, ymax=y_end,
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

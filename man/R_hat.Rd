@@ -32,4 +32,3 @@ m = c(5, 2, 1)
 R_hat(y, x, N, n1, m, with_replacement="TRUE")
 var_R_hat(y, x, N, n1, m, with_replacement="TRUE")
 }
-

@@ -1,20 +1,18 @@
 #' Example dataset from Figure 1 from Thompson (1990)
 #'
-#' An example dataset from Figure 1 from Thompson (1990) containing the locations and abundance of a species of interest.
+#' @description An example dataset from Figure 1 from Thompson (1990) containing the information on the y-values associated with units in a 20 by 20 unit grid.
 #'
 #' \itemize{
-#'   \item y. Y coordinate.
 #'   \item x. X coordinate.
-#'   \item NetworkID. The ID of the network to which the unit belongs.
+#'   \item y. Y coordinate.
+#'   \item NetworkID. A unique number identifying the network to which the unit belongs.
 #'   \item m. The number of units in the given network.
-#'   \item y_value. The abundance of the species of interest.
+#'   \item y_value. The y-value associated with the unit.
 #' }
 #'
 #' @format A data frame with 400 rows and 5 variables
 #' @name Thompson1990Figure1Population
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-#'
-#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
+#' @references Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 #' @examples 
 #' library(ggplot2)
 #' 

@@ -19,4 +19,3 @@ Calculate joint inclusion probability of unit $j$ and $h$
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

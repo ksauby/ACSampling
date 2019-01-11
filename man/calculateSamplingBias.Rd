@@ -26,6 +26,9 @@ calculateSamplingBias(population_data_summary, simulation_data,
 \value{
 Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.
 }
+\description{
+Calculate Simulation Data Sampling Bias
+}
 \examples{
 # Create realizations
 x_start = 1
@@ -72,4 +75,3 @@ patch_data = cactus.realizations
 # 	summary.variables, grouping.variables)
 # avar = NULL
 }
-

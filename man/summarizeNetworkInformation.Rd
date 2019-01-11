@@ -27,4 +27,3 @@ The purpose of this is to reduce computation time by calculating some necessary 
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

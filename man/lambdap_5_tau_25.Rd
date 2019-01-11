@@ -28,4 +28,3 @@ Sauby, K.E and Christman, M.C. \emph{In preparation.}
 
 Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
 }
-

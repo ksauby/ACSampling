@@ -11,7 +11,6 @@
 #'
 #' @format A data frame with 31 rows and 4 variables.
 #' @name Thompson1990Table1data
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-#'
+#' @references
 #' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 NULL

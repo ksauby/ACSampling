@@ -27,4 +27,3 @@ Calculate inclusion probabilities for each unit in a population using simulation
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

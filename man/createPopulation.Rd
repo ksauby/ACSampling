@@ -24,7 +24,3 @@ Create a population of locations (in a grid).
 \examples{
 population <- createPopulation(x_start = 5, x_end = 27, y_start = 5, y_end = 27)
 }
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-}
-

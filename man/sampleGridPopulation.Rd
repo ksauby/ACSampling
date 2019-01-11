@@ -35,4 +35,3 @@ sampleGridPopulation(grid, n.networks, cluster.centers, seed)
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-

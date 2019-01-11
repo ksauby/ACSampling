@@ -21,6 +21,9 @@ calculatePopulationSummaryStatistics(population_data, summary.variables,
 \value{
 Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.
 }
+\description{
+Calculate Summary Statistics for Patch Population Data
+}
 \examples{
 library(magrittr)
 library(dplyr)
@@ -74,4 +77,3 @@ patch_data_summary \%<>\%
 write.csv(patch_data_summary, file=paste("patch_data_summary", 
 format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M"), ".csv", sep=""))
 }
-

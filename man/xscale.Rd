@@ -12,4 +12,3 @@ xscale(dig = 2, ...)
 \description{
 Function to Calculate Numbers to Label X-axis
 }
-

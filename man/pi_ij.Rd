@@ -27,4 +27,3 @@ pi_ij(N, n1, m) \%>\% .[1,2]
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }
-
