@@ -40,27 +40,19 @@ y_equal_breaks <- function(n = 3, s = 0.05, ...){
 #' @param legend_name The name given to the \code{grouping_variable} in the legend.
 #' @param xlab_name The x-axis name. Default value is \code{NULL}.
 #' @param ylab_name The y-axis name. Default value is \code{NULL}.
-#' @param SD=FALSE 
-#' @param facet=facet 
-#' @param legendposition="bottom" 
-#' @param legendcolor="black" 
+#' @param SD Defaults to FALSE 
+#' @param facet
+#' @param legendposition Defaults to "bottom" 
+#' @param legendcolor Defaults to "black" 
 #' @param x_breaks 
-#' @param x_angle=360
-#' @param nlength Number of breaks on the x-axis. Default value is \code{6}.
+#' @param x_angle Defaults to 360
 #' @param roundn 
+#' @param xlength
+#' @param ylength 
+#' @param y_breaks 
 #' @return Plot of the true variable parameter values (x-axis) versus variable bias (y-axis). The plot is divided into three facets: Horvitz-Thompson estimators, SRSWOR estimators (excluding information from adaptively sampled plots), and SRSWOR estimators applied to the entire dataset (ignoring the sampling design). Error bars indicate the standard deviation.
 #' @export
-#' @importFrom ggplot2 position_dodge
-#' @importFrom ggplot2 geom_hline
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 geom_line
-#' @importFrom ggplot2 facet_grid
-#' @importFrom ggplot2 guides
-#' @importFrom ggplot2 guide_legend
-#' @importFrom ggplot2 xlab
-#' @importFrom ggplot2 ylab
-#' @importFrom ggplot2 theme
-#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 position_dodge geom_hline geom_point geom_line facet_grid guides guide_legend xlab ylab theme aes scale_y_continuous element_rect element_text 
 
 plotSimulationResults <- function(
 	dataset, 

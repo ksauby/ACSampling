@@ -79,6 +79,10 @@ calculateDifferencesinMeans <- function(dataframe, variables) {
 	}
 	return(dataframe)
 }
+
+#' @importFrom dplyr summarise_ n
+#' @importFrom lazyeval interp
+
 calculateBiasComponents	<- function(dataframe, resultslist, variables) {
 	for (i in 1:length(variables)) {
 		resultslist[[i]] <- list()

@@ -5,6 +5,7 @@
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).
 #' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place.
 #' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}.
+#' @param f_max WHAT IS IT
 #' @param initial_sample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
 #' @return A restricted adaptive cluster sample.
 #' @examples

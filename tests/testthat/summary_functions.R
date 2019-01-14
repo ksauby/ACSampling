@@ -32,41 +32,41 @@ test_that("calculatePopulationSummaryStatistics", {
 		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% 
 		CV
 				
-	expect_that(
+	expect_equal(
 		mean_pop_1_CACA_on_Stricta,
-		equals(mean(pop_1_stricta$CACA_on_Stricta))
+		mean(pop_1_stricta$CACA_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		mean_pop_1_MEPR_on_Stricta,
-		equals(mean(pop_1_stricta$MEPR_on_Stricta))
+		mean(pop_1_stricta$MEPR_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		mean_pop_1_Old_Moth_Evidence_Stricta,
-		equals(mean(pop_1_stricta$Old_Moth_Evidence_Stricta))
+		mean(pop_1_stricta$Old_Moth_Evidence_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		var_pop_1_CACA_on_Stricta,
-		equals(PopVariance(pop_1_stricta$CACA_on_Stricta))
+		PopVariance(pop_1_stricta$CACA_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		var_pop_1_MEPR_on_Stricta,
-		equals(PopVariance(pop_1_stricta$MEPR_on_Stricta))
+		PopVariance(pop_1_stricta$MEPR_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		var_pop_1_Old_Moth_Evidence_Stricta,
-		equals(PopVariance(pop_1_stricta$Old_Moth_Evidence_Stricta))
+		PopVariance(pop_1_stricta$Old_Moth_Evidence_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		CV_pop_1_CACA_on_Stricta,
-		equals(popCV(pop_1_stricta$CACA_on_Stricta))
+		popCV(pop_1_stricta$CACA_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		CV_pop_1_MEPR_on_Stricta,
-		equals(popCV(pop_1_stricta$MEPR_on_Stricta))
+		popCV(pop_1_stricta$MEPR_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		CV_pop_1_Old_Moth_Evidence_Stricta,
-		equals(popCV(pop_1_stricta$Old_Moth_Evidence_Stricta))
+		popCV(pop_1_stricta$Old_Moth_Evidence_Stricta)
 	)
 	# population 6
 	pop_6_stricta <- CactusRealizations %>% filter(population==6, Stricta==1)
@@ -89,29 +89,29 @@ test_that("calculatePopulationSummaryStatistics", {
 		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% 
 		Var
 		
-	expect_that(
+	expect_equal(
 		mean_pop_6_CACA_on_Stricta,
-		equals(mean(pop_6_stricta$CACA_on_Stricta))
+		mean(pop_6_stricta$CACA_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		mean_pop_6_MEPR_on_Stricta,
-		equals(mean(pop_6_stricta$MEPR_on_Stricta))
+		mean(pop_6_stricta$MEPR_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		mean_pop_6_Old_Moth_Evidence_Stricta,
-		equals(mean(pop_6_stricta$Old_Moth_Evidence_Stricta))
+		mean(pop_6_stricta$Old_Moth_Evidence_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		var_pop_6_CACA_on_Stricta,
-		equals(PopVariance(pop_6_stricta$CACA_on_Stricta))
+		PopVariance(pop_6_stricta$CACA_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		var_pop_6_MEPR_on_Stricta,
-		equals(PopVariance(pop_6_stricta$MEPR_on_Stricta))
+		PopVariance(pop_6_stricta$MEPR_on_Stricta)
 	)
-	expect_that(
+	expect_equal(
 		var_pop_6_Old_Moth_Evidence_Stricta,
-		equals(PopVariance(pop_6_stricta$Old_Moth_Evidence_Stricta))
+		PopVariance(pop_6_stricta$Old_Moth_Evidence_Stricta)
 	)
 	
 	

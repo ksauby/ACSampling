@@ -7,7 +7,6 @@
 #' 
 #' ggplot(lambdap_5_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 
-
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
 #' @export
@@ -41,10 +40,6 @@ createlambdap_5_tau_5 <- function() {
 	# fill in NetworkIDs
 	maxID <- max(lambdap_5_tau_5$NetworkID, na.rm=T)
 	lambdap_5_tau_5[which(is.na(lambdap_5_tau_5$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), 
-		to=(maxID + length(which(is.na(lambdap_5_tau_5$NetworkID)))), by=1)
-	
-	
-	ggplot(lambdap_5_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-	
+		to=(maxID + length(which(is.na(lambdap_5_tau_5$NetworkID)))), by=1)	
 	return(lambdap_5_tau_5)
 }

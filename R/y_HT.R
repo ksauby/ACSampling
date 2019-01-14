@@ -142,6 +142,7 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NU
 #' @param y Attribute data about species of interest (e.g., abundance, presence/absence).
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
 #' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.
+#' @param m_threshold NEEDS DESCRIPTION
 #' @description This calculate the Horvitz-Thompson mean of an adaptive cluster sample done by sampling without replacement.
 #'
 #'where $v$ is the number of distinct units in the sample and

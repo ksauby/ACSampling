@@ -5,9 +5,9 @@
 
 #' @param patch_data Information about the populations of interesting
 #' @param population.grouping.variable variable identifying the separate populations. If only one population in patch_data, set population.grouping.variable = NULL.
-#' @param variable
-#' @param 
+#' @param variable Variable for which to calculate SSQr?
 #' @return Dataframe including original data and RE estimates.
+#' @importFrom dplyr mutate_
 #' @export
 
 calculateSSQR <- function(patch_data, variable, population.grouping.variable) {

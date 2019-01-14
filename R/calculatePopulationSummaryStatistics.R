@@ -65,9 +65,12 @@
 #' write.csv(patch_data_summary, file=paste("patch_data_summary", 
 #' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
 #' @export
-#' @importFrom dplyr group_by_
-#' @importFrom dplyr ungroup
+#' @importFrom dplyr group_by_ ungroup arrange_
 #' @importFrom stringr str_sub
+#' @importFrom stats var
+#' @importFrom sp coordinates
+#' @importFrom dataproc Mean PopVariance Sum popCV
+#' @importFrom spdep cell2nb nb2listw joincount.test moran.test 
 
 calculatePopulationSummaryStatistics <- function(
 	population_data, 

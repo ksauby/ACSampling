@@ -6,7 +6,7 @@
 #' @param y Vector of $y$ total, each corresponding to a unique network.
 #' @description Option for the "var_pi" function.
 #' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
-#' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1–17.
+#' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
 #' @export
 
 
@@ -20,7 +20,7 @@ Hajek <- function(pi_i, n) {
 #' @param n sample size
 #' @param y Vector of $y$ values.
 #' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{pi_i}.
-#' @references Berger, Y. G. (2005). Variance estimation with Chao's sampling scheme. Journal of Statistical Planning and Inference, 127(1-2), 253–277. http://doi.org/10.1016/j.jspi.2003.08.014
+#' @references Berger, Y. G. (2005). Variance estimation with Chao's sampling scheme. Journal of Statistical Planning and Inference, 127(1-2), 253-277. http://doi.org/10.1016/j.jspi.2003.08.014
 #' @export
 
 var_Hajek <- function(n, y, pi_i_values) {
@@ -38,7 +38,7 @@ var_Hajek <- function(n, y, pi_i_values) {
 #' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{pi_i}.
 #' @param estimator Options include "Hartley_Rao", "Hajek", "Rosen", "Berger", and "Deville".
 #' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
-#' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1–17.
+#' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
 #' @export
 #' @examples
 #' # Hajek Approximation

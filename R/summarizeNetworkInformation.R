@@ -8,7 +8,7 @@
 #' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{nsamples}) and the number of units per network for each of the \code{variables}.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export
-#' @importFrom dplyr funs
+#' @importFrom dplyr funs summarise_all
 
 summarizeNetworkInformation <- function(population_data, variables, grouping.variables=NULL, nsamples, m_var) {
 	stopifnot(length(unique(patch_data$N)) == 1)

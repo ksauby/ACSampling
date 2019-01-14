@@ -1,6 +1,6 @@
 #' Create an Adaptive Cluster Sample.
 #'
-#' @param population The population to be sampled.
+#' @param population_data The population to be sampled.
 #' @param seed A vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.
 #' @param n1 The initial sample size (sampled according to simple random sampling without replacement).
 #' @param y_variable The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.
@@ -37,7 +37,7 @@
 
 #' @export
 #' @importFrom plyr rbind.fill
-#' @importFrom dplyr filter
+#' @importFrom dplyr filter rowwise
 #' @importFrom ggplot2 ggplot
 
 createACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
