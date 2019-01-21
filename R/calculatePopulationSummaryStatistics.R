@@ -37,11 +37,9 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' @param ratio.variables Variables for which to use ratio estimators
 #' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
 
-#' @description
+#' @description Calculates summary statistics for patch population data.
 
 #' @return Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.
-
-#' @reference
 
 #' @export
 #' @importFrom dplyr group_by_ ungroup arrange_
