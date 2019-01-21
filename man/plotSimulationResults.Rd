@@ -6,9 +6,9 @@
 \usage{
 plotSimulationResults(dataset, variable = NULL, x_variable = NULL,
   y_variable = NULL, grouping_variable, legend_name, xlab_name = NULL,
-  ylab_name = NULL, SD = FALSE, facet = facet,
-  legendposition = "bottom", legendcolor = "black", x_angle = 360,
-  xlength = 6, ylength = 4, roundn = 2, y_breaks = NULL)
+  ylab_name = NULL, SD = FALSE, facet, legendposition = "bottom",
+  legendcolor = "black", x_angle = 360, xlength = 6, ylength = 4,
+  roundn = 2, y_breaks = NULL)
 }
 \arguments{
 \item{dataset}{Simulation data on sampling of the multiple patch realizations.}
@@ -29,19 +29,21 @@ plotSimulationResults(dataset, variable = NULL, x_variable = NULL,
 
 \item{SD}{Defaults to FALSE}
 
-\item{legendposition}{Defaults to "bottom"}
+\item{facet}{NEED DETAILS}
 
-\item{legendcolor}{Defaults to "black"}
+\item{legendposition}{Defaults to "bottom."}
+
+\item{legendcolor}{Defaults to "black."}
 
 \item{x_angle}{Defaults to 360}
 
-\item{ylength}{}
+\item{xlength}{Default value is 6.}
 
-\item{roundn}{}
+\item{ylength}{Default value is 4.}
 
-\item{y_breaks}{}
+\item{roundn}{Default value is 2.}
 
-\item{x_breaks}{}
+\item{y_breaks}{Default to NULL.}
 }
 \value{
 Plot of the true variable parameter values (x-axis) versus variable bias (y-axis). The plot is divided into three facets: Horvitz-Thompson estimators, SRSWOR estimators (excluding information from adaptively sampled plots), and SRSWOR estimators applied to the entire dataset (ignoring the sampling design). Error bars indicate the standard deviation.

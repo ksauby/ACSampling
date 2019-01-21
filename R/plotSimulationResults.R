@@ -41,15 +41,14 @@ y_equal_breaks <- function(n = 3, s = 0.05, ...){
 #' @param xlab_name The x-axis name. Default value is \code{NULL}.
 #' @param ylab_name The y-axis name. Default value is \code{NULL}.
 #' @param SD Defaults to FALSE 
-#' @param facet
-#' @param legendposition Defaults to "bottom" 
-#' @param legendcolor Defaults to "black" 
-#' @param x_breaks 
+#' @param facet NEED DETAILS
+#' @param legendposition Defaults to "bottom." 
+#' @param legendcolor Defaults to "black." 
 #' @param x_angle Defaults to 360
-#' @param roundn 
-#' @param xlength
-#' @param ylength 
-#' @param y_breaks 
+#' @param roundn  Default value is 2.
+#' @param xlength Default value is 6.
+#' @param ylength Default value is 4.
+#' @param y_breaks Default to NULL.
 #' @return Plot of the true variable parameter values (x-axis) versus variable bias (y-axis). The plot is divided into three facets: Horvitz-Thompson estimators, SRSWOR estimators (excluding information from adaptively sampled plots), and SRSWOR estimators applied to the entire dataset (ignoring the sampling design). Error bars indicate the standard deviation.
 #' @export
 #' @importFrom ggplot2 position_dodge geom_hline geom_point geom_line facet_grid guides guide_legend xlab ylab theme aes scale_y_continuous element_rect element_text 
@@ -64,10 +63,9 @@ plotSimulationResults <- function(
 	xlab_name=NULL,
 	ylab_name=NULL, 
 	SD=FALSE, 
-	facet=facet, 
+	facet, 
 	legendposition="bottom", 
 	legendcolor="black", 
-	#x_breaks, 
 	x_angle=360,
 	xlength=6,
 	ylength=4,
