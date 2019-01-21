@@ -27,7 +27,7 @@ calculateSamplingBias(population_data_summary, simulation_data,
 Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.
 }
 \description{
-Calculate Simulation Data Sampling Bias
+Calculate the sampling bias of different sampling designs from simulation data.
 }
 \examples{
 # Create realizations

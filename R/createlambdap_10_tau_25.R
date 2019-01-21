@@ -1,6 +1,6 @@
-#' Create the population, $\lambda_P$ = 5, $tau$ = 10, from Christman (1997)
+#' Create the population, $\lambda_P$ = 5, $\tau$ = 10, from Christman (1997)
 #' 
-#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $tau$ = 10.
+#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $\tau$ = 10.
 #' @examples 
 #' library(ggplot2)
 #' data(lambdap_10_tau_25)
@@ -8,7 +8,7 @@
 #' ggplot(lambdap_10_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 
 
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @references
 #' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
 #' @export
 
