@@ -5,7 +5,6 @@
 #' @param rvar list of ratio variables
 #' @return Dataframe with a column per mean/variance of each variable and a row per population.
 #' @export
-#' @examples
 
 
 createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, ovar, rvar) {
