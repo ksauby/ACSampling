@@ -12,6 +12,8 @@ createSRS(population, n1, seed = NA, wreplacement = F)
 \item{n1}{initial sample size (sampled according to simple random sampling without replacement).}
 
 \item{seed}{vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.}
+
+\item{wreplacement}{Should sampling be done with replacement? Defaults to FALSE.}
 }
 \value{
 A restricted adaptive cluster sample.

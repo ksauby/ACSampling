@@ -1,25 +1,23 @@
 #' Calculate Joint Inclusion Probabilities Using Simulations
 
-#' @param patchdat patch realizations
+#' @param patchdat A data frame specifying the patch realizations. WHAT FORMAT SHOULD IT BE IN?
 #' @param simulations Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
-#' @param SamplingDesign Sampling design; ACS or RACS.
+#' @param SamplingDesign Sampling design; ACS or RACS. Default value is "ACS."
 #' @param y_variable variable upon which adaptive cluster sampling criterion is based
-#' @param population.grouping.variable variable identifying unique populations
+#' @param f_max Default value is NULL.
+#' @param population.grouping.variable variable identifying unique populations. Default value is NULL.
 
 #' @description Calculate inclusion probabilities for each unit in a population using simulations.
 
-#' @return
-
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @return A list of nsamples and dat, BUT I DONT REMEMBER WHAT THOSE ARE.
 
 #' @export
 
 calculateJointInclusionProbabilities <- function(
-	patchdat = patch_data_3, 
+	patchdat, 
 	simulations, 
 	nsamples, 
-	#ACS=TRUE, 
 	SamplingDesign="ACS",
 	y_variable,
 	f_max = NULL,
@@ -30,7 +28,6 @@ calculateJointInclusionProbabilities <- function(
 	TIME 			<- Sys.time()
 	patchdat 		%<>% arrange_(.dots=population.grouping.variable)
 	if (population.grouping.variable != "pop") {
-		# patchdat	%<>% setnames(population.grouping.variable, "pop")
 		colnames(patchdat)[which(names(patchdat) == population.grouping.variable)] <- "pop"
 	}
 	n.pop 			<- length(unique(patchdat$pop))

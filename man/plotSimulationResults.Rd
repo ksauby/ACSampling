@@ -27,19 +27,21 @@ plotSimulationResults(dataset, variable = NULL, x_variable = NULL,
 
 \item{ylab_name}{The y-axis name. Default value is \code{NULL}.}
 
+\item{SD}{Defaults to FALSE}
+
+\item{legendposition}{Defaults to "bottom"}
+
+\item{legendcolor}{Defaults to "black"}
+
+\item{x_angle}{Defaults to 360}
+
+\item{ylength}{}
+
 \item{roundn}{}
 
-\item{SD=FALSE}{}
-
-\item{facet=facet}{}
-
-\item{legendposition="bottom"}{}
-
-\item{legendcolor="black"}{}
+\item{y_breaks}{}
 
 \item{x_breaks}{}
-
-\item{nlength}{Number of breaks on the x-axis. Default value is \code{6}.}
 }
 \value{
 Plot of the true variable parameter values (x-axis) versus variable bias (y-axis). The plot is divided into three facets: Horvitz-Thompson estimators, SRSWOR estimators (excluding information from adaptively sampled plots), and SRSWOR estimators applied to the entire dataset (ignoring the sampling design). Error bars indicate the standard deviation.

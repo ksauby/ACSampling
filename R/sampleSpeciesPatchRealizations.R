@@ -26,7 +26,6 @@
 #' @importFrom foreach %dopar% 
 #' @importFrom foreach %:%
 #' @importFrom dplyr select_
-#' @importFrom spdep WeightMatrix
  
 #' @export
 
@@ -613,7 +612,7 @@ sampleSpeciesPatchRealizations <- function(
 	Z$simulation_date 		= format(Sys.time(), "%m-%d-%y")
 	Z$y_HT_formula 			= y_HT_formula
 	Z$SamplingDesign 		= SamplingDesign
-	Z$MoransIWeightMatrix 	= WeightMatrix
+	Z$MoransIWeightMatrix 	= weights
 	print(Sys.time() - TIME)
 	return(Z)
 }

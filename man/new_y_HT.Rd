@@ -14,6 +14,8 @@ new_y_HT(y, N, n1, m_threshold, pi_i_values = NULL, m = NULL,
 
 \item{n1}{Initial sample size.}
 
+\item{m_threshold}{NEEDS DESCRIPTION}
+
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 
 \item{m}{Number of units satisfying the ACS criterion in network $i$.}

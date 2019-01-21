@@ -27,20 +27,20 @@
 
 #' @export
 #' @importFrom intergraph asIgraph
-#' @importFrom stats dist
-#' @importFrom network network
-#' @importFrom igraph clusters
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
+#' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
+#' @importFrom stats dist
+
+
+#' @importFrom dplyr summarise_each
+#' @importFrom dplyr filter
 #' @importFrom magrittr %$%
 #' @importFrom dplyr arrange
 #' @importFrom dplyr select
-#' @importFrom dplyr summarise
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom dplyr summarise_each
-#' @importFrom dplyr filter
-#' @import data.table
+#' @importFrom network network
+#' @importFrom igraph clusters
 
 assignNetworkMembership <- function(dataframe, plot.size=1) {
 	NetworkID <- x <- NULL

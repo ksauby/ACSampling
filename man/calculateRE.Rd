@@ -10,13 +10,15 @@ calculateRE(MSE_ComparisonSamplingDesign, population_data,
 \arguments{
 \item{MSE_ComparisonSamplingDesign}{Sampling design for which relative efficiency (RE) should be calculated.}
 
-\item{MSE_BaselineSamplingDesign}{The sampling design to which the "comparison sampling design" is compared to and its efficiency, relative to this one, is calculated.}
+\item{population.grouping.variables}{Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}). WHAT ELSE}
 
-\item{grouping.variables}{Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}).}
+\item{rvar}{Ratio variables.}
+
+\item{ovar}{Occupancy variables.}
 }
 \value{
 Dataframe including original data and RE estimates.
 }
 \description{
-Calculate Relative Efficiency (RE)
+Calculate efficiency of sampling design, relative to WHAT.
 }

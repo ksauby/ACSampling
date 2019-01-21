@@ -9,6 +9,8 @@ calculateSSQR(patch_data, variable, population.grouping.variable)
 \arguments{
 \item{patch_data}{Information about the populations of interesting}
 
+\item{variable}{Variable for which to calculate SSQr?}
+
 \item{population.grouping.variable}{variable identifying the separate populations. If only one population in patch_data, set population.grouping.variable = NULL.}
 }
 \value{

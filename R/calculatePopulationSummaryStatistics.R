@@ -1,3 +1,34 @@
+#' Return the sum of a vector, after removing NAs.
+#' 
+#' @param x Vectors of data.
+#' @description Written for use in the tables::tabular function to create publication-ready tables.
+
+Sum <- function(x) {sum(x, na.rm=TRUE)}
+
+#' Return the mean of a vector with up to two decimal places, after removing NAs.
+#' 
+#' @param x Vectors of data.
+#' @description Written for use in the tables::tabular function to create publication-ready tables.
+
+Mean <- function(x) base::mean(x, na.rm=TRUE)
+
+
+#' Return the population variance of a vector, after removing NAs, and round.
+#'
+#' @param x Vectors of data.
+#' @param round_n Number of digits to round to.
+#' @description Written for use in the tables::tabular function to create publication-ready tables.
+
+PopVariance <- function(x) {
+	temp <- sum((x-mean(x))^2)/length(x)
+}
+
+#' Population Coefficient of Variation
+#' 
+#' @param x Vectors of data.
+
+popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
+
 #' Calculate Summary Statistics for Patch Population Data
 #' 
 #' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
@@ -11,6 +42,13 @@
 #' @return Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.
 
 #' @reference
+
+#' @export
+#' @importFrom dplyr group_by_ ungroup arrange_
+#' @importFrom stringr str_sub
+#' @importFrom stats var
+#' @importFrom sp coordinates
+#' @importFrom spdep cell2nb nb2listw joincount.test moran.test 
 
 #' @examples
 #' library(magrittr)
@@ -64,13 +102,6 @@
 #' 	)
 #' write.csv(patch_data_summary, file=paste("patch_data_summary", 
 #' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
-#' @export
-#' @importFrom dplyr group_by_ ungroup arrange_
-#' @importFrom stringr str_sub
-#' @importFrom stats var
-#' @importFrom sp coordinates
-#' @importFrom dataproc Mean PopVariance Sum popCV
-#' @importFrom spdep cell2nb nb2listw joincount.test moran.test 
 
 calculatePopulationSummaryStatistics <- function(
 	population_data, 

@@ -5,19 +5,8 @@ Authors@R: person("Kristen", "Sauby", email = "ksauby@gmail.com", role = c("aut"
 Description: Generate simulation and estimate statistics for adaptive cluster
     sampling and restricted adaptive cluster sampling.
 Depends:
-    R (>= 3.1.2), 
-	magrittr, 
-	plyr,
-    dplyr,
-	ggplot2,
-    Rcpp,
-    data.table,
-    igraph,
-    intergraph,
-    network,
-    knitr,
-    foreach,
-    stringr
+    R (>= 3.1.2),
+	knitr
 License: GPL-2
 LazyData: true
 Suggests:

@@ -19,6 +19,8 @@ createRACS_flex(population, n1, y_variable, condition = 0, seed = NA,
 \item{seed}{vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.}
 
 \item{initial_sample}{List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
+
+\item{f_max}{WHAT IS IT}
 }
 \value{
 A restricted adaptive cluster sample.

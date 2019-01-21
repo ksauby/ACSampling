@@ -13,6 +13,7 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
 #' @importFrom stats runif median
+#' @importFrom dplyr summarise
 
 #' @export
 
