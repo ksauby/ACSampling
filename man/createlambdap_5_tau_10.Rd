@@ -2,15 +2,15 @@
 % Please edit documentation in R/createlambdap_5_tau_10.R
 \name{createlambdap_5_tau_10}
 \alias{createlambdap_5_tau_10}
-\title{Create the population, $\lambda_P$ = 5, $\tau$ = 10, from Christman (1997)}
+\title{Create the population, \deqn{\lambda_P = 5, \tau = 10}{lambda_P = 5, tau = 10}, from Christman (1997)}
 \usage{
 createlambdap_5_tau_10()
 }
 \value{
-The population displayed in Christman (1997), where $\lambda_P$ = 5, $\tau$ = 10.
+The population displayed in Christman (1997), where \deqn{\lambda_P = 5, \tau = 10}{lambda_P = 5, tau = 10}.
 }
 \description{
-Create the population, $\lambda_P$ = 5, $\tau$ = 10, from Christman (1997)
+Create the population, \deqn{\lambda_P = 5, \tau = 10}{lambda_P = 5, tau = 10}, from Christman (1997)
 }
 \examples{
 library(ggplot2)

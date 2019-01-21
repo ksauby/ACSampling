@@ -1,6 +1,6 @@
 #' Example dataset from Christman (1997)
 #'
-#' An example dataset from Christman (1997): $\lambda_P$ = 5, $tau$ = 5.
+#' An example dataset from Christman (1997): \deqn{\lambda_P = 5, \tau = 5}{lambda_P = 5, tau = 5}.
 #'
 #' \itemize{
 #'   \item y. Y coordinate.

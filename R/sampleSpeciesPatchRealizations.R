@@ -24,7 +24,6 @@
 
 #' @importFrom foreach foreach 
 #' @importFrom foreach %dopar% 
-#' @importFrom foreach %:%
 #' @importFrom dplyr select_
  
 #' @export

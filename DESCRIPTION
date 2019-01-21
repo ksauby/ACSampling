@@ -12,6 +12,19 @@ LazyData: true
 Suggests:
     testthat
 VignetteBuilder: knitr
-Imports:
+Imports: 
+	Rcpp,
+	dplyr,
+	foreach,
+	ggplot2, 
+	igraph, 
+	intergraph, 
+	lazyeval,
+	magrittr, 
+	network, 
+	plyr, 
+	sp, 
+	spdep, 
+	stringr
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1

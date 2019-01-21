@@ -1,6 +1,6 @@
-#' Create the population, $\lambda_P$ = 5, $\tau$ = 1, from Christman (1997)
+#' Create the population, \deqn{\lambda_P = 5, \tau = 1}{lambda_P = 5, tau = 1}, from Christman (1997)
 #' 
-#' @return The population displayed in Christman (1997), where $\lambda_P$ = 5, $\tau$ = 1.
+#' @return The population displayed in Christman (1997), where \deqn{\lambda_P = 5, \tau = 1}{lambda_P = 5, tau = 1}.
 #' @examples 
 #' library(ggplot2)
 #' data(lambdap_5_tau_1)

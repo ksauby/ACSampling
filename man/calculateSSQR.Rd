@@ -17,5 +17,8 @@ calculateSSQR(patch_data, variable, population.grouping.variable)
 Dataframe including original data and RE estimates.
 }
 \description{
-SSQ_R is the ratio of the within-network sum of squares to the total sum of squares. ACS design becomes more efficient relative to simple random sampling as the within-network variation increases relative to the overall variation [@thompson1996adaptive]. We calculate $SSQ_R = SSQ_w/SSQ_\tau$ as the ratio of the within-network sum of squares $SSQ_w = \sum_{j=1}^{\kappa} \sum_{i \in j} (y_{j,i} - \bar{y_{j}})^2$, to the total sum of squares $SSQ_\tau= \sum_{i=1}^{N} (y_i - \mu)^2$ [`r table_captions("cactus_summary_cap", display = "cite")`, @su2003estimator]. Thus, an increase in $SSQ_R$ indicates an increase in the efficiency of the ACS design relative to SRSWOR.
+SSQ_R is the ratio of the within-network sum of squares to the total sum of squares. ACS design becomes more efficient relative to simple random sampling as the within-network variation increases relative to the overall variation [@thompson1996adaptive]. We calculate \deqn{SSQ_R = SSQ_w/SSQ_\tau}{SSQ_R = SSQ_w/SSQ_tau} as the ratio of the within-network sum of squares \deqn{SSQ_w = \sum_{j=1}^{\kappa} \sum_{i \in j} (y_{j,i} - \bar{y_{j}})^2}{SSQ_w = \sum_{j=1}^{\kappa} \sum_{i \in j} (y_{j,i} - \bar{y_{j}})^2}, to the total sum of squares \deqn{SSQ_\tau= \sum_{i=1}^{N} (y_i - \mu)^2}{SSQ_\tau= \sum_{i=1}^{N} (y_i - \mu)^2}. Thus, an increase in \code{SSQ_R} indicates an increase in the efficiency of the ACS design relative to SRSWOR.
+}
+\references{
+su2003estimator
 }
