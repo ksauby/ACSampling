@@ -2,8 +2,8 @@
 #' 
 #' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
 #' @param population.grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}). WHAT ELSE
-#' @param population_data
-#' @param sample.size.variable
+#' @param population_data Dataframe of population data.
+#' @param sample.size.variable Name of column in population data (?) containing the variable indicating variation in sample size.
 #' @param rvar Ratio variables.
 #' @param ovar Occupancy variables.
 

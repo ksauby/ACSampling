@@ -10,7 +10,11 @@ calculateRE(MSE_ComparisonSamplingDesign, population_data,
 \arguments{
 \item{MSE_ComparisonSamplingDesign}{Sampling design for which relative efficiency (RE) should be calculated.}
 
+\item{population_data}{Dataframe of population data.}
+
 \item{population.grouping.variables}{Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}). WHAT ELSE}
+
+\item{sample.size.variable}{Name of column in population data (?) containing the variable indicating variation in sample size.}
 
 \item{rvar}{Ratio variables.}
 
