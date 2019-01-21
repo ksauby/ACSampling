@@ -371,6 +371,7 @@ calculateMeanofObservedMeans <- function(dataframe, variables, nsims) {
 	)
 	return(dataframe)
 }
+
 #' Calculate Simulation Data Sampling Bias
 #' 
 #' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
@@ -381,7 +382,7 @@ calculateMeanofObservedMeans <- function(dataframe, variables, nsims) {
 #' @param o_rvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.
 #' @param rvar Variables for which to use ratio estimators
 
-#' @description
+#' @description Calculate the sampling bias of different sampling designs from simulation data.
 
 #' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.
 
