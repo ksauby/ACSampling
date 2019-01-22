@@ -4,7 +4,12 @@
 \alias{createCactusRealizations}
 \title{Create Cactus Realization Data}
 \usage{
-createCactusRealizations()
+createCactusRealizations(PlotSurveys_season1, ovar)
+}
+\arguments{
+\item{PlotSurveys_season1}{Plot survey data from season 1.}
+
+\item{ovar}{occupancy variables.}
 }
 \value{
 The data from Sauby and Christman.

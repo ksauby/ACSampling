@@ -1,5 +1,7 @@
 #' Create Cactus Realization Data
 #' 
+#' @param PlotSurveys_season1 Plot survey data from season 1.
+#' @param ovar occupancy variables.
 #' @return The data from Sauby and Christman.
 #' @examples 
 #' library(ggplot2)
@@ -18,7 +20,7 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export
 
-createCactusRealizations <- function() {
+createCactusRealizations <- function(PlotSurveys_season1, ovar) {
 	# REALIZATION DATA
 	x_start 		<- 1
 	x_end 			<- 30
@@ -58,6 +60,6 @@ createCactusRealizations <- function() {
 	 	"Percent_Cover_Stricta",
 	 	"Height_Pusilla",
 	 	"Height_Stricta"
-	 )] %<>% apply(., 2, NA_is_Zero_Function)
+	 )] %<>% apply(.data, 2, NA_is_Zero_Function)
 	 return(patch_data)
 }

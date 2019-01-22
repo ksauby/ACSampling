@@ -42,13 +42,13 @@ calculateSSQR <- function(patch_data, variable, population.grouping.variable) {
 		) %>%
 			merge(overall_mean) %>%
 			mutate(
-				SSQw_j = (variable_value - network_mean)^2,
-				SSQt_i = (variable_value - overall_mean)^2
+				SSQw_j = (.data$variable_value - .data$network_mean)^2,
+				SSQt_i = (.data$variable_value - .data$overall_mean)^2
 			) %>%
 			group_by_(.dots=population.grouping.variable) %>%
 			summarise(
-				SSQw = sum(SSQw_j),
-				SSQt = sum(SSQt_i)
+				SSQw = sum(.data$SSQw_j),
+				SSQt = sum(.data$SSQt_i)
 			) %>%
 			mutate(
 				SSQ_R = SSQw / SSQt,

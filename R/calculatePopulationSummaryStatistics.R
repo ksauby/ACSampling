@@ -115,14 +115,14 @@ calculatePopulationSummaryStatistics <- function(
 			c("NetworkID", population.grouping.variable), 
 			as.symbol
 		)) %>%
-		summarise(m = m[1]) %>%
+		summarise(m = .data$m[1]) %>%
 		group_by_(.dots=population.grouping.variable) %>%
 		summarise(
 			m_min_unique_neigh = min(m),
 			m_max_unique_neigh = max(m),
 			m_mean_unique_neigh = mean(m),
 			m_var_unique_neigh = var(m),
-			n_Species_Patches = length(unique(NetworkID[which(m>1)]))
+			n_Species_Patches = length(unique(.data$NetworkID[which(m>1)]))
 		) %>%
 		ungroup %>%
 		as.data.frame
@@ -156,7 +156,7 @@ calculatePopulationSummaryStatistics <- function(
 			eval(parse(text=population_variable)) == 
 			unique(eval(parse(text=population_variable)))[i]
 		), ]
-		temp %<>% arrange(x,y)
+		temp %<>% arrange(.data$x,.data$y)
 		# spatial statistics
 		coordinates(temp) = ~ x+y
 		A[[i]] <- list()
