@@ -10,13 +10,13 @@
 createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, ovar, rvar) {
 	# variance
 	A <- PopulationSummaryStatistics[[2]] %>%
-		dplyr::select(Var, variable, population) %>%
+		dplyr::select(.data$Var, .data$variable, .data$population) %>%
 		rowwise() %>%
 		mutate(
 			variable = replace(
-				variable,
-				which(variable %in% rvar),
-				paste(variable, "ratio", sep="_")
+				.data$variable,
+				which(.data$variable %in% rvar),
+				paste(.data$variable, "ratio", sep="_")
 			)
 		) %>%
 		ungroup() %>%
@@ -25,13 +25,13 @@ createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, o
 	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")
 	# mean
 	B <- PopulationSummaryStatistics[[2]] %>%
-		dplyr::select(Mean, variable, population) %>%
+		dplyr::select(.data$Mean, .data$variable, .data$population) %>%
 		rowwise() %>%
 		mutate(
 			variable = replace(
-				variable,
-				which(variable %in% rvar),
-				paste(variable, "ratio", sep="_")
+				.data$variable,
+				which(.data$variable %in% rvar),
+				paste(.data$variable, "ratio", sep="_")
 				)
 		) %>%
 		ungroup() %>%
@@ -39,7 +39,7 @@ createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, o
 	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "mean", sep="_")
 	# population size
 	C <- PopulationSummaryStatistics[[1]] %>%
-		dplyr::select(population, N)
+		dplyr::select(.data$population, .data$N)
 	# merge all together
 	merge(A, B, by="population") %>% merge(C, by="population")
 }

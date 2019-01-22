@@ -11,7 +11,7 @@
 #' }
 #'
 #' @format A data frame with 100 rows and 5 variables
-#' @name lambdap_5_tau_1
+#' @name lambdap_5_tau_5
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  
 #'
 #' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.

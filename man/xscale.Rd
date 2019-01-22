@@ -4,10 +4,12 @@
 \alias{xscale}
 \title{Function to Calculate Numbers to Label X-axis}
 \usage{
-xscale(dig = 2, ...)
+xscale(x, dig = 2)
 }
 \arguments{
 \item{x}{vector of data}
+
+\item{dig}{number of digits to round to}
 }
 \description{
 Function to Calculate Numbers to Label X-axis

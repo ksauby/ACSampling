@@ -94,11 +94,11 @@ calculateJointInclusionProbabilities <- function(
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
-					dplyr::select(pop, x, y, NetworkID, Sampling) %>%
+					dplyr::select(pop, .data$x, .data$y, NetworkID, Sampling) %>%
 					arrange(NetworkID)
 				# save for m summary data
 				data_networks <- alldata %>%
-					filter(m!=0)
+					filter(.data$m!=0)
 				# GET INCLUSION MATRIX FOR NETWORKS
 				
 				# temp <- 
@@ -151,12 +151,12 @@ calculateJointInclusionProbabilities <- function(
 				if (dim(data_networks)[1] > 0) {
 					temp <- data_networks %>%
 						group_by(NetworkID) %>%
-						dplyr::summarise(m = m[1]) %>%
+						dplyr::summarise(m = .data$m[1]) %>%
 						dplyr::summarise(
-							MEAN = mean(m),
-							MAX = max(m),
-							MIN = min(m),
-							MEDIAN = median(m)
+							MEAN = mean(.data$m),
+							MAX = max(.data$m),
+							MIN = min(.data$m),
+							MEDIAN = median(.data$m)
 						)
 					A[[i]][[j]][[k]]$mean_m_unique_neigh 		<- temp$MEAN
 					A[[i]][[j]][[k]]$max_m_unique_neigh 		<- temp$MAX
@@ -164,10 +164,10 @@ calculateJointInclusionProbabilities <- function(
 					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
 					A[[i]][[j]][[k]] <- data_networks %>%
 						dplyr::summarise(
-							MEAN = mean(m),
-							MAX = max(m),
-							MIN = min(m),
-							MEDIAN = median(m)
+							MEAN = mean(.data$m),
+							MAX = max(.data$m),
+							MIN = min(.data$m),
+							MEDIAN = median(.data$m)
 						)
 					A[[i]][[j]][[k]]$rowcolequal <- rowcolequal
 				} else {

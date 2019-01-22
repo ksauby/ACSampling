@@ -6,6 +6,9 @@
 \usage{
 createCactusRealizationSummary(CactusRealizations)
 }
+\arguments{
+\item{CactusRealizations}{the data to give the function}
+}
 \value{
 The data from Sauby and Christman.
 }

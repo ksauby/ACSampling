@@ -6,7 +6,7 @@
 \usage{
 sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
   rvar, SamplingDesign = "ACS", y_variable, y_HT_formula = "y_HT",
-  var_y_HT_formula = "var_y_HT", m_threshold = NULL, f_max = 2,
+  var_formula = "var_y_HT", m_threshold = NULL, f_max = 2,
   SampleEstimators = FALSE, SpatialStatistics = TRUE,
   mCharacteristics = TRUE, patch_variable = "n.networks",
   realization_variable = "realization", weights = "S")
@@ -29,6 +29,8 @@ sampleSpeciesPatchRealizations(patchdat, simulations, nsamples, avar, ovar,
 \item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
 
 \item{y_HT_formula}{Default is "Thompson".}
+
+\item{var_formula}{Default is "var_y_HT".}
 
 \item{m_threshold}{Default is NULL.}
 

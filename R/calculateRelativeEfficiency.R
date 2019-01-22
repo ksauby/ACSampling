@@ -12,7 +12,8 @@
 #' @return Dataframe including original data and RE estimates.
 
 #' @export
-
+#' @importFrom reshape2 dcast
+#' @importFrom utils getFromNamespace
 
 # dimensions of populations
 # dimensions <- population_data %>% 
@@ -28,19 +29,20 @@ calculateRE <- function(
 	rvar,
 	ovar
 ) {	
+	melt.data.frame = getFromNamespace("melt.data.frame", "reshape2")
 	X <- NULL
 	X <- MSE_ComparisonSamplingDesign
 	if (sample.size.variable %in% names(X)) {
 		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"
 	}
 	# "long" format of mean MSE
-	A <- X %>% dplyr::select_(.dots=c(
+	A <- X %>% select_(.dots=c(
 		population.grouping.variables,
 		"sample.size.variable",
 		paste(ovar, "_mean_MSE", sep=""),
 		paste(rvar, "_ratio_mean_MSE", sep="")		
 	)) %>%
-	reshape2::melt.data.frame(
+	melt.data.frame(
 		data=.,
 		id.vars=c(
 			population.grouping.variables,
@@ -51,13 +53,13 @@ calculateRE <- function(
 	A$variable <- sub("*_mean_MSE", "", A$variable)
 	# "long" format of population variance
 	B <- population_data %>% 
-		dplyr::select_(.dots=c(
+		select_(.dots=c(
 			population.grouping.variables,
 			paste(ovar, "_var", sep=""),
 			paste(rvar, "_ratio_var", sep=""),
 			"N"
 		)) %>%			
-		reshape2::melt.data.frame(
+		melt.data.frame(
 			data=.,
 			id.vars=c(
 				population.grouping.variables,
@@ -85,7 +87,7 @@ calculateRE <- function(
 	)
 	Z$variable <- paste(Z$variable, "_RE", sep="")
 	Z %<>%
-	reshape2::dcast(
+	dcast(
 		list(
 			c(population.grouping.variables, "N", "sample.size.variable"),
 			c("variable")

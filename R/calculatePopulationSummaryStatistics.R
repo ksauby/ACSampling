@@ -122,7 +122,8 @@ calculatePopulationSummaryStatistics <- function(
 			m_max_unique_neigh = max(.data$m),
 			m_mean_unique_neigh = mean(.data$m),
 			m_var_unique_neigh = var(.data$m),
-			n_Species_Patches = length(unique(.data$NetworkID[which(m>1)]))
+			n_Species_Patches = 
+				length(unique(.data$NetworkID[which(.data$m>1)]))
 		) %>%
 		ungroup %>%
 		as.data.frame
@@ -130,16 +131,16 @@ calculatePopulationSummaryStatistics <- function(
 	Y2 = population_data %>%
 		group_by_(.dots=population.grouping.variable) %>%
 		summarise(
-			m_min = min(m),
-			m_max = max(m),
-			m_mean = mean(m),
-			m_var = var(m)
+			m_min = min(.data$m),
+			m_max = max(.data$m),
+			m_mean = mean(.data$m),
+			m_var = var(.data$m)
 		) %>%
 		ungroup %>%
 		as.data.frame
 	Z = population_data %>%
 		group_by_(.dots=population.grouping.variable) %>%
-		summarise(N = length(m)) %>%
+		summarise(N = length(.data$m)) %>%
 		ungroup %>%
 		as.data.frame
 	Y1 %<>% merge(Y2, by=population.grouping.variable) %>%
@@ -158,7 +159,7 @@ calculatePopulationSummaryStatistics <- function(
 		), ]
 		temp %<>% arrange(.data$x,.data$y)
 		# spatial statistics
-		coordinates(temp) = ~ x+y
+		coordinates(temp) = ~ .data$x + .data$y
 		A[[i]] <- list()
 		for (j in 1:length(summary.variables)) {
 			A[[i]][[j]] <- data.frame(variable = summary.variables[j])
@@ -169,7 +170,7 @@ calculatePopulationSummaryStatistics <- function(
 				tempvar <- eval(parse(text =
 						paste("temp_ratio$", summary.variables[j], sep="")
 					))
-				coordinates(temp_ratio) = ~ x+y
+				coordinates(temp_ratio) = ~ .data$x + .data$y
 			} else {
 				tempvar <- eval(parse(text =
 					paste("temp$", summary.variables[j], sep="")

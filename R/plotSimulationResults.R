@@ -1,13 +1,11 @@
 #' Function to Calculate Numbers to Label X-axis
 #' 
 #' @param x vector of data
-#' @export
+#' @param dig number of digits to round to
 
-xscale <- function(dig=2, ...) {
-	function(x) {
-		x <- x[order(x)]
-		round(unique(x), digits=dig)
-	}
+xscale <- function(x, dig=2) {
+	x <- x[order(x)]
+	round(unique(x), digits=dig)
 }
 
 # defining the breaks function, 

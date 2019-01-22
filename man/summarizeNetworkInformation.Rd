@@ -8,7 +8,7 @@ summarizeNetworkInformation(population_data, variables,
   grouping.variables = NULL, nsamples, m_var)
 }
 \arguments{
-\item{population_data}{population data}
+\item{population_data}{population data.}
 
 \item{variables}{variables to summarise}
 

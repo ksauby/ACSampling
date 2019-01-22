@@ -9,6 +9,7 @@
 #' @param rvar Vector of variables for which ratio estimators should be used.
 #' @param SamplingDesign Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.
 #' @param y_HT_formula Default is "Thompson".
+#' @param var_formula Default is "var_y_HT".
 #' @param m_threshold Default is NULL.
 #' @param f_max Default is 2.
 #' @param SampleEstimators If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.

@@ -80,7 +80,7 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 			# get all neighbors of c(primary samples matching condition, neighbors) matching condition
 			for (j in 2:f_max) {
 				last_step = j-1
-				A <- B %>% filter(step == last_step)
+				A <- B %>% filter(.data$step == last_step)
 				Z[[j]] <- list()
 				if (dim(A)[1] > 0) {
 					for (k in 1:dim(A)[1]) {
@@ -126,7 +126,7 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 			merge(population_data, by=c("x", "y")) %>%
 	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs
 	    	rbind.fill(S) %>% # merge with SRSWOR plots
-			arrange(step)
+			arrange(.data$step)
 	    # remove duplicates
 		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]
 		# give plots satisfying condition NetworkIDs
@@ -162,7 +162,7 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
 		}
 		# rename filtering variable
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling, step)
+		Z %<>% select(x, y, NetworkID, m, y_value, Sampling, .data$step)
 		names(Z)[names(Z) == 'y_value'] <- y_variable
 		# add species attribute data
 		Z %<>% 
