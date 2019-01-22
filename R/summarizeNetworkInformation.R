@@ -1,6 +1,6 @@
 #' Calculate the number of units per network and the unit inclusion probability for each network. 
 #' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is boostrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
-#' @param population_data population data
+#' @param population_data population data.
 #' @param variables variables to summarise
 #' @param grouping.variables categories that group networks
 #' @param nsamples Size(s) of the initial simple random sample(s) without replacement. Can be a single value or a vector values.
@@ -11,10 +11,10 @@
 #' @importFrom dplyr funs summarise_all
 
 summarizeNetworkInformation <- function(population_data, variables, grouping.variables=NULL, nsamples, m_var) {
-	stopifnot(length(unique(patch_data$N)) == 1)
-	N <- unique(patch_data$N) #. <- NULL
+	stopifnot(length(unique(population_data$N)) == 1)
+	N <- unique(population_data$N) #. <- NULL
 	# calculate the number of units per network for each variable
-	Networks <- patch_data %>%
+	Networks <- population_data %>%
 		# select these columns
 		.[, c(variables, "NetworkID", grouping.variables, "m")] %>%
 		# group_by these columns
@@ -40,6 +40,6 @@ summarizeNetworkInformation <- function(population_data, variables, grouping.var
 			names(Networks)
 		)
 	}
-	patch_data %<>% merge(Networks)
-	return(patch_data)
+	population_data %<>% merge(Networks)
+	return(population_data)
 }
