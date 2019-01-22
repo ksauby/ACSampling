@@ -17,6 +17,8 @@ calculateInclusionProbabilities(patchdat, simulations, nsamples,
 \item{SamplingDesign}{Sampling design; ACS or RACS.}
 
 \item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
+
+\item{f_max}{NEED DESCRIPTION HERE}
 }
 \value{
 NEEDS INFO

@@ -7,15 +7,9 @@
 Hajek(pi_i, n)
 }
 \arguments{
-\item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
+\item{pi_i}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 
-\item{N}{Population size}
-
-\item{n1}{Initial sample size}
-
-\item{m}{Vector of $m$, each corresponding to a unique network.}
-
-\item{y}{Vector of $y$ total, each corresponding to a unique network.}
+\item{n}{Initial sample size}
 }
 \description{
 Option for the "var_pi" function.

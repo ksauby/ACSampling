@@ -74,7 +74,7 @@ test_that("createACS, Are m-values of edge units 0?", {
 })
 test_that("createACS, Does the function work when no seed or initial sample is provided?", {
 	Z <- createACS(Thompson1990Figure1Population, 10, "y_value")
-	expect_gte(
+	expect_that(
 		dim(Z)[1],
 		10
 	)
@@ -129,7 +129,7 @@ test_that("createRACS, Are m-values of edge units 0?", {
 })
 test_that("createRACS, Does the function work when no seed or initial sample is provided?", {
 	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value")
-	expect_gte(
+	expect_that(
 		dim(Z)[1],
 		10
 	)

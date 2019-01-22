@@ -40,7 +40,7 @@ calculateRE <- function(
 		paste(ovar, "_mean_MSE", sep=""),
 		paste(rvar, "_ratio_mean_MSE", sep="")		
 	)) %>%
-	reshape2:::melt.data.frame(
+	reshape2::melt.data.frame(
 		data=.,
 		id.vars=c(
 			population.grouping.variables,
@@ -57,7 +57,7 @@ calculateRE <- function(
 			paste(rvar, "_ratio_var", sep=""),
 			"N"
 		)) %>%			
-		reshape2:::melt.data.frame(
+		reshape2::melt.data.frame(
 			data=.,
 			id.vars=c(
 				population.grouping.variables,

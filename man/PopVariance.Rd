@@ -8,8 +8,6 @@ PopVariance(x)
 }
 \arguments{
 \item{x}{Vectors of data.}
-
-\item{round_n}{Number of digits to round to.}
 }
 \description{
 Written for use in the tables::tabular function to create publication-ready tables.

@@ -1,9 +1,6 @@
 #' Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling
-#' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
-#' @param N Population size
-#' @param n1 Initial sample size
-#' @param m Vector of $m$, each corresponding to a unique network.
-#' @param y Vector of $y$ total, each corresponding to a unique network.
+#' @param pi_i vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
+#' @param n Initial sample size
 #' @description Option for the "var_pi" function.
 #' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
 #' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.

@@ -3,6 +3,7 @@
 #' @param patchdat patch realizations
 #' @param simulations Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
+#' @param f_max NEED DESCRIPTION HERE
 #' @param SamplingDesign Sampling design; ACS or RACS.
 #' @param y_variable variable upon which adaptive cluster sampling criterion is based
 
@@ -28,7 +29,7 @@ calculateInclusionProbabilities <- function(
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 					<- Sys.time()
-	patchdat 				%<>% arrange(n.networks, realization)
+	patchdat 				%<>% arrange(.data$n.networks, .data$realization)
 	n.patches 				<- length(unique(patchdat$n.networks))
 	nsample.length 			<- length(nsamples)
 	A 						<- vector("list", n.patches)
@@ -45,7 +46,7 @@ calculateInclusionProbabilities <- function(
 			.inorder = FALSE
 		) %dopar% {
 			P 			<- patchdat %>% 
-							filter(n.networks==unique(patchdat$n.networks)[i])
+							filter(.data$n.networks==unique(patchdat$n.networks)[i])
 			N 			<- dim(P)[1]
 			n1 			<- nsamples[j]
 			A[[i]][[j]] <- list()
@@ -60,7 +61,7 @@ calculateInclusionProbabilities <- function(
 						n1=n1, 
 						y_variable=y_variable
 					) %>% 
-						as.data.table
+						as.data.table()
 				} else {
 					alldata <- createRACS(
 						population_data=P, 
@@ -72,20 +73,20 @@ calculateInclusionProbabilities <- function(
 						as.data.table
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
-					filter(Sampling!="Edge") %>%
-					dplyr::select(n.networks, realization, x, y)
+					filter(.data$Sampling!="Edge") %>%
+					dplyr::select(.data$n.networks, .data$realization, .data$x, .data$y)
 				cactus_networks <- alldata %>%
 					#filter(!(Cactus==0 & m==1)) %>%
-					filter(m!=0)
+					filter(.data$m!=0)
 				if (dim(cactus_networks)[1] > 0) {
 					temp <- cactus_networks %>%
-						group_by(NetworkID) %>%
-						summarise(m = m[1]) %>%
+						group_by(.data$NetworkID) %>%
+						summarise(m = .data$m[1]) %>%
 						summarise(
-							MEAN = mean(m),
-							MAX = max(m),
-							MIN = min(m),
-							MEDIAN = median(m)
+							MEAN = mean(.data$m),
+							MAX = max(.data$m),
+							MIN = min(.data$m),
+							MEDIAN = median(.data$m)
 						)
 					A[[i]][[j]][[k]]$mean_m_unique_neigh 		<- temp$MEAN
 					A[[i]][[j]][[k]]$max_m_unique_neigh 		<- temp$MAX
@@ -93,10 +94,10 @@ calculateInclusionProbabilities <- function(
 					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
 					temp2 <- cactus_networks %>%
 						summarise(
-							MEAN = mean(m),
-							MAX = max(m),
-							MIN = min(m),
-							MEDIAN = median(m)
+							MEAN = mean(.data$m),
+							MAX = max(.data$m),
+							MIN = min(.data$m),
+							MEDIAN = median(.data$m)
 						)
 					A[[i]][[j]][[k]]$mean_m 	<- temp2$MEAN
 					A[[i]][[j]][[k]]$max_m 		<- temp2$MAX

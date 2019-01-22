@@ -28,7 +28,6 @@ Imports:
 	stringr,
 	data.table,
 	rlang,
-	knitr,
 	reshape2
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1

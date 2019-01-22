@@ -27,9 +27,10 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
 
 #' @export
+#' @importFrom dplyr everything
 
 createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA, f_max=2) {
-	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
+	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL
 	# get primary sample
 	if (is.data.frame(initial_sample)) {
 		S = merge(population_data, initial_sample, all.y=TRUE) 	
