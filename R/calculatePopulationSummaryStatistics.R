@@ -100,6 +100,58 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' write.csv(patch_data_summary, file=paste("patch_data_summary", 
 #' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
 	
+	
+	
+ occupancy.variables = c(
+ 	"Stricta",
+ 	"Pusilla",
+ 	"Cactus",
+ 	"CACA_on_Pusilla",
+ 	"CACA_on_Stricta",
+ 	"MEPR_on_Pusilla",
+ 	"MEPR_on_Stricta",
+ 	"Old_Moth_Evidence_Pusilla",
+ 	"Old_Moth_Evidence_Stricta"
+ 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
+ 	# "Percent_Cover_Stricta",
+ 	# "Height_Pusilla",
+ 	# "Height_Stricta",
+ )		
+ summary.variables = occupancy.variables
+ grouping.variables = c("n.networks", "realization")
+ # create realizations
+ x_start = 1
+ x_end = 30
+ y_start = 1
+ y_end = 30
+ n.networks = c(5, 15, 10, 20, 30, 40)
+ n.realizations = 1
+ SpeciesInfo = PlotSurveys_season1
+ start.seed=1
+ buffer=5
+ cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
+ 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
+ 	occupancy.variables)
+ patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
+ 	summary.variables=occupancy.variables, population.grouping.variable=grouping.variables)
+ patch_data_summary %<>% 
+ 	round(3) %>% 
+ 	arrange(n.networks) %>% 
+ 	dplyr::select(
+ 		starts_with("Pusilla"), 
+ 		starts_with("Stricta"), 
+ 		starts_with("Cactus"), 
+ 		starts_with("CACA_on_Pusilla"),
+ 		starts_with("CACA_on_Stricta"),
+ 		starts_with("MEPR_on_Pusilla"),
+ 		starts_with("MEPR_on_Stricta"),
+ 		starts_with("Old_Moth_Evidence_Pusilla"),
+ 		starts_with("Old_Moth_Evidence_Stricta"),
+ 		everything()
+ 	)
+ write.csv(patch_data_summary, file=paste("patch_data_summary", 
+ format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
+
 calculatePopulationSummaryStatistics <- function(
 	population_data, 
 	summary.variables, 
@@ -159,7 +211,7 @@ calculatePopulationSummaryStatistics <- function(
 		), ]
 		temp %<>% arrange(.data$x,.data$y)
 		# spatial statistics
-		coordinates(temp) = ~ .data$x + .data$y
+		coordinates(temp) = ~ x + y
 		A[[i]] <- list()
 		for (j in 1:length(summary.variables)) {
 			A[[i]][[j]] <- data.frame(variable = summary.variables[j])
@@ -170,7 +222,7 @@ calculatePopulationSummaryStatistics <- function(
 				tempvar <- eval(parse(text =
 						paste("temp_ratio$", summary.variables[j], sep="")
 					))
-				coordinates(temp_ratio) = ~ .data$x + .data$y
+				coordinates(temp_ratio) = ~ x + y
 			} else {
 				tempvar <- eval(parse(text =
 					paste("temp$", summary.variables[j], sep="")
