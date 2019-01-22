@@ -38,7 +38,7 @@ ggplot() +
 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
 
 # INITIATE ACS
-Z = createACS(population=Thompson1990Figure1Population, 
+Z = createACS(population_data=Thompson1990Figure1Population, 
 	n1=dim(Thompson1990Figure1Sample)[1], 
 	initial_sample=Thompson1990Figure1Sample, y_variable="y_value")
 

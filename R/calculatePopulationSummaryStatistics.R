@@ -16,7 +16,6 @@ Mean <- function(x) base::mean(x, na.rm=TRUE)
 #' Return the population variance of a vector, after removing NAs, and round.
 #'
 #' @param x Vectors of data.
-#' @param round_n Number of digits to round to.
 #' @description Written for use in the tables::tabular function to create publication-ready tables.
 
 PopVariance <- function(x) {
@@ -78,11 +77,11 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' SpeciesInfo = PlotSurveys_season1
 #' start.seed=1
 #' buffer=5
-#' cactus.realizations <- createSpeciesPatchPopulations(x_start, x_end,
+#' cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 #' 	occupancy.variables)
 #' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
-#' 	summary.variables=occupancy.variables, grouping.variables=grouping.variables)
+#' 	summary.variables=occupancy.variables, population.grouping.variable=grouping.variables)
 #' patch_data_summary %<>% 
 #' 	round(3) %>% 
 #' 	arrange(n.networks) %>% 
@@ -100,9 +99,6 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' 	)
 #' write.csv(patch_data_summary, file=paste("patch_data_summary", 
 #' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
-
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 	
 calculatePopulationSummaryStatistics <- function(
 	population_data, 

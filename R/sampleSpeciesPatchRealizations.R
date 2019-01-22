@@ -150,7 +150,7 @@ sampleSpeciesPatchRealizations <- function(
 						as.data.table
 				} else if (SamplingDesign=="RACS")
 				{
-					alldata <- createRACS_flex(
+					alldata <- createRACS(
 						population_data=P, 
 						seed=temp_seed, 
 						n1=n1, 

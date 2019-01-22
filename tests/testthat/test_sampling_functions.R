@@ -134,6 +134,7 @@ test_that("createRACS, Does the function work when no seed or initial sample is 
 		10
 	)
 })
+
 test_that("createRACS, Are there duplicates units in the sample?", {
 	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", seed=26)
 	expect_that(

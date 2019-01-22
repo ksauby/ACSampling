@@ -16,9 +16,6 @@
 #' @importFrom dplyr summarise
 
 #' @export
-
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 	
 calculateInclusionProbabilities <- function(
 	patchdat, 
@@ -58,15 +55,15 @@ calculateInclusionProbabilities <- function(
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
-						population=P, 
+						population_data=P, 
 						seed=temp_seed, 
 						n1=n1, 
 						y_variable=y_variable
 					) %>% 
 						as.data.table
 				} else {
-					alldata <- createRACS_flex(
-						population=P, 
+					alldata <- createRACS(
+						population_data=P, 
 						seed=temp_seed, 
 						n1=n1, 
 						y_variable=y_variable,

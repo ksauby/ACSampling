@@ -4,10 +4,10 @@
 \alias{createSRS}
 \title{Create a Simple Random Sample Without Replacement.}
 \usage{
-createSRS(population, n1, seed = NA, wreplacement = F)
+createSRS(population_data, n1, seed = NA, wreplacement = F)
 }
 \arguments{
-\item{population}{grid of population to be sampled.}
+\item{population_data}{grid of population to be sampled.}
 
 \item{n1}{initial sample size (sampled according to simple random sampling without replacement).}
 

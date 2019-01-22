@@ -1,6 +1,6 @@
 #' Create a Restricted Adaptive Cluster Sample, for any step size
 #' 
-#' @param population grid of population to be sampled.
+#' @param population_data grid of population to be sampled.
 #' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).
 #' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place.
@@ -28,7 +28,7 @@
 
 #' @export
 
-createRACS_flex <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA, f_max=2) {
+createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA, f_max=2) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
 	# get primary sample
 	if (is.data.frame(initial_sample)) {
