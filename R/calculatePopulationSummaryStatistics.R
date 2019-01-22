@@ -101,6 +101,9 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' write.csv(patch_data_summary, file=paste("patch_data_summary", 
 #' format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
 
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+	
 calculatePopulationSummaryStatistics <- function(
 	population_data, 
 	summary.variables, 

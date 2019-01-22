@@ -17,11 +17,13 @@
 
 #' @export
 
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+	
 calculateInclusionProbabilities <- function(
-	patchdat = patch_data_3, 
+	patchdat, 
 	simulations, 
 	nsamples, 
-	#ACS=TRUE, 
 	SamplingDesign="ACS",
 	y_variable,
 	f_max = NULL

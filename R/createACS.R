@@ -47,7 +47,7 @@ createACS <- function(population_data, n1, y_variable, condition=0, seed=NA, ini
 		S$Sampling <- "Primary Sample"
 	} else {
 		if (!is.na(seed)) {set.seed(seed)}
-		S <- createSRS(population=population_data, n1=n1)
+		S <- createSRS(population_data=population_data, n1=n1)
 	}
 	# add the rest of the units for each network in the initial sample
 	Z = population_data %>%

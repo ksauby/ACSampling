@@ -22,21 +22,21 @@
 
 	
 	
-createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
+createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
 	if (is.data.frame(initial_sample)) {
-		S = merge(population, initial_sample, all.y=TRUE) 	
+		S = merge(population_data, initial_sample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
 	} else {
 		if (!is.na(seed)) {set.seed(seed)}
-		S <- createSRS(population, n1)
+		S <- createSRS(population_data, n1)
 	}
 	Networks <- S %>% 
 		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
 		names(S)[names(S) == y_variable] <- 'y_value'
-		names(population)[names(population) == y_variable] <- 'y_value'
+		names(population_data)[names(population_data) == y_variable] <- 'y_value'
 		# List to save data
 		Z = list()
 		# fill in edge units
@@ -47,7 +47,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
     	    Z[[i]][2, "x"] = L$x
     	    Z[[i]][2, "y"] = L$y + 1
     	    # if plot has cacti, survey its neighbors
-  	      	if (dim(population %>% 
+  	      	if (dim(population_data %>% 
 				filter(
   					y_value > condition, 
   			  		x==L$x,
@@ -68,7 +68,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 	      	Z[[i]][3, "x"] = L$x
 	      	Z[[i]][3, "y"] = L$y - 1
 	      	# if plot has cacti, survey its neighbors
-	      	if (dim(population %>% 
+	      	if (dim(population_data %>% 
 				filter(
   					y_value > condition, 
 					x==L$x,
@@ -89,7 +89,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 	      	Z[[i]][4, "x"] = L$x + 1
 	      	Z[[i]][4, "y"] = L$y
 	      	# if plot has cacti, survey its neighbors
-	      	if (dim(population %>% 
+	      	if (dim(population_data %>% 
 			  	filter(
   					y_value > condition, 
 			  	 	x==L$x + 1,
@@ -110,7 +110,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 	      	Z[[i]][5, "x"] = L$x - 1
 	      	Z[[i]][5, "y"] = L$y
 	      	# if plot has cacti, survey its neighbors
-	      	if (dim(population %>% 
+	      	if (dim(population_data %>% 
 			  	filter(
   					y_value > condition, 
 			  	  	x==L$x - 1,
@@ -130,7 +130,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 	      	# Z[[i]][, "ClusterID"] = L[, "SamplingNumber"]				
 	    } 
 	    sample <- do.call(rbind.data.frame, Z) # compress plot list to dataframe
-	    sample = merge(sample, population, all.x=T, by=c("x", "y")) %>%
+	    sample = merge(sample, population_data, all.x=T, by=c("x", "y")) %>%
 	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs
 	    	rbind.fill(S) %>% # merge with SRSWOR plots
 			arrange(Sampling)
@@ -174,7 +174,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 		names(Z)[names(Z) == 'y_value'] <- y_variable
 		# add species attribute data
 		Z %<>% 
-			merge(population %>% select(-NetworkID, -m)) %>%
+			merge(population_data %>% select(-NetworkID, -m)) %>%
 			select(x, y, NetworkID, m, y_value, Sampling, everything())
 		# warning	
 		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {
@@ -185,7 +185,7 @@ createRACS <- function(population, n1, y_variable, condition=0, seed=NA, initial
 	} 
 	else {
 		# add species attribute data to sample
-		S %<>% merge(population)
+		S %<>% merge(population_data)
 		return(S)
 	}
 }

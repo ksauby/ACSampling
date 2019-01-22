@@ -25,6 +25,8 @@ Imports:
 	plyr, 
 	sp, 
 	spdep, 
-	stringr
+	stringr,
+	data.table,
+	rlang
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1

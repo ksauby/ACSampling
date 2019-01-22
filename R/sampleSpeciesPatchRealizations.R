@@ -142,7 +142,7 @@ sampleSpeciesPatchRealizations <- function(
 				if (SamplingDesign=="ACS")
 				{
 					alldata <- createACS(
-						population=P, 
+						population_data=P, 
 						seed=temp_seed, 
 						n1=n1, 
 						y_variable=y_variable
@@ -151,7 +151,7 @@ sampleSpeciesPatchRealizations <- function(
 				} else if (SamplingDesign=="RACS")
 				{
 					alldata <- createRACS_flex(
-						population=P, 
+						population_data=P, 
 						seed=temp_seed, 
 						n1=n1, 
 						y_variable=y_variable,
@@ -161,7 +161,7 @@ sampleSpeciesPatchRealizations <- function(
 				} else
 				{
 					alldata <- createSRS(
-						population=P, 
+						population_data=P, 
 						seed=temp_seed, 
 						n1=n1
 					) %>% 

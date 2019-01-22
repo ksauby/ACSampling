@@ -25,7 +25,7 @@
 #' 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
 #' 
 #' # INITIATE ACS
-#' Z = createACS(population=Thompson1990Figure1Population, 
+#' Z = createACS(population_data=Thompson1990Figure1Population, 
 #' 	n1=dim(Thompson1990Figure1Sample)[1], 
 #' 	initial_sample=Thompson1990Figure1Sample, y_variable="y_value")
 #' 
@@ -77,11 +77,17 @@ var_y_HT <- function(N, n1, m, y, pi_i_values=NULL) {
 #' @examples
 #' patch = patch_data %>% filter(n.networks==unique(patch_data$n.networks)[3])
 
-#' S <- createSRS(population=patch, seed=26, n1=10)
+#' S <- createSRS(population_data=patch, seed=26, n1=10)
 #' initial_sample <- S[, c("x", "y")]
 
 
-#' RACS = createRACS(population=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) %>% mutate(Design="(b) RACS, n = 45")
+#' RACS = createRACS(
+#' 	population_data=patch, 
+#' 	seed=26, 
+#' 	n1=10, 
+#' 	y_variable="Cactus", 
+#' 	initial_sample=initial_sample
+#' ) %>% mutate(Design="(b) RACS, n = 45")
 
 #' var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
 

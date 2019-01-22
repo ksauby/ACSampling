@@ -12,8 +12,12 @@
 
 #' @return A list of nsamples and dat, BUT I DONT REMEMBER WHAT THOSE ARE.
 
+#' @importFrom foreach %:% 
 #' @export
 
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+	
 calculateJointInclusionProbabilities <- function(
 	patchdat, 
 	simulations, 

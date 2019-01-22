@@ -26,7 +26,13 @@ Calculate the variance of the Horvitz-Thompson estimator of the mean using the R
 patch = patch_data \%>\% filter(n.networks==unique(patch_data$n.networks)[3])
 S <- createSRS(population=patch, seed=26, n1=10)
 initial_sample <- S[, c("x", "y")]
-RACS = createRACS(population=patch, seed=26, n1=10, y_variable="Cactus", initial_sample=initial_sample) \%>\% mutate(Design="(b) RACS, n = 45")
+RACS = createRACS(
+	population=patch, 
+	seed=26, 
+	n1=10, 
+	y_variable="Cactus", 
+	initial_sample=initial_sample
+) \%>\% mutate(Design="(b) RACS, n = 45")
 var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
 }
 \references{

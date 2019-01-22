@@ -10,12 +10,12 @@
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' population = patch_data_5
+#' population_data = patch_data_5
 #' seed=26
 #' n1=40
 #' y_variable = "Cactus"
 #' f_max = 3
-#' Z = createRACS(population, seed, n1, y_variable, f_max)
+#' Z = createRACS(population_data, seed, n1, y_variable, f_max)
 
 #' ggplot() +
 #' geom_point(data=patch_data_5, aes(x,y, size=factor(Cactus),
@@ -28,16 +28,16 @@
 
 #' @export
 
-createRACS_flex <- function(population, n1, y_variable, condition=0, seed=NA, initial_sample=NA, f_max=2) {
+createRACS_flex <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA, f_max=2) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- everything <- NULL
 	# get primary sample
 	if (is.data.frame(initial_sample)) {
-		S = merge(population, initial_sample, all.y=TRUE) 	
+		S = merge(population_data, initial_sample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
 		S$step <- 0
 		} else {
 		if (!is.na(seed)) {set.seed(seed)}
-		S <- createSRS(population, n1)
+		S <- createSRS(population_data, n1)
 		S$step <- 0
 	}
 	# filter out primary samples that satisfy the condition
@@ -46,7 +46,7 @@ createRACS_flex <- function(population, n1, y_variable, condition=0, seed=NA, in
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
 		names(S)[names(S) == y_variable] <- 'y_value'
-		names(population)[names(population) == y_variable] <- 'y_value'
+		names(population_data)[names(population_data) == y_variable] <- 'y_value'
 		# Lists to save data
 		Y = list()
 		Z = list()
@@ -87,7 +87,7 @@ createRACS_flex <- function(population, n1, y_variable, condition=0, seed=NA, in
 			    	    kx=A$x[k]
 			    	    ky=A$y[k]
 						# if plot has cacti, survey its neighbors
-						if (dim(population %>% 
+						if (dim(population_data %>% 
 							filter(
 			  					y_value > condition, 
 			  			  		x==kx,
@@ -122,7 +122,7 @@ createRACS_flex <- function(population, n1, y_variable, condition=0, seed=NA, in
 			sample <- do.call(rbind.data.frame, Z)
 		}
 	   	sample %<>%
-			merge(population, by=c("x", "y")) %>%
+			merge(population_data, by=c("x", "y")) %>%
 	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs
 	    	rbind.fill(S) %>% # merge with SRSWOR plots
 			arrange(step)
@@ -165,7 +165,7 @@ createRACS_flex <- function(population, n1, y_variable, condition=0, seed=NA, in
 		names(Z)[names(Z) == 'y_value'] <- y_variable
 		# add species attribute data
 		Z %<>% 
-			merge(population %>% select(-NetworkID, -m)) %>%
+			merge(population_data %>% select(-NetworkID, -m)) %>%
 			select(x, y, NetworkID, m, y_value, Sampling, everything())
 		# warning	
 		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {
@@ -176,7 +176,7 @@ createRACS_flex <- function(population, n1, y_variable, condition=0, seed=NA, in
 	} 
 	else {
 		# add species attribute data to sample
-		S %<>% merge(population)
+		S %<>% merge(population_data)
 		return(S)
 	}
 }

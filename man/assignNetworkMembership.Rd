@@ -24,13 +24,18 @@ data(Thompson1990Figure1Population)
 library(magrittr)
 library(ggplot2)
 library(dplyr)
-ggplot(data=Thompson1990Figure1Population \%>\% filter(y_value > 0), aes(x,y, size=factor(y_value))) + geom_point()
+ggplot(data=Thompson1990Figure1Population \%>\% 
+	filter(y_value > 0), aes(x,y, size=factor(y_value))) + geom_point()
 
 # assign network membership of units containing the species of interest
-P_networks <- assignNetworkMembership(Thompson1990Figure1Population \%>\% filter(y_value > 0))
+P_networks <- assignNetworkMembership(Thompson1990Figure1Population \%>\%
+	 filter(y_value > 0))
 
 # plot networks
-ggplot(data=P_networks, aes(x,y, size=factor(y_value), shape=factor(NetworkID))) + geom_point()
+ggplot(
+	data=P_networks, 
+	aes(x,y, size=factor(y_value), shape=factor(NetworkID))
+) + geom_point()
 # coordinates should be given as x and y
 }
 \references{
