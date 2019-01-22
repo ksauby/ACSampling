@@ -118,10 +118,10 @@ calculatePopulationSummaryStatistics <- function(
 		summarise(m = .data$m[1]) %>%
 		group_by_(.dots=population.grouping.variable) %>%
 		summarise(
-			m_min_unique_neigh = min(m),
-			m_max_unique_neigh = max(m),
-			m_mean_unique_neigh = mean(m),
-			m_var_unique_neigh = var(m),
+			m_min_unique_neigh = min(.data$m),
+			m_max_unique_neigh = max(.data$m),
+			m_mean_unique_neigh = mean(.data$m),
+			m_var_unique_neigh = var(.data$m),
 			n_Species_Patches = length(unique(.data$NetworkID[which(m>1)]))
 		) %>%
 		ungroup %>%
@@ -344,7 +344,7 @@ calculatePopulationSummaryStatistics <- function(
 		)))[i]
 	}
 	B <- do.call(rbind.data.frame, A)
-	B %<>% arrange(variable, population) %>%
+	B %<>% arrange(.data$variable, .data$population) %>%
 		setnames("Mean_tempvar", "Mean") %>%
 		setnames("Var_tempvar", "Var") %>%
 		setnames("CV_tempvar", "CV") %>%

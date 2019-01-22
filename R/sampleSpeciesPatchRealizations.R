@@ -72,7 +72,7 @@ sampleSpeciesPatchRealizations <- function(
 	SamplingDesign="ACS",
 	y_variable,
 	y_HT_formula = "y_HT",
-	var_y_HT_formula = "var_y_HT",
+	var_formula = "var_y_HT",
 	m_threshold = NULL,
 	f_max = 2,
 	SampleEstimators = FALSE,
@@ -488,7 +488,7 @@ sampleSpeciesPatchRealizations <- function(
 							filter(!(is.na(NetworkID))) %>%
 							arrange(x, y)
 							
-							dnearneigh
+							# dnearneigh - why was this here?
 							
 							
 						nb <- cell2nb(

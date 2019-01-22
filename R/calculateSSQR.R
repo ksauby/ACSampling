@@ -51,10 +51,10 @@ calculateSSQR <- function(patch_data, variable, population.grouping.variable) {
 				SSQt = sum(.data$SSQt_i)
 			) %>%
 			mutate(
-				SSQ_R = SSQw / SSQt,
+				SSQ_R = .data$SSQw / .data$SSQt,
 				variable_name = variable
 			) %>%
-			dplyr::select(-c(SSQw, SSQt))
+			dplyr::select(-c(.data$SSQw, .data$SSQt))
 	} else {
 		variable_value <- patch_data %>%
 			mutate_(
@@ -91,14 +91,14 @@ calculateSSQR <- function(patch_data, variable, population.grouping.variable) {
 			) %>%
 			group_by_(.dots=population.grouping.variable) %>%
 			summarise(
-				SSQw = sum(SSQw_j),
-				SSQt = sum(SSQt_i)
+				SSQw = sum(.data$SSQw_j),
+				SSQt = sum(.data$SSQt_i)
 			) %>%
 			mutate(
-				SSQ_R = SSQw / SSQt,
+				SSQ_R = .data$SSQw / .data$SSQt,
 				variable_name = variable
 			) %>%
-			dplyr::select(-c(SSQw, SSQt))
+			dplyr::select(-c(.data$SSQw, .data$SSQt))
 	}
 }
 	

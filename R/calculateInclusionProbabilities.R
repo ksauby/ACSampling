@@ -125,16 +125,16 @@ calculateInclusionProbabilities <- function(
 			# total number of cells sample per realization, n.networks, N.SRSWOR.plots and SamplingDesign
 			X %>%
 				group_by(
-					realization, 
-					n.networks, 
-					N.SRSWOR.plots, 
-					SamplingDesign,
-					simulations,
-					coords,
-					mean_m,
-					max_m,
-					min_m,
-					median_m
+					.data$realization, 
+					.data$n.networks, 
+					.data$N.SRSWOR.plots, 
+					.data$SamplingDesign,
+					.data$simulations,
+					.data$coords,
+					.data$mean_m,
+					.data$max_m,
+					.data$min_m,
+					.data$median_m
 				) %>%
 				summarise(times_included=n())	
 	}

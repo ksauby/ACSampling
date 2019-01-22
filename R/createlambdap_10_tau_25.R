@@ -32,7 +32,7 @@ createlambdap_10_tau_25 <- function() {
 			)
 		)
 	lambdap_10_tau_25_networks <- assignNetworkMembership(
-		lambdap_10_tau_25 %>% filter(y_value > 0), 
+		lambdap_10_tau_25 %>% filter(.data$y_value > 0), 
 		plot.size=1
 	)
 	# fill in m values

@@ -78,10 +78,10 @@ calculateRE <- function(
 	# calculate efficiency
 	Z %<>% mutate(
 		RE = (
-			population_variance/sample.size.variable *
-			(1 - sample.size.variable/N)
+			.data$population_variance/sample.size.variable *
+			(1 - sample.size.variable/.data$N)
 		)
-		/	mean_MSE
+		/	.data$mean_MSE
 	)
 	Z$variable <- paste(Z$variable, "_RE", sep="")
 	Z %<>%

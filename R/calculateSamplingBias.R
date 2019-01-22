@@ -295,7 +295,7 @@ calculateBiasComponents	<- function(dataframe, resultslist, variables) {
 	}
 	return(resultslist)
 }
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims) {
+calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {
 	# group data to prep for processing by 
 	#		population.grouping.variables, 
 	#		sampling.grouping.variables, and
