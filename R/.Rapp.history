@@ -1,0 +1,390 @@
+78/1000
+80*110
+8*.33
+68/1000
+20000/17.2
+33.95*1000
+94161.58-33950
+13711.35+288.66+110.04
+1000/35.15
+1000/15.79
+5566.46/35.15
+6000.00/15.79
+10000/17.92
+16+12+4210
+16+12+42+10
+93/33203.91
+33203.91/93
+2364.0000-1162.7910
+21054.65/1207.262
+26x3
+26*3
+78+1+0.4
+55*75
++8800
+55*75 + 8800
+42/12
+94.93*.1170+90.24*5+(92.13+6+87.2)/3*.833
+94.93*.1170+90.24*.05+(92.13+6+87.2)/3*.833
+94.93*.1170+90.24*.05+(92.13+6+87.2+79.5)/3*.833
+.117*94.93+.05*90.24+.833*(92.13+87.2+6)/3
+.117*94.93+.05*90.24+.833*(92.13+87.2+6+79.4)/3
+.117+.05+.833
+20000/11.26
+60000/11.26
+.58+4.66+11.64
+.29*3
+88-4-3-1-16
+2.03*.8
+*.84.07
+4.07*.8
+4.95*.8
+4.95*.9
+42+1+5+6
+5.82+2.32
+8.14*4
+24.44/250
+68/500
+install.packages("blogdown")
+blogdown::install_hugo()
+library(blogdown)
+blogdown::install_hugo()
+library(blogdown)
+blogdown::install_hugo()
+blogdown::new_site()
+library(dplyr)
+.libPaths()
+library(dplyr)
+library(plotly)
+library(magrittr)
+.libPaths()
+41180-35583
+41200-35583
+6+3.17+5
+11.64*.7
+.75*4
+.85*4
+.85*5
+.9*5
+.9*4
+1+2+5+17+12+19
+.29*4
+.41*6
+.41*10
+2.89/6
+2.89/6*10
+.29*4
+.58*4
+.58*10
+.43*4
+.43*10
+.48*10
+.48*4
+.39*4
+.39*8
+.39*10
+4*.22
+8*.22
+4*.29
+8*.29
+4*.35
+8*.35
+1.74*5
+1.74*5*.9
+.58*20
+5.99*.95
+5.99*.95 - .2
+286*.13
+6*8*.13
+15*.32
+33+29
+33+29+25
+33+29+25+13
+1.15-.87
+1.15-.62
+50+.29+.33
+1.15 - .50-.29-.33
+8.27+.69
+7.76+.69
+19+13+7
+233.27*11
+19+13+7
+3081.26-926.29
+70.50-52.75
+70.50-52.75-.99
+70.50-52.75
+6.7+3.75
+10.79-10.45
+39.99*.6
+80/3
+263.50/541.71
+485.04/541.71
+263.50/541.71
+397.07/541.71
+3/75
+25.5/75
+2.5/75
+32/500
+5.82/4*10
+5.82/4*10*.7
+5.82/4*10*.6
+5.82/4*10*.65
+5.82/4*6*.65
+5.82/4*4*.65
+5.82/4*4*.6
+5.82/4*6*.6
+4.94*.8
+4.66*.8
+4.66*.7
+4.66*.75
+3.48/4
+3.48/4*12
+3.48/4*12*.9
+3.48/4*12*.8
+.29+.32+.05+.05
+2.91/2
+3.49/2
+6.97/2
+(3.49+5.82)/2
+3.49/2
+4.94/2
+2.32+14.83
+17.15/2
+7.57/2
+6.99/2
+9.31/2
+11.64/2
+4.66/2
+11.64/2
+7.57/2
+4.66/2
+(1.74+2.61+12.21)/2
+.04*4+.2*4+.32+.37+.1
+.04*4+.2*4+.32+.37+.1+.8+.25+.25+.48+.45+.6+.17+.22+.08
+.04*4+.2*4+.32+.37+.1+.8+.25+.25+.48+.45+.6+.17+.22+.08+.13*8
+.04*4+.2*4+.32+.37+.1+.8+.25+.25+.48+.45+.6+.17+.22+.08+.13*8+.32+.32+.29+.33+.32
+.04*4+.2*4+.32+.37+.1+.8+.25+.25+.48+.45+.6+.17+.22+.08+.13*8+.32+.32+.29+.33+.32+1+.5+.45+.03+.11+.02
+12.9-9.78
+.22+.08+.25+.17+.6+.25+.32+.33+.29+.32+.32+1+.5+2+1+.04*4+.2*4+.1+.45+.37+.32+.8+.48+.13*8+.12+.03+.11+.02+.45
+candidates <- c( Sys.getenv("R_PROFILE"),#
+                 file.path(Sys.getenv("R_HOME"), "etc", "Rprofile.site"),#
+                 Sys.getenv("R_PROFILE_USER"),#
+                 file.path(getwd(), ".Rprofile") )#
+#
+Filter(file.exists, candidates)
+file.path(Sys.getenv("HOME"), ".Rprofile")
+.libPaths()[2]
+.libPaths()
+.libPaths()[2]
+.libPaths(.libPaths())
+.libPaths()
+1.99*6
+8.7*.8
+8.7*.7
+8.7*.75
+1+.29+.2+.19+.15
+2.13-1.83
+1+.2+.19+.15+.6
+1+.2+.15+.6
+2.13-1.95
+1+.2+.6+.15+.18
+.4+.13+.18
+.29+.29+.04+.04
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::check()
+setwd('/Users/KSauby/Documents/Projects')
+setwd("./ACS")#
+#setwd("./modresproc")#
+#devtools::test()#
+devtools::check()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+patch_data_5
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+lambdap_5_tau_1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+population_data = lambdap_5_tau_1
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+seed=26
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+n1=40
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_variable = "y_value"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+f_max = 3
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = createRACS(lambdap_5_tau_1, seed, n1, y_variable, f_max)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL#
+	# get primary sample#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population_data, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+		S$step <- 0#
+		} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population_data, n1)#
+		S$step <- 0#
+	}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+initial_sample=NA
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (is.data.frame(initial_sample)) {#
+		S = merge(population_data, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+		S$step <- 0#
+		} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(population_data, n1)#
+		S$step <- 0#
+	}#
+	# filter out p
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_variable
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+eval(parse(text = paste("S$", y_variable, sep=""))
+)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+condition=0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dim(Networks)[1] > 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+names(S)[names(S) == y_variable] <- 'y_value'#
+		names(population_data)[names(population_data) == y_variable] <- 'y_value'#
+		# Lists to save data#
+		Y = list()#
+		Z = list()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (i in 1:dim(Networks)[1]) {#
+			L = Networks[i, ]#
+    	    Y[[i]] <- list()#
+			# STEP 1#
+			Y[[i]][[1]] <- data.frame()#
+    	    # northern neighbor of SRSWOR plot#
+    	    Y[[i]][[1]][1, "x"] = L$x#
+    	    Y[[i]][[1]][1, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Y[[i]][[1]][2, "x"] = L$x#
+	      	Y[[i]][[1]][2, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Y[[i]][[1]][3, "x"] = L$x + 1#
+	      	Y[[i]][[1]][3, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Y[[i]][[1]][4, "x"] = L$x - 1#
+	      	Y[[i]][[1]][4, "y"] = L$y#
+			Y[[i]] <- do.call(rbind.fill, Y[[i]])#
+		}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z[[1]] <- do.call(rbind.fill, Y)#
+		# merge neighbors and primary samples matching condition#
+		Z[[1]]$step <- 1#
+		Z[[1]] -> B
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (j in 2:f_max) {#
+				last_step = j-1#
+				A <- B %>% filter(.data$step == last_step)#
+				Z[[j]] <- list()#
+				if (dim(A)[1] > 0) {#
+					for (k in 1:dim(A)[1]) {#
+						Z[[j]][[k]] <- data.frame()#
+			    	    kx=A$x[k]#
+			    	    ky=A$y[k]#
+						# if plot has cacti, survey its neighbors#
+						if (dim(population_data %>% #
+							filter(#
+			  					y_value > condition, #
+			  			  		x==kx,#
+			  			  		y==ky#
+						))[1] > 0#
+						) {#
+						    # neighbor to north#
+						    Z[[j]][[k]][1, "x"] = kx#
+						   	Z[[j]][[k]][1, "y"] = ky - 1#
+						    # neighbor to south#
+						    Z[[j]][[k]][2, "x"] = kx#
+						   	Z[[j]][[k]][2, "y"] = ky + 1#
+						    # neighbor to east#
+						    Z[[j]][[k]][3, "x"] = kx + 1#
+						    Z[[j]][[k]][3, "y"] = ky#
+						    # neighbor to west#
+						    Z[[j]][[k]][4, "x"] = kx - 1#
+						    Z[[j]][[k]][4, "y"] = ky#
+						}#
+						if (dim(Z[[j]][[k]])[1] > 0) {#
+							Z[[j]][[k]]$step <- j#
+						}#
+					}#
+					B <- do.call(rbind.fill, Z[[j]]) %>% #
+						filter(!(is.na(x))) %>%#
+						rbind.fill(B)#
+					Z[[j]] <- do.call(rbind.fill, Z[[j]])#
+				}#
+			}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sample <- do.call(rbind.data.frame, Z)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+sample %<>%#
+			merge(population_data, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(.data$step)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(y_value > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Y = no_duplicates %>% filter(#
+			y_value == condition, #
+			Sampling=="SRSWOR" | #
+			Sampling=="SRSWR" | #
+			Sampling=="Primary Sample"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z = no_duplicates %>% filter(y_value == condition, is.na(Sampling))#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+		} else {#
+			# merge back together		#
+			Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Z %<>% select(x, y, NetworkID, m, y_value, Sampling, .data$step)#
+		names(Z)[names(Z) == 'y_value'] <- y_variable#
+		# add species attribute data#
+		Z %<>% #
+			merge(population_data %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()#
+		}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+S %<>% merge(population_data)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+S %>% #
+		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)

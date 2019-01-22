@@ -10,12 +10,12 @@
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' population_data = patch_data_5
+#' population_data = lambdap_5_tau_1
 #' seed=26
 #' n1=40
-#' y_variable = "Cactus"
+#' y_variable = "y_value"
 #' f_max = 3
-#' Z = createRACS(population_data, seed, n1, y_variable, f_max)
+#' Z = createRACS(lambdap_5_tau_1, seed, n1, y_variable, f_max)
 
 #' ggplot() +
 #' geom_point(data=patch_data_5, aes(x,y, size=factor(Cactus),

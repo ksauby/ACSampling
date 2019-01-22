@@ -19,7 +19,24 @@ Create Cactus Realization Data
 }
 \examples{
 library(ggplot2)
-CactusRealizations <- createCactusRealizations()
+CactusRealizations <- createCactusRealizations(
+	PlotSurveys_season1, 
+	ovar = c(
+	"Stricta",
+	"Pusilla",
+	"Cactus",
+	"CACA_on_Pusilla",
+	"CACA_on_Stricta",
+	"MEPR_on_Pusilla",
+	"MEPR_on_Stricta",
+	"Old_Moth_Evidence_Pusilla",
+	"Old_Moth_Evidence_Stricta"
+	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
+	# "Percent_Cover_Stricta",
+	# "Height_Pusilla",
+	# "Height_Stricta",
+)		
+)
 ggplot(
 	CactusRealizations,
 	aes(
@@ -30,7 +47,6 @@ ggplot(
 	geom_point() +
 	facet_wrap(~population) +
 	scale_shape_manual(values=c(4,16))
-
 }
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.

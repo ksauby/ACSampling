@@ -43,7 +43,8 @@ occupancy.variables = c(
 	# "Height_Stricta",
 )		
 summary.variables = occupancy.variables
-grouping.variables = c("n.networks", "realization")
+# WHAT WAS I THINK HERE? for grouping variables?
+grouping.variables = "n.networks" # c("n.networks", "realization")
 # create realizations
 x_start = 1
 x_end = 30
@@ -59,21 +60,4 @@ cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
 	occupancy.variables)
 patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
 	summary.variables=occupancy.variables, population.grouping.variable=grouping.variables)
-patch_data_summary \%<>\% 
-	round(3) \%>\% 
-	arrange(n.networks) \%>\% 
-	dplyr::select(
-		starts_with("Pusilla"), 
-		starts_with("Stricta"), 
-		starts_with("Cactus"), 
-		starts_with("CACA_on_Pusilla"),
-		starts_with("CACA_on_Stricta"),
-		starts_with("MEPR_on_Pusilla"),
-		starts_with("MEPR_on_Stricta"),
-		starts_with("Old_Moth_Evidence_Pusilla"),
-		starts_with("Old_Moth_Evidence_Stricta"),
-		everything()
-	)
-write.csv(patch_data_summary, file=paste("patch_data_summary", 
-format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M"), ".csv", sep=""))
 }
