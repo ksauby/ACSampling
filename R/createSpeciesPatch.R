@@ -15,6 +15,8 @@
 #'
 #' This function uses a maximum of \code{2 + n.networks} random numbers: the first to set the seed to sample locations from a grid, and the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations). Then a maximum of \code{n.networks} random numbers are used, each number to randomly rotate a network of units before it is assigned coordinates.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @export
+
 #' @examples
 #' library(magrittr)
 #' library(dplyr)

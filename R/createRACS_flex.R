@@ -11,15 +11,21 @@
 #' @examples
 #' library(ggplot2)
 #' population_data = lambdap_5_tau_1
-#' seed=26
-#' n1=40
+#' seed=3
+#' n1=5
 #' y_variable = "y_value"
 #' f_max = 3
-#' Z = createRACS(lambdap_5_tau_1, seed, n1, y_variable, f_max)
+#' Z = createRACS(
+#' 	population_data=lambdap_5_tau_1, 
+#' 	n1=n1, 
+#' 	y_variable=y_variable, 
+#' 	seed=seed, 
+#' 	f_max=f_max
+#' )
 
 #' ggplot() +
-#' geom_point(data=patch_data_5, aes(x,y, size=factor(Cactus),
-#' 		shape=factor(Cactus))) +
+#' geom_point(data=Z, aes(x,y, size=factor(y_variable),
+#' 		shape=factor(y_variable))) +
 #' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' geom_point(data=Z, aes(x,y), shape = 0, size=7) +
 #' ggtitle("f_max = 1")
@@ -28,6 +34,7 @@
 
 #' @export
 #' @importFrom dplyr everything
+#' @importFrom dplyr filter_
 
 createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA, f_max=2) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL
@@ -37,13 +44,13 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 		S$Sampling <- "Primary Sample"
 		S$step <- 0
 		} else {
-		if (!is.na(seed)) {set.seed(seed)}
-		S <- createSRS(population_data, n1)
-		S$step <- 0
+			if (!is.na(seed)) {set.seed(seed)}
+				S <- createSRS(population_data, n1)
+				S$step <- 0
 	}
 	# filter out primary samples that satisfy the condition
 	Networks <- S %>% 
-		filter(eval(parse(text = paste("S$", y_variable, sep=""))) > condition)
+		filter_(interp(~y_variable > condition))
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
 		names(S)[names(S) == y_variable] <- 'y_value'
@@ -119,8 +126,8 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 				}
 			}
 			sample <- do.call(rbind.data.frame, Z)
-		} else {
-			sample <- do.call(rbind.data.frame, Z)
+			} else {
+				sample <- do.call(rbind.data.frame, Z)
 		}
 	   	sample %<>%
 			merge(population_data, by=c("x", "y")) %>%
@@ -154,9 +161,9 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 			Z$m <- 0			
 			# merge back together		
 			Z = rbind.fill(X,Y,Z)	
-		} else {
-			# merge back together		
-			Z = rbind.fill(X,Y)			
+			} else {
+				# merge back together		
+				Z = rbind.fill(X,Y)			
 		}
 		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
@@ -174,10 +181,9 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 			stop()
 		}	
   		return(Z)
-	} 
-	else {
-		# add species attribute data to sample
-		S %<>% merge(population_data)
-		return(S)
+		} else {
+			# add species attribute data to sample
+			S %<>% merge(population_data)
+			return(S)
 	}
 }

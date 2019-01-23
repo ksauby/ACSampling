@@ -13,7 +13,7 @@
 #' 
 #' data(Thompson1990Figure1Population)
 #' data(Thompson1990Figure1Sample)
-#' Z = createSRSWOR(Thompson1990Figure1Population, seed=2, n1=10)
+#' Z = createSRS(Thompson1990Figure1Population, seed=2, n1=10)
 #' @export
 
 createSRS <- function(population_data, n1, seed=NA, wreplacement=F) {

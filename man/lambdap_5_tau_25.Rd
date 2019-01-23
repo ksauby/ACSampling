@@ -18,10 +18,10 @@ An example dataset from Christman (1997):\deqn{\lambda_P = 5, \tau = 2.5}{lambda
 }
 \examples{
 library(ggplot2)
-
+library(magrittr)
 data(lambdap_5_tau_25)
 
-ggplot(lambdap_5_tau_25 \%>\% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+ggplot(lambdap_5_tau_25 \%>\% dplyr::filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 }
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.}  

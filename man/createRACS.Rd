@@ -31,14 +31,20 @@ Create a Restricted Adaptive Cluster Sample, for any step size
 \examples{
 library(ggplot2)
 population_data = lambdap_5_tau_1
-seed=26
-n1=40
+seed=3
+n1=5
 y_variable = "y_value"
 f_max = 3
-Z = createRACS(lambdap_5_tau_1, seed, n1, y_variable, f_max)
+Z = createRACS(
+	population_data=lambdap_5_tau_1, 
+	n1=n1, 
+	y_variable=y_variable, 
+	seed=seed, 
+	f_max=f_max
+)
 ggplot() +
-geom_point(data=patch_data_5, aes(x,y, size=factor(Cactus),
-		shape=factor(Cactus))) +
+geom_point(data=Z, aes(x,y, size=factor(y_variable),
+		shape=factor(y_variable))) +
 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 geom_point(data=Z, aes(x,y), shape = 0, size=7) +
 ggtitle("f_max = 1")

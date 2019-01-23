@@ -20,9 +20,11 @@ This gives equation 9 on page 10 in Berger and Tille 2009.
 }
 \examples{
 # Hajek Approximation
+library(dplyr)
+library(magrittr)
 Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)
 Z_summary <- Z \%>\% 
-	filter(Sampling!="Edge") \%>\%
+	dplyr::filter(Sampling!="Edge") \%>\%
 	group_by(NetworkID) \%>\%
 	filter(NetworkID > 0) \%>\%
 	dplyr::summarise(
@@ -36,7 +38,7 @@ var_y_HT(
 	y = Z_summary$y_total
 )
 pi_i_values <- pi_i(N=900,n1=30, m=Z_summary$m)
-Hajek(pi_i=pi_i_values, N=900)
+Hajek(pi_i=pi_i_values, n=30)
 var_pi(
 	n = 30, 
 	y = Z_summary$y_total, 

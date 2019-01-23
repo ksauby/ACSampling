@@ -87,8 +87,8 @@ createACS <- function(population_data, n1, y_variable, condition=0, seed=NA, ini
 			dplyr::select(-.data$xy)
 		# remove plots outside of population extent
 		Z %<>% subset(
-			.data$x %in% population_data$x &
-			.data$y %in% population_data$y
+			x %in% population_data$x &
+			y %in% population_data$y
 		)
 		# fill in values for Edge units
 		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {

@@ -3,9 +3,10 @@
 #' @return The population displayed in Christman (1997), where \deqn{\lambda_P = 10, \tau = 5}{lambda_P = 10, tau = 5}.
 #' @examples 
 #' library(ggplot2)
+#' library(magrittr)
 #' data(lambdap_5_tau_25)
 #' 
-#' ggplot(lambdap_5_tau_25 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+#' ggplot(lambdap_5_tau_25 %>% dplyr::filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 
 
 #' @references

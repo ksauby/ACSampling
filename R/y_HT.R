@@ -152,28 +152,20 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NU
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #'
 #' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
-#' @examples 
-#' library(magrittr)
-#' library(plyr)
-#' library(dplyr)
-#' library(ggplot2)
-#'
-#' patch3 <- patch_data %>% filter(n.networks == levels(n.networks)[3])
-#' newsample = createRACS(patch3, seed=26, n1=40, "Cactus")
-#' y = newsample$Cactus
-#' m = newsample$m
-#' N = 900
-#' n1 = 40
-#' m_threshold = 7
-
-#' new_y_HT(
-#' 	y = newsample$Cactus, 
-#' 	N = 900, 
-#' 	n1 = 40, 
-#' 	m = newsample$m, 
-#' 	m_threshold = 7
-#' )
 #' @export
+#' @examples 
+#' # EXAMPLE 4:
+#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
+#' # Horvitz-Thompson mean times the population size; should equal 38
+#' new_y_HT(
+#'     y 		= c(3,6,rep(0, 98)),
+#'     N 		= 1000, 
+#'     n1 		= 100, 
+#'     m 		= c(2,3,rep(1,98)), 
+#'     sampling = "SRSWOR",
+#'     criterion =0,
+#'	   m_threshold=2
+#' )
 
 new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
 	if (!(is.null(sampling)) & !(is.null(criterion))) {

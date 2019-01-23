@@ -17,9 +17,9 @@
 #' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
 #' @examples 
 #' library(ggplot2)
-#' 
+#' library(magrittr)
 #' data(lambdap_5_tau_5)
 #' 
-#' ggplot(lambdap_5_tau_5 %>% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+#' ggplot(lambdap_5_tau_5 %>% dplyr::filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 
 NULL

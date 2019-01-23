@@ -14,9 +14,10 @@ Create the population, \deqn{\lambda_P = 10, \tau = 25}{lambda_P = 10, tau = 25}
 }
 \examples{
 library(ggplot2)
+library(magrittr)
 data(lambdap_10_tau_25)
-
-ggplot(lambdap_10_tau_25 \%>\% filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+temp <- lambdap_10_tau_25 \%>\% dplyr::filter(y_value!=0)
+ggplot(temp, aes(x, y)) + geom_text(aes(label=y_value))
 }
 \references{
 Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
