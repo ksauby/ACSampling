@@ -23,17 +23,43 @@ var_y_HT_RACS(N, n1, m, y, m_threshold, pi_i_values = NULL)
 Calculate the variance of the Horvitz-Thompson estimator of the mean using the RACS correction
 }
 \examples{
-patch = patch_data \%>\% filter(n.networks==unique(patch_data$n.networks)[3])
-S <- createSRS(population_data=patch, seed=26, n1=10)
-initial_sample <- S[, c("x", "y")]
-RACS = createRACS(
-	population_data=patch, 
-	seed=26, 
-	n1=10, 
-	y_variable="Cactus", 
-	initial_sample=initial_sample
-) \%>\% mutate(Design="(b) RACS, n = 45")
-var_y_HT_RACS(N=dim(patch)[1], n1=10, m=RACS$m, y=RACS$Cactus, m_threshold=7)
+library(ggplot2)
+library(magrittr)
+library(dplyr)
+# Sampling of population from Figure 1, Thompson (1990)
+
+data(Thompson1990Figure1Population)
+data(Thompson1990Figure1Sample)
+
+# plot sample overlaid onto population
+ggplot() +
+	geom_point(data=Thompson1990Figure1Population, aes(x,y, 
+	size=factor(y_value),
+		shape=factor(y_value))) +
+	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
+
+# INITIATE ACS
+Z = createACS(population_data=Thompson1990Figure1Population, 
+	n1=dim(Thompson1990Figure1Sample)[1], 
+	initial_sample=Thompson1990Figure1Sample, y_variable="y_value")
+
+# CALCULATE var(y_HT)
+# create dataframe of network info
+Z_summary <- Z \%>\% group_by(NetworkID) \%>\%
+	summarise(
+		m = m[1],
+		y_total = sum(y_value, rm.na=TRUE)
+		) \%>\%
+		filter(NetworkID > 0)
+
+var_y_HT_RACS(
+	N = dim(Thompson1990Figure1Population)[1], 
+	n1 = dim(Thompson1990Figure1Sample)[1], 
+	m = Z_summary$m, 
+	y = Z_summary$y_total,
+	m_threshold=3
+)
 }
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
