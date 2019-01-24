@@ -36,7 +36,7 @@
 #' @importFrom dplyr everything
 #' @importFrom dplyr filter_
 
-createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NA, f_max=2) {
+createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NULL, f_max=2) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL
 	# get primary sample
 	if (is.data.frame(initial_sample)) {
@@ -50,7 +50,7 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 	}
 	# filter out primary samples that satisfy the condition
 	Networks <- S %>% 
-		filter_(interp(~y_variable > condition))
+		filter_(interp (~ .data$x > y, .values=list(x=y_variable, y=condition)))
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
 		names(S)[names(S) == y_variable] <- 'y_value'

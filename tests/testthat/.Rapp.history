@@ -1,169 +1,3 @@
-(69.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)
-(69.5 - mean(Exam2$Exam.2..3398477.))/sd(Exam2$Exam.2..3398477.)*10 + 83
-setwd('/Users/KSauby/Documents')
-library(magrittr)#
-library(dplyr)#
-library(ggplot2)#
-#
-Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)
-head(Exam2)
-setwd('/Users/KSauby/Documents')
-library(magrittr)#
-library(dplyr)#
-library(ggplot2)#
-#
-Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)
-head(Exam2)
-setwd('/Users/KSauby/Documents')
-Exam2 %<>% #
-	filter(Final.Exam..3510129.>0) %>%#
-	mutate(#
-		mean_Exam1 = mean(Final.Exam..3510129.),#
-		sd_Exam1 = sd(Final.Exam..3510129.),#
-		zvar = #
-			(Exam.2..3398477. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
-		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
-		curved_Exam1 = zvar*10 + 83#
-	) %>%#
-	group_by(Student) %>%#
-	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1))
-head(Exam2)
-setwd('/Users/KSauby/Documents')
-Exam2 %<>% #
-	filter(Final.Exam..3510129.>0) %>%#
-	mutate(#
-		mean_Exam1 = mean(Final.Exam..3510129.),#
-		sd_Exam1 = sd(Final.Exam..3510129.),#
-		zvar = #
-			(Exam.2..3398477. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
-		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
-		curved_Exam1 = zvar*10 + 83#
-	) %>%#
-	group_by(Student) %>%#
-	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
-	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, curved_Exam1, `Final Exam (3510129)`)
-Exam2
-Exam2 %>% as.data.frame
-setwd('/Users/KSauby/Documents')
-Exam2 %<>% #
-	filter(Final.Exam..3510129.>0) %>%#
-	mutate(#
-		mean_Exam1 = mean(Final.Exam..3510129.),#
-		sd_Exam1 = sd(Final.Exam..3510129.),#
-		zvar = #
-			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
-		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
-		curved_Exam1 = zvar*10 + 83#
-	) %>%#
-	group_by(Student) %>%#
-	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
-	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, curved_Exam1, `Final Exam (3510129)`)
-setwd('/Users/KSauby/Documents')
-Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)#
-#
-Exam2 %<>% #
-	filter(Final.Exam..3510129.>0) %>%#
-	mutate(#
-		mean_Exam1 = mean(Final.Exam..3510129.),#
-		sd_Exam1 = sd(Final.Exam..3510129.),#
-		zvar = #
-			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
-		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
-		curved_Exam1 = zvar*10 + 83#
-	) %>%#
-	group_by(Student) %>%#
-	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
-	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, curved_Exam1, `Final Exam (3510129)`)
-Exam2 %>% as.data.frame
-setwd('/Users/KSauby/Documents')
-Exam2 %<>% #
-	filter(Final.Exam..3510129.>0) %>%#
-	mutate(#
-		mean_Exam1 = mean(Final.Exam..3510129.),#
-		sd_Exam1 = sd(Final.Exam..3510129.),#
-		zvar = #
-			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
-		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
-		curved_Exam1 = zvar*10 + 83#
-	) %>%#
-	group_by(Student) %>%#
-	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
-	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, Final.Exam..3510129., curved_Exam1, `Final Exam (3510129)`)
-setwd('/Users/KSauby/Documents')
-Exam2 <- read.csv(file = "2018-05-07T0855_Grades-PCB3601C.csv", header = TRUE, stringsAsFactors = FALSE)#
-#
-Exam2 %<>% #
-	filter(Final.Exam..3510129.>0) %>%#
-	mutate(#
-		mean_Exam1 = mean(Final.Exam..3510129.),#
-		sd_Exam1 = sd(Final.Exam..3510129.),#
-		zvar = #
-			(Final.Exam..3510129. - mean(Final.Exam..3510129.)) / sd(Final.Exam..3510129.),#
-		zvar_back = zvar*sd(Final.Exam..3510129.) + mean(Final.Exam..3510129.),#
-		curved_Exam1 = zvar*10 + 83#
-	) %>%#
-	group_by(Student) %>%#
-	mutate(`Final Exam (3510129)` = max(Final.Exam..3510129., curved_Exam1)) %>%#
-	dplyr::select(Student, ID, SIS.User.ID, SIS.Login.ID, Section, mean_Exam1, sd_Exam1, zvar, zvar_back, Final.Exam..3510129., curved_Exam1, `Final Exam (3510129)`)
-Exam2 %>% as.data.frame
-1849/8
-1997/8
-1294/89
-1294/8
-2172/3
-2172/8
-1920=3
-1920/3
-1920 + 32*3
-2025+97*3
-1809+86(3)
-1809+86*3
-835+350
-2445/3
-44.95/15
-69/20
-185000*.05
-93 887,907.69
-887,907.69
-887907.69 + 39734.68
-887907.69 + 39734.68 + 185073.33
-887907.69 + 39734.68 + 185073.33+150000
-887907.69 + 39734.68 + 185073.33+150000+50000
-1000/40
-89.95/3120
-89.95/310
-89.95/310*43
-13.3/11.35
-410.26/348.6
-37.66/32
-50/7
-1000/78
-78/1000
-80*110
-8*.33
-68/1000
-20000/17.2
-33.95*1000
-94161.58-33950
-13711.35+288.66+110.04
-1000/35.15
-1000/15.79
-5566.46/35.15
-6000.00/15.79
-10000/17.92
-16+12+4210
-16+12+42+10
-93/33203.91
-33203.91/93
-2364.0000-1162.7910
-21054.65/1207.262
-26x3
-26*3
-78+1+0.4
-55*75
-+8800
-55*75 + 8800
-42/12
 94.93*.1170+90.24*5+(92.13+6+87.2)/3*.833
 94.93*.1170+90.24*.05+(92.13+6+87.2)/3*.833
 94.93*.1170+90.24*.05+(92.13+6+87.2+79.5)/3*.833
@@ -330,18 +164,295 @@ file.path(Sys.getenv("HOME"), ".Rprofile")
 1+.2+.6+.15+.18
 .4+.13+.18
 .29+.29+.04+.04
-?expect_that
-??expect_that
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create a Simple Random Sample Without Replacement.#
+#' #
+#' @param population_data grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param wreplacement Should sampling be done with replacement? Defaults to FALSE.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' # example#
+#' # create the population#
+#' # create the patch#
+#' # then sample#
+#' #
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRS(Thompson1990Figure1Population, seed=2, n1=10)#
+#' @export#
+#
+createSRS <- function(population_data, n1, seed=NA, wreplacement=F) {#
+	if (!is.na(seed)) {set.seed(seed)}#
+	sample <- population_data[sample(#
+		x 		= 1:dim(population_data)[1], #
+		size 	= n1, #
+		replace = wreplacement#
+	), ]#
+	if (wreplacement==F) {#
+		sample$Sampling <- "SRSWOR"#
+	} else {#
+		sample$Sampling <- "SRSWR"#
+	}#
+	return(sample)		#
+}
+library(magrittr)
+library(dplyr)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Assign network membership of adaptive cluster sample units.#
+#
+#' @param dataframe Dataset to be used, containing information about units containing the species of interest, including x and y coordinates.#
+#' @param plot.size The length and width of plots, in coordinate units. Defaults to 1.#
+#
+#' @description This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned to the same network ID. #
+#
+#' @return Returns dataframe with a new column for Network ID as well as a column for m, the number of units in the network.#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#
+#' @examples#
+#' data(Thompson1990Figure1Population)#
+#' #
+#' # plot species abundance#
+#' library(magrittr)#
+#' library(ggplot2)#
+#' library(dplyr)#
+#' ggplot(data=Thompson1990Figure1Population %>% #
+#' 	filter(y_value > 0), aes(x,y, size=factor(y_value))) + geom_point()#
+#' #
+#' # assign network membership of units containing the species of interest#
+#' P_networks <- assignNetworkMembership(Thompson1990Figure1Population %>%#
+#' 	 filter(y_value > 0))#
+#' #
+#' # plot networks#
+#' ggplot(#
+#' 	data=P_networks, #
+#' 	aes(x,y, size=factor(y_value), shape=factor(NetworkID))#
+#' ) + geom_point()#
+#' # coordinates should be given as x and y#
+#
+#' @export#
+#' @importFrom intergraph asIgraph#
+#' @importFrom magrittr %>%#
+#' @importFrom magrittr %<>%#
+#' @importFrom dplyr group_by#
+#' @importFrom dplyr mutate#
+#' @importFrom stats dist#
+#' @importFrom dplyr summarise_each#
+#' @importFrom dplyr filter#
+#' @importFrom magrittr %$%#
+#' @importFrom dplyr arrange#
+#' @importFrom dplyr select#
+#' @importFrom network network#
+#' @importFrom igraph clusters#
+#
+assignNetworkMembership <- function(dataframe, plot.size=1) {#
+	NetworkID <- x <- NULL#
+	D <- as.matrix(dist(cbind(dataframe$x, dataframe$y), method="euclidian"))#
+	D = ifelse(D > plot.size, 0, D)#
+	D %<>% as.data.frame#
+	G <- network(D, directed=FALSE) %>% asIgraph()#
+	dataframe$NetworkID <- clusters(G)$membership#
+	dataframe %<>%#
+		group_by(NetworkID) %>%#
+		mutate(m = length(x)) %>%#
+		as.data.frame#
+	return(dataframe)#
+}
+library(intergraph)
+library(igraph)
+library(stats)
+library(network)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Create the population displayed in Figure 1 from Thompson (1990)#
+#' #
+#' @return The population displayed in Figure 1 from Thompson (1990).#
+#' @examples #
+#' library(ggplot2)#
+#' library(magrittr)#
+#' library(dplyr)#
+#' Thompson1990Figure1Population <- createThompson1990Figure1Population()#
+#' p <- ggplot(Thompson1990Figure1Population %>% filter(m>1), aes(x, y, #
+#' 	colour=NetworkID, label=NetworkID))#
+#' p + annotate("rect", xmin=1, xmax=20, ymin=1, ymax=20, alpha=0, #
+#' colour="grey") + #
+#' 	geom_point(aes(size=factor(y_value))) + #
+#' 	scale_colour_gradientn(colours = rainbow(7))#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.#
+#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.#
+#' @export#
+#
+createThompson1990Figure1Population <- function() {#
+	y_value <- NetworkID <- x <- y <- m <- NULL#
+	# create population#
+	empty = rep(0,20)#
+	P = rbind(#
+		c(rep(0,4),5,13,3,rep(0,13)),#
+		c(rep(0,4),2,11,2,rep(0,13)),#
+		as.data.frame(sapply(empty, rep, 11)), # rows 3-13#
+		c(rep(0,9),3,1,rep(0,9)),#
+		c(rep(0,8),5,39,10,rep(0,9)),#
+		c(rep(0,8),5,13,4,rep(0,9)),#
+		c(rep(0,7),2,22,3,rep(0,10)),#
+		c(rep(0,12),10,8,rep(0,6)),#
+		c(rep(0,12),7,22,rep(0,6)),#
+		c(rep(0,20))#
+	)#
+	# add x and y coordinates#
+	P = cbind(#
+		expand.grid(x = rev(1:20), y = 1:20), #
+		y_value = as.vector(unlist(P))#
+		) #%>%#
+		#filter(y_value > 0)#
+	names(P)[1:2] <- c("y", "x")#
+	# assign network membership of units containing the species of interest#
+	P_networks <- assignNetworkMembership(P %>% filter(y_value > 0), plot.size=1)#
+	# fill in m values#
+	P = merge(P, P_networks, all=T)#
+	P[which(P$y_value==0), ]$m <- 1#
+	# fill in NetworkIDs#
+	maxID <- max(P$NetworkID, na.rm=T)#
+	P[which(is.na(P$NetworkID)), ]$NetworkID <- seq(from=(maxID + 1), #
+		to=(maxID + length(which(is.na(P$NetworkID)))), by=1)#
+	P %<>% #
+		arrange(NetworkID) %>%#
+		dplyr::select(x, y, NetworkID, m, y_value)#
+	return(P)#
+}
+Thompson1990Figure1Population <- createThompson1990Figure1Population()
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+population_data=Thompson1990Figure1Population
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+n1=10
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+y_variable="y_value"
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+seed=5
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+f_max=2
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+initial_sample=NULL
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+condition=0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL#
+	# get primary sample#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population_data, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+		S$step <- 0#
+		} else {#
+			if (!is.na(seed)) {set.seed(seed)}#
+				S <- createSRS(population_data, n1)#
+				S$step <- 0#
+	}#
+	# filter out primary samples that satisfy the condition#
+	Networks <- S %>% #
+		filter_(interp(~y_variable > condition))
+library(lazyeval)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL#
+	# get primary sample#
+	if (is.data.frame(initial_sample)) {#
+		S = merge(population_data, initial_sample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+		S$step <- 0#
+		} else {#
+			if (!is.na(seed)) {set.seed(seed)}#
+				S <- createSRS(population_data, n1)#
+				S$step <- 0#
+	}#
+	# filter out primary samples that satisfy the condition#
+	Networks <- S %>% #
+		filter_(interp(~y_variable > condition))
+Networks
+y_variable
+condition
+interp(~y_variable > condition)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter_(y_variable > condition)
+Networks
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter(y_variable > condition)
+Networks
+S
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+S[which(y_variable > condition), ]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+y_variable
+str(S)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S[which("y_value" > 0), ]
+Networks
+Networks <- S[which("y_value" == 0), ]
+Networks
+Networks <- S[which(S$y_value == 0), ]
+Networks
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter_(interp(~.data$y_variable > condition))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter_(interp(~y_variable) > condition)
+Networks
+Networks <- S %>% #
+		filter_(interp(~y_variable) = condition)
+Networks <- S %>% #
+		filter_(interp(~y_variable) == condition)
+Networks
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+interp(~y_variable > condition)
+condition
+y_variable
+interp(~ y_variable > condition)
+interp(~ y_variable > quote(condition))
+interp(~ y_variable > condition, condition=quote(condition))
+interp (~ x > y, .values=list(x=y_variable, y=condition))
+interp (~ .data$x > y, .values=list(x=y_variable, y=condition))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Networks <- S %>% #
+		filter_(interp (~ .data$x > y, .values=list(x=y_variable, y=condition)))
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+dim(Networks)[1] > 0
 setwd('/Users/KSauby/Documents/Projects')
 setwd("./ACS")#
 #setwd("./modresproc")#
 #devtools::test()#
 devtools::check()
 setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
-test_that("createRACS, Does the function work when no seed or initial sample is provided?", {#
-	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value")#
-	expect_gte(#
-		dim(Z)[1],#
-		10#
+S <- createSRS(Thompson1990Figure1Population, 10, seed=2)#
+	S[5, c("x", "y")] <- c(10,6)#
+	init <- S[, c("x", "y")]#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", #
+		initial_sample=init)
+Z
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(Z[which(Z$y_value > 0), ])[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when providing the initial sample?", {#
+	S <- createSRS(Thompson1990Figure1Population, 10, seed=2)#
+	S[5, c("x", "y")] <- c(10,6)#
+	init <- S[, c("x", "y")]#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", #
+		initial_sample=init) #
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		9#
 	)#
 })
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+S <- createSRS(Thompson1990Figure1Population, 10, seed=2)#
+	S[5, c("x", "y")] <- c(10,6)#
+	init <- S[, c("x", "y")]#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", #
+		initial_sample=init) #
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		9#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+dim(Z[which(Z$y_value > 0), ])[1]

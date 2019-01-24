@@ -5,7 +5,7 @@
 \title{Create a Restricted Adaptive Cluster Sample, for any step size}
 \usage{
 createRACS(population_data, n1, y_variable, condition = 0, seed = NA,
-  initial_sample = NA, f_max = 2)
+  initial_sample = NULL, f_max = 2)
 }
 \arguments{
 \item{population_data}{grid of population to be sampled.}

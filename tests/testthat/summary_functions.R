@@ -232,59 +232,59 @@ test_that("Sampling Bias and Relative Efficiency, population 6, SamplingDesign=A
 	# TEST FUNCTION CALCULATIONS	
 	# 	occupancy variables
 	# 		MSE
-	expect_that(
+	expect_equal(
 		mean_MSE_Stricta,
-		equals(example_bias$Stricta_mean_MSE)
+		example_bias$Stricta_mean_MSE
 	)
 	#	 	RB
-	expect_that(
+	expect_equal(
 		RB_Stricta,
-		equals(example_bias$Stricta_mean_RB)
+		example_bias$Stricta_mean_RB
 	)
 	#		RE
-	expect_that(
+	expect_equal(
 		RE_Stricta,
-		equals(RE_values$Stricta_RE)
+		RE_values$Stricta_RE
 	)
 	# 	ratio variables
 	# 		MSE
-	expect_that(
+	expect_equal(
 		mean_MSE_CACA_on_Stricta,
-		equals(example_bias$CACA_on_Stricta_ratio_mean_MSE)
+		example_bias$CACA_on_Stricta_ratio_mean_MSE
 	)
-	expect_that(
+	expect_equal(
 		mean_MSE_MEPR_on_Stricta,
-		equals(example_bias$MEPR_on_Stricta_ratio_mean_MSE)
+		example_bias$MEPR_on_Stricta_ratio_mean_MSE
 	)
-	expect_that(
+	expect_equal(
 		mean_MSE_Old_Moth_Evidence_Stricta,
-		equals(example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE)
+		example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE
 	)
 	#		RB
-	expect_that(
+	expect_equal(
 		RB_CACA_on_Stricta,
-		equals(example_bias$CACA_on_Stricta_ratio_mean_RB)
+		example_bias$CACA_on_Stricta_ratio_mean_RB
 	)
-	expect_that(
+	expect_equal(
 		RB_MEPR_on_Stricta,
-		equals(example_bias$MEPR_on_Stricta_ratio_mean_RB)
+		example_bias$MEPR_on_Stricta_ratio_mean_RB
 	)
-	expect_that(
+	expect_equal(
 		RB_Old_Moth_Evidence_Stricta,
-		equals(example_bias$Old_Moth_Evidence_Stricta_ratio_mean_RB)
+		example_bias$Old_Moth_Evidence_Stricta_ratio_mean_RB
 	)
 	#		RE
-	expect_that(
+	expect_equal(
 		RE_CACA_on_Stricta,
-		equals(RE_values$CACA_on_Stricta_ratio_RE)
+		RE_values$CACA_on_Stricta_ratio_RE
 	)
-	expect_that(
+	expect_equal(
 		RE_MEPR_on_Stricta,
-		equals(RE_values$MEPR_on_Stricta_ratio_RE)
+		RE_values$MEPR_on_Stricta_ratio_RE
 	)
-	expect_that(
+	expect_equal(
 		RE_Old_Moth_Evidence_Stricta,
-		equals(RE_values$Old_Moth_Evidence_Stricta_ratio_RE)
+		RE_values$Old_Moth_Evidence_Stricta_ratio_RE
 	)
 })
 
@@ -388,41 +388,41 @@ test_that("Sampling Bias and Relative Efficiency, population 1, SamplingDesign=A
 	# TEST FUNCTION CALCULATIONS	
 	# 	occupancy variables
 	# 		MSE
-	expect_that(
+	expect_equal(
 		mean_MSE_Stricta,
-		equals(example_bias$Stricta_mean_MSE)
+		example_bias$Stricta_mean_MSE
 	)
 	#		RE
-	expect_that(
+	expect_equal(
 		RE_Stricta,
-		equals(RE_values$Stricta_RE)
+		RE_values$Stricta_RE
 	)
 	# 	ratio variables
 	# 		MSE
-	expect_that(
+	expect_equal(
 		mean_MSE_CACA_on_Stricta,
-		equals(example_bias$CACA_on_Stricta_ratio_mean_MSE)
+		example_bias$CACA_on_Stricta_ratio_mean_MSE
 	)
-	expect_that(
+	expect_equal(
 		mean_MSE_MEPR_on_Stricta,
-		equals(example_bias$MEPR_on_Stricta_ratio_mean_MSE)
+		example_bias$MEPR_on_Stricta_ratio_mean_MSE
 	)
-	expect_that(
+	expect_equal(
 		mean_MSE_Old_Moth_Evidence_Stricta,
-		equals(example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE)
+		example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE
 	)
 	#		RE
-	expect_that(
+	expect_equal(
 		RE_CACA_on_Stricta,
-		equals(RE_values$CACA_on_Stricta_ratio_RE)
+		RE_values$CACA_on_Stricta_ratio_RE
 	)
-	expect_that(
+	expect_equal(
 		RE_MEPR_on_Stricta,
-		equals(RE_values$MEPR_on_Stricta_ratio_RE)
+		RE_values$MEPR_on_Stricta_ratio_RE
 	)
-	expect_that(
+	expect_equal(
 		RE_Old_Moth_Evidence_Stricta,
-		equals(RE_values$Old_Moth_Evidence_Stricta_ratio_RE)
+		RE_values$Old_Moth_Evidence_Stricta_ratio_RE
 	)
 })
 
@@ -526,41 +526,41 @@ test_that("Sampling Bias and Relative Efficiency, population 1, SamplingDesign=R
 	# TEST FUNCTION CALCULATIONS	
 	# 	occupancy variables
 	# 		MSE
-	expect_that(
+	expect_equal(
 		mean_MSE_Stricta,
-		equals(example_bias$Stricta_mean_MSE)
+		example_bias$Stricta_mean_MSE
 	)
 	#		RE
-	expect_that(
+	expect_equal(
 		RE_Stricta,
-		equals(RE_values$Stricta_RE)
+		RE_values$Stricta_RE
 	)
 	# 	ratio variables
 	# 		MSE
-	expect_that(
+	expect_equal(
 		mean_MSE_CACA_on_Stricta,
-		equals(example_bias$CACA_on_Stricta_ratio_mean_MSE)
+		example_bias$CACA_on_Stricta_ratio_mean_MSE
 	)
-	expect_that(
+	expect_equal(
 		mean_MSE_MEPR_on_Stricta,
-		equals(example_bias$MEPR_on_Stricta_ratio_mean_MSE)
+		example_bias$MEPR_on_Stricta_ratio_mean_MSE
 	)
-	expect_that(
+	expect_equal(
 		mean_MSE_Old_Moth_Evidence_Stricta,
-		equals(example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE)
+		example_bias$Old_Moth_Evidence_Stricta_ratio_mean_MSE
 	)
 	#		RE
-	expect_that(
+	expect_equal(
 		RE_CACA_on_Stricta,
-		equals(RE_values$CACA_on_Stricta_ratio_RE)
+		RE_values$CACA_on_Stricta_ratio_RE
 	)
-	expect_that(
+	expect_equal(
 		RE_MEPR_on_Stricta,
-		equals(RE_values$MEPR_on_Stricta_ratio_RE)
+		RE_values$MEPR_on_Stricta_ratio_RE
 	)
-	expect_that(
+	expect_equal(
 		RE_Old_Moth_Evidence_Stricta,
-		equals(RE_values$Old_Moth_Evidence_Stricta_ratio_RE)
+		RE_values$Old_Moth_Evidence_Stricta_ratio_RE
 	)
 })
 
