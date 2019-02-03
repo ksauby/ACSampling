@@ -1,5 +1,5 @@
 #' Calculate the Horvitz-Thompson Ratio Estimator
-#' @description R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002).
+#' @description R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002). THERE CANNOT BE NAS IN X OR Y?
 #' @param y Attribute data about species of interest y (e.g., abundance, presence/absence).
 #' @param x Auxiliary data about object of interest y.
 #' @param N Population size.
