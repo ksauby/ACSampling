@@ -5,8 +5,7 @@ Authors@R: person("Kristen", "Sauby", email = "ksauby@gmail.com", role = c("aut"
 Description: Generate simulation and estimate statistics for adaptive cluster
     sampling and restricted adaptive cluster sampling.
 Depends:
-    R (>= 3.1.2),
-	sp
+    R (>= 3.1.2)
 License: GPL-2
 LazyData: true
 Suggests:

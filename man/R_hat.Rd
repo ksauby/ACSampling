@@ -20,7 +20,7 @@ R_hat(y, x, N, n1, m, with_replacement = "FALSE")
 \item{with_replacement}{Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.}
 }
 \description{
-R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002).
+R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002). THERE CANNOT BE NAS IN X OR Y?
 }
 \examples{
 # Example from Thompson (2002), p. 78-79
