@@ -8,23 +8,20 @@ calculateInclusionProbabilities(patchdat, simulations, nsamples,
   SamplingDesign = "ACS", y_variable, f_max = NULL)
 }
 \arguments{
-\item{patchdat}{patch realizations}
+\item{patchdat}{Patch realization data}
 
-\item{simulations}{Number of simulations per population.}
+\item{simulations}{Number of simulations per realization.}
 
 \item{nsamples}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values}
 
-\item{SamplingDesign}{Sampling design; ACS or RACS.}
+\item{SamplingDesign}{Adaptive cluster sampling design (either "ACS" or "RACS").}
 
-\item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
+\item{y_variable}{Variable upon which adaptive cluster sampling criterion is based}
 
 \item{f_max}{NEED DESCRIPTION HERE}
 }
-\value{
-NEEDS INFO
-}
 \description{
-Calculate inclusion probabilities for each unit in a population using simulations.
+Calculate inclusion probabilities for each unit in a realization using simulations.
 }
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.

@@ -1,6 +1,6 @@
-#' Assign network membership of adaptive cluster sample units.
+#' Assign network membership to adaptive cluster sample units.
 
-#' @param dataframe Dataset to be used, containing information about units containing the species of interest, including x and y coordinates.
+#' @param dataframe Dataset to be used, containing information about units containing the species of interest, including x and y coordinates, with column names "x" and "y," respectively.
 #' @param plot.size The length and width of plots, in coordinate units. Defaults to 1.
 
 #' @description This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned to the same network ID. 

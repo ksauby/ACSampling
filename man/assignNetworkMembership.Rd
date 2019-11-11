@@ -2,12 +2,12 @@
 % Please edit documentation in R/assignNetworkMembership.R
 \name{assignNetworkMembership}
 \alias{assignNetworkMembership}
-\title{Assign network membership of adaptive cluster sample units.}
+\title{Assign network membership to adaptive cluster sample units.}
 \usage{
 assignNetworkMembership(dataframe, plot.size = 1)
 }
 \arguments{
-\item{dataframe}{Dataset to be used, containing information about units containing the species of interest, including x and y coordinates.}
+\item{dataframe}{Dataset to be used, containing information about units containing the species of interest, including x and y coordinates, with column names "x" and "y," respectively.}
 
 \item{plot.size}{The length and width of plots, in coordinate units. Defaults to 1.}
 }

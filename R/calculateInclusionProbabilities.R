@@ -1,15 +1,26 @@
 #' Calculate Inclusion Probabilities Using Simulations
 
-#' @param patchdat patch realizations
-#' @param simulations Number of simulations per population.
+#' @param patchdat Patch realization data
+#' @param simulations Number of simulations per realization.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param f_max NEED DESCRIPTION HERE
-#' @param SamplingDesign Sampling design; ACS or RACS.
-#' @param y_variable variable upon which adaptive cluster sampling criterion is based
+#' @param SamplingDesign Adaptive cluster sampling design (either "ACS" or "RACS").
+#' @param y_variable Variable upon which adaptive cluster sampling criterion is based
 
-#' @description Calculate inclusion probabilities for each unit in a population using simulations.
+#' @description Calculate inclusion probabilities for each unit in a realization using simulations.
 
-#' @return NEEDS INFO
+#' @value Returns a dataframe with the following columns:
+#' realization
+#' n.networks
+#' N.SRSWOR.plots
+#' SamplingDesign
+#' simulations
+#' coords
+#' mean_m
+#' max_m
+#' min_m
+#' median_m
+
 
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 

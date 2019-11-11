@@ -91,103 +91,65 @@ calculateDifferencesinMeans <- function(dataframe, variables) {
 calculateBiasComponents	<- function(dataframe, resultslist, variables) {
 	for (i in 1:length(variables)) {
 		resultslist[[i]] <- list()
+		
+		
+		
+		
+		var = sym(
+			paste(
+				variables[i],
+				"_mean", 
+				sep=""
+			)
+		)		
+		var_observed = sym(
+			paste(
+				variables[i],
+				"_mean_observed", 
+				sep=""
+			)
+		)
+		var_mean_observed_minus_true_squared = paste(
+			variables[i],
+			"_mean_observed_minus_true_squared",
+			sep=""
+		)
+		var_var_observed = paste(
+			variables[i],
+			"_var_observed",
+			sep=""
+		)
 		resultslist[[i]] <- dataframe %>%
-			summarise_(.,
+			summarise(
 				# save true mean
-				mean_RB_true_mean = interp(
-					~var[1], 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_mean", 
-							sep=""
-						)
-					)
-				),
+				mean_RB_true_mean = var(!!var)[1],
 				# calculate mean of observed means
-				mean_RB_mean_of_observed_means = interp(
-					~mean(var, na.rm = TRUE), 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
+				mean_RB_mean_of_observed_means = mean(
+					!!var_observed, na.rm=TRUE
 				),
 				# sample size used to calculate mean of observed means
-				RB_n = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
-				),
+				RB_n = length(!is.na(!!var_observed)),
 				# calculate MSE
-				MSE_sum_of_observed_minus_true_sqrd = interp(
-					~sum(var, na.rm = TRUE), 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_mean_observed_minus_true_squared",
-							sep=""
-						)
-					)
-				),
+				MSE_sum_of_observed_minus_true_sqrd = sum(
+					!!var_mean_observed_minus_true_squared, na.rm = TRUE
+				), 
 				# sample size used to calculate MSE
-				MSE_n_sims = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_mean_observed_minus_true_squared",
-							sep=""
-						)
+				MSE_n_sims = length(
+					!is.na(
+						!!var_mean_observed_minus_true_squared
 					)
 				),
 				# for var_RB: calculate mean of simulated HT variance estimates
-				var_RB_mean_of_var_estimates = interp(
-					~mean(var, na.rm = TRUE), 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_var_observed",
-							sep=""
-						)
-					)
-				),
+				var_RB_mean_of_var_estimates = mean(
+					!!var_var_observed, na.rm = TRUE
+				), 
 				# for var_RB: sample size used to calculate mean of simulated HT variance estimates
-				var_RB_mean_of_var_estimates_n = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_var_observed",
-							sep=""
-						)
-					)
+				var_RB_mean_of_var_estimates_n = length(
+					!is.na(!!var_var_observed) 
 				),
 				# for var_RB: calculate variance of _mean_observed
-				var_RB_var_of_mean_estimates = interp(
-					~var(variable, na.rm = TRUE), 
-					variable = 
-					as.name(
-						paste(
-							variables[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
+				var_RB_var_of_mean_estimates = var(
+					!!var_observed, na.rm = TRUE
 				),
 				# for var_RB: calculate sample size used to calculate variance of _mean_observed
 				var_RB_var_of_mean_estimates_n = interp(
@@ -313,28 +275,17 @@ calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population
 	for (i in 1:length(variables)) {
 		C[[i]] <- list()
 		# observed mean
-		C[[i]] <- temp %>%
-			summarise_(
-				mean_of_observed_means = interp(
-					~mean(var, na.rm = TRUE), 
-					var = as.name(
-						paste(
-							variables[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
-				),
-				sample_size = interp(
-					~length(var[which(!is.na(var))]), 
-					var = as.name(
-						paste(
-							variables[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
+		var = sym(
+				paste(
+					variables[i],
+					"_mean_observed",
+					sep=""
 				)
+			)		
+		C[[i]] <- temp %>%
+			summarise(
+				mean_of_observed_means = mean(!!var, na.rm=T),
+				sample_size = length(!is.na(!!var))
 			) %>%
 			setnames(
 		      	.,
@@ -461,7 +412,7 @@ calculateSamplingBias <- function(
 	B <- A 
 	# add number of simulations to dataset
 	B %<>% 
-		group_by_(.dots = c(
+		group_by(.dots = c(
 			population.grouping.variables, 
 			sampling.grouping.variables
 		)) %>%
@@ -525,11 +476,11 @@ calculateSamplingBias <- function(
 	
 	
 	X.grp <- E %>% 
-		group_by_(.dots=c(
+		group_by_at(
 			population.grouping.variables, 
 			sampling.grouping.variables, 
 			"n_sims"
-		)) %>% 
+		) %>% 
 		calculateBiasComponents(., resultslist=H, variables=rvar_variables)
 	Z <- Reduce(
 		function(x, y) merge(
