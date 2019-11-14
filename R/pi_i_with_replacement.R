@@ -6,6 +6,6 @@
 #' @return vector of inclusion probabilities
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
-pi_i_with_replacement <- function(N, n1, m) {
+pi_i_replace <- function(N, n1, m) {
   sapply(m, function(m) 1 - (1 - m/N)^n1)
 }

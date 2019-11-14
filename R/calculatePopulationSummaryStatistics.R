@@ -31,14 +31,14 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' Calculate Summary Statistics for Patch Population Data
 #' 
 #' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
-#' @param summary.variables Vector of variables for which summary statistics should be calculated.
-#' @param population.grouping.variable Categorical variable identifying the different populations.
-#' @param ratio.variables Variables for which to use ratio estimators
+#' @param summaryvar Vector of variables for which summary statistics should be calculated.
+#' @param popgroupvar Categorical variable identifying the different populations.
+#' @param rvar Vector of variables for which ratio estimators should be used.
 #' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
 
 #' @description Calculates summary statistics for patch population data.
 
-#' @return Dataframe including summary statistics for each column identified in \code{summary.variables} and for each category identified in \code{grouping.variables}.
+#' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{grouping.variables}.
 
 #' @export
 #' @importFrom dplyr group_by_ ungroup arrange_
@@ -65,7 +65,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' 	# "Height_Pusilla",
 #' 	# "Height_Stricta",
 #' )		
-#' summary.variables = occupancy.variables
+#' summaryvar = occupancy.variables
 #' # WHAT WAS I THINK HERE? for grouping variables?
 #' grouping.variables = "n.networks" # c("n.networks", "realization")
 #' # create realizations
@@ -82,25 +82,25 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 #' 	occupancy.variables)
 #' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
-#' 	summary.variables=occupancy.variables, population.grouping.variable=grouping.variables)
+#' 	summaryvar=occupancy.variables, popgroupvar=grouping.variables)
 	
 calculatePopulationSummaryStatistics <- function(
-	population_data, 
-	summary.variables, 
-	ratio.variables=NULL, 
-	population.grouping.variable,
+	popdata, 
+	summaryvar, 
+	rvar=NULL, 
+	popgroupvar,
 	weights="S"
 ) {
-	population_data %<>% arrange_(.dots=population.grouping.variable)
-	# for each population.grouping.variable combo, calculate summary statistics for m and number of species patches
+	popdata %<>% arrange_(.dots=popgroupvar)
+	# for each popgroupvar combo, calculate summary statistics for m and number of species patches
 	# this calculates the m statistics for the unique Network sizes
-	Y1 = population_data %>%
+	Y1 = popdata %>%
 		group_by_(.dots=lapply(
-			c("NetworkID", population.grouping.variable), 
+			c("NetworkID", popgroupvar), 
 			as.symbol
 		)) %>%
 		summarise(m = .data$m[1]) %>%
-		group_by_(.dots=population.grouping.variable) %>%
+		group_by_(.dots=popgroupvar) %>%
 		summarise(
 			m_min_unique_neigh = min(.data$m),
 			m_max_unique_neigh = max(.data$m),
@@ -112,8 +112,8 @@ calculatePopulationSummaryStatistics <- function(
 		ungroup %>%
 		as.data.frame
 	# this calculates the m statistics for all units
-	Y2 = population_data %>%
-		group_by_(.dots=population.grouping.variable) %>%
+	Y2 = popdata %>%
+		group_by_(.dots=popgroupvar) %>%
 		summarise(
 			m_min = min(.data$m),
 			m_max = max(.data$m),
@@ -122,22 +122,22 @@ calculatePopulationSummaryStatistics <- function(
 		) %>%
 		ungroup %>%
 		as.data.frame
-	Z = population_data %>%
-		group_by_(.dots=population.grouping.variable) %>%
+	Z = popdata %>%
+		group_by_(.dots=popgroupvar) %>%
 		summarise(N = length(.data$m)) %>%
 		ungroup %>%
 		as.data.frame
-	Y1 %<>% merge(Y2, by=population.grouping.variable) %>%
-		merge(Z, by=population.grouping.variable)	
+	Y1 %<>% merge(Y2, by=popgroupvar) %>%
+		merge(Z, by=popgroupvar)	
 	# spatial statistics and other characteristics of variables
 	A <- list()
 	population_variable <- paste(
-		"population_data$", 
-		population.grouping.variable, 
+		"popdata$", 
+		popgroupvar, 
 		sep=""
 	)
 	for (i in 1:length(unique(eval(parse(text=population_variable))))) {
-		temp <- population_data[which(
+		temp <- popdata[which(
 			eval(parse(text=population_variable)) == 
 			unique(eval(parse(text=population_variable)))[i]
 		), ]
@@ -145,19 +145,19 @@ calculatePopulationSummaryStatistics <- function(
 		# spatial statistics
 		coordinates(temp) = ~ x + y
 		A[[i]] <- list()
-		for (j in 1:length(summary.variables)) {
-			A[[i]][[j]] <- data.frame(variable = summary.variables[j])
-			if (summary.variables[j] %in% ratio.variables) {
+		for (j in 1:length(summaryvar)) {
+			A[[i]][[j]] <- data.frame(variable = summaryvar[j])
+			if (summaryvar[j] %in% rvar) {
 				temp_ratio <- temp %>% as.data.frame
 				temp_ratio %<>% 
-					.[.[colnames(.)==str_sub(summary.variables[j],-7,-1)]==1, ]	
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	
 				tempvar <- eval(parse(text =
-						paste("temp_ratio$", summary.variables[j], sep="")
+						paste("temp_ratio$", summaryvar[j], sep="")
 					))
 				coordinates(temp_ratio) = ~ x + y
 			} else {
 				tempvar <- eval(parse(text =
-					paste("temp$", summary.variables[j], sep="")
+					paste("temp$", summaryvar[j], sep="")
 				))	
 			}
 			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)
@@ -166,8 +166,8 @@ calculatePopulationSummaryStatistics <- function(
 			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)
 			A[[i]][[j]]$SSQ_R			<- calculateSSQR(
 				patch_data = as.data.frame(temp),
-				variable = summary.variables[j],
-				population.grouping.variable
+				variable = summaryvar[j],
+				popgroupvar
 			)$SSQ_R
 			if (length(tempvar[which(tempvar > 0)]) > 0) {
 				# join counts and moran's i
@@ -178,7 +178,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						)))),
 						lwb
@@ -186,7 +186,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$MoranI.W <- moran.test(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						))),
 						lwb
@@ -198,7 +198,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						)))),
 						lwb
@@ -206,7 +206,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$MoranI.B <- moran.test(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						))),
 						lwb
@@ -218,7 +218,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						)))),
 						lwb
@@ -226,7 +226,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$MoranI.C <- moran.test(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						))),
 						lwb
@@ -238,7 +238,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						)))),
 						lwb
@@ -246,7 +246,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$MoranI.U <- moran.test(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						))),
 						lwb
@@ -258,7 +258,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						)))),
 						lwb
@@ -266,7 +266,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$MoranI.S <- moran.test(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						))),
 						lwb
@@ -278,7 +278,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						)))),
 						lwb
@@ -286,7 +286,7 @@ calculatePopulationSummaryStatistics <- function(
 					A[[i]][[j]]$MoranI.minmax <- moran.test(
 						eval(parse(text=paste(
 							"temp$",
-							summary.variables[j],
+							summaryvar[j],
 							sep=""
 						))),
 						lwb
@@ -322,8 +322,8 @@ calculatePopulationSummaryStatistics <- function(
 		A[[i]] <- do.call(rbind.data.frame, A[[i]])
 		A[[i]]$population <- unique(eval(parse(
 			text=paste(
-				"population_data$", 
-				population.grouping.variable, 
+				"popdata$", 
+				popgroupvar, 
 				sep=""
 			)
 		)))[i]

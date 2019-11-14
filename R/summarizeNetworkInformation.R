@@ -1,8 +1,8 @@
 #' Calculate the number of units per network and the unit inclusion probability for each network. 
 #' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is boostrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
-#' @param population_data population data.
+#' @param popdata population data.
 #' @param variables variables to summarise
-#' @param grouping.variables categories that group networks
+#' @param groupvar categories that group networks
 #' @param nsamples Size(s) of the initial simple random sample(s) without replacement. Can be a single value or a vector values.
 #' @param m_var The variable on which the ACS sampling criterion is based
 #' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{nsamples}) and the number of units per network for each of the \code{variables}.
@@ -10,15 +10,15 @@
 #' @export
 #' @importFrom dplyr funs summarise_all
 
-summarizeNetworkInformation <- function(population_data, variables, grouping.variables=NULL, nsamples, m_var) {
-	stopifnot(length(unique(population_data$N)) == 1)
-	N <- unique(population_data$N) #. <- NULL
+summarizeNetworkInformation <- function(popdata, variables, groupvar=NULL, nsamples, m_var) {
+	stopifnot(length(unique(popdata$N)) == 1)
+	N <- unique(popdata$N) #. <- NULL
 	# calculate the number of units per network for each variable
-	Networks <- population_data %>%
+	Networks <- popdata %>%
 		# select these columns
-		.[, c(variables, "NetworkID", grouping.variables, "m")] %>%
+		.[, c(variables, "NetworkID", groupvar, "m")] %>%
 		# group_by these columns
-		group_by_(.dots=c("NetworkID", grouping.variables, "m")) %>%
+		group_by_(.dots=c("NetworkID", groupvar, "m")) %>%
 		# calculate the sum of the remaining columns (the "variables" columns)
 		summarise_all(funs(sum(., na.rm=T)))
 	m <- paste("Networks$", m_var, sep="")
@@ -40,6 +40,6 @@ summarizeNetworkInformation <- function(population_data, variables, grouping.var
 			names(Networks)
 		)
 	}
-	population_data %<>% merge(Networks)
-	return(population_data)
+	popdata %<>% merge(Networks)
+	return(popdata)
 }

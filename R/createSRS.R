@@ -1,9 +1,9 @@
 #' Create a Simple Random Sample Without Replacement.
 #' 
-#' @param population_data grid of population to be sampled.
+#' @param popdata grid of population to be sampled.
 #' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).
-#' @param wreplacement Should sampling be done with replacement? Defaults to FALSE.
+#' @param replace Should sampling be done with replacement? Defaults to FALSE.
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' # example
@@ -16,14 +16,14 @@
 #' Z = createSRS(Thompson1990Figure1Population, seed=2, n1=10)
 #' @export
 
-createSRS <- function(population_data, n1, seed=NA, wreplacement=F) {
+createSRS <- function(popdata, n1, seed=NA, replace=F) {
 	if (!is.na(seed)) {set.seed(seed)}
-	sample <- population_data[sample(
-		x 		= 1:dim(population_data)[1], 
+	sample <- popdata[sample(
+		x 		= 1:dim(popdata)[1], 
 		size 	= n1, 
-		replace = wreplacement
+		replace = replace
 	), ]
-	if (wreplacement==F) {
+	if (replace==F) {
 		sample$Sampling <- "SRSWOR"
 	} else {
 		sample$Sampling <- "SRSWR"

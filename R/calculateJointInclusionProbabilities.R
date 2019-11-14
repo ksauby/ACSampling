@@ -1,7 +1,7 @@
 #' Calculate Joint Inclusion Probabilities Using Simulations
 
-#' @param patchdat A data frame specifying the patch realizations. WHAT FORMAT SHOULD IT BE IN?
-#' @param simulations Number of simulations per population.
+#' @param popdata A data frame specifying the patch realizations. WHAT FORMAT SHOULD IT BE IN?
+#' @param sims Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param SamplingDesign Sampling design; ACS or RACS. Default value is "ACS."
 #' @param y_variable variable upon which adaptive cluster sampling criterion is based
@@ -16,8 +16,8 @@
 #' @export
 
 calculateJointInclusionProbabilities <- function(
-	patchdat, 
-	simulations, 
+	popdata, 
+	sims, 
 	nsamples, 
 	SamplingDesign="ACS",
 	y_variable,
@@ -27,11 +27,11 @@ calculateJointInclusionProbabilities <- function(
 {
 	pop <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 			<- Sys.time()
-	patchdat 		%<>% arrange_(.dots=population.grouping.variable)
+	popdata 		%<>% arrange_(.dots=population.grouping.variable)
 	if (population.grouping.variable != "pop") {
-		colnames(patchdat)[which(names(patchdat) == population.grouping.variable)] <- "pop"
+		colnames(popdata)[which(names(popdata) == population.grouping.variable)] <- "pop"
 	}
-	n.pop 			<- length(unique(patchdat$pop))
+	n.pop 			<- length(unique(popdata$pop))
 	nsample.length 	<- length(nsamples)
 	A 				<- vector("list", n.pop)
 	B 				<- vector("list", n.pop)
@@ -53,7 +53,7 @@ calculateJointInclusionProbabilities <- function(
 			#	list(Xnew1, Ynew1)
 			#}
 		) %dopar% {
-			P 			<- patchdat %>% filter(pop==unique(patchdat$pop)[i])
+			P 			<- popdata %>% filter(pop==unique(popdata$pop)[i])
 			N 			<- dim(P)[1]
 			n1 			<- nsamples[j]
 			# save simulation attributes
@@ -71,8 +71,8 @@ calculateJointInclusionProbabilities <- function(
 			# zeros
 			zeros <- B[[i]][[j]]
 			r 			<- (i - 1) * j + j
-			seeds 		<- runif(simulations)
-		   for (k in 1:simulations) {
+			seeds 		<- runif(sims)
+		   for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
@@ -181,7 +181,7 @@ calculateJointInclusionProbabilities <- function(
 				A[[i]][[j]][[k]]$sample 			<- k
 				A[[i]][[j]][[k]]$seed 				<- temp_seed
 				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
-				A[[i]][[j]][[k]]$simulations 		<- simulations
+				A[[i]][[j]][[k]]$sims 				<- sims
 				A[[i]][[j]][[k]]$pop 				<- P$pop[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
 			}
@@ -194,7 +194,7 @@ calculateJointInclusionProbabilities <- function(
 					"nsamples",
 					nsamples[j],
 					"pop",
-					unique(patchdat$pop)[i],
+					unique(popdata$pop)[i],
 					sep="_"
 				)
 			)

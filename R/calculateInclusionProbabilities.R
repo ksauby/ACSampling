@@ -1,7 +1,7 @@
 #' Calculate Inclusion Probabilities Using Simulations
 
-#' @param patchdat Patch realization data
-#' @param simulations Number of simulations per realization.
+#' @param popdata Patch realization data
+#' @param sims Number of simulations per realization.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param f_max NEED DESCRIPTION HERE
 #' @param SamplingDesign Adaptive cluster sampling design (either "ACS" or "RACS").
@@ -30,8 +30,8 @@
 #' @export
 	
 calculateInclusionProbabilities <- function(
-	patchdat, 
-	simulations, 
+	popdata, 
+	sims, 
 	nsamples, 
 	SamplingDesign="ACS",
 	y_variable,
@@ -40,8 +40,8 @@ calculateInclusionProbabilities <- function(
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 					<- Sys.time()
-	patchdat 				%<>% arrange(.data$n.networks, .data$realization)
-	n.patches 				<- length(unique(patchdat$n.networks))
+	popdata 				%<>% arrange(.data$n.networks, .data$realization)
+	n.patches 				<- length(unique(popdata$n.networks))
 	nsample.length 			<- length(nsamples)
 	A 						<- vector("list", n.patches)
 	B = foreach (
@@ -56,14 +56,14 @@ calculateInclusionProbabilities <- function(
 			.combine = "rbind.fill",
 			.inorder = FALSE
 		) %dopar% {
-			P 			<- patchdat %>% 
-							filter(.data$n.networks==unique(patchdat$n.networks)[i])
+			P 			<- popdata %>% 
+							filter(.data$n.networks==unique(popdata$n.networks)[i])
 			N 			<- dim(P)[1]
 			n1 			<- nsamples[j]
 			A[[i]][[j]] <- list()
 			r 			<- (i - 1) * j + j
-			seeds 		<- runif(simulations)
-		    for (k in 1:simulations) {
+			seeds 		<- runif(sims)
+		    for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
@@ -126,7 +126,7 @@ calculateInclusionProbabilities <- function(
 				}
 				A[[i]][[j]][[k]]$seed 				<- temp_seed
 				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
-				A[[i]][[j]][[k]]$simulations 		<- simulations
+				A[[i]][[j]][[k]]$sims 		<- sims
 				A[[i]][[j]][[k]]$realization 		<- P$realization[1]
 				A[[i]][[j]][[k]]$n.networks 		<- P$n.networks[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
@@ -140,7 +140,7 @@ calculateInclusionProbabilities <- function(
 					.data$n.networks, 
 					.data$N.SRSWOR.plots, 
 					.data$SamplingDesign,
-					.data$simulations,
+					.data$sims,
 					.data$coords,
 					.data$mean_m,
 					.data$max_m,

@@ -1,23 +1,23 @@
-#' cactus patch realizations simulations
+#' Sample species patch realizations simulations
 
-#' @param y_variable variable upon which adaptive cluster sampling criterion is based
-#' @param patchdat patch realizations
-#' @param simulations Number of simulations per population.
-#' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
+#' @param yVar variable upon which adaptive cluster sampling criterion is based
+#' @param PatchDat patch realizations
+#' @param sims Number of simulations per population.
+#' @param n1 Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param avar Vector of variables for which abundance should be estimated.
 #' @param ovar Vector of variables for which occupancy should be estimated.
 #' @param rvar Vector of variables for which ratio estimators should be used.
 #' @param SamplingDesign Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.
 #' @param y_HT_formula Default is "Thompson".
 #' @param var_formula Default is "var_y_HT".
-#' @param m_threshold Default is NULL.
+#' @param mThrshld Default is NULL.
 #' @param f_max Default is 2.
 #' @param SampleEstimators If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.
-#' @param SpatialStatistics If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE
-#' @param weights If SpatialStatistics is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
-#' @param mCharacteristics If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.
-#' @param patch_variable Default is "n.networks"
-#' @param realization_variable Default is "realization"
+#' @param SpatStat If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE
+#' @param weights If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
+#' @param mChar If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.
+#' @param PatchVar Default is "n.networks"
+#' @param RealVar Default is "realization"
 
 #' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
 
@@ -30,8 +30,8 @@
 #' @export
 
 #' @examples
-#' simulations=200
-#' nsamples=c(5,10,20,40)
+#' sims=200
+#' n1=c(5,10,20,40)
 #' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
 #' avar = NULL
 #' ovar = c(
@@ -49,13 +49,13 @@
 #' 	# "Height_Pusilla",
 #' 	# "Height_Stricta",
 #' )		
-#' # patchdat = cactus.realizations
-#' # simulation_data <- sampleSpeciesPatchRealizations(patchdat, simulations, 
-#' # 	nsamples, population, avar, ovar)
-#' # simulations=200
-#' # #nsamples=c(75,150,225,300,350)
-#' # simulation_data_SRSWOR <- sampleSpeciesPatchRealizations(patchdat, 
-#' # 	simulations, nsamples, population, avar, ovar)
+#' # PatchDat = cactus.realizations
+#' # simulation_data <- sampleSpeciesPatchRealizations(PatchDat, sims, 
+#' # 	n1, population, avar, ovar)
+#' # sims=200
+#' # #n1=c(75,150,225,300,350)
+#' # simulation_data_SRSWOR <- sampleSpeciesPatchRealizations(PatchDat, 
+#' # 	sims, n1, population, avar, ovar)
 #' # # save data
 #' # write.csv(simulation_data_SRSWOR, file=paste("simulation_data_SRSWOR", 
 #' # format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
@@ -63,52 +63,52 @@
 #' # "%Y-%m-%d_%H-%M"), ".csv", sep=""))
 
 sampleSpeciesPatchRealizations <- function(
-	patchdat, 
-	simulations, 
-	nsamples, 
+	PatchDat, 
+	sims, 
+	n1, 
 	avar, 
 	ovar, 
 	rvar,
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
-	y_variable,
+	yVar,
 	y_HT_formula = "y_HT",
 	var_formula = "var_y_HT",
-	m_threshold = NULL,
+	mThrshld = NULL,
 	f_max = 2,
 	SampleEstimators = FALSE,
-	SpatialStatistics = TRUE,
-	mCharacteristics = TRUE,
-	patch_variable = "n.networks",
-	realization_variable = "realization",
+	SpatStat = TRUE,
+	mChar = TRUE,
+	PatchVar = "n.networks",
+	RealVar = "realization",
 	weights="S"
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 					<- Sys.time()
-	patchdat 				%<>% arrange_(.dots=c(
-								patch_variable,
-								realization_variable
+	PatchDat 				%<>% arrange_(.dots=c(
+								PatchVar,
+								RealVar
 							))
 	var 					<- c(ovar, avar, rvar)
 	n.patches 				<- length(unique(eval(parse(text=paste(
-								"patchdat$",
-								patch_variable,
+								"PatchDat$",
+								PatchVar,
 								sep=""
 							)))))
-	nsample.length 			<- length(nsamples)
+	nsample.length 			<- length(n1)
 	A 						<- vector("list", n.patches)
-	# concatenate ovar and avar variables since the same code is used to calculate the Horvitz-Thompson estimators for occupancy and abundance
+	# c() - same code calculates the HT estimators for occupancy and abundance
 	oavar 					<- c(ovar, avar)
-	# make empty data frames; these will be cbind'd together after Horvitz-Thompson estimators are calculated
+	# empty dataframes will be cbind'd together after HT estimators calculated
 	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) 
 	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))
 	Ratio 					<- data.frame(row.names = 1:length(rvar)) 
 	# the names to assign the estimates
-	occ_abund_mean_names 	<- paste(ovar, avar, "_mean_observed", sep="")
-	occ_abund_var_names 	<- paste(ovar, avar, "_var_observed", sep="")
-	ratio_mean_names 		<- paste(rvar, "_ratio_mean_observed", sep="")
-	ratio_var_names 		<- paste(rvar, "_ratio_var_observed", sep="")
+	occ_abund_mean_names 	<- paste(ovar, avar, "MeanObs", sep="")
+	occ_abund_var_names 	<- paste(ovar, avar, "VarObs", sep="")
+	ratio_mean_names 		<- paste(rvar, "RMeanObs", sep="")
+	ratio_var_names 		<- paste(rvar, "RVarObs", sep="")
 	# i=1;j=1;k=1
 	Z = foreach (
 		i = 1:n.patches, # for each species density
@@ -125,44 +125,44 @@ sampleSpeciesPatchRealizations <- function(
 			.inorder = FALSE
 		) %dopar% {
 			cat(paste(i,j, sep="_"))
-			P 			<- patchdat %>% 
+			P 			<- PatchDat %>% 
 							filter(n.networks==unique(
 								eval(parse(text=paste(
-									"patchdat$",
-									patch_variable,
+									"PatchDat$",
+									PatchVar,
 									sep=""
 								)))
 							)[i])
 			N 			<- dim(P)[1]
-			n1 			<- nsamples[j]
+			n1 			<- n1[j]
 			A[[i]][[j]] <- list()
 			r 			<- (i - 1) * j + j
-			seeds 		<- runif(simulations)
-		    for (k in 1:simulations) {
+			seeds 		<- runif(sims)
+		    for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS")
 				{
 					alldata <- createACS(
-						population_data=P, 
+						PopData=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						y_variable=y_variable
+						yVar=yVar
 					) %>% 
 						as.data.table
 				} else if (SamplingDesign=="RACS")
 				{
 					alldata <- createRACS(
-						population_data=P, 
+						PopData=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						y_variable=y_variable,
+						yVar=yVar,
 						f_max=f_max
 					) %>% 
 						as.data.table
 				} else
 				{
 					alldata <- createSRS(
-						population_data=P, 
+						PopData=P, 
 						seed=temp_seed, 
 						n1=n1
 					) %>% 
@@ -205,9 +205,9 @@ sampleSpeciesPatchRealizations <- function(
 					SampleMeanVar %<>% rbind.fill
 					# simple ratio estimators applied to alldata, SRSWOR_data
 					if (!(is.null(rvar))) {
-						SampleRatio <- list()
+						SmpRatio <- list()
 						for (n in 1:length(dats)) {
-							SampleRatio[[n]] <- data.frame(Var1 = NA)
+							SmpRatio[[n]] <- data.frame(Var1 = NA)
 							for (l in 1:length(rvar)) {
 								y = eval(parse(
 										text=paste(
@@ -226,40 +226,40 @@ sampleSpeciesPatchRealizations <- function(
 										)
 								))
 								m = rep(1, length(y)) # equal P(inclusion) for all
-								SampleRatio[[n]]$Var1 <- R_hat(
+								SmpRatio[[n]]$Var1 <- R_hat(
 									y = y,
 									x = x,
 									N = N,
 									n1 = n1,
 									m = m
 								)
-							 	SampleRatio[[n]]$Var2 = var_R_hat(
+							 	SmpRatio[[n]]$Var2 = var_R_hat(
 							 		y = y, 
 							 		x = x,
 									N = N, 
 							 		n1 = n1, 
 							 		m = m
 							 	)
-								names(SampleRatio[[n]])[(dim(SampleRatio[[n]])[2] - 1) : 
-									dim(SampleRatio[[n]])[2]] <- 
+								names(SmpRatio[[n]])[(dim(SmpRatio[[n]])[2]-1): 
+									dim(SmpRatio[[n]])[2]] <- 
 									c(
 										paste(
 											rvar[l], 
-											"_ratio_mean_observed", 
+											"RMeanObs", 
 											sep=""
 										),
 										paste(
 											rvar[l], 
-											"_ratio_var_observed", 
+											"RVarObs", 
 											sep=""
 										)
 									)
 							}
-							SampleRatio[[n]] %<>% mutate(Plots = dats[n])
+							SmpRatio[[n]] %<>% mutate(Plots = dats[n])
 						}
-						SampleRatio <- do.call(rbind.data.frame, Ratio)
+						SmpRatio <- do.call(rbind.data.frame, Ratio)
 					}
-				    SampleMeanVar %<>% merge(SampleRatio)	
+				    SampleMeanVar %<>% merge(SmpRatio)	
 				} else
 				{
 					alldata %<>% filter(Sampling!="Edge") %>% 
@@ -287,7 +287,7 @@ sampleSpeciesPatchRealizations <- function(
 								N	= N, 
 								n1	= n1,
 								m	= m,
-								m_threshold = m_threshold
+								mThrshld = mThrshld
 							)]
 					} else if (y_HT_formula == "y_HT")
 					{
@@ -326,7 +326,7 @@ sampleSpeciesPatchRealizations <- function(
 								N 	= N, 
 								n1 	= n1, 
 								m	= m,
-								m_threshold = m_threshold
+								mThrshld = mThrshld
 							)]
 						names(HT_results[[2]]) <- c(occ_abund_var_names)
 					} else if (var_formula == "var_y_HT") {
@@ -403,12 +403,12 @@ sampleSpeciesPatchRealizations <- function(
 							] <- c(
 									paste(
 										rvar[l], 
-										"_ratio_mean_observed", 
+										"RMeanObs", 
 										sep=""
 									),
 									paste(
 										rvar[l], 
-										"_ratio_var_observed", 
+										"RVarObs", 
 										sep=""
 									)
 								)
@@ -434,22 +434,22 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$seed 				= temp_seed
 				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1
 				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]
-				A[[i]][[j]][[k]]$realization_variable = eval(parse(text=paste(
+				A[[i]][[j]][[k]]$RealVar = eval(parse(text=paste(
 														"P$",
-														realization_variable,
+														RealVar,
 														sep=""
 													)))[1]
-				A[[i]][[j]][[k]]$patch_variable		= eval(parse(text=paste(
+				A[[i]][[j]][[k]]$PatchVar		= eval(parse(text=paste(
 														"P$",
-														patch_variable,
+														PatchVar,
 														sep=""
 													)))[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
 				# m characteristics
-				if (mCharacteristics == TRUE) {
+				if (mChar == TRUE) {
 					if (sum(alldata_all$Cactus) > 0) {
 						temp <- alldata_all[which(
-							eval(parse(text=y_variable)) > 0
+							eval(parse(text=yVar)) > 0
 						),] 
 						A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
 						A[[i]][[j]][[k]]$median_m <- median(temp$m)
@@ -464,24 +464,24 @@ sampleSpeciesPatchRealizations <- function(
 								MIN = min(m),
 								MEDIAN = median(m)
 							)
-						A[[i]][[j]][[k]]$mean_unique_m <- temp$MEAN
-						A[[i]][[j]][[k]]$median_unique_m <- temp$MEDIAN
-						A[[i]][[j]][[k]]$max_unique_m <- temp$MAX
-						A[[i]][[j]][[k]]$min_unique_m <- temp$MIN
+						A[[i]][[j]][[k]]$mean_uniq_m <- temp$MEAN
+						A[[i]][[j]][[k]]$median_uniq_m <- temp$MEDIAN
+						A[[i]][[j]][[k]]$max_uniq_m <- temp$MAX
+						A[[i]][[j]][[k]]$min_uniq_m <- temp$MIN
 					} else
 					{
 						A[[i]][[j]][[k]]$mean_m <- NA
 						A[[i]][[j]][[k]]$median_m <- NA
 						A[[i]][[j]][[k]]$max_m <- NA
 						A[[i]][[j]][[k]]$min_m <- NA
-						A[[i]][[j]][[k]]$mean_unique_m <- NA
-						A[[i]][[j]][[k]]$median_unique_m <- NA
-						A[[i]][[j]][[k]]$max_unique_m <- NA
-						A[[i]][[j]][[k]]$min_unique_m <- NA
+						A[[i]][[j]][[k]]$mean_uniq_m <- NA
+						A[[i]][[j]][[k]]$median_uniq_m <- NA
+						A[[i]][[j]][[k]]$max_uniq_m <- NA
+						A[[i]][[j]][[k]]$min_uniq_m <- NA
 					}
 				}
 				# Spatial Statistics
-				if (SpatialStatistics == TRUE) {
+				if (SpatStat == TRUE) {
 					if (sum(alldata_all$Cactus) > 1) {
 						temp <- alldata_all %>%
 							as.data.frame %>%
@@ -497,7 +497,9 @@ sampleSpeciesPatchRealizations <- function(
 							ncol = max(temp$y) - min(temp$y)
 						)
 						coordinates(temp) = ~ x+y
-						data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
+						data_dist <- dim(
+							as.matrix(dist(cbind(temp$x, temp$y)))
+						)[1]
 						if ("W" %in% weights) {
 							lwb <- nb2listw(nb, style = "W") # convert to weights
 							# I think cells are indexed by row, then column
@@ -606,13 +608,13 @@ sampleSpeciesPatchRealizations <- function(
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
-	Z$f_max 				= f_max
-	Z$m_threshold 			= m_threshold
-	Z$n_simulations 		= simulations
-	Z$simulation_date 		= format(Sys.time(), "%m-%d-%y")
-	Z$y_HT_formula 			= y_HT_formula
-	Z$SamplingDesign 		= SamplingDesign
-	Z$MoransIWeightMatrix 	= weights
+	Z$f_max 		= f_max
+	Z$mThrshld 	= mThrshld
+	Z$nSims			= sims
+	Z$SimDate 		= format(Sys.time(), "%m-%d-%y")
+	Z$y_HT_formula 	= y_HT_formula
+	Z$SmplngDsgn 	= SamplingDesign
+	Z$MrnsIWghtMtrx = weights
 	print(Sys.time() - TIME)
 	return(Z)
 }

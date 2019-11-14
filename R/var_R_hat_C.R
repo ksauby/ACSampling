@@ -5,7 +5,7 @@
 #' @param N Population size.
 #' @param n1 Initial sample size.
 #' @param m Number of units satisfying the ACS criterion in network $i$.
-#' @param with_replacement Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.
+#' @param replace Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.
 #' @examples
 #' # Example from Thompson (2002), p. 78-79
 #' N = 100
@@ -13,15 +13,15 @@
 #' y = c(60, 60, 14, 1)
 #' x = c(1, 1, 1, 1)
 #' m = c(5, 5, 2, 1)
-#' R_hat(y, x, N, n1, m, with_replacement="TRUE")
+#' R_hat(y, x, N, n1, m, replace="TRUE")
 #' var_R_hat(y, x, N, n1, m)
 #' @export
 
 
-var_R_hat <- function(y, x, N, n1, m, with_replacement="FALSE") {
-	if (with_replacement=="TRUE") {
-		pi_i_values <- pi_i_with_replacement(N, n1, m)		
-		pi_ij_values <- pi_ij_with_replacement(N, n1, m)
+var_R_hat <- function(y, x, N, n1, m, replace="FALSE") {
+	if (replace=="TRUE") {
+		pi_i_values <- pi_i_replace(N, n1, m)		
+		pi_ij_values <- pi_ij_replace(N, n1, m)
 	} else {
 		pi_i_values <- pi_i(N, n1, m)
 		pi_ij_values <- pi_ij(N, n1, m)

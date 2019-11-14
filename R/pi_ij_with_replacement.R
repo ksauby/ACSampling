@@ -5,7 +5,7 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export
 
-pi_ij_with_replacement <- function(N, n1, m) {
+pi_ij_replace <- function(N, n1, m) {
 	pi_ij = matrix(
 		nrow = length(m), 
 		ncol = length(m), 

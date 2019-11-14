@@ -36,25 +36,25 @@
 #' @importFrom dplyr everything
 #' @importFrom dplyr filter_
 
-createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, initial_sample=NULL, f_max=2) {
+createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL, f_max=2) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL
 	# get primary sample
-	if (is.data.frame(initial_sample)) {
-		S = merge(population_data, initial_sample, all.y=TRUE) 	
+	if (is.data.frame(initsample)) {
+		S = merge(popdata, initsample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
 		S$step <- 0
 		} else {
 			if (!is.na(seed)) {set.seed(seed)}
-				S <- createSRS(population_data, n1)
+				S <- createSRS(popdata, n1)
 				S$step <- 0
 	}
 	# filter out primary samples that satisfy the condition
 	Networks <- S %>% 
-		filter_(interp (~ .data$x > y, .values=list(x=y_variable, y=condition)))
+		filter_(interp (~ .data$x > y, .values=list(x=yvar, y=condition)))
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
-		names(S)[names(S) == y_variable] <- 'y_value'
-		names(population_data)[names(population_data) == y_variable] <- 'y_value'
+		names(S)[names(S) == yvar] <- 'y_value'
+		names(popdata)[names(popdata) == yvar] <- 'y_value'
 		# Lists to save data
 		Y = list()
 		Z = list()
@@ -95,7 +95,7 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 			    	    kx=A$x[k]
 			    	    ky=A$y[k]
 						# if plot has cacti, survey its neighbors
-						if (dim(population_data %>% 
+						if (dim(popdata %>% 
 							filter(
 			  					y_value > condition, 
 			  			  		x==kx,
@@ -130,7 +130,7 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 				sample <- do.call(rbind.data.frame, Z)
 		}
 	   	sample %<>%
-			merge(population_data, by=c("x", "y")) %>%
+			merge(popdata, by=c("x", "y")) %>%
 	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs
 	    	rbind.fill(S) %>% # merge with SRSWOR plots
 			arrange(.data$step)
@@ -170,10 +170,10 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
 		}
 		# rename filtering variable
 		Z %<>% select(x, y, NetworkID, m, y_value, Sampling, .data$step)
-		names(Z)[names(Z) == 'y_value'] <- y_variable
+		names(Z)[names(Z) == 'y_value'] <- yvar
 		# add species attribute data
 		Z %<>% 
-			merge(population_data %>% select(-NetworkID, -m)) %>%
+			merge(popdata %>% select(-NetworkID, -m)) %>%
 			select(x, y, NetworkID, m, y_value, Sampling, everything())
 		# warning	
 		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {
@@ -183,7 +183,7 @@ createRACS <- function(population_data, n1, y_variable, condition=0, seed=NA, in
   		return(Z)
 		} else {
 			# add species attribute data to sample
-			S %<>% merge(population_data)
+			S %<>% merge(popdata)
 			return(S)
 	}
 }

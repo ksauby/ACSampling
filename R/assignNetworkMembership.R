@@ -1,11 +1,11 @@
 #' Assign network membership to adaptive cluster sample units.
 
-#' @param dataframe Dataset to be used, containing information about units containing the species of interest, including x and y coordinates, with column names "x" and "y," respectively.
+#' @param popdata Dataset to be used, containing information about units containing the species of interest, including x and y coordinates, with column names "x" and "y," respectively.
 #' @param plot.size The length and width of plots, in coordinate units. Defaults to 1.
 
 #' @description This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned to the same network ID. 
 
-#' @return Returns dataframe with a new column for Network ID as well as a column for m, the number of units in the network.
+#' @return Returns popdata with a new column for Network ID as well as a column for m, the number of units in the network.
 
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
@@ -47,16 +47,16 @@
 #' @importFrom network network
 #' @importFrom igraph clusters
 
-assignNetworkMembership <- function(dataframe, plot.size=1) {
+assignNetworkMembership <- function(popdata, plot.size=1) {
 	NetworkID <- x <- NULL
-	D <- as.matrix(dist(cbind(dataframe$x, dataframe$y), method="euclidian"))
+	D <- as.matrix(dist(cbind(popdata$x, popdata$y), method="euclidian"))
 	D = ifelse(D > plot.size, 0, D)
 	D %<>% as.data.frame
 	G <- network(D, directed=FALSE) %>% asIgraph()
-	dataframe$NetworkID <- clusters(G)$membership
-	dataframe %<>%
+	popdata$NetworkID <- clusters(G)$membership
+	popdata %<>%
 		group_by(NetworkID) %>%
 		mutate(m = length(x)) %>%
 		as.data.frame
-	return(dataframe)
+	return(popdata)
 }

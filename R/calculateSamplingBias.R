@@ -1,84 +1,38 @@
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 
-calculatedSquaredDifferences <- function(dataframe, variables) {
-	# for each simulation and variable, calculate:
+calcSqDiff <- function(dataframe, Vars) {
+	# for each simulation and Vars, calculate:
 	#	(observed mean - true mean)^2
-	for (i in 1:length(variables)) {
+	for (i in 1:length(Vars)) {
+		cname = paste(Vars[i], "MeanObs_True2", sep=""),
 		dataframe %<>%
 			mutate(
-				observed_minus_true_squared = 
-						# observed -
-						(eval(
-							parse(
-								text=paste(
-									variables[i], 
-									"_mean_observed", 
-									sep=""
-								)
-							)
-						) - 
-						# true
-						eval(
-							parse(
-								text = paste(
-								variables[i], 
-								"_mean", 
-								sep=""
-							)
-						)
-						)
+				Obs_True2 = 
+					# observed -
+					(eval(parse(text=paste(Vars[i],"MeanObs",sep=""))) 
+					# true
+					eval(parse(text = paste(Vars[i], "TrueMean", sep="")))
 				)^2
 			) %>%
-			setnames(
-				., 
-				"observed_minus_true_squared", 
-				paste(
-					variables[i], 
-					"_mean_observed_minus_true_squared", 
-					sep=""
-				)
-			)
+			rename(!!cname := Obs_True2)
 	}
 	return(dataframe)
 }
-calculateDifferencesinMeans <- function(dataframe, variables) {
+calcDiffMeans <- function(dataframe, Vars) {
 	# for each simulation and variable, calculate:
 	#	observed mean - mean of observed means
-	for (i in 1:length(variables)) {
+	for (i in 1:length(Vars)) {
+		cname = paste(Vars[i], "_Obs_MeanObsMeans", sep=""),
 		dataframe %<>%
 			mutate(
-				observed_minus_mean_of_observed_means = 
-						# (observed -
-						eval(
-							parse(
-								text = paste(
-									variables[i], 
-									"_mean_observed", 
-									sep=""
-								)
-							)
-						) - 
-						# true)
-						eval(
-							parse(
-								text = paste(
-									variables[i], 
-									"_mean_of_observed_means", 
-									sep=""
-								)
-							)
-						)
+				Obs_MeanObsMeans = 
+					# (observed -
+					eval(parse(text = paste(Vars[i], "MeanObs", sep="")))- 
+					# true)
+					eval(parse(text = paste(Vars[i], "_MeanObsMeans",sep="")))
 			) %>%
-			setnames(
-				., 
-				"observed_minus_mean_of_observed_means", 
-				paste(
-					variables[i], 
-					"_observed_minus_mean_of_observed_means", 
-					sep=""
-				)
-			)
+			setnames(!!cname := Obs_MeanObsMeans)
 	}
 	return(dataframe)
 }
@@ -88,242 +42,116 @@ calculateDifferencesinMeans <- function(dataframe, variables) {
 #' @importFrom rlang .data
 #' @importFrom data.table setnames
 
-calculateBiasComponents	<- function(dataframe, resultslist, variables) {
-	for (i in 1:length(variables)) {
+calculateBiasComponents	<- function(dataframe, resultslist, Vars) {
+	for (i in 1:length(Vars)) {
 		resultslist[[i]] <- list()
-		
-		
-		
-		
-		var = sym(
-			paste(
-				variables[i],
-				"_mean", 
-				sep=""
-			)
-		)		
-		var_observed = sym(
-			paste(
-				variables[i],
-				"_mean_observed", 
-				sep=""
-			)
-		)
-		var_mean_observed_minus_true_squared = paste(
-			variables[i],
-			"_mean_observed_minus_true_squared",
-			sep=""
-		)
-		var_var_observed = paste(
-			variables[i],
-			"_var_observed",
-			sep=""
-		)
+		VAR = sym(paste(Vars[i],"TrueMean", sep=""))		
+		var_observed = sym(paste(Vars[i],"MeanObs", sep=""))
+		varMeanObs_True2 = sym(paste(Vars[i],"MeanObs_True2",sep=""))
+		varVarObs = sym(paste(Vars[i],"VarObs",sep=""))
 		resultslist[[i]] <- dataframe %>%
 			summarise(
 				# save true mean
-				mean_RB_true_mean = var(!!var)[1],
-				# calculate mean of observed means
-				mean_RB_mean_of_observed_means = mean(
-					!!var_observed, na.rm=TRUE
-				),
-				# sample size used to calculate mean of observed means
+				mean_RB_true_mean = var(!!VAR)[1],
+				MeanRBMeanOfObsMean = mean(!!var_observed, na.rm=TRUE),
 				RB_n = length(!is.na(!!var_observed)),
-				# calculate MSE
-				MSE_sum_of_observed_minus_true_sqrd = sum(
-					!!var_mean_observed_minus_true_squared, na.rm = TRUE
-				), 
-				# sample size used to calculate MSE
-				MSE_n_sims = length(
-					!is.na(
-						!!var_mean_observed_minus_true_squared
-					)
-				),
+				MSESumObs_True2 = sum(!!VarMeanObsMinusTrue2, na.rm = TRUE), 
+				MSESampleSize = length(!is.na(!!VarMeanObsMinusTrue2)),
 				# for var_RB: calculate mean of simulated HT variance estimates
-				var_RB_mean_of_var_estimates = mean(
-					!!var_var_observed, na.rm = TRUE
-				), 
+				varRBMeanOfVarEst = mean(!!varVarObs, na.rm = TRUE), 
 				# for var_RB: sample size used to calculate mean of simulated HT variance estimates
-				var_RB_mean_of_var_estimates_n = length(
-					!is.na(!!var_var_observed) 
-				),
-				# for var_RB: calculate variance of _mean_observed
-				var_RB_var_of_mean_estimates = var(
-					!!var_observed, na.rm = TRUE
-				),
-				# for var_RB: calculate sample size used to calculate variance of _mean_observed
-				var_RB_var_of_mean_estimates_n = interp(
-					~length(var[which(!is.na(var))]), 
-					var = 
-					as.name(
-						paste(
-							variables[i],
-							"_mean_observed",
-							sep=""
-						)
-					)
-				)
-			) %>%
-			as.data.frame
+				varRBMeanOfVarEst_n = length(!is.na(!!varVarObs)),
+				# for var_RB: calculate variance of MeanObs
+				varRBVarOfMeanEst = var(!!var_observed, na.rm = TRUE),
+				# for var_RB: calculate sample size used to calculate variance of MeanObs
+				varRBVarOfMeanEst_n = length(!is.na(!!var_observed))
+			)
 		resultslist[[i]] %<>% 
 			mutate(
 				RB = 100 * 
-					(.data$mean_RB_mean_of_observed_means - .data$mean_RB_true_mean) / 
+					(.data$MeanRBMeanOfObsMean - .data$mean_RB_true_mean) / 
 					.data$mean_RB_true_mean,
-					
-				MSE = .data$MSE_sum_of_observed_minus_true_sqrd/.data$MSE_n_sims,
-				
+				MSE = 
+					.data$MSESumObs_True2/
+					.data$MSESampleSize,
 				var_RB = 100 *
-				(.data$var_RB_mean_of_var_estimates - .data$var_RB_var_of_mean_estimates) / 
-					.data$var_RB_var_of_mean_estimates,
-					
+					(.data$varRBMeanOfVarEst - .data$varRBVarOfMeanEst) / 
+					.data$varRBVarOfMeanEst,
 				var_RB_n = min(
-					.data$var_RB_mean_of_var_estimates_n, 
-					.data$var_RB_var_of_mean_estimates_n
+					.data$varRBMeanOfVarEst_n, 
+					.data$varRBVarOfMeanEst_n
 				)
-			) %>%
-			setnames(
-	      		.,
-	      		"mean_RB_true_mean",
-	      		paste(
-	      			variables[i],
-	      			"_true_mean",
-	      			sep=""
-				)
-			) %>%
-			setnames(
-	      		.,
-	      		"RB",
-	      		paste(
-	      			variables[i],
-	      			"_mean_RB",
-	      			sep=""
-				)
-			) %>%
-			setnames(
-	      		.,
-	      		"MSE",
-	      		paste(
-	      			variables[i],
-	      			"_mean_MSE",
-	      			sep=""
-				)
-			) %>%
-			setnames(
-	      		.,
-	      		"var_RB",
-	      		paste(
-	      			variables[i],
-	      			"_var_RB",
-	      			sep=""
-				)
-			) %>%
-			# rename sample size variables
-			setnames(
-	      		.,
-	      		"RB_n",
-	      		paste(
-	      			variables[i],
-	      			"_mean_RB_n",
-	      			sep=""
-				)
-			) %>%
-			setnames(
-	      		.,
-	      		"MSE_n_sims",
-	      		paste(
-	      			variables[i],
-	      			"_mean_MSE_n",
-	      			sep=""
-				)
-			) %>%
-			setnames(
-	      		.,
-	      		"var_RB_n",
-	      		paste(
-	      			variables[i],
-	      			"_var_RB_n",
-	      			sep=""
-				)
+			)
+		cnames <- c(
+      		paste(Vars[i], "TrueMean", sep=""),
+      		paste(Vars[i], "MeanRB", sep=""),
+      		paste(Vars[i], "MeanMSE", sep=""),
+      		paste(Vars[i], "VarRB", sep=""),
+			# rename sample size Vars
+			paste(Vars[i], "MeanRBn", sep=""),
+      		paste(Vars[i], "MeanMSEn", sep=""),
+      		paste(Vars[i], "VarRBn", sep="")
+		)
+		resultslist[[i]] %<>% 
+			rename(
+				!!cnames[1] := mean_RB_true_mean,
+				!!cnames[2] := RB,
+				!!cnames[3] := MSE,
+				!!cnames[4] := var_RB,
+				# rename sample size Vars
+				!!cnames[5] := RB_n,
+				!!cnames[6] := MSESampleSize,
+				!!cnames[7] := var_RB_n
 			) %>%
 			dplyr::select(-c(
-				.data$mean_RB_mean_of_observed_means,
-				.data$MSE_sum_of_observed_minus_true_sqrd,
-				.data$var_RB_mean_of_var_estimates,
-				.data$var_RB_mean_of_var_estimates_n,
-				.data$var_RB_var_of_mean_estimates,
-				.data$var_RB_var_of_mean_estimates_n
+				.data$MeanRBMeanOfObsMean,
+				.data$MSESumObs_True2,
+				.data$varRBMeanOfVarEst,
+				.data$varRBMeanOfVarEst_n,
+				.data$varRBVarOfMeanEst,
+				.data$varRBVarOfMeanEst_n
 			))
 	}
 	return(resultslist)
 }
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {
-	# group data to prep for processing by 
-	#		population.grouping.variables, 
-	#		sampling.grouping.variables, and
-	#		n_sims
-	temp <- dataframe %>% group_by_(.dots = c(
-		population.grouping.variables, 
-		sampling.grouping.variables, 
-		"n_sims"
-	))
-	# list for saving results
-	C <- vector("list", length(variables))
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:
+calcMeanObsMeans <- function(dataframe, Vars, nsims, PopGroupVar, SamplingGroupVar) {
+	temp <- dataframe %>% group_by_at(vars(one_of(c(
+		PopGroupVar, SamplingGroupVar, "n_sims"
+	))))
+	C <- vector("list", length(Vars))
+	# for each of the PopGroupVar and SamplingGroupVar, calculate:
 	#	mean of observed means
 	#	sample size used for those calculations
-	for (i in 1:length(variables)) {
+	for (i in 1:length(Vars)) {
 		C[[i]] <- list()
 		# observed mean
-		var = sym(
-				paste(
-					variables[i],
-					"_mean_observed",
-					sep=""
-				)
-			)		
+		var = sym(paste(Vars[i],"MeanObs",sep=""))		
 		C[[i]] <- temp %>%
 			summarise(
-				mean_of_observed_means = mean(!!var, na.rm=T),
+				MeanObsMeans = mean(!!var, na.rm=T),
 				sample_size = length(!is.na(!!var))
-			) %>%
-			setnames(
-		      	.,
-		      	"mean_of_observed_means",
-		      	paste(
-		      		variables[i],
-		      		"_mean_of_observed_means",
-		      		sep=""
-				)
-			) %>%
-			setnames(
-		      	.,
-		      	"sample_size",
-		      	paste(
-		      		variables[i],
-		      		"_mean_of_observed_means_n",
-		      		sep=""
-				)
 			)
+		cnames <- c(
+			paste(Vars[i], "_MeanObsMeans", sep=""),
+			paste(Vars[i], "_MeanObsMeans_n", sep="")
+		)
+		C[[i]] %<>% 
+			rename(
+				!!cnames[1] := MeanObsMeans,
+				!!cnames[2] := sample_size
+			)
+			
 	}
 	D <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(
-				population.grouping.variables, 
-				sampling.grouping.variables, 
-				"n_sims"
-			)
+			by=c(PopGroupVar, SamplingGroupVar, "n_sims")
 		),
 		C
 	)
 	dataframe %<>% merge(
 		D, 
-		by=c(
-			population.grouping.variables, 
-			sampling.grouping.variables,
-			"n_sims"
-		)
+		by=c(PopGroupVar, SamplingGroupVar,"n_sims")
 	)
 	return(dataframe)
 }
@@ -332,8 +160,8 @@ calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population
 #' 
 #' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
 #' @param simulation_data Simulation data on sampling of the multiple patch realizations.
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
+#' @param popgroupvar Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)
+#' @param SamplingGroupVar Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
 #' @param ovar Vector of variables for which sampling bias should be estimated.
 #' @param o_rvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.
 #' @param rvar Variables for which to use ratio estimators
@@ -392,33 +220,31 @@ calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population
 calculateSamplingBias <- function(
 	population_data_summary, 
 	simulation_data, 
-	population.grouping.variables, 
-	sampling.grouping.variables,
+	popgroupvar, 
+	SamplingGroupVar,
 	ovar,
 	o_rvar,
 	rvar
 )
 {
-	rvar_variables <- paste(rvar, "_ratio", sep="")
+	rvar_Vars <- paste(rvar, "_ratio", sep="")
 	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL
 	A <- merge(
 		population_data_summary, 
 		simulation_data, 
-		by=population.grouping.variables
+		by=popgroupvar
 	)
 	# ------------------------------------------------------------------------ #
-	# OCCUPANCY VARIABLES	
+	# OCCUPANCY Vars	
 	# ------------------------------------------------------------------------ #
 	B <- A 
+
 	# add number of simulations to dataset
 	B %<>% 
-		group_by(.dots = c(
-			population.grouping.variables, 
-			sampling.grouping.variables
-		)) %>%
+		group_by_at(vars(one_of(c(popgroupvar, SamplingGroupVar)))) %>%
 		mutate(n_sims = n())
 	
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)
+	B %<>% calcMeanObsMeans(dataframe=B, Vars=ovar)
 	
 	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?
 	
@@ -429,44 +255,43 @@ calculateSamplingBias <- function(
 	
 	
 	# ------------------------------------------------------------------------ #
-	# RATIO VARIABLES	
+	# RATIO Vars	
 	# ------------------------------------------------------------------------ #
 	E <- A
-	# E %<>% filter(Stricta_mean_observed!=0)
+	# E %<>% filter(StrictaMeanObs!=0)
 	
-	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables))
+	E %<>% calcMeanObsMeans(dataframe=B, Vars=c(rvar_Vars))
 	
-	
-	E %<>% calculatedSquaredDifferences(variables=c(o_rvar, rvar_variables))
-	E %<>% calculateDifferencesinMeans(variables=c(o_rvar, rvar_variables))
+	E %<>% calcSqDiff(Vars=c(o_rvar, rvar_Vars))
+	E %<>% calcDiffMeans(Vars=c(o_rvar, rvar_Vars))
 
-	B %<>% calculatedSquaredDifferences(variables=ovar)
-	B %<>% calculateDifferencesinMeans(variables=ovar)
+	B %<>% calcSqDiff(Vars=ovar)
+	B %<>% calcDiffMeans(Vars=ovar)
 	
 	# calculate bias and MSE
-	# occupancy variables
+	# occupancy Vars
 	H <- vector("list", length(ovar))
 	X.grp <- B %>% 
 		group_by_(.dots=c(
-			population.grouping.variables, 
-			sampling.grouping.variables, 
+			popgroupvar, 
+			SamplingGroupVar, 
 			"n_sims"
 		)) %>% 
-		calculateBiasComponents(., resultslist=H, variables=ovar)
+		calculateBiasComponents(., resultslist=H, Vars=ovar)
 	
 	Y <- Reduce(
 		function(x, y) merge(
 			x, y,
 			by=c(
-				population.grouping.variables, 
-				sampling.grouping.variables, 
+				popgroupvar, 
+				SamplingGroupVar, 
 				"n_sims"
 			)
 		),
 		X.grp
 	) %>%
 		setnames("n_sims", "ovar_n_sims")
-	# ratio variables
+	# ratio Vars
 	H <- vector("list", length(rvar))
 	
 	
@@ -477,27 +302,23 @@ calculateSamplingBias <- function(
 	
 	X.grp <- E %>% 
 		group_by_at(
-			population.grouping.variables, 
-			sampling.grouping.variables, 
+			popgroupvar, 
+			SamplingGroupVar, 
 			"n_sims"
 		) %>% 
-		calculateBiasComponents(., resultslist=H, variables=rvar_variables)
+		calculateBiasComponents(., resultslist=H, Vars=rvar_Vars)
 	Z <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(
-				population.grouping.variables, 
-				sampling.grouping.variables, 
-				"n_sims"
-			)
+			by=c(popgroupvar, SamplingGroupVar, "n_sims")
 		),
 		X.grp
 	) %>%
 		setnames("n_sims", "rvar_n_sims")
 	Y %<>% merge(Z, 
 		by=c(
-			population.grouping.variables, 
-			sampling.grouping.variables
+			popgroupvar, 
+			SamplingGroupVar
 		),
 		all=T
 	)
