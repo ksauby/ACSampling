@@ -15,7 +15,7 @@
 #' @importFrom foreach %:% 
 #' @export
 
-calculateJointInclusionProbabilities <- function(
+estimPiIJ <- function(
 	popdata, 
 	sims, 
 	nsamples, 

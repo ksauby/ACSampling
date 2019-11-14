@@ -32,13 +32,13 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' 
 #' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
 #' @param summaryvar Vector of variables for which summary statistics should be calculated.
-#' @param popgroupvar Categorical variable identifying the different populations.
+#' @param popgroupvar String identifying the categorical variable identifying the different populations.
 #' @param rvar Vector of variables for which ratio estimators should be used.
 #' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
 
 #' @description Calculates summary statistics for patch population data.
 
-#' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{grouping.variables}.
+#' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{popgroupvar}.
 
 #' @export
 #' @importFrom dplyr group_by_ ungroup arrange_
@@ -50,7 +50,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' @examples
 #' library(magrittr)
 #' library(dplyr)
-#' occupancy.variables = c(
+#' ovar = c(
 #' 	"Stricta",
 #' 	"Pusilla",
 #' 	"Cactus",
@@ -65,9 +65,9 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' 	# "Height_Pusilla",
 #' 	# "Height_Stricta",
 #' )		
-#' summaryvar = occupancy.variables
+#' summaryvar = ovar
 #' # WHAT WAS I THINK HERE? for grouping variables?
-#' grouping.variables = "n.networks" # c("n.networks", "realization")
+#' popgroupvar = "n.networks" # c("n.networks", "realization")
 #' # create realizations
 #' x_start = 1
 #' x_end = 30
@@ -80,27 +80,26 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' buffer=5
 #' cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
-#' 	occupancy.variables)
+#' 	ovar)
 #' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
-#' 	summaryvar=occupancy.variables, popgroupvar=grouping.variables)
+#' 	summaryvar=ovar, popgroupvar=popgroupvar)
 	
 calculatePopulationSummaryStatistics <- function(
 	popdata, 
 	summaryvar, 
 	rvar=NULL, 
 	popgroupvar,
-	weights="S"
+	weights="S",
+	nrow,
+	ncol
 ) {
-	popdata %<>% arrange_(.dots=popgroupvar)
+	popdata %<>% arrange(!! sym(popgroupvar))
 	# for each popgroupvar combo, calculate summary statistics for m and number of species patches
 	# this calculates the m statistics for the unique Network sizes
-	Y1 = popdata %>%
-		group_by_(.dots=lapply(
-			c("NetworkID", popgroupvar), 
-			as.symbol
-		)) %>%
+	Y1 <- popdata %>%
+		group_by_at(c("NetworkID", popgroupvar)) %>%
 		summarise(m = .data$m[1]) %>%
-		group_by_(.dots=popgroupvar) %>%
+		group_by_at(popgroupvar) %>%
 		summarise(
 			m_min_unique_neigh = min(.data$m),
 			m_max_unique_neigh = max(.data$m),
@@ -113,7 +112,7 @@ calculatePopulationSummaryStatistics <- function(
 		as.data.frame
 	# this calculates the m statistics for all units
 	Y2 = popdata %>%
-		group_by_(.dots=popgroupvar) %>%
+	group_by_at(popgroupvar) %>%
 		summarise(
 			m_min = min(.data$m),
 			m_max = max(.data$m),
@@ -123,24 +122,23 @@ calculatePopulationSummaryStatistics <- function(
 		ungroup %>%
 		as.data.frame
 	Z = popdata %>%
-		group_by_(.dots=popgroupvar) %>%
+		group_by_at(popgroupvar) %>%
 		summarise(N = length(.data$m)) %>%
 		ungroup %>%
 		as.data.frame
-	Y1 %<>% merge(Y2, by=popgroupvar) %>%
+	Y1 %<>% 
+		merge(Y2, by=popgroupvar) %>%
 		merge(Z, by=popgroupvar)	
 	# spatial statistics and other characteristics of variables
 	A <- list()
-	population_variable <- paste(
+	popvar <- paste(
 		"popdata$", 
 		popgroupvar, 
 		sep=""
 	)
-	for (i in 1:length(unique(eval(parse(text=population_variable))))) {
-		temp <- popdata[which(
-			eval(parse(text=population_variable)) == 
-			unique(eval(parse(text=population_variable)))[i]
-		), ]
+	for (i in 1:length(unique(eval(parse(text=popvar))))) {
+		temp <- popdata %>%
+			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])
 		temp %<>% arrange(.data$x,.data$y)
 		# spatial statistics
 		coordinates(temp) = ~ x + y
@@ -171,7 +169,7 @@ calculatePopulationSummaryStatistics <- function(
 			)$SSQ_R
 			if (length(tempvar[which(tempvar > 0)]) > 0) {
 				# join counts and moran's i
-				nb <- cell2nb(nrow = 30, ncol = 30)
+				nb <- cell2nb(nrow = nrow, ncol = ncol)
 				if ("W" %in% weights) {
 					lwb <- nb2listw(nb, style = "W") # convert to weights
 					# I think cells are indexed by row, then column

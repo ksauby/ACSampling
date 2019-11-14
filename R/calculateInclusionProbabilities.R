@@ -1,7 +1,7 @@
 #' Calculate Inclusion Probabilities Using Simulations
 
-#' @param popdata Patch realization data
-#' @param sims Number of simulations per realization.
+#' @param popdata Population data
+#' @param sims Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param f_max NEED DESCRIPTION HERE
 #' @param SamplingDesign Adaptive cluster sampling design (either "ACS" or "RACS").
@@ -29,7 +29,7 @@
 
 #' @export
 	
-calculateInclusionProbabilities <- function(
+estimPiI <- function(
 	popdata, 
 	sims, 
 	nsamples, 

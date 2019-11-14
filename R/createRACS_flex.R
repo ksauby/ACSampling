@@ -3,8 +3,8 @@
 #' @param population_data grid of population to be sampled.
 #' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).
-#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place.
-#' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}.
+#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when the y_variable is greater than the condition.
+#' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.
 #' @param f_max WHAT IS IT
 #' @param initial_sample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
 #' @return A restricted adaptive cluster sample.
@@ -16,9 +16,9 @@
 #' y_variable = "y_value"
 #' f_max = 3
 #' Z = createRACS(
-#' 	population_data=lambdap_5_tau_1, 
+#' 	popdata=lambdap_5_tau_1, 
 #' 	n1=n1, 
-#' 	y_variable=y_variable, 
+#' 	yvar=yvar, 
 #' 	seed=seed, 
 #' 	f_max=f_max
 #' )
@@ -34,7 +34,6 @@
 
 #' @export
 #' @importFrom dplyr everything
-#' @importFrom dplyr filter_
 
 createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL, f_max=2) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL
@@ -50,11 +49,11 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 	}
 	# filter out primary samples that satisfy the condition
 	Networks <- S %>% 
-		filter_(interp (~ .data$x > y, .values=list(x=yvar, y=condition)))
+		filter(!! sym(yvar) > condition)
 	# if there are units that satisfy the condition, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
-		names(S)[names(S) == yvar] <- 'y_value'
-		names(popdata)[names(popdata) == yvar] <- 'y_value'
+		#names(S)[names(S) == yvar] <- 'y_value'
+		#names(popdata)[names(popdata) == yvar] <- 'y_value'
 		# Lists to save data
 		Y = list()
 		Z = list()
@@ -97,7 +96,7 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 						# if plot has cacti, survey its neighbors
 						if (dim(popdata %>% 
 							filter(
-			  					y_value > condition, 
+			  					!! sym(yvar) > condition, 
 			  			  		x==kx,
 			  			  		y==ky
 						))[1] > 0
@@ -138,11 +137,11 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]
 		# give plots satisfying condition NetworkIDs
 		X = no_duplicates %>% 
-			filter(y_value > condition) %>%
+			filter(!! sym(yvar) > condition) %>%
 		  	assignNetworkMembership
 		# give primary sample plots not satisfying condition NetworkIDs
 		Y = no_duplicates %>% filter(
-			y_value == condition, 
+			!! sym(yvar) <= condition, 
 			Sampling=="SRSWOR" | 
 			Sampling=="SRSWR" | 
 			Sampling=="Primary Sample"
@@ -153,7 +152,7 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 			by = 1
 		)
 		# get list of cluster/edge plots not satifying condition
-		Z = no_duplicates %>% filter(y_value == condition, is.na(Sampling))
+		Z = no_duplicates %>% filter(!! sym(yvar) <= condition, is.na(Sampling))
 		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"
 		if (dim(Z)[1] > 0) {
 			Z$NetworkID <- NA
@@ -169,8 +168,8 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
 		}
 		# rename filtering variable
-		Z %<>% select(x, y, NetworkID, m, y_value, Sampling, .data$step)
-		names(Z)[names(Z) == 'y_value'] <- yvar
+		Z %<>% select(x, y, NetworkID, m, !! sym(yvar), Sampling, .data$step)
+		#names(Z)[names(Z) == 'y_value'] <- yvar
 		# add species attribute data
 		Z %<>% 
 			merge(popdata %>% select(-NetworkID, -m)) %>%

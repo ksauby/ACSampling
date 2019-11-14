@@ -7,10 +7,10 @@
 #' @export
 
 
-createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, ovar, rvar) {
+createWidePopSummaryStats <- function(PopulationSummaryStatistics, ovar, rvar) {
 	# variance
 	A <- PopulationSummaryStatistics[[2]] %>%
-		dplyr::select(.data$Var, .data$variable, .data$population) %>%
+		select(.data$Var, .data$variable, .data$population) %>%
 		rowwise() %>%
 		mutate(
 			variable = replace(
@@ -25,7 +25,7 @@ createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, o
 	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")
 	# mean
 	B <- PopulationSummaryStatistics[[2]] %>%
-		dplyr::select(.data$Mean, .data$variable, .data$population) %>%
+		select(.data$Mean, .data$variable, .data$population) %>%
 		rowwise() %>%
 		mutate(
 			variable = replace(
@@ -39,7 +39,7 @@ createWidePopulationSummaryStatistics <- function(PopulationSummaryStatistics, o
 	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "mean", sep="_")
 	# population size
 	C <- PopulationSummaryStatistics[[1]] %>%
-		dplyr::select(.data$population, .data$N)
+		select(.data$population, .data$N)
 	# merge all together
 	merge(A, B, by="population") %>% merge(C, by="population")
 }

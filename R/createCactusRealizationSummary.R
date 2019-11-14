@@ -8,12 +8,12 @@
 
 createCactusRealizationSummary <- function(CactusRealizations) {
 	calculatePopulationSummaryStatistics(
-		population_data = CactusRealizations, 
-		summary.variables = c("Stricta", "Pusilla", "Cactus",
+		popdata = CactusRealizations, 
+		summaryvar = c("Stricta", "Pusilla", "Cactus",
 			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 			"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-		population.grouping.variable = "population", 
-		ratio.variables = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+		popgroupvar = "population", 
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
 			"Percent_Cover_Stricta", "Height_Stricta", 
 			"Old_Moth_Evidence_Stricta")
 	)

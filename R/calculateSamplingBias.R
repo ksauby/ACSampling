@@ -37,10 +37,8 @@ calcDiffMeans <- function(dataframe, Vars) {
 	return(dataframe)
 }
 
-#' @importFrom dplyr summarise_ n
 #' @importFrom lazyeval interp
 #' @importFrom rlang .data
-#' @importFrom data.table setnames
 
 calculateBiasComponents	<- function(dataframe, resultslist, Vars) {
 	for (i in 1:length(Vars)) {
@@ -114,12 +112,13 @@ calculateBiasComponents	<- function(dataframe, resultslist, Vars) {
 	}
 	return(resultslist)
 }
-calcMeanObsMeans <- function(dataframe, Vars, nsims, PopGroupVar, SamplingGroupVar) {
-	temp <- dataframe %>% group_by_at(vars(one_of(c(
-		PopGroupVar, SamplingGroupVar, "n_sims"
-	))))
+calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupvar) {
+	temp <- dataframe %>% 
+		group_by_at(c(
+			popgroupvar, samplinggroupvar, "n_sims"
+		))
 	C <- vector("list", length(Vars))
-	# for each of the PopGroupVar and SamplingGroupVar, calculate:
+	# for each of the popgroupvar and samplinggroupvar, calculate:
 	#	mean of observed means
 	#	sample size used for those calculations
 	for (i in 1:length(Vars)) {
@@ -145,13 +144,13 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, PopGroupVar, SamplingGroupV
 	D <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(PopGroupVar, SamplingGroupVar, "n_sims")
+			by=c(popgroupvar, samplinggroupvar, "n_sims")
 		),
 		C
 	)
 	dataframe %<>% merge(
 		D, 
-		by=c(PopGroupVar, SamplingGroupVar,"n_sims")
+		by=c(popgroupvar, samplinggroupvar,"n_sims")
 	)
 	return(dataframe)
 }
@@ -161,9 +160,9 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, PopGroupVar, SamplingGroupV
 #' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
 #' @param simulation_data Simulation data on sampling of the multiple patch realizations.
 #' @param popgroupvar Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)
-#' @param SamplingGroupVar Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
+#' @param samplinggroupvar Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
 #' @param ovar Vector of variables for which sampling bias should be estimated.
-#' @param o_rvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.
+#' @param orvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.
 #' @param rvar Variables for which to use ratio estimators
 
 #' @description Calculate the sampling bias of different sampling designs from simulation data.
@@ -221,13 +220,13 @@ calculateSamplingBias <- function(
 	population_data_summary, 
 	simulation_data, 
 	popgroupvar, 
-	SamplingGroupVar,
+	samplinggroupvar,
 	ovar,
-	o_rvar,
+	orvar,
 	rvar
 )
 {
-	rvar_Vars <- paste(rvar, "_ratio", sep="")
+	rvarnames <- paste(rvar, "_ratio", sep="")
 	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL
 	A <- merge(
 		population_data_summary, 
@@ -241,7 +240,7 @@ calculateSamplingBias <- function(
 
 	# add number of simulations to dataset
 	B %<>% 
-		group_by_at(vars(one_of(c(popgroupvar, SamplingGroupVar)))) %>%
+		group_by_at(c(popgroupvar, samplinggroupvar)) %>%
 		mutate(n_sims = n())
 	
 	B %<>% calcMeanObsMeans(dataframe=B, Vars=ovar)
@@ -260,10 +259,10 @@ calculateSamplingBias <- function(
 	E <- A
 	# E %<>% filter(StrictaMeanObs!=0)
 	
-	E %<>% calcMeanObsMeans(dataframe=B, Vars=c(rvar_Vars))
+	E %<>% calcMeanObsMeans(dataframe=B, Vars=c(rvarnames))
 	
-	E %<>% calcSqDiff(Vars=c(o_rvar, rvar_Vars))
-	E %<>% calcDiffMeans(Vars=c(o_rvar, rvar_Vars))
+	E %<>% calcSqDiff(Vars=c(orvar, rvarnames))
+	E %<>% calcDiffMeans(Vars=c(orvar, rvarnames))
 
 	B %<>% calcSqDiff(Vars=ovar)
 	B %<>% calcDiffMeans(Vars=ovar)
@@ -272,9 +271,9 @@ calculateSamplingBias <- function(
 	# occupancy Vars
 	H <- vector("list", length(ovar))
 	X.grp <- B %>% 
-		group_by_(.dots=c(
+		group_by_at(c(
 			popgroupvar, 
-			SamplingGroupVar, 
+			samplinggroupvar, 
 			"n_sims"
 		)) %>% 
 		calculateBiasComponents(., resultslist=H, Vars=ovar)
@@ -284,7 +283,7 @@ calculateSamplingBias <- function(
 			x, y,
 			by=c(
 				popgroupvar, 
-				SamplingGroupVar, 
+				samplinggroupvar, 
 				"n_sims"
 			)
 		),
@@ -301,24 +300,24 @@ calculateSamplingBias <- function(
 	
 	
 	X.grp <- E %>% 
-		group_by_at(
+		group_by_at(c(
 			popgroupvar, 
-			SamplingGroupVar, 
+			samplinggroupvar, 
 			"n_sims"
-		) %>% 
-		calculateBiasComponents(., resultslist=H, Vars=rvar_Vars)
+		)) %>% 
+		calculateBiasComponents(., resultslist=H, Vars=rvarnames)
 	Z <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(popgroupvar, SamplingGroupVar, "n_sims")
+			by=c(popgroupvar, samplinggroupvar, "n_sims")
 		),
 		X.grp
 	) %>%
-		setnames("n_sims", "rvar_n_sims")
+		rename("rvar_n_sims" = "n_sims")
 	Y %<>% merge(Z, 
 		by=c(
 			popgroupvar, 
-			SamplingGroupVar
+			samplinggroupvar
 		),
 		all=T
 	)
