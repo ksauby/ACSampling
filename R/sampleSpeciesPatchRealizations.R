@@ -1,7 +1,7 @@
 #' Sample species patch realizations simulations
 
 #' @param yVar variable upon which adaptive cluster sampling criterion is based
-#' @param PatchDat patch realizations
+#' @param popdata patch realizations
 #' @param sims Number of simulations per population.
 #' @param n1 Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param avar Vector of variables for which abundance should be estimated.
@@ -16,8 +16,8 @@
 #' @param SpatStat If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE
 #' @param weights If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
 #' @param mChar If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.
-#' @param PatchVar Default is "n.networks"
-#' @param RealVar Default is "realization"
+#' @param popvar Default is "n.networks"
+#' @param realvar Default is "realization"
 
 #' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
 
@@ -49,12 +49,12 @@
 #' 	# "Height_Pusilla",
 #' 	# "Height_Stricta",
 #' )		
-#' # PatchDat = cactus.realizations
-#' # simulation_data <- sampleSpeciesPatchRealizations(PatchDat, sims, 
+#' # popdata = cactus.realizations
+#' # simulation_data <- sampleSpeciesPatchRealizations(popdata, sims, 
 #' # 	n1, population, avar, ovar)
 #' # sims=200
 #' # #n1=c(75,150,225,300,350)
-#' # simulation_data_SRSWOR <- sampleSpeciesPatchRealizations(PatchDat, 
+#' # simulation_data_SRSWOR <- sampleSpeciesPatchRealizations(popdata, 
 #' # 	sims, n1, population, avar, ovar)
 #' # # save data
 #' # write.csv(simulation_data_SRSWOR, file=paste("simulation_data_SRSWOR", 
@@ -62,8 +62,8 @@
 #' #  write.csv(simulation_data, file=paste("simulation_data", format(Sys.time(), 
 #' # "%Y-%m-%d_%H-%M"), ".csv", sep=""))
 
-sampleSpeciesPatchRealizations <- function(
-	PatchDat, 
+samplePops <- function(
+	popdata, 
 	sims, 
 	n1, 
 	avar, 
@@ -74,26 +74,23 @@ sampleSpeciesPatchRealizations <- function(
 	yVar,
 	y_HT_formula = "y_HT",
 	var_formula = "var_y_HT",
-	mThrshld = NULL,
+	mThreshold = NULL,
 	f_max = 2,
 	SampleEstimators = FALSE,
 	SpatStat = TRUE,
 	mChar = TRUE,
-	PatchVar = "n.networks",
-	RealVar = "realization",
+	popvar = "n.networks",
+	realvar = "realization",
 	weights="S"
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 					<- Sys.time()
-	PatchDat 				%<>% arrange_(.dots=c(
-								PatchVar,
-								RealVar
-							))
+	popdata 				%<>% arrange(!!! syms(c(popvar, realvar)))
 	var 					<- c(ovar, avar, rvar)
 	n.patches 				<- length(unique(eval(parse(text=paste(
-								"PatchDat$",
-								PatchVar,
+								"popdata$",
+								popvar,
 								sep=""
 							)))))
 	nsample.length 			<- length(n1)
@@ -125,11 +122,11 @@ sampleSpeciesPatchRealizations <- function(
 			.inorder = FALSE
 		) %dopar% {
 			cat(paste(i,j, sep="_"))
-			P 			<- PatchDat %>% 
+			P 			<- popdata %>% 
 							filter(n.networks==unique(
 								eval(parse(text=paste(
-									"PatchDat$",
-									PatchVar,
+									"popdata$",
+									popvar,
 									sep=""
 								)))
 							)[i])
@@ -287,7 +284,7 @@ sampleSpeciesPatchRealizations <- function(
 								N	= N, 
 								n1	= n1,
 								m	= m,
-								mThrshld = mThrshld
+								mThreshold = mThreshold
 							)]
 					} else if (y_HT_formula == "y_HT")
 					{
@@ -326,7 +323,7 @@ sampleSpeciesPatchRealizations <- function(
 								N 	= N, 
 								n1 	= n1, 
 								m	= m,
-								mThrshld = mThrshld
+								mThreshold = mThreshold
 							)]
 						names(HT_results[[2]]) <- c(occ_abund_var_names)
 					} else if (var_formula == "var_y_HT") {
@@ -434,14 +431,14 @@ sampleSpeciesPatchRealizations <- function(
 				A[[i]][[j]][[k]]$seed 				= temp_seed
 				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1
 				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]
-				A[[i]][[j]][[k]]$RealVar = eval(parse(text=paste(
+				A[[i]][[j]][[k]]$realvar = eval(parse(text=paste(
 														"P$",
-														RealVar,
+														realvar,
 														sep=""
 													)))[1]
-				A[[i]][[j]][[k]]$PatchVar		= eval(parse(text=paste(
+				A[[i]][[j]][[k]]$popvar		= eval(parse(text=paste(
 														"P$",
-														PatchVar,
+														popvar,
 														sep=""
 													)))[1]
 				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
@@ -609,7 +606,7 @@ sampleSpeciesPatchRealizations <- function(
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
 	Z$f_max 		= f_max
-	Z$mThrshld 	= mThrshld
+	Z$mThreshold 	= mThreshold
 	Z$nSims			= sims
 	Z$SimDate 		= format(Sys.time(), "%m-%d-%y")
 	Z$y_HT_formula 	= y_HT_formula

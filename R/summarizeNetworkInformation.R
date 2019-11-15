@@ -18,7 +18,7 @@ summarizeNetworkInformation <- function(popdata, variables, groupvar=NULL, nsamp
 		# select these columns
 		.[, c(variables, "NetworkID", groupvar, "m")] %>%
 		# group_by these columns
-		group_by_(.dots=c("NetworkID", groupvar, "m")) %>%
+		group_by_at(c("NetworkID", groupvar, "m")) %>%
 		# calculate the sum of the remaining columns (the "variables" columns)
 		summarise_all(funs(sum(., na.rm=T)))
 	m <- paste("Networks$", m_var, sep="")

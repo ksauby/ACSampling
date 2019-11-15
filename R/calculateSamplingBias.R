@@ -5,12 +5,12 @@ calcSqDiff <- function(dataframe, Vars) {
 	# for each simulation and Vars, calculate:
 	#	(observed mean - true mean)^2
 	for (i in 1:length(Vars)) {
-		cname = paste(Vars[i], "MeanObs_True2", sep=""),
+		cname = paste(Vars[i], "MeanObs_True2", sep="")
 		dataframe %<>%
 			mutate(
-				Obs_True2 = 
+				Obs_True2 = (
 					# observed -
-					(eval(parse(text=paste(Vars[i],"MeanObs",sep=""))) 
+					eval(parse(text=paste(Vars[i],"MeanObs",sep=""))) - 
 					# true
 					eval(parse(text = paste(Vars[i], "TrueMean", sep="")))
 				)^2
@@ -23,7 +23,7 @@ calcDiffMeans <- function(dataframe, Vars) {
 	# for each simulation and variable, calculate:
 	#	observed mean - mean of observed means
 	for (i in 1:length(Vars)) {
-		cname = paste(Vars[i], "_Obs_MeanObsMeans", sep=""),
+		cname = paste(Vars[i], "_Obs_MeanObsMeans", sep="")
 		dataframe %<>%
 			mutate(
 				Obs_MeanObsMeans = 

@@ -6,7 +6,7 @@
 #' @param SamplingDesign Sampling design; ACS or RACS. Default value is "ACS."
 #' @param y_variable variable upon which adaptive cluster sampling criterion is based
 #' @param f_max Default value is NULL.
-#' @param population.grouping.variable variable identifying unique populations. Default value is NULL.
+#' @param popgroupvar variable identifying unique populations. Default value is NULL.
 
 #' @description Calculate inclusion probabilities for each unit in a population using simulations.
 
@@ -22,14 +22,14 @@ estimPiIJ <- function(
 	SamplingDesign="ACS",
 	y_variable,
 	f_max = NULL,
-	population.grouping.variable=NULL
+	popgroupvar=NULL
 ) 
 {
 	pop <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 			<- Sys.time()
-	popdata 		%<>% arrange_(.dots=population.grouping.variable)
-	if (population.grouping.variable != "pop") {
-		colnames(popdata)[which(names(popdata) == population.grouping.variable)] <- "pop"
+	popdata 		%<>% arrange(!! sym(popgroupvar))
+	if (popgroupvar != "pop") {
+		colnames(popdata)[which(names(popdata) == popgroupvar)] <- "pop"
 	}
 	n.pop 			<- length(unique(popdata$pop))
 	nsample.length 	<- length(nsamples)

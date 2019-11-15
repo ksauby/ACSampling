@@ -24,7 +24,7 @@ test_that("createSRS, Does the function work for without replacement sampling?",
 	)
 })
 test_that("createSRS, Does the function work for with replacement sampling?", {
-	Z <- createSRS(Thompson1990Figure1Population, 10, wreplacement=T)
+	Z <- createSRS(Thompson1990Figure1Population, 10, replace=T)
 	expect_equal(
 		dim(Z[which(Z$Sampling=="SRSWR"), ])[1],
 		10
@@ -52,7 +52,7 @@ test_that("createACS, Does the function work when providing the initial sample?"
 	S[5, c("x", "y")] <- c(10,6)
 	init <- S[, c("x", "y")]
 	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", 
-		initial_sample=init) 
+		initsample=init) 
 	expect_equal(
 		dim(Z[which(Z$y_value > 0), ])[1],
 		11
@@ -89,7 +89,7 @@ test_that("createACS, Are there duplicates units in the sample?", {
 # createRACS
 test_that("createRACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {
 	data(Thompson1990Figure1Population)
-	Z <- createRACS(population_data=Thompson1990Figure1Population, n1=10, y_variable="y_value", seed=5)
+	Z <- createRACS(popdata=Thompson1990Figure1Population, n1=10, yvar="y_value", seed=5)
 	expect_equal(
 		dim(Z[which(Z$y_value > 0), ])[1],
 		0
@@ -107,7 +107,7 @@ test_that("createRACS, Does the function work when providing the initial sample?
 	S[5, c("x", "y")] <- c(10,6)
 	init <- S[, c("x", "y")]
 	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", 
-		initial_sample=init) 
+		initsample=init) 
 	expect_equal(
 		dim(Z[which(Z$y_value > 0), ])[1],
 		9

@@ -16,12 +16,12 @@
 #' 
 #' # Initiate ACS
 #' Z = createACS(
-	popdata=Thompson1990Figure1Population, 
-	seed=2, 
-	n1=10, 
-	yvar="y_value", 
-	condition=0
-)
+#'	popdata=Thompson1990Figure1Population, 
+#'	seed=2, 
+#'	n1=10, 
+#'	yvar="y_value", 
+#'	condition=0
+#')
 #' 
 #' # plot ACS sample overlaid onto population
 #' ggplot() +

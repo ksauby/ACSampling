@@ -1,5 +1,16 @@
 test_that("calculatePopulationSummaryStatistics", {
-	CactusRealizationSummary <- createCactusRealizationSummary(CactusRealizations)
+	CactusRealizationSummary <- calculatePopSummaryStats(
+		popdata = CactusRealizations, 
+		summaryvar = c("Stricta", "Pusilla", "Cactus",
+			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+			"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+		popgroupvar = "n.networks", 
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+			"Percent_Cover_Stricta", "Height_Stricta", 
+			"Old_Moth_Evidence_Stricta"),
+		nrow=30,
+		ncol=30
+	)
 	
 	# TEST RATIO VARIABLE CALCULATIONS
 	# population 1

@@ -84,7 +84,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
 #' 	summaryvar=ovar, popgroupvar=popgroupvar)
 	
-calculatePopulationSummaryStatistics <- function(
+calculatePopSummaryStats <- function(
 	popdata, 
 	summaryvar, 
 	rvar=NULL, 
@@ -254,6 +254,8 @@ calculatePopulationSummaryStatistics <- function(
 					lwb <- nb2listw(nb, style = "S") # convert to weights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(
+						# NEED TO FIGURE OUT HOW TO GET RID OF NAs
+						# OR CAN YOU JUST NOT DO JOINT COUNT TEST FOR RVAR
 						eval(parse(text=paste(
 							"temp$",
 							summaryvar[j],
