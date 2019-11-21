@@ -78,6 +78,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' SpeciesInfo = PlotSurveys_season1
 #' start.seed=1
 #' buffer=5
+#' rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
 #' cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 #' 	ovar)
@@ -167,6 +168,9 @@ calculatePopSummaryStats <- function(
 				variable = summaryvar[j],
 				popgroupvar
 			)$SSQ_R
+			# for join counts and moran's i, change NAs in rvar's to zeros
+			temp2 <- temp
+			temp2@data[rvar][is.na(temp2@data[rvar])] <- 0
 			if (length(tempvar[which(tempvar > 0)]) > 0) {
 				# join counts and moran's i
 				nb <- cell2nb(nrow = nrow, ncol = ncol)
@@ -175,7 +179,7 @@ calculatePopSummaryStats <- function(
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						)))),
@@ -183,7 +187,7 @@ calculatePopSummaryStats <- function(
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.W <- moran.test(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						))),
@@ -195,7 +199,7 @@ calculatePopSummaryStats <- function(
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						)))),
@@ -203,7 +207,7 @@ calculatePopSummaryStats <- function(
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.B <- moran.test(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						))),
@@ -215,7 +219,7 @@ calculatePopSummaryStats <- function(
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						)))),
@@ -223,7 +227,7 @@ calculatePopSummaryStats <- function(
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.C <- moran.test(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						))),
@@ -235,7 +239,7 @@ calculatePopSummaryStats <- function(
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						)))),
@@ -243,7 +247,7 @@ calculatePopSummaryStats <- function(
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.U <- moran.test(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						))),
@@ -257,7 +261,7 @@ calculatePopSummaryStats <- function(
 						# NEED TO FIGURE OUT HOW TO GET RID OF NAs
 						# OR CAN YOU JUST NOT DO JOINT COUNT TEST FOR RVAR
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						)))),
@@ -265,7 +269,7 @@ calculatePopSummaryStats <- function(
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.S <- moran.test(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						))),
@@ -277,7 +281,7 @@ calculatePopSummaryStats <- function(
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						)))),
@@ -285,7 +289,7 @@ calculatePopSummaryStats <- function(
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.minmax <- moran.test(
 						eval(parse(text=paste(
-							"temp$",
+							"temp2$",
 							summaryvar[j],
 							sep=""
 						))),

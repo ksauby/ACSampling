@@ -1,2917 +1,3273 @@
-var
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = dplyr::sym(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_mean_observed",#
-								sep=""#
-							)#
-						)#
-					),#
-				sample_size = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-mean_of_observed_means
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = dplyr::sym(#
-						as.name(#
-							paste(#
-								variables[i],#
-								"_mean_observed",#
-								sep=""#
-							)#
-						)#
-					),#
-				sample_size = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			)
+library(ACSampling)
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')
+# load ProjectTemplate#
+setwd('/Users/KSauby/Documents/Projects/ACSampling_project')#
+library(ProjectTemplate)#
+#
+# when working on a Windows computer#
+# setwd("C:/Users/KSauby/Dropbox/gradschool/Research/Projects/sampling")#
+#
+# load project#
+load.project()
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+expect_that(#
+		round(#
+			y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(38)#
+	)
+expect_that(#
+		round(#
+			y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98)), #
+				sampling = "SRSWOR", #
+				criterion = 0#
+			)*1000, 0#
+		),#
+		equals(37)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+mk <- c(1,0,2,2)#
+	y_value <- c(1,2,10,1000)#
+	sampling <- c("S","C","S","C")#
+	dat <- data.frame(mk, y_value, sampling)#
+	dat$mk %<>% as.numeric#
+	dat$y_value %<>% as.numeric#
+	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)#
+	expect_that(#
+		round(#
+			y_HT(#
+				N = 5, #
+				m = dat_filter$mk, #
+				n1 = 2, #
+				y = dat_filter$y_value#
+			), 2#
+		),#
+		equals(289.07)#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("pi_i, Network Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			pi_i(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1:2], 2#
+		),#
+		equals(c(0.19, 0.27))#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("pi_ij, Network Joint Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			pi_ij(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1, 2], 4#
+		),#
+		equals(0.0512)#
+	)#
+})#
+#
+test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
+	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			var_y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98))#
+			)*(1000^2), 0#
+		),#
+		equals(553)#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("pi_i, Network Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	expect_that(#
+		round(#
+			pi_i(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1:2], 2#
+		),#
+		equals(c(0.19, 0.27))#
+	)#
+})#
+#
+test_that("pi_ij, Network Joint Inclusion Probability", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			pi_ij(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98))#
+			)[1, 2], 4#
+		),#
+		equals(0.0512)#
+	)#
+})#
+#
+test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {#
+	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)#
+	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)#
+	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation#
+	expect_that(#
+		round(#
+			var_y_HT(#
+				N = 1000, #
+				n1 = 100, #
+				m = c(2,3,rep(1,98)), #
+				y = c(3,6,rep(0, 98))#
+			)*(1000^2), 0#
+		),#
+		equals(553)#
+	)#
+})#
+#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)#
+	expect_that(#
+		round(#
+			R_hat(#
+				y = c(60, 14, 1), #
+				x = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(12.12)#
+	)#
+})#
+test_that("var_R_hat, with replacement", {#
+	# Thompson (2002), Example 2, p. 78-79#
+	expect_that(#
+		round(#
+			var_R_hat(#
+				y = c(60, 14, 1), #
+				x = c(1, 1, 1), #
+				N = 100, #
+				n1 = 4, #
+				m = c(5, 2, 1), #
+				with_replacement="TRUE"#
+			), 2#
+		),#
+		equals(17.5)#
+	)#
+})#
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	# Exercise #3, p. 85, Thompson (2002)#
+	N 		<- 4#
+	dat 	<- data.frame(y = c(2, 3, 0, 1), x = c(20, 25, 0, 15))#
+	combin 	<- combn(4,2)#
+	combin	<- split(combin, col(combin))#
+	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])#
+	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))#
+	expect_that(#
+		lapply(#
+			combos, #
+			function(x) round(#
+				R_hat(#
+					x$y, #
+					x$x, #
+					N = 4, #
+					n1 = 2, #
+					m = c(1,1)#
+				)*(20 + 25 + 15), 6#
+			)#
+		),#
+		equals(#
+			list(#
+				`1` = 6.666667, #
+				`2` = 6, #
+				`3` = 5.142857, #
+				`4` = 7.2, #
+				`5` = 6, #
+				`6` = 4#
+			)#
+		)#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)#
+	m_threshold=4#
+	pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)#
+#
+	# ARE PI_IJ FORMULAS EQUIVALENT WHEN ALL M ARE BELOW M_THRESHOLD?#
+	expect_that(#
+		pi_ij_RACS_mthresh_6,#
+		 equals(pi_ij_RACS_no_mthresh)	#
+	)#
+	# MANUALLY CALCULATE AND CHECK VALUES IN MATRIX#
+	# 3 is not over m_threshold#
+	# 3 is not over m_threshold#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-3,n1) - #
+					choose(N-3-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 3 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-3,n1) - #
+					choose(N-m_threshold-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 1 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-1,n1) - #
+					choose(N-m_threshold-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 3 is not over the threshold#
+	# 1 is not over the threshold#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-1,n1) - #
+					choose(N-3-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 1 is not over the threshold#
+	# 1 is not over the threshold	#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-1,n1) +#
+					choose(N-1,n1) - #
+					choose(N-1-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)	#
+}#
 )
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+# createSRS#
+test_that("createSRS, Does the function work when setting the seed for random sampling?", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createSRS(Thompson1990Figure1Population, 10, seed=26)#
+	expect_equal(#
+		dim(Z[which(Z$y_value==2), ])[1],#
+		1#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createSRS, Does the function work without setting the seed for random sampling?", {#
+	Z <- createSRS(Thompson1990Figure1Population, 10)#
+	expect_equal(#
+		dim(Z)[1],#
+		10#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createSRS, Does the function work for without replacement sampling?", {#
+	Z <- createSRS(Thompson1990Figure1Population, 10)#
+	expect_equal(#
+		dim(Z[which(Z$Sampling=="SRSWOR"), ])[1],#
+		10#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createSRS, Does the function work for with replacement sampling?", {#
+	Z <- createSRS(Thompson1990Figure1Population, 10, wreplacement=T)#
+	expect_equal(#
+		dim(Z[which(Z$Sampling=="SRSWR"), ])[1],#
+		10#
+	)#
+})#
+# createACS#
+test_that("createACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=2)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
+createACS
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-mean_of_observed_means = dplyr::sym(interp(#
-					~mean(var, na.rm = TRUE), #
-					var = as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				))
+#' Create an Adaptive Cluster Sample.#
+#'#
+#' @param popdata The population to be sampled.#
+#' @param seed A vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 The initial sample size (sampled according to simple random sampling without replacement).#
+#' @param yvar The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.#
+#' @param condition Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).#
+#' @param initsample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
+#
+#' @return A restricted adaptive cluster sample.#
+#
+#' @examples#
+#' library(ggplot2)#
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' #
+#' # Initiate ACS#
+#' Z = createACS(#
+#'	popdata=Thompson1990Figure1Population, #
+#'	seed=2, #
+#'	n1=10, #
+#'	yvar="y_value", #
+#'	condition=0#
+#')#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#' # Initiate ACS, different seed#
+#' Z = createACS(popdata=Thompson1990Figure1Population, seed=26, n1=10, yvar="y_value", condition=0)#
+#' #
+#' # plot ACS sample overlaid onto population#
+#' ggplot() +#
+#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),#
+#' 		shape=factor(y_value))) +#
+#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
+#
+#' @export#
+#' @importFrom plyr rbind.fill#
+#' @importFrom dplyr filter rowwise#
+#' @importFrom ggplot2 ggplot#
+#' @importFrom data.table data.table as.data.table setkey setnames#
+#
+createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {#
+	. <- Sampling <- y_val <- NULL#
+	if (is.data.frame(initsample)) {#
+		S <- merge(popdata, initsample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+	} else {#
+		if (!is.na(seed)) {set.seed(seed)}#
+		S <- createSRS(popdata=popdata, n1=n1)#
+	}#
+	# add the rest of the units for each network in the initial sample#
+	Z = popdata %>%#
+		dplyr::filter(.data$NetworkID %in% S$NetworkID) %>%#
+		merge(S, all.x=T)#
+	Networks = Z %>% filter(eval(parse(text=yvar)) > condition)#
+	# if there are units that satisfy the condition, fill in edge units#
+	if (dim(Networks)[1] > 0) {#
+		names(Z)[names(Z) == yvar] <- 'y_val'#
+		#Z %<>%#
+		#	as.data.table %>%#
+		#	setnames(yvar, "y_val")#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# fill in edge units#
+		E = data.table(#
+			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),#
+		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),#
+			Sampling = "Edge",#
+			key = c("x", "y")#
+		) %>%#
+		rowwise() %>%#
+		mutate(xy = paste(.data$x,.data$y)) %>%#
+		ungroup()#
+		Z %<>% #
+			rowwise() %>%#
+			mutate(xy = paste(.data$x,.data$y)) %>% #
+			ungroup()#
+		E %<>% filter(!(.data$xy %in% Z$xy))#
+		Z %<>% #
+			rbind.fill(E) %>% #
+			as.data.table() %>% #
+			setkey("x", "y") %>% #
+	 	   	unique %>%#
+			dplyr::select(-.data$xy)#
+		# remove plots outside of population extent#
+		Z %<>% subset(#
+			x %in% popdata$x &#
+			y %in% popdata$y#
+		)#
+		# fill in values for Edge units#
+		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {#
+			Z[ Sampling=="Edge" ]$y_val <- 0#
+			Z[ Sampling=="Edge" ]$m <- 0#
+		}	#
+		setnames(Z, "y_val", yvar)#
+		Z %<>%#
+			arrange()#
+		return(Z)#
+	} else {#
+		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample#
+		return(Z)#
+	}#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=2)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-interp(#
-					~mean(var, na.rm = TRUE), #
-					var = as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)
+#' Create a Simple Random Sample Without Replacement.#
+#' #
+#' @param popdata grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param replace Should sampling be done with replacement? Defaults to FALSE.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' # example#
+#' # create the population#
+#' # create the patch#
+#' # then sample#
+#' #
+#' data(Thompson1990Figure1Population)#
+#' data(Thompson1990Figure1Sample)#
+#' Z = createSRS(Thompson1990Figure1Population, seed=2, n1=10)#
+#' @export#
+#
+createSRS <- function(popdata, n1, seed=NA, replace=F) {#
+	if (!is.na(seed)) {set.seed(seed)}#
+	sample <- popdata[sample(#
+		x 		= 1:dim(popdata)[1], #
+		size 	= n1, #
+		replace = replace#
+	), ]#
+	if (replace==F) {#
+		sample$Sampling <- "SRSWOR"#
+	} else {#
+		sample$Sampling <- "SRSWR"#
+	}#
+	return(sample)		#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+# createSRS#
+test_that("createSRS, Does the function work when setting the seed for random sampling?", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createSRS(Thompson1990Figure1Population, 10, seed=26)#
+	expect_equal(#
+		dim(Z[which(Z$y_value==2), ])[1],#
+		1#
+	)#
+})#
+test_that("createSRS, Does the function work without setting the seed for random sampling?", {#
+	Z <- createSRS(Thompson1990Figure1Population, 10)#
+	expect_equal(#
+		dim(Z)[1],#
+		10#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createSRS, Does the function work for without replacement sampling?", {#
+	Z <- createSRS(Thompson1990Figure1Population, 10)#
+	expect_equal(#
+		dim(Z[which(Z$Sampling=="SRSWOR"), ])[1],#
+		10#
+	)#
+})#
+test_that("createSRS, Does the function work for with replacement sampling?", {#
+	Z <- createSRS(Thompson1990Figure1Population, 10, wreplacement=T)#
+	expect_equal(#
+		dim(Z[which(Z$Sampling=="SRSWR"), ])[1],#
+		10#
+	)#
+})#
+# createACS#
+test_that("createACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=2)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createSRS, Does the function work for with replacement sampling?", {#
+	Z <- createSRS(Thompson1990Figure1Population, 10, replace=T)#
+	expect_equal(#
+		dim(Z[which(Z$Sampling=="SRSWR"), ])[1],#
+		10#
+	)#
+})#
+# createACS#
+test_that("createACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=2)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createACS, Does the function work when providing the seed and without providing the initial sample? Example 2: adaptive cluster sampling takes place", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=26)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		11#
+	)#
+})#
+test_that("createACS, Does the function work when providing the initial sample?", {#
+	S <- createSRS(Thompson1990Figure1Population, 10, seed=2)#
+	S[5, c("x", "y")] <- c(10,6)#
+	init <- S[, c("x", "y")]#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", #
+		initial_sample=init) #
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		11#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createACS, Does the function work when providing the initial sample?", {#
+	S <- createSRS(Thompson1990Figure1Population, 10, seed=2)#
+	S[5, c("x", "y")] <- c(10,6)#
+	init <- S[, c("x", "y")]#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", #
+		initsample=init) #
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		11#
+	)#
+})#
+test_that("createACS, Are y-values of edge units equal to 0?", {#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=26)#
+	expect_equal(#
+		unique(Z[which(Z$Sampling == "Edge"), ]$y_value),#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createACS, Are m-values of edge units 0?", {#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value", seed=26)#
+	expect_equal(#
+		unique(Z[which(Z$Sampling == "Edge"), ]$m),#
+		0#
+	)#
+})#
+test_that("createACS, Does the function work when no seed or initial sample is provided?", {#
+	Z <- createACS(Thompson1990Figure1Population, 10, "y_value")#
+	expect_gte(#
+		dim(Z)[1],#
+		10#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createRACS(popdata=Thompson1990Figure1Population, n1=10, y_variable="y_value", seed=5)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = !!! interp(#
-					mean(var, na.rm = TRUE), #
-					var = as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)
+#' Create a Restricted Adaptive Cluster Sample, for any step size#
+#' #
+#' @param population_data grid of population to be sampled.#
+#' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.#
+#' @param n1 initial sample size (sampled according to simple random sampling without replacement).#
+#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when the y_variable is greater than the condition.#
+#' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.#
+#' @param f_max WHAT IS IT#
+#' @param initial_sample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.#
+#' @return A restricted adaptive cluster sample.#
+#' @examples#
+#' library(ggplot2)#
+#' population_data = lambdap_5_tau_1#
+#' seed=3#
+#' n1=5#
+#' y_variable = "y_value"#
+#' f_max = 3#
+#' Z = createRACS(#
+#' 	popdata=lambdap_5_tau_1, #
+#' 	n1=n1, #
+#' 	yvar=yvar, #
+#' 	seed=seed, #
+#' 	f_max=f_max#
+#' )#
+#
+#' ggplot() +#
+#' geom_point(data=Z, aes(x,y, size=factor(y_variable),#
+#' 		shape=factor(y_variable))) +#
+#' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +#
+#' geom_point(data=Z, aes(x,y), shape = 0, size=7) +#
+#' ggtitle("f_max = 1")#
+#
+#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.#
+#
+#' @export#
+#' @importFrom dplyr everything#
+#
+createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL, f_max=2) {#
+	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL#
+	# get primary sample#
+	if (is.data.frame(initsample)) {#
+		S = merge(popdata, initsample, all.y=TRUE) 	#
+		S$Sampling <- "Primary Sample"#
+		S$step <- 0#
+		} else {#
+			if (!is.na(seed)) {set.seed(seed)}#
+				S <- createSRS(popdata, n1)#
+				S$step <- 0#
+	}#
+	# filter out primary samples that satisfy the condition#
+	Networks <- S %>% #
+		filter(!! sym(yvar) > condition)#
+	# if there are units that satisfy the condition, fill in cluster/edge units#
+	if (dim(Networks)[1] > 0) {#
+		#names(S)[names(S) == yvar] <- 'y_value'#
+		#names(popdata)[names(popdata) == yvar] <- 'y_value'#
+		# Lists to save data#
+		Y = list()#
+		Z = list()#
+		# step 1: get all neighbors of primary samples matching condition#
+	    for (i in 1:dim(Networks)[1]) {#
+			L = Networks[i, ]#
+    	    Y[[i]] <- list()#
+			# STEP 1#
+			Y[[i]][[1]] <- data.frame()#
+    	    # northern neighbor of SRSWOR plot#
+    	    Y[[i]][[1]][1, "x"] = L$x#
+    	    Y[[i]][[1]][1, "y"] = L$y + 1#
+	      	# southern neighbor of SRSWOR plot#
+	      	Y[[i]][[1]][2, "x"] = L$x#
+	      	Y[[i]][[1]][2, "y"] = L$y - 1#
+	      	# eastern neighbor of SRSWOR plot#
+	      	Y[[i]][[1]][3, "x"] = L$x + 1#
+	      	Y[[i]][[1]][3, "y"] = L$y#
+	      	# western neighbor of SRSWOR plot#
+	      	Y[[i]][[1]][4, "x"] = L$x - 1#
+	      	Y[[i]][[1]][4, "y"] = L$y#
+			Y[[i]] <- do.call(rbind.fill, Y[[i]])#
+		}#
+		Z[[1]] <- do.call(rbind.fill, Y)#
+		# merge neighbors and primary samples matching condition#
+		Z[[1]]$step <- 1#
+		Z[[1]] -> B#
+		# steps 2 to f_max#
+		if (f_max > 1) {#
+			# get all neighbors of c(primary samples matching condition, neighbors) matching condition#
+			for (j in 2:f_max) {#
+				last_step = j-1#
+				A <- B %>% filter(.data$step == last_step)#
+				Z[[j]] <- list()#
+				if (dim(A)[1] > 0) {#
+					for (k in 1:dim(A)[1]) {#
+						Z[[j]][[k]] <- data.frame()#
+			    	    kx=A$x[k]#
+			    	    ky=A$y[k]#
+						# if plot has cacti, survey its neighbors#
+						if (dim(popdata %>% #
+							filter(#
+			  					!! sym(yvar) > condition, #
+			  			  		x==kx,#
+			  			  		y==ky#
+						))[1] > 0#
+						) {#
+						    # neighbor to north#
+						    Z[[j]][[k]][1, "x"] = kx#
+						   	Z[[j]][[k]][1, "y"] = ky - 1#
+						    # neighbor to south#
+						    Z[[j]][[k]][2, "x"] = kx#
+						   	Z[[j]][[k]][2, "y"] = ky + 1#
+						    # neighbor to east#
+						    Z[[j]][[k]][3, "x"] = kx + 1#
+						    Z[[j]][[k]][3, "y"] = ky#
+						    # neighbor to west#
+						    Z[[j]][[k]][4, "x"] = kx - 1#
+						    Z[[j]][[k]][4, "y"] = ky#
+						}#
+						if (dim(Z[[j]][[k]])[1] > 0) {#
+							Z[[j]][[k]]$step <- j#
+						}#
+					}#
+					B <- do.call(rbind.fill, Z[[j]]) %>% #
+						filter(!(is.na(x))) %>%#
+						rbind.fill(B)#
+					Z[[j]] <- do.call(rbind.fill, Z[[j]])#
+				}#
+			}#
+			sample <- do.call(rbind.data.frame, Z)#
+			} else {#
+				sample <- do.call(rbind.data.frame, Z)#
+		}#
+	   	sample %<>%#
+			merge(popdata, by=c("x", "y")) %>%#
+	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs#
+	    	rbind.fill(S) %>% # merge with SRSWOR plots#
+			arrange(.data$step)#
+	    # remove duplicates#
+		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]#
+		# give plots satisfying condition NetworkIDs#
+		X = no_duplicates %>% #
+			filter(!! sym(yvar) > condition) %>%#
+		  	assignNetworkMembership#
+		# give primary sample plots not satisfying condition NetworkIDs#
+		Y = no_duplicates %>% filter(#
+			!! sym(yvar) <= condition, #
+			Sampling=="SRSWOR" | #
+			Sampling=="SRSWR" | #
+			Sampling=="Primary Sample"#
+		)#
+        Y$NetworkID <- seq(#
+			from = (max(X$NetworkID) + 1), #
+			to = (max(X$NetworkID) + dim(Y)[1]), #
+			by = 1#
+		)#
+		# get list of cluster/edge plots not satifying condition#
+		Z = no_duplicates %>% filter(!! sym(yvar) <= condition, is.na(Sampling))#
+		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"#
+		if (dim(Z)[1] > 0) {#
+			Z$NetworkID <- NA#
+			Z$Sampling <- "Edge"#
+			Z$m <- 0			#
+			# merge back together		#
+			Z = rbind.fill(X,Y,Z)	#
+			} else {#
+				# merge back together		#
+				Z = rbind.fill(X,Y)			#
+		}#
+		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {#
+			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"#
+		}#
+		# rename filtering variable#
+		Z %<>% select(x, y, NetworkID, m, !! sym(yvar), Sampling, .data$step)#
+		#names(Z)[names(Z) == 'y_value'] <- yvar#
+		# add species attribute data#
+		Z %<>% #
+			merge(popdata %>% select(-NetworkID, -m)) %>%#
+			select(x, y, NetworkID, m, y_value, Sampling, everything())#
+		# warning	#
+		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {#
+			warning("Duplicates remaining in RACS sample")#
+			stop()#
+		}	#
+  		return(Z)#
+		} else {#
+			# add species attribute data to sample#
+			S %<>% merge(popdata)#
+			return(S)#
+	}#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createRACS(popdata=Thompson1990Figure1Population, n1=10, y_variable="y_value", seed=5)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createRACS(popdata=Thompson1990Figure1Population, n1=10, yval="y_value", seed=5)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+# createRACS#
+test_that("createRACS, Does the function work when providing the seed and without providing the initial sample? Example 1: no adaptive cluster sampling takes place.", {#
+	data(Thompson1990Figure1Population)#
+	Z <- createRACS(popdata=Thompson1990Figure1Population, n1=10, yvar="y_value", seed=5)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when providing the seed and without providing the initial sample? Example 2: adaptive cluster sampling takes place", {#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", seed=26)#
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		4#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when providing the initial sample?", {#
+	S <- createSRS(Thompson1990Figure1Population, 10, seed=2)#
+	S[5, c("x", "y")] <- c(10,6)#
+	init <- S[, c("x", "y")]#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", #
+		initial_sample=init) #
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		9#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when providing the initial sample?", {#
+	S <- createSRS(Thompson1990Figure1Population, 10, seed=2)#
+	S[5, c("x", "y")] <- c(10,6)#
+	init <- S[, c("x", "y")]#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", #
+		initsample=init) #
+	expect_equal(#
+		dim(Z[which(Z$y_value > 0), ])[1],#
+		9#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Are y-values of edge units equal to 0?", {#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", seed=26)#
+	expect_equal(#
+		unique(Z[which(Z$Sampling == "Edge"), ]$y_value),#
+		0#
+	)#
+})#
+test_that("createRACS, Are m-values of edge units 0?", {#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", seed=26)#
+	expect_equal(#
+		unique(Z[which(Z$Sampling == "Edge"), ]$m),#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("createRACS, Does the function work when no seed or initial sample is provided?", {#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value")#
+	expect_gte(#
+		dim(Z)[1],#
+		10#
+	)#
+})#
+#
+test_that("createRACS, Are there duplicates units in the sample?", {#
+	Z <- createRACS(Thompson1990Figure1Population, 10, "y_value", seed=26)#
+	expect_equal(#
+		dim(Z[duplicated(Z), ])[1],#
+		0#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {#
+	N=100#
+	n1=13#
+	m=c(5,5,5,5,5,3,3,3,1,1,1,1,1)#
+	m_threshold=4#
+	pi_ij_RACS_mthresh_6 	<- pi_ij_RACS(N,n1,m,m_threshold=6)#
+	pi_ij_RACS_no_mthresh 	<- pi_ij(N,n1,m)#
+	pi_ij_RACS_mthresh_4 	<- pi_ij_RACS(N,n1,m,m_threshold)#
+#
+	# ARE PI_IJ FORMULAS EQUIVALENT WHEN ALL M ARE BELOW M_THRESHOLD?#
+	expect_that(#
+		pi_ij_RACS_mthresh_6,#
+		 equals(pi_ij_RACS_no_mthresh)	#
+	)#
+	# MANUALLY CALCULATE AND CHECK VALUES IN MATRIX#
+	# 3 is not over m_threshold#
+	# 3 is not over m_threshold#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-3,n1) - #
+					choose(N-3-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 3 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,6:8],#
+			pi_ij_RACS_mthresh_4[6:8,1:5]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-3,n1) - #
+					choose(N-m_threshold-3,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 5 is over threshold#
+	# 1 is not#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[1:5,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,1:5]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-m_threshold,n1) +#
+					choose(N-1,n1) - #
+					choose(N-m_threshold-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 3 is not over the threshold#
+	# 1 is not over the threshold#
+	expect_that(#
+		(vec = c(#
+			pi_ij_RACS_mthresh_4[6:8,9:13],#
+			pi_ij_RACS_mthresh_4[9:13,6:8]#
+		)),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-3,n1) +#
+					choose(N-1,n1) - #
+					choose(N-3-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)#
+	# 1 is not over the threshold#
+	# 1 is not over the threshold	#
+	expect_that(#
+		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),#
+		 equals(#
+			rep(#
+				1 - (#
+					choose(N-1,n1) +#
+					choose(N-1,n1) - #
+					choose(N-1-1,n1)#
+				) / choose(N,n1),#
+				length(vec)#
+			)#
+		)	#
+	)	#
+}#
 )
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+test_that("calculatePopulationSummaryStatistics", {#
+	CactusRealizationSummary <- calculatePopulationSummaryStatistics(#
+		popdata = CactusRealizations, #
+		summaryvar = c("Stricta", "Pusilla", "Cactus",#
+			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta"), #
+		popgroupvar = "population", #
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", #
+			"Percent_Cover_Stricta", "Height_Stricta", #
+			"Old_Moth_Evidence_Stricta")#
+	)#
+	# TEST RATIO VARIABLE CALCULATIONS#
+	# population 1#
+	pop_1_stricta <- CactusRealizations %>% filter(population==1, Stricta==1)#
+	mean_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="CACA_on_Stricta") %$% #
+		Mean#
+	mean_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="MEPR_on_Stricta") %$% #
+		Mean#
+	mean_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
+		Mean#
+	var_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="CACA_on_Stricta") %$% #
+		Var#
+	var_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="MEPR_on_Stricta") %$% #
+		Var#
+	var_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
+		Var#
+	CV_pop_1_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="CACA_on_Stricta") %$% #
+		CV#
+	CV_pop_1_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="MEPR_on_Stricta") %$% #
+		CV#
+	CV_pop_1_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==1, variable=="Old_Moth_Evidence_Stricta") %$% #
+		CV#
+	expect_equal(#
+		mean_pop_1_CACA_on_Stricta,#
+		mean(pop_1_stricta$CACA_on_Stricta)#
+	)#
+	expect_equal(#
+		mean_pop_1_MEPR_on_Stricta,#
+		mean(pop_1_stricta$MEPR_on_Stricta)#
+	)#
+	expect_equal(#
+		mean_pop_1_Old_Moth_Evidence_Stricta,#
+		mean(pop_1_stricta$Old_Moth_Evidence_Stricta)#
+	)#
+	expect_equal(#
+		var_pop_1_CACA_on_Stricta,#
+		PopVariance(pop_1_stricta$CACA_on_Stricta)#
+	)#
+	expect_equal(#
+		var_pop_1_MEPR_on_Stricta,#
+		PopVariance(pop_1_stricta$MEPR_on_Stricta)#
+	)#
+	expect_equal(#
+		var_pop_1_Old_Moth_Evidence_Stricta,#
+		PopVariance(pop_1_stricta$Old_Moth_Evidence_Stricta)#
+	)#
+	expect_equal(#
+		CV_pop_1_CACA_on_Stricta,#
+		popCV(pop_1_stricta$CACA_on_Stricta)#
+	)#
+	expect_equal(#
+		CV_pop_1_MEPR_on_Stricta,#
+		popCV(pop_1_stricta$MEPR_on_Stricta)#
+	)#
+	expect_equal(#
+		CV_pop_1_Old_Moth_Evidence_Stricta,#
+		popCV(pop_1_stricta$Old_Moth_Evidence_Stricta)#
+	)#
+	# population 6#
+	pop_6_stricta <- CactusRealizations %>% filter(population==6, Stricta==1)#
+	mean_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="CACA_on_Stricta") %$% #
+		Mean#
+	mean_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="MEPR_on_Stricta") %$% #
+		Mean#
+	mean_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% #
+		Mean#
+	var_pop_6_CACA_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="CACA_on_Stricta") %$% #
+		Var#
+	var_pop_6_MEPR_on_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="MEPR_on_Stricta") %$% #
+		Var#
+	var_pop_6_Old_Moth_Evidence_Stricta <- CactusRealizationSummary[[2]] %>% #
+		filter(population==6, variable=="Old_Moth_Evidence_Stricta") %$% #
+		Var#
+	expect_equal(#
+		mean_pop_6_CACA_on_Stricta,#
+		mean(pop_6_stricta$CACA_on_Stricta)#
+	)#
+	expect_equal(#
+		mean_pop_6_MEPR_on_Stricta,#
+		mean(pop_6_stricta$MEPR_on_Stricta)#
+	)#
+	expect_equal(#
+		mean_pop_6_Old_Moth_Evidence_Stricta,#
+		mean(pop_6_stricta$Old_Moth_Evidence_Stricta)#
+	)#
+	expect_equal(#
+		var_pop_6_CACA_on_Stricta,#
+		PopVariance(pop_6_stricta$CACA_on_Stricta)#
+	)#
+	expect_equal(#
+		var_pop_6_MEPR_on_Stricta,#
+		PopVariance(pop_6_stricta$MEPR_on_Stricta)#
+	)#
+	expect_equal(#
+		var_pop_6_Old_Moth_Evidence_Stricta,#
+		PopVariance(pop_6_stricta$Old_Moth_Evidence_Stricta)#
+	)#
+})
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+CactusRealizations
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
+#' Return the sum of a vector, after removing NAs.#
+#' #
+#' @param x Vectors of data.#
+#' @description Written for use in the tables::tabular function to create publication-ready tables.#
+#
+Sum <- function(x) {sum(x, na.rm=TRUE)}#
+#
+#' Return the mean of a vector with up to two decimal places, after removing NAs.#
+#' #
+#' @param x Vectors of data.#
+#' @description Written for use in the tables::tabular function to create publication-ready tables.#
+#
+Mean <- function(x) base::mean(x, na.rm=TRUE)#
+#' Return the population variance of a vector, after removing NAs, and round.#
+#'#
+#' @param x Vectors of data.#
+#' @description Written for use in the tables::tabular function to create publication-ready tables.#
+#
+PopVariance <- function(x) {#
+	temp <- sum((x-mean(x))^2)/length(x)#
+}#
+#
+#' Population Coefficient of Variation#
+#' #
+#' @param x Vectors of data.#
+#
+popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}#
+#
+#' Calculate Summary Statistics for Patch Population Data#
+#' #
+#' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).#
+#' @param summaryvar Vector of variables for which summary statistics should be calculated.#
+#' @param popgroupvar String identifying the categorical variable identifying the different populations.#
+#' @param rvar Vector of variables for which ratio estimators should be used.#
+#' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.#
+#
+#' @description Calculates summary statistics for patch population data.#
+#
+#' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{popgroupvar}.#
+#
+#' @export#
+#' @importFrom dplyr group_by_ ungroup arrange_#
+#' @importFrom stringr str_sub#
+#' @importFrom stats var#
+#' @importFrom sp coordinates#
+#' @importFrom spdep cell2nb nb2listw joincount.test moran.test #
+#
+#' @examples#
+#' library(magrittr)#
+#' library(dplyr)#
+#' ovar = c(#
+#' 	"Stricta",#
+#' 	"Pusilla",#
+#' 	"Cactus",#
+#' 	"CACA_on_Pusilla",#
+#' 	"CACA_on_Stricta",#
+#' 	"MEPR_on_Pusilla",#
+#' 	"MEPR_on_Stricta",#
+#' 	"Old_Moth_Evidence_Pusilla",#
+#' 	"Old_Moth_Evidence_Stricta"#
+#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
+#' 	# "Percent_Cover_Stricta",#
+#' 	# "Height_Pusilla",#
+#' 	# "Height_Stricta",#
+#' )		#
+#' summaryvar = ovar#
+#' # WHAT WAS I THINK HERE? for grouping variables?#
+#' popgroupvar = "n.networks" # c("n.networks", "realization")#
+#' # create realizations#
+#' x_start = 1#
+#' x_end = 30#
+#' y_start = 1#
+#' y_end = 30#
+#' n.networks = c(5, 15, 10, 20, 30, 40)#
+#' n.realizations = 1#
+#' SpeciesInfo = PlotSurveys_season1#
+#' start.seed=1#
+#' buffer=5#
+#' cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,#
+#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,#
+#' 	ovar)#
+#' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, #
+#' 	summaryvar=ovar, popgroupvar=popgroupvar)#
+calculatePopSummaryStats <- function(#
+	popdata, #
+	summaryvar, #
+	rvar=NULL, #
+	popgroupvar,#
+	weights="S",#
+	nrow,#
+	ncol#
+) {#
+	popdata %<>% arrange(!! sym(popgroupvar))#
+	# for each popgroupvar combo, calculate summary statistics for m and number of species patches#
+	# this calculates the m statistics for the unique Network sizes#
+	Y1 <- popdata %>%#
+		group_by_at(c("NetworkID", popgroupvar)) %>%#
+		summarise(m = .data$m[1]) %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min_unique_neigh = min(.data$m),#
+			m_max_unique_neigh = max(.data$m),#
+			m_mean_unique_neigh = mean(.data$m),#
+			m_var_unique_neigh = var(.data$m),#
+			n_Species_Patches = #
+				length(unique(.data$NetworkID[which(.data$m>1)]))#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	# this calculates the m statistics for all units#
+	Y2 = popdata %>%#
+	group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min = min(.data$m),#
+			m_max = max(.data$m),#
+			m_mean = mean(.data$m),#
+			m_var = var(.data$m)#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Z = popdata %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(N = length(.data$m)) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Y1 %<>% #
+		merge(Y2, by=popgroupvar) %>%#
+		merge(Z, by=popgroupvar)	#
+	# spatial statistics and other characteristics of variables#
+	A <- list()#
+	popvar <- paste(#
+		"popdata$", #
+		popgroupvar, #
+		sep=""#
+	)#
+	for (i in 1:length(unique(eval(parse(text=popvar))))) {#
+		temp <- popdata %>%#
+			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])#
+		temp %<>% arrange(.data$x,.data$y)#
+		# spatial statistics#
+		coordinates(temp) = ~ x + y#
+		A[[i]] <- list()#
+		for (j in 1:length(summaryvar)) {#
+			A[[i]][[j]] <- data.frame(variable = summaryvar[j])#
+			if (summaryvar[j] %in% rvar) {#
+				temp_ratio <- temp %>% as.data.frame#
+				temp_ratio %<>% #
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	#
+				tempvar <- eval(parse(text =#
+						paste("temp_ratio$", summaryvar[j], sep="")#
+					))#
+				coordinates(temp_ratio) = ~ x + y#
+			} else {#
+				tempvar <- eval(parse(text =#
+					paste("temp$", summaryvar[j], sep="")#
+				))	#
+			}#
+			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
+				patch_data = as.data.frame(temp),#
+				variable = summaryvar[j],#
+				popgroupvar#
+			)$SSQ_R#
+			if (length(tempvar[which(tempvar > 0)]) > 0) {#
+				# join counts and moran's i#
+				nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("minmax" %in% weights) {#
+					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.minmax <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+			} else {#
+				if ("W" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.W <- NA#
+					A[[i]][[j]]$MoranI.W <- NA#
+				}#
+				if ("B" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.B <- NA#
+					A[[i]][[j]]$MoranI.B <- NA#
+				}	#
+				if ("C" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.C <- NA#
+					A[[i]][[j]]$MoranI.C <- NA#
+				}	#
+				if ("U" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.U <- NA#
+					A[[i]][[j]]$MoranI.U <- NA#
+				}	#
+				if ("S" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.S <- NA#
+					A[[i]][[j]]$MoranI.S <- NA#
+				}	#
+				if ("minmax" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.minmax <- NA#
+					A[[i]][[j]]$MoranI.minmax <- NA#
+				}	#
+			}#
+		}#
+		A[[i]] <- do.call(rbind.data.frame, A[[i]])#
+		A[[i]]$population <- unique(eval(parse(#
+			text=paste(#
+				"popdata$", #
+				popgroupvar, #
+				sep=""#
+			)#
+		)))[i]#
+	}#
+	B <- do.call(rbind.data.frame, A)#
+	B %<>% arrange(.data$variable, .data$population) %>%#
+		setnames("Mean_tempvar", "Mean") %>%#
+		setnames("Var_tempvar", "Var") %>%#
+		setnames("CV_tempvar", "CV") %>%#
+		setnames("Total_tempvar", "Total")#
+	return(list(Y1, B))#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+CactusRealizationSummary <- calculatePopSummaryStats(#
+		popdata = CactusRealizations, #
+		summaryvar = c("Stricta", "Pusilla", "Cactus",#
+			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta"), #
+		popgroupvar = "population", #
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", #
+			"Percent_Cover_Stricta", "Height_Stricta", #
+			"Old_Moth_Evidence_Stricta")#
+	)
+head(CactusRealizations)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+CactusRealizationSummary <- calculatePopSummaryStats(#
+		popdata = CactusRealizations, #
+		summaryvar = c("Stricta", "Pusilla", "Cactus",#
+			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta"), #
+		popgroupvar = "n.networks", #
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", #
+			"Percent_Cover_Stricta", "Height_Stricta", #
+			"Old_Moth_Evidence_Stricta")#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+popdata = CactusRealizations
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+summaryvar = c("Stricta", "Pusilla", "Cactus",#
+			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta")
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+popgroupvar = "n.networks"
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", #
+			"Percent_Cover_Stricta", "Height_Stricta", #
+			"Old_Moth_Evidence_Stricta")
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+popdata %<>% arrange(!! sym(popgroupvar))#
+	# for each popgroupvar combo, calculate summary statistics for m and number of species patches#
+	# this calculates the m statistics for the unique Network sizes#
+	Y1 <- popdata %>%#
+		group_by_at(c("NetworkID", popgroupvar)) %>%#
+		summarise(m = .data$m[1]) %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min_unique_neigh = min(.data$m),#
+			m_max_unique_neigh = max(.data$m),#
+			m_mean_unique_neigh = mean(.data$m),#
+			m_var_unique_neigh = var(.data$m),#
+			n_Species_Patches = #
+				length(unique(.data$NetworkID[which(.data$m>1)]))#
+		) %>%#
+		ungroup %>%#
+		as.data.frame
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Y2 = popdata %>%#
+	group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min = min(.data$m),#
+			m_max = max(.data$m),#
+			m_mean = mean(.data$m),#
+			m_var = var(.data$m)#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Z = popdata %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(N = length(.data$m)) %>%#
+		ungroup %>%#
+		as.data.frame
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+Y1 %<>% #
+		merge(Y2, by=popgroupvar) %>%#
+		merge(Z, by=popgroupvar)	#
+	# spatial statistics and other characteristics of variables#
+	A <- list()#
+	popvar <- paste(#
+		"popdata$", #
+		popgroupvar, #
+		sep=""#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+for (i in 1:length(unique(eval(parse(text=popvar))))) {#
+		temp <- popdata %>%#
+			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])#
+		temp %<>% arrange(.data$x,.data$y)#
+		# spatial statistics#
+		coordinates(temp) = ~ x + y#
+		A[[i]] <- list()#
+		for (j in 1:length(summaryvar)) {#
+			A[[i]][[j]] <- data.frame(variable = summaryvar[j])#
+			if (summaryvar[j] %in% rvar) {#
+				temp_ratio <- temp %>% as.data.frame#
+				temp_ratio %<>% #
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	#
+				tempvar <- eval(parse(text =#
+						paste("temp_ratio$", summaryvar[j], sep="")#
+					))#
+				coordinates(temp_ratio) = ~ x + y#
+			} else {#
+				tempvar <- eval(parse(text =#
+					paste("temp$", summaryvar[j], sep="")#
+				))	#
+			}#
+			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
+				patch_data = as.data.frame(temp),#
+				variable = summaryvar[j],#
+				popgroupvar#
+			)$SSQ_R#
+			if (length(tempvar[which(tempvar > 0)]) > 0) {#
+				# join counts and moran's i#
+				nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("minmax" %in% weights) {#
+					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.minmax <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+			} else {#
+				if ("W" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.W <- NA#
+					A[[i]][[j]]$MoranI.W <- NA#
+				}#
+				if ("B" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.B <- NA#
+					A[[i]][[j]]$MoranI.B <- NA#
+				}	#
+				if ("C" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.C <- NA#
+					A[[i]][[j]]$MoranI.C <- NA#
+				}	#
+				if ("U" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.U <- NA#
+					A[[i]][[j]]$MoranI.U <- NA#
+				}	#
+				if ("S" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.S <- NA#
+					A[[i]][[j]]$MoranI.S <- NA#
+				}	#
+				if ("minmax" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.minmax <- NA#
+					A[[i]][[j]]$MoranI.minmax <- NA#
+				}	#
+			}#
+		}#
+		A[[i]] <- do.call(rbind.data.frame, A[[i]])#
+		A[[i]]$population <- unique(eval(parse(#
+			text=paste(#
+				"popdata$", #
+				popgroupvar, #
+				sep=""#
+			)#
+		)))[i]#
+	}
+i
+j
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- popdata %>%#
+			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])#
+		temp %<>% arrange(.data$x,.data$y)#
+		# spatial statistics#
+		coordinates(temp) = ~ x + y#
+		A[[i]] <- list()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]] <- data.frame(variable = summaryvar[j])#
+			if (summaryvar[j] %in% rvar) {#
+				temp_ratio <- temp %>% as.data.frame#
+				temp_ratio %<>% #
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	#
+				tempvar <- eval(parse(text =#
+						paste("temp_ratio$", summaryvar[j], sep="")#
+					))#
+				coordinates(temp_ratio) = ~ x + y#
+			} else {#
+				tempvar <- eval(parse(text =#
+					paste("temp$", summaryvar[j], sep="")#
+				))	#
+			}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
+				patch_data = as.data.frame(temp),#
+				variable = summaryvar[j],#
+				popgroupvar#
+			)$SSQ_R
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+length(tempvar[which(tempvar > 0)]) > 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+weights="S"
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb
+)[[2]]$estimate[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+lwb <- nb2listw(nb, style = "S") # convert to weights
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+nb <- cell2nb(nrow = nrow, ncol = ncol)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+nrow
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+nrow=30
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+ncol=30
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+#' Return the sum of a vector, after removing NAs.#
+#' #
+#' @param x Vectors of data.#
+#' @description Written for use in the tables::tabular function to create publication-ready tables.#
+#
+Sum <- function(x) {sum(x, na.rm=TRUE)}#
+#
+#' Return the mean of a vector with up to two decimal places, after removing NAs.#
+#' #
+#' @param x Vectors of data.#
+#' @description Written for use in the tables::tabular function to create publication-ready tables.#
+#
+Mean <- function(x) base::mean(x, na.rm=TRUE)#
+#' Return the population variance of a vector, after removing NAs, and round.#
+#'#
+#' @param x Vectors of data.#
+#' @description Written for use in the tables::tabular function to create publication-ready tables.#
+#
+PopVariance <- function(x) {#
+	temp <- sum((x-mean(x))^2)/length(x)#
+}#
+#
+#' Population Coefficient of Variation#
+#' #
+#' @param x Vectors of data.#
+#
+popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}#
+#
+#' Calculate Summary Statistics for Patch Population Data#
+#' #
+#' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).#
+#' @param summaryvar Vector of variables for which summary statistics should be calculated.#
+#' @param popgroupvar String identifying the categorical variable identifying the different populations.#
+#' @param rvar Vector of variables for which ratio estimators should be used.#
+#' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.#
+#
+#' @description Calculates summary statistics for patch population data.#
+#
+#' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{popgroupvar}.#
+#
+#' @export#
+#' @importFrom dplyr group_by_ ungroup arrange_#
+#' @importFrom stringr str_sub#
+#' @importFrom stats var#
+#' @importFrom sp coordinates#
+#' @importFrom spdep cell2nb nb2listw joincount.test moran.test #
+#
+#' @examples#
+#' library(magrittr)#
+#' library(dplyr)#
+#' ovar = c(#
+#' 	"Stricta",#
+#' 	"Pusilla",#
+#' 	"Cactus",#
+#' 	"CACA_on_Pusilla",#
+#' 	"CACA_on_Stricta",#
+#' 	"MEPR_on_Pusilla",#
+#' 	"MEPR_on_Stricta",#
+#' 	"Old_Moth_Evidence_Pusilla",#
+#' 	"Old_Moth_Evidence_Stricta"#
+#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
+#' 	# "Percent_Cover_Stricta",#
+#' 	# "Height_Pusilla",#
+#' 	# "Height_Stricta",#
+#' )		#
+#' summaryvar = ovar#
+#' # WHAT WAS I THINK HERE? for grouping variables?#
+#' popgroupvar = "n.networks" # c("n.networks", "realization")#
+#' # create realizations#
+#' x_start = 1#
+#' x_end = 30#
+#' y_start = 1#
+#' y_end = 30#
+#' n.networks = c(5, 15, 10, 20, 30, 40)#
+#' n.realizations = 1#
+#' SpeciesInfo = PlotSurveys_season1#
+#' start.seed=1#
+#' buffer=5#
+#' cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,#
+#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,#
+#' 	ovar)#
+#' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, #
+#' 	summaryvar=ovar, popgroupvar=popgroupvar)#
+calculatePopSummaryStats <- function(#
+	popdata, #
+	summaryvar, #
+	rvar=NULL, #
+	popgroupvar,#
+	weights="S",#
+	nrow,#
+	ncol#
+) {#
+	popdata %<>% arrange(!! sym(popgroupvar))#
+	# for each popgroupvar combo, calculate summary statistics for m and number of species patches#
+	# this calculates the m statistics for the unique Network sizes#
+	Y1 <- popdata %>%#
+		group_by_at(c("NetworkID", popgroupvar)) %>%#
+		summarise(m = .data$m[1]) %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min_unique_neigh = min(.data$m),#
+			m_max_unique_neigh = max(.data$m),#
+			m_mean_unique_neigh = mean(.data$m),#
+			m_var_unique_neigh = var(.data$m),#
+			n_Species_Patches = #
+				length(unique(.data$NetworkID[which(.data$m>1)]))#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	# this calculates the m statistics for all units#
+	Y2 = popdata %>%#
+	group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min = min(.data$m),#
+			m_max = max(.data$m),#
+			m_mean = mean(.data$m),#
+			m_var = var(.data$m)#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Z = popdata %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(N = length(.data$m)) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Y1 %<>% #
+		merge(Y2, by=popgroupvar) %>%#
+		merge(Z, by=popgroupvar)	#
+	# spatial statistics and other characteristics of variables#
+	A <- list()#
+	popvar <- paste(#
+		"popdata$", #
+		popgroupvar, #
+		sep=""#
+	)#
+	for (i in 1:length(unique(eval(parse(text=popvar))))) {#
+		temp <- popdata %>%#
+			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])#
+		temp %<>% arrange(.data$x,.data$y)#
+		# spatial statistics#
+		coordinates(temp) = ~ x + y#
+		A[[i]] <- list()#
+		for (j in 1:length(summaryvar)) {#
+			A[[i]][[j]] <- data.frame(variable = summaryvar[j])#
+			if (summaryvar[j] %in% rvar) {#
+				temp_ratio <- temp %>% as.data.frame#
+				temp_ratio %<>% #
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	#
+				tempvar <- eval(parse(text =#
+						paste("temp_ratio$", summaryvar[j], sep="")#
+					))#
+				coordinates(temp_ratio) = ~ x + y#
+			} else {#
+				tempvar <- eval(parse(text =#
+					paste("temp$", summaryvar[j], sep="")#
+				))	#
+			}#
+			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
+				patch_data = as.data.frame(temp),#
+				variable = summaryvar[j],#
+				popgroupvar#
+			)$SSQ_R#
+			if (length(tempvar[which(tempvar > 0)]) > 0) {#
+				# join counts and moran's i#
+				nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("minmax" %in% weights) {#
+					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.minmax <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+			} else {#
+				if ("W" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.W <- NA#
+					A[[i]][[j]]$MoranI.W <- NA#
+				}#
+				if ("B" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.B <- NA#
+					A[[i]][[j]]$MoranI.B <- NA#
+				}	#
+				if ("C" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.C <- NA#
+					A[[i]][[j]]$MoranI.C <- NA#
+				}	#
+				if ("U" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.U <- NA#
+					A[[i]][[j]]$MoranI.U <- NA#
+				}	#
+				if ("S" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.S <- NA#
+					A[[i]][[j]]$MoranI.S <- NA#
+				}	#
+				if ("minmax" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.minmax <- NA#
+					A[[i]][[j]]$MoranI.minmax <- NA#
+				}	#
+			}#
+		}#
+		A[[i]] <- do.call(rbind.data.frame, A[[i]])#
+		A[[i]]$population <- unique(eval(parse(#
+			text=paste(#
+				"popdata$", #
+				popgroupvar, #
+				sep=""#
+			)#
+		)))[i]#
+	}#
+	B <- do.call(rbind.data.frame, A)#
+	B %<>% arrange(.data$variable, .data$population) %>%#
+		setnames("Mean_tempvar", "Mean") %>%#
+		setnames("Var_tempvar", "Var") %>%#
+		setnames("CV_tempvar", "CV") %>%#
+		setnames("Total_tempvar", "Total")#
+	return(list(Y1, B))#
+}
+setwd('/Users/KSauby/Documents/Projects/ACS/tests/testthat')
+CactusRealizationSummary <- calculatePopSummaryStats(#
+		popdata = CactusRealizations, #
+		summaryvar = c("Stricta", "Pusilla", "Cactus",#
+			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", #
+			"Height_Stricta", "Old_Moth_Evidence_Stricta"), #
+		popgroupvar = "n.networks", #
+		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", #
+			"Percent_Cover_Stricta", "Height_Stricta", #
+			"Old_Moth_Evidence_Stricta"),#
+		nrow=30,#
+		ncol=30#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+popdata %<>% arrange(!! sym(popgroupvar))#
+	# for each popgroupvar combo, calculate summary statistics for m and number of species patches#
+	# this calculates the m statistics for the unique Network sizes#
+	Y1 <- popdata %>%#
+		group_by_at(c("NetworkID", popgroupvar)) %>%#
+		summarise(m = .data$m[1]) %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min_unique_neigh = min(.data$m),#
+			m_max_unique_neigh = max(.data$m),#
+			m_mean_unique_neigh = mean(.data$m),#
+			m_var_unique_neigh = var(.data$m),#
+			n_Species_Patches = #
+				length(unique(.data$NetworkID[which(.data$m>1)]))#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	# this calculates the m statistics for all units#
+	Y2 = popdata %>%#
+	group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min = min(.data$m),#
+			m_max = max(.data$m),#
+			m_mean = mean(.data$m),#
+			m_var = var(.data$m)#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Z = popdata %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(N = length(.data$m)) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Y1 %<>% #
+		merge(Y2, by=popgroupvar) %>%#
+		merge(Z, by=popgroupvar)	#
+	# spatial statistics and other characteristics of variables#
+	A <- list()#
+	popvar <- paste(#
+		"popdata$", #
+		popgroupvar, #
+		sep=""#
+	)
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+temp <- popdata %>%#
+			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])#
+		temp %<>% arrange(.data$x,.data$y)#
+		# spatial statistics#
+		coordinates(temp) = ~ x + y#
+		A[[i]] <- list()
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]] <- data.frame(variable = summaryvar[j])#
+			if (summaryvar[j] %in% rvar) {#
+				temp_ratio <- temp %>% as.data.frame#
+				temp_ratio %<>% #
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	#
+				tempvar <- eval(parse(text =#
+						paste("temp_ratio$", summaryvar[j], sep="")#
+					))#
+				coordinates(temp_ratio) = ~ x + y#
+			} else {#
+				tempvar <- eval(parse(text =#
+					paste("temp$", summaryvar[j], sep="")#
+				))	#
+			}#
+			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
+				patch_data = as.data.frame(temp),#
+				variable = summaryvar[j],#
+				popgroupvar#
+			)$SSQ_R#
+			if (length(tempvar[which(tempvar > 0)]) > 0) {#
+				# join counts and moran's i#
+				nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}
+}
+i
+j
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if ("minmax" %in% weights) {#
+					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.minmax <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+			} else {#
+				if ("W" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.W <- NA#
+					A[[i]][[j]]$MoranI.W <- NA#
+				}#
+				if ("B" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.B <- NA#
+					A[[i]][[j]]$MoranI.B <- NA#
+				}	#
+				if ("C" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.C <- NA#
+					A[[i]][[j]]$MoranI.C <- NA#
+				}	#
+				if ("U" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.U <- NA#
+					A[[i]][[j]]$MoranI.U <- NA#
+				}	#
+				if ("S" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.S <- NA#
+					A[[i]][[j]]$MoranI.S <- NA#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+if (length(tempvar[which(tempvar > 0)]) > 0) {#
+				# join counts and moran's i#
+				nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("minmax" %in% weights) {#
+					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.minmax <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+			} else {#
+				if ("W" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.W <- NA#
+					A[[i]][[j]]$MoranI.W <- NA#
+				}#
+				if ("B" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.B <- NA#
+					A[[i]][[j]]$MoranI.B <- NA#
+				}	#
+				if ("C" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.C <- NA#
+					A[[i]][[j]]$MoranI.C <- NA#
+				}	#
+				if ("U" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.U <- NA#
+					A[[i]][[j]]$MoranI.U <- NA#
+				}	#
+				if ("S" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.S <- NA#
+					A[[i]][[j]]$MoranI.S <- NA#
+				}	#
+				if ("minmax" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.minmax <- NA#
+					A[[i]][[j]]$MoranI.minmax <- NA#
+				}	#
+			}#
+		}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]] <- do.call(rbind.data.frame, A[[i]])#
+		A[[i]]$population <- unique(eval(parse(#
+			text=paste(#
+				"popdata$", #
+				popgroupvar, #
+				sep=""#
+			)#
+		)))[i]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+B <- do.call(rbind.data.frame, A)#
+	B %<>% arrange(.data$variable, .data$population) %>%#
+		setnames("Mean_tempvar", "Mean") %>%#
+		setnames("Var_tempvar", "Var") %>%#
+		setnames("CV_tempvar", "CV") %>%#
+		setnames("Total_tempvar", "Total")
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+popdata %<>% arrange(!! sym(popgroupvar))#
+	# for each popgroupvar combo, calculate summary statistics for m and number of species patches#
+	# this calculates the m statistics for the unique Network sizes#
+	Y1 <- popdata %>%#
+		group_by_at(c("NetworkID", popgroupvar)) %>%#
+		summarise(m = .data$m[1]) %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min_unique_neigh = min(.data$m),#
+			m_max_unique_neigh = max(.data$m),#
+			m_mean_unique_neigh = mean(.data$m),#
+			m_var_unique_neigh = var(.data$m),#
+			n_Species_Patches = #
+				length(unique(.data$NetworkID[which(.data$m>1)]))#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	# this calculates the m statistics for all units#
+	Y2 = popdata %>%#
+	group_by_at(popgroupvar) %>%#
+		summarise(#
+			m_min = min(.data$m),#
+			m_max = max(.data$m),#
+			m_mean = mean(.data$m),#
+			m_var = var(.data$m)#
+		) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Z = popdata %>%#
+		group_by_at(popgroupvar) %>%#
+		summarise(N = length(.data$m)) %>%#
+		ungroup %>%#
+		as.data.frame#
+	Y1 %<>% #
+		merge(Y2, by=popgroupvar) %>%#
+		merge(Z, by=popgroupvar)	#
+	# spatial statistics and other characteristics of variables#
+	A <- list()#
+	popvar <- paste(#
+		"popdata$", #
+		popgroupvar, #
+		sep=""#
+	)#
+	for (i in 1:length(unique(eval(parse(text=popvar))))) {#
+		temp <- popdata %>%#
+			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])#
+		temp %<>% arrange(.data$x,.data$y)#
+		# spatial statistics#
+		coordinates(temp) = ~ x + y#
+		A[[i]] <- list()#
+		for (j in 1:length(summaryvar)) {#
+			A[[i]][[j]] <- data.frame(variable = summaryvar[j])#
+			if (summaryvar[j] %in% rvar) {#
+				temp_ratio <- temp %>% as.data.frame#
+				temp_ratio %<>% #
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	#
+				tempvar <- eval(parse(text =#
+						paste("temp_ratio$", summaryvar[j], sep="")#
+					))#
+				coordinates(temp_ratio) = ~ x + y#
+			} else {#
+				tempvar <- eval(parse(text =#
+					paste("temp$", summaryvar[j], sep="")#
+				))	#
+			}#
+			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
+				patch_data = as.data.frame(temp),#
+				variable = summaryvar[j],#
+				popgroupvar#
+			)$SSQ_R#
+			if (length(tempvar[which(tempvar > 0)]) > 0) {#
+				# join counts and moran's i#
+				nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("minmax" %in% weights) {#
+					lwb <- nb2listw(nb, style = "minmax") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.minmax <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+			} else {#
+				if ("W" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.W <- NA#
+					A[[i]][[j]]$MoranI.W <- NA#
+				}#
+				if ("B" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.B <- NA#
+					A[[i]][[j]]$MoranI.B <- NA#
+				}	#
+				if ("C" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.C <- NA#
+					A[[i]][[j]]$MoranI.C <- NA#
+				}	#
+				if ("U" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.U <- NA#
+					A[[i]][[j]]$MoranI.U <- NA#
+				}	#
+				if ("S" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.S <- NA#
+					A[[i]][[j]]$MoranI.S <- NA#
+				}	#
+				if ("minmax" %in% weights) {#
+					A[[i]][[j]]$JoinCountTest.minmax <- NA#
+					A[[i]][[j]]$MoranI.minmax <- NA#
+				}	#
+			}#
+		}#
+		A[[i]] <- do.call(rbind.data.frame, A[[i]])#
+		A[[i]]$population <- unique(eval(parse(#
+			text=paste(#
+				"popdata$", #
+				popgroupvar, #
+				sep=""#
+			)#
+		)))[i]#
+	}#
+	B <- do.call(rbind.data.frame, A)#
+	B %<>% arrange(.data$variable, .data$population) %>%#
+		setnames("Mean_tempvar", "Mean") %>%#
+		setnames("Var_tempvar", "Var") %>%#
+		setnames("CV_tempvar", "CV") %>%#
+		setnames("Total_tempvar", "Total")
+i
+j
+summaryvar[j]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]] <- data.frame(variable = summaryvar[j])#
+			if (summaryvar[j] %in% rvar) {#
+				temp_ratio <- temp %>% as.data.frame#
+				temp_ratio %<>% #
+					.[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	#
+				tempvar <- eval(parse(text =#
+						paste("temp_ratio$", summaryvar[j], sep="")#
+					))#
+				coordinates(temp_ratio) = ~ x + y#
+			} else {#
+				tempvar <- eval(parse(text =#
+					paste("temp$", summaryvar[j], sep="")#
+				))	#
+			}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)#
+			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)#
+			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)#
+			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)#
+			A[[i]][[j]]$SSQ_R			<- calculateSSQR(#
+				patch_data = as.data.frame(temp),#
+				variable = summaryvar[j],#
+				popgroupvar#
+			)$SSQ_R
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+length(tempvar[which(tempvar > 0)]) > 0
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+nb <- cell2nb(nrow = nrow, ncol = ncol)#
+				if ("W" %in% weights) {#
+					lwb <- nb2listw(nb, style = "W") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.W <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}#
+				if ("B" %in% weights) {#
+					lwb <- nb2listw(nb, style = "B") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.B <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("C" %in% weights) {#
+					lwb <- nb2listw(nb, style = "C") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.C <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("U" %in% weights) {#
+					lwb <- nb2listw(nb, style = "U") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.U <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}	#
+				if ("S" %in% weights) {#
+					lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]#
+					A[[i]][[j]]$MoranI.S <- moran.test(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						))),#
+						lwb#
+					)$estimate[1]#
+				}
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+lwb <- nb2listw(nb, style = "S") # convert to weights#
+					# I think cells are indexed by row, then column#
+					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(#
+						eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
+							sep=""#
+						)))),#
+						lwb#
+					)[[2]]$estimate[1]
+setwd('/Users/KSauby/Documents/Projects/ACS/R')
+paste(#
+							"temp$",#
+							summaryvar[j],#
 							sep=""#
 						)
-)
 setwd('/Users/KSauby/Documents/Projects/ACS/R')
-interp(#
-					mean(var, na.rm = TRUE), #
-					var = as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
+eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
 							sep=""#
-						)#
-					)
-)
-str(temp)
-? summarise_at
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise_at(#
-				#mean_of_observed_means = #
-				vars(var), mean, na.rm=T#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = as.name(#
-			paste(#
-				variables[i],#
-				"_mean_observed",#
-				sep=""#
-			)#
-		)
-var
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-C[[i]] <- temp %>%#
-			summarise_at(#
-				#mean_of_observed_means = #
-				vars(var), mean, na.rm=T#
-			)
-rlang::last_error()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise_at(#
-				#mean_of_observed_means = #
-				var, mean, na.rm=T#
-			)
-var
-as.vector(var)
-vector(Var)
-vector(var)
-class(var)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise_at(#
-				#mean_of_observed_means = #
-				var, mean, na.rm=T#
-			)
-temp %>%#
-			summarise_at(#
-				#mean_of_observed_means = #
-				var, mean, na.rm=T#
-			) %>% as.data.frame %>% head
-?enquo
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		) %>%#
-		enquo
-var
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T)#
-			)
-warnings()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = as.name(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		)) %>%#
-		enquo
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T)#
-			)
-var
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-as.name(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = as.name(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		)) %>%#
-		dplyr::enquo
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = as.name(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		)) %>%#
-		dplyr::enquo()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T)#
-			)
-traceback()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-interp(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = interp(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		)) %>%#
-		dplyr::enquo()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = enquo(Cactus_mean_observed)
-var = enquo("Cactus_mean_observed")
-quo <- quo(letters)
-quo
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-quo(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = quo(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T)#
-			)
-traceback()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-sym(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-var = sym(#
-			paste(#
-			variables[i],#
-			"_mean_observed",#
-			sep=""#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = ~length(!!var[which(!is.na(!!var))])#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!!var[which(!is.na(!!var))])#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(filter(!is.na(!!var))
-)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))
-)
-) %>% as.data.frame %>% head
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>% as.data.frame %>% head
-?setnames
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#'
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-## quiets concerns of R CMD check re: the .'s that appear in pipelines#
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))#
-#
-calculatedSquaredDifferences <- function(dataframe, variables) {#
-	# for each simulation and variable, calculate:#
-	#	(observed mean - true mean)^2#
-	for (i in 1:length(variables)) {#
-		dataframe %<>%#
-			mutate(#
-				observed_minus_true_squared = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(#
-								text = paste(#
-								variables[i], #
-								"_mean", #
-								sep=""#
-							)#
-						)#
-						)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true_squared", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true_squared", #
-					sep=""#
-				)#
-			)#
-	}#
-	return(dataframe)#
-}#
-calculateDifferencesinMeans <- function(dataframe, variables) {#
-	# for each simulation and variable, calculate:#
-	#	observed mean - mean of observed means#
-	for (i in 1:length(variables)) {#
-		dataframe %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	return(dataframe)#
-}#
-#
-#' @importFrom dplyr summarise_ n#
-#' @importFrom lazyeval interp#
-#' @importFrom rlang .data#
-#' @importFrom data.table setnames#
-#
-calculateBiasComponents	<- function(dataframe, resultslist, variables) {#
-	for (i in 1:length(variables)) {#
-		resultslist[[i]] <- list()#
-		resultslist[[i]] <- dataframe %>%#
-			summarise_(.,#
-				# save true mean#
-				mean_RB_true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
+						))))
+eval(parse(text=paste(#
+							"temp$",#
+							summaryvar[j],#
 							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				mean_RB_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# sample size used to calculate mean of observed means#
-				RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate MSE#
-				MSE_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true_squared",#
-							sep=""#
-						)#
-					)#
-				),#
-				# sample size used to calculate MSE#
-				MSE_n_sims = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true_squared",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: calculate mean of simulated HT variance estimates#
-				var_RB_mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: sample size used to calculate mean of simulated HT variance estimates#
-				var_RB_mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: calculate variance of _mean_observed#
-				var_RB_var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: calculate sample size used to calculate variance of _mean_observed#
-				var_RB_var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			as.data.frame#
-		resultslist[[i]] %<>% #
-			mutate(#
-				RB = 100 * #
-					(.data$mean_RB_mean_of_observed_means - .data$mean_RB_true_mean) / #
-					.data$mean_RB_true_mean,#
-				MSE = .data$MSE_sum_of_observed_minus_true_sqrd/.data$MSE_n_sims,#
-				var_RB = 100 *#
-				(.data$var_RB_mean_of_var_estimates - .data$var_RB_var_of_mean_estimates) / #
-					.data$var_RB_var_of_mean_estimates,#
-				var_RB_n = min(#
-					.data$var_RB_mean_of_var_estimates_n, #
-					.data$var_RB_var_of_mean_estimates_n#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"mean_RB_true_mean",#
-	      		paste(#
-	      			variables[i],#
-	      			"_true_mean",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"RB",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_RB",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"MSE",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_MSE",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"var_RB",#
-	      		paste(#
-	      			variables[i],#
-	      			"_var_RB",#
-	      			sep=""#
-				)#
-			) %>%#
-			# rename sample size variables#
-			setnames(#
-	      		.,#
-	      		"RB_n",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_RB_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"MSE_n_sims",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_MSE_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"var_RB_n",#
-	      		paste(#
-	      			variables[i],#
-	      			"_var_RB_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			dplyr::select(-c(#
-				.data$mean_RB_mean_of_observed_means,#
-				.data$MSE_sum_of_observed_minus_true_sqrd,#
-				.data$var_RB_mean_of_var_estimates,#
-				.data$var_RB_mean_of_var_estimates_n,#
-				.data$var_RB_var_of_mean_estimates,#
-				.data$var_RB_var_of_mean_estimates_n#
-			))#
-	}#
-	return(resultslist)#
-}#
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)#
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).#
-#' @param ovar Vector of variables for which sampling bias should be estimated.#
-#' @param o_rvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.#
-#' @param rvar Variables for which to use ratio estimators#
-#
-#' @description Calculate the sampling bias of different sampling designs from simulation data.#
-#
-#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.#
-#
-#' @examples#
-#' # Create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' Species.Fields = c("Stricta", "Pusilla", "Cactus")#
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,#
-#' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, #
-#' 	start.seed=1, Species.Fields)#
-#' #
-#' # Sample from the realizations#
-#' simulations=1#
-#' nsamples=c(5,10,20,40)#
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, #
-#' 	y_end = 30)#
-#' abundance.variables = NULL#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' patch_data = cactus.realizations#
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, #
-#' #	nsamples, population, abundance.variables, occupancy.variables)#
-#' #
-#' # summary.variables = occupancy.variables#
-#' # grouping.variables = c("n.networks", "realization")#
-#' # dataset = cactus.realizations#
-#' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, #
-#' # 	summary.variables, grouping.variables)#
-#' # avar = NULL#
-#' @export#
-#
-calculateSamplingBias <- function(#
-	population_data_summary, #
-	simulation_data, #
-	population.grouping.variables, #
-	sampling.grouping.variables,#
-	ovar,#
-	o_rvar,#
-	rvar#
-)#
-{#
-	rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())#
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)#
-	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?#
-	# ------------------------------------------------------------------------ ##
-	# RATIO VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	E <- A#
-	# E %<>% filter(Stricta_mean_observed!=0)#
-	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables))#
-	E %<>% calculatedSquaredDifferences(variables=c(o_rvar, rvar_variables))#
-	E %<>% calculateDifferencesinMeans(variables=c(o_rvar, rvar_variables))#
-#
-	B %<>% calculatedSquaredDifferences(variables=ovar)#
-	B %<>% calculateDifferencesinMeans(variables=ovar)#
-	# calculate bias and MSE#
-	# occupancy variables#
-	H <- vector("list", length(ovar))#
-	X.grp <- B %>% #
-		group_by_(.dots=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		)) %>% #
-		calculateBiasComponents(., resultslist=H, variables=ovar)#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "ovar_n_sims")#
-	# ratio variables#
-	H <- vector("list", length(rvar))#
-	X.grp <- E %>% #
-		group_by_(.dots=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		)) %>% #
-		calculateBiasComponents(., resultslist=H, variables=rvar_variables)#
-	Z <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "rvar_n_sims")#
-	Y %<>% merge(Z, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		),#
-		all=T#
-	)#
-	return(Y)#
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_original_yHT = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar			= rvar,#
-	o_rvar			= "Stricta"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-## quiets concerns of R CMD check re: the .'s that appear in pipelines#
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))#
-#
-calculatedSquaredDifferences <- function(dataframe, variables) {#
-	# for each simulation and variable, calculate:#
-	#	(observed mean - true mean)^2#
-	for (i in 1:length(variables)) {#
-		dataframe %<>%#
-			mutate(#
-				observed_minus_true_squared = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(#
-								text = paste(#
-								variables[i], #
-								"_mean", #
-								sep=""#
-							)#
-						)#
-						)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true_squared", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true_squared", #
-					sep=""#
-				)#
-			)#
-	}#
-	return(dataframe)#
-}#
-calculateDifferencesinMeans <- function(dataframe, variables) {#
-	# for each simulation and variable, calculate:#
-	#	observed mean - mean of observed means#
-	for (i in 1:length(variables)) {#
-		dataframe %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	return(dataframe)#
-}#
-#
-#' @importFrom dplyr summarise_ n#
-#' @importFrom lazyeval interp#
-#' @importFrom rlang .data#
-#' @importFrom data.table setnames#
-#
-calculateBiasComponents	<- function(dataframe, resultslist, variables) {#
-	for (i in 1:length(variables)) {#
-		resultslist[[i]] <- list()#
-		resultslist[[i]] <- dataframe %>%#
-			summarise_(.,#
-				# save true mean#
-				mean_RB_true_mean = interp(#
-					~var[1], #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean", #
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate mean of observed means#
-				mean_RB_mean_of_observed_means = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# sample size used to calculate mean of observed means#
-				RB_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# calculate MSE#
-				MSE_sum_of_observed_minus_true_sqrd = interp(#
-					~sum(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true_squared",#
-							sep=""#
-						)#
-					)#
-				),#
-				# sample size used to calculate MSE#
-				MSE_n_sims = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed_minus_true_squared",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: calculate mean of simulated HT variance estimates#
-				var_RB_mean_of_var_estimates = interp(#
-					~mean(var, na.rm = TRUE), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: sample size used to calculate mean of simulated HT variance estimates#
-				var_RB_mean_of_var_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_var_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: calculate variance of _mean_observed#
-				var_RB_var_of_mean_estimates = interp(#
-					~var(variable, na.rm = TRUE), #
-					variable = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				),#
-				# for var_RB: calculate sample size used to calculate variance of _mean_observed#
-				var_RB_var_of_mean_estimates_n = interp(#
-					~length(var[which(!is.na(var))]), #
-					var = #
-					as.name(#
-						paste(#
-							variables[i],#
-							"_mean_observed",#
-							sep=""#
-						)#
-					)#
-				)#
-			) %>%#
-			as.data.frame#
-		resultslist[[i]] %<>% #
-			mutate(#
-				RB = 100 * #
-					(.data$mean_RB_mean_of_observed_means - .data$mean_RB_true_mean) / #
-					.data$mean_RB_true_mean,#
-				MSE = .data$MSE_sum_of_observed_minus_true_sqrd/.data$MSE_n_sims,#
-				var_RB = 100 *#
-				(.data$var_RB_mean_of_var_estimates - .data$var_RB_var_of_mean_estimates) / #
-					.data$var_RB_var_of_mean_estimates,#
-				var_RB_n = min(#
-					.data$var_RB_mean_of_var_estimates_n, #
-					.data$var_RB_var_of_mean_estimates_n#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"mean_RB_true_mean",#
-	      		paste(#
-	      			variables[i],#
-	      			"_true_mean",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"RB",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_RB",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"MSE",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_MSE",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"var_RB",#
-	      		paste(#
-	      			variables[i],#
-	      			"_var_RB",#
-	      			sep=""#
-				)#
-			) %>%#
-			# rename sample size variables#
-			setnames(#
-	      		.,#
-	      		"RB_n",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_RB_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"MSE_n_sims",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_MSE_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"var_RB_n",#
-	      		paste(#
-	      			variables[i],#
-	      			"_var_RB_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			dplyr::select(-c(#
-				.data$mean_RB_mean_of_observed_means,#
-				.data$MSE_sum_of_observed_minus_true_sqrd,#
-				.data$var_RB_mean_of_var_estimates,#
-				.data$var_RB_mean_of_var_estimates_n,#
-				.data$var_RB_var_of_mean_estimates,#
-				.data$var_RB_var_of_mean_estimates_n#
-			))#
-	}#
-	return(resultslist)#
-}#
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)#
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).#
-#' @param ovar Vector of variables for which sampling bias should be estimated.#
-#' @param o_rvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.#
-#' @param rvar Variables for which to use ratio estimators#
-#
-#' @description Calculate the sampling bias of different sampling designs from simulation data.#
-#
-#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.#
-#
-#' @examples#
-#' # Create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' Species.Fields = c("Stricta", "Pusilla", "Cactus")#
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,#
-#' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, #
-#' 	start.seed=1, Species.Fields)#
-#' #
-#' # Sample from the realizations#
-#' simulations=1#
-#' nsamples=c(5,10,20,40)#
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, #
-#' 	y_end = 30)#
-#' abundance.variables = NULL#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' patch_data = cactus.realizations#
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, #
-#' #	nsamples, population, abundance.variables, occupancy.variables)#
-#' #
-#' # summary.variables = occupancy.variables#
-#' # grouping.variables = c("n.networks", "realization")#
-#' # dataset = cactus.realizations#
-#' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, #
-#' # 	summary.variables, grouping.variables)#
-#' # avar = NULL#
-#' @export#
-#
-calculateSamplingBias <- function(#
-	population_data_summary, #
-	simulation_data, #
-	population.grouping.variables, #
-	sampling.grouping.variables,#
-	ovar,#
-	o_rvar,#
-	rvar#
-)#
-{#
-	rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(c(#
-			!!population.grouping.variables, #
-			!!sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())#
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)#
-	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?#
-	# ------------------------------------------------------------------------ ##
-	# RATIO VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	E <- A#
-	# E %<>% filter(Stricta_mean_observed!=0)#
-	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables))#
-	E %<>% calculatedSquaredDifferences(variables=c(o_rvar, rvar_variables))#
-	E %<>% calculateDifferencesinMeans(variables=c(o_rvar, rvar_variables))#
-#
-	B %<>% calculatedSquaredDifferences(variables=ovar)#
-	B %<>% calculateDifferencesinMeans(variables=ovar)#
-	# calculate bias and MSE#
-	# occupancy variables#
-	H <- vector("list", length(ovar))#
-	X.grp <- B %>% #
-		group_by_(.dots=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		)) %>% #
-		calculateBiasComponents(., resultslist=H, variables=ovar)#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "ovar_n_sims")#
-	# ratio variables#
-	H <- vector("list", length(rvar))#
-	X.grp <- E %>% #
-		group_by_(.dots=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		)) %>% #
-		calculateBiasComponents(., resultslist=H, variables=rvar_variables)#
-	Z <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "rvar_n_sims")#
-	Y %<>% merge(Z, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		),#
-		all=T#
-	)#
-	return(Y)#
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_original_yHT = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar			= rvar,#
-	o_rvar			= "Stricta"#
-)
-sym(population.grouping.variables)
-sym(sampling.grouping.variables)
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population_data_summary	= patch_data_summary_wide
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data		= simdata_all
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-o_rvar			= "Stricta"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())#
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)#
-	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?#
-	# ------------------------------------------------------------------------ ##
-	# RATIO VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	E <- A#
-	# E %<>% filter(Stricta_mean_observed!=0)#
-	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables))#
-	E %<>% calculatedSquaredDifferences(variables=c(o_rvar, rvar_variables))#
-	E %<>% calculateDifferencesinMeans(variables=c(o_rvar, rvar_variables))#
-#
-	B %<>% calculatedSquaredDifferences(variables=ovar)#
-	B %<>% calculateDifferencesinMeans(variables=ovar)#
-	# calculate bias and MSE#
-	# occupancy variables#
-	H <- vector("list", length(ovar))#
-	X.grp <- B %>% #
-		group_by_(.dots=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		)) %>% #
-		calculateBiasComponents(., resultslist=H, variables=ovar)#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "ovar_n_sims")#
-	# ratio variables#
-	H <- vector("list", length(rvar))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X.grp <- E %>% #
-		group_by_(.dots=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		)) %>% #
-		calculateBiasComponents(., resultslist=H, variables=rvar_variables)#
-	Z <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "rvar_n_sims")#
-	Y %<>% merge(Z, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		),#
-		all=T#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-X.grp <- E %>% #
-		group_by_at(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		) %>% #
-		calculateBiasComponents(., resultslist=H, variables=rvar_variables)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-## quiets concerns of R CMD check re: the .'s that appear in pipelines#
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))#
-#
-calculatedSquaredDifferences <- function(dataframe, variables) {#
-	# for each simulation and variable, calculate:#
-	#	(observed mean - true mean)^2#
-	for (i in 1:length(variables)) {#
-		dataframe %<>%#
-			mutate(#
-				observed_minus_true_squared = #
-						# observed -#
-						(eval(#
-							parse(#
-								text=paste(#
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true#
-						eval(#
-							parse(#
-								text = paste(#
-								variables[i], #
-								"_mean", #
-								sep=""#
-							)#
-						)#
-						)#
-				)^2#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_true_squared", #
-				paste(#
-					variables[i], #
-					"_mean_observed_minus_true_squared", #
-					sep=""#
-				)#
-			)#
-	}#
-	return(dataframe)#
-}#
-calculateDifferencesinMeans <- function(dataframe, variables) {#
-	# for each simulation and variable, calculate:#
-	#	observed mean - mean of observed means#
-	for (i in 1:length(variables)) {#
-		dataframe %<>%#
-			mutate(#
-				observed_minus_mean_of_observed_means = #
-						# (observed -#
-						eval(#
-							parse(#
-								text = paste(#
-									variables[i], #
-									"_mean_observed", #
-									sep=""#
-								)#
-							)#
-						) - #
-						# true)#
-						eval(#
-							parse(#
-								text = paste(#
-									variables[i], #
-									"_mean_of_observed_means", #
-									sep=""#
-								)#
-							)#
-						)#
-			) %>%#
-			setnames(#
-				., #
-				"observed_minus_mean_of_observed_means", #
-				paste(#
-					variables[i], #
-					"_observed_minus_mean_of_observed_means", #
-					sep=""#
-				)#
-			)#
-	}#
-	return(dataframe)#
-}#
-#
-#' @importFrom dplyr summarise_ n#
-#' @importFrom lazyeval interp#
-#' @importFrom rlang .data#
-#' @importFrom data.table setnames#
-#
-calculateBiasComponents	<- function(dataframe, resultslist, variables) {#
-	for (i in 1:length(variables)) {#
-		resultslist[[i]] <- list()#
-		var = sym(#
-			paste(#
-				variables[i],#
-				"_mean", #
-				sep=""#
-			)#
-		)		#
-		var_observed = sym(#
-			paste(#
-				variables[i],#
-				"_mean_observed", #
-				sep=""#
-			)#
-		)#
-		var_mean_observed_minus_true_squared = paste(#
-			variables[i],#
-			"_mean_observed_minus_true_squared",#
-			sep=""#
-		)#
-		var_var_observed = paste(#
-			variables[i],#
-			"_var_observed",#
-			sep=""#
-		)#
-		resultslist[[i]] <- dataframe %>%#
-			summarise(#
-				# save true mean#
-				mean_RB_true_mean = var(!!var)[1],#
-				# calculate mean of observed means#
-				mean_RB_mean_of_observed_means = mean(#
-					!!var_observed, na.rm=TRUE#
-				),#
-				# sample size used to calculate mean of observed means#
-				RB_n = length(!is.na(!!var_observed)),#
-				# calculate MSE#
-				MSE_sum_of_observed_minus_true_sqrd = sum(#
-					!!var_mean_observed_minus_true_squared, na.rm = TRUE#
-				), #
-				# sample size used to calculate MSE#
-				MSE_n_sims = length(#
-					!is.na(#
-						!!var_mean_observed_minus_true_squared#
-					)#
-				),#
-				# for var_RB: calculate mean of simulated HT variance estimates#
-				var_RB_mean_of_var_estimates = mean(#
-					!!var_var_observed, na.rm = TRUE#
-				), #
-				# for var_RB: sample size used to calculate mean of simulated HT variance estimates#
-				var_RB_mean_of_var_estimates_n = length(#
-					!is.na(!!var_var_observed) #
-				),#
-				# for var_RB: calculate variance of _mean_observed#
-				var_RB_var_of_mean_estimates = var(#
-					!!var_observed, na.rm = TRUE#
-				),#
-				# for var_RB: calculate sample size used to calculate variance of _mean_observed#
-				var_RB_var_of_mean_estimates_n = length(#
-					!is.na(!!var_observed)#
-				)#
-			) %>%#
-			as.data.frame#
-		resultslist[[i]] %<>% #
-			mutate(#
-				RB = 100 * #
-					(#
-						.data$mean_RB_mean_of_observed_means - #
-						.data$mean_RB_true_mean#
-					) / #
-					.data$mean_RB_true_mean,#
-				MSE = #
-				.data$MSE_sum_of_observed_minus_true_sqrd/#
-				.data$MSE_n_sims,#
-				var_RB = 100 *#
-				(#
-					.data$var_RB_mean_of_var_estimates - #
-					.data$var_RB_var_of_mean_estimates#
-				) / #
-				.data$var_RB_var_of_mean_estimates,#
-				var_RB_n = min(#
-					.data$var_RB_mean_of_var_estimates_n, #
-					.data$var_RB_var_of_mean_estimates_n#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"mean_RB_true_mean",#
-	      		paste(#
-	      			variables[i],#
-	      			"_true_mean",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"RB",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_RB",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"MSE",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_MSE",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"var_RB",#
-	      		paste(#
-	      			variables[i],#
-	      			"_var_RB",#
-	      			sep=""#
-				)#
-			) %>%#
-			# rename sample size variables#
-			setnames(#
-	      		.,#
-	      		"RB_n",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_RB_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"MSE_n_sims",#
-	      		paste(#
-	      			variables[i],#
-	      			"_mean_MSE_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			setnames(#
-	      		.,#
-	      		"var_RB_n",#
-	      		paste(#
-	      			variables[i],#
-	      			"_var_RB_n",#
-	      			sep=""#
-				)#
-			) %>%#
-			dplyr::select(-c(#
-				.data$mean_RB_mean_of_observed_means,#
-				.data$MSE_sum_of_observed_minus_true_sqrd,#
-				.data$var_RB_mean_of_var_estimates,#
-				.data$var_RB_mean_of_var_estimates_n,#
-				.data$var_RB_var_of_mean_estimates,#
-				.data$var_RB_var_of_mean_estimates_n#
-			))#
-	}#
-	return(resultslist)#
-}#
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_(.dots = c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)#
-#' @param sampling.grouping.variables Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).#
-#' @param ovar Vector of variables for which sampling bias should be estimated.#
-#' @param o_rvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.#
-#' @param rvar Variables for which to use ratio estimators#
-#
-#' @description Calculate the sampling bias of different sampling designs from simulation data.#
-#
-#' @return Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.#
-#
-#' @examples#
-#' # Create realizations#
-#' x_start = 1#
-#' x_end = 30#
-#' y_start = 1#
-#' y_end = 30#
-#' n.networks = c(5, 15, 10, 20, 30, 40)#
-#' n.realizations = 1#
-#' SpeciesInfo = PlotSurveys_season1#
-#' Species.Fields = c("Stricta", "Pusilla", "Cactus")#
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,#
-#' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, #
-#' 	start.seed=1, Species.Fields)#
-#' #
-#' # Sample from the realizations#
-#' simulations=1#
-#' nsamples=c(5,10,20,40)#
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, #
-#' 	y_end = 30)#
-#' abundance.variables = NULL#
-#' occupancy.variables = c(#
-#' 	"Stricta",#
-#' 	"Pusilla",#
-#' 	"Cactus",#
-#' 	"CACA_on_Pusilla",#
-#' 	"CACA_on_Stricta",#
-#' 	"MEPR_on_Pusilla",#
-#' 	"MEPR_on_Stricta",#
-#' 	"Old_Moth_Evidence_Pusilla",#
-#' 	"Old_Moth_Evidence_Stricta"#
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance#
-#' 	# "Percent_Cover_Stricta",#
-#' 	# "Height_Pusilla",#
-#' 	# "Height_Stricta",#
-#' )		#
-#' patch_data = cactus.realizations#
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, #
-#' #	nsamples, population, abundance.variables, occupancy.variables)#
-#' #
-#' # summary.variables = occupancy.variables#
-#' # grouping.variables = c("n.networks", "realization")#
-#' # dataset = cactus.realizations#
-#' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, #
-#' # 	summary.variables, grouping.variables)#
-#' # avar = NULL#
-#' @export#
-#
-calculateSamplingBias <- function(#
-	population_data_summary, #
-	simulation_data, #
-	population.grouping.variables, #
-	sampling.grouping.variables,#
-	ovar,#
-	o_rvar,#
-	rvar#
-)#
-{#
-	rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())#
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)#
-	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?#
-	# ------------------------------------------------------------------------ ##
-	# RATIO VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	E <- A#
-	# E %<>% filter(Stricta_mean_observed!=0)#
-	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables))#
-	E %<>% calculatedSquaredDifferences(variables=c(o_rvar, rvar_variables))#
-	E %<>% calculateDifferencesinMeans(variables=c(o_rvar, rvar_variables))#
-#
-	B %<>% calculatedSquaredDifferences(variables=ovar)#
-	B %<>% calculateDifferencesinMeans(variables=ovar)#
-	# calculate bias and MSE#
-	# occupancy variables#
-	H <- vector("list", length(ovar))#
-	X.grp <- B %>% #
-		group_by_(.dots=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		)) %>% #
-		calculateBiasComponents(., resultslist=H, variables=ovar)#
-	Y <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "ovar_n_sims")#
-	# ratio variables#
-	H <- vector("list", length(rvar))#
-	X.grp <- E %>% #
-		group_by_at(#
-			population.grouping.variables, #
-			sampling.grouping.variables, #
-			"n_sims"#
-		) %>% #
-		calculateBiasComponents(., resultslist=H, variables=rvar_variables)#
-	Z <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		X.grp#
-	) %>%#
-		setnames("n_sims", "rvar_n_sims")#
-	Y %<>% merge(Z, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		),#
-		all=T#
-	)#
-	return(Y)#
-}
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data_summary_table_original_yHT = calculateSamplingBias(#
-	population_data_summary	= patch_data_summary_wide, #
-	simulation_data		= simdata_all, #
-	sampling.grouping.variables	= sampling.grouping.variables, #
-	population.grouping.variables = population.grouping.variables,#
-	ovar			= ovar, #
-	rvar			= rvar,#
-	o_rvar			= "Stricta"#
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())#
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)#
-	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?#
-	# ------------------------------------------------------------------------ ##
-	# RATIO VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	E <- A#
-	# E %<>% filter(Stricta_mean_observed!=0)#
-	E %<>% calculateMeanofObservedMeans(dataframe=B, variables=c(rvar_variables))#
-	E %<>% calculatedSquaredDifferences(variables=c(o_rvar, rvar_variables))#
-	E %<>% calculateDifferencesinMeans(variables=c(o_rvar, rvar_variables))#
-#
-	B %<>% calculatedSquaredDifferences(variables=ovar)#
-	B %<>% calculateDifferencesinMeans(variables=ovar)#
-	# calculate bias and MSE#
-	# occupancy variables#
-	H <- vector("list", length(ovar))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_at(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_at(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#' @param population.grouping.variables Categorical variables with which to group the po
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_at(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	)#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#' Calculate Simulation Data Sampling Bias#
-#' #
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).#
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.#
-#'
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())#
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dataframe=B
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-variables=ovar
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	)#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(#
-		!!parse_quosure(population.grouping.variables), #
-		!!parse_quosure(sampling.grouping.variables), #
-		"n_sims"#
-	)
-library(rlang)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(#
-		!!parse_quosure(population.grouping.variables), #
-		!!parse_quosure(sampling.grouping.variables), #
-		"n_sims"#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(#
-		!!parse_quo(population.grouping.variables), #
-		!!parse_quo(sampling.grouping.variables), #
-		"n_sims"#
-	)#
-	# list for saving results
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(#
-		!!! population.grouping.variables, #
-		!!! sampling.grouping.variables, #
-		"n_sims"#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(#
-		!! population.grouping.variables, #
-		!!! sampling.grouping.variables, #
-		"n_sims"#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by(#
-		!!! population.grouping.variables, #
-		!!! sampling.grouping.variables, #
-		"n_sims"#
-	)
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by(#
-		!!! population.grouping.variables, #
-		!!! sampling.grouping.variables, #
-		"n_sims"#
-	)#
-	# list for saving results#
-	C <- vector("list", length(variables))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)
-str(C)
-C[[1]]
-C[[1]] %>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-group_var <- enquos(c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		))#
-	temp <- dataframe %>% group_by(#
-		!!! group_var#
-	)#
-	# list for saving results#
-	C <- vector("list", length(variables))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-group_var <- c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		)#
-	temp <- dataframe %>% group_by(#
-		!!! group_var#
-	)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)
-C[[1]] %>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-group_var <- enquos(c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-group_var <- parse_quosure(c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-group_var <- enquo(c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		))
-population.grouping.variables
-sampling.grouping.variables
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-group_var <- enquo(parse(c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		)))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-parse(c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-		))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(vars(one_of(#
-		c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-				)	)))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}
-C[[1]] %>% as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-calculateMeanofObservedMeans <- function(dataframe, variables, nsims, population.grouping.variables, sampling.grouping.variables) {#
-	# group data to prep for processing by #
-	#		population.grouping.variables, #
-	#		sampling.grouping.variables, and#
-	#		n_sims#
-	temp <- dataframe %>% group_by_at(vars(one_of(c(#
-		population.grouping.variables, #
-		sampling.grouping.variables, #
-		"n_sims"#
-	))))#
-	# list for saving results#
-	C <- vector("list", length(variables))#
-	# for each of the population.grouping.variables and sampling.grouping.variables, calculate:#
-	#	mean of observed means#
-	#	sample size used for those calculations#
-	for (i in 1:length(variables)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(#
-				paste(#
-					variables[i],#
-					"_mean_observed",#
-					sep=""#
-				)#
-			)		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				mean_of_observed_means = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"mean_of_observed_means",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means",#
-		      		sep=""#
-				)#
-			) %>%#
-			setnames(#
-		      	.,#
-		      	"sample_size",#
-		      	paste(#
-		      		variables[i],#
-		      		"_mean_of_observed_means_n",#
-		      		sep=""#
-				)#
-			)#
-	}#
-	D <- Reduce(#
-		function(x, y) merge(#
-			x, y,#
-			by=c(#
-				population.grouping.variables, #
-				sampling.grouping.variables, #
-				"n_sims"#
-			)#
-		),#
-		C#
-	)#
-	dataframe %<>% merge(#
-		D, #
-		by=c(#
-			population.grouping.variables, #
-			sampling.grouping.variables,#
-			"n_sims"#
-		)#
-	)#
-	return(dataframe)#
-}#
-#
-#'
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_variables <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=population.grouping.variables#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY VARIABLES	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by(.dots = c(#
-			population.grouping.variables, #
-			sampling.grouping.variables#
-		)) %>%#
-		mutate(n_sims = n())#
-	B %<>% calculateMeanofObservedMeans(dataframe=B, variables=ovar)#
-	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?
-population.grouping.variables
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population_data_summary	= patch_data_summary_wide
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-SamplingGroupVar	= sampling.grouping.variables
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-PopGroupVar = population.grouping.variables
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-simulation_data		= simdata_all
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-population_data_summary	= patch_data_summary_wide
-setwd('/Users/KSauby/Documents/Projects/ACSampling_project/code/Manuscript/simulations')
-o_rvar			= "Stricta"
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-resultslist[[i]] <- list()#
-		VAR = sym(paste(Vars[i],"_mean", sep=""))		#
-		var_observed = sym(paste(Vars[i],"MeanObs", sep=""))#
-		varMeanObs_True2 = sym(paste(Vars[i],"MeanObs_True2",sep=""))#
-		var_var_observed = sym(paste(Vars[i],"_var_observed",sep=""))#
-		resultslist[[i]] <- dataframe %>%#
-			summarise(#
-				# save true mean#
-				mean_RB_true_mean = var(!!VAR)[1],#
-				MeanRBMeanOfObsMean = mean(!!var_observed, na.rm=TRUE),#
-				RB_n = length(!is.na(!!var_observed)),#
-				MSESumObs_True2 = sum(!!VarMeanObsMinusTrue2, na.rm = TRUE), #
-				MSESampleSize = length(!is.na(!!VarMeanObsMinusTrue2)),#
-				# for var_RB: calculate mean of simulated HT variance estimates#
-				varRBMeanOfVarEst = mean(!!var_var_observed, na.rm = TRUE), #
-				# for var_RB: sample size used to calculate mean of simulated HT variance estimates#
-				varRBMeanOfVarEst_n = length(!is.na(!!var_var_observed)),#
-				# for var_RB: calculate variance of MeanObs#
-				varRBVarOfMeanEst = var(!!var_observed, na.rm = TRUE),#
-				# for var_RB: calculate sample size used to calculate variance of MeanObs#
-				varRBVarOfMeanEst_n = length(!is.na(!!var_observed))#
-			) %>%#
-			as.data.frame
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-for (i in 1:length(Vars)) {#
-		resultslist[[i]] <- list()#
-		VAR = sym(paste(Vars[i],"_mean", sep=""))		#
-		var_observed = sym(paste(Vars[i],"MeanObs", sep=""))#
-		varMeanObs_True2 = sym(paste(Vars[i],"MeanObs_True2",sep=""))#
-		var_var_observed = sym(paste(Vars[i],"_var_observed",sep=""))#
-		resultslist[[i]] <- dataframe %>%#
-			summarise(#
-				# save true mean#
-				mean_RB_true_mean = var(!!VAR)[1],#
-				MeanRBMeanOfObsMean = mean(!!var_observed, na.rm=TRUE),#
-				RB_n = length(!is.na(!!var_observed)),#
-				MSESumObs_True2 = sum(!!VarMeanObsMinusTrue2, na.rm = TRUE), #
-				MSESampleSize = length(!is.na(!!VarMeanObsMinusTrue2)),#
-				# for var_RB: calculate mean of simulated HT variance estimates#
-				varRBMeanOfVarEst = mean(!!var_var_observed, na.rm = TRUE), #
-				# for var_RB: sample size used to calculate mean of simulated HT variance estimates#
-				varRBMeanOfVarEst_n = length(!is.na(!!var_var_observed)),#
-				# for var_RB: calculate variance of MeanObs#
-				varRBVarOfMeanEst = var(!!var_observed, na.rm = TRUE),#
-				# for var_RB: calculate sample size used to calculate variance of MeanObs#
-				varRBVarOfMeanEst_n = length(!is.na(!!var_observed))#
-			) %>%#
-			as.data.frame
-()
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-resultslist[[i]] <- list()#
-		VAR = sym(paste(Vars[i],"_mean", sep=""))		#
-		var_observed = sym(paste(Vars[i],"MeanObs", sep=""))#
-		varMeanObs_True2 = sym(paste(Vars[i],"MeanObs_True2",sep=""))#
-		var_var_observed = sym(paste(Vars[i],"_var_observed",sep=""))#
-		resultslist[[i]] <- dataframe %>%#
-			summarise(#
-				# save true mean#
-				mean_RB_true_mean = var(!!VAR)[1],#
-				MeanRBMeanOfObsMean = mean(!!var_observed, na.rm=TRUE),#
-				RB_n = length(!is.na(!!var_observed)),#
-				MSESumObs_True2 = sum(!!VarMeanObsMinusTrue2, na.rm = TRUE), #
-				MSESampleSize = length(!is.na(!!VarMeanObsMinusTrue2)),#
-				# for var_RB: calculate mean of simulated HT variance estimates#
-				varRBMeanOfVarEst = mean(!!var_var_observed, na.rm = TRUE), #
-				# for var_RB: sample size used to calculate mean of simulated HT variance estimates#
-				varRBMeanOfVarEst_n = length(!is.na(!!var_var_observed)),#
-				# for var_RB: calculate variance of MeanObs#
-				varRBVarOfMeanEst = var(!!var_observed, na.rm = TRUE),#
-				# for var_RB: calculate sample size used to calculate variance of MeanObs#
-				varRBVarOfMeanEst_n = length(!is.na(!!var_observed))#
-			)#
-		resultslist[[i]] %<>% #
-			mutate(#
-				RB = 100 * #
-					(.data$MeanRBMeanOfObsMean - .data$mean_RB_true_mean) / #
-					.data$mean_RB_true_mean,#
-				MSE = #
-					.data$MSESumObs_True2/#
-					.data$MSESampleSize,#
-				var_RB = 100 *#
-					(.data$varRBMeanOfVarEst - .data$varRBVarOfMeanEst) / #
-					.data$varRBVarOfMeanEst,#
-				var_RB_n = min(#
-					.data$varRBMeanOfVarEst_n, #
-					.data$varRBVarOfMeanEst_n#
-				)#
-			)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Vars
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_Vars <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=PopGroupVar#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY Vars	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-#
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by_at(vars(one_of(c(PopGroupVar, SamplingGroupVar)) %>%#
-		mutate(n_sims = n())
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_Vars <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=PopGroupVar#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY Vars	#
-	# ------------------------------------------------------------------------ ##
-	B <- A
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-B %<>% #
-		group_by_at(vars(one_of(c(PopGroupVar, SamplingGroupVar)) %>%#
-		mutate(n_sims = n())
-)
-)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-rvar_Vars <- paste(rvar, "_ratio", sep="")#
-	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL#
-	A <- merge(#
-		population_data_summary, #
-		simulation_data, #
-		by=PopGroupVar#
-	)#
-	# ------------------------------------------------------------------------ ##
-	# OCCUPANCY Vars	#
-	# ------------------------------------------------------------------------ ##
-	B <- A #
-#
-	# add number of simulations to dataset#
-	B %<>% #
-		group_by_at(vars(one_of(c(PopGroupVar, SamplingGroupVar)))) %>%#
-		mutate(n_sims = n())
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-dataframe=B
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-Vars=ovar
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-temp <- dataframe %>% group_by_at(vars(one_of(c(#
-		PopGroupVar, SamplingGroupVar, "n_sims"#
-	))))#
-	C <- vector("list", length(Vars))
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-for (i in 1:length(Vars)) {#
-		C[[i]] <- list()#
-		# observed mean#
-		var = sym(paste(Vars[i],"MeanObs",sep=""))		#
-		C[[i]] <- temp %>%#
-			summarise(#
-				MeanObsMeans = mean(!!var, na.rm=T),#
-				sample_size = length(!is.na(!!var))#
-			)#
-		cnames <- c(#
-			paste(Vars[i], "_MeanObsMeans", sep=""),#
-			paste(Vars[i], "_MeanObsMeans_n", sep="")#
-		)#
-		C[[i]] %<>% #
-			rename(#
-				!!cnames[1] := MeanObsMeans,#
-				!!cnames[2] := sample_size#
-			)#
-	}
-head(C[[i]])
-head(temp)
-setwd('/Users/KSauby/Documents/Projects/ACS/R')
-population.grouping.Vars
+						)))
