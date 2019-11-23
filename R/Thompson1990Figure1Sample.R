@@ -8,6 +8,6 @@
 #' }
 #'
 #' @format A data frame with 10 rows and 2 variables
-#' @name Thompson1990Figure1Sample
+#' @name Thompson1990Fig1Sample
 #' @references Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 NULL

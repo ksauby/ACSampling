@@ -1,4 +1,4 @@
-#' Create multiple cactus patch realizations
+#' Create multiple realizations from data
 
 #' @param x_start The most western coordinate of the grid.
 #' @param x_end The most eastern coordinate of the grid.
@@ -73,7 +73,7 @@
 #' y_end = 20
 #' n.networks = c(1,2,3)
 #' n.realizations = 1
-#' SpeciesInfo = Thompson1990Figure1Population %>% 
+#' SpeciesInfo = Thompson1990Fig1Pop %>% 
 #' 	filter(m > 1) %>% 
 #' 	createNetworks
 #' variables = "y_value"
@@ -104,7 +104,7 @@
 #' 	geom_text(aes(label=NetworkID), hjust=0, vjust=0)
 #' @export
 
-createSpeciesPatchRealizations <- function(
+createRealizations <- function(
 	x_start, 
 	x_end, 
 	y_start, 

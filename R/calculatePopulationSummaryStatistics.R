@@ -41,7 +41,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{popgroupvar}.
 
 #' @export
-#' @importFrom dplyr group_by_ ungroup arrange_
+#' @importFrom dplyr ungroup sym group_by_at
 #' @importFrom stringr str_sub
 #' @importFrom stats var
 #' @importFrom sp coordinates

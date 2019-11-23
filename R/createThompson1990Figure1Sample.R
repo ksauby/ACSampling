@@ -1,12 +1,12 @@
 #' Create the population displayed in Figure 1 from Thompson (1990)
 #' 
 #' @return The population displayed in Figure 1 from Thompson (1990).
-#' @examples createThompson1990Figure1Sample()
+#' @examples createThompson1990Fig1Sample()
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 #' @export
 
-createThompson1990Figure1Sample <- function() {
+Thompson1990Fig1Sample <- function() {
 	sample = rbind(
 			c(6,19),
 			c(18,18),

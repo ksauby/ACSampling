@@ -11,7 +11,7 @@
 #' }
 #'
 #' @format A data frame with 400 rows and 5 variables
-#' @name Thompson1990Figure1Population
+#' @name Thompson1990Fig1Pop
 #' @references Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 #' @examples 
 #' library(ggplot2)

@@ -5,8 +5,8 @@
 #' library(ggplot2)
 #' library(magrittr)
 #' library(dplyr)
-#' Thompson1990Figure1Population <- createThompson1990Figure1Population()
-#' p <- ggplot(Thompson1990Figure1Population %>% filter(m>1), aes(x, y, 
+#' Thompson1990Fig1Pop <- createThompson1990Fig1Pop()
+#' p <- ggplot(Thompson1990Fig1Pop %>% filter(m>1), aes(x, y, 
 #' 	colour=NetworkID, label=NetworkID))
 #' p + annotate("rect", xmin=1, xmax=20, ymin=1, ymax=20, alpha=0, 
 #' colour="grey") + 
@@ -17,7 +17,7 @@
 #' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 #' @export
 
-createThompson1990Figure1Population <- function() {
+createThompson1990Fig1Pop <- function() {
 	y_value <- NetworkID <- x <- y <- m <- NULL
 	# create population
 	empty = rep(0,20)

@@ -62,7 +62,7 @@ createCactusRealizations <- function(PlotSurveys_season1, ovar) {
 	start.seed		<- 1
 	variables		<- ovar
 	# CREATE REALIZATIONS
-	patch_data <- createSpeciesPatchRealizations(
+	patch_data <- createRealizations(
 		x_start, 
 		x_end,
 		y_start, 

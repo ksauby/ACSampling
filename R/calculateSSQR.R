@@ -11,30 +11,26 @@
 #' @export
 #' @references su2003estimator
 
+data(Thompson1990Figure1Population)
+temp <- Thompson1990Figure1Population %>%
+	mutate(pop = 1)
+popdata <- temp
+variable <- "y_value"
+popgroupvar <- "pop"
+
+
 calculateSSQR <- function(popdata, variable, popgroupvar) {
+	VAR <- sym(variable)
 	if (is.null(popgroupvar)) {
-		variable_value <- popdata %>%
-			mutate_(
-				variable_value = interp(
-					~var, 
-					var = as.name(variable)
-				)
-			)
+		
 		network_mean <- popdata %>%
 			group_by(NetworkID) %>%
-			summarise_(
-				network_mean = interp(
-					~mean(var, na.rm = TRUE), 
-					var = as.name(variable)
-				)
+			summarise(
+				network_mean = mean(!!VAR, na.rm = TRUE)
 			)
 		overall_mean <- popdata %>%
-			summarise_(
-				overall_mean = interp(
-					~mean(var, na.rm = TRUE), 
-					var = 
-					as.name(variable)
-				)
+			summarise(
+				overall_mean = mean(!!VAR, na.rm = TRUE)
 			)
 		variable_value %>% merge(
 			network_mean, 
