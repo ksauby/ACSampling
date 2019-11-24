@@ -34,7 +34,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' @param summaryvar Vector of variables for which summary statistics should be calculated.
 #' @param popgroupvar String identifying the categorical variable identifying the different populations.
 #' @param rvar Vector of variables for which ratio estimators should be used.
-#' @param weights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
+#' @param spatweights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
 
 #' @description Calculates summary statistics for patch population data.
 
@@ -83,18 +83,19 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 #' 	ovar)
 #' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
-#' 	summaryvar=ovar, popgroupvar=popgroupvar)
+#' 	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 	
 calculatePopSummaryStats <- function(
 	popdata, 
 	summaryvar, 
 	rvar=NULL, 
 	popgroupvar,
-	weights="S",
+	spatweights="S",
 	nrow,
 	ncol
 ) {
-	popdata %<>% arrange(!! sym(popgroupvar))
+	POPVAR <- sym(popgroupvar)
+	popdata %<>% arrange(!!POPVAR)
 	# for each popgroupvar combo, calculate summary statistics for m and number of species patches
 	# this calculates the m statistics for the unique Network sizes
 	Y1 <- popdata %>%
@@ -139,7 +140,7 @@ calculatePopSummaryStats <- function(
 	)
 	for (i in 1:length(unique(eval(parse(text=popvar))))) {
 		temp <- popdata %>%
-			filter(!!sym(popgroupvar)==unique(!!sym(popgroupvar))[i])
+			filter(!!POPVAR == unique(!!POPVAR)[i])
 		temp %<>% arrange(.data$x,.data$y)
 		# spatial statistics
 		coordinates(temp) = ~ x + y
@@ -174,8 +175,8 @@ calculatePopSummaryStats <- function(
 			if (length(tempvar[which(tempvar > 0)]) > 0) {
 				# join counts and moran's i
 				nb <- cell2nb(nrow = nrow, ncol = ncol)
-				if ("W" %in% weights) {
-					lwb <- nb2listw(nb, style = "W") # convert to weights
+				if ("W" %in% spatweights) {
+					lwb <- nb2listw(nb, style = "W") # convert to spatweights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(
 						eval(parse(text=paste(
@@ -194,8 +195,8 @@ calculatePopSummaryStats <- function(
 						lwb
 					)$estimate[1]
 				}
-				if ("B" %in% weights) {
-					lwb <- nb2listw(nb, style = "B") # convert to weights
+				if ("B" %in% spatweights) {
+					lwb <- nb2listw(nb, style = "B") # convert to spatweights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(
 						eval(parse(text=paste(
@@ -214,8 +215,8 @@ calculatePopSummaryStats <- function(
 						lwb
 					)$estimate[1]
 				}	
-				if ("C" %in% weights) {
-					lwb <- nb2listw(nb, style = "C") # convert to weights
+				if ("C" %in% spatweights) {
+					lwb <- nb2listw(nb, style = "C") # convert to spatweights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(
 						eval(parse(text=paste(
@@ -234,8 +235,8 @@ calculatePopSummaryStats <- function(
 						lwb
 					)$estimate[1]
 				}	
-				if ("U" %in% weights) {
-					lwb <- nb2listw(nb, style = "U") # convert to weights
+				if ("U" %in% spatweights) {
+					lwb <- nb2listw(nb, style = "U") # convert to spatweights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(
 						eval(parse(text=paste(
@@ -254,8 +255,8 @@ calculatePopSummaryStats <- function(
 						lwb
 					)$estimate[1]
 				}	
-				if ("S" %in% weights) {
-					lwb <- nb2listw(nb, style = "S") # convert to weights
+				if ("S" %in% spatweights) {
+					lwb <- nb2listw(nb, style = "S") # convert to spatweights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(
 						# NEED TO FIGURE OUT HOW TO GET RID OF NAs
@@ -276,11 +277,11 @@ calculatePopSummaryStats <- function(
 						lwb
 					)$estimate[1]
 				}	
-				if ("minmax" %in% weights) {
-					lwb <- nb2listw(nb, style = "minmax") # convert to weights
+				if ("minmax" %in% spatweights) {
+					lwb <- nb2listw(nb, style = "minmax") # convert to spatweights
 					# I think cells are indexed by row, then column
-					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(
-						eval(parse(text=paste(
+					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(
+						as.factor(eval(parse(text=paste(
 							"temp2$",
 							summaryvar[j],
 							sep=""
@@ -297,27 +298,27 @@ calculatePopSummaryStats <- function(
 					)$estimate[1]
 				}	
 			} else {
-				if ("W" %in% weights) {
+				if ("W" %in% spatweights) {
 					A[[i]][[j]]$JoinCountTest.W <- NA
 					A[[i]][[j]]$MoranI.W <- NA
 				}
-				if ("B" %in% weights) {
+				if ("B" %in% spatweights) {
 					A[[i]][[j]]$JoinCountTest.B <- NA
 					A[[i]][[j]]$MoranI.B <- NA
 				}	
-				if ("C" %in% weights) {
+				if ("C" %in% spatweights) {
 					A[[i]][[j]]$JoinCountTest.C <- NA
 					A[[i]][[j]]$MoranI.C <- NA
 				}	
-				if ("U" %in% weights) {
+				if ("U" %in% spatweights) {
 					A[[i]][[j]]$JoinCountTest.U <- NA
 					A[[i]][[j]]$MoranI.U <- NA
 				}	
-				if ("S" %in% weights) {
+				if ("S" %in% spatweights) {
 					A[[i]][[j]]$JoinCountTest.S <- NA
 					A[[i]][[j]]$MoranI.S <- NA
 				}	
-				if ("minmax" %in% weights) {
+				if ("minmax" %in% spatweights) {
 					A[[i]][[j]]$JoinCountTest.minmax <- NA
 					A[[i]][[j]]$MoranI.minmax <- NA
 				}	
@@ -333,10 +334,12 @@ calculatePopSummaryStats <- function(
 		)))[i]
 	}
 	B <- do.call(rbind.data.frame, A)
-	B %<>% arrange(.data$variable, .data$population) %>%
-		setnames("Mean_tempvar", "Mean") %>%
-		setnames("Var_tempvar", "Var") %>%
-		setnames("CV_tempvar", "CV") %>%
-		setnames("Total_tempvar", "Total")
+	B %<>% arrange(variable, population) %>%
+		dplyr::rename(
+			Mean = Mean_tempvar,
+			Var = Var_tempvar,
+			CV = CV_tempvar,
+			Total = Total_tempvar
+		)
 	return(list(Y1, B))
 }

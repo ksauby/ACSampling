@@ -81,7 +81,7 @@
 #' start.seed=1
 #' 
 #' # create realizations
-#' Thompson.realizations = createSpeciesPatchRealizations(x_start, x_end,
+#' Thompson.realizations = createRealizations(x_start, x_end,
 #'	 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, 
 #'		start.seed, variables)	
 #' 

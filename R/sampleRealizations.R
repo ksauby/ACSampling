@@ -1,6 +1,6 @@
 #' Sample species patch realizations simulations
 
-#' @param yVar variable upon which adaptive cluster sampling criterion is based
+#' @param yvar variable upon which adaptive cluster sampling criterion is based
 #' @param popdata patch realizations
 #' @param sims Number of simulations per population.
 #' @param n1 Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
@@ -51,7 +51,7 @@
 #' )		
 #' # popdata = cactus.realizations
 #' # simulation_data <- sampleSpeciesPatchRealizations(popdata, sims, 
-#' # 	n1, population, avar, ovar)
+#' # 	n1, population, avar, ovar, yvar="Cactus")
 #' # sims=200
 #' # #n1=c(75,150,225,300,350)
 #' # simulation_data_SRSWOR <- sampleSpeciesPatchRealizations(popdata, 
@@ -71,7 +71,7 @@ sampleRealizations <- function(
 	rvar,
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
-	yVar,
+	yvar,
 	y_HT_formula = "y_HT",
 	var_formula = "var_y_HT",
 	mThreshold = NULL,
@@ -84,9 +84,11 @@ sampleRealizations <- function(
 	weights="S"
 ) 
 {
+	POPVAR <- sym(popvar)
+	REALVAR <- sym(realvar)
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 					<- Sys.time()
-	popdata 				%<>% arrange(!!! syms(c(popvar, realvar)))
+	popdata 				%<>% arrange_at(c(popvar, realvar))
 	var 					<- c(ovar, avar, rvar)
 	n.patches 				<- length(unique(eval(parse(text=paste(
 								"popdata$",
@@ -97,6 +99,7 @@ sampleRealizations <- function(
 	A 						<- vector("list", n.patches)
 	# c() - same code calculates the HT estimators for occupancy and abundance
 	oavar 					<- c(ovar, avar)
+	OAVAR <- syms(oavar)
 	# empty dataframes will be cbind'd together after HT estimators calculated
 	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) 
 	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))
@@ -140,26 +143,25 @@ sampleRealizations <- function(
 				if (SamplingDesign=="ACS")
 				{
 					alldata <- createACS(
-						PopData=P, 
+						popdata=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						yVar=yVar
-					) %>% 
-						as.data.table
+						yvar=yvar
+					)
 				} else if (SamplingDesign=="RACS")
 				{
 					alldata <- createRACS(
-						PopData=P, 
+						popdata=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						yVar=yVar,
+						yvar=yvar,
 						f_max=f_max
 					) %>% 
 						as.data.table
 				} else
 				{
 					alldata <- createSRS(
-						PopData=P, 
+						popdata=P, 
 						seed=temp_seed, 
 						n1=n1
 					) %>% 
@@ -175,10 +177,8 @@ sampleRealizations <- function(
 					if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
 						################ SRSWOR Data, alldata ################
 						SRSWOR_data <- alldata %>% 
-							filter(Sampling=="SRSWOR") %>% 
-							as.data.table
-						alldata %<>% filter(Sampling!="Edge") %>% 
-							as.data.table
+							filter(Sampling=="SRSWOR")
+						alldata %<>% filter(Sampling!="Edge")
 						# datasets to apply simple mean/variance and simple ratio estimatr
 						dats <- c("SRSWOR_data", "alldata")
 					}
@@ -259,33 +259,27 @@ sampleRealizations <- function(
 				    SampleMeanVar %<>% merge(SmpRatio)	
 				} else
 				{
-					alldata %<>% filter(Sampling!="Edge") %>% 
-						as.data.table
+					alldata %<>% filter(Sampling!="Edge")
 				}
 				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
 					################ HORVITZ-THOMPSON ESTIMATORS ###############
 					HT_results <- list()
-					alldata %<>% setkey(NetworkID)
 					# OCCUPANCY AND ABUNDANCE
 					# summarise data for mean calculations
 					O <- alldata %>% 
 						filter(Sampling!="Edge") %>%
-						select_(.dots=c(oavar,"NetworkID","m")) %>%
-						as.data.table
+						select(!!!OAVAR, NetworkID, m)
 					# calculate y_HT
 					m <- O$m
 					if (y_HT_formula == "y_HT_RACS")
 					{
 						HT_results[[1]] <- O %>%
-						.[, oavar, with=FALSE] %>% 
-							.[, lapply(
-								.SD,
-								new_y_HT,
-								N	= N, 
+							dplyr::select(!!!OAVAR) %>%
+							map( ~new_y_HT(y = .,  N= N, 
 								n1	= n1,
 								m	= m,
-								mThreshold = mThreshold
-							)]
+								m_threshold = 2))
+							
 					} else if (y_HT_formula == "y_HT")
 					{
 						HT_results[[1]] <- O %>%
@@ -446,7 +440,7 @@ sampleRealizations <- function(
 				if (mChar == TRUE) {
 					if (sum(alldata_all$Cactus) > 0) {
 						temp <- alldata_all[which(
-							eval(parse(text=yVar)) > 0
+							eval(parse(text=yvar)) > 0
 						),] 
 						A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
 						A[[i]][[j]][[k]]$median_m <- median(temp$m)

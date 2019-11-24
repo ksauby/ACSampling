@@ -158,7 +158,7 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' Calculate Simulation Data Sampling Bias
 #' 
 #' @param popdatasummary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
-#' @param simulation_data Simulation data on sampling of the multiple patch realizations.
+#' @param simdata Simulation data on sampling of the multiple patch realizations.
 #' @param popgroupvar Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)
 #' @param samplinggroupvar Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
 #' @param ovar Vector of variables for which sampling bias should be estimated.
@@ -205,7 +205,7 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' 	# "Height_Stricta",
 #' )		
 #' patch_data = cactus.realizations
-#' # simulation_data <- sampleSpeciesPatchRealizations(patch_data, simulations, 
+#' # simdata <- sampleSpeciesPatchRealizations(patch_data, simulations, 
 #' #	nsamples, population, abundance.variables, occupancy.variables)
 #' 
 #' # summary.variables = occupancy.variables
@@ -213,12 +213,68 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' # dataset = cactus.realizations
 #' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, 
 #' # 	summary.variables, grouping.variables)
+
+sims=200
+n1=c(5,10,20,40)
+population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+avar = NULL
+ovar = c(
+	"Stricta",
+	"Pusilla",
+	"Cactus",
+	"CACA_on_Pusilla",
+	"CACA_on_Stricta",
+	"MEPR_on_Pusilla",
+	"MEPR_on_Stricta",
+	"Old_Moth_Evidence_Pusilla",
+	"Old_Moth_Evidence_Stricta"
+	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
+	# "Percent_Cover_Stricta",
+	# "Height_Pusilla",
+	# "Height_Stricta",
+)		
+popdata = cactus.realizations
+simulation_data <- sampleRealizations(popdata, sims, 
+n1, population, avar, ovar)
+
+CactusRealizationSummary <- calculatePopSummaryStats(
+	popdata = CactusRealizations, 
+	summaryvar = c("Stricta", "Pusilla", "Cactus",
+		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+	popgroupvar = "population", 
+	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+		"Percent_Cover_Stricta", "Height_Stricta", 
+		"Old_Moth_Evidence_Stricta"),
+	nrow=30,
+	ncol=30
+)
+patch_data_summary_wide <- createWidePopSummaryStats(
+	popsummarystats = CactusRealizationSummary,
+	ovar = "Stricta",
+	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+		"Height_Stricta", "Old_Moth_Evidence_Stricta")
+)
+
+
+
+simdata_summary_table_re = calculateSamplingBias(
+	popdatasummary	= patch_data_summary_wide, 
+	simdata		= simdata_all_re, 
+	sampgroupvar	= sampgroupvar, 
+	popgroupvar = popgroupvar,
+	ovar			= ovar, 
+	rvar				= rvar
+)
+
+
+
 #' # avar = NULL
 #' @export
 
 calculateSamplingBias <- function(
 	popdatasummary, 
-	simulation_data, 
+	simdata, 
 	popgroupvar, 
 	samplinggroupvar,
 	ovar,
@@ -230,7 +286,7 @@ calculateSamplingBias <- function(
 	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL
 	A <- merge(
 		popdatasummary, 
-		simulation_data, 
+		simdata, 
 		by=popgroupvar
 	)
 	# ------------------------------------------------------------------------ #
