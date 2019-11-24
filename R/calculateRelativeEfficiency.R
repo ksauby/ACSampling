@@ -1,9 +1,9 @@
 #' Calculate Relative Efficiency (RE)
 #' 
 #' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
-#' @param population.grouping.variables Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}). WHAT ELSE
-#' @param population_data Dataframe of population data.
-#' @param sample.size.variable Name of column in population data (?) containing the variable indicating variation in sample size.
+#' @param popgroupvar Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}). WHAT ELSE
+#' @param popdata Dataframe of population data.
+#' @param samplesizevar Name of column in population data (?) containing the variable indicating variation in sample size.
 #' @param rvar Ratio variables.
 #' @param ovar Occupancy variables.
 
@@ -16,45 +16,45 @@
 #' @importFrom utils getFromNamespace
 
 # dimensions of populations
-# dimensions <- population_data %>% 
-#	group_by_(.dots=population.grouping.variables) %>%
+# dimensions <- popdata %>% 
+#	group_by_(.dots=popgroupvar) %>%
 #	summarise(N = n())
 # variances of populations
 
 calculateRE <- function(
 	MSE_ComparisonSamplingDesign,
-	population_data,
-	population.grouping.variables,
-	sample.size.variable,
+	popdata,
+	popgroupvar,
+	samplesizevar,
 	rvar,
 	ovar
 ) {	
 	melt.data.frame = getFromNamespace("melt.data.frame", "reshape2")
 	X <- NULL
 	X <- MSE_ComparisonSamplingDesign
-	if (sample.size.variable %in% names(X)) {
-		colnames(X)[names(X) == sample.size.variable] <- "sample.size.variable"
+	if (samplesizevar %in% names(X)) {
+		colnames(X)[names(X) == samplesizevar] <- "samplesizevar"
 	}
 	# "long" format of mean MSE
 	A <- X %>% select_(.dots=c(
-		population.grouping.variables,
-		"sample.size.variable",
+		popgroupvar,
+		"samplesizevar",
 		paste(ovar, "_mean_MSE", sep=""),
 		paste(rvar, "_ratio_mean_MSE", sep="")		
 	)) %>%
 	melt.data.frame(
 		data=.,
 		id.vars=c(
-			population.grouping.variables,
-			"sample.size.variable"
+			popgroupvar,
+			"samplesizevar"
 		),
 		value.name="mean_MSE"
 	)
 	A$variable <- sub("*_mean_MSE", "", A$variable)
 	# "long" format of population variance
-	B <- population_data %>% 
+	B <- popdata %>% 
 		select_(.dots=c(
-			population.grouping.variables,
+			popgroupvar,
 			paste(ovar, "_var", sep=""),
 			paste(rvar, "_ratio_var", sep=""),
 			"N"
@@ -62,7 +62,7 @@ calculateRE <- function(
 		melt.data.frame(
 			data=.,
 			id.vars=c(
-				population.grouping.variables,
+				popgroupvar,
 				"N"
 			),
 			value.name="population_variance"
@@ -73,15 +73,15 @@ calculateRE <- function(
 		merge(
 			B, 
 			by=c(
-				population.grouping.variables, 
+				popgroupvar, 
 				"variable"
 			)
 		)
 	# calculate efficiency
 	Z %<>% mutate(
 		RE = (
-			.data$population_variance/sample.size.variable *
-			(1 - sample.size.variable/.data$N)
+			.data$population_variance/samplesizevar *
+			(1 - samplesizevar/.data$N)
 		)
 		/	.data$mean_MSE
 	)
@@ -89,11 +89,11 @@ calculateRE <- function(
 	Z %<>%
 	dcast(
 		list(
-			c(population.grouping.variables, "N", "sample.size.variable"),
+			c(popgroupvar, "N", "samplesizevar"),
 			c("variable")
 		),
 		value.var="RE"
 		)
-	colnames(Z)[names(Z) == "sample.size.variable"] <- sample.size.variable
+	colnames(Z)[names(Z) == "samplesizevar"] <- samplesizevar
 	return(Z)
 }

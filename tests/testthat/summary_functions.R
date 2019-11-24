@@ -130,13 +130,17 @@ test_that("calculatePopulationSummaryStatistics", {
 
 
 test_that("Sampling Bias and Relative Efficiency, population 6, SamplingDesign=ACS, N.SRSWOR.plots==100", {	
-	patch_data_summary_wide <- createWidePopulationSummaryStatistics(
-		PopulationSummaryStatistics = CactusRealizationSummary,
+	patch_data_summary_wide <- createWidePopSummaryStats(
+		popsummarystats = CactusRealizationSummary,
 		ovar = "Stricta",
 		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 			"Height_Stricta", "Old_Moth_Evidence_Stricta")
 	)
 	population_6 <- patch_data_summary_wide %>% filter(population==6)
+	
+	
+	# WHERE DOES SIMULATION DATA COME FROM
+	 
 	# MANUALLY CALCULATE MSE and RE
 	temp_sim_data <- simulation_data %>% filter(
 		population==6, 
@@ -302,8 +306,8 @@ test_that("Sampling Bias and Relative Efficiency, population 6, SamplingDesign=A
 
 
 test_that("Sampling Bias and Relative Efficiency, population 1, SamplingDesign=ACS, N.SRSWOR.plots==40", {	
-	patch_data_summary_wide <- createWidePopulationSummaryStatistics(
-		PopulationSummaryStatistics = CactusRealizationSummary,
+	patch_data_summary_wide <- createWidePopSummaryStats(
+		popsummarystats = CactusRealizationSummary,
 		ovar = "Stricta",
 		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 			"Height_Stricta", "Old_Moth_Evidence_Stricta")

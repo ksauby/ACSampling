@@ -1,44 +1,59 @@
-#' Create "Wide" Format Population Summary Statistics for Patch Population Data
+#' Create "Wide" Format Population Summary Statistics for Population Data
 #' 
-#' @param PopulationSummaryStatistics Created by the function calculatePopulationSummaryStatistics.
-#' @param ovar list of occupancy variables
-#' @param rvar list of ratio variables
+#' @param popsummarystats Created by the function calculatePopSummaryStats.
+#' @param ovar vector of occupancy variables
+#' @param rvar vector of ratio variables
 #' @return Dataframe with a column per mean/variance of each variable and a row per population.
 #' @export
+CactusRealizationSummary <- calculatePopSummaryStats(
+	popdata = CactusRealizations, 
+	summaryvar = c("Stricta", "Pusilla", "Cactus",
+		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+	popgroupvar = "population", 
+	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+		"Percent_Cover_Stricta", "Height_Stricta", 
+		"Old_Moth_Evidence_Stricta"),
+	nrow=30,
+	ncol=30
+)
+patch_data_summary_wide <- createWidePopSummaryStats(
+	popsummarystats = CactusRealizationSummary,
+	ovar = "Stricta",
+	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+		"Height_Stricta", "Old_Moth_Evidence_Stricta")
+)
 
 
-createWidePopSummaryStats <- function(PopulationSummaryStatistics, ovar, rvar) {
+createWidePopSummaryStats <- function(popsummarystats, ovar, rvar) {
 	# variance
-	A <- PopulationSummaryStatistics[[2]] %>%
+	popsummarystats[[2]]$variable %<>% as.character()
+	A <- popsummarystats[[2]] %>%
 		select(.data$Var, .data$variable, .data$population) %>%
-		rowwise() %>%
 		mutate(
-			variable = replace(
-				.data$variable,
-				which(.data$variable %in% rvar),
-				paste(.data$variable, "ratio", sep="_")
+			variable = ifelse(
+				.data$variable %in% rvar,
+				paste(.data$variable, "ratio", sep="_"),
+				.data$variable
 			)
 		) %>%
-		ungroup() %>%
-		reshape2::dcast(., population ~ variable, value.var="Var")
-	nvar <- length(unique(PopulationSummaryStatistics[[2]]$variable))
+		spread(key=variable, value=Var)
+	nvar <- length(unique(popsummarystats[[2]]$variable))
 	names(A)[2:(nvar + 1)] <- paste(names(A)[2:(nvar + 1)], "var", sep="_")
 	# mean
-	B <- PopulationSummaryStatistics[[2]] %>%
+	B <- popsummarystats[[2]] %>%
 		select(.data$Mean, .data$variable, .data$population) %>%
-		rowwise() %>%
 		mutate(
-			variable = replace(
-				.data$variable,
-				which(.data$variable %in% rvar),
-				paste(.data$variable, "ratio", sep="_")
-				)
+			variable = ifelse(
+				.data$variable %in% rvar,
+				paste(.data$variable, "ratio", sep="_"),
+				.data$variable
+			)
 		) %>%
-		ungroup() %>%
-		reshape2::dcast(., population ~ variable, value.var="Mean")
+		spread(key=variable, value=Mean)
 	names(B)[2:(nvar + 1)] <- paste(names(B)[2:(nvar + 1)], "mean", sep="_")
 	# population size
-	C <- PopulationSummaryStatistics[[1]] %>%
+	C <- popsummarystats[[1]] %>%
 		select(.data$population, .data$N)
 	# merge all together
 	merge(A, B, by="population") %>% merge(C, by="population")

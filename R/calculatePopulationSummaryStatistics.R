@@ -164,7 +164,7 @@ calculatePopSummaryStats <- function(
 			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)
 			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)
 			A[[i]][[j]]$SSQ_R			<- calculateSSQR(
-				patch_data = as.data.frame(temp),
+				popdata = as.data.frame(temp),
 				variable = summaryvar[j],
 				popgroupvar
 			)$SSQ_R
