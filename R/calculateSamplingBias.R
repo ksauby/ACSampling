@@ -157,7 +157,7 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 
 #' Calculate Simulation Data Sampling Bias
 #' 
-#' @param population_data_summary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
+#' @param popdatasummary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
 #' @param simulation_data Simulation data on sampling of the multiple patch realizations.
 #' @param popgroupvar Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)
 #' @param samplinggroupvar Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
@@ -217,7 +217,7 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' @export
 
 calculateSamplingBias <- function(
-	population_data_summary, 
+	popdatasummary, 
 	simulation_data, 
 	popgroupvar, 
 	samplinggroupvar,
@@ -229,7 +229,7 @@ calculateSamplingBias <- function(
 	rvarnames <- paste(rvar, "_ratio", sep="")
 	. <- n_sims <- A <- B <- C <- D <- E <- I <- G <- H <- NULL
 	A <- merge(
-		population_data_summary, 
+		popdatasummary, 
 		simulation_data, 
 		by=popgroupvar
 	)

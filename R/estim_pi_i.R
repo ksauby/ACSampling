@@ -29,7 +29,7 @@
 
 #' @export
 	
-estimPiI <- function(
+estim_pi_i <- function(
 	popdata, 
 	sims, 
 	nsamples, 

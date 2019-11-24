@@ -5,24 +5,25 @@
 #' @param rvar vector of ratio variables
 #' @return Dataframe with a column per mean/variance of each variable and a row per population.
 #' @export
-CactusRealizationSummary <- calculatePopSummaryStats(
-	popdata = CactusRealizations, 
-	summaryvar = c("Stricta", "Pusilla", "Cactus",
-		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-	popgroupvar = "population", 
-	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
-		"Percent_Cover_Stricta", "Height_Stricta", 
-		"Old_Moth_Evidence_Stricta"),
-	nrow=30,
-	ncol=30
-)
-patch_data_summary_wide <- createWidePopSummaryStats(
-	popsummarystats = CactusRealizationSummary,
-	ovar = "Stricta",
-	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-		"Height_Stricta", "Old_Moth_Evidence_Stricta")
-)
+#' @examples
+#' CactusRealizationSummary <- calculatePopSummaryStats(
+#' 	popdata = CactusRealizations, 
+#' 	summaryvar = c("Stricta", "Pusilla", "Cactus",
+#' 		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+#' 		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+#' 	popgroupvar = "population", 
+#' 	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+#' 		"Percent_Cover_Stricta", "Height_Stricta", 
+#' 		"Old_Moth_Evidence_Stricta"),
+#' 	nrow=30,
+#' 	ncol=30
+#' )
+#' patch_data_summary_wide <- createWidePopSummaryStats(
+#' 	popsummarystats = CactusRealizationSummary,
+#' 	ovar = "Stricta",
+#' 	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+#' 		"Height_Stricta", "Old_Moth_Evidence_Stricta")
+#' )
 
 
 createWidePopSummaryStats <- function(popsummarystats, ovar, rvar) {

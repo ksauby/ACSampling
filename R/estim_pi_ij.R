@@ -15,7 +15,7 @@
 #' @importFrom foreach %:% 
 #' @export
 
-estimPiIJ <- function(
+estim_pi_ij <- function(
 	popdata, 
 	sims, 
 	nsamples, 

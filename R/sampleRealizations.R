@@ -62,7 +62,7 @@
 #' #  write.csv(simulation_data, file=paste("simulation_data", format(Sys.time(), 
 #' # "%Y-%m-%d_%H-%M"), ".csv", sep=""))
 
-samplePops <- function(
+sampleRealizations <- function(
 	popdata, 
 	sims, 
 	n1, 

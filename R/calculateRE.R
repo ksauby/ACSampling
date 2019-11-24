@@ -21,6 +21,49 @@
 #	summarise(N = n())
 # variances of populations
 
+
+
+
+CactusRealizationSummary <- calculatePopSummaryStats(
+	popdata = CactusRealizations, 
+	summaryvar = c("Stricta", "Pusilla", "Cactus",
+		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+	popgroupvar = "population", 
+	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+		"Percent_Cover_Stricta", "Height_Stricta", 
+		"Old_Moth_Evidence_Stricta"),
+	nrow=30,
+	ncol=30
+)
+patch_data_summary_wide <- createWidePopSummaryStats(
+	popsummarystats = CactusRealizationSummary,
+	ovar = "Stricta",
+	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+		"Height_Stricta", "Old_Moth_Evidence_Stricta")
+)
+
+
+
+simulation_data_summary_table_re = calculateSamplingBias(
+	population_data_summary	= patch_data_summary_wide, 
+	simulation_data		= simdata_all_re, 
+	sampgroupvar	= sampgroupvar, 
+	popgroupvar = popgroupvar,
+	ovar			= ovar, 
+	rvar				= rvar
+)
+
+
+RE_values <- calculateRE(
+	population_data = patch_data_summary_wide,
+	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,
+	popgroupvar = "population",
+	sample.size.variable = "N.Total.plots_mean",
+	ovar = ovar,
+	rvar = rvar
+)
+
 calculateRE <- function(
 	MSE_ComparisonSamplingDesign,
 	popdata,
