@@ -23,39 +23,52 @@
 
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
-#' @importFrom foreach foreach 
-#' @importFrom foreach %dopar% 
+#' @importFrom foreach foreach %dopar%
 #' @importFrom dplyr summarise_all
  
 #' @export
 
 #' @examples
-#' sims=200
-#' n1=c(5,10,20,40)
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
-#' avar = NULL
-#' ovar = c(
-#' 	"Stricta",
-#' 	"Pusilla",
-#' 	"Cactus",
-#' 	"CACA_on_Pusilla",
-#' 	"CACA_on_Stricta",
-#' 	"MEPR_on_Pusilla",
-#' 	"MEPR_on_Stricta",
-#' 	"Old_Moth_Evidence_Pusilla",
-#' 	"Old_Moth_Evidence_Stricta"
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
-#' 	# "Percent_Cover_Stricta",
-#' 	# "Height_Pusilla",
-#' 	# "Height_Stricta",
-#' )		
-#' # popdata = cactus.realizations
-#' # simulation_data <- sampleSpeciesPatchRealizations(popdata, sims, 
-#' # 	n1, population, avar, ovar, yvar="Cactus")
+ sims=200
+ n1=c(5,10,20,40)
+ population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+ avar = NULL
+ ovar = c(
+ 	"Stricta",
+ 	"Pusilla",
+ 	"Cactus",
+ 	"CACA_on_Pusilla",
+ 	"CACA_on_Stricta",
+ 	"MEPR_on_Pusilla",
+ 	"MEPR_on_Stricta",
+ 	"Old_Moth_Evidence_Pusilla",
+ 	"Old_Moth_Evidence_Stricta"
+ 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
+ 	# "Percent_Cover_Stricta",
+ 	# "Height_Pusilla",
+ 	# "Height_Stricta",
+ )		
+ data(CactusRealizations)
+ popdata = CactusRealizations
+ simulation_data <- sampleRealizations(
+	popdata, 
+	sims, 
+	n1, 
+	avar, 
+	ovar, 
+	popvar="population", 
+	yvar="Cactus"
+)
 #' # sims=200
 #' # #n1=c(75,150,225,300,350)
-#' # simulation_data_SRSWOR <- sampleSpeciesPatchRealizations(popdata, 
-#' # 	sims, n1, population, avar, ovar)
+#' simulation_data_SRSWOR <- sampleRealizations(
+#' 	popdata, 
+#' 	sims, 
+#' 	n1, 
+#' 	avar, 
+#' 	ovar,
+#' 	popvar="population"
+#' )
 #' # # save data
 #' # write.csv(simulation_data_SRSWOR, file=paste("simulation_data_SRSWOR", 
 #' # format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
@@ -66,9 +79,9 @@ sampleRealizations <- function(
 	popdata, 
 	sims, 
 	n1, 
-	avar, 
+	avar=NULL, 
 	ovar, 
-	rvar,
+	rvar=NULL,
 	#ACS=TRUE, 
 	SamplingDesign="ACS",
 	yvar,
@@ -105,8 +118,8 @@ sampleRealizations <- function(
 	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))
 	Ratio 					<- data.frame(row.names = 1:length(rvar)) 
 	# the names to assign the estimates
-	occ_abund_mean_names 	<- paste(ovar, avar, "MeanObs", sep="")
-	occ_abund_var_names 	<- paste(ovar, avar, "VarObs", sep="")
+	# occ_abund_mean_names 	<- paste(ovar, avar, "MeanObs", sep="")
+	#occ_abund_var_names 	<- paste(ovar, avar, "VarObs", sep="")
 	ratio_mean_names 		<- paste(rvar, "RMeanObs", sep="")
 	ratio_var_names 		<- paste(rvar, "RVarObs", sep="")
 	# i=1;j=1;k=1
@@ -126,7 +139,7 @@ sampleRealizations <- function(
 		) %dopar% {
 			cat(paste(i,j, sep="_"))
 			P 			<- popdata %>% 
-							filter(n.networks==unique(
+							filter(!!POPVAR == unique(
 								eval(parse(text=paste(
 									"popdata$",
 									popvar,
@@ -260,31 +273,26 @@ sampleRealizations <- function(
 						select(!!!OAVAR, NetworkID, m)
 					# calculate y_HT
 					m <- O$m
-					if (y_HT_formula == "y_HT_RACS")
-					{
+					if (y_HT_formula == "y_HT_RACS") {
 						HT_results[[1]] <- O %>%
 							dplyr::select(!!!OAVAR) %>%
 							summarise_all(
-								funs(new_y_HT),
+								list(yHT = new_y_HT),
 								N = N,
 								n1 = n1,
 								m = m,
 								m_threshold = 2
 							)
-					} else if (y_HT_formula == "y_HT")
-					{
+					} else if (y_HT_formula == "y_HT") {
 						HT_results[[1]] <- O %>%
-						dplyr::select(!!!OAVAR) %>%
-						summarise_all(
-							funs(y_HT),
-							N = N,
-							n1 = n1,
-							m = m
-						)
+							dplyr::select(!!!OAVAR) %>%
+							summarise_all(
+								list(yHT = y_HT),
+								N = N,
+								n1 = n1,
+								m = m
+							)
 					}
-					names(HT_results[[1]]) <- str_replace(
-						names(HT_results[[1]]), "(.*)", "\\1_yHTobs"
-					)
 					# names() <- c(occ_abund_mean_names)
 					# summarise data for variance calculations
 					O_smd <- alldata %>% 
@@ -295,11 +303,15 @@ sampleRealizations <- function(
 						#	"m"
 						#), with=FALSE] %>% 
 						filter(!(is.na(NetworkID))) %>%
-						summarise_all(funs(x[1]))
+						group_by(NetworkID) %>%
+						filter(row_number()==1)
+						# summarise_all(funs(x[1]))
 						#as.data.table %>%
 						# .[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
 					names(O_smd) <- str_replace(
-						names(O_smd), "(.*)", "\\1_network_sum"
+						names(O_smd), 
+						"(.*)", 
+						"\\1_network_sum"
 					)
 					m <- O_smd$m
 					# var_y_HT
@@ -334,7 +346,11 @@ sampleRealizations <- function(
 								m	= m,
 								mThreshold = mThreshold
 							)]
-						names(HT_results[[2]]) <- c(occ_abund_var_names)
+						#names(HT_results[[2]]) <- c(occ_abund_var_names)
+						names(HT_results[[2]]) <- str_replace(
+							names(HT_results[[2]]), "(.*)", "\\1VarObs"
+						)
+						
 					} else if (var_formula == "var_y_HT") {
 						HT_results[[2]] <- O_smd[, paste(
 							oavar, 

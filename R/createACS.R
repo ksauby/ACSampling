@@ -17,7 +17,7 @@
 #' # Initiate ACS
 #' Z = createACS(
 #'	popdata=Thompson1990Figure1Population, 
-#'	seed=2, 
+#'	seed=9, 
 #'	n1=10, 
 #'	yvar="y_value", 
 #'	condition=0
@@ -42,12 +42,13 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
 
 #' @export
-#' @importFrom plyr rbind.fill
+#' @importFrom stringr str_pad
 #' @importFrom dplyr filter rowwise
 #' @importFrom ggplot2 ggplot
 #' @importFrom data.table data.table as.data.table setkey setnames
 
 createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
+	YVAR <- sym(yvar)
 	. <- Sampling <- y_val <- NULL
 	if (is.data.frame(initsample)) {
 		S <- merge(popdata, initsample, all.y=TRUE) 	
@@ -60,10 +61,11 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 	Z = popdata %>%
 		dplyr::filter(.data$NetworkID %in% S$NetworkID) %>%
 		merge(S, all.x=T)
-	Networks = Z %>% filter(eval(parse(text=yvar)) > condition)
+	Networks = Z %>% filter(!!YVAR > condition)
 	# if there are units that satisfy the condition, fill in edge units
 	if (dim(Networks)[1] > 0) {
-		names(Z)[names(Z) == yvar] <- 'y_val'
+		Z %<>% rename(y_val = yvar)
+		# names(Z)[names(Z) == yvar] <- 'y_val'
 		#Z %<>%
 		#	as.data.table %>%
 		#	setnames(yvar, "y_val")
@@ -71,40 +73,83 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
 		}
 		# fill in edge units
-		E = data.table(
+		E = data.frame(
 			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),
 		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),
-			Sampling = "Edge",
-			key = c("x", "y")
+			Sampling = "Edge"#,
+			#key = c("x", "y")
 		) %>%
 		rowwise() %>%
-		mutate(xy = paste(.data$x,.data$y)) %>%
+		mutate(xy = paste(
+			str_pad(
+				.data$x,
+				nchar(max(popdata$x)),
+				"0",
+				side="left"
+			),
+			str_pad(
+				.data$y,
+				nchar(max(popdata$y)),
+				"0",
+				side="left"
+			)
+		)) %>%
 		ungroup()
 		Z %<>% 
-			rowwise() %>%
-			mutate(xy = paste(.data$x,.data$y)) %>% 
+			mutate(xy = paste(
+				str_pad(
+					.data$x,
+					nchar(max(popdata$x)),
+					"0",
+					side="left"
+				),
+				str_pad(
+					.data$y,
+					nchar(max(popdata$y)),
+					"0",
+					side="left"
+				)
+			)) %>%
 			ungroup()
+		E$Sampling %<>% as.character()
 		E %<>% filter(!(.data$xy %in% Z$xy))
-		Z %<>% 
-			rbind.fill(E) %>% 
-			as.data.table() %>% 
-			setkey("x", "y") %>% 
-	 	   	unique %>%
-			dplyr::select(-.data$xy)
+		ZZ <- Z %>% 
+			bind_rows(E) %>%
+			group_by(x,y) %>%
+			filter(row_number()==1)
+			#rbind.fill(E) %>% 
+			# as.data.table() %>% 
+			#setkey("x", "y") %>% 
+	 	   	#unique %>%
+			# dplyr::select(-.data$xy)
 		# remove plots outside of population extent
-		Z %<>% subset(
+		ZZ %<>% subset(
 			x %in% popdata$x &
 			y %in% popdata$y
 		)
 		# fill in values for Edge units
-		if (dim(Z[ is.na(Z$y_val) ])[1] > 0) {
-			Z[ Sampling=="Edge" ]$y_val <- 0
-			Z[ Sampling=="Edge" ]$m <- 0
+		if (dim(
+			ZZ[which(
+				is.na(
+					eval(parse(text=paste(
+						"ZZ$y_val", 
+						#yvar, 
+						sep=""
+					)))
+				)
+			), ])[1] > 0) {
+			#ZZ[which(ZZ$Sampling=="Edge"),] %<>%
+			#mutate_if(yvar, fun(x) x=0)
+			
+			ZZ[which(ZZ$Sampling=="Edge"),]$y_val <- 0
+			ZZ[which(ZZ$Sampling=="Edge"),]$m <- 0
 		}	
-		setnames(Z, "y_val", yvar)
-		Z %<>%
+		setnames(ZZ, "y_val", yvar)
+		#vars <- c(YVAR="y_val")
+		ZZ %<>%
+		#rename(!!vars)
 			arrange()
-		return(Z)
+		return(ZZ)
 	} else {
 		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample
 		return(Z)
