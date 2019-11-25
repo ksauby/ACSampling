@@ -25,7 +25,7 @@
 
 #' @importFrom foreach foreach 
 #' @importFrom foreach %dopar% 
-#' @importFrom dplyr select_
+#' @importFrom dplyr summarise_all
  
 #' @export
 
@@ -140,32 +140,27 @@ sampleRealizations <- function(
 			seeds 		<- runif(sims)
 		    for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
-				if (SamplingDesign=="ACS")
-				{
+				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
 						popdata=P, 
 						seed=temp_seed, 
 						n1=n1, 
 						yvar=yvar
 					)
-				} else if (SamplingDesign=="RACS")
-				{
+				} else if (SamplingDesign=="RACS") {
 					alldata <- createRACS(
 						popdata=P, 
 						seed=temp_seed, 
 						n1=n1, 
 						yvar=yvar,
 						f_max=f_max
-					) %>% 
-						as.data.table
-				} else
-				{
+					)
+				} else {
 					alldata <- createSRS(
 						popdata=P, 
 						seed=temp_seed, 
 						n1=n1
-					) %>% 
-						as.data.table
+					)
 				}
 				alldata_all <- alldata
 				if (SampleEstimators == TRUE) {
@@ -179,23 +174,17 @@ sampleRealizations <- function(
 						SRSWOR_data <- alldata %>% 
 							filter(Sampling=="SRSWOR")
 						alldata %<>% filter(Sampling!="Edge")
-						# datasets to apply simple mean/variance and simple ratio estimatr
+						#apply simple mean/variance & simple ratio estimator to:
 						dats <- c("SRSWOR_data", "alldata")
 					}
-					# datasets to apply simple mean/variance and simple ratio estimator
-					# sample mean and variance applied to alldata, SRSWOR_data
 					SampleMeanVar <- list()
 					for (n in 1:length(dats)) {
-						dat <- eval(parse(text=dats[[n]]))[, oavar, with=FALSE] %>% 
-							summarise_each(funs(
-								mean(., na.rm=T), 
-								var(., na.rm=T)
-							))
-						setnames(
-							dat,
-							names(dat), 
-							paste(names(dat), "observed", sep="_")
-						)
+						dat <- eval(parse(text=dats[[n]])) %>%
+							select(!!!OAVAR) %>%
+							summarise_all(
+								funs(mean, var), na.rm=T
+							)
+						names(dat) <- str_replace(names(dat), "(.*)", "\\1_obs")
 						dat$Plots <- dats[n]
 						SampleMeanVar[[n]] <- dat
 					}
@@ -275,37 +264,63 @@ sampleRealizations <- function(
 					{
 						HT_results[[1]] <- O %>%
 							dplyr::select(!!!OAVAR) %>%
-							map( ~new_y_HT(y = .,  N= N, 
-								n1	= n1,
-								m	= m,
-								m_threshold = 2))
-							
+							summarise_all(
+								funs(new_y_HT),
+								N = N,
+								n1 = n1,
+								m = m,
+								m_threshold = 2
+							)
 					} else if (y_HT_formula == "y_HT")
 					{
 						HT_results[[1]] <- O %>%
-							select_(.dots=oavar) %>%
-							.[, lapply(
-								.SD,
-								y_HT,
-								N	= N, 
-								n1	= n1,
-								m	= m
-							)]
+						dplyr::select(!!!OAVAR) %>%
+						summarise_all(
+							funs(y_HT),
+							N = N,
+							n1 = n1,
+							m = m
+						)
 					}
-					names(HT_results[[1]]) <- c(occ_abund_mean_names)
+					names(HT_results[[1]]) <- str_replace(
+						names(HT_results[[1]]), "(.*)", "\\1_yHTobs"
+					)
+					# names() <- c(occ_abund_mean_names)
 					# summarise data for variance calculations
 					O_smd <- alldata %>% 
-						.[, c(
-							paste(oavar, "_network_sum", sep=""), 
-							"NetworkID", 
-							"m"
-						), with=FALSE] %>% 
+						select(!!!OAVAR, NetworkID, m) %>%
+						#.[, c(
+						#	paste(oavar, "_network_sum", sep=""), 
+						#	"NetworkID", 
+						#	"m"
+						#), with=FALSE] %>% 
 						filter(!(is.na(NetworkID))) %>%
-						as.data.table %>%
-						.[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
+						summarise_all(funs(x[1]))
+						#as.data.table %>%
+						# .[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
+					names(O_smd) <- str_replace(
+						names(O_smd), "(.*)", "\\1_network_sum"
+					)
 					m <- O_smd$m
 					# var_y_HT
 					if (var_formula == "var_y_HT_RACS") {
+						HT_results[[2]] <- O_smd %>% 
+							select(!!!OAVAR, NetworkID) %>%
+							#.[, c(
+							#	paste(oavar, "_network_sum", sep=""), 
+							#	"NetworkID", 
+							#	"m"
+							#), with=FALSE] %>% 
+							filter(!(is.na(NetworkID))) %>%
+							summarise_all(funs(x[1]))
+							#as.data.table %>%
+							# .[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
+						names(O_smd) <- str_replace(
+							names(O_smd), "(.*)", "\\1_network_sum"
+						)
+						
+						
+						
 						HT_results[[2]] <- O_smd[, paste(
 							oavar, 
 							"_network_sum", 
