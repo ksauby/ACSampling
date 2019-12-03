@@ -22,7 +22,7 @@
 #' sampleGridPopulation(grid, n.networks, cluster.centers, seed)
 #' @export
 
-sampleGridPopulation <- function(grid, n.networks, cluster.centers, seed) {
+sampleGridPop <- function(grid, n.networks, cluster.centers, seed) {
   # determine locations
   set.seed(seed[1])
   gridsample <- grid[sample(x = 1:dim(grid)[1], size = n.networks), ]

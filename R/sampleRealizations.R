@@ -293,117 +293,70 @@ sampleRealizations <- function(
 								m = m
 							)
 					}
-					# names() <- c(occ_abund_mean_names)
 					# summarise data for variance calculations
 					O_smd <- alldata %>% 
 						select(!!!OAVAR, NetworkID, m) %>%
-						#.[, c(
-						#	paste(oavar, "_network_sum", sep=""), 
-						#	"NetworkID", 
-						#	"m"
-						#), with=FALSE] %>% 
 						filter(!(is.na(NetworkID))) %>%
 						group_by(NetworkID) %>%
 						filter(row_number()==1)
-						# summarise_all(funs(x[1]))
-						#as.data.table %>%
-						# .[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
-					names(O_smd) <- str_replace(
-						names(O_smd), 
-						"(.*)", 
-						"\\1_network_sum"
-					)
 					m <- O_smd$m
 					# var_y_HT
 					if (var_formula == "var_y_HT_RACS") {
 						HT_results[[2]] <- O_smd %>% 
-							select(!!!OAVAR, NetworkID) %>%
-							#.[, c(
-							#	paste(oavar, "_network_sum", sep=""), 
-							#	"NetworkID", 
-							#	"m"
-							#), with=FALSE] %>% 
-							filter(!(is.na(NetworkID))) %>%
-							summarise_all(funs(x[1]))
-							#as.data.table %>%
-							# .[, lapply(.SD, function(x) {x[1]}), by=NetworkID]
-						names(O_smd) <- str_replace(
-							names(O_smd), "(.*)", "\\1_network_sum"
-						)
-						
-						
-						
-						HT_results[[2]] <- O_smd[, paste(
-							oavar, 
-							"_network_sum", 
-							sep=""
-						), with=FALSE] %>%
-							.[, lapply(
-								.SD, 
-								var_y_HT_RACS, 
+							select(!!!OAVAR) %>%
+							summarise_all(
+								list(var_yHT_RACS = var_y_HT_RACS),
 								N 	= N, 
 								n1 	= n1, 
 								m	= m,
 								mThreshold = mThreshold
-							)]
-						#names(HT_results[[2]]) <- c(occ_abund_var_names)
-						names(HT_results[[2]]) <- str_replace(
-							names(HT_results[[2]]), "(.*)", "\\1VarObs"
-						)
-						
+							)
 					} else if (var_formula == "var_y_HT") {
-						HT_results[[2]] <- O_smd[, paste(
-							oavar, 
-							"_network_sum", 
-							sep=""
-						), with=FALSE] %>%
-							.[, lapply(
-								.SD, 
-								var_y_HT, 
+						HT_results[[2]] <- O_smd %>% 
+							select(!!!OAVAR) %>%
+							summarise_all(
+								list(var_yHT = var_y_HT),
 								N 	= N, 
 								n1 	= n1, 
 								m	= m
-							)]
-						names(HT_results[[2]]) <- c(occ_abund_var_names)
-						######################################################
+							)
+					######################################################
 					} else if (var_formula == "var_pi") {
-						HT_results[[2]] <- O_smd[, paste(
-							oavar, 
-							"_network_sum", 
-							sep=""
-						), with=FALSE] %>%
-							.[, lapply(
-								.SD, 
-								var_pi, 
+						HT_results[[2]] <- O_smd %>% 
+							select(!!!OAVAR) %>%
+							summarise_all(
+								list(var_pi = var_pi),
 								N 	= N, 
 								n1 	= n1, 
 								m	= m
-							)]
-						names(HT_results[[2]]) <- c(occ_abund_var_names)
+							)
 					}
 					# RATIO DATA
 					if (!(is.null(rvar))) {
+						rovar <- c(rvar, ovar)
+						ROVAR <- syms(rovar)
 						# RATIO
 						# summarise data for variance calculations
-						# do I want to use summarised for everything??????????????
 						mvals <- alldata %>%
 							group_by(NetworkID) %>%
 							summarise(m = m[1])
 						R_smd <- alldata %>%
 							filter(Sampling!="Edge") %>%
-							as.data.table %>%
-							.[, c(rvar, ovar, "NetworkID"), with=FALSE] %>%
-							.[, lapply(.SD, sum, na.rm=T), by=NetworkID] %>%
+							select(!!!ROVAR, "NetworkID") %>%
+							group_by(NetworkID) %>%
+							#as.data.table %>%
+							summarise_all(
+								list(sum = sum),
+								na.rm = T
+							) %>%
 							merge(mvals, by="NetworkID")
 						# summarise data for mean calculations
-						# R <- alldata %>% 
-						#	filter(Sampling!="Edge") %>%
-						#	.[, c(rvar, ovar, "m"), with=FALSE]
 						HT_results[[3]] <- data.frame(Var1 = NA)
 						for (l in 1:length(rvar)) {
 							y = eval(parse(text=paste("R_smd$", rvar[l], 
 								sep="")))
-							x = eval(parse(text = paste("R_smd$", 
+							x = eval(parse(text = paste("R_smd$",
+							# GENERALIZE THIS 
 								str_sub(rvar[l],-7,-1), sep="")))
 							HT_results[[3]]$Var1 = R_hat(
 								y = y,

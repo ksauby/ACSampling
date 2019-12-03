@@ -1,16 +1,16 @@
 #' Calculate the number of units per network and the unit inclusion probability for each network. 
 #' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is boostrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
 #' @param popdata population data.
-#' @param variables variables to summarise
+#' @param vars variables to summarise
 #' @param groupvar categories that group networks
-#' @param nsamples Size(s) of the initial simple random sample(s) without replacement. Can be a single value or a vector values.
-#' @param m_var The variable on which the ACS sampling criterion is based
-#' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{nsamples}) and the number of units per network for each of the \code{variables}.
+#' @param n1 Size(s) of the initial simple random sample(s) without replacement. Can be a single value or a vector values.
+#' @param mvar The variable on which the ACS sampling criterion is based
+#' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export
 #' @importFrom dplyr funs summarise_all
 
-summarizeNetworkInformation <- function(popdata, variables, groupvar=NULL, nsamples, m_var) {
+summarizeNetworkInfo <- function(popdata, vars, groupvar=NULL, n1, mvar) {
 	stopifnot(length(unique(popdata$N)) == 1)
 	N <- unique(popdata$N) #. <- NULL
 	# calculate the number of units per network for each variable

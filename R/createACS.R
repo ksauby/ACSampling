@@ -16,7 +16,7 @@
 #' 
 #' # Initiate ACS
 #' Z = createACS(
-#'	popdata=Thompson1990Figure1Population, 
+#'	popdata=Thompson1990Fig1Pop, 
 #'	seed=9, 
 #'	n1=10, 
 #'	yvar="y_value", 
@@ -25,16 +25,16 @@
 #' 
 #' # plot ACS sample overlaid onto population
 #' ggplot() +
-#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
+#' 	geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
 #' 		shape=factor(y_value))) +
 #' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' 	geom_point(data=Z, aes(x,y), shape=0, size=7)
 #' # Initiate ACS, different seed
-#' Z = createACS(popdata=Thompson1990Figure1Population, seed=26, n1=10, yvar="y_value", condition=0)
+#' Z = createACS(popdata=Thompson1990Fig1Pop, seed=26, n1=10, yvar="y_value", condition=0)
 #' 
 #' # plot ACS sample overlaid onto population
 #' ggplot() +
-#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
+#' 	geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
 #' 		shape=factor(y_value))) +
 #' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' 	geom_point(data=Z, aes(x,y), shape=0, size=7)
@@ -45,7 +45,6 @@
 #' @importFrom stringr str_pad
 #' @importFrom dplyr filter rowwise
 #' @importFrom ggplot2 ggplot
-#' @importFrom data.table data.table as.data.table setkey setnames
 
 createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 	YVAR <- sym(yvar)
@@ -64,7 +63,7 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 	Networks = Z %>% filter(!!YVAR > condition)
 	# if there are units that satisfy the condition, fill in edge units
 	if (dim(Networks)[1] > 0) {
-		Z %<>% rename(y_val = yvar)
+		#Z %<>% rename(y_val = yvar)
 		# names(Z)[names(Z) == yvar] <- 'y_val'
 		#Z %<>%
 		#	as.data.table %>%
@@ -76,8 +75,7 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 		E = data.frame(
 			x = as.numeric(rowSums(expand.grid(Networks$x, c(1,-1,0,0)))),
 		  	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1))),
-			Sampling = "Edge"#,
-			#key = c("x", "y")
+			Sampling = "Edge"
 		) %>%
 		rowwise() %>%
 		mutate(xy = paste(
@@ -117,11 +115,6 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 			bind_rows(E) %>%
 			group_by(x,y) %>%
 			filter(row_number()==1)
-			#rbind.fill(E) %>% 
-			# as.data.table() %>% 
-			#setkey("x", "y") %>% 
-	 	   	#unique %>%
-			# dplyr::select(-.data$xy)
 		# remove plots outside of population extent
 		ZZ %<>% subset(
 			x %in% popdata$x &
@@ -132,22 +125,28 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 			ZZ[which(
 				is.na(
 					eval(parse(text=paste(
-						"ZZ$y_val", 
-						#yvar, 
+						"ZZ$", 
+						yvar, 
 						sep=""
 					)))
 				)
 			), ])[1] > 0) {
-			#ZZ[which(ZZ$Sampling=="Edge"),] %<>%
-			#mutate_if(yvar, fun(x) x=0)
-			
-			ZZ[which(ZZ$Sampling=="Edge"),]$y_val <- 0
-			ZZ[which(ZZ$Sampling=="Edge"),]$m <- 0
+			ZZ %<>%
+			rowwise() %>%
+			mutate(
+				!!YVAR := replace(
+					y_val,
+					Sampling=="Edge",
+					0
+				),
+				m = replace(
+					m,
+					Sampling=="Edge",
+					0
+				)
+			)
 		}	
-		setnames(ZZ, "y_val", yvar)
-		#vars <- c(YVAR="y_val")
 		ZZ %<>%
-		#rename(!!vars)
 			arrange()
 		return(ZZ)
 	} else {
