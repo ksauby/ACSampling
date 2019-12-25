@@ -85,7 +85,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
 #' 	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 	
-calculatePopSummaryStats <- function(
+calcPopSummaryStats <- function(
 	popdata, 
 	summaryvar, 
 	rvar=NULL, 
@@ -164,7 +164,7 @@ calculatePopSummaryStats <- function(
 			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)
 			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)
 			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)
-			A[[i]][[j]]$SSQ_R			<- calculateSSQR(
+			A[[i]][[j]]$SSQ_R			<- calcSSQR(
 				popdata = as.data.frame(temp),
 				variable = summaryvar[j],
 				popgroupvar

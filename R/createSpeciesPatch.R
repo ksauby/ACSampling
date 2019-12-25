@@ -58,7 +58,7 @@ createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, R
 	NetworkID <- temp_coords <- NULL
 	cluster.centers <- filter(cluster.info, Rel_x==0 & Rel_y==0)
 	# determine locations and species information for stage 1 plots
-	n1plots = sampleGridPopulation(grid, n.networks, cluster.centers, seed)
+	n1plots = sampleGridPop(grid, n.networks, cluster.centers, seed)
 	seed = seed[-(1:2)]
 	# create list of cluster plots and their coordinates
 	Z <- vector("list", length(unique(n1plots$NetworkID)))

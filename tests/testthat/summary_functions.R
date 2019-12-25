@@ -1,5 +1,5 @@
 test_that("calculatePopulationSummaryStatistics", {
-	CactusRealizationSummary <- calculatePopSummaryStats(
+	CactusRealizationSummary <- calcPopSummaryStats(
 		popdata = CactusRealizations, 
 		summaryvar = c("Stricta", "Pusilla", "Cactus",
 			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
@@ -444,7 +444,7 @@ test_that("Sampling Bias and Relative Efficiency, population 1, SamplingDesign=A
 
 
 test_that("Sampling Bias and Relative Efficiency, population 1, SamplingDesign=RACS with new_y_HT formula, N.SRSWOR.plots==40", {	
-	patch_data_summary_wide <- createWidePopulationSummaryStatistics(
+	patch_data_summary_wide <- createWidePopSummaryStats(
 		PopulationSummaryStatistics = CactusRealizationSummary,
 		ovar = "Stricta",
 		rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 

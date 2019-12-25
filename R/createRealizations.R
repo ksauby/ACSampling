@@ -121,7 +121,7 @@ createRealizations <- function(
 	network.length = length(n.networks)
 	seed = seq(start.seed, start.seed + 2*n.realizations + 
 		sum(n.networks)*n.realizations*2 + 1, by=1)
-    grid <- createPopulation(
+    grid <- createPop(
 		x_start + buffer, 
 		x_end - buffer, 
 		y_start + buffer, 
@@ -142,7 +142,7 @@ createRealizations <- function(
 				Rel_y=Rel_y
 			)	
 			# fill in absence data
-			population = createPopulation(
+			population = createPop(
 				x_start, 
 				x_end, 
 				y_start, 

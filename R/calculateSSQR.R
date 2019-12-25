@@ -16,12 +16,12 @@
 #' popdata <- temp
 #' variable <- "y_value"
 #' popgroupvar <- "pop"
-#' calculateSSQR(popdata, variable, popgroupvar)
+#' calcSSQR(popdata, variable, popgroupvar)
 #' popgroupvar <- NA
-#' calculateSSQR(popdata, variable, popgroupvar)
+#' calcSSQR(popdata, variable, popgroupvar)
 
 
-calculateSSQR <- function(popdata, variable, popgroupvar=NA) {
+calcSSQR <- function(popdata, variable, popgroupvar=NA) {
 	VAR <- sym(variable)
 	if (!(is.na(popgroupvar))) {
 		POPVAR <- sym(popgroupvar)

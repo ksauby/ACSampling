@@ -134,15 +134,15 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 			ZZ %<>%
 			rowwise() %>%
 			mutate(
-				!!YVAR := replace(
-					y_val,
+				!!YVAR := ifelse(
 					Sampling=="Edge",
-					0
+					0,
+					!!YVAR
 				),
-				m = replace(
-					m,
+				m = ifelse(
 					Sampling=="Edge",
-					0
+					0,
+					m
 				)
 			)
 		}	

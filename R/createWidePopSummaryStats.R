@@ -5,6 +5,7 @@
 #' @param rvar vector of ratio variables
 #' @return Dataframe with a column per mean/variance of each variable and a row per population.
 #' @export
+#' @importFrom tidyr spread
 #' @examples
 #' CactusRealizationSummary <- calculatePopSummaryStats(
 #' 	popdata = CactusRealizations, 
