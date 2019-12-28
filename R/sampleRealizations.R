@@ -10,7 +10,7 @@
 #' @param SamplingDesign Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.
 #' @param y_HT_formula Default is "Thompson".
 #' @param var_formula Default is "var_y_HT".
-#' @param mThrshld Default is NULL.
+#' @param mThreshold Default is NULL.
 #' @param f_max Default is 2.
 #' @param SampleEstimators If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.
 #' @param SpatStat If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE
@@ -29,36 +29,36 @@
 #' @export
 
 #' @examples
- sims=200
- n1=c(5,10,20,40)
- population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
- avar = NULL
- ovar = c(
- 	"Stricta",
- 	"Pusilla",
- 	"Cactus",
- 	"CACA_on_Pusilla",
- 	"CACA_on_Stricta",
- 	"MEPR_on_Pusilla",
- 	"MEPR_on_Stricta",
- 	"Old_Moth_Evidence_Pusilla",
- 	"Old_Moth_Evidence_Stricta"
- 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
- 	# "Percent_Cover_Stricta",
- 	# "Height_Pusilla",
- 	# "Height_Stricta",
- )		
- data(CactusRealizations)
- popdata = CactusRealizations
- simulation_data <- sampleRealizations(
-	popdata, 
-	sims, 
-	n1, 
-	avar, 
-	ovar, 
-	popvar="population", 
-	yvar="Cactus"
-)
+#' sims=200
+#' n1=c(5,10,20,40)
+#' population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+#' avar = NULL
+#' ovar = c(
+#' 	"Stricta",
+#' 	"Pusilla",
+#'	"Cactus",
+#'	"CACA_on_Pusilla",
+#'	"CACA_on_Stricta",
+#'	"MEPR_on_Pusilla",
+#'	"MEPR_on_Stricta",
+#'	"Old_Moth_Evidence_Pusilla",
+#'	"Old_Moth_Evidence_Stricta"
+#'	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
+#'	# "Percent_Cover_Stricta",
+#'	# "Height_Pusilla",
+#'	# "Height_Stricta",
+#')		
+#'data(CactusRealizations)
+#'popdata = CactusRealizations
+#'simulation_data <- sampleRealizations(
+#'	popdata, 
+#'	sims, 
+#'	n1, 
+#'	avar, 
+#'	ovar, 
+#'	popvar="population", 
+#'	yvar="Cactus"
+#')
 #' # sims=200
 #' # #n1=c(75,150,225,300,350)
 #' simulation_data_SRSWOR <- sampleRealizations(

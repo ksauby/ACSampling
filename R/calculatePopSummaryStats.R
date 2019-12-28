@@ -30,12 +30,13 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 
 #' Calculate Summary Statistics for Patch Population Data
 #' 
-#' @param population_data Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
+#' @param popdata Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
 #' @param summaryvar Vector of variables for which summary statistics should be calculated.
 #' @param popgroupvar String identifying the categorical variable identifying the different populations.
 #' @param rvar Vector of variables for which ratio estimators should be used.
 #' @param spatweights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
-
+#' @param nrow the number of rows in the grid that creates the population
+#' @param ncol the number of columns in the grid that creates the population
 #' @description Calculates summary statistics for patch population data.
 
 #' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{popgroupvar}.
@@ -82,7 +83,7 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 #' 	ovar)
-#' patch_data_summary <- calculatePopulationSummaryStatistics(cactus.realizations, 
+#' patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
 #' 	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 	
 calcPopSummaryStats <- function(

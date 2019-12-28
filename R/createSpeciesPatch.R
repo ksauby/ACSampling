@@ -97,7 +97,7 @@ createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, R
   	H <- do.call(rbind.data.frame, Z)
   	# merge list of cluster plots with list of SRSWOR plots
   	H %<>%
-		rbind.fill(n1plots) %>%
+		bind_rows(n1plots) %>%
     	mutate(temp_coords = paste(x, y, sep="_")) 
 	#	remove duplicates
     Y <- as.data.frame(matrix(NA,1,dim(H)[2]))

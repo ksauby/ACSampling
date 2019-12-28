@@ -93,7 +93,7 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 				N = 100, 
 				n1 = 4, 
 				m = c(5, 2, 1), 
-				with_replacement="TRUE"
+				replace="TRUE"
 			), 2
 		),
 		equals(12.12)

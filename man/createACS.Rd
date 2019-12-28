@@ -4,21 +4,21 @@
 \alias{createACS}
 \title{Create an Adaptive Cluster Sample.}
 \usage{
-createACS(population_data, n1, y_variable, condition = 0, seed = NA,
-  initial_sample = NA)
+createACS(popdata, n1, yvar, condition = 0, seed = NA,
+  initsample = NA)
 }
 \arguments{
-\item{population_data}{The population to be sampled.}
+\item{popdata}{The population to be sampled.}
 
 \item{n1}{The initial sample size (sampled according to simple random sampling without replacement).}
 
-\item{y_variable}{The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.}
+\item{yvar}{The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.}
 
 \item{condition}{Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).}
 
 \item{seed}{A vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.}
 
-\item{initial_sample}{Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
+\item{initsample}{Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
 }
 \value{
 A restricted adaptive cluster sample.
@@ -32,20 +32,26 @@ data(Thompson1990Figure1Population)
 data(Thompson1990Figure1Sample)
 
 # Initiate ACS
-Z = createACS(Thompson1990Figure1Population, seed=2, n1=10, "y_value", condition=0)
+Z = createACS(
+popdata=Thompson1990Fig1Pop, 
+seed=9, 
+n1=10, 
+yvar="y_value", 
+condition=0
+)
 
 # plot ACS sample overlaid onto population
 ggplot() +
-	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
+	geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
 		shape=factor(y_value))) +
 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	geom_point(data=Z, aes(x,y), shape=0, size=7)
 # Initiate ACS, different seed
-Z = createACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value", condition=0)
+Z = createACS(popdata=Thompson1990Fig1Pop, seed=26, n1=10, yvar="y_value", condition=0)
 
 # plot ACS sample overlaid onto population
 ggplot() +
-	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
+	geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
 		shape=factor(y_value))) +
 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	geom_point(data=Z, aes(x,y), shape=0, size=7)

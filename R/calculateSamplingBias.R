@@ -38,7 +38,8 @@ calcDiffMeans <- function(dataframe, Vars) {
 }
 
 #' @importFrom lazyeval interp
-#' @importFrom rlang .data
+#' @importFrom rlang .data :=
+#' @importFrom dplyr rename
 
 calculateBiasComponents	<- function(dataframe, resultslist, Vars) {
 	for (i in 1:length(Vars)) {
@@ -214,65 +215,65 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' # patch_data_summary <- calculateRealizationSummaryStatistics(dataset, 
 #' # 	summary.variables, grouping.variables)
 
-sims=200
-n1=c(5,10,20,40)
-population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
-avar = NULL
-ovar = c(
-	"Stricta",
-	"Pusilla",
-	"Cactus",
-	"CACA_on_Pusilla",
-	"CACA_on_Stricta",
-	"MEPR_on_Pusilla",
-	"MEPR_on_Stricta",
-	"Old_Moth_Evidence_Pusilla",
-	"Old_Moth_Evidence_Stricta"
-	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
-	# "Percent_Cover_Stricta",
-	# "Height_Pusilla",
-	# "Height_Stricta",
-)		
-popdata = cactus.realizations
-simulation_data <- sampleRealizations(popdata, sims, 
-n1, population, avar, ovar)
+#'sims=200
+#'n1=c(5,10,20,40)
+#'population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+#'avar = NULL
+#'ovar = c(
+#'	"Stricta",
+#'	"Pusilla",
+#'	"Cactus",
+#'	"CACA_on_Pusilla",
+#'	"CACA_on_Stricta",
+#'	"MEPR_on_Pusilla",
+#'	"MEPR_on_Stricta",
+#'	"Old_Moth_Evidence_Pusilla",
+#'	"Old_Moth_Evidence_Stricta"
+#'	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
+#'	# "Percent_Cover_Stricta",
+#'	# "Height_Pusilla",
+#'	# "Height_Stricta",
+#')		
+#'popdata = cactus.realizations
+#'simulation_data <- sampleRealizations(popdata, sims, 
+#'n1, population, avar, ovar)
 
-CactusRealizationSummary <- calculatePopSummaryStats(
-	popdata = CactusRealizations, 
-	summaryvar = c("Stricta", "Pusilla", "Cactus",
-		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-	popgroupvar = "population", 
-	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
-		"Percent_Cover_Stricta", "Height_Stricta", 
-		"Old_Moth_Evidence_Stricta"),
-	nrow=30,
-	ncol=30
-)
-patch_data_summary_wide <- createWidePopSummaryStats(
-	popsummarystats = CactusRealizationSummary,
-	ovar = "Stricta",
-	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-		"Height_Stricta", "Old_Moth_Evidence_Stricta")
-)
+#'CactusRealizationSummary <- calcPopSummaryStats(
+#'	popdata = CactusRealizations, 
+#'	summaryvar = c("Stricta", "Pusilla", "Cactus",
+#'		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+#'		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+#'	popgroupvar = "population", 
+#'	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+#'		"Percent_Cover_Stricta", "Height_Stricta", 
+#'		"Old_Moth_Evidence_Stricta"),
+#'	nrow=30,
+#'	ncol=30
+#')
+#'patch_data_summary_wide <- createWidePopSummaryStats(
+#'	popsummarystats = CactusRealizationSummary,
+#'	ovar = "Stricta",
+#'	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+#'		"Height_Stricta", "Old_Moth_Evidence_Stricta")
+#')
 
 
 
-simdata_summary_table_re = calculateSamplingBias(
-	popdatasummary	= patch_data_summary_wide, 
-	simdata		= simdata_all_re, 
-	sampgroupvar	= sampgroupvar, 
-	popgroupvar = popgroupvar,
-	ovar			= ovar, 
-	rvar				= rvar
-)
+#'simdata_summary_table_re = calcSamplingBias(
+#'	popdatasummary	= patch_data_summary_wide, 
+#'	simdata		= simdata_all_re, 
+#'	sampgroupvar	= sampgroupvar, 
+#'	popgroupvar = popgroupvar,
+#'	ovar			= ovar, 
+#'	rvar				= rvar
+#')
 
 
 
 #' # avar = NULL
 #' @export
 
-calculateSamplingBias <- function(
+calcSamplingBias <- function(
 	popdatasummary, 
 	simdata, 
 	popgroupvar, 

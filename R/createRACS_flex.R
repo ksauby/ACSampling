@@ -1,12 +1,12 @@
 #' Create a Restricted Adaptive Cluster Sample, for any step size
 #' 
-#' @param population_data grid of population to be sampled.
+#' @param popdata grid of population to be sampled.
 #' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).
-#' @param y_variable Variable of interest, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when the y_variable is greater than the condition.
+#' @param yvar Variable of interest, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when the y_variable is greater than the condition.
 #' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.
 #' @param f_max WHAT IS IT
-#' @param initial_sample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
+#' @param initsample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
@@ -33,7 +33,7 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
 
 #' @export
-#' @importFrom dplyr everything
+#' @importFrom dplyr everything bind_rows
 
 createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL, f_max=2) {
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL
@@ -75,9 +75,9 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 	      	# western neighbor of SRSWOR plot
 	      	Y[[i]][[1]][4, "x"] = L$x - 1
 	      	Y[[i]][[1]][4, "y"] = L$y
-			Y[[i]] <- do.call(rbind.fill, Y[[i]])
+			Y[[i]] <- do.call(bind_rows, Y[[i]])
 		}
-		Z[[1]] <- do.call(rbind.fill, Y)
+		Z[[1]] <- do.call(bind_rows, Y)
 		# merge neighbors and primary samples matching condition
 		Z[[1]]$step <- 1
 		Z[[1]] -> B
@@ -118,10 +118,10 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 							Z[[j]][[k]]$step <- j
 						}
 					}
-					B <- do.call(rbind.fill, Z[[j]]) %>% 
+					B <- do.call(bind_rows, Z[[j]]) %>% 
 						filter(!(is.na(x))) %>%
-						rbind.fill(B)
-					Z[[j]] <- do.call(rbind.fill, Z[[j]])
+						bind_rows(B)
+					Z[[j]] <- do.call(bind_rows, Z[[j]])
 				}
 			}
 			sample <- do.call(rbind.data.frame, Z)
@@ -131,7 +131,7 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 	   	sample %<>%
 			merge(popdata, by=c("x", "y")) %>%
 	    	filter(!is.na(x) & !is.na(y)) %>% # remove NAs
-	    	rbind.fill(S) %>% # merge with SRSWOR plots
+	    	bind_rows(S) %>% # merge with SRSWOR plots
 			arrange(.data$step)
 	    # remove duplicates
 		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]
@@ -159,10 +159,10 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 			Z$Sampling <- "Edge"
 			Z$m <- 0			
 			# merge back together		
-			Z = rbind.fill(X,Y,Z)	
+			Z = bind_rows(X,Y,Z)	
 			} else {
 				# merge back together		
-				Z = rbind.fill(X,Y)			
+				Z = bind_rows(X,Y)			
 		}
 		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"

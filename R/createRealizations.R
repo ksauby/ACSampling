@@ -175,7 +175,7 @@ createRealizations <- function(
 		}
 	}	
 	# compress list of patch data to dataframe
-	patch_data = do.call(rbind.fill, unlist(patch.array, recursive=F))
+	patch_data = do.call(bind_rows, unlist(patch.array, recursive=F))
 	patch_data$N = dim(population)[1]
 	return(patch_data)
 }

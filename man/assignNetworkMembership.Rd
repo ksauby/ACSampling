@@ -4,15 +4,15 @@
 \alias{assignNetworkMembership}
 \title{Assign network membership to adaptive cluster sample units.}
 \usage{
-assignNetworkMembership(dataframe, plot.size = 1)
+assignNetworkMembership(popdata, plot.size = 1)
 }
 \arguments{
-\item{dataframe}{Dataset to be used, containing information about units containing the species of interest, including x and y coordinates, with column names "x" and "y," respectively.}
+\item{popdata}{Dataset to be used, containing information about units containing the species of interest, including x and y coordinates, with column names "x" and "y," respectively.}
 
 \item{plot.size}{The length and width of plots, in coordinate units. Defaults to 1.}
 }
 \value{
-Returns dataframe with a new column for Network ID as well as a column for m, the number of units in the network.
+Returns popdata with a new column for Network ID as well as a column for m, the number of units in the network.
 }
 \description{
 This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned to the same network ID.

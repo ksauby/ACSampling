@@ -31,21 +31,12 @@
 #' # coordinates should be given as x and y
 
 #' @export
-#' @importFrom intergraph asIgraph
-#' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom stats dist
-
-
-#' @importFrom dplyr summarise_each
-#' @importFrom dplyr filter
-#' @importFrom magrittr %$%
-#' @importFrom dplyr arrange
-#' @importFrom dplyr select
-#' @importFrom network network
+#' @importFrom dplyr group_by mutate summarise_each filter arrange select
 #' @importFrom igraph clusters
+#' @importFrom intergraph asIgraph
+#' @importFrom magrittr %$% %>% %<>%
+#' @importFrom network network
+#' @importFrom stats dist
 
 assignNetworkMembership <- function(popdata, plot.size=1) {
 	NetworkID <- x <- NULL

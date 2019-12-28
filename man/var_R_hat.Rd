@@ -4,7 +4,7 @@
 \alias{var_R_hat}
 \title{Calculate the variance of R hat}
 \usage{
-var_R_hat(y, x, N, n1, m, with_replacement = "FALSE")
+var_R_hat(y, x, N, n1, m, replace = "FALSE")
 }
 \arguments{
 \item{y}{Attribute data about object of interest y (e.g., abundance, presence/absence).}
@@ -17,7 +17,7 @@ var_R_hat(y, x, N, n1, m, with_replacement = "FALSE")
 
 \item{m}{Number of units satisfying the ACS criterion in network $i$.}
 
-\item{with_replacement}{Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.}
+\item{replace}{Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.}
 }
 \description{
 Calculate the variance of R hat
@@ -29,6 +29,6 @@ n1 = 4
 y = c(60, 60, 14, 1)
 x = c(1, 1, 1, 1)
 m = c(5, 5, 2, 1)
-R_hat(y, x, N, n1, m, with_replacement="TRUE")
+R_hat(y, x, N, n1, m, replace="TRUE")
 var_R_hat(y, x, N, n1, m)
 }

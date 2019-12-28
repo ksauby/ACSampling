@@ -7,7 +7,7 @@
 #' @return A grid of locations with coordinates (x, y).
 #' @export
 
-#' @examples population <- createPopulation(x_start = 5, x_end = 27, y_start = 5, y_end = 27)
+#' @example population <- createPopulation(x_start = 5, x_end = 27, y_start = 5, y_end = 27)
 
 createPop <- function(x_start, x_end, y_start, y_end) {
   data.frame(expand.grid(

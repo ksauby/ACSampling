@@ -51,8 +51,8 @@ grid <- createPopulation(
 )
 n.networks = 3
 seed = 2000:2100
-data(Thompson1990Figure1Population)
-cluster.info = Thompson1990Figure1Population \%>\% 
+data(Thompson1990Fig1Pop)
+cluster.info = Thompson1990Fig1Pop \%>\% 
 	filter(m > 1) \%>\%
 	createNetworks
 

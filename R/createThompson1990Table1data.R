@@ -42,7 +42,7 @@ createThompson1990Table1data <- function() {
 			{temp[[i]][dim(temp[[i]])[1] + 1, ] = c(2, 0, i, "ACS")}
 	}
 	temp %<>% 
-		rbind.fill %>%
+		bind_rows %>%
 		arrange(sampling_effort)
 	temp$y_value %<>% as.integer
 	temp$m_k %<>% as.integer
