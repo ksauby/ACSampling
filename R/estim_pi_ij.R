@@ -76,18 +76,18 @@ estim_pi_ij <- function(
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
-						population_data=P, 
+						popdata=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						y_variable=y_variable
+						yvar=y_variable
 					) %>% 
 						as.data.table
 				} else {
 					alldata <- createRACS(
-						population_data=P, 
+						popdata=P, 
 						seed=temp_seed, 
 						n1=n1, 
-						y_variable=y_variable,
+						yvar=y_variable,
 						f_max = f_max
 					) %>% 
 						as.data.table

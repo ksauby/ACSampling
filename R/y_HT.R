@@ -187,7 +187,7 @@ new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m=NULL, sampling=N
 	if (dim(B)[1] > 0) {	
 		B$pi_i_values = pi_i(N, n1, m_threshold)
 	}
-	Z <- bind.rows(A, B) %>% as.data.frame
+	Z <- bind_rows(A, B) %>% as.data.frame
 	y_HT = sum(unlist(Z$y)*J/unlist(Z$pi_i_values), na.rm=T)/N
 	return(y_HT)	
 }

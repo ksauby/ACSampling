@@ -24,7 +24,9 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
 #' @importFrom foreach foreach %dopar%
-#' @importFrom dplyr summarise_all
+#' @importFrom dplyr summarise_all arrange_at
+#' @importFrom rlang sym syms
+#' @importFrom stringr str_replace
  
 #' @export
 
@@ -128,13 +130,13 @@ sampleRealizations <- function(
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
 		 	"ACSampling", "intergraph", "network", "igraph", "stringr", "spdep"), 
-		.combine = "rbind.fill",
+		.combine = "bind_rows",
 		#.errorhandling = "pass",
 		.verbose = TRUE
 		) %:%
 	 	foreach (
 			j = 1:nsample.length, # for each sampling effort
-			.combine = "rbind.fill",
+			.combine = "bind_rows",
 			.inorder = FALSE
 		) %dopar% {
 			cat(paste(i,j, sep="_"))
@@ -201,7 +203,7 @@ sampleRealizations <- function(
 						dat$Plots <- dats[n]
 						SampleMeanVar[[n]] <- dat
 					}
-					SampleMeanVar %<>% rbind.fill
+					SampleMeanVar %<>% bind_rows
 					# simple ratio estimators applied to alldata, SRSWOR_data
 					if (!(is.null(rvar))) {
 						SmpRatio <- list()
@@ -395,7 +397,7 @@ sampleRealizations <- function(
 						mutate(Plots = "Horvitz Thompson Mean (All Plots)")
 					# merge estimates
 					if (SampleEstimators == TRUE) {
-						A[[i]][[j]][[k]] = rbind.fill(SampleMeanVar, All_HT)
+						A[[i]][[j]][[k]] = bind_rows(SampleMeanVar, All_HT)
 					} else
 					{
 						A[[i]][[j]][[k]] <- All_HT
