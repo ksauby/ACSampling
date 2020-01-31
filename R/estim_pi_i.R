@@ -71,8 +71,7 @@ estim_pi_i <- function(
 						seed=temp_seed, 
 						n1=n1, 
 						yvar=y_variable
-					) %>% 
-						as.data.table()
+					)
 				} else {
 					alldata <- createRACS(
 						popdata=P, 
@@ -80,12 +79,11 @@ estim_pi_i <- function(
 						n1=n1, 
 						yvar=y_variable,
 						f_max = f_max
-					) %>% 
-						as.data.table
+					)
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(.data$Sampling!="Edge") %>%
-					dplyr::select(.data$n.networks, .data$realization, .data$x, .data$y)
+					select(.data$n.networks, .data$realization, .data$x, .data$y)
 				cactus_networks <- alldata %>%
 					#filter(!(Cactus==0 & m==1)) %>%
 					filter(.data$m!=0)

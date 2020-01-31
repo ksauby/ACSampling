@@ -75,19 +75,23 @@ calcRE <- function(
 		colnames(X)[names(X) == samplesizevar] <- "samplesizevar"
 	}
 	# "long" format of mean MSE
-	A <- X %>% select_(.dots=c(
+	orvar <- c(
 		popgroupvar,
 		"samplesizevar",
 		paste(ovar, "_mean_MSE", sep=""),
 		paste(rvar, "_ratio_mean_MSE", sep="")		
-	)) %>%
-	melt.data.frame(
-		data=.,
-		id.vars=c(
+		)
+	OAVAR <- syms(oavar)
+	A <- X %>% 
+	select(!!!OAVAR) %>%
+	pivot_longer(
+		.,
+		-c(
 			popgroupvar,
 			"samplesizevar"
 		),
-		value.name="mean_MSE"
+		names_to = "variable",
+		values_to = "mean_MSE"
 	)
 	A$variable <- sub("*_mean_MSE", "", A$variable)
 	# "long" format of population variance

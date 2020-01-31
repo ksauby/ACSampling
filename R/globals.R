@@ -1,0 +1,32 @@
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1") {
+	utils::globalVariables(c(
+		".",
+		"CV_tempvar",
+		"MSE",
+		"MSESampleSize",
+		"MeanObsMeans",
+		"Mean_tempvar",
+		"NetworkID",
+		"Obs_MeanObsMeans",
+		"Obs_True2",
+		"RB",
+		"RB_n",
+		"Total_tempvar",
+		"Var",
+		"VarMeanObsMinusTrue2",
+		"Var_tempvar",
+		"m",
+		"m_var",
+		"mean_RB_true_mean",
+		"nsamples",
+		"population",
+		"sample_size",
+		"var_RB",
+		"var_RB_n",
+		"variable",
+		"variables",
+		"x",
+		"y"
+	))
+}

@@ -1,7 +1,4 @@
 setwd('/Users/KSauby/Documents/Projects')
+#devtools::test()#
 setwd("./ACS")#
-devtools::document()#
-devtools::install()
-environment()
-.libPaths()
-install.packages("rlang", lib.loc="/Users/KSauby/Library/R/3.5/library")
+devtools::check()

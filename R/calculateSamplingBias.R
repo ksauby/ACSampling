@@ -1,6 +1,3 @@
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
-
 calcSqDiff <- function(dataframe, Vars) {
 	# for each simulation and Vars, calculate:
 	#	(observed mean - true mean)^2
@@ -32,7 +29,7 @@ calcDiffMeans <- function(dataframe, Vars) {
 					# true)
 					eval(parse(text = paste(Vars[i], "_MeanObsMeans",sep="")))
 			) %>%
-			setnames(!!cname := Obs_MeanObsMeans)
+			rename(!!cname := Obs_MeanObsMeans)
 	}
 	return(dataframe)
 }
@@ -41,7 +38,7 @@ calcDiffMeans <- function(dataframe, Vars) {
 #' @importFrom rlang .data :=
 #' @importFrom dplyr rename
 
-calculateBiasComponents	<- function(dataframe, resultslist, Vars) {
+calcBiasComponents	<- function(dataframe, resultslist, Vars) {
 	for (i in 1:length(Vars)) {
 		resultslist[[i]] <- list()
 		VAR = sym(paste(Vars[i],"TrueMean", sep=""))		
@@ -333,7 +330,7 @@ calcSamplingBias <- function(
 			samplinggroupvar, 
 			"n_sims"
 		)) %>% 
-		calculateBiasComponents(., resultslist=H, Vars=ovar)
+		calcBiasComponents(., resultslist=H, Vars=ovar)
 	
 	Y <- Reduce(
 		function(x, y) merge(
@@ -346,7 +343,7 @@ calcSamplingBias <- function(
 		),
 		X.grp
 	) %>%
-		setnames("n_sims", "ovar_n_sims")
+		rename("ovar_n_sims" = "n_sims")
 	# ratio Vars
 	H <- vector("list", length(rvar))
 	
@@ -362,7 +359,7 @@ calcSamplingBias <- function(
 			samplinggroupvar, 
 			"n_sims"
 		)) %>% 
-		calculateBiasComponents(., resultslist=H, Vars=rvarnames)
+		calcBiasComponents(., resultslist=H, Vars=rvarnames)
 	Z <- Reduce(
 		function(x, y) merge(
 			x, y,

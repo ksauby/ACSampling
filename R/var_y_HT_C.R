@@ -124,7 +124,7 @@ var_y_HT_RACS <- function(N, n1, m, y, m_threshold, pi_i_values=NULL) {
 	if (dim(B)[1] > 0) {	
 		B$pi_i_values = pi_i(N, n1, m_threshold)
 	}
-	Z <- rbind.fill(A, B) %>% as.data.frame
+	Z <- bind_rows(A, B) %>% as.data.frame
 	pi_i_values 		<- Z$pi_i_values
 	pi_ij_values 		<- pi_ij_RACS(N, n1, m, m_threshold) %>% as.matrix
 	# replace diagonal (where h = j)

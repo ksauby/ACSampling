@@ -31,6 +31,8 @@ sampleRealizations(popdata, sims, n1, avar = NULL, ovar, rvar = NULL,
 
 \item{var_formula}{Default is "var_y_HT".}
 
+\item{mThreshold}{Default is NULL.}
+
 \item{f_max}{Default is 2.}
 
 \item{SampleEstimators}{If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.}
@@ -44,8 +46,6 @@ sampleRealizations(popdata, sims, n1, avar = NULL, ovar, rvar = NULL,
 \item{realvar}{Default is "realization"}
 
 \item{weights}{If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
-
-\item{mThrshld}{Default is NULL.}
 }
 \description{
 This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.

@@ -8,6 +8,8 @@ calcPopSummaryStats(popdata, summaryvar, rvar = NULL, popgroupvar,
   spatweights = "S", nrow, ncol)
 }
 \arguments{
+\item{popdata}{Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).}
+
 \item{summaryvar}{Vector of variables for which summary statistics should be calculated.}
 
 \item{rvar}{Vector of variables for which ratio estimators should be used.}
@@ -16,7 +18,9 @@ calcPopSummaryStats(popdata, summaryvar, rvar = NULL, popgroupvar,
 
 \item{spatweights}{Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
 
-\item{population_data}{Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).}
+\item{nrow}{the number of rows in the grid that creates the population}
+
+\item{ncol}{the number of columns in the grid that creates the population}
 }
 \value{
 Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{popgroupvar}.

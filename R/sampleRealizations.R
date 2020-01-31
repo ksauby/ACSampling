@@ -24,7 +24,7 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
 #' @importFrom foreach foreach %dopar%
-#' @importFrom dplyr summarise_all arrange_at
+#' @importFrom dplyr summarise_all arrange_at row_number
 #' @importFrom rlang sym syms
 #' @importFrom stringr str_replace
  
