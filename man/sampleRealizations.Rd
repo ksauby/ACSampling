@@ -4,11 +4,26 @@
 \alias{sampleRealizations}
 \title{Sample species patch realizations simulations}
 \usage{
-sampleRealizations(popdata, sims, n1, avar = NULL, ovar, rvar = NULL,
-  SamplingDesign = "ACS", yvar, y_HT_formula = "y_HT",
-  var_formula = "var_y_HT", mThreshold = NULL, f_max = 2,
-  SampleEstimators = FALSE, SpatStat = TRUE, mChar = TRUE,
-  popvar = "n.networks", realvar = "realization", weights = "S")
+sampleRealizations(
+  popdata,
+  sims,
+  n1,
+  avar = NULL,
+  ovar,
+  rvar = NULL,
+  SamplingDesign = "ACS",
+  yvar,
+  y_HT_formula = "y_HT",
+  var_formula = "var_y_HT",
+  mThreshold = NULL,
+  f_max = 2,
+  SampleEstimators = FALSE,
+  SpatStat = TRUE,
+  mChar = TRUE,
+  popvar = "n.networks",
+  realvar = "realization",
+  weights = "S"
+)
 }
 \arguments{
 \item{popdata}{patch realizations}

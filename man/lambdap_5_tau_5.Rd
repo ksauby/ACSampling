@@ -3,7 +3,9 @@
 \name{lambdap_5_tau_5}
 \alias{lambdap_5_tau_5}
 \title{Example dataset from Christman (1997)}
-\format{A data frame with 100 rows and 5 variables}
+\format{
+A data frame with 100 rows and 5 variables
+}
 \description{
 An example dataset from Christman (1997): \deqn{\lambda_P = 5, \tau = 5}{lambda_P = 5, tau = 5}.
 }

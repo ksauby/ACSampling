@@ -4,8 +4,16 @@
 \alias{new_y_HT}
 \title{Calculate the Horvitz-Thompson mean of an adaptive cluster sample, NEW FORMULA.}
 \usage{
-new_y_HT(y, N, n1, m_threshold, pi_i_values = NULL, m = NULL,
-  sampling = NULL, criterion = NULL)
+new_y_HT(
+  y,
+  N,
+  n1,
+  m_threshold,
+  pi_i_values = NULL,
+  m = NULL,
+  sampling = NULL,
+  criterion = NULL
+)
 }
 \arguments{
 \item{y}{Attribute data about species of interest (e.g., abundance, presence/absence).}

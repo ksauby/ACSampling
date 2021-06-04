@@ -5,11 +5,26 @@ calcSqDiff <- function(dataframe, Vars) {
 		cname = paste(Vars[i], "MeanObs_True2", sep="")
 		dataframe %<>%
 			mutate(
-				Obs_True2 = (
-					# observed -
-					eval(parse(text=paste(Vars[i],"MeanObs",sep=""))) - 
-					# true
-					eval(parse(text = paste(Vars[i], "TrueMean", sep="")))
+			     # (observed - true)^2
+			     Obs_True2 = (
+					eval(
+                              parse(
+                                   text=paste(
+                                        Vars[i],
+                                        "MeanObs",
+					               sep=""
+					          )
+					     )
+					) - 
+					eval(
+					     parse(
+					          text = paste(
+					               Vars[i],
+					               "TrueMean",
+					               sep=""
+					          )
+					     )
+				     )
 				)^2
 			) %>%
 			rename(!!cname := Obs_True2)
@@ -20,14 +35,33 @@ calcDiffMeans <- function(dataframe, Vars) {
 	# for each simulation and variable, calculate:
 	#	observed mean - mean of observed means
 	for (i in 1:length(Vars)) {
-		cname = paste(Vars[i], "_Obs_MeanObsMeans", sep="")
+		cname = paste(
+		     Vars[i], 
+		     "_Obs_MeanObsMeans", 
+		     sep=""
+		)
 		dataframe %<>%
 			mutate(
-				Obs_MeanObsMeans = 
-					# (observed -
-					eval(parse(text = paste(Vars[i], "MeanObs", sep="")))- 
-					# true)
-					eval(parse(text = paste(Vars[i], "_MeanObsMeans",sep="")))
+			     # (observed - true)
+			     Obs_MeanObsMeans = 
+					eval(
+					     parse(
+					          text = paste(
+					               Vars[i], 
+					               "MeanObs", 
+					               sep=""
+					          )
+					     )
+					) - 
+					eval(
+					     parse(
+					          text = paste(
+					               Vars[i], 
+					               "_MeanObsMeans",
+					               sep = ""
+					          )
+					     )
+					)
 			) %>%
 			rename(!!cname := Obs_MeanObsMeans)
 	}
@@ -41,10 +75,22 @@ calcDiffMeans <- function(dataframe, Vars) {
 calcBiasComponents	<- function(dataframe, resultslist, Vars) {
 	for (i in 1:length(Vars)) {
 		resultslist[[i]] <- list()
-		VAR = sym(paste(Vars[i],"TrueMean", sep=""))		
-		var_observed = sym(paste(Vars[i],"MeanObs", sep=""))
-		varMeanObs_True2 = sym(paste(Vars[i],"MeanObs_True2",sep=""))
-		varVarObs = sym(paste(Vars[i],"VarObs",sep=""))
+		VAR <- sym(
+		     paste(
+		          Vars[i],
+		          "TrueMean",
+		          sep = ""
+		     )
+		)		
+		var_observed <- sym(
+		     paste(
+		          Vars[i], 
+		          "MeanObs", 
+		          sep = ""
+		     )
+		)
+		varMeanObs_True2 <- sym(paste(Vars[i], "MeanObs_True2", sep = ""))
+		varVarObs <- sym(paste(Vars[i], "VarObs", sep = ""))
 		resultslist[[i]] <- dataframe %>%
 			summarise(
 				# save true mean
@@ -53,13 +99,16 @@ calcBiasComponents	<- function(dataframe, resultslist, Vars) {
 				RB_n = length(!is.na(!!var_observed)),
 				MSESumObs_True2 = sum(!!VarMeanObsMinusTrue2, na.rm = TRUE), 
 				MSESampleSize = length(!is.na(!!VarMeanObsMinusTrue2)),
-				# for var_RB: calculate mean of simulated HT variance estimates
+				# for var_RB: calculate mean of simulated HT variance 
+				#    estimates
 				varRBMeanOfVarEst = mean(!!varVarObs, na.rm = TRUE), 
-				# for var_RB: sample size used to calculate mean of simulated HT variance estimates
+				# for var_RB: sample size used to calculate mean of 
+				#    simulated HT variance estimates
 				varRBMeanOfVarEst_n = length(!is.na(!!varVarObs)),
 				# for var_RB: calculate variance of MeanObs
 				varRBVarOfMeanEst = var(!!var_observed, na.rm = TRUE),
-				# for var_RB: calculate sample size used to calculate variance of MeanObs
+				# for var_RB: calculate sample size used to calculate 
+				#    variance of MeanObs
 				varRBVarOfMeanEst_n = length(!is.na(!!var_observed))
 			)
 		resultslist[[i]] %<>% 

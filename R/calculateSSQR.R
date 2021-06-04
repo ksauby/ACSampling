@@ -28,7 +28,7 @@ calcSSQR <- function(popdata, variable, popgroupvar=NA) {
 	}
 	if (is.na(popgroupvar)) {
 		network_mean <- popdata %>%
-			group_by(NetworkID) %>%
+			group_by(.data$NetworkID) %>%
 			summarise(
 				network_mean = mean(!!VAR, na.rm = TRUE)
 			)
@@ -83,10 +83,10 @@ calcSSQR <- function(popdata, variable, popgroupvar=NA) {
 				SSQ_R = .data$SSQw / .data$SSQt,
 				variable_name = variable
 			) %>%
-			dplyr::select(-c(.data$SSQw, .data$SSQt, .data$variable_name))
+			dplyr::select(-c(
+                    .data$SSQw, 
+                    .data$SSQt, 
+                    .data$variable_name
+               ))
 	}
 }
-	
-	
-	
-	

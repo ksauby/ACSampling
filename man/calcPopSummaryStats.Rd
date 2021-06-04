@@ -4,8 +4,15 @@
 \alias{calcPopSummaryStats}
 \title{Calculate Summary Statistics for Patch Population Data}
 \usage{
-calcPopSummaryStats(popdata, summaryvar, rvar = NULL, popgroupvar,
-  spatweights = "S", nrow, ncol)
+calcPopSummaryStats(
+  popdata,
+  summaryvar,
+  rvar = NULL,
+  popgroupvar,
+  spatweights = "S",
+  nrow,
+  ncol
+)
 }
 \arguments{
 \item{popdata}{Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).}

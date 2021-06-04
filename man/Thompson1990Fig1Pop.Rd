@@ -3,7 +3,9 @@
 \name{Thompson1990Fig1Pop}
 \alias{Thompson1990Fig1Pop}
 \title{Example dataset from Figure 1 from Thompson (1990)}
-\format{A data frame with 400 rows and 5 variables}
+\format{
+A data frame with 400 rows and 5 variables
+}
 \description{
 An example dataset from Figure 1 from Thompson (1990) containing the information on the y-values associated with units in a 20 by 20 unit grid.
 

@@ -32,7 +32,9 @@ Survey information for plots containing cacti, surveyed during Summer 2012.
 		\item Rel_x
 		\item Rel_y
 }}
-\format{A data frame with 575 rows and 26 variables}
+\format{
+A data frame with 575 rows and 26 variables
+}
 \description{
 Information about plots surveyed within the Guana Tolomato Matanzas National Estuarine Research Reserve
 Survey information for plots containing cacti, surveyed during Summer 2012.

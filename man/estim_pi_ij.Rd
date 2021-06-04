@@ -4,8 +4,15 @@
 \alias{estim_pi_ij}
 \title{Calculate Joint Inclusion Probabilities Using Simulations}
 \usage{
-estim_pi_ij(popdata, sims, nsamples, SamplingDesign = "ACS", y_variable,
-  f_max = NULL, popgroupvar = NULL)
+estim_pi_ij(
+  popdata,
+  sims,
+  nsamples,
+  SamplingDesign = "ACS",
+  y_variable,
+  f_max = NULL,
+  popgroupvar = NULL
+)
 }
 \arguments{
 \item{popdata}{A data frame specifying the patch realizations. WHAT FORMAT SHOULD IT BE IN?}

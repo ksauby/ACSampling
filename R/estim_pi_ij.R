@@ -38,24 +38,29 @@ estim_pi_ij <- function(
 	C = foreach (
 		i = 1:n.pop, # for each species density
 		.inorder = FALSE, 
-		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
-		 	"ACSampling", "intergraph", "network", "igraph", "stringr"), 
+		.packages = c(
+		     "magrittr", 
+		     "foreach", 
+		     "plyr", 
+		     "dplyr", 
+		     "data.table",
+		 	"ACSampling", 
+		 	"intergraph", 
+		 	"network", 
+		 	"igraph", 
+		 	"stringr"
+		 ), 
 		.combine = "list",
 		.multicombine = TRUE
 		) %:%
 	 	foreach (
 			j = 1:nsample.length, # for each sampling effort
 			.multicombine = TRUE,
-			.inorder = FALSE#,
-			#.combine = function(X, Y) {
-			# 	Xnew1 = rbind.fill(X)
-			#	Ynew1 = rbind.fill(Y)
-			#	list(Xnew1, Ynew1)
-			#}
+			.inorder = FALSE
 		) %dopar% {
-			P 			<- popdata %>% filter(pop==unique(popdata$pop)[i])
-			N 			<- dim(P)[1]
-			n1 			<- nsamples[j]
+			P <- popdata %>% filter(pop==unique(popdata$pop)[i])
+			N <- dim(P)[1]
+			n1 <- nsamples[j]
 			# save simulation attributes
 			A[[i]][[j]] <- list()
 			# save counts of joint inclusions
@@ -70,51 +75,41 @@ estim_pi_ij <- function(
 			)
 			# zeros
 			zeros <- B[[i]][[j]]
-			r 			<- (i - 1) * j + j
-			seeds 		<- runif(sims)
+			r <- (i - 1) * j + j
+			seeds <- runif(sims)
 		   for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
-						popdata=P, 
-						seed=temp_seed, 
-						n1=n1, 
-						yvar=y_variable
+						popdata = P, 
+						seed = temp_seed, 
+						n1 = n1, 
+						yvar = y_variable
 					) %>% 
 						as.data.table
 				} else {
 					alldata <- createRACS(
-						popdata=P, 
-						seed=temp_seed, 
-						n1=n1, 
-						yvar=y_variable,
+						popdata = P, 
+						seed = temp_seed, 
+						n1 = n1, 
+						yvar = y_variable,
 						f_max = f_max
 					) %>% 
 						as.data.table
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%
-					dplyr::select(pop, .data$x, .data$y, NetworkID, Sampling) %>%
+					dplyr::select(
+					     pop, 
+					     .data$x, 
+					     .data$y, 
+					     NetworkID, 
+					     Sampling
+					) %>%
 					arrange(NetworkID)
-				# save for m summary data
-				data_networks <- alldata %>%
-					filter(.data$m!=0)
-				# GET INCLUSION MATRIX FOR NETWORKS
-				
-				# temp <- 
-				# 	A[[i]][[j]][[k]] %>%
-				# 	filter(Sampling=="SRSWOR") %>%
-				# 	group_by(NetworkID) %>%
-				# 	dplyr::summarise(n()) %>%
-				# 	arrange(-`n()`)
-				# Z <- matrix(
-				# 	temp$`n()`, 
-				# 	nrow=dim(temp)[1], 
-				# 	ncol=dim(temp)[1], 
-				# 	dimnames=list(temp$NetworkID, temp$NetworkID)
-				# )
-				#Z[lower.tri(Z)] <- t(Z)[lower.tri(Z)]
-				
+				     # save for m summary data
+				     data_networks <- alldata %>%
+					     filter(.data$m!=0)
 				Z <- matrix(
 					nrow=length(unique(A[[i]][[j]][[k]]$NetworkID)),
 					ncol=length(unique(A[[i]][[j]][[k]]$NetworkID)),
@@ -145,7 +140,6 @@ estim_pi_ij <- function(
 					all(rownames(B1)==rownames(B[[i]][[j]])),
 					all(colnames(B1)==colnames(B[[i]][[j]]))
 				)
-				
 				B[[i]][[j]] <- B1 + B[[i]][[j]]
 				# SUMMARIZE M INFORMATION
 				if (dim(data_networks)[1] > 0) {
@@ -158,10 +152,10 @@ estim_pi_ij <- function(
 							MIN = min(.data$m),
 							MEDIAN = median(.data$m)
 						)
-					A[[i]][[j]][[k]]$mean_m_unique_neigh 		<- temp$MEAN
-					A[[i]][[j]][[k]]$max_m_unique_neigh 		<- temp$MAX
-					A[[i]][[j]][[k]]$min_m_unique_neigh 		<- temp$MIN
-					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
+					A[[i]][[j]][[k]]$mean_m_unique_neigh <- temp$MEAN
+					A[[i]][[j]][[k]]$max_m_unique_neigh <- temp$MAX
+					A[[i]][[j]][[k]]$min_m_unique_neigh <- temp$MIN
+					A[[i]][[j]][[k]]$median_m_unique_neigh <- temp$MEDIAN
 					A[[i]][[j]][[k]] <- data_networks %>%
 						dplyr::summarise(
 							MEAN = mean(.data$m),
@@ -171,19 +165,18 @@ estim_pi_ij <- function(
 						)
 					A[[i]][[j]][[k]]$rowcolequal <- rowcolequal
 				} else {
-					A[[i]][[j]][[k]]$mean_m 	<- 0
-					A[[i]][[j]][[k]]$max_m 		<- 0
-					A[[i]][[j]][[k]]$min_m 		<- 0
-					A[[i]][[j]][[k]]$median_m 	<- 0
+					A[[i]][[j]][[k]]$mean_m <- 0
+					A[[i]][[j]][[k]]$max_m <- 0
+					A[[i]][[j]][[k]]$min_m <- 0
+					A[[i]][[j]][[k]]$median_m <- 0
 					A[[i]][[j]][[k]]$rowcolequal <- NA
-					
 				}
-				A[[i]][[j]][[k]]$sample 			<- k
-				A[[i]][[j]][[k]]$seed 				<- temp_seed
-				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
-				A[[i]][[j]][[k]]$sims 				<- sims
-				A[[i]][[j]][[k]]$pop 				<- P$pop[1]
-				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
+				A[[i]][[j]][[k]]$sample <- k
+				A[[i]][[j]][[k]]$seed <- temp_seed
+				A[[i]][[j]][[k]]$SamplingDesign <- SamplingDesign
+				A[[i]][[j]][[k]]$sims <- sims
+				A[[i]][[j]][[k]]$pop <- P$pop[1]
+				A[[i]][[j]][[k]]$N.SRSWOR.plots <- n1
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
 			XY <- list(X, B[[i]][[j]])
@@ -205,19 +198,21 @@ estim_pi_ij <- function(
 	for (i in 1:n.pop) {
 		for (j in 1:nsample.length) {
 			newlist[[k]] <- C[[i]][[j]][grep("nsamples", names(C[[i]][[j]]))]
-			k <- k+1
+			k <- k + 1
 		}
 	}
-	newlist %<>% unlist(recursive=F)
+	newlist %<>% unlist(recursive = FALSE)
 	k=1
 	newlist2 <- list()
 	for (i in 1:n.pop) {
 		for (j in 1:nsample.length) {
 			newlist2[[k]] <- C[[i]][[j]][grep("dat", names(C[[i]][[j]]))]
-			k <- k+1
+			k <- k + 1
 		}
 	}
-	newlist2 %<>% unlist(recursive=F) %>% do.call(rbind.data.frame, .)
+	newlist2 %<>% 
+	     unlist(recursive = FALSE) %>% 
+	     do.call(rbind.data.frame, .)
 	print(Sys.time() - TIME)
 	return(list(newlist2, newlist))
 }

@@ -22,7 +22,9 @@
 		\item 	Height_Stricta 
 		\item 	Sampling
 }}
-\format{A data frame with 844 rows and 17 variables}
+\format{
+A data frame with 844 rows and 17 variables
+}
 \description{
 Information about plots surveyed within the Guana Tolomato Matanzas National Estuarine Research Reserve
 \itemize{

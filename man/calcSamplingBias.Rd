@@ -4,8 +4,15 @@
 \alias{calcSamplingBias}
 \title{Calculate Simulation Data Sampling Bias}
 \usage{
-calcSamplingBias(popdatasummary, simdata, popgroupvar, samplinggroupvar,
-  ovar, orvar, rvar)
+calcSamplingBias(
+  popdatasummary,
+  simdata,
+  popgroupvar,
+  samplinggroupvar,
+  ovar,
+  orvar,
+  rvar
+)
 }
 \arguments{
 \item{popdatasummary}{Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).}

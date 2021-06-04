@@ -3,7 +3,9 @@
 \name{PlotInfo}
 \alias{PlotInfo}
 \title{Information about plots surveyed within the Guana Tolomato Matanzas National Estuarine Research Reserve}
-\format{A data frame with 1372 rows and 14 variables}
+\format{
+A data frame with 1372 rows and 14 variables
+}
 \arguments{
 \item{Island}{Habitat patch within which plot is located}
 

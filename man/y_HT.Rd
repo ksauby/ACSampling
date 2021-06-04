@@ -4,8 +4,7 @@
 \alias{y_HT}
 \title{Calculate the Horvitz-Thompson mean of an adaptive cluster sample.}
 \usage{
-y_HT(y, N, n1, pi_i_values = NULL, m = NULL, sampling = NULL,
-  criterion = NULL)
+y_HT(y, N, n1, pi_i_values = NULL, m = NULL, sampling = NULL, criterion = NULL)
 }
 \arguments{
 \item{y}{Attribute data about species of interest (e.g., abundance, presence/absence).}
@@ -14,7 +13,7 @@ y_HT(y, N, n1, pi_i_values = NULL, m = NULL, sampling = NULL,
 
 \item{n1}{Initial sample size.}
 
-\item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
+\item{pi_i_values}{vector of inclusion probabilities; if not provided, this function calculates them. Default is \code{NULL}.}
 
 \item{m}{Number of units satisfying the ACS criterion in network $i$.}
 

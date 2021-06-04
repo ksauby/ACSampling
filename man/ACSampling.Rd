@@ -3,7 +3,6 @@
 \docType{package}
 \name{ACSampling}
 \alias{ACSampling}
-\alias{ACSampling-package}
 \title{\code{ACSampling} package}
 \description{
 Google spreadsheets R API

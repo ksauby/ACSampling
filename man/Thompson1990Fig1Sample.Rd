@@ -4,7 +4,9 @@
 \name{Thompson1990Fig1Sample}
 \alias{Thompson1990Fig1Sample}
 \title{Create the population displayed in Figure 1 from Thompson (1990)}
-\format{A data frame with 10 rows and 2 variables}
+\format{
+A data frame with 10 rows and 2 variables
+}
 \usage{
 Thompson1990Fig1Sample()
 }

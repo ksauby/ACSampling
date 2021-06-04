@@ -112,7 +112,7 @@ createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, R
     }
     names(Y) <- names(H)
    	Y %<>% 
-   		dplyr::select(-c(NetworkID, temp_coords)) %>%
+   		dplyr::select(-c(.data$NetworkID, .data$temp_coords)) %>%
 		assignNetworkMembership(1)
 	return(Y)
 }

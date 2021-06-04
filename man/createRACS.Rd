@@ -4,8 +4,15 @@
 \alias{createRACS}
 \title{Create a Restricted Adaptive Cluster Sample, for any step size}
 \usage{
-createRACS(popdata, n1, yvar, condition = 0, seed = NA,
-  initsample = NULL, f_max = 2)
+createRACS(
+  popdata,
+  n1,
+  yvar,
+  condition = 0,
+  seed = NA,
+  initsample = NULL,
+  f_max = 2
+)
 }
 \arguments{
 \item{popdata}{grid of population to be sampled.}
@@ -36,15 +43,17 @@ n1=5
 y_variable = "y_value"
 f_max = 3
 Z = createRACS(
-	popdata=lambdap_5_tau_1, 
-	n1=n1, 
-	yvar=yvar, 
-	seed=seed, 
-	f_max=f_max
+	popdata = lambdap_5_tau_1, 
+	n1 = n1, 
+	yvar = yvar, 
+	seed = seed, 
+	f_max = f_max
 )
 ggplot() +
-geom_point(data=Z, aes(x,y, size=factor(y_variable),
-		shape=factor(y_variable))) +
+geom_point(
+data=Z, 
+aes(x,y, size=factor(y_variable), shape=factor(y_variable))
+) +
 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 geom_point(data=Z, aes(x,y), shape = 0, size=7) +
 ggtitle("f_max = 1")

@@ -1,6 +1,6 @@
 #' Calculate the Horvitz-Thompson mean of an adaptive cluster sample.
 #' 
-#' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
+#' @param pi_i_values vector of inclusion probabilities; if not provided, this function calculates them. Default is \code{NULL}.
 #' @param N Population size. 
 #' @param m Number of units satisfying the ACS criterion in network $i$.
 #' @param n1 Initial sample size.

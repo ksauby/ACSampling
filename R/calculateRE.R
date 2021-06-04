@@ -14,6 +14,7 @@
 #' @export
 #' @importFrom reshape2 dcast
 #' @importFrom utils getFromNamespace
+#' #' @importFrom tidyr pivot_longer
 #' @examples
 #'# dimensions of populations
 #' dimensions <- popdata %>% 
@@ -81,27 +82,29 @@ calcRE <- function(
 		paste(ovar, "_mean_MSE", sep=""),
 		paste(rvar, "_ratio_mean_MSE", sep="")		
 		)
-	OAVAR <- syms(oavar)
-	A <- X %>% 
-	select(!!!OAVAR) %>%
-	pivot_longer(
-		.,
-		-c(
-			popgroupvar,
-			"samplesizevar"
-		),
-		names_to = "variable",
-		values_to = "mean_MSE"
-	)
-	A$variable <- sub("*_mean_MSE", "", A$variable)
+	ORVAR <- syms(orvar)
+     A <- X %>% 
+          select(!!!ORVAR) %>%
+          pivot_longer(.,
+               -c(popgroupvar, "samplesizevar"),
+               names_to = "variable",
+               values_to = "mean_MSE"
+          )
+	A$variable <- sub(
+          "*_mean_MSE", 
+          "", 
+          A$variable
+     )
 	# "long" format of population variance
+	poporvar <- c(
+          popgroupvar,
+          paste(ovar, "_var", sep=""),
+          paste(rvar, "_ratio_var", sep=""),
+          "N"
+	)
+	POPORVAR <- syms(poporvar)
 	B <- popdata %>% 
-		select_(.dots=c(
-			popgroupvar,
-			paste(ovar, "_var", sep=""),
-			paste(rvar, "_ratio_var", sep=""),
-			"N"
-		)) %>%			
+		select(!!!POPORVAR) %>%			
 		melt.data.frame(
 			data=.,
 			id.vars=c(
@@ -128,7 +131,7 @@ calcRE <- function(
 		)
 		/	.data$mean_MSE
 	)
-	Z$variable <- paste(Z$variable, "_RE", sep="")
+	Z$variable <- paste(Z$variable, "_RE", sep = "")
 	Z %<>%
 	dcast(
 		list(

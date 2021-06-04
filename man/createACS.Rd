@@ -4,8 +4,7 @@
 \alias{createACS}
 \title{Create an Adaptive Cluster Sample.}
 \usage{
-createACS(popdata, n1, yvar, condition = 0, seed = NA,
-  initsample = NA)
+createACS(popdata, n1, yvar, condition = 0, seed = NA, initsample = NA)
 }
 \arguments{
 \item{popdata}{The population to be sampled.}

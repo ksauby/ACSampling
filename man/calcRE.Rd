@@ -4,8 +4,14 @@
 \alias{calcRE}
 \title{Calculate Relative Efficiency (RE)}
 \usage{
-calcRE(MSE_ComparisonSamplingDesign, popdata, popgroupvar, samplesizevar,
-  rvar, ovar)
+calcRE(
+  MSE_ComparisonSamplingDesign,
+  popdata,
+  popgroupvar,
+  samplesizevar,
+  rvar,
+  ovar
+)
 }
 \arguments{
 \item{MSE_ComparisonSamplingDesign}{Sampling design for which relative efficiency (RE) should be calculated.}

@@ -3,7 +3,9 @@
 \name{Thompson1990Table1data}
 \alias{Thompson1990Table1data}
 \title{Table 1 data from Thompson (1990)}
-\format{A data frame with 31 rows and 4 variables.}
+\format{
+A data frame with 31 rows and 4 variables.
+}
 \description{
 Data from Table 1 from Thompson (1990). The table summarizes all possible outcomes when applying adaptive cluster sampling to a five-unit population with y-values equal to 1, 0, 2, 10, and 1000.
 }

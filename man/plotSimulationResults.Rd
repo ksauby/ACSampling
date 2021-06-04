@@ -4,11 +4,25 @@
 \alias{plotSimulationResults}
 \title{Plot Simulation Results}
 \usage{
-plotSimulationResults(dataset, variable = NULL, x_variable = NULL,
-  y_variable = NULL, grouping_variable, legend_name, xlab_name = NULL,
-  ylab_name = NULL, SD = FALSE, facet, legendposition = "bottom",
-  legendcolor = "black", x_angle = 360, xlength = 6, ylength = 4,
-  roundn = 2, y_breaks = NULL)
+plotSimulationResults(
+  dataset,
+  variable = NULL,
+  x_variable = NULL,
+  y_variable = NULL,
+  grouping_variable,
+  legend_name,
+  xlab_name = NULL,
+  ylab_name = NULL,
+  SD = FALSE,
+  facet,
+  legendposition = "bottom",
+  legendcolor = "black",
+  x_angle = 360,
+  xlength = 6,
+  ylength = 4,
+  roundn = 2,
+  y_breaks = NULL
+)
 }
 \arguments{
 \item{dataset}{Simulation data on sampling of the multiple patch realizations.}

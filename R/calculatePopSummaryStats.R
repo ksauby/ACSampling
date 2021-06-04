@@ -161,11 +161,11 @@ calcPopSummaryStats <- function(
 					paste("temp$", summaryvar[j], sep="")
 				))	
 			}
-			A[[i]][[j]]$Mean_tempvar 	<- Mean(tempvar)
-			A[[i]][[j]]$Var_tempvar 	<- PopVariance(tempvar)
-			A[[i]][[j]]$CV_tempvar 		<- popCV(tempvar)
-			A[[i]][[j]]$Total_tempvar 	<- Sum(tempvar)
-			A[[i]][[j]]$SSQ_R			<- calcSSQR(
+			A[[i]][[j]]$Mean_tempvar <- Mean(tempvar)
+			A[[i]][[j]]$Var_tempvar <- PopVariance(tempvar)
+			A[[i]][[j]]$CV_tempvar <- popCV(tempvar)
+			A[[i]][[j]]$Total_tempvar <- Sum(tempvar)
+			A[[i]][[j]]$SSQ_R <- calcSSQR(
 				popdata = as.data.frame(temp),
 				variable = summaryvar[j],
 				popgroupvar
@@ -179,20 +179,30 @@ calcPopSummaryStats <- function(
 				if ("W" %in% spatweights) {
 					lwb <- nb2listw(nb, style = "W") # convert to spatweights
 					# I think cells are indexed by row, then column
-					A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(
-						eval(parse(text=paste(
-							"temp2$",
-							summaryvar[j],
-							sep=""
-						)))),
+					A[[i]][[j]]$JoinCountTest.W <- joincount.test(
+					     as.factor(
+                                   eval(
+                                        parse(
+                                             text=paste(
+                                                  "temp2$",
+                                                  summaryvar[j],
+                                                  sep = ""
+                                             )
+                                        )
+                                   )
+                              ),
 						lwb
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.W <- moran.test(
-						eval(parse(text=paste(
-							"temp2$",
-							summaryvar[j],
-							sep=""
-						))),
+						eval(
+                                   parse(
+                                        text=paste(
+                                             "temp2$",
+                                             summaryvar[j],
+                                             sep=""
+                                        )
+                                   )
+						),
 						lwb
 					)$estimate[1]
 				}
@@ -282,19 +292,29 @@ calcPopSummaryStats <- function(
 					lwb <- nb2listw(nb, style = "minmax") # convert to spatweights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(
-						as.factor(eval(parse(text=paste(
-							"temp2$",
-							summaryvar[j],
-							sep=""
-						)))),
-						lwb
+                              as.factor(
+                                   eval(
+                                        parse(
+                                             text = paste(
+                                                  "temp2$",
+                                                  summaryvar[j],
+                                                  sep = ""
+                                             )
+                                        )
+                                   )
+                              ),
+					     lwb
 					)[[2]]$estimate[1]
 					A[[i]][[j]]$MoranI.minmax <- moran.test(
-						eval(parse(text=paste(
-							"temp2$",
-							summaryvar[j],
-							sep=""
-						))),
+                              eval(
+                                   parse(
+                                        text=paste(
+                                             "temp2$",
+                                             summaryvar[j],
+                                             sep=""
+                                        )
+                                   )
+                              ),
 						lwb
 					)$estimate[1]
 				}	

@@ -4,8 +4,18 @@
 \alias{createRealizations}
 \title{Create multiple realizations from data}
 \usage{
-createRealizations(x_start, x_end, y_start, y_end, buffer, n.networks,
-  n.realizations, SpeciesInfo, start.seed, variables)
+createRealizations(
+  x_start,
+  x_end,
+  y_start,
+  y_end,
+  buffer,
+  n.networks,
+  n.realizations,
+  SpeciesInfo,
+  start.seed,
+  variables
+)
 }
 \arguments{
 \item{x_start}{The most western coordinate of the grid.}
@@ -60,9 +70,18 @@ start.seed=1
 buffer=5
 
 # create realizations
-CactusRealizations = createSpeciesPatchRealizations(x_start, x_end, 
-	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
-	variables)
+CactusRealizations = createSpeciesPatchRealizations(
+x_start, 
+x_end, 
+y_start, 
+y_end, 
+buffer, 
+n.networks, 
+n.realizations, 
+SpeciesInfo, 
+start.seed,
+variables
+)
 
 # plot realizations
 p <- ggplot(CactusRealizations, aes(x, y, colour=NetworkID, 

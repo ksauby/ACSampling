@@ -2,13 +2,19 @@
 % Please edit documentation in R/estim_pi_i.R
 \name{estim_pi_i}
 \alias{estim_pi_i}
-\title{Calculate Inclusion Probabilities Using Simulations}
+\title{Estimate Inclusion Probabilities Using Simulations}
 \usage{
-estim_pi_i(popdata, sims, nsamples, SamplingDesign = "ACS", y_variable,
-  f_max = NULL)
+estim_pi_i(
+  popdata,
+  sims,
+  nsamples,
+  SamplingDesign = "ACS",
+  y_variable,
+  f_max = NULL
+)
 }
 \arguments{
-\item{popdata}{Population data}
+\item{popdata}{Population data in the format XXXXXXXX}
 
 \item{sims}{Number of simulations per population.}
 

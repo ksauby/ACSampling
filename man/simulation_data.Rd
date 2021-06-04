@@ -3,7 +3,9 @@
 \name{simulation_data}
 \alias{simulation_data}
 \title{Simulation Data}
-\format{A data frame with 400 rows and 5 variables}
+\format{
+A data frame with 400 rows and 5 variables
+}
 \description{
 Realizations created from my own data.
 }

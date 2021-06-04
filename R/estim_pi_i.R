@@ -1,6 +1,6 @@
-#' Calculate Inclusion Probabilities Using Simulations
+#' Estimate Inclusion Probabilities Using Simulations
 
-#' @param popdata Population data
+#' @param popdata Population data in the format XXXXXXXX
 #' @param sims Number of simulations per population.
 #' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
 #' @param f_max NEED DESCRIPTION HERE
@@ -39,12 +39,12 @@ estim_pi_i <- function(
 ) 
 {
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
-	TIME 					<- Sys.time()
-	popdata 				%<>% arrange(.data$n.networks, .data$realization)
-	n.patches 				<- length(unique(popdata$n.networks))
-	nsample.length 			<- length(nsamples)
-	A 						<- vector("list", n.patches)
-	B = foreach (
+	TIME <- Sys.time()
+	popdata %<>% arrange(.data$n.networks, .data$realization)
+	n.patches <- length(unique(popdata$n.networks))
+	nsample.length <- length(nsamples)
+	A <- vector("list", n.patches)
+	B <- foreach (
 		i = 1:n.patches, # for each species density
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
@@ -56,28 +56,28 @@ estim_pi_i <- function(
 			.combine = "rbind.fill",
 			.inorder = FALSE
 		) %dopar% {
-			P 			<- popdata %>% 
-							filter(.data$n.networks==unique(popdata$n.networks)[i])
-			N 			<- dim(P)[1]
-			n1 			<- nsamples[j]
+			P <- popdata %>% 
+				filter(.data$n.networks == unique(popdata$n.networks)[i])
+			N <- dim(P)[1]
+			n1 <- nsamples[j]
 			A[[i]][[j]] <- list()
-			r 			<- (i - 1) * j + j
-			seeds 		<- runif(sims)
+			r <- (i - 1) * j + j
+			seeds <- runif(sims)
 		    for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
-				if (SamplingDesign=="ACS") {
+				if (SamplingDesign == "ACS") {
 					alldata <- createACS(
-						popdata=P, 
-						seed=temp_seed, 
-						n1=n1, 
-						yvar=y_variable
+						popdata = P, 
+						seed = temp_seed, 
+						n1 = n1, 
+						yvar = y_variable
 					)
 				} else {
 					alldata <- createRACS(
-						popdata=P, 
-						seed=temp_seed, 
-						n1=n1, 
-						yvar=y_variable,
+						popdata = P, 
+						seed = temp_seed, 
+						n1 = n1, 
+						yvar = y_variable,
 						f_max = f_max
 					)
 				}
@@ -97,10 +97,10 @@ estim_pi_i <- function(
 							MIN = min(.data$m),
 							MEDIAN = median(.data$m)
 						)
-					A[[i]][[j]][[k]]$mean_m_unique_neigh 		<- temp$MEAN
-					A[[i]][[j]][[k]]$max_m_unique_neigh 		<- temp$MAX
-					A[[i]][[j]][[k]]$min_m_unique_neigh 		<- temp$MIN
-					A[[i]][[j]][[k]]$median_m_unique_neigh 		<- temp$MEDIAN
+					A[[i]][[j]][[k]]$mean_m_unique_neigh <- temp$MEAN
+					A[[i]][[j]][[k]]$max_m_unique_neigh <- temp$MAX
+					A[[i]][[j]][[k]]$min_m_unique_neigh <- temp$MIN
+					A[[i]][[j]][[k]]$median_m_unique_neigh <- temp$MEDIAN
 					temp2 <- cactus_networks %>%
 						summarise(
 							MEAN = mean(.data$m),
@@ -108,30 +108,30 @@ estim_pi_i <- function(
 							MIN = min(.data$m),
 							MEDIAN = median(.data$m)
 						)
-					A[[i]][[j]][[k]]$mean_m 	<- temp2$MEAN
-					A[[i]][[j]][[k]]$max_m 		<- temp2$MAX
-					A[[i]][[j]][[k]]$min_m 		<- temp2$MIN
-					A[[i]][[j]][[k]]$median_m 	<- temp2$MEDIAN
+					A[[i]][[j]][[k]]$mean_m <- temp2$MEAN
+					A[[i]][[j]][[k]]$max_m <- temp2$MAX
+					A[[i]][[j]][[k]]$min_m <- temp2$MIN
+					A[[i]][[j]][[k]]$median_m <- temp2$MEDIAN
 					
 					
 					
 							
 				} else {
-					A[[i]][[j]][[k]]$mean_m 	<- 0
-					A[[i]][[j]][[k]]$max_m 		<- 0
-					A[[i]][[j]][[k]]$min_m 		<- 0
-					A[[i]][[j]][[k]]$median_m 	<- 0
+					A[[i]][[j]][[k]]$mean_m <- 0
+					A[[i]][[j]][[k]]$max_m <- 0
+					A[[i]][[j]][[k]]$min_m <- 0
+					A[[i]][[j]][[k]]$median_m <- 0
 				}
-				A[[i]][[j]][[k]]$seed 				<- temp_seed
-				A[[i]][[j]][[k]]$SamplingDesign 	<- SamplingDesign
-				A[[i]][[j]][[k]]$sims 		<- sims
-				A[[i]][[j]][[k]]$realization 		<- P$realization[1]
-				A[[i]][[j]][[k]]$n.networks 		<- P$n.networks[1]
-				A[[i]][[j]][[k]]$N.SRSWOR.plots 	<- n1
+				A[[i]][[j]][[k]]$seed <- temp_seed
+				A[[i]][[j]][[k]]$SamplingDesign <- SamplingDesign
+				A[[i]][[j]][[k]]$sims <- sims
+				A[[i]][[j]][[k]]$realization <- P$realization[1]
+				A[[i]][[j]][[k]]$n.networks <- P$n.networks[1]
+				A[[i]][[j]][[k]]$N.SRSWOR.plots <- n1
 			}
 			X <- do.call(rbind.data.frame, A[[i]][[j]])
 			X$coords <- with(X, paste(x,y,sep="_"))
-			# total number of cells sample per realization, n.networks, N.SRSWOR.plots and SamplingDesign
+			# total number of cells sampled per realization, n.networks, N.SRSWOR.plots and SamplingDesign
 			X %>%
 				group_by(
 					.data$realization, 

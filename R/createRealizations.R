@@ -41,9 +41,18 @@
 #' buffer=5
 #' 
 #' # create realizations
-#' CactusRealizations = createSpeciesPatchRealizations(x_start, x_end, 
-#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
-#' 	variables)
+#' CactusRealizations = createSpeciesPatchRealizations(
+#' x_start, 
+#' x_end, 
+#' y_start, 
+#' y_end, 
+#' buffer, 
+#' n.networks, 
+#' n.realizations, 
+#' SpeciesInfo, 
+#' start.seed,
+#' variables
+#' )
 #' 
 #' # plot realizations
 #' p <- ggplot(CactusRealizations, aes(x, y, colour=NetworkID, 

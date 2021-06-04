@@ -13,16 +13,16 @@
 #' @export
 
 pi_ij <- function(N, n1, m) {
-	N_n1 	<- choose(N, n1)
+	N_n1 <- choose(N, n1)
 	# vector of binom(N-mj, n1)
-	N_m_n1 	<- sapply(m, function(m) choose(N - m, n1)) 
+	N_m_n1 <- sapply(m, function(m) choose(N - m, n1)) 
 	N_m_m_n1 = matrix(
 		nrow = length(m), 
 		ncol = length(m), 
 		NA
 	) # store binom(N-mj-mh, n1)
 	for (j in 1 : length(m)) {
-	  N_m_m_n1[j, ] = choose((N - m[j] - m), n1)
+          N_m_m_n1[j, ] = choose((N - m[j] - m), n1)
 	}	
 	pi_ij_cpp(m, N_n1, N_m_n1, N_m_m_n1)
 }
@@ -43,11 +43,11 @@ pi_ij <- function(N, n1, m) {
 #' @export
 
 pi_ij_RACS <- function(N, n1, m, m_threshold) {
-	N_n1 				<- choose(N, n1)
-	N_m_threshold_n1 	<- choose(N - m_threshold, n1)
-	N_2m_threshold_n1 	<- choose(N - 2*m_threshold, n1)
+	N_n1 <- choose(N, n1)
+	N_m_threshold_n1 <- choose(N - m_threshold, n1)
+	N_2m_threshold_n1 <- choose(N - 2*m_threshold, n1)
 	# vector of binom(N-mj, n1)
-	N_m_n1 	<- sapply(m, function(m) choose(N - m, n1)) 
+	N_m_n1 <- sapply(m, function(m) choose(N - m, n1)) 
 	N_m_m_n1 = matrix(
 		nrow = length(m), 
 		ncol = length(m), 

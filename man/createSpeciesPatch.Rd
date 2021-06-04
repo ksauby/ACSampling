@@ -4,8 +4,16 @@
 \alias{createSpeciesPatch}
 \title{Create patches of species of interest within the grid population.}
 \usage{
-createSpeciesPatch(grid, n.networks, seed, cluster.info, x = x, y = y,
-  Rel_x = Rel_x, Rel_y = Rel_y)
+createSpeciesPatch(
+  grid,
+  n.networks,
+  seed,
+  cluster.info,
+  x = x,
+  y = y,
+  Rel_x = Rel_x,
+  Rel_y = Rel_y
+)
 }
 \arguments{
 \item{grid}{A dataframe of x and y coordinates (can be created with \code{createPopulation}). Should only include plots that have the species of interest.}
