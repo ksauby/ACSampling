@@ -43,7 +43,8 @@ assignNetworkMembership <- function(popdata, plot.size=1) {
 	D <- as.matrix(dist(cbind(popdata$x, popdata$y), method="euclidian"))
 	D = ifelse(D > plot.size, 0, D)
 	D %<>% as.data.frame
-	G <- network(D, directed=FALSE) %>% asIgraph()
+	#G <- network(D, directed=FALSE) %>% asIgraph()
+	G <- asIgraph(D, directed=FALSE) #%>% asIgraph()
 	popdata$NetworkID <- clusters(G)$membership
 	popdata %<>%
 		group_by(NetworkID) %>%

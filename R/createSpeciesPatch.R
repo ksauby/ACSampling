@@ -27,7 +27,7 @@
 #' y_start = 1
 #' y_end = 30
 #' buffer = 5
-#' grid <- createPopulation(
+#' grid <- createPop(
 #' 	x_start + buffer, 
 #' 	x_end - buffer, 
 #' 	y_start + buffer, 
@@ -119,6 +119,6 @@ createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, R
     names(Y) <- names(H)
    	Y %<>% 
    		select(-c(.data$NetworkID, .data$temp_coords)) %>%
-		assignNetworkMembership(1)
+		assignNetworkMembership(plot.size=1)
 	return(Y)
 }
