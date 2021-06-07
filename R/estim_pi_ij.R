@@ -13,6 +13,7 @@
 #' @return A list of nsamples and dat, BUT I DONT REMEMBER WHAT THOSE ARE.
 
 #' @importFrom foreach %:% 
+#' @importFrom data.table as.data.table setnames
 #' @export
 
 estim_pi_ij <- function(
@@ -86,7 +87,7 @@ estim_pi_ij <- function(
 						n1 = n1, 
 						yvar = y_variable
 					) %>% 
-						as.data.table
+						as.data.table()
 				} else {
 					alldata <- createRACS(
 						popdata = P, 
@@ -95,7 +96,7 @@ estim_pi_ij <- function(
 						yvar = y_variable,
 						f_max = f_max
 					) %>% 
-						as.data.table
+						as.data.table()
 				}
 				A[[i]][[j]][[k]] <- alldata %>% 
 					filter(Sampling!="Edge") %>%

@@ -10,10 +10,10 @@
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' population_data = lambdap_5_tau_1
+#' popdata = lambdap_5_tau_1
 #' seed=3
 #' n1=5
-#' y_variable = "y_value"
+#' yvar = "y_value"
 #' f_max = 3
 #' Z = createRACS(
 #' 	popdata = lambdap_5_tau_1, 
@@ -44,10 +44,10 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 		S = merge(popdata, initsample, all.y=TRUE) 	
 		S$Sampling <- "Primary Sample"
 		S$step <- 0
-		} else {
-			if (!is.na(seed)) {set.seed(seed)}
-				S <- createSRS(popdata, n1)
-				S$step <- 0
+	} else {
+		if (!is.na(seed)) {set.seed(seed)}
+			S <- createSRS(popdata, n1)
+			S$step <- 0
 	}
 	# filter out primary samples that satisfy the condition
 	Networks <- S %>% 
@@ -164,9 +164,9 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 			Z$m <- 0			
 			# merge back together		
 			Z = bind_rows(X, Y, Z)	
-			} else {
-				# merge back together		
-				Z = bind_rows(X, Y)			
+		} else {
+			# merge back together		
+			Z = bind_rows(X, Y)			
 		}
 		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
@@ -183,22 +183,22 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 		)
 		#names(Z)[names(Z) == 'y_value'] <- yvar
 		# add species attribute data
+		
 		Z %<>% 
-			merge(
-			     popdata %>% 
-			          select(-c(
-			               .data$NetworkID,
-			               .data$m
-			          )) %>%
-			     select(
-			          .data$x, 
-			          .data$y, 
-			          .data$NetworkID, 
-			          .data$m, 
-			          .data$y_value, 
-			          .data$Sampling, 
-			          everything()
-			     )
+			merge(popdata %>% 
+                    select(-c(
+                         .data$NetworkID,
+                         .data$m
+                    ))
+               ) %>%
+               select(
+                    .data$x, 
+                    .data$y, 
+                    .data$NetworkID, 
+                    .data$m, 
+                    .data$y_value, 
+                    .data$Sampling, 
+                    everything()
 			)
 		# warning	
 		if (dim(Z[duplicated(Z[, c("x", "y")]), ])[1] > 0) {

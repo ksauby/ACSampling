@@ -6,7 +6,7 @@
 #' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 #' @export
 
-Thompson1990Fig1Sample <- function() {
+createThompson1990Fig1Sample <- function() {
 	sample = rbind(
 			c(6,19),
 			c(18,18),

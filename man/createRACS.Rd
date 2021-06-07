@@ -37,10 +37,10 @@ Create a Restricted Adaptive Cluster Sample, for any step size
 }
 \examples{
 library(ggplot2)
-population_data = lambdap_5_tau_1
+popdata = lambdap_5_tau_1
 seed=3
 n1=5
-y_variable = "y_value"
+yvar = "y_value"
 f_max = 3
 Z = createRACS(
 	popdata = lambdap_5_tau_1, 

@@ -16,8 +16,8 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-data(Thompson1990Figure1Population)
-N = dim(Thompson1990Figure1Population)[1]
+data(Thompson1990Fig1Pop)
+N = dim(Thompson1990Fig1Pop)[1]
 n1 = c(1,2)
 nsimulations = 500
 seed.generator=1000
@@ -47,7 +47,7 @@ Z = foreach (
 			seed = seq(h*i*seed.generator, h*i*seed.generator+9999, by=1) 
 			new.seed = seed[1]
 			set.seed(new.seed)
-			Z = createACS(Thompson1990Figure1Population, seed=new.seed, n1=n1[h], 
+			Z = createACS(Thompson1990Fig1Pop, seed=new.seed, n1=n1[h], 
 				y_variable="y_value", condition=0)
 			cat(new.seed)
 			seed = seed[-1]

@@ -19,7 +19,7 @@
 
 test_that("calculateSamplingBias and calculateRE", {
 	# PREP DATA
-	data(Thompson1990Figure1Population)
+	data(Thompson1990Fig1Pop)
 	# calculate y_value estimates
 	samplesizes <- data.frame(
 		seed = 1:150,
@@ -29,7 +29,7 @@ test_that("calculateSamplingBias and calculateRE", {
 	y_value_var_observed <- vector()
 		for (i in 1:dim(samplesizes)[1]) {
 			temp <- createSRS(
-				population=Thompson1990Figure1Population, 
+				population=Thompson1990Fig1Pop, 
 				seed=samplesizes$seed[i], 
 				n1=samplesizes$N.SRSWOR.plots[i]
 			)
@@ -38,9 +38,9 @@ test_that("calculateSamplingBias and calculateRE", {
 		}
 	data <- cbind(samplesizes, y_value_mean_observed, y_value_var_observed)
 	# summarise population data
-	Thompson1990Figure1Population_summary <- 
+	Thompson1990Fig1Pop_summary <- 
 		calculatePopulationSummaryStatistics(
-			population_data		= Thompson1990Figure1Population, 
+			population_data		= Thompson1990Fig1Pop, 
 			summary.variables 	= "y_value", 
 			grouping.variables 	= NULL, 
 			ratio.variables 	= NULL
@@ -50,7 +50,7 @@ test_that("calculateSamplingBias and calculateRE", {
 		mutate(
 			observed_minus_true_sqd = (
 				y_value_mean_observed - 
-				Thompson1990Figure1Population_summary$y_value_mean
+				Thompson1990Fig1Pop_summary$y_value_mean
 		)^2) %>%
 		group_by(N.SRSWOR.plots) %>%
 		summarise(
@@ -58,8 +58,8 @@ test_that("calculateSamplingBias and calculateRE", {
 				# mean of HT estimates
 				mean(y_value_mean_observed) - 
 				# mu, population mean
-				Thompson1990Figure1Population_summary$y_value_mean
-			) / Thompson1990Figure1Population_summary$y_value_mean * 100,
+				Thompson1990Fig1Pop_summary$y_value_mean
+			) / Thompson1990Fig1Pop_summary$y_value_mean * 100,
 			y_value_var_RB = (
 				mean(y_value_var_observed) - var(y_value_mean_observed)
 			) / var(y_value_mean_observed) * 100,
@@ -75,7 +75,7 @@ test_that("calculateSamplingBias and calculateRE", {
 	temp$y_value_var_RB %<>% round(3)
 
 	data_summary_stats <- calculateSamplingBias(
-		population_data_summary	= Thompson1990Figure1Population_summary, 
+		population_data_summary	= Thompson1990Fig1Pop_summary, 
 		simulation_data		= data, 
 		population.grouping.variables = NULL, 
 		sampling.grouping.variables	= "N.SRSWOR.plots", 
@@ -113,20 +113,20 @@ test_that("calculateSamplingBias and calculateRE", {
 	total_sample_size <- vector()
 	for (i in 1:dim(samplesizes)[1]) {
 		temp <- createACS(
-			population=Thompson1990Figure1Population, 
+			population=Thompson1990Fig1Pop, 
 			seed=samplesizes$seed[i], 
 			n1=samplesizes$N.SRSWOR.plots[i],
 			y_variable="y_value"
 		)
 		y_value_mean_observed[i] <- y_HT(
 			y = temp$y_value,
-			N = dim(Thompson1990Figure1Population)[1],
+			N = dim(Thompson1990Fig1Pop)[1],
 			n1 = samplesizes$N.SRSWOR.plots[i],
 			m = temp$m
 		)
 		y_value_var_observed[i] <- var_y_HT(
 			y = temp$y_value,
-			N = dim(Thompson1990Figure1Population)[1],
+			N = dim(Thompson1990Fig1Pop)[1],
 			n1 = samplesizes$N.SRSWOR.plots[i],
 			m = temp$m
 		)
@@ -148,7 +148,7 @@ test_that("calculateSamplingBias and calculateRE", {
 
 
 	ACSdata_summary_stats <- calculateSamplingBias(
-		population_data_summary	= Thompson1990Figure1Population_summary, 
+		population_data_summary	= Thompson1990Fig1Pop_summary, 
 		simulation_data		= ACSdata_re, 
 		population.grouping.variables = NULL, 
 		sampling.grouping.variables	= "mean_total_sample_size", 
@@ -157,7 +157,7 @@ test_that("calculateSamplingBias and calculateRE", {
 	) %>%
 	as.data.frame
 	
-	population_variance <- var(Thompson1990Figure1Population$y_value)
+	population_variance <- var(Thompson1990Fig1Pop$y_value)
 			
 	RE_values <-  
 		(population_variance / ACSdata_summary_stats$mean_total_sample_size) / 
@@ -165,7 +165,7 @@ test_that("calculateSamplingBias and calculateRE", {
 	expect_that(
 		calculateRE(
 			MSE_ComparisonSamplingDesign = ACSdata_summary_stats,
-			population_data = Thompson1990Figure1Population,
+			population_data = Thompson1990Fig1Pop,
 			population.grouping.variables = NULL,
 			sampling.grouping.variables = NULL,
 			sample.size.variable = "mean_total_sample_size",

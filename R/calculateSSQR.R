@@ -10,8 +10,8 @@
 #' @export
 #' @references su2003estimator
 #' @examples
-#' data(Thompson1990Figure1Population)
-#' temp <- Thompson1990Figure1Population %>%
+#' data(Thompson1990Fig1Pop)
+#' temp <- Thompson1990Fig1Pop %>%
 #' 	mutate(pop = 1)
 #' popdata <- temp
 #' variable <- "y_value"

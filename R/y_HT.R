@@ -24,12 +24,12 @@
 #'
 #' # EXAMPLE 1: Sampling of population from Figure 1, Thompson (1990)
 #'
-#' data(Thompson1990Figure1Population)
+#' data(Thompson1990Fig1Pop)
 #' data(Thompson1990Figure1Sample)
 #' 
 #' # plot sample overlaid onto population
 #' ggplot() +
-#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y, size=factor(y_value),
+#' 	geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
 #' 		shape=factor(y_value))) +
 #' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
@@ -39,7 +39,7 @@
 #' # INITIATE ACS
 #' # assign species information to units in the initial sample
 #' S = merge(
-#' 	Thompson1990Figure1Population,
+#' 	Thompson1990Fig1Pop,
 #' 	Thompson1990Figure1Sample, 
 #' 	all.y=TRUE
 #' )
@@ -48,8 +48,8 @@
 #' Z = list()  					
 #' S$Sampling <- "Initial_Sample"
 #' # add the rest of the units for each network in the initial sample
-#' Z = rbind.fill(S, Thompson1990Figure1Population %>% 
-#' 	filter(Thompson1990Figure1Population$NetworkID %in% S$NetworkID))
+#' Z = rbind.fill(S, Thompson1990Fig1Pop %>% 
+#' 	filter(Thompson1990Fig1Pop$NetworkID %in% S$NetworkID))
 #' Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
 #' Networks = filter(Z, y_value > 0)
 #' # fill in edge units
@@ -68,7 +68,7 @@
 #' # fill in m
 #' Z[which(Z$y_value==0 & Z$Sampling=="Edge"), ]$m <- 0
 #' 
-#' 	N = dim(Thompson1990Figure1Population)[1] 
+#' 	N = dim(Thompson1990Fig1Pop)[1] 
 #' 	n1 = dim(Thompson1990Figure1Sample)[1]
 #' 	m = Z$m
 #' 	y = Z$y_value

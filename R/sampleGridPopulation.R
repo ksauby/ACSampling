@@ -12,8 +12,8 @@
 #' library(dplyr)
 #' grid = createPopulation(0, 25, 0, 25)
 #' n.networks = 2
-#' data(Thompson1990Figure1Population)
-#' cluster.info = Thompson1990Figure1Population %>% 
+#' data(Thompson1990Fig1Pop)
+#' cluster.info = Thompson1990Fig1Pop %>% 
 #' 	filter(m > 1) %>%
 #' 	createNetworks
 #' cluster.centers = filter(cluster.info, Rel_x==0 & Rel_y==0) %>%

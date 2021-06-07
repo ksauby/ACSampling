@@ -11,9 +11,9 @@
 #' # create the patch
 #' # then sample
 #' 
-#' data(Thompson1990Figure1Population)
+#' data(Thompson1990Fig1Pop)
 #' data(Thompson1990Figure1Sample)
-#' Z = createSRS(Thompson1990Figure1Population, seed=2, n1=10)
+#' Z = createSRS(Thompson1990Fig1Pop, seed=2, n1=10)
 #' @export
 
 createSRS <- function(popdata, n1, seed=NA, replace=F) {

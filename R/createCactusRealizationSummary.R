@@ -7,7 +7,7 @@
 #' @export
 
 createCactusRealizationSummary <- function(CactusRealizations) {
-	calculatePopulationSummaryStatistics(
+     calcPopSummaryStats(
 		popdata = CactusRealizations, 
 		summaryvar = c("Stricta", "Pusilla", "Cactus",
 			"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 

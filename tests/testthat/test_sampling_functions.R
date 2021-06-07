@@ -103,7 +103,7 @@ test_that("13. createRACS, Does the function work when providing the seed and wi
 	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		dim(Z[which(Z$y_value > 0), ])[1],
-		4
+		6
 	)
 })
 test_that("14. createRACS, Does the function work when providing the initial sample?", {
@@ -118,14 +118,14 @@ test_that("14. createRACS, Does the function work when providing the initial sam
 	)
 })
 test_that("15. createRACS, Are y-values of edge units equal to 0?", {
-	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=26)
+	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		unique(Z[which(Z$Sampling == "Edge"), ]$y_value),
 		0
 	)
 })
 test_that("16. createRACS, Are m-values of edge units 0?", {
-	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=26)
+	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		unique(Z[which(Z$Sampling == "Edge"), ]$m),
 		0
@@ -138,9 +138,8 @@ test_that("17. createRACS, Does the function work when no seed or initial sample
 		10
 	)
 })
-
 test_that("18. createRACS, Are there duplicates units in the sample?", {
-	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=26)
+	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		dim(Z[duplicated(Z), ])[1],
 		0

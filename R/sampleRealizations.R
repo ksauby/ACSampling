@@ -27,6 +27,7 @@
 #' @importFrom dplyr summarise_all arrange_at row_number
 #' @importFrom rlang sym syms
 #' @importFrom stringr str_replace
+#' @import sp
  
 #' @export
 

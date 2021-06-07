@@ -51,7 +51,13 @@ createThompson1990Fig1Pop <- function() {
 		to=(maxID + length(which(is.na(P$NetworkID)))), by=1)
 	P %<>% 
 		arrange(NetworkID) %>%
-		dplyr::select(x, y, NetworkID, m, y_value)
+		select(
+		     .data$x, 
+		     .data$y, 
+		     .data$NetworkID, 
+		     .data$m, 
+		     .data$y_value
+		    )
 	return(P)
 }
 

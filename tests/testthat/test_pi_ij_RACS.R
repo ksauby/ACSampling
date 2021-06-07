@@ -14,7 +14,6 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 	)
 	# MANUALLY CALCULATE AND CHECK VALUES IN MATRIX
 	# 3 is not over m_threshold
-	# 3 is not over m_threshold
 	expect_that(
 		(vec = as.vector(pi_ij_RACS_mthresh_4[6:8,6:8])),
 		 equals(

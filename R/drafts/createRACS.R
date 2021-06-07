@@ -9,9 +9,9 @@
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' Z = createRACS(Thompson1990Figure1Population, seed=26, n1=10, "y_value")
+#' Z = createRACS(Thompson1990Fig1Pop, seed=26, n1=10, "y_value")
 #' ggplot() +
-#' 	geom_point(data=Thompson1990Figure1Population, aes(x,y,shape=factor(y_value))) +
+#' 	geom_point(data=Thompson1990Fig1Pop, aes(x,y,shape=factor(y_value))) +
 #' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' 	geom_text(data=Z, aes(x,y, label=NetworkID), shape=0, size=7)
 	
