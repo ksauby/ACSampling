@@ -27,7 +27,7 @@ Create an Adaptive Cluster Sample.
 }
 \examples{
 library(ggplot2)
-data(Thompson1990Figure1Population)
+data(Thompson1990Fig1Pop)
 data(Thompson1990Figure1Sample)
 
 # Initiate ACS

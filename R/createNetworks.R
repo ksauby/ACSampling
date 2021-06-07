@@ -77,6 +77,8 @@ createNetworks <- function(Species.Data) {
 		mutate(
 			Rel_x = x - Center_x,
 			Rel_y = y - Center_y
-		)
+		) %>%
+	     ungroup() %>%
+	     as.data.frame
 	return(Species.Data)
 }

@@ -226,7 +226,7 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' n.realizations = 1
 #' SpeciesInfo = PlotSurveys_season1
 #' Species.Fields = c("Stricta", "Pusilla", "Cactus")
-#' cactus.realizations = createSpeciesPatchRealizations(x_start, x_end,
+#' cactus.realizations = createRealizations(x_start, x_end,
 #' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, 
 #' 	start.seed=1, Species.Fields)
 #' 

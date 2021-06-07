@@ -7,10 +7,6 @@ NA_is_Zero_Function <- function(x){
 	return(x)
 }
 
-
-
-
-
 #' Create Cactus Realization Data
 #' 
 #' @param PlotSurveys_season1 Plot survey data from season 1.

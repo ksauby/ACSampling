@@ -41,7 +41,7 @@
 #' buffer=5
 #' 
 #' # create realizations
-#' CactusRealizations = createSpeciesPatchRealizations(
+#' CactusRealizations = createRealizations(
 #' x_start, 
 #' x_end, 
 #' y_start, 
@@ -175,7 +175,8 @@ createRealizations <- function(
 			# fill in missing m values
 			patch.array[[i]][[j]] %<>% 
 				group_by(NetworkID) %>% 
-				mutate(m = length(m))
+				mutate(m = length(m)) %>%
+			     ungroup()
 		}
 		max.seed = max(patch$rotation.seed, na.rm=T)
 		if (is.na(n.networks[i+1])) {seed = NA} else {

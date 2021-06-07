@@ -22,16 +22,19 @@
 #' sampleGridPopulation(grid, n.networks, cluster.centers, seed)
 #' @export
 
+
 sampleGridPop <- function(grid, n.networks, cluster.centers, seed) {
-  # determine locations
-  set.seed(seed[1])
-  gridsample <- grid[sample(x = 1:dim(grid)[1], size = n.networks), ]
-  gridsample$location.seed <- seed[1]
-  # determine attributes of samples
-  set.seed(seed[2])
-  species <- cluster.centers[sample(x = 1 : dim(cluster.centers)[1], size = n.networks), ] %>% as.data.frame
-  gridsample$SpeciesInfo.seed <- seed[2]
-  # merge location and attributes
-  gridsample = cbind(gridsample, species)
-  return(gridsample)
+     # determine locations
+     set.seed(seed[1])
+     gridsample <- grid[sample(x = 1:dim(grid)[1], size = n.networks),]
+     gridsample$location.seed <- seed[1]
+     # determine attributes of samples
+     set.seed(seed[2])
+     species <- cluster.centers[
+          sample(x = 1:dim(cluster.centers)[1], size = n.networks),
+     ] %>% as.data.frame
+     gridsample$SpeciesInfo.seed <- seed[2]
+     # merge location and attributes
+     gridsample = cbind(gridsample, species)
+     return(gridsample)
 }	

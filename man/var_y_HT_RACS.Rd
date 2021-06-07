@@ -28,19 +28,19 @@ library(magrittr)
 library(dplyr)
 # Sampling of population from Figure 1, Thompson (1990)
 
-data(Thompson1990Figure1Population)
+data(Thompson1990Fig1Pop)
 data(Thompson1990Figure1Sample)
 
 # plot sample overlaid onto population
 ggplot() +
-	geom_point(data=Thompson1990Figure1Population, aes(x,y, 
+	geom_point(data=Thompson1990Fig1Pop, aes(x,y, 
 	size=factor(y_value),
 		shape=factor(y_value))) +
 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
 
 # INITIATE ACS
-Z = createACS(population_data=Thompson1990Figure1Population, 
+Z = createACS(population_data=Thompson1990Fig1Pop, 
 	n1=dim(Thompson1990Figure1Sample)[1], 
 	initial_sample=Thompson1990Figure1Sample, y_variable="y_value")
 
@@ -54,7 +54,7 @@ Z_summary <- Z \%>\% group_by(NetworkID) \%>\%
 		filter(NetworkID > 0)
 
 var_y_HT_RACS(
-	N = dim(Thompson1990Figure1Population)[1], 
+	N = dim(Thompson1990Fig1Pop)[1], 
 	n1 = dim(Thompson1990Figure1Sample)[1], 
 	m = Z_summary$m, 
 	y = Z_summary$y_total,

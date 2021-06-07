@@ -67,7 +67,7 @@ SpeciesInfo = PlotSurveys_season1
 start.seed=1
 buffer=5
 rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
-cactus.realizations <- createSpeciesPatchRealizations(x_start, x_end,
+cactus.realizations <- createRealizations(x_start, x_end,
 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 	ovar)
 patch_data_summary <- calcPopSummaryStats(cactus.realizations, 

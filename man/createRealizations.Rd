@@ -70,7 +70,7 @@ start.seed=1
 buffer=5
 
 # create realizations
-CactusRealizations = createSpeciesPatchRealizations(
+CactusRealizations = createRealizations(
 x_start, 
 x_end, 
 y_start, 

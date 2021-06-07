@@ -22,7 +22,7 @@ This gives equation 9 on page 10 in Berger and Tille 2009.
 # Hajek Approximation
 library(dplyr)
 library(magrittr)
-Z = createACS(Thompson1990Figure1Population, seed=3, n1=30, "y_value", condition=0)
+Z = createACS(Thompson1990Fig1Pop, seed=3, n1=30, "y_value", condition=0)
 Z_summary <- Z \%>\% 
 	dplyr::filter(Sampling!="Edge") \%>\%
 	group_by(NetworkID) \%>\%
@@ -32,7 +32,7 @@ Z_summary <- Z \%>\%
 		y_total = sum(y_value, na.rm=TRUE)
 	)
 var_y_HT(
-	N = dim(Thompson1990Figure1Population)[1], 
+	N = dim(Thompson1990Fig1Pop)[1], 
 	n1 = dim(Thompson1990Figure1Sample)[1], 
 	m = Z_summary$m, 
 	y = Z_summary$y_total

@@ -37,7 +37,7 @@
 #' seed = 2000:2100
 #' data(Thompson1990Fig1Pop)
 #' cluster.info = Thompson1990Fig1Pop %>% 
-#' 	filter(m > 1) %>%
+#' 	dplyr::filter(m > 1) %>%
 #' 	createNetworks
 #' 
 # create realization
@@ -56,7 +56,11 @@
 
 createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, Rel_x=Rel_x, Rel_y=Rel_y) {
 	NetworkID <- temp_coords <- NULL
-	cluster.centers <- filter(cluster.info, Rel_x==0 & Rel_y==0)
+	cluster.centers <- cluster.info %>% 
+	     filter(
+	          .data$Rel_x==0, 
+	          .data$Rel_y==0
+	    )
 	# determine locations and species information for stage 1 plots
 	n1plots = sampleGridPop(grid, n.networks, cluster.centers, seed)
 	seed = seed[-(1:2)]
@@ -98,21 +102,23 @@ createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, R
   	# merge list of cluster plots with list of SRSWOR plots
   	H %<>%
 		bind_rows(n1plots) %>%
-    	mutate(temp_coords = paste(x, y, sep="_")) 
-	#	remove duplicates
-    Y <- as.data.frame(matrix(NA,1,dim(H)[2]))
-    for (i in 1:length(unique(H$temp_coords))) {
+          mutate(temp_coords = paste(x, y, sep="_")) 
+     # remove duplicates
+     Y <- as.data.frame(matrix(NA,1,dim(H)[2]))
+     for (i in 1:length(unique(H$temp_coords))) {
       	# pull information based on x, y combo
       	L = H[which(H$temp_coords == unique(H$temp_coords)[i]), ]
       	# if only one row of information
-      	if (dim(L)[1]==1) {Y[i, ] = L} else {
-        # if more than one row, randomly choose a row
+      	if (dim(L)[1]==1) {
+               Y[i, ] = L
+          } else {
+          # if more than one row, randomly choose a row
             Y[i, ] = L[sample(1:dim(L)[1], size=1), ]
 		}
     }
     names(Y) <- names(H)
    	Y %<>% 
-   		dplyr::select(-c(.data$NetworkID, .data$temp_coords)) %>%
+   		select(-c(.data$NetworkID, .data$temp_coords)) %>%
 		assignNetworkMembership(1)
 	return(Y)
 }

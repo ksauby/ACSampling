@@ -61,7 +61,7 @@ n.networks = 3
 seed = 2000:2100
 data(Thompson1990Fig1Pop)
 cluster.info = Thompson1990Fig1Pop \%>\% 
-	filter(m > 1) \%>\%
+	dplyr::filter(m > 1) \%>\%
 	createNetworks
 
 Thompson1990_realization = createSpeciesPatch(grid, n.networks, seed, 
