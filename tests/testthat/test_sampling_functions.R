@@ -3,9 +3,9 @@
 # createSRS
 test_that("1. createSRS, Does the function work when setting the seed for random sampling?", {
 	data(Thompson1990Fig1Pop)
-	Z <- createSRS(Thompson1990Fig1Pop, 10, seed=26)
+	Z <- createSRS(Thompson1990Fig1Pop, 10, seed=6)
 	expect_equal(
-		dim(Z[which(Z$y_value==2), ])[1],
+		dim(Z[which(Z$y_value==5), ])[1],
 		1
 	)
 })
@@ -41,7 +41,7 @@ test_that("5. createACS, Does the function work when providing the seed and with
 })
 test_that("6. createACS, Does the function work when providing the seed and without providing the initial sample? Example 2: adaptive cluster sampling takes place", {
 	data(Thompson1990Fig1Pop)
-	Z <- createACS(Thompson1990Fig1Pop, 10, "y_value", seed=26)
+	Z <- createACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		dim(Z[which(Z$y_value > 0), ])[1],
 		11
@@ -63,14 +63,14 @@ test_that("7. createACS, Does the function work when providing the initial sampl
 	)
 })
 test_that("8. createACS, Are y-values of edge units equal to 0?", {
-	Z <- createACS(Thompson1990Fig1Pop, 10, "y_value", seed=26)
+	Z <- createACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		unique(Z[which(Z$Sampling == "Edge"), ]$y_value),
 		0
 	)
 })
 test_that("9. createACS, Are m-values of edge units 0?", {
-	Z <- createACS(Thompson1990Fig1Pop, 10, "y_value", seed=26)
+	Z <- createACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		unique(Z[which(Z$Sampling == "Edge"), ]$m),
 		0
@@ -100,7 +100,7 @@ test_that("12. createRACS, Does the function work when providing the seed and wi
 	)
 })
 test_that("13. createRACS, Does the function work when providing the seed and without providing the initial sample? Example 2: adaptive cluster sampling takes place", {
-	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=26)
+	Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=24)
 	expect_equal(
 		dim(Z[which(Z$y_value > 0), ])[1],
 		4

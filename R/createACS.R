@@ -63,11 +63,6 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 	Networks = Z %>% filter(!!YVAR > condition)
 	# if there are units that satisfy the condition, fill in edge units
 	if (dim(Networks)[1] > 0) {
-		#Z %<>% rename(y_val = yvar)
-		# names(Z)[names(Z) == yvar] <- 'y_val'
-		#Z %<>%
-		#	as.data.table %>%
-		#	setnames(yvar, "y_val")
 		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
 		}

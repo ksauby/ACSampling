@@ -14,7 +14,7 @@
 #' @export
 #' @importFrom reshape2 dcast
 #' @importFrom utils getFromNamespace
-#' #' @importFrom tidyr pivot_longer
+#' @importFrom tidyr pivot_longer
 #' @examples
 #'# dimensions of populations
 #' dimensions <- popdata %>% 
