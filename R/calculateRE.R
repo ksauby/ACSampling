@@ -17,8 +17,11 @@
 #' @importFrom tidyr pivot_longer
 #' @examples
 #'# dimensions of populations
+#' library(magrittr)
+#' library(dplyr)
+#' # WHERE IS POP DATA FROM?
 #' dimensions <- popdata %>% 
-#'	group_by_(.dots=popgroupvar) %>%
+#'	group_by_at(popgroupvar) %>%
 #'	summarise(N = n())
 #' # variances of populations
 #'CactusRealizationSummary <- calculatePopSummaryStats(
@@ -69,7 +72,7 @@ calcRE <- function(
 	rvar,
 	ovar
 ) {	
-	melt.data.frame = getFromNamespace("melt.data.frame", "reshape2")
+
 	X <- NULL
 	X <- MSE_ComparisonSamplingDesign
 	if (samplesizevar %in% names(X)) {
@@ -105,13 +108,10 @@ calcRE <- function(
 	POPORVAR <- syms(poporvar)
 	B <- popdata %>% 
 		select(!!!POPORVAR) %>%			
-		melt.data.frame(
-			data=.,
-			id.vars=c(
-				popgroupvar,
-				"N"
-			),
-			value.name="population_variance"
+		pivot_longer(.,
+			-c(popgroupvar, "N"),
+			names_to="variable",
+			values_to="population_variance"
 		)	
 	B$variable <- sub("*_var", "", B$variable)
 	# merge together

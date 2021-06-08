@@ -51,14 +51,15 @@ x_end = 30
 y_start = 1
 y_end = 30
 buffer = 5
-grid <- createPopulation(
+grid <- createPop(
 	x_start + buffer, 
 	x_end - buffer, 
 	y_start + buffer, 
 	y_end - buffer
 )
 n.networks = 3
-seed = 2000:2100
+seed = 2000:2100 # WHY DID I MAKE THIS MANY SEEDS?
+
 data(Thompson1990Fig1Pop)
 cluster.info = Thompson1990Fig1Pop \%>\% 
 	dplyr::filter(m > 1) \%>\%

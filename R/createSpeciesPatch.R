@@ -16,6 +16,7 @@
 #' This function uses a maximum of \code{2 + n.networks} random numbers: the first to set the seed to sample locations from a grid, and the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations). Then a maximum of \code{n.networks} random numbers are used, each number to randomly rotate a network of units before it is assigned coordinates.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export
+#' @importFrom plyr rbind.fill
 
 #' @examples
 #' library(magrittr)
@@ -34,7 +35,8 @@
 #' 	y_end - buffer
 #' )
 #' n.networks = 3
-#' seed = 2000:2100
+#' seed = 2000:2100 # WHY DID I MAKE THIS MANY SEEDS?
+#' 
 #' data(Thompson1990Fig1Pop)
 #' cluster.info = Thompson1990Fig1Pop %>% 
 #' 	dplyr::filter(m > 1) %>%
@@ -63,7 +65,7 @@ createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, R
 	    )
 	# determine locations and species information for stage 1 plots
 	n1plots = sampleGridPop(grid, n.networks, cluster.centers, seed)
-	seed = seed[-(1:2)]
+	seed = seed[-(1:2)] # SUBTRACT THE FIRST TWO THAT WERE USED IN SAMPLEGRIDPOP?
 	# create list of cluster plots and their coordinates
 	Z <- vector("list", length(unique(n1plots$NetworkID)))
 	for (i in 1:length(unique(n1plots$NetworkID))) {
@@ -100,8 +102,8 @@ createSpeciesPatch <- function(grid, n.networks, seed, cluster.info, x=x, y=y, R
 	}
   	H <- do.call(rbind.data.frame, Z)
   	# merge list of cluster plots with list of SRSWOR plots
-  	H %<>%
-		bind_rows(n1plots) %>%
+  	H %<>% # I DONT THINK THIS IS WORKING RIGHT
+		plyr::rbind.fill(n1plots) %>%
           mutate(temp_coords = paste(x, y, sep="_")) 
      # remove duplicates
      Y <- as.data.frame(matrix(NA,1,dim(H)[2]))
