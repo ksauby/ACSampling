@@ -7,15 +7,15 @@
 #' @param avar Vector of variables for which abundance should be estimated.
 #' @param ovar Vector of variables for which occupancy should be estimated.
 #' @param rvar Vector of variables for which ratio estimators should be used.
-#' @param SamplingDesign Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.
-#' @param y_HT_formula Default is "Thompson".
-#' @param var_formula Default is "var_y_HT".
-#' @param mThreshold Default is NULL.
-#' @param f_max Default is 2.
+#' @param SamplingDesign Whether unrestricted adaptive cluster sampling ("ACS") or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.
+#' @param y_HT_formula The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.
+#' @param var_formula The formula used to estimate the variance of the population total: either the Horvitz-Thompson variance estimator, 'var_y_HT', or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." Defaults to "var_y_HT".
+#' @param mThreshold Default is NULL. OPTIONS
+#' @param f_max Default is 2. OPTIONS
 #' @param SampleEstimators If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.
-#' @param SpatStat If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE
-#' @param weights If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
-#' @param mChar If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.
+#' @param SpatStat TRUE or FALSE. If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE.
+#' @param weights TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
+#' @param mChar TRUE or FALSE. If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics. If "FALSE," no summary statistics are calculated.
 #' @param popvar Default is "n.networks"
 #' @param realvar Default is "realization"
 
@@ -52,31 +52,26 @@
 #'	# "Height_Stricta",
 #')		
 #'data(CactusRealizations)
-#'popdata = CactusRealizations
+#' popdata = CactusRealizations # WHY IS THERE ISLAND=NA
 #'simulation_data <- sampleRealizations(
-#'	popdata, 
-#'	sims, 
-#'	n1, 
-#'	avar, 
-#'	ovar, 
-#'	popvar="population", 
+#' popdata = popdata,
+#' 	sims = sims, 
+#' 	n1 = n1, 
+#' 	avar = avar, 
+#' 	ovar = ovar,
+#'	popvar="Island", 
 #'	yvar="Cactus"
 #')
 #' # sims=200
 #' # #n1=c(75,150,225,300,350)
 #' simulation_data_SRSWOR <- sampleRealizations(
-#' 	popdata, 
-#' 	sims, 
-#' 	n1, 
-#' 	avar, 
-#' 	ovar,
-#' 	popvar="population"
+#' 	popdata = popdata,
+#' 	sims = sims, 
+#' 	n1 = n1, 
+#' 	avar = avar, 
+#' 	ovar = ovar,
+#' 	popvar="Island"
 #' )
-#' # # save data
-#' # write.csv(simulation_data_SRSWOR, file=paste("simulation_data_SRSWOR", 
-#' # format(Sys.time(), "%Y-%m-%d_%H-%M"), ".csv", sep=""))
-#' #  write.csv(simulation_data, file=paste("simulation_data", format(Sys.time(), 
-#' # "%Y-%m-%d_%H-%M"), ".csv", sep=""))
 
 sampleRealizations <- function(
 	popdata, 
@@ -100,6 +95,37 @@ sampleRealizations <- function(
 	weights="S"
 ) 
 {
+     if (avar!=NULL | is.character(avar)=FALSE) {stop("avar must be a character string.")}
+     if (ovar!=NULL | is.character(ovar)=FALSE) {stop("ovar must be a character string.")}
+     if (rvar!=NULL | is.character(rvar)=FALSE) {stop("rvar must be a character string.")}
+     if (!(SamplingDesign %in% c("ACS", "RACS"))) {
+          stop("SamplingDesign must be supplied as either 'ACS' or 'RACS'.")
+     }
+     if (!(y_HT_formula %in% c("y_HT", "y_HT_RACS"))) {
+          stop("y_HT_formula must be supplied as either 'y_HT' or 'y_HT_RACS'.")
+     }
+     if (!(var_formula %in% c("var_y_HT", "var_y_HT_RACS"))) {
+          stop("var_formula must be supplied as either 'var_y_HT' or 'var_y_HT_RACS'.")
+     }
+     if (!(weights %in% c("W", "B", "C", "U", "S"))) {
+          stop("weights must be supplied as 'W', 'B', 'C', 'U', or 'S'.")
+     }
+     if (!(SampleEstimators %in% c("T", "F", "TRUE", "FALSE"))) {
+          stop("The argument SampleEstimators must be assigned either 'TRUE' or 'FALSE'.")
+     }
+     if (!(SpatStat %in% c("T", "F", "TRUE", "FALSE"))) {
+          stop("The argument SpatStat must be assigned either 'TRUE' or 'FALSE'.")
+     }
+     if (!(mChar %in% c("T", "F", "TRUE", "FALSE"))) {
+          stop("The argument mChar must be assigned either 'TRUE' or 'FALSE'.")
+     }
+     if (is.character(popvar)==FALSE) {
+          stop("The argument popvar must be a character string.")
+     }
+     if (is.character(realvar)==FALSE) {
+          stop("The argument realvar must be a character string.")
+     }
+     
 	POPVAR <- sym(popvar)
 	REALVAR <- sym(realvar)
 	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL

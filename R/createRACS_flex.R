@@ -38,6 +38,35 @@
 #' @importFrom dplyr everything bind_rows
 
 createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL, f_max=2) {
+
+     if (is.data.frame(popdata)==FALSE) {
+          stop("The 'popdata' argument must be supplied with a data frame.")
+     }     
+     if (round(n1)!=n1) {
+          stop("The argument 'n1' must be an integer.")
+     }
+     if (is.character(yvar)==FALSE) {
+          stop("The argument 'yvar' must be a character string.")
+     }
+     if (is.numeric(condition)==FALSE) {
+          stop("The argument 'condition' must be numeric.")
+     }
+     if (all(is.numeric(seed))==TRUE) {
+          if (!isTRUE(all(seed == floor(seed)))) {
+               stop("The 'seed' argument must be a vector of integer values.")
+          } else if (!is.na(seed)) {
+               stop("The 'seed' argument must be a vector of integer values.")
+          }
+     }
+     if (is.numeric(f_max)==TRUE) {
+          if (!isTRUE(f_max == floor(f_max))) {
+               stop("The 'f_max' argument must be an integer value.")
+          } else {
+          stop("The 'f_max' argument must be an integer value.")
+     }
+ }
+
+     
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL
 	# get primary sample
 	if (is.data.frame(initsample)) {

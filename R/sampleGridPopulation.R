@@ -19,7 +19,7 @@
 #' cluster.centers = filter(cluster.info, Rel_x==0 & Rel_y==0) %>%
 #' dplyr::select(-c(x,y))
 #' seed = 1:2
-#' sampleGridPopulation(grid, n.networks, cluster.centers, seed)
+#' sampleGridPop(grid, n.networks, cluster.centers, seed)
 #' @export
 
 

@@ -1,11 +1,67 @@
+handleError_popdata <- function(popdata) {
+     if (is.data.frame(popdata)==FALSE) {
+          stop(
+               "The 'popdata' argument must be supplied with a data frame including the columns 'x', 'y', and 'NetworkID'.",
+               call.=FALSE
+          )
+     } else if (all(c("x", "y", "NetworkID") %in% names(popdata)) == FALSE) {
+          stop(
+               "The 'popdata' argument must be supplied with a data frame including the columns 'x', 'y', and 'NetworkID'.",
+               call.=FALSE
+          )
+     }
+}
+handleError_seed <- function(seed) {
+     if (all(is.numeric(seed))==TRUE) {
+          if (!isTRUE(all(seed == floor(seed)))) {
+               stop(
+                    "The 'seed' argument must be a vector of integer values.",
+                    call.=FALSE
+                    )
+          }
+     } else if (!is.na(seed)) {
+          stop(
+               "The 'seed' argument must be a vector of integer values.",
+               call.=FALSE
+               )
+     }
+}
+handleError_yvar <- function(yvar) {
+     if (is.character(yvar)==FALSE) {
+          stop(
+               "The argument 'yvar' must be a character string.",
+               call.=FALSE
+               )
+     }
+}
+handleError_n1 <- function(n1) {
+     if (is.numeric(n1)==TRUE) {
+          if (round(n1)!=n1) {
+               stop(
+                    "The argument 'n1' must be an integer.",
+                    call.=FALSE
+               )
+          }
+     } else {
+          stop(
+               "The argument 'n1' must be an integer.",
+               call.=FALSE
+          )
+     }
+}
+     
+     
+     
+     
+
 #' Create an Adaptive Cluster Sample.
 #'
-#' @param popdata The population to be sampled.
-#' @param seed A vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.
-#' @param n1 The initial sample size (sampled according to simple random sampling without replacement).
+#' @param popdata A data frame providing information about the population to be sampled, including x and y columns, as well as a column containing the variable of interest, with the same name as that provided in the \code{yvar} argument.
+#' @param seed A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specify a random number seed.
+#' @param n1 An integer giving the initial sample size (sampled according to simple random sampling without replacement).
 #' @param yvar The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.
 #' @param condition Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).
-#' @param initsample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
+#' @param initsample Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement. HOW IS THIS FORMATTED
 
 #' @return A restricted adaptive cluster sample.
 
@@ -47,6 +103,16 @@
 #' @importFrom ggplot2 ggplot
 
 createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
+
+     handleError_popdata(popdata)
+     handleError_n1(n1)
+     handleError_yvar(yvar)
+     if (is.numeric(condition)==FALSE) {
+          stop("The argument 'condition' must be numeric.")
+     }
+     handleError_seed(seed)
+     
+     
 	YVAR <- sym(yvar)
 	. <- Sampling <- y_val <- NULL
 	if (is.data.frame(initsample)) {
