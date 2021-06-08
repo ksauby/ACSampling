@@ -26,7 +26,7 @@
 #' ggplot() +
 #' geom_point(
 #' data=Z, 
-#' aes(x,y, size=factor(y_variable), shape=factor(y_variable))
+#' aes(x,y, size=factor(y_value), shape=factor(y_value))
 #' ) +
 #' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' geom_point(data=Z, aes(x,y), shape = 0, size=7) +

@@ -42,13 +42,21 @@ createThompson1990Table1data <- function() {
 			{temp[[i]][dim(temp[[i]])[1] + 1, ] = c(2, 0, i, "ACS")}
 	}
 	temp %<>% 
-		bind_rows %>%
-		arrange(sampling_effort)
+		do.call(rbind.data.frame, .) %>%
+		arrange(.data$sampling_effort)
 	temp$y_value %<>% as.integer
 	temp$m_k %<>% as.integer
 	temp$sampling_effort %<>% as.numeric
 	temp %<>% 
-		dplyr::select(sampling_effort, sampling, y_value, m_k) %>%
-		arrange(sampling_effort, rev(sampling), y_value)
+		select(
+		     .data$sampling_effort, 
+		     .data$sampling, 
+		     .data$y_value, 
+		     .data$m_k) %>%
+		arrange(
+		     .data$sampling_effort, 
+		     rev(.data$sampling), 
+		     .data$y_value
+          )
 	return(temp)
 }

@@ -16,7 +16,7 @@ createSpeciesPatch(
 )
 }
 \arguments{
-\item{grid}{A dataframe of x and y coordinates (can be created with \code{createPopulation}). Should only include plots that have the species of interest.}
+\item{grid}{A dataframe of x and y coordinates (can be created with \code{createPop}). Should only include plots that have the species of interest.}
 
 \item{n.networks}{Number of networks to sample from the population of networks.}
 
@@ -33,7 +33,7 @@ createSpeciesPatch(
 \item{Rel_y}{The distance of a plot from the center of the network to which it belongs on the y axis}
 }
 \description{
-This function creates patches of the species of interest within the grid of locations created with \code{createPopulation}. First, it randomly determines the locations of network centers and randomly assigns species information to those locations (\code{sampleGridPopulation}), randomly rotates thet network orientation to further randomize the real data, then adds the rest of the neighbor plots. Finally, it assigns each plot a Network ID (using \code{assignNetworkMembership}; it is important to include this function in case networks overlap and must be given a new network ID).
+This function creates patches of the species of interest within the grid of locations created with \code{createPop}. First, it randomly determines the locations of network centers and randomly assigns species information to those locations (\code{sampleGridPopulation}), randomly rotates thet network orientation to further randomize the real data, then adds the rest of the neighbor plots. Finally, it assigns each plot a Network ID (using \code{assignNetworkMembership}; it is important to include this function in case networks overlap and must be given a new network ID).
 
 If species information is assigned twice to a given unit (as can happen in the case of overlapping, neighboring networks), the unit will be preferentially assigned the information where the species is present (if only one of the duplicate records has the species as present). If there are more than one records indicating the species is present, one of the duplicate records is randomly drawn and then assigned to the unit.
 

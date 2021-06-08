@@ -10,7 +10,7 @@
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
 #' @examples
-#' data(Thompson1990Figure1Population)
+#' data(Thompson1990Fig1Pop)
 #' 
 #' # plot species abundance
 #' library(magrittr)

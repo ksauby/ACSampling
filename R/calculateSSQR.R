@@ -1,24 +1,26 @@
 #' Calculate SSQ_R
 #' 
-#' @description SSQ_R is the ratio of the within-network sum of squares to the total sum of squares. ACS design becomes more efficient relative to simple random sampling as the within-network variation increases relative to the overall variation [@thompson1996adaptive]. We calculate \deqn{SSQ_R = SSQ_w/SSQ_\tau}{SSQ_R = SSQ_w/SSQ_tau} as the ratio of the within-network sum of squares \deqn{SSQ_w = \sum_{j=1}^{\kappa} \sum_{i \in j} (y_{j,i} - \bar{y_{j}})^2}{SSQ_w = \sum_{j=1}^{\kappa} \sum_{i \in j} (y_{j,i} - \bar{y_{j}})^2}, to the total sum of squares \deqn{SSQ_\tau= \sum_{i=1}^{N} (y_i - \mu)^2}{SSQ_\tau= \sum_{i=1}^{N} (y_i - \mu)^2}. Thus, an increase in \code{SSQ_R} indicates an increase in the efficiency of the ACS design relative to SRSWOR.
+#' @description SSQ_R is the ratio of the within-network sum of squares to the total sum of squares. The adaptive cluster sampling (ACS) design becomes more efficient relative to simple random sampling (SRS) as the within-network variation increases relative to overall variation [@thompson1996adaptive]. We calculate \deqn{SSQ_R = SSQ_w/SSQ_\tau}{SSQ_R = SSQ_w/SSQ_tau} as the ratio of the within-network sum of squares \deqn{SSQ_w = \sum_{j=1}^{\kappa} \sum_{i \in j} (y_{j,i} - \bar{y_{j}})^2}{SSQ_w = \sum_{j=1}^{\kappa} \sum_{i \in j} (y_{j,i} - \bar{y_{j}})^2}, to the total sum of squares \deqn{SSQ_\tau= \sum_{i=1}^{N} (y_i - \mu)^2}{SSQ_\tau= \sum_{i=1}^{N} (y_i - \mu)^2}. Thus, an increase in \code{SSQ_R} indicates an increase in the efficiency of the ACS design relative to SRS.
 
 
-#' @param popdata Information about the populations of interest.
-#' @param popgroupvar A variable identifying the separate populations. If only one population in popdata, set popgroupvar = NULL.
+#' @param popdata Information about the populations of interest. MORE DETAIL ABOUT STRUCTURE OF THIS.
+#' @param popgroupvar If more than one population is included in the \code{popdata}, this identifies individual populations. If the dataset contains only one population, set popgroupvar = NA
 #' @param variable Variable for which to calculate SSQr.
 #' @return Dataframe including original data and RE estimates.
 #' @export
 #' @references su2003estimator
 #' @examples
+#' library(magrittr)
+#' library(dplyr)
 #' data(Thompson1990Fig1Pop)
 #' temp <- Thompson1990Fig1Pop %>%
 #' 	mutate(pop = 1)
 #' popdata <- temp
 #' variable <- "y_value"
 #' popgroupvar <- "pop"
-#' calcSSQR(popdata, variable, popgroupvar)
+#' # calcSSQR(popdata, variable, popgroupvar)
 #' popgroupvar <- NA
-#' calcSSQR(popdata, variable, popgroupvar)
+#' # calcSSQR(popdata, variable, popgroupvar)
 
 
 calcSSQR <- function(popdata, variable, popgroupvar=NA) {

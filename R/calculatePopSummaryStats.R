@@ -49,42 +49,42 @@ popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
 #' @importFrom spdep cell2nb nb2listw joincount.test moran.test 
 
 #' @examples
-#' library(magrittr)
-#' library(dplyr)
-#' ovar = c(
-#' 	"Stricta",
-#' 	"Pusilla",
-#' 	"Cactus",
-#' 	"CACA_on_Pusilla",
-#' 	"CACA_on_Stricta",
-#' 	"MEPR_on_Pusilla",
-#' 	"MEPR_on_Stricta",
-#' 	"Old_Moth_Evidence_Pusilla",
-#' 	"Old_Moth_Evidence_Stricta"
+#' # library(magrittr)
+#' # library(dplyr)
+#' # ovar = c(
+#' # 	"Stricta",
+#'#  	"Pusilla",
+#'#  	"Cactus",
+#'#  	"CACA_on_Pusilla",
+#' # 	"CACA_on_Stricta",
+#' # 	"MEPR_on_Pusilla",
+#' # 	"MEPR_on_Stricta",
+#' # 	"Old_Moth_Evidence_Pusilla",
+#' # 	"Old_Moth_Evidence_Stricta"
 #' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
 #' 	# "Percent_Cover_Stricta",
 #' 	# "Height_Pusilla",
 #' 	# "Height_Stricta",
-#' )		
-#' summaryvar = ovar
+#' # )		
+#' # summaryvar = ovar
 #' # WHAT WAS I THINK HERE? for grouping variables?
-#' popgroupvar = "n.networks" # c("n.networks", "realization")
+#' # popgroupvar = "n.networks" # c("n.networks", "realization")
 #' # create realizations
-#' x_start = 1
-#' x_end = 30
-#' y_start = 1
-#' y_end = 30
-#' n.networks = c(5, 15, 10, 20, 30, 40)
-#' n.realizations = 1
-#' SpeciesInfo = PlotSurveys_season1
-#' start.seed=1
-#' buffer=5
-#' rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
-#' cactus.realizations <- createRealizations(x_start, x_end,
-#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
-#' 	ovar)
-#' patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
-#' 	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
+#' # x_start = 1
+#' # x_end = 30
+#' # y_start = 1
+#' # y_end = 30
+#' # n.networks = c(5, 15, 10, 20, 30, 40)
+#' # n.realizations = 1
+#' # SpeciesInfo = PlotSurveys_season1
+#' # start.seed=1
+#' # buffer=5
+#' # rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
+#' # cactus.realizations <- createRealizations(x_start, x_end,
+#'#  	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
+#' # 	ovar)
+#' # patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
+#'#  	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 	
 calcPopSummaryStats <- function(
 	popdata, 
@@ -96,6 +96,9 @@ calcPopSummaryStats <- function(
 	ncol
 ) {
 	POPVAR <- sym(popgroupvar)
+	
+	# IF POPGROUPVAR NOT IN POPDATA THROW ERROR
+	
 	popdata %<>% arrange(!!POPVAR)
 	# for each popgroupvar combo, calculate summary statistics for m and number of species patches
 	# this calculates the m statistics for the unique Network sizes
@@ -180,30 +183,22 @@ calcPopSummaryStats <- function(
 					lwb <- nb2listw(nb, style = "W") # convert to spatweights
 					# I think cells are indexed by row, then column
 					A[[i]][[j]]$JoinCountTest.W <- joincount.test(
-					     as.factor(
-                                   eval(
-                                        parse(
-                                             text=paste(
-                                                  "temp2$",
-                                                  summaryvar[j],
-                                                  sep = ""
-                                             )
-                                        )
+					     as.factor(eval(parse(
+                                   text=paste(
+                                        "temp2$",
+                                        summaryvar[j],
+                                        sep = ""
                                    )
-                              ),
+                              ))),
 						lwb
 					)[[2]]$estimate[1]
-					A[[i]][[j]]$MoranI.W <- moran.test(
-						eval(
-                                   parse(
-                                        text=paste(
-                                             "temp2$",
-                                             summaryvar[j],
-                                             sep=""
-                                        )
-                                   )
-						),
-						lwb
+					A[[i]][[j]]$MoranI.W <- moran.test(eval(parse(
+                              text=paste(
+                                   "temp2$",
+                                   summaryvar[j],
+                                   sep=""
+                              ))),
+					     lwb
 					)$estimate[1]
 				}
 				if ("B" %in% spatweights) {
@@ -272,6 +267,7 @@ calcPopSummaryStats <- function(
 					A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(
 						# NEED TO FIGURE OUT HOW TO GET RID OF NAs
 						# OR CAN YOU JUST NOT DO JOINT COUNT TEST FOR RVAR
+					     # Get this error: Error in joincount.test(as.factor(eval(parse(text = paste("temp2$", summaryvar[j],  :   objects of different length
 						eval(parse(text=paste(
 							"temp2$",
 							summaryvar[j],

@@ -1,5 +1,5 @@
 #' Select a sample of cells from the grid population and randomly assign species information.
-#' @param grid A dataframe of x and y coordinates (can be created with \code{createPopulation}).
+#' @param grid A dataframe of x and y coordinates (can be created with \code{createPop}).
 #' @param n.networks Initial sample size that determines the relative density of the species.
 #' @param cluster.centers Dataframe including x and y coordinates and network IDs for the centers of clusters.
 #' @param seed Vector of numbers to be given to \code{set.seed()}. Two numbers are used: the first to determine the sample of locations and the second to determine the sample of species information to be assigned to the sample locations.
@@ -10,7 +10,7 @@
 # EXAMPLE 1
 #' library(magrittr)
 #' library(dplyr)
-#' grid = createPopulation(0, 25, 0, 25)
+#' grid = createPop(0, 25, 0, 25)
 #' n.networks = 2
 #' data(Thompson1990Fig1Pop)
 #' cluster.info = Thompson1990Fig1Pop %>% 

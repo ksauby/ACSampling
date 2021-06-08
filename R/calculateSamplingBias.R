@@ -233,7 +233,7 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' # Sample from the realizations
 #' simulations=1
 #' nsamples=c(5,10,20,40)
-#' population <- createPopulation(x_start = 1, x_end = 30, y_start = 1, 
+#' population <- createPop(x_start = 1, x_end = 30, y_start = 1, 
 #' 	y_end = 30)
 #' abundance.variables = NULL
 #' occupancy.variables = c(
@@ -281,38 +281,38 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #'	# "Height_Stricta",
 #')		
 #'popdata = cactus.realizations
-#'simulation_data <- sampleRealizations(popdata, sims, 
-#'n1, population, avar, ovar)
+#' #simulation_data <- sampleRealizations(popdata, sims, 
+#'#n1, population, avar, ovar)
 
-#'CactusRealizationSummary <- calcPopSummaryStats(
-#'	popdata = CactusRealizations, 
-#'	summaryvar = c("Stricta", "Pusilla", "Cactus",
-#'		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-#'		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-#'	popgroupvar = "population", 
-#'	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
-#'		"Percent_Cover_Stricta", "Height_Stricta", 
-#'		"Old_Moth_Evidence_Stricta"),
-#'	nrow=30,
-#'	ncol=30
-#')
-#'patch_data_summary_wide <- createWidePopSummaryStats(
-#'	popsummarystats = CactusRealizationSummary,
-#'	ovar = "Stricta",
-#'	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-#'		"Height_Stricta", "Old_Moth_Evidence_Stricta")
-#')
+#'#CactusRealizationSummary <- calcPopSummaryStats(
+#'#	popdata = CactusRealizations, 
+#'#	summaryvar = c("Stricta", "Pusilla", "Cactus",
+#'#		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+#'#		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+#'#	popgroupvar = "population", 
+#'#	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+#'#		"Percent_Cover_Stricta", "Height_Stricta", 
+#'#		"Old_Moth_Evidence_Stricta"),
+#'#	nrow=30,
+#'#	ncol=30
+#'#)
+#'#patch_data_summary_wide <- createWidePopSummaryStats(
+#'#	popsummarystats = CactusRealizationSummary,
+#'#	ovar = "Stricta",
+#'#	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+#'#		"Height_Stricta", "Old_Moth_Evidence_Stricta")
+#'#)
 
 
 
-#'simdata_summary_table_re = calcSamplingBias(
-#'	popdatasummary	= patch_data_summary_wide, 
-#'	simdata		= simdata_all_re, 
-#'	sampgroupvar	= sampgroupvar, 
-#'	popgroupvar = popgroupvar,
-#'	ovar			= ovar, 
-#'	rvar				= rvar
-#')
+#'#simdata_summary_table_re = calcSamplingBias(
+#'#	popdatasummary	= patch_data_summary_wide, 
+#'#	simdata		= simdata_all_re, 
+#'#	sampgroupvar	= sampgroupvar, 
+#'#	popgroupvar = popgroupvar,
+#'#	ovar			= ovar, 
+#'#	rvar				= rvar
+#'#)
 
 
 

@@ -32,7 +32,7 @@
 #' # 		floor_y = floor(y)
 #' # 	)
 #' # create grid of units
-#' # pop = createPopulation(
+#' # pop = createPop(
 #' # 	min(Z$floor_x), 
 #' # 	max(Z$floor_x), 
 #' # 	min(Z$floor_y),

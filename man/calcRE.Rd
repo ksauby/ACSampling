@@ -34,44 +34,45 @@ Calculate efficiency of sampling design, relative to WHAT.
 }
 \examples{
 # dimensions of populations
-library(magrittr)
-library(dplyr)
-dimensions <- popdata \%>\% 
-group_by_at(popgroupvar) \%>\%
-summarise(N = n())
+#  library(magrittr)
+#  library(dplyr)
+# WHERE IS POP DATA FROM?
+# dimensions <- popdata \%>\% 
+# 	group_by_at(popgroupvar) \%>\%
+#	summarise(N = n())
 # variances of populations
-CactusRealizationSummary <- calculatePopSummaryStats(
-popdata = CactusRealizations, 
-summaryvar = c("Stricta", "Pusilla", "Cactus",
-	"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-	"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-popgroupvar = "population", 
-rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
-	"Percent_Cover_Stricta", "Height_Stricta", 
-	"Old_Moth_Evidence_Stricta"),
-nrow=30,
-ncol=30
-)
-patch_data_summary_wide <- createWidePopSummaryStats(
-popsummarystats = CactusRealizationSummary,
-ovar = "Stricta",
-rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
-	"Height_Stricta", "Old_Moth_Evidence_Stricta")
-)
-simulation_data_summary_table_re = calcSamplingBias(
-population_data_summary	= patch_data_summary_wide, 
-simulation_data		= simdata_all_re, 
-sampgroupvar	= sampgroupvar, 
-popgroupvar = popgroupvar,
-ovar			= ovar, 
-rvar				= rvar
-)
-RE_values <- calcRE(
-population_data = patch_data_summary_wide,
-MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,
-popgroupvar = "population",
-samplesizevar = "N.Total.plots_mean",
-ovar = ovar,
-rvar = rvar
-)
+# CactusRealizationSummary <- calcPopSummaryStats(
+# 	# popdata = CactusRealizations, 
+# 	# summaryvar = c("Stricta", "Pusilla", "Cactus",
+# 		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+# 		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
+# 	popgroupvar = "Island", 
+# 	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
+# 		"Percent_Cover_Stricta", "Height_Stricta", 
+# 		"Old_Moth_Evidence_Stricta"),
+# 	nrow=30,
+# 	ncol=30
+# )
+# patch_data_summary_wide <- createWidePopSummaryStats(
+# 	popsummarystats = CactusRealizationSummary,
+# 	ovar = "Stricta",
+# 	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
+# 		"Height_Stricta", "Old_Moth_Evidence_Stricta")
+# )
+# simulation_data_summary_table_re = calcSamplingBias(
+# 	population_data_summary	= patch_data_summary_wide, 
+# 	simulation_data		= simdata_all_re, 
+# 	sampgroupvar	= sampgroupvar, 
+# 	popgroupvar = popgroupvar,
+# 	ovar			= ovar, 
+# 	rvar				= rvar
+# )
+# RE_values <- calcRE(
+# 	population_data = patch_data_summary_wide,
+# 	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,
+# 	popgroupvar = "population",
+# 	samplesizevar = "N.Total.plots_mean",
+# 	ovar = ovar,
+# 	rvar = rvar
+# )
 }

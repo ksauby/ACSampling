@@ -18,7 +18,7 @@ Returns popdata with a new column for Network ID as well as a column for m, the 
 This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned to the same network ID.
 }
 \examples{
-data(Thompson1990Figure1Population)
+data(Thompson1990Fig1Pop)
 
 # plot species abundance
 library(magrittr)

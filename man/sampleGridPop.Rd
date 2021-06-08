@@ -7,7 +7,7 @@
 sampleGridPop(grid, n.networks, cluster.centers, seed)
 }
 \arguments{
-\item{grid}{A dataframe of x and y coordinates (can be created with \code{createPopulation}).}
+\item{grid}{A dataframe of x and y coordinates (can be created with \code{createPop}).}
 
 \item{n.networks}{Initial sample size that determines the relative density of the species.}
 
@@ -21,7 +21,7 @@ This function uses two random numbers: the first to set the seed to sample locat
 \examples{
 library(magrittr)
 library(dplyr)
-grid = createPopulation(0, 25, 0, 25)
+grid = createPop(0, 25, 0, 25)
 n.networks = 2
 data(Thompson1990Fig1Pop)
 cluster.info = Thompson1990Fig1Pop \%>\% 

@@ -63,7 +63,7 @@ sampleRealizations(
 \item{weights}{If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
 }
 \description{
-This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
+This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
 }
 \examples{
 sims=200

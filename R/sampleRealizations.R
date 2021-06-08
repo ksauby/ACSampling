@@ -19,7 +19,7 @@
 #' @param popvar Default is "n.networks"
 #' @param realvar Default is "realization"
 
-#' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
+#' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
 
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
