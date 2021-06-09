@@ -126,6 +126,12 @@ createRealizations <- function(
 	variables
 )
 {
+     
+     handleError_coord(x_start)
+     handleError_coord(x_end)
+     handleError_coord(y_start)
+     handleError_coord(y_end)
+     
 	x <- y <- Rel_x <- Rel_y <- NetworkID <- m <- NULL
 	network.length = length(n.networks)
 	seed = seq(start.seed, start.seed + 2*n.realizations + 

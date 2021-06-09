@@ -4,10 +4,10 @@
 #' @param popdata patch realizations
 #' @param sims Number of simulations per population.
 #' @param n1 Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
-#' @param avar Vector of variables for which abundance should be estimated.
-#' @param ovar Vector of variables for which occupancy should be estimated.
-#' @param rvar Vector of variables for which ratio estimators should be used.
-#' @param SamplingDesign Whether unrestricted adaptive cluster sampling ("ACS") or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.
+#' @param avar Vector of variables for which abundance should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
+#' @param ovar Vector of variables for which occupancy should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
+#' @param rvar Vector of variables for which ratio estimators should be used. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
+#' @param SamplingDesign Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.
 #' @param y_HT_formula The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.
 #' @param var_formula The formula used to estimate the variance of the population total: either the Horvitz-Thompson variance estimator, 'var_y_HT', or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." Defaults to "var_y_HT".
 #' @param mThreshold Default is NULL. OPTIONS
@@ -95,11 +95,20 @@ sampleRealizations <- function(
 	weights="S"
 ) 
 {
-     if (avar!=NULL | is.character(avar)=FALSE) {stop("avar must be a character string.")}
-     if (ovar!=NULL | is.character(ovar)=FALSE) {stop("ovar must be a character string.")}
-     if (rvar!=NULL | is.character(rvar)=FALSE) {stop("rvar must be a character string.")}
-     if (!(SamplingDesign %in% c("ACS", "RACS"))) {
-          stop("SamplingDesign must be supplied as either 'ACS' or 'RACS'.")
+     handleError_popdata(popdata)
+     handleError_n1(n1)
+     handleError_yvar(yvar)
+     handleError_condition(condition)
+     handleError_LogicalVar(SampleEstimators, "SampleEstimators")
+     handleError_LogicalVar(SpatStat, "SpatStat")
+     handleError_LogicalVar(mChar, "mChar")
+     
+     vars <- c(ovar, avar, rvar)
+     if (avar!=NULL | is.character(avar)==FALSE) {stop("avar must be a character string.")}
+     if (ovar!=NULL | is.character(ovar)==FALSE) {stop("ovar must be a character string.")}
+     if (rvar!=NULL | is.character(rvar)==FALSE) {stop("rvar must be a character string.")}
+     if (!(SamplingDesign %in% c("ACS", "RACS", "SRS"))) {
+          stop("SamplingDesign must be supplied as either 'SRS', ACS', or 'RACS'.")
      }
      if (!(y_HT_formula %in% c("y_HT", "y_HT_RACS"))) {
           stop("y_HT_formula must be supplied as either 'y_HT' or 'y_HT_RACS'.")
@@ -110,15 +119,7 @@ sampleRealizations <- function(
      if (!(weights %in% c("W", "B", "C", "U", "S"))) {
           stop("weights must be supplied as 'W', 'B', 'C', 'U', or 'S'.")
      }
-     if (!(SampleEstimators %in% c("T", "F", "TRUE", "FALSE"))) {
-          stop("The argument SampleEstimators must be assigned either 'TRUE' or 'FALSE'.")
-     }
-     if (!(SpatStat %in% c("T", "F", "TRUE", "FALSE"))) {
-          stop("The argument SpatStat must be assigned either 'TRUE' or 'FALSE'.")
-     }
-     if (!(mChar %in% c("T", "F", "TRUE", "FALSE"))) {
-          stop("The argument mChar must be assigned either 'TRUE' or 'FALSE'.")
-     }
+
      if (is.character(popvar)==FALSE) {
           stop("The argument popvar must be a character string.")
      }
@@ -126,37 +127,35 @@ sampleRealizations <- function(
           stop("The argument realvar must be a character string.")
      }
      
-	POPVAR <- sym(popvar)
-	REALVAR <- sym(realvar)
-	n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
-	TIME 					<- Sys.time()
-	popdata 				%<>% arrange_at(c(popvar, realvar))
-	var 					<- c(ovar, avar, rvar)
-	n.patches 				<- length(unique(eval(parse(text=paste(
-								"popdata$",
-								popvar,
-								sep=""
-							)))))
-	nsample.length 			<- length(n1)
-	A 						<- vector("list", n.patches)
-	# c() - same code calculates the HT estimators for occupancy and abundance
-	oavar 					<- c(ovar, avar)
-	OAVAR <- syms(oavar)
-	# empty dataframes will be cbind'd together after HT estimators calculated
-	occ_abund_var 			<- data.frame(row.names = 1:length(c(ovar, avar))) 
-	occ_abund_mean 			<- data.frame(row.names = 1:length(c(ovar, avar)))
-	Ratio 					<- data.frame(row.names = 1:length(rvar)) 
+     POPVAR <- sym(popvar)
+     REALVAR <- sym(realvar)
+     n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
+     TIME <- Sys.time()
+     popdata %<>% arrange_at(c(popvar, realvar))
+
+     n.patches <- length(unique(eval(parse(text=paste(
+          "popdata$", popvar, sep="")))))
+     nsample.length <- length(n1)
+     A <- vector("list", n.patches)
+     # c() - same code calculates the HT estimators for occupancy and abundance
+     oavar <- c(ovar, avar)
+     OAVAR <- syms(oavar)
+     # empty dataframes will be cbind'd together after HT estimators calculated
+     occ_abund_var <- data.frame(row.names = 1:length(c(ovar, avar))) 
+     occ_abund_mean <- data.frame(row.names = 1:length(c(ovar, avar)))
+     Ratio <- data.frame(row.names = 1:length(rvar)) 
 	# the names to assign the estimates
-	# occ_abund_mean_names 	<- paste(ovar, avar, "MeanObs", sep="")
-	#occ_abund_var_names 	<- paste(ovar, avar, "VarObs", sep="")
-	ratio_mean_names 		<- paste(rvar, "RMeanObs", sep="")
-	ratio_var_names 		<- paste(rvar, "RVarObs", sep="")
+	# occ_abund_mean_names <- paste(ovar, avar, "MeanObs", sep="")
+	#occ_abund_var_names <- paste(ovar, avar, "VarObs", sep="")
+	ratio_mean_names <- paste(rvar, "RMeanObs", sep="")
+	ratio_var_names <- paste(rvar, "RVarObs", sep="")
 	# i=1;j=1;k=1
 	Z = foreach (
 		i = 1:n.patches, # for each species density
 		.inorder = FALSE, 
 		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
-		 	"ACSampling", "intergraph", "network", "igraph", "stringr", "spdep"), 
+		 	"ACSampling", "intergraph", "network", "igraph", "stringr", 
+		 	"spdep"), 
 		.combine = "bind_rows",
 		#.errorhandling = "pass",
 		.verbose = TRUE
@@ -167,120 +166,83 @@ sampleRealizations <- function(
 			.inorder = FALSE
 		) %dopar% {
 			cat(paste(i,j, sep="_"))
-			P 			<- popdata %>% 
-							filter(!!POPVAR == unique(
-								eval(parse(text=paste(
-									"popdata$",
-									popvar,
-									sep=""
-								)))
-							)[i])
-			N 			<- dim(P)[1]
-			n1 			<- n1[j]
+			P <- popdata %>% 
+				filter(!!POPVAR == unique(
+					eval(parse(text=paste("popdata$", popvar, sep="")))
+				)[i])
+			N <- dim(P)[1]
+			n1 <- n1[j]
 			A[[i]][[j]] <- list()
-			r 			<- (i - 1) * j + j
-			seeds 		<- runif(sims)
+			r <- (i - 1) * j + j
+			seeds <- runif(sims)
 		    for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
 				if (SamplingDesign=="ACS") {
 					alldata <- createACS(
-						popdata=P, 
-						seed=temp_seed, 
-						n1=n1, 
-						yvar=yvar
-					)
+						popdata=P, seed=temp_seed, n1=n1, yvar=yvar)
 				} else if (SamplingDesign=="RACS") {
 					alldata <- createRACS(
-						popdata=P, 
-						seed=temp_seed, 
-						n1=n1, 
-						yvar=yvar,
-						f_max=f_max
-					)
+						popdata=P, seed=temp_seed, n1=n1, yvar=yvar,
+						f_max=f_max)
 				} else {
 					alldata <- createSRS(
-						popdata=P, 
-						seed=temp_seed, 
-						n1=n1
-					)
+						popdata=P, seed=temp_seed, n1=n1)
 				}
 				alldata_all <- alldata
 				if (SampleEstimators == TRUE) {
 					################ SRSWOR Sampling #####################
 					if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
-						# datasets to apply simple mean/variance and simple ratio estimator
+						# datasets to apply simple mean/variance and 
+					     #    simple ratio estimator
 						dats <- "alldata"
 					}
+				     ################ SRSWOR Data, alldata ################
 					if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
-						################ SRSWOR Data, alldata ################
 						SRSWOR_data <- alldata %>% 
 							filter(Sampling=="SRSWOR")
 						alldata %<>% filter(Sampling!="Edge")
-						#apply simple mean/variance & simple ratio estimator to:
+						# apply simple mean/variance & simple ratio 
+						#    estimator to:
 						dats <- c("SRSWOR_data", "alldata")
 					}
 					SampleMeanVar <- list()
 					for (n in 1:length(dats)) {
 						dat <- eval(parse(text=dats[[n]])) %>%
 							select(!!!OAVAR) %>%
-							summarise_all(
-								funs(mean, var), na.rm=T
-							)
-						names(dat) <- str_replace(names(dat), "(.*)", "\\1_obs")
+							summarise_all(funs(mean, vars), na.rm=T)
+						names(dat) <- str_replace(
+						     names(dat), "(.*)", "\\1_obs")
 						dat$Plots <- dats[n]
 						SampleMeanVar[[n]] <- dat
 					}
 					SampleMeanVar %<>% bind_rows
-					# simple ratio estimators applied to alldata, SRSWOR_data
+					# simple ratio estimators applied to alldata, 
+					#    SRSWOR_data
 					if (!(is.null(rvar))) {
 						SmpRatio <- list()
 						for (n in 1:length(dats)) {
 							SmpRatio[[n]] <- data.frame(Var1 = NA)
 							for (l in 1:length(rvar)) {
-								y = eval(parse(
-										text=paste(
-											dats[n], 
-											"$", 
-											rvar[l], 
-											sep=""
-										)
-								))
-								x = eval(parse(
-										text = paste(
-											dats[n], 
-											"$",
-											str_sub(rvar[l],-7,-1), 
-											sep=""
-										)
-								))
-								m = rep(1, length(y)) # equal P(inclusion) for all
+								y = eval(parse(text=paste(
+									dats[n], "$", rvar[l], sep="")))
+								x = eval(parse(text = paste(
+									dats[n], "$", 
+									str_sub(rvar[l],-7,-1), sep="")))
+								# equal P(inclusion) for all
+								m = rep(1, length(y))
 								SmpRatio[[n]]$Var1 <- R_hat(
-									y = y,
-									x = x,
-									N = N,
-									n1 = n1,
-									m = m
-								)
+									y = y, x = x, N = N, n1 = n1, 
+									m = m)
 							 	SmpRatio[[n]]$Var2 = var_R_hat(
-							 		y = y, 
-							 		x = x,
-									N = N, 
-							 		n1 = n1, 
-							 		m = m
-							 	)
+							 		y = y, x = x, N = N, n1 = n1, 
+							 		m = m)
 								names(SmpRatio[[n]])[(dim(SmpRatio[[n]])[2]-1): 
 									dim(SmpRatio[[n]])[2]] <- 
 									c(
-										paste(
-											rvar[l], 
-											"RMeanObs", 
-											sep=""
-										),
-										paste(
-											rvar[l], 
-											"RVarObs", 
-											sep=""
-										)
+										paste(rvar[l], "RMeanObs", 
+											sep=""),
+										paste(rvar[l], "RVarObs", 
+											sep="")
 									)
 							}
 							SmpRatio[[n]] %<>% mutate(Plots = dats[n])
@@ -293,7 +255,7 @@ sampleRealizations <- function(
 					alldata %<>% filter(Sampling!="Edge")
 				}
 				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
-					################ HORVITZ-THOMPSON ESTIMATORS ###############
+					################ HORVITZ-THOMPSON ESTIMATORS ##########
 					HT_results <- list()
 					# OCCUPANCY AND ABUNDANCE
 					# summarise data for mean calculations
@@ -307,19 +269,14 @@ sampleRealizations <- function(
 							dplyr::select(!!!OAVAR) %>%
 							summarise_all(
 								list(yHT = new_y_HT),
-								N = N,
-								n1 = n1,
-								m = m,
-								m_threshold = 2
+								N = N, n1 = n1, m = m, m_threshold = 2
 							)
 					} else if (y_HT_formula == "y_HT") {
 						HT_results[[1]] <- O %>%
 							dplyr::select(!!!OAVAR) %>%
 							summarise_all(
 								list(yHT = y_HT),
-								N = N,
-								n1 = n1,
-								m = m
+								N = N, n1 = n1, m = m
 							)
 					}
 					# summarise data for variance calculations
@@ -335,19 +292,14 @@ sampleRealizations <- function(
 							select(!!!OAVAR) %>%
 							summarise_all(
 								list(var_yHT_RACS = var_y_HT_RACS),
-								N 	= N, 
-								n1 	= n1, 
-								m	= m,
-								mThreshold = mThreshold
+								N=N,  n1=n1,  m=m, mThreshold=mThreshold
 							)
 					} else if (var_formula == "var_y_HT") {
 						HT_results[[2]] <- O_smd %>% 
 							select(!!!OAVAR) %>%
 							summarise_all(
-								list(var_yHT = var_y_HT),
-								N 	= N, 
-								n1 	= n1, 
-								m	= m
+								list(var_yHT=var_y_HT),
+								N=N, n1=n1, m=m
 							)
 					######################################################
 					} else if (var_formula == "var_pi") {
@@ -355,9 +307,7 @@ sampleRealizations <- function(
 							select(!!!OAVAR) %>%
 							summarise_all(
 								list(var_pi = var_pi),
-								N 	= N, 
-								n1 	= n1, 
-								m	= m
+								N=N, n1=n1, m=m
 							)
 					}
 					# RATIO DATA
@@ -388,33 +338,16 @@ sampleRealizations <- function(
 							# GENERALIZE THIS 
 								str_sub(rvar[l],-7,-1), sep="")))
 							HT_results[[3]]$Var1 = R_hat(
-								y = y,
-								x = x,
-								N = N, 
-								n1 = n1, 
-								m = R_smd$m
-							)
+								y = y, x = x, N = N, n1 = n1, 
+								m = R_smd$m)
 						 	HT_results[[3]]$Var2 = var_R_hat(
-						 		y = y, 
-						 		x = x,
-								N = N, 
-						 		n1 = n1, 
-						 		m = R_smd$m
-						 	)
+						 		y=y, x=x, N=N, n1=n1, m=R_smd$m)
 							names(HT_results[[3]])[ 
 								(dim(HT_results[[3]])[2] - 1) : 
 								dim(HT_results[[3]])[2]
 							] <- c(
-									paste(
-										rvar[l], 
-										"RMeanObs", 
-										sep=""
-									),
-									paste(
-										rvar[l], 
-										"RVarObs", 
-										sep=""
-									)
+									paste(rvar[l], "RMeanObs", sep=""),
+									paste(rvar[l], "RVarObs", sep="")
 								)
 						}
 					}
@@ -434,21 +367,15 @@ sampleRealizations <- function(
 					A[[i]][[j]][[k]] <- SampleMeanVar
 				}
 				# add other information
-				A[[i]][[j]][[k]]$simulation 		= k
-				A[[i]][[j]][[k]]$seed 				= temp_seed
-				A[[i]][[j]][[k]]$N.ACS.plots 		= dim(alldata_all)[1] - n1
-				A[[i]][[j]][[k]]$N.Total.plots 		= dim(alldata_all)[1]
+				A[[i]][[j]][[k]]$simulation = k
+				A[[i]][[j]][[k]]$seed = temp_seed
+				A[[i]][[j]][[k]]$N.ACS.plots = dim(alldata_all)[1] - n1
+				A[[i]][[j]][[k]]$N.Total.plots = dim(alldata_all)[1]
 				A[[i]][[j]][[k]]$realvar = eval(parse(text=paste(
-														"P$",
-														realvar,
-														sep=""
-													)))[1]
-				A[[i]][[j]][[k]]$popvar		= eval(parse(text=paste(
-														"P$",
-														popvar,
-														sep=""
-													)))[1]
-				A[[i]][[j]][[k]]$N.SRSWOR.plots 	= n1
+					"P$", realvar, sep="")))[1]
+				A[[i]][[j]][[k]]$popvar = eval(parse(text=paste(
+					"P$", popvar, sep="")))[1]
+				A[[i]][[j]][[k]]$N.SRSWOR.plots = n1
 				# m characteristics
 				if (mChar == TRUE) {
 					if (sum(alldata_all$Cactus) > 0) {

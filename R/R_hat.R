@@ -18,6 +18,9 @@
 #' @export
 
 R_hat <- function(y, x, N, n1, m, replace="FALSE") {
+     
+     handleError_n1(n1)
+     
 	if (replace=="TRUE") {
 		alpha_stars <- pi_i_replace(N, n1, m)
 	} else {

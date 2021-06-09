@@ -1,4 +1,9 @@
 test_that("Error Handling - popdata", {
+     popdata <- TRUE
+     expect_error(
+          handleError_popdata(popdata),
+          "The 'popdata' argument must be supplied with a data frame including the columns 'x', 'y', and 'NetworkID'."
+     )
      popdata <- NA
      expect_error(
           handleError_popdata(popdata),
@@ -16,6 +21,11 @@ test_that("Error Handling - popdata", {
      )
 })
 test_that("Error Handling - seed", {
+     seed <- TRUE
+     expect_error(
+          handleError_seed(seed),
+          "The 'seed' argument must be a vector of integer values."
+     )
      seed <- 1.2
      expect_error(
           handleError_seed(seed),
@@ -28,6 +38,11 @@ test_that("Error Handling - seed", {
      )
 })
 test_that("Error Handling - yvar", {
+     yvar <- TRUE
+     expect_error(
+          handleError_yvar(yvar),
+          "The argument 'yvar' must be a character string."
+     )
      yvar <- NA
      expect_error(
           handleError_yvar(yvar),
@@ -45,6 +60,11 @@ test_that("Error Handling - yvar", {
      )
 })
 test_that("Error Handling - n1", {
+     n1 <- TRUE
+     expect_error(
+          handleError_n1(n1),
+          "The argument 'n1' must be an integer value."
+     )
      n1 <- NA
      expect_error(
           handleError_n1(n1),
@@ -67,6 +87,11 @@ test_that("Error Handling - n1", {
      )
 })   
 test_that("Error Handling - coord", {
+     coord <- TRUE
+     expect_error(
+          handleError_coord(coord),
+          "A non-numeric value was passed to one of the coordinate arguments. Please provide a number.",
+     )
      coord <- NA
      expect_error(
           handleError_coord(coord),
@@ -88,7 +113,120 @@ test_that("Error Handling - coord", {
           "A non-numeric value was passed to one of the coordinate arguments. Please provide a number.",
      )
 })   
+test_that("Error Handling - condition", {
+     condition <- NA
+     expect_error(
+          handleError_condition(condition),
+          "The argument 'condition' must be a numeric value.",
+     )
+     condition <- TRUE
+     expect_error(
+          handleError_condition(condition),
+          "The argument 'condition' must be a numeric value.",
+     )
+     condition <- "random text"
+     expect_error(
+          handleError_condition(condition),
+          "The argument 'condition' must be a numeric value.",
+     )
+     condition <- c(1,3,2)
+     expect_error(
+          handleError_condition(condition),
+          "The argument 'condition' must be a single numeric value.",
+     )
+})
+test_that("Error Handling - LogicalVar", {
+     LogicalVar <- NA
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- "random text"
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- c(1,3,2)
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- c("blah", "blah")
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- c("TRUE", "FALSE")
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- "TRUE"
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+})
+
+test_that("Error Handling - LogicalVar", {
+     avar <- NA
+     ovar <- NA
+     rvar <- NA
+     expect_error(
+          handleError_vars(avar, ovar, rvar, "Logical Variable"),
+          "The argument 'Logical Variable' must be a character string or a vector of character strings.",
+     )
+     avar <- NA
+     ovar <- NA
+     rvar <- NA
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- c(1,3,2)
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- c("blah", "blah")
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- c("TRUE", "FALSE")
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+     LogicalVar <- "TRUE"
+     expect_error(
+          handleError_LogicalVar(LogicalVar, "Logical Variable"),
+          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+     )
+})
 
 
+
+
+
+
+
+
+
+
+
+if (is.numeric(condition)==FALSE) {
+     if (is.numeric(condition)==FALSE) {
+          stop(
+               "The argument 'condition' must be a numeric value.",
+               call.=FALSE
+          )
+     } else if (is.vector(condition)==TRUE) {
+          stop(
+               "The argument 'condition' must be a single numeric value.",
+               call.=FALSE
+          )
+     }
+}
 
 

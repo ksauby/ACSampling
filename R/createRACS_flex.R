@@ -39,25 +39,14 @@
 
 createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL, f_max=2) {
 
-     if (is.data.frame(popdata)==FALSE) {
-          stop("The 'popdata' argument must be supplied with a data frame.")
-     }     
-     if (round(n1)!=n1) {
-          stop("The argument 'n1' must be an integer.")
-     }
-     if (is.character(yvar)==FALSE) {
-          stop("The argument 'yvar' must be a character string.")
-     }
-     if (is.numeric(condition)==FALSE) {
-          stop("The argument 'condition' must be numeric.")
-     }
-     if (all(is.numeric(seed))==TRUE) {
-          if (!isTRUE(all(seed == floor(seed)))) {
-               stop("The 'seed' argument must be a vector of integer values.")
-          } else if (!is.na(seed)) {
-               stop("The 'seed' argument must be a vector of integer values.")
-          }
-     }
+     handleError_popdata(popdata)
+     handleError_n1(n1)
+     handleError_yvar(yvar)
+     handleError_seed(seed)
+     handleError_condition(condition)
+ 
+
+  
      if (is.numeric(f_max)==TRUE) {
           if (!isTRUE(f_max == floor(f_max))) {
                stop("The 'f_max' argument must be an integer value.")
