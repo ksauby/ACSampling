@@ -7,17 +7,24 @@
 #' @return A grid of locations with coordinates (x, y).
 #' @export
 
-#' @example population <- createPop(
-#' x_start = 5, 
+#' @example 
+#' population <- createPop(
+#' x_start = "a", 
 #' x_end = 27, 
 #' y_start = 5, 
 #' y_end = 27
 #' )
 
 createPop <- function(x_start, x_end, y_start, y_end) {
-  data.frame(expand.grid(
-    x = 	x_start:x_end,
-    y = 	y_start:y_end
-  )) # %>%
-  # mutate(unitID = 1:length(x))
+     
+     handleError_coord(x_start)
+     handleError_coord(x_end)
+     handleError_coord(y_start)
+     handleError_coord(y_end)
+     
+     data.frame(expand.grid(
+          x = 	x_start:x_end,
+          y = 	y_start:y_end
+     )) # %>%
+     # mutate(unitID = 1:length(x))
 }

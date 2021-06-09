@@ -31,25 +31,47 @@ handleError_yvar <- function(yvar) {
           stop(
                "The argument 'yvar' must be a character string.",
                call.=FALSE
-               )
+          )
+     } else if (is.vector(yvar)==TRUE) {
+          stop(
+               "The argument 'yvar' must be a character string.",
+               call.=FALSE
+          )    
      }
 }
 handleError_n1 <- function(n1) {
      if (is.numeric(n1)==TRUE) {
-          if (round(n1)!=n1) {
+          if (is.vector(n1)==TRUE) {
                stop(
-                    "The argument 'n1' must be an integer.",
+                    "The argument 'n1' must be an integer value.",
+                    call.=FALSE
+               )
+          } else if (round(n1)!=n1) {
+               stop(
+                    "The argument 'n1' must be an integer value.",
                     call.=FALSE
                )
           }
      } else {
           stop(
-               "The argument 'n1' must be an integer.",
+               "The argument 'n1' must be an integer value.",
                call.=FALSE
           )
      }
 }
-     
+handleError_coord <- function(coord) {
+     if (is.numeric(coord)==FALSE) {
+          stop(
+               "A non-numeric value was passed to one of the coordinate arguments. Please provide a number.",
+               call.=FALSE
+          )
+     } else if (is.vector(coord)==TRUE) {
+          stop(
+               "A non-numeric value was passed to one of the coordinate arguments. Please provide a number.",
+               call.=FALSE
+          )
+     }
+}  
      
      
      
@@ -107,11 +129,10 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
      handleError_popdata(popdata)
      handleError_n1(n1)
      handleError_yvar(yvar)
+     handleError_seed(seed)
      if (is.numeric(condition)==FALSE) {
           stop("The argument 'condition' must be numeric.")
      }
-     handleError_seed(seed)
-     
      
 	YVAR <- sym(yvar)
 	. <- Sampling <- y_val <- NULL
