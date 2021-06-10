@@ -168,14 +168,49 @@ test_that("Error Handling - LogicalVar", {
      )
 })
 
-test_that("Error Handling - LogicalVar", {
-     avar <- NA
-     ovar <- NA
-     rvar <- NA
+test_that("Error Handling - handleError_variable", {
+     variable <- c(1, 2, 3)
      expect_error(
-          handleError_vars(avar, ovar, rvar, "Logical Variable"),
-          "The argument 'Logical Variable' must be a character string or a vector of character strings.",
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
      )
+     variable <- 1
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- NULL
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- FALSE
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- NA
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- data.frame(c(1,2,3))
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- matrix(c(1,2,3))
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+          )
+})
+
+
+
+
+
+
      avar <- NA
      ovar <- NA
      rvar <- NA
@@ -205,7 +240,14 @@ test_that("Error Handling - LogicalVar", {
      )
 })
 
+avar <- "blah"; ovar <- 1; rvar = NULL
 
+avar <- "blah"; ovar <- NULL; rvar = "blah2"
+avar <- NULL; ovar <- "blah2"; rvar = "blah"
+
+avar <- NULL; ovar <- NULL; rvar = NULL
+avar <- NA; ovar <- NA; rvar = NA
+avar <- NA; ovar <- NA; rvar = NULL
 
 
 
