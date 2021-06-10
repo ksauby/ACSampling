@@ -19,9 +19,9 @@ createRACS(
 
 \item{n1}{initial sample size (sampled according to simple random sampling without replacement).}
 
-\item{yvar}{Variable of interest, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when the y_variable is greater than the condition.}
+\item{yvar}{Variable of interest, y, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when 'yvar' is greater than the condition.}
 
-\item{condition}{Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.}
+\item{condition}{Threshold value of the 'y' variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.}
 
 \item{seed}{vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.}
 

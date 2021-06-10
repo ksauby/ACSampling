@@ -168,6 +168,7 @@ test_that("Error Handling - LogicalVar", {
      )
 })
 
+# THIS IS NOT WORKING APPROPRIATELY
 test_that("Error Handling - handleError_variable", {
      variable <- c(1, 2, 3)
      expect_error(
@@ -207,47 +208,71 @@ test_that("Error Handling - handleError_variable", {
 })
 
 
-
-
-
-
-     avar <- NA
-     ovar <- NA
-     rvar <- NA
+test_that("Error Handling - handleError_vars", {
+     avar <- "blah"; ovar <- 1; rvar = NULL
      expect_error(
-          handleError_LogicalVar(LogicalVar, "Logical Variable"),
-          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+          handleError_vars("avar", "ovar", "rvar"),
+          "The argument 'ovar' must be a character string or a vector of character strings."
      )
-     LogicalVar <- c(1,3,2)
+     avar <- NULL; ovar <- NULL; rvar = NULL
      expect_error(
-          handleError_LogicalVar(LogicalVar, "Logical Variable"),
-          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+          handleError_vars("avar", "ovar", "rvar"),
+          "At least one variable (via the arguments 'ovar', 'avar', or 'rvar') must be supplied for estimation."
      )
-     LogicalVar <- c("blah", "blah")
+     avar <- NA; ovar <- NA; rvar = NA
      expect_error(
-          handleError_LogicalVar(LogicalVar, "Logical Variable"),
-          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+          handleError_vars("avar", "ovar", "rvar"),
+          "At least one variable (via the arguments 'ovar', 'avar', or 'rvar') must be supplied for estimation."
      )
-     LogicalVar <- c("TRUE", "FALSE")
+     avar <- NA; ovar <- NA; rvar = NULL
      expect_error(
-          handleError_LogicalVar(LogicalVar, "Logical Variable"),
-          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+          handleError_vars("avar", "ovar", "rvar"),
+          "At least one variable (via the arguments 'ovar', 'avar', or 'rvar') must be supplied for estimation."
      )
-     LogicalVar <- "TRUE"
+     
+     
+     
+     
+     
+     
+     variable <- 1
      expect_error(
-          handleError_LogicalVar(LogicalVar, "Logical Variable"),
-          "The argument 'Logical Variable' must be assigned a value of either TRUE or FALSE.",
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- NULL
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- FALSE
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- NA
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- data.frame(c(1,2,3))
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
+     )
+     variable <- matrix(c(1,2,3))
+     expect_error(
+          handleError_variable("variable"),
+          "The argument 'variable' must be a character string or a vector of character strings."
      )
 })
 
-avar <- "blah"; ovar <- 1; rvar = NULL
 
-avar <- "blah"; ovar <- NULL; rvar = "blah2"
-avar <- NULL; ovar <- "blah2"; rvar = "blah"
+test_that("Error Handling - handleError_vars", {
 
-avar <- NULL; ovar <- NULL; rvar = NULL
-avar <- NA; ovar <- NA; rvar = NA
-avar <- NA; ovar <- NA; rvar = NULL
+handleError_vars(avar, ovar, rvar)
+
+
 
 
 

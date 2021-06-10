@@ -2,7 +2,7 @@
 
 test_that("y_HT, Horvitz-Thompson Mean Estimator", {
 	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
-	expect_that(
+	expect_equal(
 		round(
 			y_HT(
 				N = 1000, 
@@ -13,7 +13,7 @@ test_that("y_HT, Horvitz-Thompson Mean Estimator", {
 				criterion = 0
 			)*1000, 0
 		),
-		equals(38)
+		38
 	)
 	# Example from Thompson (1990), end of second full paragraph, p. 1055
 	mk <- c(1,0,2,2)
@@ -23,7 +23,7 @@ test_that("y_HT, Horvitz-Thompson Mean Estimator", {
 	dat$mk %<>% as.numeric
 	dat$y_value %<>% as.numeric
 	dat_filter <- dat %>% filter(sampling=="S" | y_value > 4)
-	expect_that(
+	expect_equal(
 		round(
 			y_HT(
 				N = 5, 
@@ -32,13 +32,12 @@ test_that("y_HT, Horvitz-Thompson Mean Estimator", {
 				y = dat_filter$y_value
 			), 2
 		),
-		equals(289.07)
+		289.07
 	)
 })
-
 test_that("pi_i, Network Inclusion Probability", {
 	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
-	expect_that(
+	expect_equal(
 		round(
 			pi_i(
 				N = 1000, 
@@ -46,14 +45,15 @@ test_that("pi_i, Network Inclusion Probability", {
 				m = c(2,3,rep(1,98))
 			)[1:2], 2
 		),
-		equals(c(0.19, 0.27))
+		c(0.19, 0.27)
 	)
 })
 
+# R ABORTS WHEN TRYING TO TEST PI_IJ
 test_that("pi_ij, Network Joint Inclusion Probability", {
 	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 	# answer in the book is 0.0511 but I get 0.0512; I'm going to assume that this is due to a rounding error in the book's calculation
-	expect_that(
+	expect_equal(
 		round(
 			pi_ij(
 				N = 1000, 
@@ -61,15 +61,16 @@ test_that("pi_ij, Network Joint Inclusion Probability", {
 				m = c(2,3,rep(1,98))
 			)[1, 2], 4
 		),
-		equals(0.0512)
+		0.0512
 	)
 })
 
+# R ABORTS WHEN TRYING TO TEST var_y_HT
 test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {
 	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 	# Horvitz Thompson variance of the total, (using the variance of the mean, and then multiply by N^2)
 	# answer in the book is 552 but I get 553; I'm going to assume that this is due to a rounding error in the book's calculation
-	expect_that(
+	expect_equal(
 		round(
 			var_y_HT(
 				N = 1000, 
@@ -78,15 +79,17 @@ test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {
 				y = c(3,6,rep(0, 98))
 			)*(1000^2), 0
 		),
-		equals(553)
+		553
 	)
 })
-
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 	# Thompson (2002), Example 2, p. 78-79
 	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)
-	expect_that(
+	expect_equal(
 		round(
+		     
+		     # ERROR SAYS N1 IS NOT AN INTEGER
+		     
 			R_hat(
 				y = c(60, 14, 1), 
 				x = c(1, 1, 1), 
@@ -96,12 +99,12 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 				replace="TRUE"
 			), 2
 		),
-		equals(12.12)
+		12.12
 	)
 })
 test_that("var_R_hat, with replacement", {
 	# Thompson (2002), Example 2, p. 78-79
-	expect_that(
+	expect_equal(
 		round(
 			var_R_hat(
 				y = c(60, 14, 1), 
@@ -112,7 +115,7 @@ test_that("var_R_hat, with replacement", {
 				replace="TRUE"
 			), 2
 		),
-		equals(17.5)
+		17.5
 	)
 })
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
@@ -123,7 +126,7 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 	combin	<- split(combin, col(combin))
 	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])
 	combos %<>% lapply(., function(x) filter(x, !(is.na(y))))
-	expect_that(
+	expect_equal(
 		lapply(
 			combos, 
 			function(x) round(
@@ -136,15 +139,13 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 				)*(20 + 25 + 15), 6
 			)
 		),
-		equals(
-			list(
-				`1` = 6.666667, 
-				`2` = 6, 
-				`3` = 5.142857, 
-				`4` = 7.2, 
-				`5` = 6, 
-				`6` = 4
-			)
+		list(
+		     `1` = 6.666667, 
+		     `2` = 6, 
+		     `3` = 5.142857, 
+		     `4` = 7.2, 
+		     `5` = 6, 
+		     `6` = 4
 		)
 	)
 })

@@ -3,8 +3,8 @@
 #' @param popdata grid of population to be sampled.
 #' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).
-#' @param yvar Variable of interest, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when the y_variable is greater than the condition.
-#' @param condition Threshold value of the y variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.
+#' @param yvar Variable of interest, y, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when 'yvar' is greater than the condition.
+#' @param condition Threshold value of the 'y' variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.
 #' @param f_max WHAT IS IT
 #' @param initsample List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
 #' @return A restricted adaptive cluster sample.

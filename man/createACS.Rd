@@ -7,17 +7,17 @@
 createACS(popdata, n1, yvar, condition = 0, seed = NA, initsample = NA)
 }
 \arguments{
-\item{popdata}{The population to be sampled.}
+\item{popdata}{A data frame providing information about the population to be sampled, including x and y columns, as well as a column containing the variable of interest, with the same name as that provided in the \code{yvar} argument.}
 
-\item{n1}{The initial sample size (sampled according to simple random sampling without replacement).}
+\item{n1}{An integer giving the initial sample size (sampled according to simple random sampling without replacement).}
 
 \item{yvar}{The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.}
 
 \item{condition}{Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).}
 
-\item{seed}{A vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.}
+\item{seed}{A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specify a random number seed.}
 
-\item{initsample}{Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
+\item{initsample}{Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement. HOW IS THIS FORMATTED}
 }
 \value{
 A restricted adaptive cluster sample.

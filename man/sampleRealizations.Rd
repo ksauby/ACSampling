@@ -32,35 +32,35 @@ sampleRealizations(
 
 \item{n1}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values}
 
-\item{avar}{Vector of variables for which abundance should be estimated.}
+\item{avar}{Vector of variables for which abundance should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{ovar}{Vector of variables for which occupancy should be estimated.}
+\item{ovar}{Vector of variables for which occupancy should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{rvar}{Vector of variables for which ratio estimators should be used.}
+\item{rvar}{Vector of variables for which ratio estimators should be used. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{SamplingDesign}{Whether restricted or unrestricted adaptive cluster sampling should be performed; defaults to \code{FALSE}.}
+\item{SamplingDesign}{Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.}
 
 \item{yvar}{variable upon which adaptive cluster sampling criterion is based}
 
-\item{y_HT_formula}{Default is "Thompson".}
+\item{y_HT_formula}{The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.}
 
-\item{var_formula}{Default is "var_y_HT".}
+\item{var_formula}{The formula used to estimate the variance of the population total: either the Horvitz-Thompson variance estimator, 'var_y_HT', or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." Defaults to "var_y_HT".}
 
-\item{mThreshold}{Default is NULL.}
+\item{mThreshold}{Default is NULL. OPTIONS}
 
-\item{f_max}{Default is 2.}
+\item{f_max}{Default is 2. OPTIONS}
 
 \item{SampleEstimators}{If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.}
 
-\item{SpatStat}{If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE}
+\item{SpatStat}{TRUE or FALSE. If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE.}
 
-\item{mChar}{If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics.}
+\item{mChar}{TRUE or FALSE. If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics. If "FALSE," no summary statistics are calculated.}
 
 \item{popvar}{Default is "n.networks"}
 
 \item{realvar}{Default is "realization"}
 
-\item{weights}{If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
+\item{weights}{TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
 }
 \description{
 This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
@@ -86,31 +86,26 @@ ovar = c(
 # "Height_Stricta",
 )		
 data(CactusRealizations)
-popdata = CactusRealizations
+popdata = CactusRealizations # WHY IS THERE ISLAND=NA
 simulation_data <- sampleRealizations(
-popdata, 
-sims, 
-n1, 
-avar, 
-ovar, 
-popvar="population", 
+popdata = popdata,
+	sims = sims, 
+	n1 = n1, 
+	avar = avar, 
+	ovar = ovar,
+popvar="Island", 
 yvar="Cactus"
 )
 # sims=200
 # #n1=c(75,150,225,300,350)
 simulation_data_SRSWOR <- sampleRealizations(
-	popdata, 
-	sims, 
-	n1, 
-	avar, 
-	ovar,
-	popvar="population"
+	popdata = popdata,
+	sims = sims, 
+	n1 = n1, 
+	avar = avar, 
+	ovar = ovar,
+	popvar="Island"
 )
-# # save data
-# write.csv(simulation_data_SRSWOR, file=paste("simulation_data_SRSWOR", 
-# format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M"), ".csv", sep=""))
-#  write.csv(simulation_data, file=paste("simulation_data", format(Sys.time(), 
-# "\%Y-\%m-\%d_\%H-\%M"), ".csv", sep=""))
 }
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.

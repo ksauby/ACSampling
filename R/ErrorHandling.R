@@ -1,7 +1,7 @@
 # must be an integer
 handleError_n1 <- function(n1) {
      if (is.numeric(n1)==TRUE) {
-          if (is.vector(n1)==TRUE) {
+          if (length(n1) > 1) {
                stop(
                     "The argument 'n1' must be an integer value.",
                     call.=FALSE
@@ -90,8 +90,8 @@ handleError_yvar <- function(yvar) {
 }
 
 handleError_variable <- function(variable) {
-     VARIABLE <- sym(variable)
-     if (!all(is.character(VARIABLE))) {
+     #VARIABLE <- sym(variable)
+     if (any(!is.character(eval(parse(text=variable))))==TRUE) {
           stop(
                paste(
                     "The argument '",
@@ -104,20 +104,55 @@ handleError_variable <- function(variable) {
      }
 }
 
-
-
-
 # must be character or vector of characters
 handleError_vars <- function(avar, ovar, rvar) {
-     handleError_variable(avar)
-     handleError_variable(ovar)
-     handleError_variable(rvar)
+     handleError_variable("avar")
+     handleError_variable("ovar")
+     handleError_variable("rvar")
      vars <- c(avar, ovar, rvar)
-     if (is.null(vars) | all(is.na(vars))) {
+     VARS <- syms(vars)
+     if (is.null(VARS) | all(is.na(VARS))) {
           stop(
                "At least one variable (via the arguments 'ovar', 'avar', or 'rvar') must be supplied for estimation.",
                call.=FALSE
           )
      }
 }
+
+# must be logical, character vector of length 1
+handleError_LogicalVar <- function(LogicalVar, argument) {
+     if (length(LogicalVar) > 1) {
+          stop(
+               paste(
+                    "The argument '",
+                    argument,
+                    "' must be assigned a value of either TRUE or FALSE.",
+                    sep=""
+               ),
+               call.=FALSE
+          )    
+     } else if (is.logical(LogicalVar)==FALSE) {
+          stop(
+               paste(
+                    "The argument '",
+                    argument,
+                    "' must be assigned a value of either TRUE or FALSE.",
+                    sep=""
+               ),
+               call.=FALSE
+          )    
+     } else if (is.na(LogicalVar)) {
+          stop(
+               paste(
+                    "The argument '",
+                    argument,
+                    "' must be assigned a value of either TRUE or FALSE.",
+                    sep=""
+               ),
+               call.=FALSE
+          )    
+     }
+}
+
+
 
