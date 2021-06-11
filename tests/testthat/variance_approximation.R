@@ -6,8 +6,8 @@ test_that("Hajek, Hajek Variance Approximation", {
 
 	
 	
-	expect_that(
+	expect_equal(
 		Hajek(pi_i = pi_i_values, n = N),
-		equals(c(0.07812, 0.16932, 0.29028, 0.28548, 0.16932, 0.09828))
+		c(0.07812, 0.16932, 0.29028, 0.28548, 0.16932, 0.09828)
 	)
 })
