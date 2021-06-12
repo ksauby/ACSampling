@@ -73,7 +73,6 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 		     length(vec)
 		)
 	)
-	# 1 is not over the threshold
 	# 1 is not over the threshold	
 	expect_equal(
 		(vec = as.vector(pi_ij_RACS_mthresh_4[9:13,9:13])),
