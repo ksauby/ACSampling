@@ -102,8 +102,13 @@ sampleRealizations <- function(
      handleError_LogicalVar(SampleEstimators, "SampleEstimators")
      handleError_LogicalVar(SpatStat, "SpatStat")
      handleError_LogicalVar(mChar, "mChar")
+     handleError_variable(avar, "avar")
+     handleError_variable(ovar, "ovar")
+     handleError_variable(rvar, "rvar")
      
      vars <- c(ovar, avar, rvar)
+     handleError_vars(vars)
+     
      if (avar!=NULL | is.character(avar)==FALSE) {stop("avar must be a character string.")}
      if (ovar!=NULL | is.character(ovar)==FALSE) {stop("ovar must be a character string.")}
      if (rvar!=NULL | is.character(rvar)==FALSE) {stop("rvar must be a character string.")}

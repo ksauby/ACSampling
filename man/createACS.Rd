@@ -15,7 +15,7 @@ createACS(popdata, n1, yvar, condition = 0, seed = NA, initsample = NA)
 
 \item{condition}{Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).}
 
-\item{seed}{A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specify a random number seed.}
+\item{seed}{A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. \code{seed} defaults to NA so that it is not necessary to specify a random number seed.}
 
 \item{initsample}{Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement. HOW IS THIS FORMATTED}
 }

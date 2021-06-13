@@ -1,7 +1,7 @@
 #' Create an Adaptive Cluster Sample.
 #'
 #' @param popdata A data frame providing information about the population to be sampled, including x and y columns, as well as a column containing the variable of interest, with the same name as that provided in the \code{yvar} argument.
-#' @param seed A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specify a random number seed.
+#' @param seed A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. \code{seed} defaults to NA so that it is not necessary to specify a random number seed.
 #' @param n1 An integer giving the initial sample size (sampled according to simple random sampling without replacement).
 #' @param yvar The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.
 #' @param condition Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).

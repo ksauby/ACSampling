@@ -45,15 +45,11 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
      handleError_seed(seed)
      handleError_condition(condition)
  
-
-  
      if (is.numeric(f_max)==TRUE) {
-          if (!isTRUE(f_max == floor(f_max))) {
+          if (f_max != floor(f_max)) {
                stop("The 'f_max' argument must be an integer value.")
-          } else {
-          stop("The 'f_max' argument must be an integer value.")
+          }
      }
- }
 
      
 	y_value <- x <- y <- Sampling <- NetworkID <- m <- NULL

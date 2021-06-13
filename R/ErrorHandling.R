@@ -24,7 +24,7 @@ handleError_condition <- function(condition) {
      if (is.numeric(condition) == FALSE) {
           stop("The argument 'condition' must be a numeric value.",
                call. = FALSE)
-     } else if (is.vector(condition) == TRUE) {
+     } else if (length(condition) > 1) {
           stop("The argument 'condition' must be a single numeric value.",
                call. = FALSE)
      }
@@ -35,7 +35,7 @@ handleError_coord <- function(coord) {
                "A non-numeric value was passed to one of the coordinate arguments. Please provide a number.",
                call.=FALSE
           )
-     } else if (is.vector(coord)==TRUE) {
+     } else if (length(coord) > 1) {
           stop(
                "A non-numeric value was passed to one of the coordinate arguments. Please provide a number.",
                call.=FALSE
@@ -81,7 +81,7 @@ handleError_yvar <- function(yvar) {
                "The argument 'yvar' must be a character string.",
                call.=FALSE
           )
-     } else if (is.vector(yvar)==TRUE) {
+     } else if (length(yvar) > 1) {
           stop(
                "The argument 'yvar' must be a character string.",
                call.=FALSE
@@ -89,13 +89,12 @@ handleError_yvar <- function(yvar) {
      }
 }
 
-handleError_variable <- function(variable) {
-     #VARIABLE <- sym(variable)
-     if (any(!is.character(eval(parse(text=variable))))==TRUE) {
+handleError_variable <- function(variable, argument) {
+     if (is.character(variable)==FALSE) {
           stop(
                paste(
                     "The argument '",
-                    variable,
+                    argument,
                     "' must be a character string or a vector of character strings.",
                     sep=""
                ),
@@ -105,15 +104,10 @@ handleError_variable <- function(variable) {
 }
 
 # must be character or vector of characters
-handleError_vars <- function(avar, ovar, rvar) {
-     handleError_variable("avar")
-     handleError_variable("ovar")
-     handleError_variable("rvar")
-     vars <- c(avar, ovar, rvar)
-     VARS <- syms(vars)
-     if (is.null(VARS) | all(is.na(VARS))) {
+handleError_vars <- function(vars) {
+     if (is.null(vars)==TRUE | all(is.na(vars))==TRUE) {
           stop(
-               "At least one variable (via the arguments 'ovar', 'avar', or 'rvar') must be supplied for estimation.",
+               "At least one variable, via the arguments 'ovar', 'avar', or 'rvar', must be supplied for estimation.",
                call.=FALSE
           )
      }
