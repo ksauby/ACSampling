@@ -4,9 +4,9 @@
 #' @examples 
 #' library(ggplot2)
 #' library(magrittr)
-#' data(lambdap_5_tau_25)
+#' data(lambdap_10_tau_5)
 #' 
-#' ggplot(lambdap_5_tau_25 %>% dplyr::filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
+#' ggplot(lambdap_10_tau_5 %>% dplyr::filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 
 
 #' @references

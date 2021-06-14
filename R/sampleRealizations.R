@@ -96,7 +96,7 @@ sampleRealizations <- function(
 ) 
 {
      handleError_popdata(popdata)
-     handleError_n1(n1)
+     handleError_n1vector(n1)
      handleError_yvar(yvar)
      handleError_condition(condition)
      handleError_LogicalVar(SampleEstimators, "SampleEstimators")
@@ -109,9 +109,7 @@ sampleRealizations <- function(
      vars <- c(ovar, avar, rvar)
      handleError_vars(vars)
      
-     if (avar!=NULL | is.character(avar)==FALSE) {stop("avar must be a character string.")}
-     if (ovar!=NULL | is.character(ovar)==FALSE) {stop("ovar must be a character string.")}
-     if (rvar!=NULL | is.character(rvar)==FALSE) {stop("rvar must be a character string.")}
+
      if (!(SamplingDesign %in% c("ACS", "RACS", "SRS"))) {
           stop("SamplingDesign must be supplied as either 'SRS', ACS', or 'RACS'.")
      }
@@ -137,7 +135,6 @@ sampleRealizations <- function(
      n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
      TIME <- Sys.time()
      popdata %<>% arrange_at(c(popvar, realvar))
-
      n.patches <- length(unique(eval(parse(text=paste(
           "popdata$", popvar, sep="")))))
      nsample.length <- length(n1)
@@ -187,8 +184,7 @@ sampleRealizations <- function(
 						popdata=P, seed=temp_seed, n1=n1, yvar=yvar)
 				} else if (SamplingDesign=="RACS") {
 					alldata <- createRACS(
-						popdata=P, seed=temp_seed, n1=n1, yvar=yvar,
-						f_max=f_max)
+						popdata=P, seed=temp_seed, n1=n1, yvar=yvar, f_max=f_max)
 				} else {
 					alldata <- createSRS(
 						popdata=P, seed=temp_seed, n1=n1)
@@ -274,7 +270,8 @@ sampleRealizations <- function(
 							dplyr::select(!!!OAVAR) %>%
 							summarise_all(
 								list(yHT = new_y_HT),
-								N = N, n1 = n1, m = m, m_threshold = 2
+								N = N, n1 = n1, m = m, 
+								m_threshold = mThreshold
 							)
 					} else if (y_HT_formula == "y_HT") {
 						HT_results[[1]] <- O %>%

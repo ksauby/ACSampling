@@ -1,5 +1,97 @@
 #### TESTING
 
+
+
+
+
+test_that("assignNetworkMembership", {
+     lambdap_5_tau_25_pop <- expand.grid(
+          x = 1:10,
+          y = 1:10
+     ) %>%
+          cbind(
+               y_value = c(
+                    0,0,0,4,rep(0,6),
+                    0,0,0,43,17,rep(0,5),
+                    rep(0,10),
+                    rep(0,10),
+                    rep(0,10),
+                    rep(0,2), rep(1,4), rep(0,4),
+                    rep(0,2), 50, 51, 41, 5, rep(0,4),
+                    rep(0,2), 2, 1, rep(0,6),
+                    rep(0,10),
+                    rep(0,10)
+               )
+          ) %>%
+          filter(y_value > 0) 
+     ManuallyAssignedNetworkIDs <- lambdap_5_tau_25_pop %>%
+          cbind(
+               NetworkID = c(
+                    1,1,1,
+                    rep(2, 10)
+               ),
+               m = c(
+                    rep(3, 3),
+                    rep(10, 10)
+               )
+          )
+     expect_equal(
+          assignNetworkMembership(lambdap_5_tau_25_pop, plot.size=1),
+          ManuallyAssignedNetworkIDs
+     )
+     
+     lambdap_10_tau_25_pop <- expand.grid(
+          x = 1:10,
+          y = 1:10
+     ) %>%
+          cbind(
+               y_value = c(
+                    rep(0,5),10,1,0,0,0,
+                    0,0,2,10,18,32,5,rep(0,3),
+                    0,0,30,26,16,1,34,1,0,7,
+                    0,0,0,0,12,25,7,0,9,42,
+                    0,0,0,0,1,21,1,2,12,0,
+                    9,0,0,49,33,15,2,3,26,9,
+                    43,0,0,7,5,0,0,0,0,34,
+                    1,rep(0,9),
+                    46,5,0,1,9,2,35,2,0,0,
+                    1,0,0,1,44,1,15,1,0,0
+               )
+          ) %>%
+          filter(y_value > 0) 
+     ManuallyAssignedNetworkIDs <- lambdap_10_tau_25_pop %>%
+          cbind(
+               NetworkID = c(
+                    rep(1, 24),
+                    2,
+                    rep(1, 7),
+                    2,
+                    rep(1, 3),
+                    rep(2, 3),
+                    rep(3, 5),
+                    2,
+                    rep(3, 5)
+               ),
+               m = c(
+                    rep(34, 24),
+                    6,
+                    rep(34, 7),
+                    6,
+                    rep(34, 3),
+                    rep(6, 3),
+                    rep(10, 5),
+                    6,
+                    rep(10, 5)
+               )
+          )
+     expect_equal(
+          assignNetworkMembership(lambdap_10_tau_25_pop, plot.size=1),
+          ManuallyAssignedNetworkIDs
+     )
+     
+     
+})
+
 test_that("y_HT, Horvitz-Thompson Mean Estimator", {
 	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 	expect_equal(

@@ -106,6 +106,35 @@ test_that("Error Handling - n1", {
      n1 <- 1
      expect_silent(handleError_n1(n1))
 })   
+test_that("Error Handling - n1vector", {
+     n1 <- TRUE
+     expect_error(
+          handleError_n1vector(n1),
+          "The argument 'n1' must be an integer value or vector of integers"
+     )
+     n1 <- NA
+     expect_error(
+          handleError_n1vector(n1),
+          "The argument 'n1' must be an integer value or vector of integers"
+     )
+     n1 <- 1.2
+     expect_error(
+          handleError_n1vector(n1),
+          "The argument 'n1' must be an integer value or vector of integers"
+     )
+     n1 <- "random text"
+     expect_error(
+          handleError_n1vector(n1),
+          "The argument 'n1' must be an integer value or vector of integers"
+     )
+     n1 <- c(1.5,2)
+     expect_error(
+          handleError_n1vector(n1),
+          "The argument 'n1' must be an integer value or vector of integers"
+     )
+     n1 <- c(1,3,2)
+     expect_silent(handleError_n1vector(n1))
+})  
 test_that("Error Handling - coord", {
      coord <- TRUE
      expect_error(

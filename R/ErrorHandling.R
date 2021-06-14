@@ -19,6 +19,24 @@ handleError_n1 <- function(n1) {
           )
      }
 }
+
+handleError_n1vector <- function(n1) {
+     if (is.numeric(n1)==TRUE) {
+          n2 <- round(n1)
+           if (!identical(n2,n1)) {
+               stop(
+                    "The argument 'n1' must be an integer value or vector of integers.",
+                    call.=FALSE
+               )
+          }
+     } else {
+          stop(
+               "The argument 'n1' must be an integer value or vector of integers.",
+               call.=FALSE
+          )
+     }
+}
+
 # must be a number
 handleError_condition <- function(condition) {
      if (is.numeric(condition) == FALSE) {
