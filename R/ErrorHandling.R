@@ -121,6 +121,34 @@ handleError_variable <- function(variable, argument) {
      }
 }
 
+handleError_singlepopulation <- function(N) {
+     if (length(N)!= 1) {
+          stop(
+               paste(
+                    "N must be a single integer value.",
+                    sep=""
+               ),
+               call.=FALSE
+          )
+     } else if (is.numeric(N)==FALSE) {
+          stop(
+               paste(
+                    "N must be a single integer value.",
+                    sep=""
+               ),
+               call.=FALSE
+          )
+     } else if (round(N)!=N) {
+          stop(
+               paste(
+                    "N must be a single integer value.",
+                    sep=""
+               ),
+               call.=FALSE
+          )
+     }
+}
+
 # must be character or vector of characters
 handleError_vars <- function(vars) {
      if (is.null(vars)==TRUE | all(is.na(vars))==TRUE) {

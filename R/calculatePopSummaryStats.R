@@ -1,33 +1,3 @@
-#' Return the sum of a vector, after removing NAs.
-#' 
-#' @param x Vectors of data.
-#' @description Written for use in the tables::tabular function to create publication-ready tables.
-
-Sum <- function(x) {sum(x, na.rm=TRUE)}
-
-#' Return the mean of a vector with up to two decimal places, after removing NAs.
-#' 
-#' @param x Vectors of data.
-#' @description Written for use in the tables::tabular function to create publication-ready tables.
-
-Mean <- function(x) base::mean(x, na.rm=TRUE)
-
-
-#' Return the population variance of a vector, after removing NAs, and round.
-#'
-#' @param x Vectors of data.
-#' @description Written for use in the tables::tabular function to create publication-ready tables.
-
-PopVariance <- function(x) {
-	temp <- sum((x-mean(x))^2)/length(x)
-}
-
-#' Population Coefficient of Variation
-#' 
-#' @param x Vectors of data.
-
-popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
-
 #' Calculate Summary Statistics for Patch Population Data
 #' 
 #' @param popdata Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).

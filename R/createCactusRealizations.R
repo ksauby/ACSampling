@@ -1,12 +1,3 @@
-#' Change NA values to 0.
-#'
-#' @param x Vector of data.
-
-NA_is_Zero_Function <- function(x){	
-	x[which(is.na(x))] <- 0
-	return(x)
-}
-
 #' Create Cactus Realization Data
 #' 
 #' @param PlotSurveys_season1 Plot survey data from season 1.

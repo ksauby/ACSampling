@@ -1,17 +1,7 @@
 #' Create the population, \deqn{\lambda_P = 10, \tau = 5}{lambda_P = 10, tau = 5}, from Christman (1997)
 #' 
 #' @return The population displayed in Christman (1997), where \deqn{\lambda_P = 10, \tau = 5}{lambda_P = 10, tau = 5}.
-#' @examples 
-#' library(ggplot2)
-#' library(magrittr)
-#' data(lambdap_10_tau_5)
-#' 
-#' ggplot(lambdap_10_tau_5 %>% dplyr::filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
-
-
-#' @references
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
-#' @export
+#' @noRd
 
 createlambdap_10_tau_5 <- function() {
 	lambdap_10_tau_5 <- expand.grid(

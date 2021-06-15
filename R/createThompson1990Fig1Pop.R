@@ -1,21 +1,8 @@
 #' Create the population displayed in Figure 1 from Thompson (1990)
 #' 
 #' @return The population displayed in Figure 1 from Thompson (1990).
-#' @examples 
-#' library(ggplot2)
-#' library(magrittr)
-#' library(dplyr)
-#' Thompson1990Fig1Pop <- createThompson1990Fig1Pop()
-#' p <- ggplot(Thompson1990Fig1Pop %>% filter(m>1), aes(x, y, 
-#' 	colour=NetworkID, label=NetworkID))
-#' p + annotate("rect", xmin=1, xmax=20, ymin=1, ymax=20, alpha=0, 
-#' colour="grey") + 
-#' 	geom_point(aes(size=factor(y_value))) + 
-#' 	scale_colour_gradientn(colours = rainbow(7))
+#' @noRd
 
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
-#' @export
 
 createThompson1990Fig1Pop <- function() {
 	y_value <- NetworkID <- x <- y <- m <- NULL

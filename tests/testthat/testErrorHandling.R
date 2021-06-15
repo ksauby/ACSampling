@@ -287,3 +287,33 @@ test_that("Error Handling - handleError_vars", {
           "At least one variable, via the arguments 'ovar', 'avar', or 'rvar', must be supplied for estimation."
      )
 })
+test_that("Error Handling - handleError_singlepopulation", {
+     N <- 2
+     expect_silent(handleError_singlepopulation(N))
+     N <- c(2, 2)
+     expect_error(
+          handleError_singlepopulation(N),
+          "N must be a single integer value."
+     )
+     N <- "blah"
+     expect_error(
+          handleError_singlepopulation(N),
+          "N must be a single integer value."
+     )
+     N <- c("bah", "blah")
+     expect_error(
+          handleError_singlepopulation(N),
+          "N must be a single integer value."
+     )
+     N <- TRUE
+     expect_error(
+          handleError_singlepopulation(N),
+          "N must be a single integer value."
+     )
+     N <- 1.2
+     expect_error(
+          handleError_singlepopulation(N),
+          "N must be a single integer value."
+     )
+})
+

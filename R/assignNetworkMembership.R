@@ -1,11 +1,11 @@
 #' Assign network membership to adaptive cluster sample units.
 
-#' @param popdata Dataset to be used, containing information about units containing the species of interest, including x and y coordinates, with column names "x" and "y," respectively.
+#' @param popdata A data.frame containing information about a population;  at a minimum it should contain columns "x" and "y,"  denoting the x and y coordinates, respectively, of the locations of the population of interest.
 #' @param plot.size The length and width of plots, in coordinate units. Defaults to 1.
 
-#' @description This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned to the same network ID. 
+#' @description This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned the same network ID. 
 
-#' @return Returns popdata with a new column for Network ID as well as a column for m, the number of units in the network.
+#' @return Returns the popdata data.frame with a new column for Network ID as well as a column for m, the number of units in each network.
 
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
@@ -16,8 +16,9 @@
 #' library(magrittr)
 #' library(ggplot2)
 #' library(dplyr)
-#' ggplot(data=Thompson1990Fig1Pop %>% 
-#' 	filter(y_value > 0), aes(x,y, size=factor(y_value))) + geom_point()
+#' dat <- Thompson1990Fig1Pop %>% 
+#' 	filter(y_value > 0)
+#' ggplot(dat, aes(x,y, size=y_value)) + geom_point()
 #' 
 #' # assign network membership of units containing the species of interest
 #' P_networks <- assignNetworkMembership(Thompson1990Fig1Pop %>%
@@ -26,7 +27,7 @@
 #' # plot networks
 #' ggplot(
 #' 	data=P_networks, 
-#' 	aes(x,y, size=factor(y_value), shape=factor(NetworkID))
+#' 	aes(x,y, size=y_value, shape=factor(NetworkID))
 #' ) + geom_point()
 #' # coordinates should be given as x and y
 

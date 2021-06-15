@@ -2,6 +2,7 @@
 #' @param Species.Data dataframe containing Network IDs, x and y coordinates
 #' @description Takes dataframe containing Network IDs, x and y coordinates, and returns the coordinates of the centers of the networks, in integer values.
 #' coordinates should be labeled x and y and Network ID given as "NetworkID"
+#' @noRd
 
 createNetworkCenters <- function(Species.Data) {
 	NetworkID <- x <- y <- NULL

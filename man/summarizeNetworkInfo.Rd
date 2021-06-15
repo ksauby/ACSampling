@@ -2,7 +2,7 @@
 % Please edit documentation in R/summarizeNetworkInformation.R
 \name{summarizeNetworkInfo}
 \alias{summarizeNetworkInfo}
-\title{Calculate the number of units per network and the unit inclusion probability for each network.}
+\title{Calculate the number of units per network and the unit inclusion probability for each network FOR A SINGLE POPULATION}
 \usage{
 summarizeNetworkInfo(popdata, vars, groupvar = NULL, n1, mvar)
 }
@@ -21,7 +21,7 @@ summarizeNetworkInfo(popdata, vars, groupvar = NULL, n1, mvar)
 The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}.
 }
 \description{
-The purpose of this is to reduce computation time by calculating some necessary information before the data is boostrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
+The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
 }
 \references{
 Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.

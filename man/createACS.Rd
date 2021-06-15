@@ -17,7 +17,7 @@ createACS(popdata, n1, yvar, condition = 0, seed = NA, initsample = NA)
 
 \item{seed}{A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. \code{seed} defaults to NA so that it is not necessary to specify a random number seed.}
 
-\item{initsample}{Allows the user to specify a list of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement. HOW IS THIS FORMATTED}
+\item{initsample}{A data.frame with columns 'x' and 'y' denoting the x and y coordinates, respectively, of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
 }
 \value{
 A restricted adaptive cluster sample.
@@ -31,13 +31,8 @@ data(Thompson1990Fig1Pop)
 data(Thompson1990Figure1Sample)
 
 # Initiate ACS
-Z = createACS(
-popdata=Thompson1990Fig1Pop, 
-seed=9, 
-n1=10, 
-yvar="y_value", 
-condition=0
-)
+Z = createACS(popdata=Thompson1990Fig1Pop, seed=9, n1=10, yvar="y_value", 
+condition=0)
 
 # plot ACS sample overlaid onto population
 ggplot() +
@@ -46,11 +41,12 @@ ggplot() +
 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	geom_point(data=Z, aes(x,y), shape=0, size=7)
 # Initiate ACS, different seed
-Z = createACS(popdata=Thompson1990Fig1Pop, seed=26, n1=10, yvar="y_value", condition=0)
+Z = createACS(popdata=Thompson1990Fig1Pop, seed=26, n1=10, yvar="y_value", 
+  condition=0)
 
 # plot ACS sample overlaid onto population
 ggplot() +
-	geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
+  geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
 		shape=factor(y_value))) +
 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	geom_point(data=Z, aes(x,y), shape=0, size=7)

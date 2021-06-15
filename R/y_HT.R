@@ -34,51 +34,13 @@
 #' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
 #' 
-#' # REPLACE WITH CREATEACS FUNCTION
-#'
-#' # INITIATE ACS
-#' # assign species information to units in the initial sample
-#' S = merge(
-#' 	Thompson1990Fig1Pop,
-#' 	Thompson1990Figure1Sample, 
-#' 	all.y=TRUE
-#' )
-#' 
-# create list of neighboring ("cluster") plots
-#' Z = list()  					
-#' S$Sampling <- "Initial_Sample"
-#' # add the rest of the units for each network in the initial sample
-#' Z = rbind.fill(S, Thompson1990Fig1Pop %>% 
-#' 	filter(Thompson1990Fig1Pop$NetworkID %in% S$NetworkID))
-#' Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
-#' Networks = filter(Z, y_value > 0)
-#' # fill in edge units
-#' E = as.data.frame(cbind(
-#' 	x = rowSums(expand.grid(Networks$x, c(1,-1,0,0))),
-#' 	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1)))
-#' )) %>% 
-#' mutate(Sampling="Edge")
-#' # remove duplicate units
-#' Z %<>% rbind.fill(E) %>%
-#' mutate(temp_coords = paste(x, y, sep=""))
-#' Z =  Z[!duplicated(Z$temp_coords),]
-#' Z %<>% dplyr::select(-temp_coords)
-#' # fill in y_value
-#' Z[which(is.na(Z$y_value)), ]$y_value <- 0
-#' # fill in m
-#' Z[which(Z$y_value==0 & Z$Sampling=="Edge"), ]$m <- 0
-#' 
-#' 	N = dim(Thompson1990Fig1Pop)[1] 
-#' 	n1 = dim(Thompson1990Figure1Sample)[1]
-#' 	m = Z$m
-#' 	y = Z$y_value
-#' 	sampling = Z$Sampling
-#' 	criterion=0
-
+#' Z <- createACS(popdata=Thompson1990Fig1Pop, 
+#' n1=dim(Thompson1990Figure1Sample)[1], yvar="y_value", 
+#' initsample=Thompson1990Figure1Sample)
 #' # CALCULATE y_HT
 #' y_HT(
-#' 	N = N, 
-#' 	n1 = n1,
+#' 	N = dim(Thompson1990Fig1Pop)[1], 
+#' 	n1 = dim(Thompson1990Figure1Sample)[1],
 #' 	m = m, 
 #' 	y = y, 
 #' 	sampling = Z$Sampling,

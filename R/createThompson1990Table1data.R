@@ -1,11 +1,8 @@
 #' Create the Table 1 data from Thompson (1990)
 #' 
 #' @return The data displayed in Table 1 from Thompson (1990).
-#' @examples createThompson1990Table1data()
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 #' @importFrom utils combn
-#' @export
+#' @noRd
 
 createThompson1990Table1data <- function() {
 	sampling_effort <- sampling <- NULL

@@ -2,6 +2,7 @@
 #' 
 #' @param x vector of data
 #' @param dig number of digits to round to
+#' @noRd
 
 xscale <- function(x, dig=2) {
 	x <- x[order(x)]
