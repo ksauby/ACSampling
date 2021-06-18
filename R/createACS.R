@@ -112,7 +112,8 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 		ZZ <- Z %>% 
 			bind_rows(E) %>%
 			group_by(x,y) %>%
-			filter(row_number()==1)
+			filter(row_number()==1) %>%
+		     ungroup()
 		# remove plots outside of population extent
 		ZZ %<>% subset(
 			x %in% popdata$x &

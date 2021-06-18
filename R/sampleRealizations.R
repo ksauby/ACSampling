@@ -1,3 +1,201 @@
+createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
+     if (SamplingDesign=="ACS") {
+          alldata <- createACS(
+               popdata=P, seed=temp_seed, n1=n1, yvar=yvar)
+     } else if (SamplingDesign=="RACS") {
+          alldata <- createRACS(
+               popdata=P, seed=temp_seed, n1=n1, yvar=yvar, f_max=f_max)
+     } else if (SamplingDesign=="SRS") {
+          alldata <- createSRS(
+               popdata=P, seed=temp_seed, n1=n1)
+     }
+}
+
+calc_y_HT_MultipleVars <- function(O, OAVAR, N, n1, m, mThreshold, y_HT_formula) {
+     # summarise data for mean calculations
+     O <- alldata %>% 
+          filter(Sampling!="Edge") %>%
+          select(!!!OAVAR, NetworkID, m)
+     # calculate y_HT
+     m <- O$m
+     if (y_HT_formula == "y_HT_RACS") {
+          O %>%
+               select(!!!OAVAR) %>%
+               summarise_all(
+                    list(yHT = new_y_HT),
+                    N = N, n1 = n1, m = m, 
+                    m_threshold = mThreshold
+               )
+     } else if (y_HT_formula == "y_HT") {
+          O %>%
+               select(!!!OAVAR) %>%
+               summarise_all(
+                    list(yHT = y_HT),
+                    N = N, n1 = n1, m = m
+               )
+     }
+}
+
+calc_var_y_HT_MultipleVars <- function(alldata, OAVAR, var_formula, N, n1) {
+     # summarise data for variance calculations
+     O_smd <- alldata %>% 
+          select(!!!OAVAR, NetworkID, m) %>%
+          filter(!(is.na(NetworkID))) %>%
+          group_by(NetworkID) %>%
+          filter(row_number()==1) %>%
+          ungroup()
+     m <- O_smd$m
+     # var_y_HT
+     if (var_formula == "var_y_HT_RACS") {
+          O_smd %>% 
+               select(!!!OAVAR) %>%
+               summarise_all(
+                    list(var_yHT_RACS = var_y_HT_RACS),
+                    N=N,  n1=n1,  m=m, m_threshold=2
+               )
+     } else if (var_formula == "var_y_HT") {
+          O_smd %>% 
+               select(!!!OAVAR) %>%
+               summarise_all(
+                    list(var_yHT=var_y_HT),
+                    N=N, n1=n1, m=m
+               )
+     } else if (var_formula == "var_pi") {
+          O_smd %>% 
+               select(!!!OAVAR) %>%
+               summarise_all(
+                    list(var_pi=var_pi),
+                    N=N, n1=n1, m=m
+               )
+     }
+}
+
+calc_rvar_MultipleVars <- function(alldata, rvar, ovar, N, n1) {
+     rovar <- c(rvar, ovar)
+     ROVAR <- syms(rovar)
+     # RATIO
+     # summarise data for variance calculations
+     mvals <- alldata %>%
+          group_by(NetworkID) %>%
+          summarise(m = m[1])
+     R_smd <- alldata %>%
+          filter(Sampling!="Edge") %>%
+          select(!!!ROVAR, "NetworkID") %>%
+          group_by(NetworkID) %>%
+          #as.data.table %>%
+          summarise_all(
+               list(sum = sum),
+               na.rm = T
+          ) %>%
+          merge(mvals, by="NetworkID")
+     # summarise data for mean calculations
+     tempdat <- data.frame(Var1 = NA)
+     for (l in 1:length(rvar)) {
+          y = eval(parse(text=paste("R_smd$", rvar[l], 
+                                    sep="")))
+          x = eval(parse(text = paste("R_smd$",
+                                      # GENERALIZE THIS 
+                                      str_sub(rvar[l],-7,-1), sep="")))
+          tempdat$Var1 = R_hat(
+               y = y, x = x, N = N, n1 = n1, 
+               m = R_smd$m)
+          tempdat$Var2 = var_R_hat(
+               y=y, x=x, N=N, n1=n1, m=R_smd$m)
+          names(tempdat)[ 
+               (dim(tempdat)[2] - 1) : 
+                    dim(tempdat)[2]
+          ] <- c(
+               paste(rvar[l], "RMeanObs", sep=""),
+               paste(rvar[l], "RVarObs", sep="")
+          )
+     }
+     tempdat
+}
+
+getJoinCountTestEst <- function() {
+     joincount.test(as.factor(temp$Cactus), lwb)[[2]]$estimate[1]
+}
+
+getMoranTestEst <- function() {
+     moran.test(temp$Cactus, lwb)$estimate[1]
+}
+
+calcSpatStats <- function(alldata_all, weights) {
+     if (sum(alldata_all$Cactus) > 1) {
+          temp <- alldata_all %>%
+               as.data.frame %>%
+               # get rid of edge units - not involved in calculation of m
+               filter(!(is.na(NetworkID))) %>%
+               arrange(x, y)
+          
+          # dnearneigh - why was this here?
+          
+          
+          nb <- cell2nb(
+               nrow = max(temp$x) - min(temp$x), 
+               ncol = max(temp$y) - min(temp$y)
+          )
+          coordinates(temp) = ~ x+y
+          data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
+          tempdat <- data.frame(JoinCountTest.W = NA)
+          if ("W" %in% weights) {
+               lwb <- nb2listw(nb, style = "W") # convert to weights
+               # I think cells are indexed by row, then column
+               JoinCountTest.W <- getJoinCountTestEst()
+               tempdat$MoranI.W <- getMoranTestEst()
+          }
+          if ("B" %in% weights) {
+               lwb <- nb2listw(nb, style = "B")
+               tempdat$JoinCountTest.B <- getJoinCountTestEst()
+               tempdat$MoranI.B <- getMoranTestEst()
+          }	
+          if ("C" %in% weights) {
+               lwb <- nb2listw(nb, style = "C")
+               tempdat$JoinCountTest.C <- getJoinCountTestEst()
+               tempdat$MoranI.C <- getMoranTestEst()
+          }	
+          if ("U" %in% weights) {
+               lwb <- nb2listw(nb, style = "U")
+               tempdat$JoinCountTest.U <- getJoinCountTestEst()
+               tempdat$MoranI.U <- getMoranTestEst()
+          }	
+          if ("S" %in% weights) {
+               lwb <- nb2listw(nb, style = "S")
+               tempdat$JoinCountTest.S <- getJoinCountTestEst()
+               tempdat$MoranI.S <- getMoranTestEst()
+          }	
+          if ("minmax" %in% weights) {
+               lwb <- nb2listw(nb, style = "minmax")
+               tempdat$JoinCountTest.minmax <- getJoinCountTestEst()
+               tempdat$MoranI.minmax <- getMoranTestEst()
+          }
+     } else {
+          if ("W" %in% weights) {
+               tempdat$JoinCountTest.W <- NA
+               tempdat$MoranI.W <- NA
+          }
+          if ("B" %in% weights) {
+               tempdat$JoinCountTest.B <- NA
+               tempdat$MoranI.B <- NA
+          }	
+          if ("C" %in% weights) {
+               tempdat$JoinCountTest.C <- NA
+               tempdat$MoranI.C <- NA
+          }	
+          if ("U" %in% weights) {
+               tempdat$JoinCountTest.U <- NA
+               tempdat$MoranI.U <- NA
+          }	
+          if ("S" %in% weights) {
+               tempdat$JoinCountTest.S <- NA
+               tempdat$MoranI.S <- NA
+          }	
+          if ("minmax" %in% weights) {
+               tempdat$JoinCountTest.minmax <- NA
+               tempdat$MoranI.minmax <- NA
+          }	
+     }
+}
 #' Sample species patch realizations simulations
 
 #' @param yvar variable upon which adaptive cluster sampling criterion is based
@@ -161,16 +359,7 @@ sampleRealizations <- function(
 			seeds <- runif(sims)
 		    for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
-				if (SamplingDesign=="ACS") {
-					alldata <- createACS(
-						popdata=P, seed=temp_seed, n1=n1, yvar=yvar)
-				} else if (SamplingDesign=="RACS") {
-					alldata <- createRACS(
-						popdata=P, seed=temp_seed, n1=n1, yvar=yvar, f_max=f_max)
-				} else {
-					alldata <- createSRS(
-						popdata=P, seed=temp_seed, n1=n1)
-				}
+				alldata <- createSample(SamplingDesign, P, temp_seed, n1, yvar, f_max)
 				alldata_all <- alldata
 				if (SampleEstimators == TRUE) {
 					################ SRSWOR Sampling #####################
@@ -242,106 +431,15 @@ sampleRealizations <- function(
 				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
 					################ HORVITZ-THOMPSON ESTIMATORS ##########
 					HT_results <- list()
-					# OCCUPANCY AND ABUNDANCE
-					# summarise data for mean calculations
-					O <- alldata %>% 
-						filter(Sampling!="Edge") %>%
-						select(!!!OAVAR, NetworkID, m)
-					# calculate y_HT
-					m <- O$m
-					if (y_HT_formula == "y_HT_RACS") {
-						HT_results[[1]] <- calcyHTMultipleVars(O, N, n1, m, mThreshold)
-						     
-						     calcyHTMultipleVars <- function(O, N, n1, m, mThreshold) {
-						          O %>%
-							dplyr::select(!!!OAVAR) %>%
-							summarise_all(
-								list(yHT = new_y_HT),
-								N = N, n1 = n1, m = m, 
-								m_threshold = mThreshold
-							)
-					} else if (y_HT_formula == "y_HT") {
-						HT_results[[1]] <- O %>%
-							dplyr::select(!!!OAVAR) %>%
-							summarise_all(
-								list(yHT = y_HT),
-								N = N, n1 = n1, m = m
-							)
-					}
-					# summarise data for variance calculations
-					O_smd <- alldata %>% 
-						select(!!!OAVAR, NetworkID, m) %>%
-						filter(!(is.na(NetworkID))) %>%
-						group_by(NetworkID) %>%
-						filter(row_number()==1) %>%
-					     ungroup()
-					m <- O_smd$m
-					# var_y_HT
-					if (var_formula == "var_y_HT_RACS") {
-						HT_results[[2]] <- O_smd %>% 
-							select(!!!OAVAR) %>%
-							summarise_all(
-								list(
-								     var_yHT_RACS = var_y_HT_RACS
-								),
-								N=N,  n1=n1,  m=m, m_threshold=2
-							)
-					} else if (var_formula == "var_y_HT") {
-						HT_results[[2]] <- O_smd %>% 
-							select(!!!OAVAR) %>%
-							summarise_all(
-								list(var_yHT=var_y_HT),
-								N=N, n1=n1, m=m
-							)
-					######################################################
-					} else if (var_formula == "var_pi") {
-						HT_results[[2]] <- O_smd %>% 
-							select(!!!OAVAR) %>%
-							summarise_all(
-								list(var_pi = var_pi),
-								N=N, n1=n1, m=m
-							)
-					}
+					HT_results[[1]] <- calc_y_HT_MultipleVars(
+					     alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula)
+					HT_results[[2]] <- calc_var_y_HT_MultipleVars(
+					     alldata, OAVAR, var_formula, N, n1
+					)
 					# RATIO DATA
 					if (!(is.null(rvar))) {
-						rovar <- c(rvar, ovar)
-						ROVAR <- syms(rovar)
-						# RATIO
-						# summarise data for variance calculations
-						mvals <- alldata %>%
-							group_by(NetworkID) %>%
-							summarise(m = m[1])
-						R_smd <- alldata %>%
-							filter(Sampling!="Edge") %>%
-							select(!!!ROVAR, "NetworkID") %>%
-							group_by(NetworkID) %>%
-							#as.data.table %>%
-							summarise_all(
-								list(sum = sum),
-								na.rm = T
-							) %>%
-							merge(mvals, by="NetworkID")
-						# summarise data for mean calculations
-						HT_results[[3]] <- data.frame(Var1 = NA)
-						for (l in 1:length(rvar)) {
-							y = eval(parse(text=paste("R_smd$", rvar[l], 
-								sep="")))
-							x = eval(parse(text = paste("R_smd$",
-							# GENERALIZE THIS 
-								str_sub(rvar[l],-7,-1), sep="")))
-							HT_results[[3]]$Var1 = R_hat(
-								y = y, x = x, N = N, n1 = n1, 
-								m = R_smd$m)
-						 	HT_results[[3]]$Var2 = var_R_hat(
-						 		y=y, x=x, N=N, n1=n1, m=R_smd$m)
-							names(HT_results[[3]])[ 
-								(dim(HT_results[[3]])[2] - 1) : 
-								dim(HT_results[[3]])[2]
-							] <- c(
-									paste(rvar[l], "RMeanObs", sep=""),
-									paste(rvar[l], "RVarObs", sep="")
-								)
-						}
+					     HT_results[[3]] <- calc_rvar_MultipleVars(
+					          alldata, rvar, ovar, N, n1)
 					}
 					# merge together			
 					All_HT <- HT_results %>% 
@@ -405,138 +503,20 @@ sampleRealizations <- function(
 				}
 				# Spatial Statistics
 				if (SpatStat == TRUE) {
-					if (sum(alldata_all$Cactus) > 1) {
-						temp <- alldata_all %>%
-							as.data.frame %>%
-							# get rid of edge units - not involved in calculation of m
-							filter(!(is.na(NetworkID))) %>%
-							arrange(x, y)
-							
-							# dnearneigh - why was this here?
-							
-							
-						nb <- cell2nb(
-							nrow = max(temp$x) - min(temp$x), 
-							ncol = max(temp$y) - min(temp$y)
-						)
-						coordinates(temp) = ~ x+y
-						data_dist <- dim(
-							as.matrix(dist(cbind(temp$x, temp$y)))
-						)[1]
-						if ("W" %in% weights) {
-							lwb <- nb2listw(nb, style = "W") # convert to weights
-							# I think cells are indexed by row, then column
-							A[[i]][[j]][[k]]$JoinCountTest.W <- 
-								joincount.test(as.factor(temp$Cactus),
-								lwb
-							)[[2]]$estimate[1]
-							A[[i]][[j]][[k]]$MoranI.W <- moran.test(
-								temp$Cactus,
-								lwb
-							)$estimate[1]
-						}
-						if ("B" %in% weights) {
-							lwb <- nb2listw(nb, style = "B") # convert to weights
-							# I think cells are indexed by row, then column
-							A[[i]][[j]][[k]]$JoinCountTest.B <- 
-								joincount.test(as.factor(
-								temp$Cactus),
-								lwb
-							)[[2]]$estimate[1]
-							A[[i]][[j]][[k]]$MoranI.B <- moran.test(
-								temp$Cactus,
-								lwb
-							)$estimate[1]
-						}	
-						if ("C" %in% weights) {
-							lwb <- nb2listw(nb, style = "C") # convert to weights
-							# I think cells are indexed by row, then column
-							A[[i]][[j]][[k]]$JoinCountTest.C <- 
-								joincount.test(as.factor(
-								temp$Cactus),
-								lwb
-							)[[2]]$estimate[1]
-							A[[i]][[j]][[k]]$MoranI.C <- moran.test(
-								temp$Cactus,
-								lwb
-							)$estimate[1]
-						}	
-						if ("U" %in% weights) {
-							lwb <- nb2listw(nb, style = "U") # convert to weights
-							# I think cells are indexed by row, then column
-							A[[i]][[j]][[k]]$JoinCountTest.U <- 
-								joincount.test(as.factor(
-								temp$Cactus),
-								lwb
-							)[[2]]$estimate[1]
-							A[[i]][[j]][[k]]$MoranI.U <- moran.test(
-								temp$Cactus,
-								lwb
-							)$estimate[1]
-						}	
-						if ("S" %in% weights) {
-							lwb <- nb2listw(nb, style = "S") # convert to weights
-							# I think cells are indexed by row, then column
-							A[[i]][[j]][[k]]$JoinCountTest.S <- 
-								joincount.test(as.factor(
-								temp$Cactus),
-								lwb
-							)[[2]]$estimate[1]
-							A[[i]][[j]][[k]]$MoranI.S <- moran.test(
-								temp$Cactus,
-								lwb
-							)$estimate[1]
-						}	
-						if ("minmax" %in% weights) {
-							lwb <- nb2listw(nb, style = "minmax") # convert to weights
-							# I think cells are indexed by row, then column
-							A[[i]][[j]][[k]]$JoinCountTest.minmax <- 
-								joincount.test(as.factor(
-								temp$Cactus),
-								lwb
-							)[[2]]$estimate[1]
-							A[[i]][[j]][[k]]$MoranI.minmax <- 
-								moran.test(
-								temp$Cactus,
-								lwb
-							)$estimate[1]
-						}
-					} else {
-						if ("W" %in% weights) {
-							A[[i]][[j]][[k]]$JoinCountTest.W <- NA
-							A[[i]][[j]][[k]]$MoranI.W <- NA
-						}
-						if ("B" %in% weights) {
-							A[[i]][[j]][[k]]$JoinCountTest.B <- NA
-							A[[i]][[j]][[k]]$MoranI.B <- NA
-						}	
-						if ("C" %in% weights) {
-							A[[i]][[j]][[k]]$JoinCountTest.C <- NA
-							A[[i]][[j]][[k]]$MoranI.C <- NA
-						}	
-						if ("U" %in% weights) {
-							A[[i]][[j]][[k]]$JoinCountTest.U <- NA
-							A[[i]][[j]][[k]]$MoranI.U <- NA
-						}	
-						if ("S" %in% weights) {
-							A[[i]][[j]][[k]]$JoinCountTest.S <- NA
-							A[[i]][[j]][[k]]$MoranI.S <- NA
-						}	
-						if ("minmax" %in% weights) {
-							A[[i]][[j]][[k]]$JoinCountTest.minmax <- NA
-							A[[i]][[j]][[k]]$MoranI.minmax <- NA
-						}	
-					}
+                         A[[i]][[j]][[k]] %<>% cbind(
+                              calcSpatStats(alldata_all, weights)
+                         )
+					
 				}
 			}
 			do.call(rbind.data.frame, A[[i]][[j]])
 	}
-	Z$f_max 		= f_max
-	Z$mThreshold 	= mThreshold
-	Z$nSims			= sims
-	Z$SimDate 		= format(Sys.time(), "%m-%d-%y")
-	Z$y_HT_formula 	= y_HT_formula
-	Z$SmplngDsgn 	= SamplingDesign
+	Z$f_max = f_max
+	Z$mThreshold = mThreshold
+	Z$nSims = sims
+	Z$SimDate = format(Sys.time(), "%m-%d-%y")
+	Z$y_HT_formula = y_HT_formula
+	Z$SmplngDsgn = SamplingDesign
 	Z$MrnsIWghtMtrx = weights
 	print(Sys.time() - TIME)
 	return(Z)
