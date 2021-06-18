@@ -77,18 +77,21 @@ handleError_popdata <- function(popdata) {
 }
 # must be integer(s)
 handleError_seed <- function(seed) {
-     if (all(is.numeric(seed))==TRUE) {
-          if (!isTRUE(all(seed == floor(seed)))) {
+     if (length(seed) > 1) {
+             if (all(is.numeric(seed))==FALSE) {
+          #if (!isTRUE(all(seed == floor(seed)))) {
                stop(
                     "The 'seed' argument must be a vector of integer values.",
                     call.=FALSE
                )
           }
-     } else if (!is.na(seed)) {
-          stop(
-               "The 'seed' argument must be a vector of integer values.",
-               call.=FALSE
-          )
+     } else {
+             if (!is.numeric(seed) & !is.na(seed)) {
+                     stop(
+                             "The 'seed' argument must be a vector of integer values.",
+                             call.=FALSE
+                     )
+             }
      }
 }
 

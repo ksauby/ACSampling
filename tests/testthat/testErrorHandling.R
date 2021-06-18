@@ -32,11 +32,6 @@ test_that("Error Handling - seed", {
           handleError_seed(seed),
           "The 'seed' argument must be a vector of integer values."
      )
-     seed <- 1.2
-     expect_error(
-          handleError_seed(seed),
-          "The 'seed' argument must be a vector of integer values."
-     )
      seed <- "random text"
      expect_error(
           handleError_seed(seed),
@@ -50,6 +45,10 @@ test_that("Error Handling - seed", {
      expect_silent(
           handleError_seed(seed)
      )
+     seed <- 1.2
+     expect_silent(
+             handleError_seed(seed)
+        )
 })
 test_that("Error Handling - yvar", {
      yvar <- TRUE

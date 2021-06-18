@@ -30,49 +30,35 @@
 #' @import sp
  
 #' @export
-
-#' @examples
-#' sims=200
-#' n1=c(5,10,20,40)
-#' population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+#' 
+#' #' @examples
+sims=20
+n1=c(5,10,20,40)
+population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
 #' avar = NULL
-#' ovar = c(
-#' 	"Stricta",
-#' 	"Pusilla",
-#'	"Cactus",
-#'	"CACA_on_Pusilla",
-#'	"CACA_on_Stricta",
-#'	"MEPR_on_Pusilla",
-#'	"MEPR_on_Stricta",
-#'	"Old_Moth_Evidence_Pusilla",
-#'	"Old_Moth_Evidence_Stricta"
-#'	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
-#'	# "Percent_Cover_Stricta",
-#'	# "Height_Pusilla",
-#'	# "Height_Stricta",
-#')		
-#'data(CactusRealizations)
-#' popdata = CactusRealizations # WHY IS THERE ISLAND=NA
-#'simulation_data <- sampleRealizations(
-#' popdata = popdata,
-#' 	sims = sims, 
-#' 	n1 = n1, 
-#' 	avar = avar, 
-#' 	ovar = ovar,
-#'	popvar="Island", 
-#'	yvar="Cactus"
-#')
-#' # sims=200
-#' # #n1=c(75,150,225,300,350)
-#' simulation_data_SRSWOR <- sampleRealizations(
-#' 	popdata = popdata,
-#' 	sims = sims, 
-#' 	n1 = n1, 
-#' 	avar = avar, 
-#' 	ovar = ovar,
-#' 	popvar="Island"
-#' )
-
+ovar = c(
+	"Stricta",
+	"Pusilla",
+"Cactus",
+"CACA_on_Pusilla",
+"CACA_on_Stricta",
+"MEPR_on_Pusilla",
+"MEPR_on_Stricta",
+"Old_Moth_Evidence_Pusilla",
+"Old_Moth_Evidence_Stricta"
+)
+data(CactusRealizations)
+popdata = CactusRealizations # WHY IS THERE ISLAND=NA
+simulation_data <- sampleRealizations(
+popdata = popdata,
+	sims = sims,
+	n1 = n1,
+	avar = avar,
+	ovar = ovar,
+popvar="Island",
+yvar="Cactus"
+)
+# sims=200# #n1=c(75,150,225,300,350)# simulation_data_SRSWOR <- sampleRealizations(# 	popdata = popdata,# 	sims = sims,# 	n1 = n1,# 	avar = avar,# 	ovar = ovar,# 	popvar="Island"# )
 sampleRealizations <- function(
 	popdata, 
 	sims, 
@@ -98,13 +84,9 @@ sampleRealizations <- function(
      handleError_popdata(popdata)
      handleError_n1vector(n1)
      handleError_yvar(yvar)
-     handleError_condition(condition)
      handleError_LogicalVar(SampleEstimators, "SampleEstimators")
      handleError_LogicalVar(SpatStat, "SpatStat")
      handleError_LogicalVar(mChar, "mChar")
-     handleError_variable(avar, "avar")
-     handleError_variable(ovar, "ovar")
-     handleError_variable(rvar, "rvar")
      
      vars <- c(ovar, avar, rvar)
      handleError_vars(vars)
@@ -210,7 +192,9 @@ sampleRealizations <- function(
 					for (n in 1:length(dats)) {
 						dat <- eval(parse(text=dats[[n]])) %>%
 							select(!!!OAVAR) %>%
-							summarise_all(funs(mean, vars), na.rm=T)
+							summarise_all(
+							     list(mean), 
+							     na.rm=T)
 						names(dat) <- str_replace(
 						     names(dat), "(.*)", "\\1_obs")
 						dat$Plots <- dats[n]
@@ -249,8 +233,8 @@ sampleRealizations <- function(
 							SmpRatio[[n]] %<>% mutate(Plots = dats[n])
 						}
 						SmpRatio <- do.call(rbind.data.frame, Ratio)
+						SampleMeanVar %<>% merge(SmpRatio)	
 					}
-				    SampleMeanVar %<>% merge(SmpRatio)	
 				} else
 				{
 					alldata %<>% filter(Sampling!="Edge")
@@ -266,7 +250,10 @@ sampleRealizations <- function(
 					# calculate y_HT
 					m <- O$m
 					if (y_HT_formula == "y_HT_RACS") {
-						HT_results[[1]] <- O %>%
+						HT_results[[1]] <- calcyHTMultipleVars(O, N, n1, m, mThreshold)
+						     
+						     calcyHTMultipleVars <- function(O, N, n1, m, mThreshold) {
+						          O %>%
 							dplyr::select(!!!OAVAR) %>%
 							summarise_all(
 								list(yHT = new_y_HT),
@@ -286,15 +273,18 @@ sampleRealizations <- function(
 						select(!!!OAVAR, NetworkID, m) %>%
 						filter(!(is.na(NetworkID))) %>%
 						group_by(NetworkID) %>%
-						filter(row_number()==1)
+						filter(row_number()==1) %>%
+					     ungroup()
 					m <- O_smd$m
 					# var_y_HT
 					if (var_formula == "var_y_HT_RACS") {
 						HT_results[[2]] <- O_smd %>% 
 							select(!!!OAVAR) %>%
 							summarise_all(
-								list(var_yHT_RACS = var_y_HT_RACS),
-								N=N,  n1=n1,  m=m, mThreshold=mThreshold
+								list(
+								     var_yHT_RACS = var_y_HT_RACS
+								),
+								N=N,  n1=n1,  m=m, m_threshold=2
 							)
 					} else if (var_formula == "var_y_HT") {
 						HT_results[[2]] <- O_smd %>% 
