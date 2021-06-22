@@ -1,4 +1,2 @@
-setwd('/Users/KSauby/Documents/Projects')
-#devtools::test()#
-setwd("./ACS")#
+setwd("./Projects/ACS")#
 devtools::check()

@@ -1,3 +1,5 @@
+
+
 createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
      if (SamplingDesign=="ACS") {
           alldata <- createACS(
@@ -11,7 +13,7 @@ createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
      }
 }
 
-calc_y_HT_MultipleVars <- function(O, OAVAR, N, n1, m, mThreshold, y_HT_formula) {
+calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, mThreshold, y_HT_formula) {
      # summarise data for mean calculations
      O <- alldata %>% 
           filter(Sampling!="Edge") %>%
@@ -230,32 +232,32 @@ calcSpatStats <- function(alldata_all, weights) {
 #' @export
 #' 
 #' #' @examples
-sims=20
-n1=c(5,10,20,40)
-population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
-#' avar = NULL
-ovar = c(
-	"Stricta",
-	"Pusilla",
-"Cactus",
-"CACA_on_Pusilla",
-"CACA_on_Stricta",
-"MEPR_on_Pusilla",
-"MEPR_on_Stricta",
-"Old_Moth_Evidence_Pusilla",
-"Old_Moth_Evidence_Stricta"
-)
-data(CactusRealizations)
-popdata = CactusRealizations # WHY IS THERE ISLAND=NA
-simulation_data <- sampleRealizations(
-popdata = popdata,
-	sims = sims,
-	n1 = n1,
-	avar = avar,
-	ovar = ovar,
-popvar="Island",
-yvar="Cactus"
-)
+#' sims=20
+#' n1=c(5,10,20,40)
+#' population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+#' #' avar = NULL
+#' ovar = c(
+#' 	"Stricta",
+#' 	"Pusilla",
+#' "Cactus",
+#' "CACA_on_Pusilla",
+#' "CACA_on_Stricta",
+#' "MEPR_on_Pusilla",
+#' "MEPR_on_Stricta",
+#' "Old_Moth_Evidence_Pusilla",
+#' "Old_Moth_Evidence_Stricta"
+#' )
+#' data(CactusRealizations)
+#' popdata = CactusRealizations # WHY IS THERE ISLAND=NA
+#' simulation_data <- sampleRealizations(
+#' popdata = popdata,
+#' 	sims = sims,
+#' 	n1 = n1,
+#' 	avar = avar,
+#' 	ovar = ovar,
+#' popvar="Island",
+#' yvar="Cactus"
+#' )
 # sims=200# #n1=c(75,150,225,300,350)# simulation_data_SRSWOR <- sampleRealizations(# 	popdata = popdata,# 	sims = sims,# 	n1 = n1,# 	avar = avar,# 	ovar = ovar,# 	popvar="Island"# )
 sampleRealizations <- function(
 	popdata, 
