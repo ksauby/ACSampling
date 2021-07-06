@@ -114,90 +114,81 @@ calc_rvar_MultipleVars <- function(alldata, rvar, ovar, N, n1) {
      tempdat
 }
 
-getJoinCountTestEst <- function() {
+getJoinCountTestEst <- function(temp, lwb) {
      joincount.test(as.factor(temp$Cactus), lwb)[[2]]$estimate[1]
 }
 
-getMoranTestEst <- function() {
+getMoranTestEst <- function(temp, lwb) {
      moran.test(temp$Cactus, lwb)$estimate[1]
 }
 
+
 calcSpatStats <- function(alldata_all, weights) {
-     if (sum(alldata_all$Cactus) > 1) {
-          temp <- alldata_all %>%
-               as.data.frame %>%
-               # get rid of edge units - not involved in calculation of m
-               filter(!(is.na(NetworkID))) %>%
-               arrange(x, y)
-          
-          # dnearneigh - why was this here?
-          
-          
-          nb <- cell2nb(
-               nrow = max(temp$x) - min(temp$x), 
-               ncol = max(temp$y) - min(temp$y)
-          )
-          coordinates(temp) = ~ x+y
-          data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
-          tempdat <- data.frame(JoinCountTest.W = NA)
-          if ("W" %in% weights) {
-               lwb <- nb2listw(nb, style = "W") # convert to weights
-               # I think cells are indexed by row, then column
-               JoinCountTest.W <- getJoinCountTestEst()
-               tempdat$MoranI.W <- getMoranTestEst()
+     temp <- alldata_all %>%
+          as.data.frame %>%
+          # get rid of edge units - not involved in calculation of m
+          filter(!(is.na(NetworkID))) %>%
+          arrange(x, y)
+     
+     # dnearneigh - why was this here?
+     
+     nb <- cell2nb(
+          nrow = max(temp$x) - min(temp$x), 
+          ncol = max(temp$y) - min(temp$y)
+     )
+     coordinates(temp) = ~ x+y
+     data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
+     tempdat <- data.frame(JoinCountTest.W = NA)
+     for (i in length(weights)) {
+          lwb <- nb2listw(nb, style = weights[i]) # convert to weights
+          # I think cells are indexed by row, then column
+          tempdat$JoinCountTest <- getJoinCountTestEst()
+          tempdat$MoranI <- getMoranTestEst()
+          colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
+               paste("JoinCountTest", weights[i], sep=".")
+          colnames(tempdat)[which(names(tempdat) == "MoranI")] <-
+               paste("MoranI", weights[i], sep=".")
+     }
+     return(tempdat)
+}
+
+fillSpatStatsNA <- function(alldata_all, weights) {
+     for (i in length(weights)) {
+          tempdat$JoinCountTest <- NA
+          tempdat$MoranI <- NA
+          colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
+               paste("JoinCountTest", weights[i], sep=".")
+          colnames(tempdat)[which(names(tempdat) == "MoranI")] <-
+               paste("MoranI", weights[i], sep=".")
+     }
+     return(tempdat)
+}
+
+# simple ratio estimators applied to alldata, 
+#    SRSWOR_data
+
+calcRatioEst <- function(dats, rvar, y, x, N, n1, m) {
+     SmpR <- list()
+     for (n in 1:length(dats)) {
+          SmpR[[n]] <- data.frame(Var1 = NA)
+          for (l in 1:length(rvar)) {
+               y = eval(parse(text=paste(dats[n], "$", rvar[l], sep="")))
+               x = eval(parse(text=paste(dats[n], "$", str_sub(rvar[l],-7,-1), 
+                    sep="")))
+               # equal P(inclusion) for all
+               m = rep(1, length(y))
+               SmpR[[n]]$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m=m)
+               SmpR[[n]]$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m=m)
+               names(SmpR[[n]])[(dim(SmpR[[n]])[2]-1): dim(SmpR[[n]])[2]] <- 
+                    c(paste(rvar[l], "RMeanObs", sep=""),
+                    paste(rvar[l], "RVarObs", sep=""))
           }
-          if ("B" %in% weights) {
-               lwb <- nb2listw(nb, style = "B")
-               tempdat$JoinCountTest.B <- getJoinCountTestEst()
-               tempdat$MoranI.B <- getMoranTestEst()
-          }	
-          if ("C" %in% weights) {
-               lwb <- nb2listw(nb, style = "C")
-               tempdat$JoinCountTest.C <- getJoinCountTestEst()
-               tempdat$MoranI.C <- getMoranTestEst()
-          }	
-          if ("U" %in% weights) {
-               lwb <- nb2listw(nb, style = "U")
-               tempdat$JoinCountTest.U <- getJoinCountTestEst()
-               tempdat$MoranI.U <- getMoranTestEst()
-          }	
-          if ("S" %in% weights) {
-               lwb <- nb2listw(nb, style = "S")
-               tempdat$JoinCountTest.S <- getJoinCountTestEst()
-               tempdat$MoranI.S <- getMoranTestEst()
-          }	
-          if ("minmax" %in% weights) {
-               lwb <- nb2listw(nb, style = "minmax")
-               tempdat$JoinCountTest.minmax <- getJoinCountTestEst()
-               tempdat$MoranI.minmax <- getMoranTestEst()
-          }
-     } else {
-          if ("W" %in% weights) {
-               tempdat$JoinCountTest.W <- NA
-               tempdat$MoranI.W <- NA
-          }
-          if ("B" %in% weights) {
-               tempdat$JoinCountTest.B <- NA
-               tempdat$MoranI.B <- NA
-          }	
-          if ("C" %in% weights) {
-               tempdat$JoinCountTest.C <- NA
-               tempdat$MoranI.C <- NA
-          }	
-          if ("U" %in% weights) {
-               tempdat$JoinCountTest.U <- NA
-               tempdat$MoranI.U <- NA
-          }	
-          if ("S" %in% weights) {
-               tempdat$JoinCountTest.S <- NA
-               tempdat$MoranI.S <- NA
-          }	
-          if ("minmax" %in% weights) {
-               tempdat$JoinCountTest.minmax <- NA
-               tempdat$MoranI.minmax <- NA
-          }	
+          SmpR[[n]] %<>% mutate(Plots = dats[n])
      }
 }
+
+
+
 #' Sample species patch realizations simulations
 
 #' @param yvar variable upon which adaptive cluster sampling criterion is based
@@ -361,7 +352,8 @@ sampleRealizations <- function(
 			seeds <- runif(sims)
 		    for (k in 1:sims) {
 				temp_seed <- seeds[k]*100000
-				alldata <- createSample(SamplingDesign, P, temp_seed, n1, yvar, f_max)
+				alldata <- createSample(SamplingDesign, P, temp_seed, n1,
+                         yvar, f_max)
 				alldata_all <- alldata
 				if (SampleEstimators == TRUE) {
 					################ SRSWOR Sampling #####################
@@ -395,36 +387,9 @@ sampleRealizations <- function(
 					# simple ratio estimators applied to alldata, 
 					#    SRSWOR_data
 					if (!(is.null(rvar))) {
-						SmpRatio <- list()
-						for (n in 1:length(dats)) {
-							SmpRatio[[n]] <- data.frame(Var1 = NA)
-							for (l in 1:length(rvar)) {
-								y = eval(parse(text=paste(
-									dats[n], "$", rvar[l], sep="")))
-								x = eval(parse(text = paste(
-									dats[n], "$", 
-									str_sub(rvar[l],-7,-1), sep="")))
-								# equal P(inclusion) for all
-								m = rep(1, length(y))
-								SmpRatio[[n]]$Var1 <- R_hat(
-									y = y, x = x, N = N, n1 = n1, 
-									m = m)
-							 	SmpRatio[[n]]$Var2 = var_R_hat(
-							 		y = y, x = x, N = N, n1 = n1, 
-							 		m = m)
-								names(SmpRatio[[n]])[(dim(SmpRatio[[n]])[2]-1): 
-									dim(SmpRatio[[n]])[2]] <- 
-									c(
-										paste(rvar[l], "RMeanObs", 
-											sep=""),
-										paste(rvar[l], "RVarObs", 
-											sep="")
-									)
-							}
-							SmpRatio[[n]] %<>% mutate(Plots = dats[n])
-						}
-						SmpRatio <- do.call(rbind.data.frame, Ratio)
-						SampleMeanVar %<>% merge(SmpRatio)	
+					     calcRatioEst(dats, rvar, y, x, N, n1, m)
+					     SmpR <- do.call(rbind.data.frame, Ratio)
+					     SampleMeanVar %<>% merge(SmpR)
 					}
 				} else
 				{
@@ -506,7 +471,11 @@ sampleRealizations <- function(
 				# Spatial Statistics
 				if (SpatStat == TRUE) {
                          A[[i]][[j]][[k]] %<>% cbind(
-                              calcSpatStats(alldata_all, weights)
+                              if (sum(alldata_all$Cactus) > 1) {
+                                   calcSpatStats(alldata_all, weights)
+                              } else {
+                                   fillSpatStatsNA(alldata_all, weights)
+                              }
                          )
 					
 				}

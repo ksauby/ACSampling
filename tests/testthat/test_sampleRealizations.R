@@ -150,13 +150,13 @@ exampleCactusPop_filtered <- exampleCactusPop %>%
           ungroup()
      
      Cactus_and_Stricta_estimates <- data.frame(
-          Cactus_var_yHT_RACS = var_y_HT(
+          Cactus_var_yHT = var_y_HT(
                N=N, 
                n1=n1, 
                m=exampleCactusPop_filtered$m,
                y=exampleCactusPop_filtered$Cactus
           ),
-          Stricta_var_yHT_RACS = var_y_HT(
+          Stricta_var_yHT = var_y_HT(
                N=N, 
                n1=n1, 
                m=exampleCactusPop_filtered$m,
@@ -181,3 +181,33 @@ exampleCactusPop_filtered <- exampleCactusPop %>%
      )
 })
 
+
+
+
+
+createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
+        if (SamplingDesign=="ACS") {
+                alldata <- createACS(
+                        popdata=P, seed=temp_seed, n1=n1, yvar=yvar)
+        } else if (SamplingDesign=="RACS") {
+                alldata <- createRACS(
+                        popdata=P, seed=temp_seed, n1=n1, yvar=yvar, f_max=f_max)
+        } else if (SamplingDesign=="SRS") {
+                alldata <- createSRS(
+                        popdata=P, seed=temp_seed, n1=n1)
+        }
+}
+
+calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, mThreshold, y_HT_formula)
+
+calc_var_y_HT_MultipleVars <- function(alldata, OAVAR, var_formula, N, n1) 
+        
+calc_rvar_MultipleVars <- function(alldata, rvar, ovar, N, n1) 
+getJoinCountTestEst <- function(temp, lwb) 
+
+getMoranTestEst <- function(temp, lwb) 
+
+calcSpatStats <- function(alldata_all, weights) 
+fillSpatStatsNA <- function(alldata_all, weights)
+
+calcRatioEst <- function(dats, rvar, y, x, N, n1, m) 
