@@ -3,7 +3,7 @@
 #' @param y Attribute data about object of interest y (e.g., abundance, presence/absence).
 #' @param x Auxiliary data about object of interest y.
 #' @param N Population size.
-#' @param n1 Initial sample size.
+#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
 #' @param m Number of units satisfying the ACS criterion in network $i$.
 #' @param replace Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.
 #' @examples

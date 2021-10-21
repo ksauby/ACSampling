@@ -1,6 +1,6 @@
 #' Calculate joint inclusion probability of unit $j$ and $h$
 #' @param N Population size.
-#' @param n1 Initial sample size.
+#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
 #' @param m Vector of values giving the number of units satisfying the ACS criterion in network $i$.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export

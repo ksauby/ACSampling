@@ -1,6 +1,6 @@
 exampleCactusPop <- data.frame(
-     Cactus=c(0,1,1,1, 1,1,0,1, 0,0,0,0), 
-     Stricta=c(0,1,1,0, 0,1,0,0, 0,0,0,0),
+        Cactus=c(0,1,1,1, 1,1,0,1, 0,0,0,0), 
+        Stricta=c(0,1,1,0, 0,1,0,0, 0,0,0,0),
      CACAonStricta=c(0,0,1,0, 0,1,0,0, 0,0,0,0),
      Sampling=c(
           "SRSWOR","SRSWOR","Cluster","Cluster", 
@@ -99,7 +99,7 @@ test_that("test calc_y_HT_MultipleVars, y_HT", {
      )
 })
 
-test_that("test calc_y_HT_MultipleVars, var_y_HT_RACS", {
+test_that("test calc_var_y_HT_MultipleVars, var_y_HT_RACS", {
      
      exampleCactusPop_filtered <- exampleCactusPop %>%
           filter(!(is.na(NetworkID))) %>%
@@ -141,7 +141,7 @@ test_that("test calc_y_HT_MultipleVars, var_y_HT_RACS", {
           calc_var_y_HT_MultipleVars_est
      )
 })
-test_that("test calc_y_HT_MultipleVars, var_y_HT", {
+test_that("test calc_var_y_HT_MultipleVars, var_y_HT", {
 
 exampleCactusPop_filtered <- exampleCactusPop %>%
      filter(!(is.na(NetworkID))) %>%
@@ -181,28 +181,47 @@ exampleCactusPop_filtered <- exampleCactusPop %>%
      )
 })
 
+test_that("test calc_y_HT_MultipleVars, y_HT", {
+        exampleCactusPop_filtered <- exampleCactusPop %>%
+                filter(Sampling != "Edge")
+        mvals <- exampleCactusPop %>%
+                group_by(NetworkID) %>%
+                summarise(m = m[1])
+        R_smd <- exampleCactusPop %>%
+                filter(Sampling!="Edge") %>%
+                select("CACAonStricta", "Stricta", "NetworkID") %>%
+                group_by(NetworkID) %>%
+                summarise_all(
+                        list(sum = sum),
+                        na.rm = T
+                ) %>%
+                merge(mvals, by="NetworkID")
+        Cactus_and_Stricta_estimates <- data.frame(
+                CACAonStrictaRMeanObs = R_hat(y=y, x=x, N=N, n1=n1, m=R_smd$m),
+                CACAonStrictaRVarObs = var_R_hat(y=y, x=x, N=N, n1=n1,m=R_smd$m)
+        )
+        calc_rvar_MultipleVars_est <- calc_rvar_MultipleVars(
+                alldata=exampleCactusPop, 
+                rvar="CACAonStricta",
+                ovar="Stricta",
+                N=N, 
+                n1=n1
+        )
+        expect_equal(
+                Cactus_and_Stricta_estimates,
+                calc_y_HT_MultipleVars_est
+        )
+})
 
 
 
 
-createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
-        if (SamplingDesign=="ACS") {
-                alldata <- createACS(
-                        popdata=P, seed=temp_seed, n1=n1, yvar=yvar)
-        } else if (SamplingDesign=="RACS") {
-                alldata <- createRACS(
-                        popdata=P, seed=temp_seed, n1=n1, yvar=yvar, f_max=f_max)
-        } else if (SamplingDesign=="SRS") {
-                alldata <- createSRS(
-                        popdata=P, seed=temp_seed, n1=n1)
-        }
-}
 
-calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, mThreshold, y_HT_formula)
+createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max)
 
-calc_var_y_HT_MultipleVars <- function(alldata, OAVAR, var_formula, N, n1) 
-        
-calc_rvar_MultipleVars <- function(alldata, rvar, ovar, N, n1) 
+
+
+
 getJoinCountTestEst <- function(temp, lwb) 
 
 getMoranTestEst <- function(temp, lwb) 

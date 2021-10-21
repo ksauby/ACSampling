@@ -1,11 +1,11 @@
 #' Create an Adaptive Cluster Sample.
 #'
-#' @param popdata A data frame providing information about the population to be sampled, including x and y columns, as well as a column containing the variable of interest, with the same name as that provided in the \code{yvar} argument.
-#' @param seed A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. \code{seed} defaults to NA so that it is not necessary to specify a random number seed.
-#' @param n1 An integer giving the initial sample size (sampled according to simple random sampling without replacement).
-#' @param yvar The variable of interest that is used to determine the condition under which adaptive cluster sampling takes place.
-#' @param condition Threshold value of the y variable that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).
-#' @param initsample A data.frame with columns 'x' and 'y' denoting the x and y coordinates, respectively, of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.
+#' @param popdata A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.
+#' @param seed A optional vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA.
+#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
+#' @param yvar The variable of interest that determines the condition under which adaptive cluster sampling takes place.
+#' @param condition Threshold value of \code{yvar} that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).
+#' @param initsample Optional. A data frame that provides the initial sample and includes geographic coordinate columns \code{x} and \code{y}. The defaults is \code{NA}, which then results in the initial sample being selected according to simple random sampling without replacement.
 
 #' @return A restricted adaptive cluster sample.
 
@@ -15,8 +15,7 @@
 #' data(Thompson1990Figure1Sample)
 #' 
 #' # Initiate ACS
-#' Z = createACS(popdata=Thompson1990Fig1Pop, seed=9, n1=10, yvar="y_value", 
-#'	condition=0)
+#' Z = createACS(popdata=Thompson1990Fig1Pop, seed=9, n1=10, yvar="y_value", condition=0)
 #' 
 #' # plot ACS sample overlaid onto population
 #' ggplot() +

@@ -1,7 +1,7 @@
 #' Calculate the variance of the Horvitz-Thompson estimator of the mean
 #' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
 #' @param N Population size
-#' @param n1 Initial sample size
+#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
 #' @param m Vector of $m$, each corresponding to a unique network.
 #' @param y Vector of $y$ total, each corresponding to a unique network.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.

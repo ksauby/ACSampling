@@ -164,29 +164,21 @@ fillSpatStatsNA <- function(alldata_all, weights) {
      return(tempdat)
 }
 
-# simple ratio estimators applied to alldata, 
-#    SRSWOR_data
-
-calcRatioEst <- function(dats, rvar, y, x, N, n1, m) {
-     SmpR <- list()
-     for (n in 1:length(dats)) {
-          SmpR[[n]] <- data.frame(Var1 = NA)
-          for (l in 1:length(rvar)) {
-               y = eval(parse(text=paste(dats[n], "$", rvar[l], sep="")))
-               x = eval(parse(text=paste(dats[n], "$", str_sub(rvar[l],-7,-1), 
-                    sep="")))
-               # equal P(inclusion) for all
-               m = rep(1, length(y))
-               SmpR[[n]]$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m=m)
-               SmpR[[n]]$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m=m)
-               names(SmpR[[n]])[(dim(SmpR[[n]])[2]-1): dim(SmpR[[n]])[2]] <- 
-                    c(paste(rvar[l], "RMeanObs", sep=""),
-                    paste(rvar[l], "RVarObs", sep=""))
-          }
-          SmpR[[n]] %<>% mutate(Plots = dats[n])
-     }
+calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
+     y = dataset[, rvar]
+     x = dataset[, str_sub(rvar,-7,-1)]
+     # equal P(inclusion) for all
+     # m = rep(1, length(y))
+     m = dataset$m
+     dataset_results$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m=m)
+     
+     dataset_results$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m=m)
+     names(dataset_results)[(dim(dataset_results)[2]-1): dim(dataset_results)[2]] <- 
+          c(paste(rvar, "RMeanObs", sep=""),
+            paste(rvar, "RVarObs", sep=""))
+     dataset_results %<>% mutate(Plots = deparse(substitute(dataset)))
+     return(dataset_results)
 }
-
 
 
 #' Sample species patch realizations simulations
@@ -387,7 +379,15 @@ sampleRealizations <- function(
 					# simple ratio estimators applied to alldata, 
 					#    SRSWOR_data
 					if (!(is.null(rvar))) {
-					     calcRatioEst(dats, rvar, y, x, N, n1, m)
+					     SmpR <- list()
+					     for (n in 1:length(dats)) {
+					          SmpR[[n]] <- data.frame(Var1 = NA)
+					          dataset <- eval(parse(text=dats[[n]]))
+					          dataset_results <- data.frame(Var1 = NA)
+					          for (l in 1:length(rvar)) {
+					               calcRatioEst(dataset, dataset_results, rvar[l], y, x, N, n1, m)
+					          }
+					     }
 					     SmpR <- do.call(rbind.data.frame, Ratio)
 					     SampleMeanVar %<>% merge(SmpR)
 					}

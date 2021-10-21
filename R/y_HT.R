@@ -3,7 +3,7 @@
 #' @param pi_i_values vector of inclusion probabilities; if not provided, this function calculates them. Default is \code{NULL}.
 #' @param N Population size. 
 #' @param m Number of units satisfying the ACS criterion in network $i$.
-#' @param n1 Initial sample size.
+#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
 #' @param y Attribute data about species of interest (e.g., abundance, presence/absence).
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
 #' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.
