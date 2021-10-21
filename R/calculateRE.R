@@ -1,11 +1,11 @@
 #' Calculate Relative Efficiency (RE)
 #' 
 #' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
-#' @param popgroupvar Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}). WHAT ELSE
+#' @template popgroupvar
 #' @param popdata Dataframe of population data.
-#' @param samplesizevar Name of column in population data (?) containing the variable indicating variation in sample size.
-#' @param rvar Ratio variables.
-#' @param ovar Occupancy variables.
+#' @template samplesizevar
+#' @template rvar
+#' @template ovar
 
 #' @description Calculate efficiency of sampling design, relative to WHAT.
 

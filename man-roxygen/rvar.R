@@ -1,0 +1,1 @@
+#' @param rvar Vector of ratio variables.

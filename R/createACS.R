@@ -1,11 +1,11 @@
 #' Create an Adaptive Cluster Sample.
 #'
-#' @param popdata A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.
-#' @param seed A optional vector of integers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA.
-#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
-#' @param yvar The variable of interest that determines the condition under which adaptive cluster sampling takes place.
-#' @param condition Threshold value of \code{yvar} that initiates ACS. Defaults to 0 (i.e., anything greater than 0 initiates adaptive cluster sampling).
-#' @param initsample Optional. A data frame that provides the initial sample and includes geographic coordinate columns \code{x} and \code{y}. The defaults is \code{NA}, which then results in the initial sample being selected according to simple random sampling without replacement.
+#' @template popdata
+#' @template seed
+#' @template n1
+#' @template yvar
+#' @template condition
+#' @template initsample
 
 #' @return A restricted adaptive cluster sample.
 

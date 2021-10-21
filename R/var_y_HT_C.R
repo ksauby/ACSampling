@@ -1,7 +1,7 @@
 #' Calculate the variance of the Horvitz-Thompson estimator of the mean
 #' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
-#' @param N Population size
-#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
+#' @template N
+#' @template n1
 #' @param m Vector of $m$, each corresponding to a unique network.
 #' @param y Vector of $y$ total, each corresponding to a unique network.
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
@@ -66,8 +66,8 @@ var_y_HT <- function(N, n1, m, y, pi_i_values=NULL) {
 
 #' Calculate the variance of the Horvitz-Thompson estimator of the mean using the RACS correction
 #' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
-#' @param N Population size
-#' @param n1 Initial sample size
+#' @template N
+#' @template n1
 #' @param m Vector of $m$, each corresponding to a unique network.
 #' @param y Vector of $y$ total, each corresponding to a unique network.
 #' @param m_threshold threshold value above which to calculate pi_i and pi_j differently.

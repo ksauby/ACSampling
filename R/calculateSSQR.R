@@ -4,7 +4,7 @@
 
 
 #' @param popdata Information about the populations of interest. MORE DETAIL ABOUT STRUCTURE OF THIS.
-#' @param popgroupvar If more than one population is included in the \code{popdata}, this identifies individual populations. If the dataset contains only one population, set popgroupvar = NA
+#' @template popgroupvar
 #' @param variable Variable for which to calculate SSQr.
 #' @return Dataframe including original data and RE estimates.
 #' @export

@@ -206,11 +206,11 @@ calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupv
 #' 
 #' @param popdatasummary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
 #' @param simdata Simulation data on sampling of the multiple patch realizations.
-#' @param popgroupvar Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)
-#' @param samplinggroupvar Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).
-#' @param ovar Vector of variables for which sampling bias should be estimated.
-#' @param orvar Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.
-#' @param rvar Variables for which to use ratio estimators
+#' @template popgroupvar
+#' @template samplinggroupvar
+#' @template ovar
+#' @param orvar Vector of variables for which secondary variables should be estimated. Can be identical to \code{ovar} or a subset.
+#' @template rvar
 
 #' @description Calculate the sampling bias of different sampling designs from simulation data.
 

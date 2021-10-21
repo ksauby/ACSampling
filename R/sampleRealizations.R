@@ -183,13 +183,16 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 
 #' Sample species patch realizations simulations
 
-#' @param yvar variable upon which adaptive cluster sampling criterion is based
+#' @template yvar
 #' @param popdata patch realizations
 #' @param sims Number of simulations per population.
-#' @param n1 Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
-#' @param avar Vector of variables for which abundance should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
-#' @param ovar Vector of variables for which occupancy should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
-#' @param rvar Vector of variables for which ratio estimators should be used. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
+#' @param n1_vec Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
+#' @template avar 
+#' The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
+#' @template ovar Vector of variables for which occupancy should be estimated. 
+#' The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
+#' @template rvar
+#' The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
 #' @param SamplingDesign Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.
 #' @param y_HT_formula The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.
 #' @param var_formula The formula used to estimate the variance of the population total: either the Horvitz-Thompson variance estimator, 'var_y_HT', or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." Defaults to "var_y_HT".
@@ -216,7 +219,7 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 #' 
 #' #' @examples
 #' sims=20
-#' n1=c(5,10,20,40)
+#' n1_vec=c(5,10,20,40)
 #' population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
 #' #' avar = NULL
 #' ovar = c(
@@ -235,17 +238,17 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 #' simulation_data <- sampleRealizations(
 #' popdata = popdata,
 #' 	sims = sims,
-#' 	n1 = n1,
+#' 	n1_vec = n1_vec,
 #' 	avar = avar,
 #' 	ovar = ovar,
 #' popvar="Island",
 #' yvar="Cactus"
 #' )
-# sims=200# #n1=c(75,150,225,300,350)# simulation_data_SRSWOR <- sampleRealizations(# 	popdata = popdata,# 	sims = sims,# 	n1 = n1,# 	avar = avar,# 	ovar = ovar,# 	popvar="Island"# )
+# sims=200# #n1_vec=c(75,150,225,300,350)# simulation_data_SRSWOR <- sampleRealizations(# 	popdata = popdata,# 	sims = sims,# 	n1_vec = n1_vec,# 	avar = avar,# 	ovar = ovar,# 	popvar="Island"# )
 sampleRealizations <- function(
 	popdata, 
 	sims, 
-	n1, 
+	n1_vec, 
 	avar=NULL, 
 	ovar, 
 	rvar=NULL,
@@ -265,7 +268,7 @@ sampleRealizations <- function(
 ) 
 {
      handleError_popdata(popdata)
-     handleError_n1vector(n1)
+     handleError_n1vector(n1_vec)
      handleError_yvar(yvar)
      handleError_LogicalVar(SampleEstimators, "SampleEstimators")
      handleError_LogicalVar(SpatStat, "SpatStat")
@@ -302,7 +305,7 @@ sampleRealizations <- function(
      popdata %<>% arrange_at(c(popvar, realvar))
      n.patches <- length(unique(eval(parse(text=paste(
           "popdata$", popvar, sep="")))))
-     nsample.length <- length(n1)
+     nsample.length <- length(n1_vec)
      A <- vector("list", n.patches)
      # c() - same code calculates the HT estimators for occupancy and abundance
      oavar <- c(ovar, avar)
@@ -338,7 +341,7 @@ sampleRealizations <- function(
 					eval(parse(text=paste("popdata$", popvar, sep="")))
 				)[i])
 			N <- dim(P)[1]
-			n1 <- n1[j]
+			n1 <- n1_vec[j]
 			A[[i]][[j]] <- list()
 			r <- (i - 1) * j + j
 			seeds <- runif(sims)

@@ -1,0 +1,1 @@
+#' @param yvar The variable of interest, $y$, that determines the condition under which adaptive cluster sampling takes place. Must be a numeric value.

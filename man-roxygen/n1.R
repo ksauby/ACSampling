@@ -1,0 +1,1 @@
+#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).

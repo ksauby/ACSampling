@@ -1,9 +1,10 @@
 #' Calculate the Horvitz-Thompson mean of an adaptive cluster sample.
 #' 
 #' @param pi_i_values vector of inclusion probabilities; if not provided, this function calculates them. Default is \code{NULL}.
-#' @param N Population size. 
-#' @param m Number of units satisfying the ACS criterion in network $i$.
-#' @param n1 An integer giving the initial sample size (ie., the size of the initial simple random sample).
+ 
+#' @template m
+#' @template N
+#' @template n1
 #' @param y Attribute data about species of interest (e.g., abundance, presence/absence).
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
 #' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.
@@ -98,9 +99,10 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NU
 #' Calculate the Horvitz-Thompson mean of an adaptive cluster sample, NEW FORMULA.
 #' 
 #' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
-#' @param N Population size. 
+
 #' @param m Number of units satisfying the ACS criterion in network $i$.
-#' @param n1 Initial sample size.
+#' @template N
+#' @template n1
 #' @param y Attribute data about species of interest (e.g., abundance, presence/absence).
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
 #' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.

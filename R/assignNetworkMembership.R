@@ -1,13 +1,14 @@
 #' Assign network membership to adaptive cluster sample units.
 
-#' @param popdata A data.frame containing information about a population;  at a minimum it should contain columns "x" and "y,"  denoting the x and y coordinates, respectively, of the locations of the population of interest.
+#' @template popdata
 #' @param plot.size The length and width of plots, in coordinate units. Defaults to 1.
 
 #' @description This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned the same network ID. 
 
 #' @return Returns the popdata data.frame with a new column for Network ID as well as a column for m, the number of units in each network.
+#' @template SaubyCitation
 
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+
 
 #' @examples
 #' data(Thompson1990Fig1Pop)
