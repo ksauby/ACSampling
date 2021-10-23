@@ -93,14 +93,15 @@ test_that("assignNetworkMembership", {
 })
 
 test_that("y_HT, Horvitz-Thompson Mean Estimator", {
-	# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
+
 	expect_equal(
 		round(
+		     # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 			y_HT(
 				N = 1000, 
 				n1 = 100, 
-				m = c(2,3,rep(1,98)), 
-				y = c(3,6,rep(0, 98)), 
+				m_vec = c(2,3, rep(1,98)), 
+				y = c(3,6, rep(0, 98)), 
 				sampling = "SRSWOR", 
 				criterion = 0
 			)*1000, 0

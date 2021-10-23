@@ -1,30 +1,20 @@
 #' Calculate the Horvitz-Thompson Ratio Estimator
 #' @description R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002). THERE CANNOT BE NAS IN X OR Y?
-#' @param y Attribute data about species of interest y (e.g., abundance, presence/absence).
+#' @template y
 #' @param x Auxiliary data about object of interest y.
-#' @template N
-#' @template n1
-#' @template m
+#' @template N_n1_m_vec
 #' @template replace
-#' @examples
-#' # Example from Thompson (2002), p. 78-79
-#' N = 100
-#' n1 = 4
-#' y = c(60, 14, 1)
-#' x = c(1, 1, 1)
-#' m = c(5, 2, 1)
-#' R_hat(y, x, N, n1, m, replace="TRUE")
-#' var_R_hat(y, x, N, n1, m, replace="TRUE")
+#' @examples @template ex_Thompson2002_p_78
 #' @export
 
-R_hat <- function(y, x, N, n1, m, replace="FALSE") {
+R_hat <- function(y, x, N, n1, m_vec, replace="FALSE") {
      
      handleError_n1(n1)
      
 	if (replace=="TRUE") {
-		alpha_stars <- pi_i_replace(N, n1, m)
+		alpha_stars <- pi_i_replace(N, n1, m_vec)
 	} else {
-		alpha_stars <- pi_i(N, n1, m)
+		alpha_stars <- pi_i(N, n1, m_vec)
 	}
 	dat <- data.frame(alpha_stars = alpha_stars, y = y, x = x)
 	mu_x = sum(dat$x/dat$alpha_stars)

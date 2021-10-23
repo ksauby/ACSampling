@@ -1,23 +1,18 @@
 #' Calculate the Horvitz-Thompson mean of an adaptive cluster sample.
 #' 
-#' @param pi_i_values vector of inclusion probabilities; if not provided, this function calculates them. Default is \code{NULL}.
- 
-#' @template m
-#' @template N
-#' @template n1
-#' @param y Attribute data about species of interest (e.g., abundance, presence/absence).
+#' @template pi_i_values
+#' @template N_n1_m_vec
+#' @template y
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
-#' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.
+#' @template criterion
 #' @description This calculate the Horvitz-Thompson mean of an adaptive cluster sample done by sampling without replacement.
 #'
 #'where $v$ is the number of distinct units in the sample and
 #'$J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.
 #' 
 #' @return The Horvitz-Thompson mean.
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-#'
-#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
-#' @examples 
+#' @references @template Thompson1990
+#' @examples
 #' library(magrittr)
 #' library(plyr)
 #' library(dplyr)
@@ -65,28 +60,18 @@
 #' # data(cactus_realizations)
 #' # realization = cactus_realizations %>% filter(n.networks==40)
 
-#' # EXAMPLE 4:
-#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
-#' # Horvitz-Thompson mean times the population size; should equal 38
-#' y_HT(
-#'     N 		= 1000, 
-#'     n1 		= 100, 
-#'     m 		= c(2,3,rep(1,98)), 
-#'     y 		= c(3,6,rep(0, 98)),
-#'     sampling = "SRSWOR",
-#'     criterion =0
-#' )*1000 %>% round(0)
+#' @template example_Thompson2002_2_p_307
 
 #' @export
 
-y_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
+y_HT <- function(y, N, n1, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterion=NULL) {
 	if (!(is.null(sampling)) & !(is.null(criterion))) {
-		J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
+		J = ifelse(y >= criterion | sampling=="Initial_Sample", 1, 0)
 	} else {
 		J = 1
 	}
 	if (is.null(pi_i_values)) {
-		pi_i_values = pi_i(N, n1, m)
+		pi_i_values = pi_i(N, n1, m_vec)
 	}
 	y_HT = sum(y*J/pi_i_values, na.rm=T)/N
 	return(y_HT)	
@@ -98,55 +83,43 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NU
 
 #' Calculate the Horvitz-Thompson mean of an adaptive cluster sample, NEW FORMULA.
 #' 
-#' @param pi_i_values vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
-
-#' @param m Number of units satisfying the ACS criterion in network $i$.
-#' @template N
-#' @template n1
-#' @param y Attribute data about species of interest (e.g., abundance, presence/absence).
+#' @template pi_i_values
+#' @template N_n1_m_vec
+#' @template y
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
-#' @param criterion The threshold value of \code{y} that triggers adaptive cluster sampling.
-#' @param m_threshold NEEDS DESCRIPTION
+#' @template criterion
+#' @template m_threshold
 #' @description This calculate the Horvitz-Thompson mean of an adaptive cluster sample done by sampling without replacement.
 #'
 #'where $v$ is the number of distinct units in the sample and
 #'$J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.
 #' 
 #' @return The Horvitz-Thompson mean.
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @references
+#' @template SaubyCitation
+#' @template Thompson1990
 #'
-#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 #' @export
 #' @examples 
-#' # EXAMPLE 4:
-#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
-#' # Horvitz-Thompson mean times the population size; should equal 38
-#' new_y_HT(
-#'     y 		= c(3,6,rep(0, 98)),
-#'     N 		= 1000, 
-#'     n1 		= 100, 
-#'     m 		= c(2,3,rep(1,98)), 
-#'     sampling = "SRSWOR",
-#'     criterion =0,
-#'	   m_threshold=2
-#' )
+#' @template ex_Thompson2002_2_p_307_values
+#' @template ex_Thompson2002_2_p_307_y_HT
 
-new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m=NULL, sampling=NULL, criterion=NULL) {
+new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterion=NULL) {
 	if (!(is.null(sampling)) & !(is.null(criterion))) {
-		J = ifelse(y >= criterion | sampling=="SRSWOR", 1, 0)
+		J = ifelse(y >= criterion | sampling=="Initial_Sample", 1, 0)
 	} else {
 		J = 1
 	}
-	Z = data.frame(y=y, m=m)
+	Z = data.frame(y=y, m_vec=m_vec)
 	
 	# with replacement inclusion probability for cluster units
 	# pi_i = 1 - ( 1 - ((m + a)/N) )^ n
 	# how to make this work for a network
 	
-	A <- Z %>% filter(m <= m_threshold)
-	B <- Z %>% filter(m > m_threshold)
+	A <- Z %>% filter(m_vec <= m_threshold)
+	B <- Z %>% filter(m_vec > m_threshold)
 	if (dim(A)[1] > 0) {
-		A$pi_i_values = pi_i(N, n1, A$m)	
+		A$pi_i_values = pi_i(N, n1, A$m_vec)	
 	}
 	if (dim(B)[1] > 0) {	
 		B$pi_i_values = pi_i(N, n1, m_threshold)

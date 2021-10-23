@@ -1,9 +1,5 @@
 #' Calculate the inclusion probabilities of units in a simple random sample without replacement. 
-
-#' @template N
-#' @template n1
-#' @param m_vec Vector of values giving the number of units satisfying the ACS criterion in network $i$.
-
+#' @template N_n1_m_vec
 #' @return vector of inclusion probabilities
 
 #' @examples 
@@ -21,9 +17,6 @@
 #' n1=100
 #' m_vec=c(2,3,rep(1,98))
 #' head(pi_i(N, n1, m_vec))
-
-#'
-#' Thompson. 1990.
 #' @export
 
 pi_i <- function(N, n1, m_vec) {
@@ -32,4 +25,12 @@ pi_i <- function(N, n1, m_vec) {
 		sum(log({N - m_vec - n1 + 1} : {N - m_vec})) - sum(log({N - n1 + 1} : N))
 		)
   )
+}
+
+#' Calculate the inclusion probabilities of units in a simple random sample with replacement. 
+#' @template N_n1_m_vec
+#' @return vector of inclusion probabilities
+
+pi_i_replace <- function(N, n1, m_vec) {
+     sapply(m_vec, function(m_vec) 1 - (1 - m_vec/N)^n1)
 }

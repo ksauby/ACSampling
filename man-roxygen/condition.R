@@ -1,1 +1,0 @@
-#' @param condition Numeric threshold value of \code{yvar} that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).

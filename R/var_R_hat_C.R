@@ -1,32 +1,23 @@
 #' Calculate the variance of R hat
 #' 
-#' @param y Attribute data about object of interest y (e.g., abundance, presence/absence).
+#' @template y
 #' @param x Auxiliary data about object of interest y.
-#' @template N
-#' @template n1
-#' @template m
+#' @template N_n1_m_vec
 #' @template replace
 #' @examples
-#' # Example from Thompson (2002), p. 78-79
-#' N = 100
-#' n1 = 4
-#' y = c(60, 60, 14, 1)
-#' x = c(1, 1, 1, 1)
-#' m = c(5, 5, 2, 1)
-#' R_hat(y, x, N, n1, m, replace="TRUE")
-#' var_R_hat(y, x, N, n1, m)
+#' @template ex_Thompson2002_p_78
 #' @export
 
 
-var_R_hat <- function(y, x, N, n1, m, replace="FALSE") {
+var_R_hat <- function(y, x, N, n1, m_vec, replace="FALSE") {
 	if (replace=="TRUE") {
-		pi_i_values <- pi_i_replace(N, n1, m)		
-		pi_ij_values <- pi_ij_replace(N, n1, m)
+		pi_i_values <- pi_i_replace(N, n1, m_vec)		
+		pi_ij_values <- pi_ij_replace(N, n1, m_vec)
 	} else {
-		pi_i_values <- pi_i(N, n1, m)
-		pi_ij_values <- pi_ij(N, n1, m)
+		pi_i_values <- pi_i(N, n1, m_vec)
+		pi_ij_values <- pi_ij(N, n1, m_vec)
 	}
-	R_hat_estimate	<- R_hat(y, x, N, n1, m)
+	R_hat_estimate	<- R_hat(y, x, N, n1, m_vec)
 	y_hat 			<- y - R_hat_estimate*x
 	# get information on unique networks
 	# calculate for all pairs

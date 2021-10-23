@@ -1,15 +1,15 @@
 #' Create a population of locations (in a grid). 
 #' 
-#' @param x_start The most western coordinate of the grid.
-#' @param x_end The most eastern coordinate of the grid.
-#' @param y_start The most southern coordinate of the grid.
-#' @param y_end The most northern coordinate of the grid.
+#' @template x_start
+#' @template x_end
+#' @template y_start
+#' @template y_end
 #' @return A grid of locations with coordinates (x, y).
 #' @export
 
-#' @example 
+#' @examples
 #' population <- createPop(
-#' x_start = "a", 
+#' x_start = 5, 
 #' x_end = 27, 
 #' y_start = 5, 
 #' y_end = 27

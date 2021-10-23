@@ -9,7 +9,7 @@
 
 #' @description Calculate inclusion probabilities for each unit in a realization using simulations.
 
-#' @value Returns a dataframe with the following columns:
+#' @return Returns a dataframe with the following columns:
 #' realization
 #' n.networks
 #' N.SRSWOR.plots

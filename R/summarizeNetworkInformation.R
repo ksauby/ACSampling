@@ -3,14 +3,14 @@
 #' @param popdata population data.
 #' @param vars variables to summarise
 #' @param groupvar categories that group networks
-#' @param n1 Size(s) of the initial simple random sample(s) without replacement. Can be a single value or a vector values.
+#' @param n1_vec
 #' @param mvar The variable on which the ACS sampling criterion is based
 #' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}.
 #' @template SaubyCitation
 #' @export
 #' @importFrom dplyr funs summarise_all
 
-summarizeNetworkInfo <- function(popdata, vars, groupvar=NULL, n1, mvar) {
+summarizeNetworkInfo <- function(popdata, vars, groupvar=NULL, n1_vec, mvar) {
 	
      handleError_variable(vars, "vars")
      handleError_singlepopulation(N)
@@ -26,14 +26,14 @@ summarizeNetworkInfo <- function(popdata, vars, groupvar=NULL, n1, mvar) {
 		# calculate the sum of the remaining columns (the "variables" columns)
 		summarise_all(funs(sum(., na.rm=T)))
 	m <- paste("Networks$", m_var, sep="")
-	# calculate pi_i for each network and sample size (nsample)
-	for (i in 1:length(nsamples)) {
+	# calculate pi_i for each network and sample size
+	for (i in 1:length(n1_vec)) {
 		Networks$Var = sapply(
 			Networks$m,
-			function(x) {pi_i(N=N, n1=nsamples[i], m=x)}
+			function(x) {pi_i(N=N, n1=n1_vec[i], m=x)}
 		)
 		names(Networks)[dim(Networks)[2]] <- paste(
-			"pi_i_n1_", nsamples[i], sep=""
+			"pi_i_n1_", n1_vec[i], sep=""
 		)
 	}
 	# 

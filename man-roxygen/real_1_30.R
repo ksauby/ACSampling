@@ -1,0 +1,1 @@
+#' @param m Number of units satisfying the ACS criterion in network $i$.

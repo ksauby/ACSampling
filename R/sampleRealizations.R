@@ -186,7 +186,7 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 #' @template yvar
 #' @param popdata patch realizations
 #' @param sims Number of simulations per population.
-#' @param n1_vec Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
+#' @template n1_vec
 #' @template avar 
 #' The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
 #' @template ovar Vector of variables for which occupancy should be estimated. 
@@ -207,7 +207,7 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 
 #' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
 
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @template SaubyCitation
 
 #' @importFrom foreach foreach %dopar%
 #' @importFrom dplyr summarise_all arrange_at row_number
@@ -216,7 +216,6 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 #' @import sp
  
 #' @export
-#' 
 #' #' @examples
 #' sims=20
 #' n1_vec=c(5,10,20,40)
