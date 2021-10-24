@@ -25,6 +25,14 @@ test_that("Error Handling - popdata", {
           NetworkID=1
      )
      expect_silent(handleError_popdata(popdata))
+     popdata <- data.frame(
+             x=seq(1:5),
+             y=seq(6:10)
+     )
+     expect_error(
+             handleError_popdata(popdata),
+             "The 'popdata' argument must be supplied with a data frame including the columns 'x', 'y', and 'NetworkID'."
+     )
 })
 test_that("Error Handling - seed", {
      seed <- TRUE
@@ -47,8 +55,13 @@ test_that("Error Handling - seed", {
      )
      seed <- 1.2
      expect_silent(
-             handleError_seed(seed)
+        handleError_seed(seed)
         )
+     seed <- c(1, "random text")
+     expect_error(
+             handleError_seed(seed),
+             "The 'seed' argument must be a vector of integer values."
+     )
 })
 test_that("Error Handling - yvar", {
      yvar <- TRUE
