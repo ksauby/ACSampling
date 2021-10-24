@@ -261,7 +261,19 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 		)
 	)
 })
-
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement, returns 0", {
+     expect_equal(
+          R_hat(
+               y = c(0, 0, 0), 
+               x = c(1, 1, 1), 
+               N = 100, 
+               n1 = 4, 
+               m = c(5, 2, 1), 
+               replace="FALSE"
+          ),
+          0
+     )
+})
 
 
 

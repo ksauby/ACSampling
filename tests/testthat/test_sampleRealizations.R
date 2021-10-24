@@ -180,6 +180,45 @@ exampleCactusPop_filtered <- exampleCactusPop %>%
           calc_var_y_HT_MultipleVars_est
      )
 })
+test_that("test calc_var_y_HT_MultipleVars, var_pi_i", {
+        
+        exampleCactusPop_filtered <- exampleCactusPop %>%
+                filter(!(is.na(NetworkID))) %>%
+                group_by(NetworkID) %>%
+                filter(row_number()==1) %>%
+                ungroup()
+        
+        Cactus_and_Stricta_estimates <- data.frame(
+                Cactus_var_yHT = var_y_HT(
+                        N=N, 
+                        n1=n1, 
+                        m_vec=exampleCactusPop_filtered$m,
+                        y_total=exampleCactusPop_filtered$Cactus
+                ),
+                Stricta_var_yHT = var_y_HT(
+                        N=N, 
+                        n1=n1, 
+                        m_vec=exampleCactusPop_filtered$m,
+                        y_total=exampleCactusPop_filtered$Stricta
+                )
+        )
+        
+        OAVAR <- syms(c("Cactus", "Stricta"))
+        
+        calc_var_y_HT_MultipleVars_est <- calc_var_y_HT_MultipleVars(
+                alldata=exampleCactusPop, 
+                OAVAR=OAVAR, 
+                N=N, 
+                n1=n1,
+                var_formula="var_y_HT"
+        ) %>%
+                as.data.frame
+        
+        expect_equal(
+                Cactus_and_Stricta_estimates,
+                calc_var_y_HT_MultipleVars_est
+        )
+})
 
 
 # THIS DOES NOT PASS TESTING
@@ -220,7 +259,33 @@ exampleCactusPop_filtered <- exampleCactusPop %>%
 # 
 # 
 # createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max)
-# 
+test_that("test createSample", {
+        
+        data(Thompson1990Fig1Pop)
+        popdata <- Thompson1990Fig1Pop
+        seed <- 10
+        n1 <- 10
+        yvar <- "y_value"
+
+        expect_equal(
+                ACSampling:::createSample(
+                        SamplingDesign="ACS", 
+                        popdata, seed, n1, yvar),
+                createACS(popdata, n1, yvar, criterion=0, seed)
+        )
+        expect_equal(
+                ACSampling:::createSample(
+                        SamplingDesign="RACS", 
+                        popdata, seed, n1, yvar, f_max=2),
+                createRACS(popdata, n1, yvar, criterion=0, seed, f_max=2)
+        )
+        expect_equal(
+                ACSampling:::createSample(
+                        SamplingDesign="SRS", 
+                        popdata, seed, n1, yvar),
+                createSRS(popdata, n1, seed)
+        )
+})
 # 
 # 
 # 
