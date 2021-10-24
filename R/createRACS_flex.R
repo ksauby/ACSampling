@@ -9,15 +9,11 @@
 #' @template initsample
 #' @return A restricted adaptive cluster sample.
 #' @examples
-#' library(ggplot2)
-#' data(lambdap_10_tau_5)
+#' @template samp_load_ggplot_Thompson1990fig
 #' 
-#' 
-#' popdata = lambdap_10_tau_5
-#' seed = 3
-#' n1 = 5
-#' yvar = "y_value"
-#' f_max = 3
+#' # Create RACS sample, seed=9
+#' @template samp_Thompson1990fig_n110
+#' f_max = 1
 #' 
 #' Sampling according to the RACS design
 #' Z = createRACS(popdata, n1, yvar, seed, f_max)
@@ -129,7 +125,7 @@ createRACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NULL,
                               Z[[j]][[k]] <- data.frame()
                               kx = A$x[k]
                               ky = A$y[k]
-                              # if plot has cacti, survey its neighbors
+                              # if criterion satisfied for a unit, survey its neighbors
                               if (dim(popdata %>%
                                       filter(!!sym(yvar) > criterion,
                                              x == kx,
@@ -158,8 +154,8 @@ createRACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NULL,
 				}
 			}
 			sample <- do.call(rbind.data.frame, Z)
-			} else {
-				sample <- do.call(rbind.data.frame, Z)
+		} else {
+			sample <- do.call(rbind.data.frame, Z)
 		}
 		sample %<>%
                merge(popdata, by = c("x", "y")) %>%

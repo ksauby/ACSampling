@@ -10,22 +10,14 @@
 #' @return A restricted adaptive cluster sample.
 
 #' @examples
-#' library(ggplot2)
-#' data(Thompson1990Fig1Pop)
-#' data(Thompson1990Figure1Sample)
+#' @template samp_load_ggplot_Thompson1990fig
 #' 
 #' # Create ACS sample, seed=9
-#' # - in the dataframe "Thompson1990Fig1Pop", the variable of interest $y$ is "y_value"
-#' # - any "y_value" greater than the criterion 0 will trigger cluster sampling
-#' Z = createACS(
-#'    popdata=Thompson1990Fig1Pop, 
-#'    seed=9, 
-#'    n1=10, 
-#'    yvar="y_value", 
-#'    criterion=0
-#' )
+#' @template samp_Thompson1990fig_n110
+#' Z = createACS(popdata, seed, n1, yvar, criterion)
 #' 
 #' # plot ACS sample and population from which sampled was collected
+#' In the plot, the open squares correspond to population units that were sampled
 #' ggplot() +
 #'    geom_point(
 #' 	 data=Thompson1990Fig1Pop, 

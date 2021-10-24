@@ -175,6 +175,8 @@ test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {
 		553
 	)
 })
+
+
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 	# Thompson (2002), Example 2, p. 78-79
 	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)
@@ -210,6 +212,23 @@ test_that("var_R_hat, with replacement", {
 		),
 		17.5
 	)
+})
+# NEED TO DOUBLECHECK THE MATH
+test_that("var_R_hat, without replacement", {
+     # Thompson (2002), Example 2, p. 78-79
+     expect_equal(
+          round(
+               var_R_hat(
+                    y = c(60, 14, 1), 
+                    x = c(1, 1, 1), 
+                    N = 100, 
+                    n1 = 4, 
+                    m = c(5, 2, 1), 
+                    replace="FALSE"
+               ), 2
+          ),
+          16.97
+     )
 })
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 	# Exercise #3, p. 85, Thompson (2002)

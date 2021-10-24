@@ -145,3 +145,35 @@ test_that("18. createRACS, Are there duplicates units in the sample?", {
 		0
 	)
 })
+test_that("19. createRACS, Does the function stop if f_max is not an integer?", {
+     expect_error(
+          createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=24, f_max=1.2),
+          "The 'f_max' argument must be an integer value."
+     )
+})
+test_that("20. createRACS, Test when no units satisfy the criterion", {
+     Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=2)
+     expect_equal(
+          dim(Z)[1],
+          10
+     )
+})
+test_that("18. createRACS, f_max=1", {
+     Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", seed=24, f_max=1)
+     expect_equal(
+          dim(Z)[1],
+          14
+     )
+})
+test_that("18. createRACS, f_max=1, no edge units sampled", {
+     S <- createSRS(Thompson1990Fig1Pop, 10, seed=24)
+     S[10, c("x", "y")] <- c(10,5)
+     init <- S[, c("x", "y")]
+     Z <- createRACS(Thompson1990Fig1Pop, 10, "y_value", initsample=init, f_max=1)
+     expect_equal(
+          dim(Z)[1],
+          14
+     )
+})
+
+

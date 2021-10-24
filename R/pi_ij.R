@@ -2,6 +2,8 @@
 #' @template N
 #' @template n1
 #' @template m_vec
+#' @references
+#' @template Thompson1990
 #' @examples 
 #' # Thompson sampling book, ch. 24 exercises, p. 307, number 2
 #' library(magrittr)
