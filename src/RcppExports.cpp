@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // pi_ij_cpp
 Rcpp::NumericMatrix pi_ij_cpp(Rcpp::NumericVector m, double N_n1, Rcpp::NumericVector N_m_n1, Rcpp::NumericMatrix N_m_m_n1);
 RcppExport SEXP _ACSampling_pi_ij_cpp(SEXP mSEXP, SEXP N_n1SEXP, SEXP N_m_n1SEXP, SEXP N_m_m_n1SEXP) {

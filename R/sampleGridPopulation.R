@@ -1,6 +1,6 @@
 #' Select a sample of cells from the grid population and randomly assign species information.
 #' @param grid A dataframe of x and y coordinates (can be created with \code{createPop}).
-#' @template n.networks
+#' @template n_networks
 #' @param cluster.centers Dataframe including x and y coordinates and network IDs for the centers of clusters.
 #' @param seed Vector of numbers to be given to \code{set.seed()}. Two numbers are used: the first to determine the sample of locations and the second to determine the sample of species information to be assigned to the sample locations.
 #' @description This function uses two random numbers: the first to set the seed to sample locations from a grid, and the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations).

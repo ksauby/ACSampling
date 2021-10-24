@@ -1,10 +1,13 @@
 #' Calculate the Horvitz-Thompson Ratio Estimator
 #' @description R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002). THERE CANNOT BE NAS IN X OR Y?
 #' @template y
-#' @param x Auxiliary data about object of interest y.
-#' @template N_n1_m_vec
+#' @template x
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @template replace
-#' @examples @template ex_Thompson2002_p_78
+#' @examples
+#' @template ex_Thompson2002_p_78
 #' @export
 
 R_hat <- function(y, x, N, n1, m_vec, replace="FALSE") {

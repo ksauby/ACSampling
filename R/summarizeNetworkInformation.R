@@ -3,7 +3,7 @@
 #' @param popdata population data.
 #' @param vars variables to summarise
 #' @param groupvar categories that group networks
-#' @param n1_vec
+#' @template n1_vec
 #' @param mvar The variable on which the ACS sampling criterion is based
 #' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}.
 #' @template SaubyCitation
@@ -30,7 +30,7 @@ summarizeNetworkInfo <- function(popdata, vars, groupvar=NULL, n1_vec, mvar) {
 	for (i in 1:length(n1_vec)) {
 		Networks$Var = sapply(
 			Networks$m,
-			function(x) {pi_i(N=N, n1=n1_vec[i], m=x)}
+			function(x) {pi_i(N=N, n1=n1_vec[i], m_vec=x)}
 		)
 		names(Networks)[dim(Networks)[2]] <- paste(
 			"pi_i_n1_", n1_vec[i], sep=""

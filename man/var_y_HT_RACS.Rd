@@ -4,16 +4,10 @@
 \alias{var_y_HT_RACS}
 \title{Calculate the variance of the Horvitz-Thompson estimator of the mean using the RACS correction}
 \usage{
-var_y_HT_RACS(N, n1, m, y, m_threshold, pi_i_values = NULL)
+var_y_HT_RACS(N, n1, m_vec, y_total, m_threshold, pi_i_values = NULL)
 }
 \arguments{
-\item{N}{Population size}
-
-\item{n1}{Initial sample size}
-
-\item{m}{Vector of $m$, each corresponding to a unique network.}
-
-\item{y}{Vector of $y$ total, each corresponding to a unique network.}
+\item{y_total}{Vector of $y$ total, each corresponding to a unique network.}
 
 \item{m_threshold}{threshold value above which to calculate pi_i and pi_j differently.}
 
@@ -21,6 +15,8 @@ var_y_HT_RACS(N, n1, m, y, m_threshold, pi_i_values = NULL)
 }
 \description{
 Calculate the variance of the Horvitz-Thompson estimator of the mean using the RACS correction
+
+Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships
 }
 \examples{
 library(ggplot2)
@@ -40,7 +36,12 @@ ggplot() +
 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
 
 # INITIATE ACS
-Z = createACS(popdata = Thompson1990Fig1Pop, n1 = dim(Thompson1990Figure1Sample)[1], initsample = Thompson1990Figure1Sample, yvar = "y_value")
+Z = createACS(
+popdata = Thompson1990Fig1Pop, 
+n1 = dim(Thompson1990Figure1Sample)[1], 
+initsample = Thompson1990Figure1Sample, 
+yvar = "y_value"
+)
 
 # CALCULATE var(y_HT)
 # create dataframe of network info
@@ -55,10 +56,10 @@ var_y_HT_RACS(
 	N = dim(Thompson1990Fig1Pop)[1], 
 	n1 = dim(Thompson1990Figure1Sample)[1], 
 	m = Z_summary$m, 
-	y = Z_summary$y_total,
+	y_total = Z_summary$y_total,
 	m_threshold=3
 )
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+
 }

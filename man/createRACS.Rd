@@ -8,24 +8,24 @@ createRACS(
   popdata,
   n1,
   yvar,
-  condition = 0,
+  criterion = 0,
   seed = NA,
   initsample = NULL,
   f_max = 2
 )
 }
 \arguments{
-\item{popdata}{grid of population to be sampled.}
+\item{popdata}{A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.}
 
-\item{n1}{initial sample size (sampled according to simple random sampling without replacement).}
+\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
 
-\item{yvar}{Variable of interest, y, used to determine condition under which adaptive cluster sampling takes place. Must be numeric. ACSampling is triggered when 'yvar' is greater than the condition.}
+\item{yvar}{The variable of interest, $y$, that determines the condition under which adaptive cluster sampling takes place. Must be a numeric value.}
 
-\item{condition}{Threshold value of the 'y' variable that initiates Restricted ACS. Defaults to \code{0}. Must be numeric.}
+\item{criterion}{Numeric threshold value of \code{yvar} that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 
-\item{seed}{vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible.}
+\item{seed}{Optional. A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible.}
 
-\item{initsample}{List of x and y coordinates of the initial sample. Defaults to "NA" so that the initial sample is selected according to simple random sampling without replacement.}
+\item{initsample}{Optional. A data frame that includes geographic coordinate columns \code{x} and \code{y} of an the initial sample. The defaults is \code{NA}, which results in the initial sample being selected according to simple random sampling without replacement.}
 
 \item{f_max}{WHAT IS IT}
 }
@@ -34,6 +34,8 @@ A restricted adaptive cluster sample.
 }
 \description{
 Create a Restricted Adaptive Cluster Sample, for any step size
+
+Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships
 }
 \examples{
 library(ggplot2)
@@ -57,7 +59,4 @@ aes(x,y, size=factor(y_value), shape=factor(y_value))
 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 geom_point(data=Z, aes(x,y), shape = 0, size=7) +
 ggtitle("f_max = 1")
-}
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
 }

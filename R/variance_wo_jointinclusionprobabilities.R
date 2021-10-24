@@ -1,9 +1,9 @@
 #' Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling
-#' @param pi_i vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.
-#' @param n Initial sample size
+#' @template n_samplesize
+#' @template pi_i_wo_joint_inclusion_prob
 #' @description Option for the "var_pi" function.
-#' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
-#' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
+#' @references @template Hajek_1964
+#' @template Berger_Tille_2009
 #' @export
 
 
@@ -14,9 +14,9 @@ Hajek <- function(pi_i, n) {
 
 
 #' Variance estimator free of joint inclusion probability calculations for unequal probability sampling, Hajek
-#' @param n sample size
-#' @param y Vector of $y$ values.
-#' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{pi_i}.
+#' @template n_samplesize
+#' @template y_wo_joint_inclusion_prob
+#' @param pi_i_values
 #' @references Berger, Y. G. (2005). Variance estimation with Chao's sampling scheme. Journal of Statistical Planning and Inference, 127(1-2), 253-277. http://doi.org/10.1016/j.jspi.2003.08.014
 #' @export
 
@@ -30,12 +30,12 @@ var_Hajek <- function(n, y, pi_i_values) {
 
 #' Variance estimator free of joint inclusion probability calculations for unequal probability sampling
 #' @description This gives equation 9 on page 10 in Berger and Tille 2009.
-#' @param n sample size
-#' @param y Vector of $y$ values.
-#' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{pi_i}.
-#' @param estimator Options include "Hartley_Rao", "Hajek", "Rosen", "Berger", and "Deville".
-#' @references Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
-#' Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
+#' @template n_samplesize
+#' @template y_wo_joint_inclusion_prob
+#' @param pi_i_values
+#' @param estimator Options include "Hajek".
+#' @references @template Hajek_1964
+#' @template Berger_Tille_2009
 #' @export
 #' @examples
 #' # Hajek Approximation

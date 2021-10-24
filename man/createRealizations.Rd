@@ -18,7 +18,7 @@ createRealizations(
 )
 }
 \arguments{
-\item{x_start}{The most western coordinate of the grid.}
+\item{x_start}{The most western coordinate of the grid}
 
 \item{x_end}{The most eastern coordinate of the grid.}
 
@@ -140,7 +140,4 @@ p + annotate("rect", xmin=x_start, xmax=x_end, ymin=y_start, ymax=y_end,
 	facet_wrap(~n.networks) + 
 	scale_colour_gradientn(colours = rainbow(7)) +
 	geom_text(aes(label=NetworkID), hjust=0, vjust=0)
-}
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }

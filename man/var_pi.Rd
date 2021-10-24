@@ -7,13 +7,13 @@
 var_pi(n, y, pi_i_values, estimator)
 }
 \arguments{
-\item{n}{sample size}
+\item{n}{sample size (an integer value).}
 
-\item{y}{Vector of $y$ values.}
+\item{y}{Vector of values observed for the variable of interest, $y$.}
 
 \item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{pi_i}.}
 
-\item{estimator}{Options include "Hartley_Rao", "Hajek", "Rosen", "Berger", and "Deville".}
+\item{estimator}{Options include "Hajek".}
 }
 \description{
 This gives equation 9 on page 10 in Berger and Tille 2009.
@@ -47,6 +47,5 @@ var_pi(
 )
 }
 \references{
-Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
-Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
+@template Hajek_1964
 }

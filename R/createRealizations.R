@@ -5,7 +5,7 @@
 #' @template y_start
 #' @template y_end
 #' @param buffer The distance from the edge of the grid from which initial samples should not be taken.
-#' @template n.networks A vector giving the number of networks.
+#' @template n_networks
 #' @param n.realizations The number of realizations to create per \code{n.networks}.
 #' @param SpeciesInfo A dataframe of x and y coordinates and associated species information. Should only include plots that have the species of interest.
 #' @param start.seed The initial number used in \code{set.seed}. All subsequent numbers used in set.seed will be incremental after this number. seed = seq(start.seed, start.seed + 2*n.realizations +  sum(n.networks)*n.realizations*2 + 1, by=1)

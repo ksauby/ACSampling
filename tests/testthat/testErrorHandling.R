@@ -160,31 +160,31 @@ test_that("Error Handling - coord", {
      coord <- 1
      expect_silent(handleError_coord(coord))
 })   
-test_that("Error Handling - condition", {
-     condition <- NA
+test_that("Error Handling - criterion", {
+     criterion <- NA
      expect_error(
-          handleError_condition(condition),
-          "The argument 'condition' must be a numeric value.",
+          handleError_criterion(criterion),
+          "The argument 'criterion' must be a numeric value.",
      )
-     condition <- TRUE
+     criterion <- TRUE
      expect_error(
-          handleError_condition(condition),
-          "The argument 'condition' must be a numeric value.",
+          handleError_criterion(criterion),
+          "The argument 'criterion' must be a numeric value.",
      )
-     condition <- "random text"
+     criterion <- "random text"
      expect_error(
-          handleError_condition(condition),
-          "The argument 'condition' must be a numeric value.",
+          handleError_criterion(criterion),
+          "The argument 'criterion' must be a numeric value.",
      )
-     condition <- c(1,3,2)
+     criterion <- c(1,3,2)
      expect_error(
-          handleError_condition(condition),
-          "The argument 'condition' must be a single numeric value.",
+          handleError_criterion(criterion),
+          "The argument 'criterion' must be a single numeric value.",
      )
-     condition <- 10
-     expect_silent(handleError_condition(condition))
-     condition <- 1.2
-     expect_silent(handleError_condition(condition))
+     criterion <- 10
+     expect_silent(handleError_criterion(criterion))
+     criterion <- 1.2
+     expect_silent(handleError_criterion(criterion))
 })
 test_that("Error Handling - LogicalVar", {
      LogicalVar <- NA

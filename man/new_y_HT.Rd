@@ -10,27 +10,21 @@ new_y_HT(
   n1,
   m_threshold,
   pi_i_values = NULL,
-  m = NULL,
+  m_vec = NULL,
   sampling = NULL,
   criterion = NULL
 )
 }
 \arguments{
-\item{y}{Attribute data about species of interest (e.g., abundance, presence/absence).}
+\item{y}{The variable of interest, $y$. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
 
-\item{N}{Population size.}
-
-\item{n1}{Initial sample size.}
-
-\item{m_threshold}{NEEDS DESCRIPTION}
+\item{m_threshold}{threshold value above which to calculate pi_i and pi_j differently.}
 
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 
-\item{m}{Number of units satisfying the ACS criterion in network $i$.}
-
 \item{sampling}{A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.}
 
-\item{criterion}{The threshold value of \code{y} that triggers adaptive cluster sampling.}
+\item{criterion}{Numeric threshold value of \code{yvar} that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 }
 \value{
 The Horvitz-Thompson mean.
@@ -42,21 +36,8 @@ where $v$ is the number of distinct units in the sample and
 $J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.
 }
 \examples{
-# EXAMPLE 4:
-# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
-# Horvitz-Thompson mean times the population size; should equal 38
-new_y_HT(
-    y 		= c(3,6,rep(0, 98)),
-    N 		= 1000, 
-    n1 		= 100, 
-    m 		= c(2,3,rep(1,98)), 
-    sampling = "SRSWOR",
-    criterion =0,
-   m_threshold=2
-)
+@template ex_Thompson2002_2_p_307_values
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 }

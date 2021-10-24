@@ -1,49 +1,67 @@
-#' Create a Restricted Adaptive Cluster Sample, for any step size
+#' Create a Restricted Adaptive Cluster Sample
 #' 
 #' @template popdata
 #' @template seed
 #' @template n1
 #' @template yvar
-#' @template condition
+#' @template criterion
 #' @template f_max
 #' @template initsample
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' popdata = lambdap_5_tau_1
-#' seed=3
-#' n1=5
+#' data(lambdap_10_tau_5)
+#' 
+#' 
+#' popdata = lambdap_10_tau_5
+#' seed = 3
+#' n1 = 5
 #' yvar = "y_value"
 #' f_max = 3
-#' Z = createRACS(
-#' 	popdata = lambdap_5_tau_1, 
-#' 	n1 = n1, 
-#' 	yvar = yvar, 
-#' 	seed = seed, 
-#' 	f_max = f_max
-#' )
-
+#' 
+#' Sampling according to the RACS design
+#' Z = createRACS(popdata, n1, yvar, seed, f_max)
+#' 
+#' In the plot, the open squares correspond to population units that were sampled
+#' cluster sampling was not triggered because no units in the initial sampled
+#' satisfied the criterion
 #' ggplot() +
-#' geom_point(
-#' data=Z, 
-#' aes(x,y, size=factor(y_value), shape=factor(y_value))
-#' ) +
-#' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-#' geom_point(data=Z, aes(x,y), shape = 0, size=7) +
-#' ggtitle("f_max = 1")
-
-#' @template SaubytCitation
+#'     geom_point(
+#'         data=lambdap_10_tau_5, 
+#'         es(x,y, size=y_value, shape=factor(y_value))
+#'     ) +
+#'     scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+#'     geom_point(data=Z, aes(x,y), shape = 0, size=7) +
+#'     ggtitle("f_max = 1")
+#' 
+#' Sampling according to the RACS design
+#' seed = 7
+#' Z = createRACS(popdata, n1, yvar, seed, f_max)
+#' 
+#' In the plot, the open squares correspond to population units that were sampled
+#' cluster sampling was not triggered because no units in the initial sampled
+#' satisfied the criterion
+#' ggplot() +
+#'     geom_point(
+#'         data=lambdap_10_tau_5, 
+#'         es(x,y, size=y_value, shape=factor(y_value))
+#'     ) +
+#'     scale_shape_manual(values=c(1, rep(16, length(2:42)))) +
+#'     geom_point(data=Z, aes(x,y), shape = 0, size=7) +
+#'     ggtitle("f_max = 3")
+#' @references 
+#' @template SaubyCitation
 
 #' @export
 #' @importFrom dplyr everything bind_rows
 
-createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL, f_max=2) {
+createRACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NULL, f_max=2) {
 
      handleError_popdata(popdata)
      handleError_n1(n1)
      handleError_yvar(yvar)
      handleError_seed(seed)
-     handleError_condition(condition)
+     handleError_criterion(criterion)
  
      if (is.numeric(f_max)==TRUE) {
           if (f_max != floor(f_max)) {
@@ -63,17 +81,17 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 			S <- createSRS(popdata, n1)
 			S$step <- 0
 	}
-	# filter out primary samples that satisfy the condition
+	# filter out primary samples that satisfy the criterion
 	Networks <- S %>% 
-		filter(!! sym(yvar) > condition)
-	# if there are units that satisfy the condition, fill in cluster/edge units
+		filter(!! sym(yvar) > criterion)
+	# if there are units that satisfy the criterion, fill in cluster/edge units
 	if (dim(Networks)[1] > 0) {
 		#names(S)[names(S) == yvar] <- 'y_value'
 		#names(popdata)[names(popdata) == yvar] <- 'y_value'
 		# Lists to save data
 		Y = list()
 		Z = list()
-		# step 1: get all neighbors of primary samples matching condition
+		# step 1: get all neighbors of primary samples matching criterion
 		for (i in 1:dim(Networks)[1]) {
                L = Networks[i, ]
                Y[[i]] <- list()
@@ -95,13 +113,13 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
                Y[[i]] <- do.call(bind_rows, Y[[i]])
 		}
 		Z[[1]] <- do.call(bind_rows, Y)
-		# merge neighbors and primary samples matching condition
+		# merge neighbors and primary samples matching criterion
 		Z[[1]]$step <- 1
 		Z[[1]] -> B
 		# steps 2 to f_max
 		if (f_max > 1) {
-          # get all neighbors of c(primary samples matching condition, 
-	     #    neighbors) matching condition
+          # get all neighbors of c(primary samples matching criterion, 
+	     #    neighbors) matching criterion
                for (j in 2:f_max) {
                     last_step = j - 1
                     A <- B %>% filter(.data$step == last_step)
@@ -113,7 +131,7 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
                               ky = A$y[k]
                               # if plot has cacti, survey its neighbors
                               if (dim(popdata %>%
-                                      filter(!!sym(yvar) > condition,
+                                      filter(!!sym(yvar) > criterion,
                                              x == kx,
                                              y == ky))[1] > 0) {
                                    # neighbor to north
@@ -150,13 +168,13 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
                arrange(.data$step)
           # remove duplicates
 		no_duplicates <- sample[!duplicated(sample[, c("x", "y")]), ]
-		# give plots satisfying condition NetworkIDs
+		# give plots satisfying criterion NetworkIDs
 		X = no_duplicates %>% 
-			filter(!! sym(yvar) > condition) %>%
+			filter(!! sym(yvar) > criterion) %>%
 		  	assignNetworkMembership
-		# give primary sample plots not satisfying condition NetworkIDs
+		# give primary sample plots not satisfying criterion NetworkIDs
 		Y = no_duplicates %>% filter(
-			!! sym(yvar) <= condition, 
+			!! sym(yvar) <= criterion, 
 			.data$Sampling=="SRSWOR" | 
 			.data$Sampling=="SRSWR" | 
 			.data$Sampling=="Primary Sample"
@@ -166,12 +184,12 @@ createRACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NULL,
 			to = (max(X$NetworkID) + dim(Y)[1]), 
 			by = 1
 		)
-        # get list of cluster/edge plots not satifying condition
+        # get list of cluster/edge plots not satifying criterion
         Z = no_duplicates %>% filter(
-             !! sym(yvar) <= condition, 
+             !! sym(yvar) <= criterion, 
              is.na(.data$Sampling)
         )
-		# if there are plots not satisfying the condition, make NetworkIDs and m values of Cluster plots not satifying condition "NA"
+		# if there are plots not satisfying the criterion, make NetworkIDs and m values of Cluster plots not satisfying criterion "NA"
 		if (dim(Z)[1] > 0) {
 			Z$NetworkID <- NA
 			Z$Sampling <- "Edge"

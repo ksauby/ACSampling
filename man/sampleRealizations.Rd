@@ -7,7 +7,7 @@
 sampleRealizations(
   popdata,
   sims,
-  n1,
+  n1_vec,
   avar = NULL,
   ovar,
   rvar = NULL,
@@ -30,17 +30,17 @@ sampleRealizations(
 
 \item{sims}{Number of simulations per population.}
 
-\item{n1}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values}
+\item{n1_vec}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values.}
 
-\item{avar}{Vector of variables for which abundance should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
+\item{avar}{The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{ovar}{Vector of variables for which occupancy should be estimated. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
+\item{ovar}{Vector of occupancy variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{rvar}{Vector of variables for which ratio estimators should be used. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
+\item{rvar}{Vector of ratio variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
 \item{SamplingDesign}{Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.}
 
-\item{yvar}{variable upon which adaptive cluster sampling criterion is based}
+\item{yvar}{The variable of interest, $y$, that determines the condition under which adaptive cluster sampling takes place. Must be a numeric value.}
 
 \item{y_HT_formula}{The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.}
 
@@ -66,10 +66,10 @@ sampleRealizations(
 This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
 }
 \examples{
-sims=200
-n1=c(5,10,20,40)
+sims=20
+n1_vec=c(5,10,20,40)
 population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
-avar = NULL
+#' avar = NULL
 ovar = c(
 	"Stricta",
 	"Pusilla",
@@ -80,33 +80,16 @@ ovar = c(
 "MEPR_on_Stricta",
 "Old_Moth_Evidence_Pusilla",
 "Old_Moth_Evidence_Stricta"
-# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
-# "Percent_Cover_Stricta",
-# "Height_Pusilla",
-# "Height_Stricta",
-)		
+)
 data(CactusRealizations)
 popdata = CactusRealizations # WHY IS THERE ISLAND=NA
 simulation_data <- sampleRealizations(
 popdata = popdata,
-	sims = sims, 
-	n1 = n1, 
-	avar = avar, 
+	sims = sims,
+	n1_vec = n1_vec,
+	avar = avar,
 	ovar = ovar,
-popvar="Island", 
+popvar="Island",
 yvar="Cactus"
 )
-# sims=200
-# #n1=c(75,150,225,300,350)
-simulation_data_SRSWOR <- sampleRealizations(
-	popdata = popdata,
-	sims = sims, 
-	n1 = n1, 
-	avar = avar, 
-	ovar = ovar,
-	popvar="Island"
-)
-}
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }

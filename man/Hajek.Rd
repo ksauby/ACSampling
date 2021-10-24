@@ -7,14 +7,13 @@
 Hajek(pi_i, n)
 }
 \arguments{
-\item{pi_i}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
+\item{n}{sample size (an integer value).}
 
-\item{n}{Initial sample size}
+\item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{pi_i}.}
 }
 \description{
 Option for the "var_pi" function.
 }
 \references{
-Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
-Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
+@template Hajek_1964
 }

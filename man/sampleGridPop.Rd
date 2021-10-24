@@ -9,7 +9,7 @@ sampleGridPop(grid, n.networks, cluster.centers, seed)
 \arguments{
 \item{grid}{A dataframe of x and y coordinates (can be created with \code{createPop}).}
 
-\item{n.networks}{Initial sample size that determines the relative density of the species.}
+\item{n.networks}{The number of networks to be placed in the realization.}
 
 \item{cluster.centers}{Dataframe including x and y coordinates and network IDs for the centers of clusters.}
 
@@ -31,7 +31,4 @@ cluster.centers = filter(cluster.info, Rel_x==0 & Rel_y==0) \%>\%
 dplyr::select(-c(x,y))
 seed = 1:2
 sampleGridPop(grid, n.networks, cluster.centers, seed)
-}
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }

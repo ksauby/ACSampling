@@ -1,6 +1,8 @@
 #' Calculate the variance of the Horvitz-Thompson estimator of the mean
 #' @template pi_i_values
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @template y_total
 #'
 #' @references 
@@ -63,7 +65,9 @@ var_y_HT <- function(N, n1, m_vec, y_total, pi_i_values=NULL) {
 
 
 #' Calculate the variance of the Horvitz-Thompson estimator of the mean using the RACS correction
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @template y_total
 #' @template pi_i_values
 #' @template m_threshold

@@ -4,7 +4,7 @@
 \alias{summarizeNetworkInfo}
 \title{Calculate the number of units per network and the unit inclusion probability for each network FOR A SINGLE POPULATION}
 \usage{
-summarizeNetworkInfo(popdata, vars, groupvar = NULL, n1, mvar)
+summarizeNetworkInfo(popdata, vars, groupvar = NULL, n1_vec, mvar)
 }
 \arguments{
 \item{popdata}{population data.}
@@ -13,7 +13,7 @@ summarizeNetworkInfo(popdata, vars, groupvar = NULL, n1, mvar)
 
 \item{groupvar}{categories that group networks}
 
-\item{n1}{Size(s) of the initial simple random sample(s) without replacement. Can be a single value or a vector values.}
+\item{n1_vec}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values.}
 
 \item{mvar}{The variable on which the ACS sampling criterion is based}
 }
@@ -22,7 +22,4 @@ The population data (one row per cell of each population), with additional colum
 }
 \description{
 The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
-}
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }

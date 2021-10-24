@@ -26,6 +26,19 @@ estim_pi_i(
 
 \item{f_max}{NEED DESCRIPTION HERE}
 }
+\value{
+Returns a dataframe with the following columns:
+realization
+n.networks
+N.SRSWOR.plots
+SamplingDesign
+simulations
+coords
+mean_m
+max_m
+min_m
+median_m
+}
 \description{
 Calculate inclusion probabilities for each unit in a realization using simulations.
 }

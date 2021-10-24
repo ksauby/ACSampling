@@ -4,21 +4,17 @@
 \alias{var_y_HT}
 \title{Calculate the variance of the Horvitz-Thompson estimator of the mean}
 \usage{
-var_y_HT(N, n1, m, y, pi_i_values = NULL)
+var_y_HT(N, n1, m_vec, y_total, pi_i_values = NULL)
 }
 \arguments{
-\item{N}{Population size}
-
-\item{n1}{Initial sample size}
-
-\item{m}{Vector of $m$, each corresponding to a unique network.}
-
-\item{y}{Vector of $y$ total, each corresponding to a unique network.}
+\item{y_total}{Vector of $y$ total, each corresponding to a unique network.}
 
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 }
 \description{
 Calculate the variance of the Horvitz-Thompson estimator of the mean
+
+Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 }
 \examples{
 library(ggplot2)
@@ -59,7 +55,5 @@ var_y_HT(
 )
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 }

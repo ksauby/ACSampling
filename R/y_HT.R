@@ -1,7 +1,9 @@
 #' Calculate the Horvitz-Thompson mean of an adaptive cluster sample.
 #' 
 #' @template pi_i_values
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @template y
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
 #' @template criterion
@@ -60,8 +62,8 @@
 #' # data(cactus_realizations)
 #' # realization = cactus_realizations %>% filter(n.networks==40)
 
-#' @template example_Thompson2002_2_p_307
-
+#' @template ex_Thompson2002_2_p_307_values
+#' @template ex_Thompson2002_2_p_307_y_HT
 #' @export
 
 y_HT <- function(y, N, n1, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterion=NULL) {
@@ -84,7 +86,9 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterio
 #' Calculate the Horvitz-Thompson mean of an adaptive cluster sample, NEW FORMULA.
 #' 
 #' @template pi_i_values
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @template y
 #' @param sampling A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.
 #' @template criterion
@@ -100,8 +104,7 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterio
 #' @template Thompson1990
 #'
 #' @export
-#' @examples 
-#' @template ex_Thompson2002_2_p_307_values
+#' @examples @template ex_Thompson2002_2_p_307_values
 #' @template ex_Thompson2002_2_p_307_y_HT
 
 new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterion=NULL) {

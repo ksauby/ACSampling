@@ -1,11 +1,12 @@
 #' Calculate the variance of R hat
 #' 
 #' @template y
-#' @param x Auxiliary data about object of interest y.
-#' @template N_n1_m_vec
+#' @template x
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @template replace
-#' @examples
-#' @template ex_Thompson2002_p_78
+#' @examples @template ex_Thompson2002_p_78
 #' @export
 
 

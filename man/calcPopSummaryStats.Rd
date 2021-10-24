@@ -19,11 +19,11 @@ calcPopSummaryStats(
 
 \item{summaryvar}{Vector of variables for which summary statistics should be calculated.}
 
-\item{rvar}{Vector of variables for which ratio estimators should be used.}
+\item{rvar}{Vector of ratio variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{popgroupvar}{String identifying the categorical variable identifying the different populations.}
+\item{popgroupvar}{Categorical variable used to identify different populations.}
 
-\item{spatweights}{Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
+\item{spatweights}{Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See \code{nb2listw} for more details.}
 
 \item{nrow}{the number of rows in the grid that creates the population}
 

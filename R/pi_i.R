@@ -1,5 +1,7 @@
 #' Calculate the inclusion probabilities of units in a simple random sample without replacement. 
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @return vector of inclusion probabilities
 
 #' @examples 
@@ -28,7 +30,9 @@ pi_i <- function(N, n1, m_vec) {
 }
 
 #' Calculate the inclusion probabilities of units in a simple random sample with replacement. 
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @return vector of inclusion probabilities
 
 pi_i_replace <- function(N, n1, m_vec) {

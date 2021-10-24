@@ -1,1 +1,1 @@
-#' @param initsample Optional. A data frame that includes geographic coordinate columns \code{x} and \code{y} of an the initial sample. The defaults is \code{NA}, which results in the initial sample being selected according to simple random sampling without replacement.
+#' @param x A vector of values for variable $x$, which is auxiliary data about the variable of interest $y$.

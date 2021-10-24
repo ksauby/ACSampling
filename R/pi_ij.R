@@ -1,5 +1,7 @@
 #' Calculate joint inclusion probability of unit $j$ and $h$
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @examples 
 #' # Thompson sampling book, ch. 24 exercises, p. 307, number 2
 #' library(magrittr)
@@ -25,7 +27,9 @@ pi_ij <- function(N, n1, m_vec) {
 }
 
 #' Calculate joint inclusion probability of unit $j$ and $h$, using the RACS correction
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @template m_threshold
 #' @template SaubyCitation
 #' @export
@@ -61,7 +65,9 @@ pi_ij_RACS <- function(N, n1, m_vec, m_threshold) {
 }
 
 #' Calculate joint inclusion probability of unit $j$ and $h$ when sampling occurs with replacement
-#' @template N_n1_m_vec
+#' @template N
+#' @template n1
+#' @template m_vec
 #' @export
 
 pi_ij_replace <- function(N, n1, m_vec) {

@@ -38,12 +38,12 @@ handleError_n1vector <- function(n1) {
 }
 
 # must be a number
-handleError_condition <- function(condition) {
-     if (is.numeric(condition) == FALSE) {
-          stop("The argument 'condition' must be a numeric value.",
+handleError_criterion <- function(criterion) {
+     if (is.numeric(criterion) == FALSE) {
+          stop("The argument 'criterion' must be a numeric value.",
                call. = FALSE)
-     } else if (length(condition) > 1) {
-          stop("The argument 'condition' must be a single numeric value.",
+     } else if (length(criterion) > 1) {
+          stop("The argument 'criterion' must be a single numeric value.",
                call. = FALSE)
      }
 }

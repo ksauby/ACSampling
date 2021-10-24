@@ -1,10 +1,10 @@
-#' Create an Adaptive Cluster Sample.
+#' Create an Adaptive Cluster Sample
 #'
 #' @template popdata
 #' @template seed
 #' @template n1
 #' @template yvar
-#' @template condition
+#' @template criterion
 #' @template initsample
 
 #' @return A restricted adaptive cluster sample.
@@ -14,40 +14,61 @@
 #' data(Thompson1990Fig1Pop)
 #' data(Thompson1990Figure1Sample)
 #' 
-#' # Initiate ACS
-#' Z = createACS(popdata=Thompson1990Fig1Pop, seed=9, n1=10, yvar="y_value", condition=0)
+#' # Create ACS sample, seed=9
+#' # - in the dataframe "Thompson1990Fig1Pop", the variable of interest $y$ is "y_value"
+#' # - any "y_value" greater than the criterion 0 will trigger cluster sampling
+#' Z = createACS(
+#'    popdata=Thompson1990Fig1Pop, 
+#'    seed=9, 
+#'    n1=10, 
+#'    yvar="y_value", 
+#'    criterion=0
+#' )
 #' 
-#' # plot ACS sample overlaid onto population
+#' # plot ACS sample and population from which sampled was collected
 #' ggplot() +
-#' 	geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
-#' 		shape=factor(y_value))) +
-#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)
-#' # Initiate ACS, different seed
-#' Z = createACS(popdata=Thompson1990Fig1Pop, seed=26, n1=10, yvar="y_value", 
-#'   condition=0)
+#'    geom_point(
+#' 	 data=Thompson1990Fig1Pop, 
+#' 	 aes(x, y, size=y_value,shape=factor(y_value))
+#' ) +
+#' 	 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+#' 	 geom_point(data=Z, aes(x,y), shape=0, size=7)
+#' 	 
+#' # Create another ACS, seed=26
+#' # - In this example, no units satisfy the criterion and thus cluster sampling
+#' # does not occur
+#' Z = createACS(
+#'    popdata=Thompson1990Fig1Pop, 
+#'    seed=26, 
+#'    n1=10, 
+#'    yvar="y_value", 
+#'   criterion=0
+#' )
 #' 
-#' # plot ACS sample overlaid onto population
+#' # plot ACS sample and population from which sampled was collected
 #' ggplot() +
-#'   geom_point(data=Thompson1990Fig1Pop, aes(x,y, size=factor(y_value),
-#' 		shape=factor(y_value))) +
+#'   geom_point(
+#'      data=Thompson1990Fig1Pop, 
+#'      aes(x, y, size=factor(y_value), shape=factor(y_value))
+#'   ) +
 #' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' 	geom_point(data=Z, aes(x,y), shape=0, size=7)
 
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships.
+#' @references
+#' @template Thompson1990
 
 #' @export
 #' @importFrom stringr str_pad
 #' @importFrom dplyr filter rowwise
 #' @importFrom ggplot2 ggplot
 
-createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
+createACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NA) {
 
      handleError_popdata(popdata)
      handleError_n1(n1)
      handleError_yvar(yvar)
      handleError_seed(seed)
-     handleError_condition(condition)
+     handleError_criterion(criterion)
      
 	YVAR <- sym(yvar)
 	. <- Sampling <- y_val <- NULL
@@ -62,8 +83,8 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 	Z = popdata %>%
 		dplyr::filter(.data$NetworkID %in% S$NetworkID) %>%
 		merge(S, all.x=T)
-	Networks = Z %>% filter(!!YVAR > condition)
-	# if there are units that satisfy the condition, fill in edge units
+	Networks = Z %>% filter(!!YVAR > criterion)
+	# if there are units that satisfy the criterion, fill in edge units
 	if (dim(Networks)[1] > 0) {
 		if (dim(Z[which(is.na(Z$Sampling)), ])[1] > 0) {
 			Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
@@ -148,7 +169,7 @@ createACS <- function(popdata, n1, yvar, condition=0, seed=NA, initsample=NA) {
 			arrange()
 		return(ZZ)
 	} else {
-		# if there are NO units that satisfy the condition, stop here and return the SRSWOR sample
+		# if there are NO units that satisfy the criterion, stop here and return the SRSWOR sample
 		return(Z)
 	}
 }

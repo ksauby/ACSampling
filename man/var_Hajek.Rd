@@ -7,9 +7,9 @@
 var_Hajek(n, y, pi_i_values)
 }
 \arguments{
-\item{n}{sample size}
+\item{n}{sample size (an integer value).}
 
-\item{y}{Vector of $y$ values.}
+\item{y}{Vector of values observed for the variable of interest, $y$.}
 
 \item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{pi_i}.}
 }

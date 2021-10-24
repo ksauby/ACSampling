@@ -3,7 +3,7 @@
 #' @param popdata Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
 #' @param summaryvar Vector of variables for which summary statistics should be calculated.
 #' @template popgroupvar
-#' @param rvar
+#' @template rvar
 #' @param spatweights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See \code{nb2listw} for more details.
 #' @param nrow the number of rows in the grid that creates the population
 #' @param ncol the number of columns in the grid that creates the population

@@ -7,7 +7,7 @@
 createPop(x_start, x_end, y_start, y_end)
 }
 \arguments{
-\item{x_start}{The most western coordinate of the grid.}
+\item{x_start}{The most western coordinate of the grid}
 
 \item{x_end}{The most eastern coordinate of the grid.}
 
@@ -20,4 +20,12 @@ A grid of locations with coordinates (x, y).
 }
 \description{
 Create a population of locations (in a grid).
+}
+\examples{
+population <- createPop(
+x_start = 5, 
+x_end = 27, 
+y_start = 5, 
+y_end = 27
+)
 }

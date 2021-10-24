@@ -4,18 +4,12 @@
 \alias{var_R_hat}
 \title{Calculate the variance of R hat}
 \usage{
-var_R_hat(y, x, N, n1, m, replace = "FALSE")
+var_R_hat(y, x, N, n1, m_vec, replace = "FALSE")
 }
 \arguments{
-\item{y}{Attribute data about object of interest y (e.g., abundance, presence/absence).}
+\item{y}{The variable of interest, $y$. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
 
-\item{x}{Auxiliary data about object of interest y.}
-
-\item{N}{Population size.}
-
-\item{n1}{Initial sample size.}
-
-\item{m}{Number of units satisfying the ACS criterion in network $i$.}
+\item{x}{A vector of values for variable $x$, which is auxiliary data about the variable of interest $y$.}
 
 \item{replace}{Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.}
 }
@@ -23,12 +17,5 @@ var_R_hat(y, x, N, n1, m, replace = "FALSE")
 Calculate the variance of R hat
 }
 \examples{
-# Example from Thompson (2002), p. 78-79
-N = 100
-n1 = 4
-y = c(60, 60, 14, 1)
-x = c(1, 1, 1, 1)
-m = c(5, 5, 2, 1)
-R_hat(y, x, N, n1, m, replace="TRUE")
-var_R_hat(y, x, N, n1, m)
+@template ex_Thompson2002_p_78
 }

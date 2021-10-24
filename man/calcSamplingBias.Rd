@@ -19,15 +19,15 @@ calcSamplingBias(
 
 \item{simdata}{Simulation data on sampling of the multiple patch realizations.}
 
-\item{popgroupvar}{Categorical variables with which to group the population data (e.g., artificial population number if there are more than 1)}
+\item{popgroupvar}{Categorical variable used to identify different populations.}
 
-\item{samplinggroupvar}{Categorical variables with which to group the simulation data (e.g., sampling design used, number of primary samples).}
+\item{samplinggroupvar}{Categorical variable used to identify different samples.}
 
-\item{ovar}{Vector of variables for which sampling bias should be estimated.}
+\item{ovar}{Vector of occupancy variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{orvar}{Vector of variables for which secondary variables should be estimated. Can be identical to ovar or a subset.}
+\item{orvar}{Vector of variables for which secondary variables should be estimated. Can be identical to \code{ovar} or a subset.}
 
-\item{rvar}{Variables for which to use ratio estimators}
+\item{rvar}{Vector of ratio variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 }
 \value{
 Dataframe including simulation data summary statistics, including relative bias and mean squared error (MSE) of the mean and variance.

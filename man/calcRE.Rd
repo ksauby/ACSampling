@@ -18,13 +18,13 @@ calcRE(
 
 \item{popdata}{Dataframe of population data.}
 
-\item{popgroupvar}{Categorical variables identifying the patch realization from which the simulation data was generated (e.g., \code{n.networks} and \code{realization}). WHAT ELSE}
+\item{popgroupvar}{Categorical variable used to identify different populations.}
 
 \item{samplesizevar}{Name of column in population data (?) containing the variable indicating variation in sample size.}
 
-\item{rvar}{Ratio variables.}
+\item{rvar}{Vector of ratio variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{ovar}{Occupancy variables.}
+\item{ovar}{Vector of occupancy variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 }
 \value{
 Dataframe including original data and RE estimates.

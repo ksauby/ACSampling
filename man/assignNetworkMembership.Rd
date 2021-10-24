@@ -7,7 +7,7 @@
 assignNetworkMembership(popdata, plot.size = 1)
 }
 \arguments{
-\item{popdata}{A data.frame containing information about a population;  at a minimum it should contain columns "x" and "y,"  denoting the x and y coordinates, respectively, of the locations of the population of interest.}
+\item{popdata}{A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.}
 
 \item{plot.size}{The length and width of plots, in coordinate units. Defaults to 1.}
 }
@@ -38,7 +38,4 @@ ggplot(
 	aes(x,y, size=y_value, shape=factor(NetworkID))
 ) + geom_point()
 # coordinates should be given as x and y
-}
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 }

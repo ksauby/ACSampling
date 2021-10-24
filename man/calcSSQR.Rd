@@ -11,7 +11,7 @@ calcSSQR(popdata, variable, popgroupvar = NA)
 
 \item{variable}{Variable for which to calculate SSQr.}
 
-\item{popgroupvar}{If more than one population is included in the \code{popdata}, this identifies individual populations. If the dataset contains only one population, set popgroupvar = NA}
+\item{popgroupvar}{Categorical variable used to identify different populations.}
 }
 \value{
 Dataframe including original data and RE estimates.

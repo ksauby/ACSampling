@@ -3,17 +3,17 @@
 createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
      if (SamplingDesign=="ACS") {
           alldata <- createACS(
-               popdata=P, seed=temp_seed, n1=n1, yvar=yvar)
+               popdata=popdata, seed=seed, n1=n1, yvar=yvar)
      } else if (SamplingDesign=="RACS") {
           alldata <- createRACS(
-               popdata=P, seed=temp_seed, n1=n1, yvar=yvar, f_max=f_max)
+               popdata=popdata, seed=seed, n1=n1, yvar=yvar, f_max=f_max)
      } else if (SamplingDesign=="SRS") {
           alldata <- createSRS(
-               popdata=P, seed=temp_seed, n1=n1)
+               popdata=popdata, seed=seed, n1=n1)
      }
 }
 
-calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, mThreshold, y_HT_formula) {
+calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula) {
      # summarise data for mean calculations
      O <- alldata %>% 
           filter(Sampling!="Edge") %>%
@@ -100,9 +100,9 @@ calc_rvar_MultipleVars <- function(alldata, rvar, ovar, N, n1) {
                                       str_sub(rvar[l],-7,-1), sep="")))
           tempdat$Var1 = R_hat(
                y = y, x = x, N = N, n1 = n1, 
-               m = R_smd$m)
+               m_vec = R_smd$m)
           tempdat$Var2 = var_R_hat(
-               y=y, x=x, N=N, n1=n1, m=R_smd$m)
+               y=y, x=x, N=N, n1=n1, m_vec=R_smd$m)
           names(tempdat)[ 
                (dim(tempdat)[2] - 1) : 
                     dim(tempdat)[2]
@@ -164,15 +164,15 @@ fillSpatStatsNA <- function(alldata_all, weights) {
      return(tempdat)
 }
 
-calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
+calcRatioEst <- function(dataset, dataset_results, rvar, N, n1, m_vec) {
      y = dataset[, rvar]
      x = dataset[, str_sub(rvar,-7,-1)]
      # equal P(inclusion) for all
      # m = rep(1, length(y))
-     m = dataset$m
-     dataset_results$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m=m)
+     m_vec = dataset$m_vec
+     dataset_results$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
      
-     dataset_results$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m=m)
+     dataset_results$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
      names(dataset_results)[(dim(dataset_results)[2]-1): dim(dataset_results)[2]] <- 
           c(paste(rvar, "RMeanObs", sep=""),
             paste(rvar, "RVarObs", sep=""))
@@ -187,12 +187,9 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 #' @param popdata patch realizations
 #' @param sims Number of simulations per population.
 #' @template n1_vec
-#' @template avar 
-#' The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
-#' @template ovar Vector of variables for which occupancy should be estimated. 
-#' The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
+#' @template avar
+#' @template ovar
 #' @template rvar
-#' The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.
 #' @param SamplingDesign Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.
 #' @param y_HT_formula The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.
 #' @param var_formula The formula used to estimate the variance of the population total: either the Horvitz-Thompson variance estimator, 'var_y_HT', or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." Defaults to "var_y_HT".
@@ -216,7 +213,7 @@ calcRatioEst <- function(dataset, dataset_results, rvar, N, n1) {
 #' @import sp
  
 #' @export
-#' #' @examples
+#' @examples
 #' sims=20
 #' n1_vec=c(5,10,20,40)
 #' population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
@@ -387,7 +384,7 @@ sampleRealizations <- function(
 					          dataset <- eval(parse(text=dats[[n]]))
 					          dataset_results <- data.frame(Var1 = NA)
 					          for (l in 1:length(rvar)) {
-					               calcRatioEst(dataset, dataset_results, rvar[l], y, x, N, n1, m)
+					               calcRatioEst(dataset, dataset_results, rvar[l], N, n1, m)
 					          }
 					     }
 					     SmpR <- do.call(rbind.data.frame, Ratio)

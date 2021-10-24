@@ -4,22 +4,24 @@
 \alias{y_HT}
 \title{Calculate the Horvitz-Thompson mean of an adaptive cluster sample.}
 \usage{
-y_HT(y, N, n1, pi_i_values = NULL, m = NULL, sampling = NULL, criterion = NULL)
+y_HT(
+  y,
+  N,
+  n1,
+  pi_i_values = NULL,
+  m_vec = NULL,
+  sampling = NULL,
+  criterion = NULL
+)
 }
 \arguments{
-\item{y}{Attribute data about species of interest (e.g., abundance, presence/absence).}
+\item{y}{The variable of interest, $y$. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
 
-\item{N}{Population size.}
-
-\item{n1}{Initial sample size.}
-
-\item{pi_i_values}{vector of inclusion probabilities; if not provided, this function calculates them. Default is \code{NULL}.}
-
-\item{m}{Number of units satisfying the ACS criterion in network $i$.}
+\item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 
 \item{sampling}{A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.}
 
-\item{criterion}{The threshold value of \code{y} that triggers adaptive cluster sampling.}
+\item{criterion}{Numeric threshold value of \code{yvar} that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 }
 \value{
 The Horvitz-Thompson mean.
@@ -48,49 +50,13 @@ ggplot() +
 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	geom_point(data=Thompson1990Figure1Sample, aes(x,y), shape=0, size=7)
 
-# REPLACE WITH CREATEACS FUNCTION
-
-# INITIATE ACS
-# assign species information to units in the initial sample
-S = merge(
-	Thompson1990Fig1Pop,
-	Thompson1990Figure1Sample, 
-	all.y=TRUE
-)
-
-Z = list()  					
-S$Sampling <- "Initial_Sample"
-# add the rest of the units for each network in the initial sample
-Z = rbind.fill(S, Thompson1990Fig1Pop \%>\% 
-	filter(Thompson1990Fig1Pop$NetworkID \%in\% S$NetworkID))
-Z[which(is.na(Z$Sampling)), ]$Sampling <- "Cluster"
-Networks = filter(Z, y_value > 0)
-# fill in edge units
-E = as.data.frame(cbind(
-	x = rowSums(expand.grid(Networks$x, c(1,-1,0,0))),
-	y = rowSums(expand.grid(Networks$y, c(0,0,1,-1)))
-)) \%>\% 
-mutate(Sampling="Edge")
-# remove duplicate units
-Z \%<>\% rbind.fill(E) \%>\%
-mutate(temp_coords = paste(x, y, sep=""))
-Z =  Z[!duplicated(Z$temp_coords),]
-Z \%<>\% dplyr::select(-temp_coords)
-# fill in y_value
-Z[which(is.na(Z$y_value)), ]$y_value <- 0
-# fill in m
-Z[which(Z$y_value==0 & Z$Sampling=="Edge"), ]$m <- 0
-
-	N = dim(Thompson1990Fig1Pop)[1] 
-	n1 = dim(Thompson1990Figure1Sample)[1]
-	m = Z$m
-	y = Z$y_value
-	sampling = Z$Sampling
-	criterion=0
+Z <- createACS(popdata=Thompson1990Fig1Pop, 
+n1=dim(Thompson1990Figure1Sample)[1], yvar="y_value", 
+initsample=Thompson1990Figure1Sample)
 # CALCULATE y_HT
 y_HT(
-	N = N, 
-	n1 = n1,
+	N = dim(Thompson1990Fig1Pop)[1], 
+	n1 = dim(Thompson1990Figure1Sample)[1],
 	m = m, 
 	y = y, 
 	sampling = Z$Sampling,
@@ -113,20 +79,7 @@ summarise(
 # EXAMPLE 3: 
 # data(cactus_realizations)
 # realization = cactus_realizations \%>\% filter(n.networks==40)
-# EXAMPLE 4:
-# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
-# Horvitz-Thompson mean times the population size; should equal 38
-y_HT(
-    N 		= 1000, 
-    n1 		= 100, 
-    m 		= c(2,3,rep(1,98)), 
-    y 		= c(3,6,rep(0, 98)),
-    sampling = "SRSWOR",
-    criterion =0
-)*1000 \%>\% round(0)
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
+@template Thompson1990
 }

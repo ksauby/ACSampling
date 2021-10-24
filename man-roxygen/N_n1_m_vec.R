@@ -1,4 +1,3 @@
 #' @template N
-#' @template n1
-#' @template m_vec
-#' 
+#' @param N Population size.
+#' @param m_vec Vector of values $m$ for the set of units in a sample, of length $n1$. Each $m$ value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network $i$ to which the unit belongs.

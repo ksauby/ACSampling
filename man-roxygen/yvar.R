@@ -1,1 +1,1 @@
-#' @param yvar The variable of interest, $y$, that determines the condition under which adaptive cluster sampling takes place. Must be a numeric value.
+#' @param yvar A string giving the name of the variable of interest, $y$, in the supplied dataframe $popdata$. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable $y$ must be numeric.
