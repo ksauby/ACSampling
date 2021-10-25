@@ -45,3 +45,128 @@ test_that("createNetworkCenters", {
           ACSampling:::createNetworkCenters(popdata2)
      )
 })
+test_that("createNetworks", {
+        popdata <- data.frame(
+                NetworkID = c(rep(1,8),2),
+                x = c(2,2,3,3,3,3,4,4, 1),
+                y = c(1,2,1,2,3,4,2,4, 5)
+        )
+        popdata2 <- data.frame(
+                x = c(2,2,3,3,3,3,4,4, 1),
+                y = c(1,2,1,2,3,4,2,4, 5)
+        )
+        NetworksManual <- data.frame(
+                NetworkID = c(rep(1,8), 2),
+                x = c(2,2,3,3,3,3,4,4, 1),
+                y = c(1,2,1,2,3,4,2,4, 5),
+                m = c(rep(8,8), 1),
+                Center_x = c(rep(3,8), 1),
+                Center_y = c(rep(2, 8), 5),
+                Rel_x = c(-1,-1,0,0,0,0,1,1,0),
+                Rel_y = c(-1,0,-1,0,1,2,0,2,0)
+        )
+        expect_equal(
+                ACSampling:::createNetworks(popdata2),
+                NetworksManual
+        )
+        expect_error(
+                ACSampling:::createNetworkCenters(popdata2)
+        )
+        expect_equal(
+                ACSampling:::createNetworkCenters(popdata),
+                tibble::tibble(NetworkID=c(1,2), Center_x=c(3,1), Center_y=c(2,5))
+        )
+})
+test_that("createRealizations", {0
+     
+     n.networks = c(1,2,3)
+     n.realizations = 1
+     SpeciesInfo <- Thompson1990Fig1Pop %>% 
+          filter(m > 1)
+     variables = "y_value"
+     buffer=5
+     start.seed=1
+     expect_error(
+          createRealizations("A",5,1,5,buffer,n.networks, 
+                             n.realizations,SpeciesInfo,start.seed,variables),
+          "A non-numeric value was passed to one of the coordinate arguments. Please provide a number."
+     )
+     expect_error(
+          createRealizations(1, "A",1,5,buffer,n.networks, 
+                             n.realizations,SpeciesInfo,start.seed,variables),
+          "A non-numeric value was passed to one of the coordinate arguments. Please provide a number."
+     )
+     expect_error(
+          createRealizations(1,5,"A",5,buffer,n.networks, 
+                             n.realizations,SpeciesInfo,start.seed,variables),
+          "A non-numeric value was passed to one of the coordinate arguments. Please provide a number."
+     )
+     expect_error(
+          createRealizations(1,5,1,"A",buffer,n.networks, 
+                             n.realizations,SpeciesInfo,start.seed,variables),
+          "A non-numeric value was passed to one of the coordinate arguments. Please provide a number."
+     )
+})
+test_that("sampleGridPop", {
+        
+     popdata2 <- data.frame(
+          x = c(1,1,1,2,2,2,3,3,3),
+          y = c(1,2,3,1,2,3,1,2,3)
+     )
+     seed <- c(1,5)
+     cluster.centers <- c(1,2,3,4)
+     n.networks = 2
+     fakeGridPop <- data.frame(
+          x = c(3, 2),
+          y = c(3, 1),
+          loc.selection.seed = 1,
+          network.selection.seed = 5,
+          NetworkID = c(2,3)
+     )
+     row.names(fakeGridPop) <- NULL
+     fromFunction <- sampleGridPop(grid=popdata2, n.networks, cluster.centers, seed)
+     row.names(fromFunction) <- NULL
+     expect_equal(
+          fromFunction,
+          fakeGridPop 
+     )
+})
+test_that("rotateCluster", {
+        
+        
+        ClusterExampleData <- data.frame(
+                NetworkID=1,
+                x=c(rep(12,3),rep(11,3)),
+                y=c(21,22,23,21,22,23),
+                m=6,
+                y_value=c(2,11,2,5,13,3),
+                Center_x=6,
+                Center_y=20,
+                Rel_x=c(-1,0,1,-1,0,1),
+                Rel_y=c(-1,-1,-1,0,0,0),
+                rotation.seed=2008,
+                rotation=90
+        )
+        seed=5 # rotation will end up being 270
+        Sx=10
+        Sy=20
+        ClusterExampleDataManualOutput <- data.frame(
+                NetworkID=1,
+                x=c(rep(11,3),rep(10,3)),
+                y=c(19,20,21,19,20,21),
+                m=6,
+                y_value=c(2,11,2,5,13,3),
+                Center_x=6,
+                Center_y=20,
+                Rel_x=c(-1,0,1,-1,0,1),
+                Rel_y=c(-1,-1,-1,0,0,0),
+                rotation.seed=5,
+                rotation=90
+        )
+        
+        expect_equal(
+                ClusterExampleDataManualOutput,
+                rotateCluster(ClusterExampleData, seed, Sx, Sy)
+        )
+        
+})

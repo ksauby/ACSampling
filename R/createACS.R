@@ -9,9 +9,7 @@
 
 #' @return A restricted adaptive cluster sample.
 
-#' @examples
 #' @template samp_load_ggplot_Thompson1990fig
-#' 
 #' # Create ACS sample, seed=9
 #' @template samp_Thompson1990fig_n110
 #' Z = createACS(popdata, seed, n1, yvar, criterion)
