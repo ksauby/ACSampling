@@ -72,10 +72,9 @@ calc_var_y_HT_MultipleVars <- function(alldata, OAVAR, var_formula, N, n1) {
      }
 }
 
-calc_rvar_MultipleVars <- function(alldata, rvar, ovar, N, n1) {
+createSummaryforVarCalcs <- function(alldata, rvar, ovar) {
      rovar <- c(rvar, ovar)
      ROVAR <- syms(rovar)
-     # RATIO
      # summarise data for variance calculations
      mvals <- alldata %>%
           group_by(NetworkID) %>%
@@ -90,11 +89,13 @@ calc_rvar_MultipleVars <- function(alldata, rvar, ovar, N, n1) {
                na.rm = T
           ) %>%
           merge(mvals, by="NetworkID")
+}
+
+calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
      # summarise data for mean calculations
      tempdat <- data.frame(Var1 = NA)
      for (l in 1:length(rvar)) {
-          y = eval(parse(text=paste("R_smd$", rvar[l], 
-                                    sep="")))
+          y = eval(parse(text=paste("R_smd$", rvar[l], sep="")))
           x = eval(parse(text = paste("R_smd$",
                                       # GENERALIZE THIS 
                                       str_sub(rvar[l],-7,-1), sep="")))
@@ -404,8 +405,9 @@ sampleRealizations <- function(
 					)
 					# RATIO DATA
 					if (!(is.null(rvar))) {
+					     R_smd <- createSummaryforVarCalcs(alldata, rvar, ovar)
 					     HT_results[[3]] <- calc_rvar_MultipleVars(
-					          alldata, rvar, ovar, N, n1)
+					          R_smd, rvar, ovar, N, n1)
 					}
 					# merge together			
 					All_HT <- HT_results %>% 

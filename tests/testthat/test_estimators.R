@@ -179,12 +179,18 @@ test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {
 
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 	# Thompson (2002), Example 2, p. 78-79
-	# I get 17.6854 if I round(pi_ij_values, 4) and round(y_hat, 2)
+     y = c(60, 60, 14, 1) 
+     x = c(1, 1, 1) 
+     N = 100 
+     n1 = 4
+     m = c(5, 5, 2, 1)
+     pi_i = 1 - (1 - m/N)^n1
+     
+     intermed <- data.frame(y, pi_i) %>%
+          .[!duplicated(.),]
+
 	expect_equal(
 		round(
-		     
-		     # ERROR SAYS N1 IS NOT AN INTEGER
-		     
 			R_hat(
 				y = c(60, 14, 1), 
 				x = c(1, 1, 1), 
@@ -194,9 +200,21 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 				replace="TRUE"
 			), 2
 		),
-		12.12
+		round(
+		     sum(intermed$y/intermed$pi_i)/sum(1/intermed$pi_i),
+		     2
+		)
 	)
 })
+
+# test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
+     # Thompson (2002), Example 2, p. 78-79
+    
+
+
+
+
+
 test_that("var_R_hat, with replacement", {
 	# Thompson (2002), Example 2, p. 78-79
 	expect_equal(
