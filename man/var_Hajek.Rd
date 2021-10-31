@@ -11,7 +11,7 @@ var_Hajek(n, y, pi_i_values)
 
 \item{y}{Vector of values observed for the variable of interest, $y$.}
 
-\item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{pi_i}.}
+\item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 }
 \description{
 Variance estimator free of joint inclusion probability calculations for unequal probability sampling, Hajek

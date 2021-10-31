@@ -2,7 +2,7 @@
 % Please edit documentation in R/createACS.R
 \name{createACS}
 \alias{createACS}
-\title{Create an Adaptive Cluster Sample.}
+\title{Create an Adaptive Cluster Sample}
 \usage{
 createACS(popdata, n1, yvar, criterion = 0, seed = NA, initsample = NA)
 }
@@ -11,43 +11,49 @@ createACS(popdata, n1, yvar, criterion = 0, seed = NA, initsample = NA)
 
 \item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
 
-\item{yvar}{The variable of interest, $y$, that determines the condition under which adaptive cluster sampling takes place. Must be a numeric value.}
+\item{yvar}{A string giving the name of the variable of interest, $y$, in the supplied dataframe $popdata$. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable $y$ must be numeric.}
 
-\item{criterion}{Numeric threshold value of \code{yvar} that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
+\item{criterion}{Numeric threshold value of the variable of interest $y$ (whose name in the dataframe $popdata$ is supplied via the \code{yvar} argument) that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 
-\item{seed}{Optional. A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible.}
+\item{seed}{Optional. An integer to feed to \code{set.seed()} so that the sampling is reproducible.}
 
-\item{initsample}{Optional. A data frame that includes geographic coordinate columns \code{x} and \code{y} of an the initial sample. The defaults is \code{NA}, which results in the initial sample being selected according to simple random sampling without replacement.}
+\item{initsample}{Optional. A data frame that includes geographic coordinate columns \code{x} and \code{y} of the initial sample. The defaults is \code{NA}, which results in the initial sample being selected according to simple random sampling without replacement.}
 }
 \value{
 A restricted adaptive cluster sample.
 }
 \description{
-Create an Adaptive Cluster Sample.
+Create an Adaptive Cluster Sample
+
+Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 }
 \examples{
 library(ggplot2)
 data(Thompson1990Fig1Pop)
 data(Thompson1990Figure1Sample)
+# Create ACS sample, seed=9
+ # - in the dataframe "Thompson1990Fig1Pop", the variable of interest $y$ is "y_value"
+# - any "y_value" greater than the criterion 0 will trigger cluster sampling
+popdata = Thompson1990Fig1Pop
+seed = 9
+n1 = 10
+yvar = "y_value"
+criterion = 0
+Z = createACS(popdata, seed, n1, yvar, criterion)
 
-# Initiate ACS
-Z = createACS(
-   popdata=Thompson1990Fig1Pop, 
-   seed=9, 
-   n1=10, 
-   yvar="y_value", 
-   criterion=0
-)
-
-# plot ACS sample overlaid onto population
+# plot ACS sample and population from which sampled was collected
+In the plot, the open squares correspond to population units that were sampled
 ggplot() +
    geom_point(
 	 data=Thompson1990Fig1Pop, 
-	 aes(x, y, size=factor(y_value),shape=factor(y_value))
+	 aes(x, y, size=y_value,shape=factor(y_value))
 ) +
 	 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 	 geom_point(data=Z, aes(x,y), shape=0, size=7)
-# Initiate ACS, different seed
+	 
+# Create another ACS, seed=26
+# - In this example, no units satisfy the criterion and thus cluster sampling
+# does not occur
 Z = createACS(
    popdata=Thompson1990Fig1Pop, 
    seed=26, 
@@ -56,7 +62,7 @@ Z = createACS(
   criterion=0
 )
 
-# plot ACS sample overlaid onto population
+# plot ACS sample and population from which sampled was collected
 ggplot() +
   geom_point(
      data=Thompson1990Fig1Pop, 
@@ -66,5 +72,5 @@ ggplot() +
 	geom_point(data=Z, aes(x,y), shape=0, size=7)
 }
 \references{
-@template Thompson1990
+
 }

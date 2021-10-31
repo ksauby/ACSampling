@@ -11,7 +11,7 @@ var_pi(n, y, pi_i_values, estimator)
 
 \item{y}{Vector of values observed for the variable of interest, $y$.}
 
-\item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{pi_i}.}
+\item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 
 \item{estimator}{Options include "Hajek".}
 }
@@ -47,5 +47,8 @@ var_pi(
 )
 }
 \references{
-@template Hajek_1964
+
+
+Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
+#' Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
 }

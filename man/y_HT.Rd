@@ -17,11 +17,17 @@ y_HT(
 \arguments{
 \item{y}{The variable of interest, $y$. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
 
+\item{N}{Population size.}
+
+\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
+
+\item{m_vec}{Vector of values $m$ for the set of units in a sample, of length $n1$. Each $m$ value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network $i$ to which the unit belongs.}
 
 \item{sampling}{A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.}
 
-\item{criterion}{Numeric threshold value of \code{yvar} that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
+\item{criterion}{Numeric threshold value of the variable of interest $y$ (whose name in the dataframe $popdata$ is supplied via the \code{yvar} argument) that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 }
 \value{
 The Horvitz-Thompson mean.

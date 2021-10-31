@@ -4,14 +4,14 @@
 \alias{createNetworks}
 \title{Create patches of species of interest within the grid population}
 \usage{
-createNetworks(Species.Data)
+createNetworks(popdata)
 }
 \arguments{
-\item{Species.Data}{A dataframe of x and y coordinates of locations and associated species information. Should only include plots that have the species of interest.}
+\item{popdata}{A dataframe of x and y coordinates of locations and information about the variable of interest $y$. This dataframe should only include plots that satisfy some criterion about the variable of interest $y$ (eg., value is greater than zero).}
 }
 \description{
 Takes dataframe containing Network IDs, x and y coordinates, and returns the coordinates of the centers of the networks, in integer values, as well as coordinates for each unit in a network, relative to the center of the network. If Network.Centers is supplied, it should be a dataframe, one row per network, giving the coordinates of the centers of the networks
- returns the dataframe with additional columns for the network center coordinates as well as coordinates for each individual relative to the center of the network
+ returns the dataframe with additional columns for the network center coordinates as well as coordinates for each individual unit relative to the center of the network
 
  @noRd
 }

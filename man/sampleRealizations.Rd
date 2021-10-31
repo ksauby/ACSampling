@@ -40,7 +40,7 @@ sampleRealizations(
 
 \item{SamplingDesign}{Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.}
 
-\item{yvar}{The variable of interest, $y$, that determines the condition under which adaptive cluster sampling takes place. Must be a numeric value.}
+\item{yvar}{A string giving the name of the variable of interest, $y$, in the supplied dataframe $popdata$. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable $y$ must be numeric.}
 
 \item{y_HT_formula}{The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.}
 

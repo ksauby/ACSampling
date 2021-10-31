@@ -8,10 +8,14 @@
 #' @template f_max
 #' @template initsample
 #' @return A restricted adaptive cluster sample.
-#' @template samp_load_ggplot_Thompson1990fig
+#' @examples
+#' library(ggplot2)
+#' data(Thompson1990Fig1Pop)
+#' data(Thompson1990Figure1Sample)
+
 #' 
 #' # Create RACS sample, seed=9
-#' @template samp_Thompson1990fig_n110
+
 #' f_max = 1
 #' 
 #' Sampling according to the RACS design

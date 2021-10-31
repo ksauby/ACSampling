@@ -44,6 +44,7 @@ summarizeNetworkInfo <- function(popdata, vars, popgroupvar=NULL, n1_vec, yvar) 
 			names(Networks)
 		)
 	}
-	popdata %<>% merge(Networks)
+	popdata %<>% merge(Networks) %>%
+	     arrange(NetworkID)
 	return(popdata)
 }

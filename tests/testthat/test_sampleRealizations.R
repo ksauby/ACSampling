@@ -15,8 +15,8 @@ test_that("test summarizeNetworkInfo", {
         Network3sum <- popdata %>% filter(NetworkID==3) %$% sum(y_value)
         Network4_382sum <- 0
         
-        Network20_pi_i = pi_i(N=popdata$N, n1=20, m_vec=popdata$m)
-        Network40_pi_i = pi_i(N=popdata$N, n1=40, m_vec=popdata$m)
+        Network20_pi_i = pi_i(N=popdata$N[1], n1=20, m_vec=popdata$m)
+        Network40_pi_i = pi_i(N=popdata$N[1], n1=40, m_vec=popdata$m)
         
         results_manual <- popdata %>%
                 mutate(
@@ -38,9 +38,16 @@ test_that("test summarizeNetworkInfo", {
                         ),
                         pi_i_n1_20 = Network20_pi_i,
                         pi_i_n1_40 = Network40_pi_i
-                )
+                ) %>%
+                dplyr::select(
+                        NetworkID, m, pop, x, y, y_value, N,
+                        y_value_network_sum, pi_i_n1_20,
+                        pi_i_n1_40
+                ) %>%
+                arrange(NetworkID, x,)
         
-        results_w_function <- summarizeNetworkInfo(popdata, vars="y_value", popgroupvar="pop", n1_vec, yvar="y_value") 
+        results_w_function <- summarizeNetworkInfo(popdata, vars="y_value", popgroupvar="pop", n1_vec, yvar="y_value") %>%
+                arrange(NetworkID, x, y)
         
         expect_equal(
                 results_manual,

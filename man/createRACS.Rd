@@ -2,7 +2,7 @@
 % Please edit documentation in R/createRACS_flex.R
 \name{createRACS}
 \alias{createRACS}
-\title{Create a Restricted Adaptive Cluster Sample, for any step size}
+\title{Create a Restricted Adaptive Cluster Sample}
 \usage{
 createRACS(
   popdata,
@@ -19,13 +19,13 @@ createRACS(
 
 \item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
 
-\item{yvar}{The variable of interest, $y$, that determines the condition under which adaptive cluster sampling takes place. Must be a numeric value.}
+\item{yvar}{A string giving the name of the variable of interest, $y$, in the supplied dataframe $popdata$. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable $y$ must be numeric.}
 
-\item{criterion}{Numeric threshold value of \code{yvar} that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
+\item{criterion}{Numeric threshold value of the variable of interest $y$ (whose name in the dataframe $popdata$ is supplied via the \code{yvar} argument) that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 
-\item{seed}{Optional. A vector of integers to feed to \code{set.seed()} so that the sampling is reproducible.}
+\item{seed}{Optional. An integer to feed to \code{set.seed()} so that the sampling is reproducible.}
 
-\item{initsample}{Optional. A data frame that includes geographic coordinate columns \code{x} and \code{y} of an the initial sample. The defaults is \code{NA}, which results in the initial sample being selected according to simple random sampling without replacement.}
+\item{initsample}{Optional. A data frame that includes geographic coordinate columns \code{x} and \code{y} of the initial sample. The defaults is \code{NA}, which results in the initial sample being selected according to simple random sampling without replacement.}
 
 \item{f_max}{WHAT IS IT}
 }
@@ -33,30 +33,49 @@ createRACS(
 A restricted adaptive cluster sample.
 }
 \description{
-Create a Restricted Adaptive Cluster Sample, for any step size
+Create a Restricted Adaptive Cluster Sample
 
 Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships
 }
 \examples{
 library(ggplot2)
-popdata = lambdap_5_tau_1
-seed=3
-n1=5
-yvar = "y_value"
-f_max = 3
-Z = createRACS(
-	popdata = lambdap_5_tau_1, 
-	n1 = n1, 
-	yvar = yvar, 
-	seed = seed, 
-	f_max = f_max
-)
+data(Thompson1990Fig1Pop)
+data(Thompson1990Figure1Sample)
+
+# Create RACS sample, seed=9
+f_max = 1
+
+Sampling according to the RACS design
+Z = createRACS(popdata, n1, yvar, seed, f_max)
+
+In the plot, the open squares correspond to population units that were sampled
+cluster sampling was not triggered because no units in the initial sampled
+satisfied the criterion
 ggplot() +
-geom_point(
-data=Z, 
-aes(x,y, size=factor(y_value), shape=factor(y_value))
-) +
-scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-geom_point(data=Z, aes(x,y), shape = 0, size=7) +
-ggtitle("f_max = 1")
+    geom_point(
+        data=lambdap_10_tau_5, 
+        es(x,y, size=y_value, shape=factor(y_value))
+    ) +
+    scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+    geom_point(data=Z, aes(x,y), shape = 0, size=7) +
+    ggtitle("f_max = 1")
+
+Sampling according to the RACS design
+seed = 7
+Z = createRACS(popdata, n1, yvar, seed, f_max)
+
+In the plot, the open squares correspond to population units that were sampled
+cluster sampling was not triggered because no units in the initial sampled
+satisfied the criterion
+ggplot() +
+    geom_point(
+        data=lambdap_10_tau_5, 
+        es(x,y, size=y_value, shape=factor(y_value))
+    ) +
+    scale_shape_manual(values=c(1, rep(16, length(2:42)))) +
+    geom_point(data=Z, aes(x,y), shape = 0, size=7) +
+    ggtitle("f_max = 3")
+}
+\references{
+
 }

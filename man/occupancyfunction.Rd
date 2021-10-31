@@ -12,6 +12,3 @@ occupancyfunction(x)
 \description{
 For multiple observations of the sample plot, determine how many presences were observed.
 }
-\references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-}

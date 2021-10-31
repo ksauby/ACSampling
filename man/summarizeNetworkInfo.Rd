@@ -4,22 +4,22 @@
 \alias{summarizeNetworkInfo}
 \title{Calculate the number of units per network and the unit inclusion probability for each network FOR A SINGLE POPULATION}
 \usage{
-summarizeNetworkInfo(popdata, vars, groupvar = NULL, n1_vec, mvar)
+summarizeNetworkInfo(popdata, vars, popgroupvar = NULL, n1_vec, yvar)
 }
 \arguments{
 \item{popdata}{population data.}
 
 \item{vars}{variables to summarise}
 
-\item{groupvar}{categories that group networks}
-
 \item{n1_vec}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values.}
 
-\item{mvar}{The variable on which the ACS sampling criterion is based}
+\item{yvar}{A string giving the name of the variable of interest, $y$, in the supplied dataframe $popdata$. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable $y$ must be numeric.}
+
+\item{groupvar}{categories that group networks}
 }
 \value{
-The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}.
+The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}. WHERE the value of the var is greater than zero?
 }
 \description{
-The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
+The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each unit, given the size of its associated network and sample size (\code{nsamples}) and (2) for each of the \code{variables}, the sum of the values of that variable for each network.
 }

@@ -2,18 +2,17 @@
 % Please edit documentation in R/variance_wo_jointinclusionprobabilities.R
 \name{Hajek}
 \alias{Hajek}
-\title{Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling}
+\title{Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling - or is N used instead of n. see p. 113 Tille new book}
 \usage{
 Hajek(pi_i, n)
 }
 \arguments{
 \item{n}{sample size (an integer value).}
-
-\item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{pi_i}.}
 }
 \description{
 Option for the "var_pi" function.
 }
 \references{
-@template Hajek_1964
+Berger, Y. G., & Tille, Y. (2009). Sampling with Unequal Probabilities. Handbook of Statistics, 1-17.
+#' Hajek, J. (1964). Asymptotic theory of rejective sampling with varying probabilities from a finite population. The Annals of Mathematical Statistics.
 }

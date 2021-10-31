@@ -11,11 +11,14 @@ R_hat(y, x, N, n1, m_vec, replace = "FALSE")
 
 \item{x}{A vector of values for variable $x$, which is auxiliary data about the variable of interest $y$.}
 
+\item{N}{Population size.}
+
+\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+
+\item{m_vec}{Vector of values $m$ for the set of units in a sample, of length $n1$. Each $m$ value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network $i$ to which the unit belongs.}
+
 \item{replace}{Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.}
 }
 \description{
 R_hat is calculated by dividing the Horvitz-Thompson estimator, Tau_hat_z by Tau_hat_x. See p. 77, Thompson (2002). THERE CANNOT BE NAS IN X OR Y?
-}
-\examples{
-@template ex_Thompson2002_p_78
 }

@@ -6,6 +6,13 @@
 \usage{
 pi_ij_replace(N, n1, m_vec)
 }
+\arguments{
+\item{N}{Population size.}
+
+\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+
+\item{m_vec}{Vector of values $m$ for the set of units in a sample, of length $n1$. Each $m$ value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network $i$ to which the unit belongs.}
+}
 \description{
 Calculate joint inclusion probability of unit $j$ and $h$ when sampling occurs with replacement
 }
