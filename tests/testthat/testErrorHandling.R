@@ -273,6 +273,8 @@ test_that("Error Handling - handleError_variable", {
      )
      variable <- c("var1", "var2")
      expect_silent(handleError_variable(variable, "variable"))
+     vars <- c("var1", "var2")
+     expect_silent(handleError_variable(vars, "vars"))
      variable <- "var1"
      expect_silent(handleError_variable(variable, "variable"))
 })

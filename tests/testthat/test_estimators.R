@@ -135,7 +135,7 @@ test_that("pi_i, Network Inclusion Probability", {
 			pi_i(
 				N = 1000, 
 				n1 = 100, 
-				m = c(2,3,rep(1,98))
+				m_vec = c(2,3,rep(1,98))
 			)[1:2], 2
 		),
 		c(0.19, 0.27)

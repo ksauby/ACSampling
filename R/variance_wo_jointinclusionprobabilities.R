@@ -1,4 +1,4 @@
-#' Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling
+#' Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling - or is N used instead of n. see p. 113 Tille new book
 #' @template n_samplesize
 #' @template pi_i_wo_joint_inclusion_prob
 #' @description Option for the "var_pi" function.

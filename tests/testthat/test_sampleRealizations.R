@@ -1,3 +1,55 @@
+test_that("test summarizeNetworkInfo", {
+        # summarizeNetworkInfo
+        n1_vec=c(20,40)
+        N = dim(Thompson1990Fig1Pop)[1]
+        popdata <- Thompson1990Fig1Pop %>%
+                mutate(N= dim(Thompson1990Fig1Pop)[1])
+        popdata %<>%
+                mutate(
+                        pop = 1
+                )
+        
+        # summarize manually
+        Network1sum <- popdata %>% filter(NetworkID==1) %$% sum(y_value)
+        Network2sum <- popdata %>% filter(NetworkID==2) %$% sum(y_value)
+        Network3sum <- popdata %>% filter(NetworkID==3) %$% sum(y_value)
+        Network4_382sum <- 0
+        
+        Network20_pi_i = pi_i(N=popdata$N, n1=20, m_vec=popdata$m)
+        Network40_pi_i = pi_i(N=popdata$N, n1=40, m_vec=popdata$m)
+        
+        results_manual <- popdata %>%
+                mutate(
+                        y_value_network_sum = 0,
+                        y_value_network_sum = replace(
+                                y_value_network_sum,
+                                NetworkID==1,
+                                Network1sum
+                        ),
+                        y_value_network_sum = replace(
+                                y_value_network_sum,
+                                NetworkID==2,
+                                Network2sum
+                        ),
+                        y_value_network_sum = replace(
+                                y_value_network_sum,
+                                NetworkID==3,
+                                Network3sum
+                        ),
+                        pi_i_n1_20 = Network20_pi_i,
+                        pi_i_n1_40 = Network40_pi_i
+                )
+        
+        results_w_function <- summarizeNetworkInfo(popdata, vars="y_value", popgroupvar="pop", n1_vec, yvar="y_value") 
+        
+        expect_equal(
+                results_manual,
+                results_w_function
+        )
+        
+})
+
+
 exampleCactusPop <- data.frame(
         Cactus=c(0,1,1,1, 1,1,0,1, 0,0,0,0), 
         Stricta=c(0,1,1,0, 0,1,0,0, 0,0,0,0),
@@ -227,6 +279,7 @@ test_that("test calc_var_y_HT_MultipleVars, var_pi_i", {
 #                 filter(Sampling != "Edge")
 #         mvals <- exampleCactusPop %>%
 #                 group_by(NetworkID) %>%
+
 #                 summarise(m = m[1])
 #         R_smd <- exampleCactusPop %>%
 #                 filter(Sampling!="Edge") %>%
@@ -584,5 +637,35 @@ test_that("test sampleRealizations errors, realvar", {
         )
         
 })
-
-
+# 
+# 
+# 
+# data(Thompson1990Fig1Pop)
+# alldata_all <- createACS(Thompson1990Fig1Pop, 20, "y_value", seed=24)
+# 
+# temp <- alldata_all %>%
+#         as.data.frame %>%
+#         # get rid of edge units - not involved in calculation of m
+#         filter(!(is.na(NetworkID))) %>%
+#         arrange(x, y)
+# 
+# # dnearneigh - why was this here?
+# 
+# nb <- cell2nb(
+#         nrow = max(temp$x) - min(temp$x) + 1, 
+#         ncol = max(temp$y) - min(temp$y) + 1
+# )
+# coordinates(temp) = ~ x+y
+# data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
+# tempdat <- data.frame(JoinCountTest.W = NA)
+# for (i in length(weights)) {
+#         lwb <- nb2listw(nb, style = weights[i]) # convert to weights
+#         # I think cells are indexed by row, then column
+#         tempdat$JoinCountTest <- getJoinCountTestEst(temp, lwb)
+#         tempdat$MoranI <- getMoranTestEst(temp, lwb)
+#         colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
+#                 paste("JoinCountTest", weights[i], sep=".")
+#         colnames(tempdat)[which(names(tempdat) == "MoranI")] <-
+#                 paste("MoranI", weights[i], sep=".")
+# }
+# return(tempdat)

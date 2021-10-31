@@ -116,11 +116,11 @@ calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
 }
 
 getJoinCountTestEst <- function(temp, lwb) {
-     joincount.test(as.factor(temp$Cactus), lwb)[[2]]$estimate[1]
+     joincount.test(as.factor(temp$y_value), lwb)[[2]]$estimate[1]
 }
 
 getMoranTestEst <- function(temp, lwb) {
-     moran.test(temp$Cactus, lwb)$estimate[1]
+     moran.test(temp$y_value, lwb)$estimate[1]
 }
 
 
@@ -133,17 +133,18 @@ calcSpatStats <- function(alldata_all, weights) {
      
      # dnearneigh - why was this here?
      
+     # generate neighbor list
      nb <- cell2nb(
-          nrow = max(temp$x) - min(temp$x), 
-          ncol = max(temp$y) - min(temp$y)
+          nrow = nrow(temp), 
+          ncol = ncol(temp)
      )
      coordinates(temp) = ~ x+y
      data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
      tempdat <- data.frame(JoinCountTest.W = NA)
      for (i in length(weights)) {
-          lwb <- nb2listw(nb, style = weights[i]) # convert to weights
+          lwb <- nb2listw(nb, style = weights[i]) # convert to neighbor list to weights list
           # I think cells are indexed by row, then column
-          tempdat$JoinCountTest <- getJoinCountTestEst()
+          tempdat$JoinCountTest <- getJoinCountTestEst(temp, lwb)
           tempdat$MoranI <- getMoranTestEst()
           colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
                paste("JoinCountTest", weights[i], sep=".")

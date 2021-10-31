@@ -1,29 +1,15 @@
-calcSqDiff <- function(dataframe, Vars) {
-	# for each simulation and Vars, calculate:
+calcSqDiff <- function(dataframe, V) {
+	# for each simulation and V, calculate:
 	#	(observed mean - true mean)^2
-	for (i in 1:length(Vars)) {
-		cname = paste(Vars[i], "MeanObs_True2", sep="")
+	for (i in 1:length(V)) {
+		cname = paste(V[i], "MeanObs_True2", sep="")
 		dataframe %<>%
 			mutate(
 			     # (observed - true)^2
 			     Obs_True2 = (
-					eval(
-                              parse(
-                                   text=paste(
-                                        Vars[i],
-                                        "MeanObs",
-					               sep=""
-					          )
-					     )
+					eval(parse(text=paste(V[i], "MeanObs", sep=""))
 					) - 
-					eval(
-					     parse(
-					          text = paste(
-					               Vars[i],
-					               "TrueMean",
-					               sep=""
-					          )
-					     )
+					eval(parse(text = paste(V[i], "TrueMean", sep=""))
 				     )
 				)^2
 			) %>%
@@ -31,12 +17,13 @@ calcSqDiff <- function(dataframe, Vars) {
 	}
 	return(dataframe)
 }
-calcDiffMeans <- function(dataframe, Vars) {
+
+calcDiffMeans <- function(dataframe, V) {
 	# for each simulation and variable, calculate:
 	#	observed mean - mean of observed means
-	for (i in 1:length(Vars)) {
+	for (i in 1:length(V)) {
 		cname = paste(
-		     Vars[i], 
+		     V[i], 
 		     "_Obs_MeanObsMeans", 
 		     sep=""
 		)
@@ -44,24 +31,9 @@ calcDiffMeans <- function(dataframe, Vars) {
 			mutate(
 			     # (observed - true)
 			     Obs_MeanObsMeans = 
-					eval(
-					     parse(
-					          text = paste(
-					               Vars[i], 
-					               "MeanObs", 
-					               sep=""
-					          )
-					     )
-					) - 
-					eval(
-					     parse(
-					          text = paste(
-					               Vars[i], 
-					               "_MeanObsMeans",
-					               sep = ""
-					          )
-					     )
-					)
+					eval(parse(text = paste(V[i], "MeanObs", sep=""))) - 
+					eval(parse(text = paste(V[i], "_MeanObsMeans",
+					     sep = "")))
 			) %>%
 			rename(!!cname := Obs_MeanObsMeans)
 	}
@@ -72,25 +44,19 @@ calcDiffMeans <- function(dataframe, Vars) {
 #' @importFrom rlang .data :=
 #' @importFrom dplyr rename
 
-calcBiasComponents	<- function(dataframe, resultslist, Vars) {
-	for (i in 1:length(Vars)) {
+calcBiasComponents	<- function(dataframe, resultslist, V) {
+	for (i in 1:length(V)) {
 		resultslist[[i]] <- list()
 		VAR <- sym(
 		     paste(
-		          Vars[i],
+		          V[i],
 		          "TrueMean",
 		          sep = ""
 		     )
 		)		
-		var_observed <- sym(
-		     paste(
-		          Vars[i], 
-		          "MeanObs", 
-		          sep = ""
-		     )
-		)
-		varMeanObs_True2 <- sym(paste(Vars[i], "MeanObs_True2", sep = ""))
-		varVarObs <- sym(paste(Vars[i], "VarObs", sep = ""))
+		var_observed <- sym(paste(V[i], "MeanObs", sep = ""))
+		varMeanObs_True2 <- sym(paste(V[i], "MeanObs_True2", sep = ""))
+		varVarObs <- sym(paste(V[i], "VarObs", sep = ""))
 		resultslist[[i]] <- dataframe %>%
 			summarise(
 				# save true mean
@@ -128,14 +94,14 @@ calcBiasComponents	<- function(dataframe, resultslist, Vars) {
 				)
 			)
 		cnames <- c(
-      		paste(Vars[i], "TrueMean", sep=""),
-      		paste(Vars[i], "MeanRB", sep=""),
-      		paste(Vars[i], "MeanMSE", sep=""),
-      		paste(Vars[i], "VarRB", sep=""),
-			# rename sample size Vars
-			paste(Vars[i], "MeanRBn", sep=""),
-      		paste(Vars[i], "MeanMSEn", sep=""),
-      		paste(Vars[i], "VarRBn", sep="")
+      		paste(V[i], "TrueMean", sep=""),
+      		paste(V[i], "MeanRB", sep=""),
+      		paste(V[i], "MeanMSE", sep=""),
+      		paste(V[i], "VarRB", sep=""),
+			# rename sample size V
+			paste(V[i], "MeanRBn", sep=""),
+      		paste(V[i], "MeanMSEn", sep=""),
+      		paste(V[i], "VarRBn", sep="")
 		)
 		resultslist[[i]] %<>% 
 			rename(
@@ -143,7 +109,7 @@ calcBiasComponents	<- function(dataframe, resultslist, Vars) {
 				!!cnames[2] := RB,
 				!!cnames[3] := MSE,
 				!!cnames[4] := var_RB,
-				# rename sample size Vars
+				# rename sample size V
 				!!cnames[5] := RB_n,
 				!!cnames[6] := MSESampleSize,
 				!!cnames[7] := var_RB_n
@@ -159,27 +125,27 @@ calcBiasComponents	<- function(dataframe, resultslist, Vars) {
 	}
 	return(resultslist)
 }
-calcMeanObsMeans <- function(dataframe, Vars, nsims, popgroupvar, samplinggroupvar) {
+calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar) {
 	temp <- dataframe %>% 
 		group_by_at(c(
 			popgroupvar, samplinggroupvar, "n_sims"
 		))
-	C <- vector("list", length(Vars))
+	C <- vector("list", length(V))
 	# for each of the popgroupvar and samplinggroupvar, calculate:
 	#	mean of observed means
 	#	sample size used for those calculations
-	for (i in 1:length(Vars)) {
+	for (i in 1:length(V)) {
 		C[[i]] <- list()
 		# observed mean
-		var = sym(paste(Vars[i],"MeanObs",sep=""))		
+		var = sym(paste(V[i],"MeanObs",sep=""))		
 		C[[i]] <- temp %>%
 			summarise(
 				MeanObsMeans = mean(!!var, na.rm=T),
 				sample_size = length(!is.na(!!var))
 			)
 		cnames <- c(
-			paste(Vars[i], "_MeanObsMeans", sep=""),
-			paste(Vars[i], "_MeanObsMeans_n", sep="")
+			paste(V[i], "_MeanObsMeans", sep=""),
+			paste(V[i], "_MeanObsMeans_n", sep="")
 		)
 		C[[i]] %<>% 
 			rename(
@@ -346,7 +312,7 @@ calcSamplingBias <- function(
 		group_by_at(c(popgroupvar, samplinggroupvar)) %>%
 		mutate(n_sims = n())
 	
-	B %<>% calcMeanObsMeans(dataframe=B, Vars=ovar)
+	B %<>% calcMeanObsMeans(dataframe=B, V=ovar)
 	
 	# WHY IS IT ONLY CALC MEAN OF OBS MEANS FOR RVAR?
 	
@@ -362,13 +328,13 @@ calcSamplingBias <- function(
 	E <- A
 	# E %<>% filter(StrictaMeanObs!=0)
 	
-	E %<>% calcMeanObsMeans(dataframe=B, Vars=c(rvarnames))
+	E %<>% calcMeanObsMeans(dataframe=B, V=c(rvarnames))
 	
-	E %<>% calcSqDiff(Vars=c(orvar, rvarnames))
-	E %<>% calcDiffMeans(Vars=c(orvar, rvarnames))
+	E %<>% calcSqDiff(V=c(orvar, rvarnames))
+	E %<>% calcDiffMeans(V=c(orvar, rvarnames))
 
-	B %<>% calcSqDiff(Vars=ovar)
-	B %<>% calcDiffMeans(Vars=ovar)
+	B %<>% calcSqDiff(V=ovar)
+	B %<>% calcDiffMeans(V=ovar)
 	
 	# calculate bias and MSE
 	# occupancy Vars
@@ -379,7 +345,7 @@ calcSamplingBias <- function(
 			samplinggroupvar, 
 			"n_sims"
 		)) %>% 
-		calcBiasComponents(., resultslist=H, Vars=ovar)
+		calcBiasComponents(., resultslist=H, V=ovar)
 	
 	Y <- Reduce(
 		function(x, y) merge(
@@ -408,7 +374,7 @@ calcSamplingBias <- function(
 			samplinggroupvar, 
 			"n_sims"
 		)) %>% 
-		calcBiasComponents(., resultslist=H, Vars=rvarnames)
+		calcBiasComponents(., resultslist=H, V=rvarnames)
 	Z <- Reduce(
 		function(x, y) merge(
 			x, y,

@@ -1,6 +1,6 @@
-dataset = createACS(popdata=PlotSurveys_season1, seed=9, n1=10, yvar="Cactus", condition=0) %>% as.data.frame
+popdata = createACS(popdata=PlotSurveys_season1, seed=9, n1=10, yvar="Cactus", condition=0) %>% as.data.frame
 
-dataset <- data.frame(
+popdata <- data.frame(
      y_stricta = c(60, 14, 1), 
      stricta = c(1, 1, 1),
      m = c(5, 2, 1)

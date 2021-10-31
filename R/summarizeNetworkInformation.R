@@ -1,31 +1,31 @@
 #' Calculate the number of units per network and the unit inclusion probability for each network FOR A SINGLE POPULATION
-#' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each network and sample size (\code{nsamples}) and (2) the number of units per network for each of the \code{variables}.
+#' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each unit, given the size of its associated network and sample size (\code{nsamples}) and (2) for each of the \code{variables}, the sum of the values of that variable for each network.
 #' @param popdata population data.
 #' @param vars variables to summarise
 #' @param groupvar categories that group networks
 #' @template n1_vec
-#' @param mvar The variable on which the ACS sampling criterion is based
-#' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}.
+#' @template yvar
+#' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}. WHERE the value of the var is greater than zero?
 #' @template SaubyCitation
 #' @export
 #' @importFrom dplyr funs summarise_all
 
-summarizeNetworkInfo <- function(popdata, vars, groupvar=NULL, n1_vec, mvar) {
+summarizeNetworkInfo <- function(popdata, vars, popgroupvar=NULL, n1_vec, yvar) {
 	
      handleError_variable(vars, "vars")
-     handleError_singlepopulation(N)
      
+	N <- unique(popdata$N) #. <- NULL 
+	# handleError_singlepopulation(N)
      
-	N <- unique(popdata$N) #. <- NULL
 	# calculate the number of units per network for each variable
 	Networks <- popdata %>%
 		# select these columns
-		.[, c(variables, "NetworkID", groupvar, "m")] %>%
+		.[, c(vars, "NetworkID", popgroupvar, "m")] %>%
 		# group_by these columns
-		group_by_at(c("NetworkID", groupvar, "m")) %>%
-		# calculate the sum of the remaining columns (the "variables" columns)
-		summarise_all(funs(sum(., na.rm=T)))
-	m <- paste("Networks$", m_var, sep="")
+		group_by_at(c("NetworkID", popgroupvar, "m")) %>%
+		# calculate the sum of the remaining columns (the "vars" columns)
+		summarise_all(list(~sum(., na.rm=T)))
+	m <- paste("Networks$", yvar, sep="")
 	# calculate pi_i for each network and sample size
 	for (i in 1:length(n1_vec)) {
 		Networks$Var = sapply(
@@ -37,10 +37,10 @@ summarizeNetworkInfo <- function(popdata, vars, groupvar=NULL, n1_vec, mvar) {
 		)
 	}
 	# 
-	for (i in 1:length(variables)) {
+	for (i in 1:length(vars)) {
 		names(Networks) <- ifelse(
-			names(Networks) %in% variables[i],
-			paste(variables[i], "_network_sum", sep=""),
+			names(Networks) %in% vars[i],
+     			paste(vars[i], "_network_sum", sep=""),
 			names(Networks)
 		)
 	}

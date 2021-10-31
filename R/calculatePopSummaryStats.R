@@ -56,6 +56,23 @@
 #' # patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
 #'#  	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 	
+
+exampleCactusPop <- data.frame(
+     Cactus=c(0,1,1,1, 1,1,0,1, 0,0,0,0), 
+     Stricta=c(0,1,1,0, 0,1,0,0, 0,0,0,0),
+     CACAonStricta=c(0,0,1,0, 0,1,0,0, 0,0,0,0),
+     Sampling=c(
+          "SRSWOR","SRSWOR","Cluster","Cluster", 
+          "Cluster","SRSWOR","SRSWOR","Cluster", 
+          rep("Edge", 4)
+     ),
+     NetworkID=c(1,2,2,2, 2,3,4,3, 2,2,3,3),
+     m=c(1,6,6,6, 6,4,1,4, 6,6,4,4),
+     grouping = c(rep(1, 12), rep(2, 12))
+)
+n1=4
+N=100
+
 calcPopSummaryStats <- function(
 	popdata, 
 	summaryvar, 
