@@ -9,7 +9,7 @@ var_Hajek(n, y, pi_i_values)
 \arguments{
 \item{n}{sample size (an integer value).}
 
-\item{y}{Vector of values observed for the variable of interest, $y$.}
+\item{y}{need description}
 
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 }

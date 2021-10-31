@@ -21,18 +21,21 @@ Sum <- function(x) {sum(x, na.rm=TRUE)}
 Mean <- function(x) base::mean(x, na.rm=TRUE)
 
 
-#' Return the population variance of a vector, after removing NAs, and round.
-#'
-#' @param x Vectors of data.
-#' @description Written for use in the tables::tabular function to create publication-ready tables.
+#' Population Variance
+#' @param x vector of values 
+#' @description Population variance
 #' @noRd
-PopVariance <- function(x) {
-     temp <- sum((x-mean(x))^2)/length(x)
+popVar = function(x) {
+     x = x[!is.na(x)]
+     mu = mean(x)
+     sum((x - mu)^2)/length(x)
 }
 
 #' Population Coefficient of Variation
 #' 
 #' @param x Vectors of data.
 #' @noRd
-popCV <- function(x) {sqrt(PopVariance(x))/Mean(x)}
+popCV <- function(x) {
+     sqrt(popVar(x))/Mean(x)
+}
 

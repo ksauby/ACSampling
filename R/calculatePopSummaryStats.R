@@ -7,9 +7,9 @@
 #' @param spatweights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See \code{nb2listw} for more details.
 #' @param nrow the number of rows in the grid that creates the population
 #' @param ncol the number of columns in the grid that creates the population
-#' @description Calculates summary statistics for patch population data.
+#' @description Calculates summary statistics for patch population data, including summary statistics about $m$ (minimum, maximum, mean, and variance) for each network and population as a whole, and the number of networks with $m>1$.
 
-#' @return Dataframe including summary statistics for each column identified in \code{summaryvar} and for each category identified in \code{popgroupvar}.
+#' @return A list of two dataframes, where the first dataframe includes network- and population-specific summary statistics about $m$, summarizes across unique networks as well as unique units within each population, and where the second list includes summary statistics about the \code{summaryvar}.
 
 #' @export
 #' @importFrom dplyr ungroup sym group_by_at
@@ -56,23 +56,6 @@
 #' # patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
 #'#  	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 	
-
-exampleCactusPop <- data.frame(
-     Cactus=c(0,1,1,1, 1,1,0,1, 0,0,0,0), 
-     Stricta=c(0,1,1,0, 0,1,0,0, 0,0,0,0),
-     CACAonStricta=c(0,0,1,0, 0,1,0,0, 0,0,0,0),
-     Sampling=c(
-          "SRSWOR","SRSWOR","Cluster","Cluster", 
-          "Cluster","SRSWOR","SRSWOR","Cluster", 
-          rep("Edge", 4)
-     ),
-     NetworkID=c(1,2,2,2, 2,3,4,3, 2,2,3,3),
-     m=c(1,6,6,6, 6,4,1,4, 6,6,4,4),
-     grouping = c(rep(1, 12), rep(2, 12))
-)
-n1=4
-N=100
-
 calcPopSummaryStats <- function(
 	popdata, 
 	summaryvar, 
@@ -94,11 +77,11 @@ calcPopSummaryStats <- function(
 		summarise(m = .data$m[1]) %>%
 		group_by_at(popgroupvar) %>%
 		summarise(
-			m_min_unique_neigh = min(.data$m),
-			m_max_unique_neigh = max(.data$m),
-			m_mean_unique_neigh = mean(.data$m),
-			m_var_unique_neigh = var(.data$m),
-			n_Species_Patches = 
+		     networks_m_min = min(.data$m),
+		     networks_m_max = max(.data$m),
+		     networks_m_mean = mean(.data$m),
+		     networks_m_var = popVar(.data$m),
+			n_networks_mGreaterThan1 = 
 				length(unique(.data$NetworkID[which(.data$m>1)]))
 		) %>%
 		ungroup %>%
@@ -107,10 +90,8 @@ calcPopSummaryStats <- function(
 	Y2 = popdata %>%
 	group_by_at(popgroupvar) %>%
 		summarise(
-			m_min = min(.data$m),
-			m_max = max(.data$m),
-			m_mean = mean(.data$m),
-			m_var = var(.data$m)
+			units_m_mean = mean(.data$m),
+			units_m_var = popVar(.data$m)
 		) %>%
 		ungroup %>%
 		as.data.frame
@@ -121,7 +102,14 @@ calcPopSummaryStats <- function(
 		as.data.frame
 	Y1 %<>% 
 		merge(Y2, by=popgroupvar) %>%
-		merge(Z, by=popgroupvar)	
+		merge(Z, by=popgroupvar)
+	for (i in 1:length(summaryvar)) {
+	     names(Y1) <- ifelse(
+	          names(Y1) %in% summaryvar[i],
+	          paste("n_networks_", summaryvar[i], sep=""),
+	          names(Y1)
+	     )
+	}
 	# spatial statistics and other characteristics of variables
 	A <- list()
 	popvar <- paste(
@@ -152,7 +140,7 @@ calcPopSummaryStats <- function(
 				))	
 			}
 			A[[i]][[j]]$Mean_tempvar <- Mean(tempvar)
-			A[[i]][[j]]$Var_tempvar <- PopVariance(tempvar)
+			A[[i]][[j]]$Var_tempvar <- popVar(tempvar)
 			A[[i]][[j]]$CV_tempvar <- popCV(tempvar)
 			A[[i]][[j]]$Total_tempvar <- Sum(tempvar)
 			A[[i]][[j]]$SSQ_R <- calcSSQR(

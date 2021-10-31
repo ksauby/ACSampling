@@ -1,69 +1,68 @@
+# summarizeNetworkInfo
+n1_vec=c(20,40)
+N = dim(Thompson1990Fig1Pop)[1]
+popdata <- Thompson1990Fig1Pop %>%
+        mutate(N= dim(Thompson1990Fig1Pop)[1])
+popdata %<>%
+        mutate(
+                pop = 1
+        )
+
+# summarize manually
+Network1sum <- popdata %>% filter(NetworkID==1) %$% sum(y_value)
+Network2sum <- popdata %>% filter(NetworkID==2) %$% sum(y_value)
+Network3sum <- popdata %>% filter(NetworkID==3) %$% sum(y_value)
+Network4_382sum <- 0
+
+Network20_pi_i = pi_i(N=popdata$N[1], n1=20, m_vec=popdata$m)
+Network40_pi_i = pi_i(N=popdata$N[1], n1=40, m_vec=popdata$m)
+
+results_manual <- popdata %>%
+        mutate(
+                y_value_network_sum = 0,
+                y_value_network_sum = replace(
+                        y_value_network_sum,
+                        NetworkID==1,
+                        Network1sum
+                ),
+                y_value_network_sum = replace(
+                        y_value_network_sum,
+                        NetworkID==2,
+                        Network2sum
+                ),
+                y_value_network_sum = replace(
+                        y_value_network_sum,
+                        NetworkID==3,
+                        Network3sum
+                ),
+                pi_i_n1_20 = Network20_pi_i,
+                pi_i_n1_40 = Network40_pi_i
+        ) %>%
+        dplyr::select(
+                NetworkID, m, pop, x, y, y_value, N,
+                y_value_network_sum, pi_i_n1_20,
+                pi_i_n1_40
+        ) %>%
+        arrange(NetworkID, x,)
+
+results_w_function <- summarizeNetworkInfo(popdata, vars="y_value", popgroupvar="pop", n1_vec, yvar="y_value") %>%
+        arrange(NetworkID, x, y)
+
 test_that("test summarizeNetworkInfo", {
-        # summarizeNetworkInfo
-        n1_vec=c(20,40)
-        N = dim(Thompson1990Fig1Pop)[1]
-        popdata <- Thompson1990Fig1Pop %>%
-                mutate(N= dim(Thompson1990Fig1Pop)[1])
-        popdata %<>%
-                mutate(
-                        pop = 1
-                )
-        
-        # summarize manually
-        Network1sum <- popdata %>% filter(NetworkID==1) %$% sum(y_value)
-        Network2sum <- popdata %>% filter(NetworkID==2) %$% sum(y_value)
-        Network3sum <- popdata %>% filter(NetworkID==3) %$% sum(y_value)
-        Network4_382sum <- 0
-        
-        Network20_pi_i = pi_i(N=popdata$N[1], n1=20, m_vec=popdata$m)
-        Network40_pi_i = pi_i(N=popdata$N[1], n1=40, m_vec=popdata$m)
-        
-        results_manual <- popdata %>%
-                mutate(
-                        y_value_network_sum = 0,
-                        y_value_network_sum = replace(
-                                y_value_network_sum,
-                                NetworkID==1,
-                                Network1sum
-                        ),
-                        y_value_network_sum = replace(
-                                y_value_network_sum,
-                                NetworkID==2,
-                                Network2sum
-                        ),
-                        y_value_network_sum = replace(
-                                y_value_network_sum,
-                                NetworkID==3,
-                                Network3sum
-                        ),
-                        pi_i_n1_20 = Network20_pi_i,
-                        pi_i_n1_40 = Network40_pi_i
-                ) %>%
-                dplyr::select(
-                        NetworkID, m, pop, x, y, y_value, N,
-                        y_value_network_sum, pi_i_n1_20,
-                        pi_i_n1_40
-                ) %>%
-                arrange(NetworkID, x,)
-        
-        results_w_function <- summarizeNetworkInfo(popdata, vars="y_value", popgroupvar="pop", n1_vec, yvar="y_value") %>%
-                arrange(NetworkID, x, y)
-        
         expect_equal(
                 results_manual,
                 results_w_function
         )
-        
 })
 
 
 exampleCactusPop <- data.frame(
-        Cactus=c(0,1,1,1, 1,1,0,1, 0,0,0,0), 
+        Cactus=c(0,1,1,1, 1,1,0,1, 0,0,0,0),
         Stricta=c(0,1,1,0, 0,1,0,0, 0,0,0,0),
      CACAonStricta=c(0,0,1,0, 0,1,0,0, 0,0,0,0),
      Sampling=c(
-          "SRSWOR","SRSWOR","Cluster","Cluster", 
-          "Cluster","SRSWOR","SRSWOR","Cluster", 
+          "SRSWOR","SRSWOR","Cluster","Cluster",
+          "Cluster","SRSWOR","SRSWOR","Cluster",
           rep("Edge", 4)
      ),
      NetworkID=c(1,2,2,2, 2,3,4,3, 2,2,3,3),
@@ -72,6 +71,44 @@ exampleCactusPop <- data.frame(
 n1=4
 N=100
 
+test_that("test calcPopSummaryStats", {
+
+        popdata_network_m <- c(6, 11, 4, rep(1, 382-4+1))
+
+        list_1 <- data.frame(
+                pop = 1,
+                networks_m_min = min(popdata_network_m),
+                networks_m_max = max(popdata_network_m),
+                networks_m_mean = mean(popdata_network_m),
+                networks_m_var = popVar(popdata_network_m),
+                n_networks_mGreaterThan1 = 3,
+                units_m_mean = mean(popdata$m),
+                units_m_var = popVar(popdata$m),
+                N = 400
+        )
+        list_2 <- data.frame(
+                variable = "y_value",
+                Mean = mean(popdata$y_value),
+                Var = popVar(popdata$y_value)
+
+        )
+
+
+
+        CactusRealizationSummary <- calcPopSummaryStats(
+                popdata,
+                summaryvar = "y_value",
+                popgroupvar = "pop",
+                rvar = NULL,
+                nrow=20,
+                ncol=20
+        )
+        expect_equal(
+                CactusRealizationSummary[[1]],
+                list_1
+        )
+
+})
 test_that("test calc_y_HT_MultipleVars, y_HT_RACS", {
      exampleCactusPop_filtered <- exampleCactusPop %>%
           filter(Sampling!="Edge")

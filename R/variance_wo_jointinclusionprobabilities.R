@@ -1,6 +1,6 @@
 #' Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling - or is N used instead of n. see p. 113 Tille new book
 #' @template n_samplesize
-#' @template pi_i_wo_joint_inclusion_prob
+#' @param  pi_i Need description here
 #' @description Option for the "var_pi" function.
 #' @template Hajek_1964_Berger_Tille_2009
 #' @export
@@ -14,7 +14,7 @@ Hajek <- function(pi_i, n) {
 
 #' Variance estimator free of joint inclusion probability calculations for unequal probability sampling, Hajek
 #' @template n_samplesize
-#' @template y_wo_joint_inclusion_prob
+#' @param y need description
 #' @template pi_i_values
 #' @references Berger, Y. G. (2005). Variance estimation with Chao's sampling scheme. Journal of Statistical Planning and Inference, 127(1-2), 253-277. http://doi.org/10.1016/j.jspi.2003.08.014
 #' @export
@@ -30,7 +30,7 @@ var_Hajek <- function(n, y, pi_i_values) {
 #' Variance estimator free of joint inclusion probability calculations for unequal probability sampling
 #' @description This gives equation 9 on page 10 in Berger and Tille 2009.
 #' @template n_samplesize
-#' @template y_wo_joint_inclusion_prob
+#' @param y need description
 #' @template pi_i_values
 #' @param estimator Options include "Hajek".
 #' @references

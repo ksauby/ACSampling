@@ -7,6 +7,8 @@
 Hajek(pi_i, n)
 }
 \arguments{
+\item{pi_i}{Need description here}
+
 \item{n}{sample size (an integer value).}
 }
 \description{
