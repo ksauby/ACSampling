@@ -31,7 +31,7 @@ rotateCluster <- function(Clusters, seed, x, y) {
 #' @param grid A dataframe of x and y coordinates (can be created with \code{createPop}).
 #' @template n_networks
 #' @param cluster.centers Vector of NetworkIDs to randomly assign to the grid.
-#' @param seed Vector of numbers to be given to \code{set.seed()}. Two numbers are used: the first to determine the sample of locations and the second to determine the NetworkIDs to be assigned to the sample locations.
+#' @param seed Vector of size two of numbers to be given to \code{set.seed()}. The first number is given to the function \code{sample} to create a sample of locations and the second number is given to the function \code{sample} to randomly assign the NetworkIDs to the sample of locations.
 #' @description This function uses two random numbers: the first to set the seed to sample locations from a grid, and the second to determine the NetworkIDs to be assigned to those locations (more specifically, the centers of the networks are assigned to those locations).
 
 #' 
@@ -54,37 +54,38 @@ sampleGridPop <- function(grid, n.networks, cluster.centers, seed) {
      # determine locations
      set.seed(seed[1])
      gridsample <- grid[sample(x = 1:dim(grid)[1], size = n.networks),]
-     gridsample$loc.selection.seed <- seed[1] # gridsample$location.seed <- seed[1]
+     gridsample$loc.selection.seed <- seed[1]
      # determine attributes of samples
      set.seed(seed[2])
      Networks <- data.frame(
           NetworkID = cluster.centers[
                sample(x = 1:length(cluster.centers)[1], size = n.networks)]
      )
-     gridsample$network.selection.seed <- seed[2] # gridsample$SpeciesInfo.seed <- seed[2]
+     gridsample$network.selection.seed <- seed[2]
      # merge location and attributes
      gridsample = cbind(gridsample, Networks) %>%
           as.data.frame
      return(gridsample)
 }	
 
-
 #' Randomly place networks within a grid population.
 #' @param n.networks Number of networks to sample from the population of networks.
 #' @param Rel_x The distance of a plot from the center of the network to which it belongs on the x axis
 #' @param Rel_y The distance of a plot from the center of the network to which it belongs on the y axis
-#' @param grid A dataframe of x and y coordinates (can be created with \code{createPop}). Should only include plots that have the species of interest.
+#' @param grid A dataframe of all x and y coordinates (as integer values) within a rectangular or square grid of coordinates for which the $y$-value *satisfies* the ACS criterion. (The grid can be first created with \code{createPop}, and then rows can be removed that do not satisfy the ACS criterion). Should only include plots that have the species of interest.
 #' @param seed Vector of numbers to be given to \code{set.seed()}. Two numbers are used: the first to determine the sample of locations and the second to determine the sample of species information to be assigned to the sample locations.
-#' @param cluster.info Dataframe of all network units. The dataframe should, at a mininum, include fields with information about the species used to initiate ACS, a PlotID field, a NetworkID field, and x and y coordinates.
+#' @param cluster.info Data.frame of all network units. The data.frame should, at a minimum, include fields with information about the species used to initiate ACS, a PlotID field, a NetworkID field, and x and y coordinates.
 #' @param x X coodinate. Default is "x."
 #' @param y Y Coordinate. Default is "y."
-#' @description Formerly called createSpeciesPatch. This function creates patches of the species of interest within the grid of locations created with \code{createPop}. First, it randomly determines the locations of network centers and randomly assigns species information to those locations (\code{sampleGridPop}), randomly rotates thet network orientation to further randomize the real data, then adds the rest of the neighbor plots. Finally, it assigns each plot a Network ID (using \code{assignNetworkMembership}; it is important to include this function in case networks overlap and must be given a new network ID).
+#' @description This function creates patches of the species of interest within the grid of locations created with \code{createPop}. First, it randomly determines the locations of network centers and randomly assigns species information to those locations (\code{sampleGridPop}), randomly rotates the network orientation to further randomize the real data, then adds the rest of the neighbor plots. Finally, it assigns each plot a Network ID (using \code{assignNetworkMembership}; it is important to include this function in case networks overlap and must be given a new network ID).
 #' 
 #' If species information is assigned twice to a given unit (as can happen in the case of overlapping, neighboring networks), the unit will be preferentially assigned the information where the species is present (if only one of the duplicate records has the species as present). If there are more than one records indicating the species is present, one of the duplicate records is randomly drawn and then assigned to the unit.
 #' 
 #' The function returns a list, the first object being the list of units occupied by the species within the population, and the second object being a vector of the remaining, unused seed numbers.
 #'
 #' This function uses a maximum of \code{2 + n.networks} random numbers: the first to set the seed to sample locations from a grid, and the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations). Then a maximum of \code{n.networks} random numbers are used, each number to randomly rotate a network of units before it is assigned coordinates.
+#' 
+#' MENTION BUFFER?
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
 #' @export
 #' @importFrom plyr rbind.fill
@@ -128,7 +129,12 @@ sampleGridPop <- function(grid, n.networks, cluster.centers, seed) {
 #'  	geom_text(aes(label=NetworkID), hjust=0, vjust=0)
 
 
-randomizeClusters <- function(grid, n.networks, seed, cluster.info, x=x, y=y, Rel_x=Rel_x, Rel_y=Rel_y) {
+randomizeClusters <- function(grid, n.networks, seed, cluster.info, x=x, y=y) {
+     
+     handleError_seed(seed)
+     # need to make sure enough seeds are given to the argument
+     
+     
 	NetworkID <- temp_coords <- NULL
 	cluster.centers <- cluster.info %>% 
 	     filter(
@@ -136,9 +142,10 @@ randomizeClusters <- function(grid, n.networks, seed, cluster.info, x=x, y=y, Re
 	          .data$Rel_y==0
 	    )
 	uniqueNetworkIDs <- cluster.info %$% unique(NetworkID)
-	# determine locations and species information for stage 1 plots
+	# determine locations and Network IDs for network centers
 	n1plots = sampleGridPop(grid, n.networks, uniqueNetworkIDs, seed)
-	seed = seed[-(1:2)] # SUBTRACT THE FIRST TWO THAT WERE USED IN SAMPLEGRIDPOP?
+	# remove the two numbers used by sampleGridPop
+	seed = seed[-(1:2)]
 	# create list of cluster plots and their coordinates
 	Z <- vector("list", length(unique(n1plots$NetworkID)))
 	for (i in 1:length(unique(n1plots$NetworkID))) {

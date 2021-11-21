@@ -6,6 +6,7 @@
 #' @template y_end
 #' @return A grid of locations with coordinates (x, y).
 #' @export
+#' @description Create a dataframe of all x and y coordinates (as integer values) within a rectangular or square grid of coordinates.
 
 #' @examples
 #' population <- createPop(
