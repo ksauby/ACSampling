@@ -250,161 +250,139 @@ test_that("set up ClusterExampleData2 correctly", {
    
    
    
+
+Sx = 10
+Sy = 20
+test_that("rotateCluster, rotation=90", {
+   seed = 5 # rotation will end up being 90
+   ClusterExampleDataManualOutput <- data.frame(
+      NetworkID = 1,
+      x = c(9,10,11, 9,10,11),
+      y = c(rep(19, 3), rep(20, 3)),
+      m = 6,
+      y_value = c(2, 11, 2, 5, 13, 3),
+      Center_x = rep(11, 6),
+      Center_y = rep(22, 6),
+      Rel_x = c(-1, -1, -1, 0, 0, 0),
+      Rel_y = c(1, 0, -1, 1, 0, -1),
+      rotation.seed = 5,
+      rotation = 90
+   )
    
-   Sx = 10
-   Sy = 20
-   test_that("set up ClusterExampleData2 correctly", {
-      seed = 5 # rotation will end up being 90
-      ClusterExampleDataManualOutput <- data.frame(
-         NetworkID = 1,
-         x = c(rep(11, 3), rep(10, 3)),
-         y = c(19, 20, 21, 19, 20, 21),
-         m = 6,
-         y_value = c(2, 11, 2, 5, 13, 3),
-         Center_x = 6,
-         Center_y = 20,
-         Rel_x = c(-1, 0, 1, -1, 0, 1),
-         Rel_y = c(-1, -1, -1, 0, 0, 0),
-         rotation.seed = 5,
-         rotation = 90
-      )
-      
-      expect_equal(
-         ClusterExampleDataManualOutput,
-         rotateCluster(ClusterExampleData, seed, Sx, Sy)
-      )
-   })
-   test_that("rotateCluster, rotation=90", {
-      seed = 5 # rotation will end up being 90
-      ClusterExampleDataManualOutput <- data.frame(
-         NetworkID = 1,
-         x = c(rep(11, 3), rep(10, 3)),
-         y = c(19, 20, 21, 19, 20, 21),
-         m = 6,
-         y_value = c(2, 11, 2, 5, 13, 3),
-         Center_x = 6,
-         Center_y = 20,
-         Rel_x = c(-1, 0, 1, -1, 0, 1),
-         Rel_y = c(-1, -1, -1, 0, 0, 0),
-         rotation.seed = 5,
-         rotation = 90
-      )
-      
-      expect_equal(
-         ClusterExampleDataManualOutput,
-         rotateCluster(ClusterExampleData, seed, Sx, Sy)
-      )
-   })
-   test_that("rotateCluster, rotation=180", {
-      seed = 9 # rotation will end up being 180
-      ClusterExampleDataManualOutput <- data.frame(
-         NetworkID = 1,
-         x = c(11, 10, 9, 11, 10, 9),
-         y = c(21, 21, 21, 20, 20, 20),
-         m = 6,
-         y_value = c(2, 11, 2, 5, 13, 3),
-         Center_x = 6,
-         Center_y = 20,
-         Rel_x = c(-1, 0, 1, -1, 0, 1),
-         Rel_y = c(-1, -1, -1, 0, 0, 0),
-         rotation.seed = 9,
-         rotation = 180
-      )
-      
-      expect_equal(
-         ClusterExampleDataManualOutput,
-         rotateCluster(ClusterExampleData, seed, Sx, Sy)
-      )
-   })
-   test_that("rotateCluster, rotation=0", {
-      seed = 2 # rotation will end up being 0
-      ClusterExampleDataManualOutput <- data.frame(
-         NetworkID = 1,
-         x = c(9, 10, 11, 9, 10, 11),
-         y = c(19, 19, 19, 20, 20, 20),
-         m = 6,
-         y_value = c(2, 11, 2, 5, 13, 3),
-         Center_x = 6,
-         Center_y = 20,
-         Rel_x = c(-1, 0, 1, -1, 0, 1),
-         Rel_y = c(-1, -1, -1, 0, 0, 0),
-         rotation.seed = 2,
-         rotation = 0
-      )
-      
-      expect_equal(
-         ClusterExampleDataManualOutput,
-         rotateCluster(ClusterExampleData, seed, Sx, Sy)
-      )
-   })
-   test_that("rotateCluster, rotation=270", {
-      seed = 8 # rotation will end up being 270
-      ClusterExampleDataManualOutput <- data.frame(
-         NetworkID = 1,
-         x = c(9, 9, 9, 10, 10, 10),
-         y = c(21, 20, 19, 21, 20, 19),
-         m = 6,
-         y_value = c(2, 11, 2, 5, 13, 3),
-         Center_x = 6,
-         Center_y = 20,
-         Rel_x = c(-1, 0, 1, -1, 0, 1),
-         Rel_y = c(-1, -1, -1, 0, 0, 0),
-         rotation.seed = 8,
-         rotation = 270
-      )
-      
-      expect_equal(
-         ClusterExampleDataManualOutput,
-         rotateCluster(ClusterExampleData, seed, Sx, Sy)
-      )
-   })
+   expect_equal(
+      ClusterExampleDataManualOutput,
+      rotateCluster(ClusterExampleData, seed, Sx, Sy)
+   )
+})
+test_that("rotateCluster, rotation=180", {
+   seed = 9 # rotation will end up being 180
+   ClusterExampleDataManualOutput <- data.frame(
+      NetworkID = 1,
+      x = c(9,9,9, 10,10,10),
+      y = c(21,20,19, 21,20,19),
+      m = 6,
+      y_value = c(2, 11, 2, 5, 13, 3),
+      Center_x = rep(11, 6),
+      Center_y = rep(22, 6),
+      Rel_x = c(-1, -1, -1, 0, 0, 0),
+      Rel_y = c(1, 0, -1, 1, 0, -1),
+      rotation.seed = 9,
+      rotation = 180
+   )
+   
+   expect_equal(
+      ClusterExampleDataManualOutput,
+      rotateCluster(ClusterExampleData, seed, Sx, Sy)
+   )
+})
+test_that("rotateCluster, rotation=0", {
+   seed = 2 # rotation will end up being 0
+   ClusterExampleDataManualOutput <- data.frame(
+      NetworkID = 1,
+      x = c(11,11,11, 10,10,10),
+      y = c(19,20,21, 19,20,21),
+      m = 6,
+      y_value = c(2, 11, 2, 5, 13, 3),
+      Center_x = rep(11, 6),
+      Center_y = rep(22, 6),
+      Rel_x = c(-1, -1, -1, 0, 0, 0),
+      Rel_y = c(1, 0, -1, 1, 0, -1),
+      rotation.seed = 2,
+      rotation = 0
+   )
+   
+   expect_equal(
+      ClusterExampleDataManualOutput,
+      rotateCluster(ClusterExampleData, seed, Sx, Sy)
+   )
+})
+test_that("rotateCluster, rotation=270", {
+   seed = 8 # rotation will end up being 270
+   ClusterExampleDataManualOutput <- data.frame(
+      NetworkID = 1,
+      x = c(11,10,9, 11,10,9),
+      y = c(21,21,21, 20,20,20),
+      m = 6,
+      y_value = c(2, 11, 2, 5, 13, 3),
+      Center_x = rep(11, 6),
+      Center_y = rep(22, 6),
+      Rel_x = c(-1, -1, -1, 0, 0, 0),
+      Rel_y = c(1, 0, -1, 1, 0, -1),
+      rotation.seed = 8,
+      rotation = 270
+   )
+   
+   expect_equal(
+      ClusterExampleDataManualOutput,
+      rotateCluster(ClusterExampleData, seed, Sx, Sy)
+   )
+})
+
+
+test_that("randomizeClusters, seed=8, rotation=270 and 0", {
+   seed = c(1, 2,
+            8, 2
+            1, 2, 3, 4, 5) # rotation will end up being 270
+   grid <- createPop(5, 25, 5, 25)
+   n.networks = length(unique(ClusterExampleData2$NetworkID))
+   cluster.info = ClusterExampleData2
+   x = x
+   y = y
+   Rel_x = Rel_x
+   Rel_y = Rel_y
    
    
-   test_that("randomizeClusters, seed=8, rotation=270", {
-      seed = c(1, 2,
-               8,
-               1, 2, 3, 4, 5) # rotation will end up being 270
-      grid <- createPop(5, 25, 5, 25)
-      n.networks = 1
-      cluster.info = ClusterExampleData
-      x = x
-      y = y
-      Rel_x = Rel_x
-      Rel_y = Rel_y
-      
-      
-      # what happens when there is no buffer
-      seed = c(8, 1, 2, 3, 4, 5) # rotation will end up being 270
-      grid <- createPop(1, 30, 1, 30)
-      n.networks
-      seed
-      cluster.info
-      x = x
-      y = y
-      Rel_x = Rel_x
-      Rel_y = Rel_y
-      
-      
-      
-      ClusterExampleDataManualOutput <- data.frame(
-         NetworkID = 1,
-         x = c(9, 9, 9, 10, 10, 10),
-         y = c(21, 20, 19, 21, 20, 19),
-         m = 6,
-         y_value = c(2, 11, 2, 5, 13, 3),
-         Center_x = 6,
-         Center_y = 20,
-         Rel_x = c(-1, 0, 1, -1, 0, 1),
-         Rel_y = c(-1, -1, -1, 0, 0, 0),
-         rotation.seed = 8,
-         rotation = 270
-      )
-      
-      expect_equal(
-         ClusterExampleDataManualOutput,
-         rotateCluster(ClusterExampleData, seed, Sx, Sy)
-      )
-   })
+   # what happens when there is no buffer
+   seed = c(8, 1, 2, 3, 4, 5) # rotation will end up being 270
+   grid <- createPop(1, 30, 1, 30)
+   n.networks
+   seed
+   cluster.info
+   x = x
+   y = y
+   Rel_x = Rel_x
+   Rel_y = Rel_y
    
    
    
+   ClusterExampleDataManualOutput <- data.frame(
+      NetworkID = 1,
+      x = c(9, 9, 9, 10, 10, 10),
+      y = c(21, 20, 19, 21, 20, 19),
+      m = 6,
+      y_value = c(2, 11, 2, 5, 13, 3),
+      Center_x = 6,
+      Center_y = 20,
+      Rel_x = c(-1, 0, 1, -1, 0, 1),
+      Rel_y = c(-1, -1, -1, 0, 0, 0),
+      rotation.seed = 8,
+      rotation = 270
+   )
+   
+   expect_equal(
+      ClusterExampleDataManualOutput,
+      rotateCluster(ClusterExampleData, seed, Sx, Sy)
+   )
+})
+
+

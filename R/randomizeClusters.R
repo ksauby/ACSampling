@@ -7,16 +7,16 @@ rotateCluster <- function(Clusters, seed, x, y) {
      Clusters$rotation <- rotation
      # determine cluster plot coordinates	
      if (rotation==0){
-          Clusters$x = Clusters$Rel_x + x
-          Clusters$y = Clusters$Rel_y + y
+          Clusters$x = -Clusters$Rel_x + x
+          Clusters$y = -Clusters$Rel_y + y
      } else 
           if (rotation==90) {
                Clusters$x = -Clusters$Rel_y + x
                Clusters$y = Clusters$Rel_x + y
           } else
                if (rotation==180) {
-                    Clusters$x = -Clusters$Rel_x + x
-                    Clusters$y = -Clusters$Rel_y + y
+                    Clusters$x = Clusters$Rel_x + x
+                    Clusters$y = Clusters$Rel_y + y
                } else
                     if (rotation==270) {
                          Clusters$x = Clusters$Rel_y + x
