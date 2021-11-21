@@ -4,42 +4,35 @@
 \alias{randomizeClusters}
 \title{Randomly place networks within a grid population.}
 \usage{
-randomizeClusters(
-  grid,
-  n.networks,
-  seed,
-  cluster.info,
-  x = x,
-  y = y,
-  Rel_x = Rel_x,
-  Rel_y = Rel_y
-)
+randomizeClusters(grid, n.networks, seed, cluster.info)
 }
 \arguments{
-\item{grid}{A dataframe of x and y coordinates (can be created with \code{createPop}). Should only include plots that have the species of interest.}
+\item{grid}{A dataframe of all x and y coordinates (as integer values) within a rectangular or square grid of coordinates for which the $y$-value *satisfies* the ACS criterion. (The grid can be first created with \code{createPop}, and then rows can be removed that do not satisfy the ACS criterion). Should only include plots that have the species of interest.}
 
 \item{n.networks}{Number of networks to sample from the population of networks.}
 
 \item{seed}{Vector of numbers to be given to \code{set.seed()}. Two numbers are used: the first to determine the sample of locations and the second to determine the sample of species information to be assigned to the sample locations.}
 
-\item{cluster.info}{Dataframe of all network units. The dataframe should, at a mininum, include fields with information about the species used to initiate ACS, a PlotID field, a NetworkID field, and x and y coordinates.}
-
-\item{x}{X coodinate. Default is "x."}
-
-\item{y}{Y Coordinate. Default is "y."}
+\item{cluster.info}{Data.frame of all network units. The data.frame should, at a minimum, include fields with information about the species used to initiate ACS, a PlotID field, a NetworkID field, and x and y coordinates.}
 
 \item{Rel_x}{The distance of a plot from the center of the network to which it belongs on the x axis}
 
 \item{Rel_y}{The distance of a plot from the center of the network to which it belongs on the y axis}
+
+\item{x}{X coodinate. Default is "x."}
+
+\item{y}{Y Coordinate. Default is "y."}
 }
 \description{
-Formerly called createSpeciesPatch. This function creates patches of the species of interest within the grid of locations created with \code{createPop}. First, it randomly determines the locations of network centers and randomly assigns species information to those locations (\code{sampleGridPop}), randomly rotates thet network orientation to further randomize the real data, then adds the rest of the neighbor plots. Finally, it assigns each plot a Network ID (using \code{assignNetworkMembership}; it is important to include this function in case networks overlap and must be given a new network ID).
+This function creates patches of the species of interest within the grid of locations created with \code{createPop} based on a dataset provided. First, it randomly determines the new locations of network centers and (\code{sampleGridPop}),, and then it randomly rotates the each network to further randomize the real data. Finally, it reassigns NetworkID (using \code{assignNetworkMembership} as previously distinct networks may have been located close enough that they have now merged to create a single network.
 
 If species information is assigned twice to a given unit (as can happen in the case of overlapping, neighboring networks), the unit will be preferentially assigned the information where the species is present (if only one of the duplicate records has the species as present). If there are more than one records indicating the species is present, one of the duplicate records is randomly drawn and then assigned to the unit.
 
 The function returns a list, the first object being the list of units occupied by the species within the population, and the second object being a vector of the remaining, unused seed numbers.
 
 This function uses a maximum of \code{2 + n.networks} random numbers: the first to set the seed to sample locations from a grid, and the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations). Then a maximum of \code{n.networks} random numbers are used, each number to randomly rotate a network of units before it is assigned coordinates.
+
+MENTION BUFFER?
 }
 \examples{
 library(magrittr)

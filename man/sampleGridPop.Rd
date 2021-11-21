@@ -4,16 +4,16 @@
 \alias{sampleGridPop}
 \title{Assign a sample of cluster centers (derived from real data) to a sample of grid locations}
 \usage{
-sampleGridPop(grid, n.networks, cluster.centers, seed)
+sampleGridPop(grid, n.networks, NetworkIDs, seed)
 }
 \arguments{
 \item{grid}{A dataframe of x and y coordinates (can be created with \code{createPop}).}
 
 \item{n.networks}{The number of networks to be placed in the realization.}
 
-\item{cluster.centers}{Vector of NetworkIDs to randomly assign to the grid.}
+\item{NetworkIDs}{Vector of NetworkIDs to randomly assign to the grid.}
 
-\item{seed}{Vector of numbers to be given to \code{set.seed()}. Two numbers are used: the first to determine the sample of locations and the second to determine the NetworkIDs to be assigned to the sample locations.}
+\item{seed}{Vector of size two of numbers to be given to \code{set.seed()}. The first number is given to the function \code{sample} to create a sample of locations and the second number is given to the function \code{sample} to randomly assign the NetworkIDs to the sample of locations.}
 }
 \description{
 This function uses two random numbers: the first to set the seed to sample locations from a grid, and the second to determine the NetworkIDs to be assigned to those locations (more specifically, the centers of the networks are assigned to those locations).
@@ -24,9 +24,9 @@ library(dplyr)
 grid = createPop(0, 25, 0, 25)
 n.networks = 2
 data(Thompson1990Fig1Pop)
-cluster.centers = Thompson1990Fig1Pop \%>\% 
+NetworkIDs = Thompson1990Fig1Pop \%>\% 
 	filter(m > 1) \%$\%
 	unique(NetworkID)
 seed = 1:2
-sampleGridPop(grid, n.networks, cluster.centers, seed)
+sampleGridPop(grid, n.networks, NetworkIDs, seed)
 }

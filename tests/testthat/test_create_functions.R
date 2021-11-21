@@ -33,7 +33,7 @@ test_that("createNetworkCenters", {
    expect_equal(
       ACSampling:::createNetworkCenters(popdata) %>% as.data.frame,
       data.frame(
-         NetworkID = popdata$NetworkID,
+         NetworkID = unique(popdata$NetworkID),
          Center_x = popdata_Centerx,
          Center_y = popdata_Centery
       )
@@ -341,47 +341,39 @@ test_that("rotateCluster, rotation=270", {
 
 test_that("randomizeClusters, seed=8, rotation=270 and 0", {
    seed = c(1, 2,
-            8, 2
+            8, 2,
             1, 2, 3, 4, 5) # rotation will end up being 270
    grid <- createPop(5, 25, 5, 25)
-   n.networks = length(unique(ClusterExampleData2$NetworkID))
+   n.networks = 2
    cluster.info = ClusterExampleData2
-   x = x
-   y = y
-   Rel_x = Rel_x
-   Rel_y = Rel_y
-   
-   
+ 
    # what happens when there is no buffer
-   seed = c(8, 1, 2, 3, 4, 5) # rotation will end up being 270
-   grid <- createPop(1, 30, 1, 30)
-   n.networks
-   seed
-   cluster.info
-   x = x
-   y = y
-   Rel_x = Rel_x
-   Rel_y = Rel_y
-   
-   
-   
-   ClusterExampleDataManualOutput <- data.frame(
-      NetworkID = 1,
-      x = c(9, 9, 9, 10, 10, 10),
-      y = c(21, 20, 19, 21, 20, 19),
-      m = 6,
-      y_value = c(2, 11, 2, 5, 13, 3),
-      Center_x = 6,
-      Center_y = 20,
-      Rel_x = c(-1, 0, 1, -1, 0, 1),
-      Rel_y = c(-1, -1, -1, 0, 0, 0),
-      rotation.seed = 8,
-      rotation = 270
+
+   ClusterExampleData2ManualOutput <- data.frame(
+      x = c(
+         14,13,12, 14,13,12,
+         22, 23,23,23, 24,24, 25,25, 26,26
+      ),
+      y = c(
+         21,21,21, 20,20,20,
+         12, 11,12,13, 12,13, 11,12, 12,13
+      ),
+      m = ClusterExampleData2$m,
+      y_value = ClusterExampleData2$m,
+      Center_x = ClusterExampleData2$m,
+      Center_y = ClusterExampleData2$m,
+      Rel_x = ClusterExampleData2$m,
+      Rel_y = ClusterExampleData2$m,
+      rotation.seed = c(rep(8,6), rep(1,10)),
+      rotation = c(rep(270,6), rep(0,10)),
+      loc.selection.seed = 1,
+      network.selection.seed = 2,
+      NetworkID = ClusterExampleData2$NetworkID
    )
    
    expect_equal(
-      ClusterExampleDataManualOutput,
-      rotateCluster(ClusterExampleData, seed, Sx, Sy)
+      ClusterExampleData2ManualOutput,
+      randomizeClusters(grid, n.networks, ClusterExampleData2, seed)
    )
 })
 

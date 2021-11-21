@@ -19,7 +19,7 @@ createPop(x_start, x_end, y_start, y_end)
 A grid of locations with coordinates (x, y).
 }
 \description{
-Create a population of locations (in a grid).
+Create a dataframe of all x and y coordinates (as integer values) within a rectangular or square grid of coordinates.
 }
 \examples{
 population <- createPop(

@@ -16,7 +16,7 @@ createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
 calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula) {
      # summarise data for mean calculations
      O <- alldata %>% 
-          filter(Sampling!="Edge") %>%
+          filter(.data$Sampling!="Edge") %>%
           select(!!!OAVAR, NetworkID, m)
      # calculate y_HT
      m <- O$m
@@ -77,12 +77,12 @@ createSummaryforVarCalcs <- function(alldata, rvar, ovar) {
      ROVAR <- syms(rovar)
      # summarise data for variance calculations
      mvals <- alldata %>%
-          group_by(NetworkID) %>%
+          group_by(.data$NetworkID) %>%
           summarise(m = m[1])
      R_smd <- alldata %>%
-          filter(Sampling!="Edge") %>%
+          filter(.data$Sampling!="Edge") %>%
           select(!!!ROVAR, "NetworkID") %>%
-          group_by(NetworkID) %>%
+          group_by(.data$NetworkID) %>%
           #as.data.table %>%
           summarise_all(
                list(sum = sum),
