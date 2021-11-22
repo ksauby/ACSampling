@@ -359,11 +359,11 @@ test_that("randomizeClusters, seed=8, rotation=270 and 0", {
          12, 11,12,13, 12,13, 11,12, 12,13
       ),
       m = ClusterExampleData2$m,
-      y_value = ClusterExampleData2$m,
-      Center_x = ClusterExampleData2$m,
-      Center_y = ClusterExampleData2$m,
-      Rel_x = ClusterExampleData2$m,
-      Rel_y = ClusterExampleData2$m,
+      y_value = ClusterExampleData2$y_value,
+      Center_x = ClusterExampleData2$Center_x,
+      Center_y = ClusterExampleData2$Center_y,
+      Rel_x = ClusterExampleData2$Rel_x,
+      Rel_y = ClusterExampleData2$Rel_y,
       rotation.seed = c(rep(8,6), rep(1,10)),
       rotation = c(rep(270,6), rep(0,10)),
       loc.selection.seed = 1,
@@ -373,7 +373,7 @@ test_that("randomizeClusters, seed=8, rotation=270 and 0", {
    
    expect_equal(
       ClusterExampleData2ManualOutput,
-      randomizeClusters(grid, n.networks, ClusterExampleData2, seed)
+      randomizeClusters(grid, n.networks, cluster.info, seed)
    )
 })
 
