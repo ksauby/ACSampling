@@ -79,7 +79,7 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
 #' 
 #' The function returns a list, the first object being the list of units occupied by the species within the population, and the second object being a vector of the remaining, unused seed numbers.
 #'
-#' This function uses a maximum of \code{2 + n.networks} random numbers: the first to set the seed to sample locations from a grid, and the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations). Then a maximum of \code{n.networks} random numbers are used, each number to randomly rotate a network of units before it is assigned coordinates.
+#' This function uses a maximum of \code{2 + n.networks + number of units in the smallest network} random numbers: the first to set the seed to sample locations from a grid, the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations). Then \code{n.networks} random numbers to determine the degrees to which to rotate each network of units before it is assigned coordinates. Finally, the last \code{n.networks} random numbers are used, if necessary, to randomly determine which unit is used if units from multiple networks overlap.
 #' 
 #' MENTION BUFFER?
 #' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
@@ -150,7 +150,7 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed) {
                                        unique(n1plots$NetworkID)[i]), ]
       # further randomize real data by rotating clusters
       # max number of unique rotation.seeds = n.networks
-      Z[[i]] <- rotateCluster(Clusters, seed[i], S$x, S$y)
+      Z[[i]] <- rotateCluster(Clusters, seed[1], S$x, S$y)
       seed <- seed[-1]
    }
    H <- do.call(rbind.data.frame, Z)

@@ -364,7 +364,7 @@ test_that("randomizeClusters, seed=8, rotation=270 and 0", {
       Center_y = ClusterExampleData2$Center_y,
       Rel_x = ClusterExampleData2$Rel_x,
       Rel_y = ClusterExampleData2$Rel_y,
-      rotation.seed = c(rep(8,6), rep(1,10)),
+      rotation.seed = c(rep(8,6), rep(2,10)),
       rotation = c(rep(270,6), rep(0,10)),
       loc.selection.seed = 1,
       network.selection.seed = 2,
@@ -376,5 +376,45 @@ test_that("randomizeClusters, seed=8, rotation=270 and 0", {
       randomizeClusters(grid, n.networks, cluster.info, seed)
    )
 })
+test_that("randomizeClusters, one network out of two", {
+   # what happens when there is no buffer
+   
+   ClusterExampleData2ManualOutput <- data.frame(
+      x = c(
+         12,11,10, 12,11,10, 8, 9,9,9, 10,10, 11, 12,12
+      ),
+      y = c(
+         21,21,21, 20,20,20, 22, 21,22,23, 22,23, 22, 22,23
+      ),
+      m = c(6,10,6,6,6,6,10,10,10,10,10,10,10,10,10),
+      y_value = c(2,1,2,5,13,3,1,1,2,1,3,1,2,1,1),
+      Center_x = c(11,23,11,11,11,11, rep(11,9)),
+      Center_y = ClusterExampleData2$Center_y,
+      Rel_x = ClusterExampleData2$Rel_x,
+      Rel_y = ClusterExampleData2$Rel_y,
+      rotation.seed = c(8, 2, rep(8,4), rep(2,9)),
+      rotation = c(270, 0, rep(270,4), rep(0,9)),
+      loc.selection.seed = 5,
+      network.selection.seed = 2,
+      NetworkID = 1
+   )
+   seed = c(5, 2, # picks locations, then assigns NetworkIDs to locations
+            8, 2, # rotation for each of the two Networks
+            1, 2, 3, 4, 5) 
+   grid <- createPop(5, 25, 5, 25)
+   n.networks = 2
+   cluster.info = ClusterExampleData2
+   
+   sampleGridPop(grid, n.networks, c(1,2), seed)
+   
+   randomizeClusters(grid, n.networks, cluster.info, seed)
+   
+   
+   expect_equal(
+      ClusterExampleData2ManualOutput,
+      
+   )
+})
+
 
 
