@@ -1,4 +1,13 @@
+#' Sample species patch realizations simulations according to the selected sampling design
 
+#' @param SamplingDesign
+#' @template popdata
+#' @template seed
+#' @template n1
+#' @template yvar
+#' @template f_max
+#' 
+#' @noRd
 
 createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
      if (SamplingDesign=="ACS") {
@@ -13,7 +22,19 @@ createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
      }
 }
 
-calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula) {
+#' Calculate the Horvitz-Thompson mean for multiple variables
+
+#' @param alldata
+#' @param OAVAR the variables with which to calculate the Horvitz-Thompson mean
+#' @template N
+#' @template n1
+#' @template m
+#' @template m_threshold
+#' @param y_HT_formula
+#' 
+#' @noRd
+#' 
+calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula) {
      # summarise data for mean calculations
      O <- alldata %>% 
           filter(.data$Sampling!="Edge") %>%
@@ -26,7 +47,7 @@ calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, mThreshold, y_HT_fo
                summarise_all(
                     list(yHT = new_y_HT),
                     N = N, n1 = n1, m = m, 
-                    m_threshold = mThreshold
+                    m_threshold = m_threshold
                )
      } else if (y_HT_formula == "y_HT") {
           O %>%
@@ -38,6 +59,16 @@ calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, mThreshold, y_HT_fo
      }
 }
 
+#' Calculate the Horvitz-Thompson variance for multiple variables
+
+#' @param alldata
+#' @param OAVAR the variables with which to calculate the Horvitz-Thompson variance
+#' @template N
+#' @template n1
+#' @param var_formula
+#' 
+#' @noRd
+#' 
 calc_var_y_HT_MultipleVars <- function(alldata, OAVAR, var_formula, N, n1) {
      # summarise data for variance calculations
      O_smd <- alldata %>% 
@@ -72,6 +103,14 @@ calc_var_y_HT_MultipleVars <- function(alldata, OAVAR, var_formula, N, n1) {
      }
 }
 
+#' Prepare the data for calculating the Horvitz-Thompson variance
+
+#' @param alldata
+#' @template rvar
+#' @template ovar
+#' 
+#' @noRd
+#' 
 createSummaryforVarCalcs <- function(alldata, rvar, ovar) {
      rovar <- c(rvar, ovar)
      ROVAR <- syms(rovar)
@@ -91,6 +130,16 @@ createSummaryforVarCalcs <- function(alldata, rvar, ovar) {
           merge(mvals, by="NetworkID")
 }
 
+#' Calculate the ratio mean and variance for multiple variables
+
+#' @param R_smd dataset?
+#' @template rvar
+#' @template ovar
+#' @template N
+#' @template n1
+#' 
+#' @noRd
+#' 
 calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
      # summarise data for mean calculations
      tempdat <- data.frame(Var1 = NA)
@@ -115,15 +164,29 @@ calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
      tempdat
 }
 
+#' Calculate the Join Count Test estimate
+
+#' @param temp dataset
+#' @param lwb weights list
+#' 
 getJoinCountTestEst <- function(temp, lwb) {
      joincount.test(as.factor(temp$y_value), lwb)[[2]]$estimate[1]
 }
 
+#' Calculate the Moran Test estimate
+
+#' @param temp dataset
+#' @param lwb weights list
+#' 
 getMoranTestEst <- function(temp, lwb) {
      moran.test(temp$y_value, lwb)$estimate[1]
 }
 
+#' Calculate Spatial Statistics
 
+#' @template alldata_all
+#' @param weights
+#' 
 calcSpatStats <- function(alldata_all, weights) {
      temp <- alldata_all %>%
           as.data.frame %>%
@@ -154,6 +217,12 @@ calcSpatStats <- function(alldata_all, weights) {
      return(tempdat)
 }
 
+#' Name data columns?
+
+#' @param alldata_all
+#' @param weights
+#' 
+#' @noRd
 fillSpatStatsNA <- function(alldata_all, weights) {
      for (i in length(weights)) {
           tempdat$JoinCountTest <- NA
@@ -166,20 +235,36 @@ fillSpatStatsNA <- function(alldata_all, weights) {
      return(tempdat)
 }
 
-calcRatioEst <- function(dataset, dataset_results, rvar, N, n1, m_vec) {
-     y = dataset[, rvar]
-     x = dataset[, str_sub(rvar,-7,-1)]
+#' Calculate and return the ratio estimator mean and variance of each simulated population
+
+#' @param dataset Dataframe containing three columns: y, the variable of 
+#' interest; x, the auxiliary variable to estimate using the ratio estimator; 
+#' and m_vec, a vector of network sizes.
+#' @param dat_results
+#' @template rvar
+#' @template N
+#' @template n1
+#' @template m_vec
+#' 
+#' @noRd
+calcRatioEst <- function(dataset, dat_results, rvar, N, n1, m_vec) {
+   
+   # IS X AND Y MIXED UP?
+   
+   
+     x = dataset[, rvar]
+     y = dataset[, str_sub(rvar,-7,-1)]
      # equal P(inclusion) for all
      # m = rep(1, length(y))
      m_vec = dataset$m_vec
-     dataset_results$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
+     dat_results$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
      
-     dataset_results$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
-     names(dataset_results)[(dim(dataset_results)[2]-1): dim(dataset_results)[2]] <- 
+     dat_results$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
+     names(dat_results)[(dim(dat_results)[2]-1): dim(dat_results)[2]] <- 
           c(paste(rvar, "RMeanObs", sep=""),
             paste(rvar, "RVarObs", sep=""))
-     dataset_results %<>% mutate(Plots = deparse(substitute(dataset)))
-     return(dataset_results)
+     dat_results %<>% mutate(Plots = deparse(substitute(dataset)))
+     return(dat_results)
 }
 
 
@@ -265,225 +350,224 @@ sampleRealizations <- function(
 	weights="S"
 ) 
 {
-     handleError_popdata(popdata)
-     handleError_n1vector(n1_vec)
-     handleError_yvar(yvar)
-     handleError_LogicalVar(SampleEstimators, "SampleEstimators")
-     handleError_LogicalVar(SpatStat, "SpatStat")
-     handleError_LogicalVar(mChar, "mChar")
-     
-     vars <- c(ovar, avar, rvar)
-     handleError_vars(vars)
-     
-
-     if (!(SamplingDesign %in% c("ACS", "RACS", "SRS"))) {
-          stop("SamplingDesign must be supplied as either 'SRS', ACS', or 'RACS'.")
-     }
-     if (!(y_HT_formula %in% c("y_HT", "y_HT_RACS"))) {
-          stop("y_HT_formula must be supplied as either 'y_HT' or 'y_HT_RACS'.")
-     }
-     if (!(var_formula %in% c("var_y_HT", "var_y_HT_RACS"))) {
-          stop("var_formula must be supplied as either 'var_y_HT' or 'var_y_HT_RACS'.")
-     }
-     if (!(weights %in% c("W", "B", "C", "U", "S"))) {
-          stop("weights must be supplied as 'W', 'B', 'C', 'U', or 'S'.")
-     }
-
-     if (is.character(popvar)==FALSE) {
-          stop("The argument popvar must be a character string.")
-     }
-     if (is.character(realvar)==FALSE) {
-          stop("The argument realvar must be a character string.")
-     }
-     
-     POPVAR <- sym(popvar)
-     REALVAR <- sym(realvar)
-     n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
-     TIME <- Sys.time()
-     popdata %<>% arrange_at(c(popvar, realvar))
-     n.patches <- length(unique(eval(parse(text=paste(
-          "popdata$", popvar, sep="")))))
-     nsample.length <- length(n1_vec)
-     A <- vector("list", n.patches)
-     # c() - same code calculates the HT estimators for occupancy and abundance
-     oavar <- c(ovar, avar)
-     OAVAR <- syms(oavar)
-     # empty dataframes will be cbind'd together after HT estimators calculated
-     occ_abund_var <- data.frame(row.names = 1:length(c(ovar, avar))) 
-     occ_abund_mean <- data.frame(row.names = 1:length(c(ovar, avar)))
-     Ratio <- data.frame(row.names = 1:length(rvar)) 
-	# the names to assign the estimates
+   handleError_popdata(popdata)
+   handleError_n1vector(n1_vec)
+   handleError_yvar(yvar)
+   handleError_LogicalVar(SampleEstimators, "SampleEstimators")
+   handleError_LogicalVar(SpatStat, "SpatStat")
+   handleError_LogicalVar(mChar, "mChar")
+   
+   vars <- c(ovar, avar, rvar)
+   handleError_vars(vars)
+   
+   
+   if (!(SamplingDesign %in% c("ACS", "RACS", "SRS"))) {
+      stop("SamplingDesign must be supplied as either 'SRS', ACS', or 'RACS'.")
+   }
+   if (!(y_HT_formula %in% c("y_HT", "y_HT_RACS"))) {
+      stop("y_HT_formula must be supplied as either 'y_HT' or 'y_HT_RACS'.")
+   }
+   if (!(var_formula %in% c("var_y_HT", "var_y_HT_RACS"))) {
+      stop("var_formula must be supplied as either 'var_y_HT' or 'var_y_HT_RACS'.")
+   }
+   if (!(weights %in% c("W", "B", "C", "U", "S"))) {
+      stop("weights must be supplied as 'W', 'B', 'C', 'U', or 'S'.")
+   }
+   
+   if (is.character(popvar)==FALSE) {
+      stop("The argument popvar must be a character string.")
+   }
+   if (is.character(realvar)==FALSE) {
+      stop("The argument realvar must be a character string.")
+   }
+   
+   POPVAR <- sym(popvar)
+   REALVAR <- sym(realvar)
+   n.networks <- realization <- i <- j <- Sampling <- . <- NetworkID <- NULL
+   TIME <- Sys.time()
+   popdata %<>% arrange_at(c(popvar, realvar))
+   n.patches <- length(unique(eval(parse(text=paste(
+      "popdata$", popvar, sep="")))))
+   nsample.length <- length(n1_vec)
+   A <- vector("list", n.patches)
+   # c() - same code calculates the HT estimators for occupancy and abundance
+   oavar <- c(ovar, avar)
+   OAVAR <- syms(oavar)
+   # empty dataframes will be cbind'd together after HT estimators calculated
+   occ_abund_var <- data.frame(row.names = 1:length(c(ovar, avar))) 
+   occ_abund_mean <- data.frame(row.names = 1:length(c(ovar, avar)))
+   Ratio <- data.frame(row.names = 1:length(rvar)) 
+   # the names to assign the estimates
 	# occ_abund_mean_names <- paste(ovar, avar, "MeanObs", sep="")
 	#occ_abund_var_names <- paste(ovar, avar, "VarObs", sep="")
 	ratio_mean_names <- paste(rvar, "RMeanObs", sep="")
 	ratio_var_names <- paste(rvar, "RVarObs", sep="")
 	# i=1;j=1;k=1
 	Z = foreach (
-		i = 1:n.patches, # for each species density
-		.inorder = FALSE, 
-		.packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
-		 	"ACSampling", "intergraph", "network", "igraph", "stringr", 
-		 	"spdep"), 
-		.combine = "bind_rows",
-		#.errorhandling = "pass",
-		.verbose = TRUE
-		) %:%
-	 	foreach (
-			j = 1:nsample.length, # for each sampling effort
-			.combine = "bind_rows",
-			.inorder = FALSE
-		) %dopar% {
-			cat(paste(i,j, sep="_"))
-			P <- popdata %>% 
-				filter(!!POPVAR == unique(
-					eval(parse(text=paste("popdata$", popvar, sep="")))
-				)[i])
-			N <- dim(P)[1]
-			n1 <- n1_vec[j]
-			A[[i]][[j]] <- list()
-			r <- (i - 1) * j + j
-			seeds <- runif(sims)
-		    for (k in 1:sims) {
-				temp_seed <- seeds[k]*100000
-				alldata <- createSample(SamplingDesign, P, temp_seed, n1,
-                         yvar, f_max)
-				alldata_all <- alldata
-				if (SampleEstimators == TRUE) {
-					################ SRSWOR Sampling #####################
-					if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
-						# datasets to apply simple mean/variance and 
-					     #    simple ratio estimator
-						dats <- "alldata"
-					}
-				     ################ SRSWOR Data, alldata ################
-					if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
-						SRSWOR_data <- alldata %>% 
-							filter(Sampling=="SRSWOR")
-						alldata %<>% filter(Sampling!="Edge")
-						# apply simple mean/variance & simple ratio 
-						#    estimator to:
-						dats <- c("SRSWOR_data", "alldata")
-					}
-					SampleMeanVar <- list()
-					for (n in 1:length(dats)) {
-						dat <- eval(parse(text=dats[[n]])) %>%
-							select(!!!OAVAR) %>%
-							summarise_all(
-							     list(mean), 
-							     na.rm=T)
-						names(dat) <- str_replace(
-						     names(dat), "(.*)", "\\1_obs")
-						dat$Plots <- dats[n]
-						SampleMeanVar[[n]] <- dat
-					}
-					SampleMeanVar %<>% bind_rows
-					# simple ratio estimators applied to alldata, 
-					#    SRSWOR_data
-					if (!(is.null(rvar))) {
-					     SmpR <- list()
-					     for (n in 1:length(dats)) {
-					          SmpR[[n]] <- data.frame(Var1 = NA)
-					          dataset <- eval(parse(text=dats[[n]]))
-					          dataset_results <- data.frame(Var1 = NA)
-					          for (l in 1:length(rvar)) {
-					               calcRatioEst(dataset, dataset_results, rvar[l], N, n1, m)
-					          }
-					     }
-					     SmpR <- do.call(rbind.data.frame, Ratio)
-					     SampleMeanVar %<>% merge(SmpR)
-					}
-				} else
-				{
-					alldata %<>% filter(Sampling!="Edge")
-				}
-				if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
-					################ HORVITZ-THOMPSON ESTIMATORS ##########
-					HT_results <- list()
-					HT_results[[1]] <- calc_y_HT_MultipleVars(
-					     alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula)
-					HT_results[[2]] <- calc_var_y_HT_MultipleVars(
-					     alldata, OAVAR, var_formula, N, n1
-					)
-					# RATIO DATA
-					if (!(is.null(rvar))) {
-					     R_smd <- createSummaryforVarCalcs(alldata, rvar, ovar)
-					     HT_results[[3]] <- calc_rvar_MultipleVars(
-					          R_smd, rvar, ovar, N, n1)
-					}
-					# merge together			
-					All_HT <- HT_results %>% 
-						as.data.frame %>%
-						mutate(Plots = "Horvitz Thompson Mean (All Plots)")
-					# merge estimates
-					if (SampleEstimators == TRUE) {
-						A[[i]][[j]][[k]] = bind_rows(SampleMeanVar, All_HT)
-					} else
-					{
-						A[[i]][[j]][[k]] <- All_HT
-					}
-				} else
-				{
-					A[[i]][[j]][[k]] <- SampleMeanVar
-				}
-				# add other information
-				A[[i]][[j]][[k]]$simulation = k
-				A[[i]][[j]][[k]]$seed = temp_seed
-				A[[i]][[j]][[k]]$N.ACS.plots = dim(alldata_all)[1] - n1
-				A[[i]][[j]][[k]]$N.Total.plots = dim(alldata_all)[1]
-				A[[i]][[j]][[k]]$realvar = eval(parse(text=paste(
-					"P$", realvar, sep="")))[1]
-				A[[i]][[j]][[k]]$popvar = eval(parse(text=paste(
-					"P$", popvar, sep="")))[1]
-				A[[i]][[j]][[k]]$N.SRSWOR.plots = n1
-				# m characteristics
-				if (mChar == TRUE) {
-					if (sum(alldata_all$Cactus) > 0) {
-						temp <- alldata_all[which(
-							eval(parse(text=yvar)) > 0
-						),] 
-						A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
-						A[[i]][[j]][[k]]$median_m <- median(temp$m)
-						A[[i]][[j]][[k]]$max_m <- max(temp$m)
-						A[[i]][[j]][[k]]$min_m <- min(temp$m)
-						temp %<>%
-							group_by(NetworkID) %>%
-							summarise(m = m[1]) %>%
-							summarise(
-								MEAN = mean(m),
-								MAX = max(m),
-								MIN = min(m),
-								MEDIAN = median(m)
-							)
-						A[[i]][[j]][[k]]$mean_uniq_m <- temp$MEAN
-						A[[i]][[j]][[k]]$median_uniq_m <- temp$MEDIAN
-						A[[i]][[j]][[k]]$max_uniq_m <- temp$MAX
-						A[[i]][[j]][[k]]$min_uniq_m <- temp$MIN
-					} else
-					{
-						A[[i]][[j]][[k]]$mean_m <- NA
-						A[[i]][[j]][[k]]$median_m <- NA
-						A[[i]][[j]][[k]]$max_m <- NA
-						A[[i]][[j]][[k]]$min_m <- NA
-						A[[i]][[j]][[k]]$mean_uniq_m <- NA
-						A[[i]][[j]][[k]]$median_uniq_m <- NA
-						A[[i]][[j]][[k]]$max_uniq_m <- NA
-						A[[i]][[j]][[k]]$min_uniq_m <- NA
-					}
-				}
-				# Spatial Statistics
-				if (SpatStat == TRUE) {
-                         A[[i]][[j]][[k]] %<>% cbind(
-                              if (sum(alldata_all$Cactus) > 1) {
-                                   calcSpatStats(alldata_all, weights)
-                              } else {
-                                   fillSpatStatsNA(alldata_all, weights)
-                              }
-                         )
-					
-				}
-			}
-			do.call(rbind.data.frame, A[[i]][[j]])
-	}
+	   i = 1:n.patches, # for each species density
+	   .inorder = FALSE, 
+	   .packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
+	                 "ACSampling", "intergraph", "network", "igraph", "stringr", 
+	                 "spdep"), 
+	   .combine = "bind_rows",
+	   #.errorhandling = "pass",
+	   .verbose = TRUE
+	) %:%
+	   foreach (
+	      j = 1:nsample.length, # for each sampling effort
+	      .combine = "bind_rows",
+	      .inorder = FALSE
+	   ) %dopar% {
+	      cat(paste(i,j, sep="_"))
+	      P <- popdata %>% 
+	         filter(!!POPVAR == unique(
+	            eval(parse(text=paste("popdata$", popvar, sep="")))
+	         )[i])
+	      N <- dim(P)[1]
+	      n1 <- n1_vec[j]
+	      A[[i]][[j]] <- list()
+	      r <- (i - 1) * j + j
+	      seeds <- runif(sims)
+	      for (k in 1:sims) {
+	         temp_seed <- seeds[k]*100000
+	         alldata <- createSample(SamplingDesign, P, temp_seed, n1,
+	                                 yvar, f_max)
+	         alldata_all <- alldata
+	         if (SampleEstimators == TRUE) {
+	            ################ SRSWOR Sampling #####################
+	            if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
+	               # datasets to apply simple mean/variance and 
+	               #    simple ratio estimator
+	               dats <- "alldata"
+	            }
+	            ################ SRSWOR Data, alldata ################
+	            if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
+	               SRSWOR_data <- alldata %>% 
+	                  filter(Sampling=="SRSWOR")
+	               alldata %<>% filter(Sampling!="Edge")
+	               # apply simple mean/variance & simple ratio estimator to:
+	               dats <- c("SRSWOR_data", "alldata")
+	            }
+	            SampleMeanVar <- list()
+	            for (n in 1:length(dats)) {
+	               dat <- eval(parse(text=dats[[n]])) %>%
+	                  select(!!!OAVAR) %>%
+	                  summarise_all(list(mean), na.rm=T)
+	               names(dat) <- str_replace(names(dat), "(.*)", "\\1_obs")
+	               dat$Plots <- dats[n]
+	               SampleMeanVar[[n]] <- dat
+	            }
+	            SampleMeanVar %<>% bind_rows
+	            # simple ratio estimators applied to alldata, SRSWOR_data
+	            if (!(is.null(rvar))) {
+	               SmpR <- list()
+	               for (n in 1:length(dats)) { # for each dataset
+	                  SmpR[[n]] <- data.frame(Var1 = NA)
+	                  # DOES dataset CONTAIN THE M VALUES?
+	                  ####
+	                  ####
+	                  #####
+	                  ####
+	                  ####
+	                  dataset <- eval(parse(text=dats[[n]]))
+	                  dat_results <- data.frame(Var1 = NA)
+	                  for (l in 1:length(rvar)) {
+	                     calcRatioEst(dataset, dat_results, rvar[l], N, n1, m)
+	                  }
+	               }
+	               SmpR <- do.call(rbind.data.frame, Ratio)
+	               SampleMeanVar %<>% merge(SmpR)
+	            }
+	         } else
+	         {
+	            alldata %<>% filter(Sampling!="Edge")
+	         }
+	         if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
+	            ################ HORVITZ-THOMPSON ESTIMATORS ##########
+	            HT_results <- list()
+	            HT_results[[1]] <- calc_y_HT_MultipleVars(
+	               alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula)
+	            HT_results[[2]] <- calc_var_y_HT_MultipleVars(
+	               alldata, OAVAR, var_formula, N, n1
+	            )
+	            # RATIO DATA
+	            if (!(is.null(rvar))) {
+	               R_smd <- createSummaryforVarCalcs(alldata, rvar, ovar)
+	               HT_results[[3]] <- calc_rvar_MultipleVars(
+	                  R_smd, rvar, ovar, N, n1)
+	            }
+	            # merge together			
+	            All_HT <- HT_results %>% 
+	               as.data.frame %>%
+	               mutate(Plots = "Horvitz Thompson Mean (All Plots)")
+	            # merge estimates
+	            if (SampleEstimators == TRUE) {
+	               A[[i]][[j]][[k]] = bind_rows(SampleMeanVar, All_HT)
+	            } else
+	            {
+	               A[[i]][[j]][[k]] <- All_HT
+	            }
+	         } else
+	         {
+	            A[[i]][[j]][[k]] <- SampleMeanVar
+	         }
+	         # add other information
+	         A[[i]][[j]][[k]]$simulation = k
+	         A[[i]][[j]][[k]]$seed = temp_seed
+	         A[[i]][[j]][[k]]$N.ACS.plots = dim(alldata_all)[1] - n1
+	         A[[i]][[j]][[k]]$N.Total.plots = dim(alldata_all)[1]
+	         A[[i]][[j]][[k]]$realvar = eval(parse(text=paste(
+	            "P$", realvar, sep="")))[1]
+	         A[[i]][[j]][[k]]$popvar = eval(parse(text=paste(
+	            "P$", popvar, sep="")))[1]
+	         A[[i]][[j]][[k]]$N.SRSWOR.plots = n1
+	         # m characteristics
+	         if (mChar == TRUE) {
+	            if (sum(alldata_all$Cactus) > 0) {
+	               temp <- alldata_all[which(eval(parse(text=yvar)) > 0),] 
+	               A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
+	               A[[i]][[j]][[k]]$median_m <- median(temp$m)
+	               A[[i]][[j]][[k]]$max_m <- max(temp$m)
+	               A[[i]][[j]][[k]]$min_m <- min(temp$m)
+	               temp %<>%
+	                  group_by(NetworkID) %>%
+	                  summarise(m = m[1]) %>%
+	                  summarise(
+	                     MEAN = mean(m),
+	                     MAX = max(m),
+	                     MIN = min(m),
+	                     MEDIAN = median(m)
+	                  )
+	               A[[i]][[j]][[k]]$mean_uniq_m <- temp$MEAN
+	               A[[i]][[j]][[k]]$median_uniq_m <- temp$MEDIAN
+	               A[[i]][[j]][[k]]$max_uniq_m <- temp$MAX
+	               A[[i]][[j]][[k]]$min_uniq_m <- temp$MIN
+	            } else
+	            {
+	               A[[i]][[j]][[k]]$mean_m <- NA
+	               A[[i]][[j]][[k]]$median_m <- NA
+	               A[[i]][[j]][[k]]$max_m <- NA
+	               A[[i]][[j]][[k]]$min_m <- NA
+	               A[[i]][[j]][[k]]$mean_uniq_m <- NA
+	               A[[i]][[j]][[k]]$median_uniq_m <- NA
+	               A[[i]][[j]][[k]]$max_uniq_m <- NA
+	               A[[i]][[j]][[k]]$min_uniq_m <- NA
+	            }
+	         }
+	         # Spatial Statistics
+	         if (SpatStat == TRUE) {
+	            A[[i]][[j]][[k]] %<>% cbind(
+	               if (sum(alldata_all$Cactus) > 1) {
+	                  calcSpatStats(alldata_all, weights)
+	               } else {
+	                  fillSpatStatsNA(alldata_all, weights)
+	               }
+	            )
+	            
+	         }
+	      }
+	      do.call(rbind.data.frame, A[[i]][[j]])
+	   }
 	Z$f_max = f_max
 	Z$mThreshold = mThreshold
 	Z$nSims = sims

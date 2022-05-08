@@ -173,7 +173,9 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed) {
          if (dim(L)[1]>0) {
             if (dim(L)[1]>1) {
                # if multiple units satisfy sampling criterion, randomly choose one
+               set.seed(seed[1])
                Y[i, ] = L[sample(1:dim(L)[1], size=1), ]
+               seed <- seed[-1]
             } else
             {
                # if only one row satisfying criterion, pick that one
@@ -181,13 +183,23 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed) {
             }
          } else {
             # otherwise randomly choose a row
+            set.seed(seed[1])
             Y[i, ] = L[sample(1:dim(L)[1], size=1), ]
+            seed <- seed[-1]
          }
       }
    }
    names(Y) <- names(H)
    Y %<>% 
-      select(-c(.data$NetworkID, .data$temp_coords)) %>%
+      select(-c(
+         .data$NetworkID, 
+         .data$temp_coords,
+         .data$Center_x,
+         .data$Center_y,
+         .data$Rel_x,
+         .data$Rel_y,
+         .data$m
+      )) %>%
       assignNetworkMembership(plot.size=1)
    return(Y)
 }

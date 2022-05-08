@@ -146,15 +146,11 @@ createRealizations <- function(
 	for (i in 1:length(n.networks)) { 	
 		patch.array[[i]] <- list()
 		for (j in 1:n.realizations) { 			
-			patch = createSpeciesPatch(
+			patch = randomizeClusters(
 				grid, 
 				n.networks[i], 
-				seed, 
 				cluster.info=SpeciesInfo, 
-				x=x, 
-				y=y, 
-				Rel_x=Rel_x, 
-				Rel_y=Rel_y
+				seed
 			)	
 			# fill in absence data
 			population = createPop(
