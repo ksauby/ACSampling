@@ -122,7 +122,7 @@ test_that("test calcPopSummaryStats", {
    )
    
 })
-test_that("test calc_y_HT_MultipleVars, y_HT_RACS", {
+test_that("test yHTMultVarCalc, y_HT_RACS", {
    exampleCactusPop_filtered <- exampleCactusPop %>%
       filter(Sampling != "Edge")
    
@@ -152,7 +152,7 @@ test_that("test calc_y_HT_MultipleVars, y_HT_RACS", {
    m_threshold = 2
    OAVAR <- syms(c("Cactus", "Stricta"))
    
-   calc_y_HT_MultipleVars_est <- calc_y_HT_MultipleVars(
+   yHTMultVarCalc_est <- yHTMultVarCalc(
       alldata = exampleCactusPop,
       OAVAR = OAVAR,
       N = N,
@@ -162,9 +162,9 @@ test_that("test calc_y_HT_MultipleVars, y_HT_RACS", {
    )
    
    expect_equal(Cactus_and_Stricta_estimates,
-                calc_y_HT_MultipleVars_est)
+                yHTMultVarCalc_est)
 })
-test_that("test calc_y_HT_MultipleVars, y_HT", {
+test_that("test yHTMultVarCalc, y_HT", {
    exampleCactusPop_filtered <- exampleCactusPop %>%
       filter(Sampling != "Edge")
    
@@ -192,7 +192,7 @@ test_that("test calc_y_HT_MultipleVars, y_HT", {
    mThreshold = 2
    OAVAR <- syms(c("Cactus", "Stricta"))
    
-   calc_y_HT_MultipleVars_est <- calc_y_HT_MultipleVars(
+   yHTMultVarCalc_est <- yHTMultVarCalc(
       alldata = exampleCactusPop,
       OAVAR = OAVAR,
       N = N,
@@ -201,10 +201,9 @@ test_that("test calc_y_HT_MultipleVars, y_HT", {
    )
    
    expect_equal(Cactus_and_Stricta_estimates,
-                calc_y_HT_MultipleVars_est)
+                yHTMultVarCalc_est)
 })
-
-test_that("test calc_var_y_HT_MultipleVars, var_y_HT_RACS", {
+test_that("test varyMultVarCalc, var_y_HT_RACS", {
    exampleCactusPop_filtered <- exampleCactusPop %>%
       filter(!(is.na(NetworkID))) %>%
       group_by(NetworkID) %>%
@@ -231,8 +230,8 @@ test_that("test calc_var_y_HT_MultipleVars, var_y_HT_RACS", {
    mThreshold = 2
    OAVAR <- syms(c("Cactus", "Stricta"))
    
-   calc_var_y_HT_MultipleVars_est <-
-      calc_var_y_HT_MultipleVars(
+   varyMultVarCalc_est <-
+      varyMultVarCalc(
          alldata = exampleCactusPop,
          OAVAR = OAVAR,
          N = N,
@@ -242,9 +241,9 @@ test_that("test calc_var_y_HT_MultipleVars, var_y_HT_RACS", {
       as.data.frame
    
    expect_equal(Cactus_and_Stricta_estimates,
-                calc_var_y_HT_MultipleVars_est)
+                varyMultVarCalc_est)
 })
-test_that("test calc_var_y_HT_MultipleVars, var_y_HT", {
+test_that("test varyMultVarCalc, var_y_HT", {
    exampleCactusPop_filtered <- exampleCactusPop %>%
       filter(!(is.na(NetworkID))) %>%
       group_by(NetworkID) %>%
@@ -268,8 +267,8 @@ test_that("test calc_var_y_HT_MultipleVars, var_y_HT", {
    
    OAVAR <- syms(c("Cactus", "Stricta"))
    
-   calc_var_y_HT_MultipleVars_est <-
-      calc_var_y_HT_MultipleVars(
+   varyMultVarCalc_est <-
+      varyMultVarCalc(
          alldata = exampleCactusPop,
          OAVAR = OAVAR,
          N = N,
@@ -279,9 +278,9 @@ test_that("test calc_var_y_HT_MultipleVars, var_y_HT", {
       as.data.frame
    
    expect_equal(Cactus_and_Stricta_estimates,
-                calc_var_y_HT_MultipleVars_est)
+                varyMultVarCalc_est)
 })
-test_that("test calc_var_y_HT_MultipleVars, var_pi_i", {
+test_that("test varyMultVarCalc, var_pi_i", {
    exampleCactusPop_filtered <- exampleCactusPop %>%
       filter(!(is.na(NetworkID))) %>%
       group_by(NetworkID) %>%
@@ -305,8 +304,8 @@ test_that("test calc_var_y_HT_MultipleVars, var_pi_i", {
    
    OAVAR <- syms(c("Cactus", "Stricta"))
    
-   calc_var_y_HT_MultipleVars_est <-
-      calc_var_y_HT_MultipleVars(
+   varyMultVarCalc_est <-
+      varyMultVarCalc(
          alldata = exampleCactusPop,
          OAVAR = OAVAR,
          N = N,
@@ -316,7 +315,7 @@ test_that("test calc_var_y_HT_MultipleVars, var_pi_i", {
       as.data.frame
    
    expect_equal(Cactus_and_Stricta_estimates,
-                calc_var_y_HT_MultipleVars_est)
+                varyMultVarCalc_est)
 })
 
 
@@ -398,7 +397,7 @@ test_that("test createSummaryforVarCalcs", {
 
 
 
-test_that("test calc_rvar_MultipleVars", {
+test_that("test rvarMultVarCalc", {
    # based on Thompson 2002 example 2, pp. 78-79
    N = 100
    n1 = 4
@@ -453,7 +452,7 @@ test_that("test calc_rvar_MultipleVars", {
    ovar = "Stricta"
    
    expect_equal(round(
-      calc_rvar_MultipleVars(
+      rvarMultVarCalc(
          R_smd,
          rvar = "CACAonStricta",
          ovar = c("Cactus", "Stricta"),

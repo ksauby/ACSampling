@@ -55,7 +55,7 @@ prepDatasets <- function(SamplingDesign, alldata) {
 #' 
 #' @noRd
 #' 
-calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula) {
+yHTMultVarCalc <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula) {
    # summarise data for mean calculations
    O <- alldata %>% 
       filter(.data$Sampling!="Edge") %>%
@@ -90,7 +90,7 @@ calc_y_HT_MultipleVars <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_f
 #' 
 #' @noRd
 #' 
-calc_var_y_HT_MultipleVars <- function(alldata, OAVAR, var_formula, N, n1) {
+varyMultVarCalc <- function(alldata, OAVAR, var_formula, N, n1) {
    # summarise data for variance calculations
    O_smd <- alldata %>% 
       select(!!!OAVAR, NetworkID, m) %>%
@@ -161,7 +161,7 @@ createSummaryforVarCalcs <- function(alldata, rvar, ovar) {
 #' 
 #' @noRd
 #' 
-calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
+rvarMultVarCalc <- function(R_smd, rvar, ovar, N, n1) {
    # summarise data for mean calculations
    tempdat <- data.frame(Var1 = NA)
    for (l in 1:length(rvar)) {
@@ -186,6 +186,32 @@ calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
    }
    tempdat
 }
+
+#' Calculate the ratio mean and variance for multiple variables and datasets
+
+#' @param dats names of the datasets
+#' @template rvar
+#' @template N
+#' @template n1
+#' @template m
+#' 
+#' @noRd
+
+rvarMultDatCalc <- function(dats, rvar, N, n1, m) {
+   Ratio <- data.frame(row.names = 1:length(rvar)) 
+   SmpR <- list()
+   for (n in 1:length(dats)) { # for each dataset
+      SmpR[[n]] <- data.frame(Var1 = NA)
+      # DOES dataset CONTAIN THE M VALUES?
+      dataset <- eval(parse(text=dats[[n]]))
+      dat_results <- rvarMultVarCalc(
+         dataset, dat_results, rvar[l], N, n1, m
+      ) %>% 
+         mutate(Plots = deparse(substitute(dataset)))
+   }
+   SmpR <- do.call(rbind.data.frame, Ratio)
+}
+
 
 #' Calculate the Join Count Test estimate
 
@@ -348,7 +374,7 @@ sampleRealizations <- function(
    mChar = TRUE,
    popvar = "n.networks",
    realvar = "realization",
-   weights="S"
+   weights="S",
    seeds = NA
 ) 
 {
@@ -400,7 +426,6 @@ sampleRealizations <- function(
    # empty dataframes will be cbind'd together after HT estimators calculated
    occ_abund_var <- data.frame(row.names = 1:length(c(ovar, avar))) 
    occ_abund_mean <- data.frame(row.names = 1:length(c(ovar, avar)))
-   Ratio <- data.frame(row.names = 1:length(rvar)) 
    # the names to assign the estimates
    # occ_abund_mean_names <- paste(ovar, avar, "MeanObs", sep="")
    #occ_abund_var_names <- paste(ovar, avar, "VarObs", sep="")
@@ -424,9 +449,9 @@ sampleRealizations <- function(
       ) %dopar% {
          cat(paste(i,j, sep="_"))
          P <- popdata %>% 
-            filter(!!POPVAR == unique(
-               eval(parse(text=paste("popdata$", popvar, sep="")))
-            )[i])
+            filter(!!POPVAR == unique(eval(parse(text=paste(
+               "popdata$", popvar, sep=""
+            ))))[i])
          N <- dim(P)[1]
          n1 <- n1_vec[j]
          A[[i]][[j]] <- list()
@@ -437,12 +462,10 @@ sampleRealizations <- function(
             alldata <- createSample(SamplingDesign, P, tseed, n1, yvar, f_max)
             alldata_all <- alldata
             if (SampleEstimators == TRUE) {
-               
-               
-               
                datasetprep <- prepDatasets(SamplingDesign, alldata)
-               alldata <- datasetprep[[1]]
-               dats <- datasetprep[[2]]
+               SRSWOR_data <- datasetprep[[1]]
+               alldata <- datasetprep[[2]]
+               dats <- datasetprep[[3]]
                SampleMeanVar <- list()
                for (n in 1:length(dats)) {
                   dat <- eval(parse(text=dats[[n]])) %>%
@@ -455,25 +478,7 @@ sampleRealizations <- function(
                SampleMeanVar %<>% bind_rows
                # simple ratio estimators applied to alldata, SRSWOR_data
                if (!(is.null(rvar))) {
-                  SmpR <- list()
-                  for (n in 1:length(dats)) { # for each dataset
-                     SmpR[[n]] <- data.frame(Var1 = NA)
-                     # DOES dataset CONTAIN THE M VALUES?
-                     ####
-                     ####
-                     #####
-                     ####
-                     ####
-                     dataset <- eval(parse(text=dats[[n]]))
-                     dat_results <- data.frame(Var1 = NA)
-                     # for (l in 1:length(rvar)) {
-                     dat_results <- calc_rvar_MultipleVars(dataset, dat_results, rvar[l], N, n1, m)
-                     # calcRatioEst(dataset, dat_results, rvar[l], N, n1, m)
-                     #  }
-                     dat_results %<>% mutate(Plots = deparse(substitute(dataset)))
-                     
-                  }
-                  SmpR <- do.call(rbind.data.frame, Ratio)
+                  SmpR <- rvarMultDatCalc(dats, rvar, N, n1, m)
                   SampleMeanVar %<>% merge(SmpR)
                }
             } else
@@ -482,20 +487,17 @@ sampleRealizations <- function(
             }
             if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
                ################ HORVITZ-THOMPSON ESTIMATORS ##########
-               HT_results <- list()
-               HT_results[[1]] <- calc_y_HT_MultipleVars(
+               HTres <- list()
+               HTres[[1]] <- yHTMultVarCalc(
                   alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula)
-               HT_results[[2]] <- calc_var_y_HT_MultipleVars(
-                  alldata, OAVAR, var_formula, N, n1
-               )
+               HTres[[2]] <- varyMultVarCalc(alldata, OAVAR, var_formula, N, n1)
                # RATIO DATA
                if (!(is.null(rvar))) {
                   R_smd <- createSummaryforVarCalcs(alldata, rvar, ovar)
-                  HT_results[[3]] <- calc_rvar_MultipleVars(
-                     R_smd, rvar, ovar, N, n1)
+                  HTres[[3]] <- rvarMultVarCalc(R_smd, rvar, ovar, N, n1)
                }
                # merge together			
-               All_HT <- HT_results %>% 
+               All_HT <- HTres %>% 
                   as.data.frame %>%
                   mutate(Plots = "Horvitz Thompson Mean (All Plots)")
                # merge estimates
