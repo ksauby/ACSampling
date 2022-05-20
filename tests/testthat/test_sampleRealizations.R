@@ -469,23 +469,23 @@ test_that("test createSample", {
                 CACAonStricta = c(60, 60, 14, 1)
                 Stricta = c(1, 1, 1, 1)
                 m = c(5, 5, 2, 1)
-                pi_i = 1 - (1 - m/N)^n1
+                pi_i = pi_i(N, n1, m)
                 pi_ij_values = pi_ij(N, n1, m)
-                intermed <- data.frame(y, pi_i) %>%
+                intermed <- data.frame(CACAonStricta, pi_i) %>%
                         .[!duplicated(.),]
                 
                 CACAonStrictaRMeanObs_value <-
-                        sum(intermed$y/intermed$pi_i)/sum(1/intermed$pi_i)
+                        sum(intermed$CACAonStricta/intermed$pi_i)/sum(1/intermed$pi_i)
                 #       CACAonStricta R_hat var
-                
-                IV <- IN %>%
-                        mutate(
-                                y_hat = y - CACAonStrictaRMeanObs_value,
-                                y_hat_sq = y_hat ^ 2,
-                                first_sum = ((1 / (
-                                        pi_i_vals ^ 2
-                                )) - (1 / pi_i_vals)) * y_hat_sq
-                        )
+                # 
+                # IV <- IN %>%
+                #         mutate(
+                #                 y_hat = y - CACAonStrictaRMeanObs_value,
+                #                 y_hat_sq = y_hat ^ 2,
+                #                 first_sum = ((1 / (
+                #                         pi_i_vals ^ 2
+                #                 )) - (1 / pi_i_vals)) * y_hat_sq
+                #         )
 
 
                 # IV$pi_i_vals[1] + IV$pi_i_vals[2] - (1-(1-(5/100)-(2/100))^4)

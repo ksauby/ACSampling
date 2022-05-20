@@ -144,8 +144,8 @@ calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
      # summarise data for mean calculations
      tempdat <- data.frame(Var1 = NA)
      for (l in 1:length(rvar)) {
-        x = R_smd[, rvar[l]]
-        y = R_smd[, str_sub(rvar,-7,-1)]
+        y = R_smd[, rvar[l]]
+        x = R_smd[, str_sub(rvar,-7,-1)]
         #y = eval(parse(text=paste("R_smd$", rvar[l], sep="")))
           #x = eval(parse(text = paste("R_smd$",
                                       # GENERALIZE THIS 
