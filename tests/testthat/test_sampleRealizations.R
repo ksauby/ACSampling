@@ -803,33 +803,43 @@ test_that("test prepDatasets", {
    expect_equal(
       prepDatasets(SamplingDesign="RACS", testdat),
       list(
-         testdat_ACS_SRSWOR_data,
-         testdat_ACS_alldata,
-         testdat_ACS_dats
+         testdat_RACS_SRSWOR_data,
+         testdat_RACS_alldata,
+         testdat_RACS_dats
       )
    )
 
-prepDatasets(SamplingDesign="SRSWOR", testdat)
-})
-
-test_that("test sampleRealizations", {
-   expect_error(
-      sampleRealizations(
-         popdata = popdata,
-         sims = sims,
-         n1_vec = 1,
-         avar = avar,
-         ovar = ovar,
-         popvar = "Island",
-         yvar = "Cactus",
-         realvar = 5
-      ),
-      "The argument realvar must be a character string."
-   )
    
-})        
+   testdat_SRSWOR_dats <- "alldata"
+   expect_equal(
+      prepDatasets(SamplingDesign="SRSWOR", testdat),
+      list(
+         NA,
+         testdat,
+         testdat_SRSWOR_dats
+      )
+   )
 
-
+})
+# 
+# test_that("test sampleRealizations", {
+#    expect_error(
+#       sampleRealizations(
+#          popdata = popdata,
+#          sims = sims,
+#          n1_vec = 1,
+#          avar = avar,
+#          ovar = ovar,
+#          popvar = "Island",
+#          yvar = "Cactus",
+#          realvar = 5
+#       ),
+#       "The argument realvar must be a character string."
+#    )
+#    
+# })        
+# 
+# 
 
 #
 #
