@@ -385,29 +385,31 @@ test_that("test createSample", {
 })
 #
 #
-test_that("test calcRatioEst", {
-        N 		<- 4
-        dat 	<- data.frame(Stricta = c(20, 25), CACA_on_Stricta = c(2, 3))
-        
-        expect_equal(
-                calcRatioEst(dat, 
-                             dat_results=data.frame(), 
-                             rvar="CACA_on_Stricta", N=4, n1=2, m_vec=c(1,1)),
-                6.666667
-                )
-                
-                data(Thompson1990Fig1Pop)
-                popdata <- Thompson1990Fig1Pop
-                seed <- 10
-                n1 <- 10
-                yvar <- "y_value"
-                
-                expect_equal(
-                        ACSampling:::createSample(SamplingDesign = "ACS",
-                                                  popdata, seed, n1, yvar),
-                        createACS(popdata, n1, yvar, criterion = 0, seed)
-                )
-})
+# test_that("test calcRatioEst", {
+#         N 		<- 4
+#         dat 	<- data.frame(
+#                 Stricta = c(20, 25), 
+#                 CACA_on_Stricta = c(2, 3),
+#                 m_vec=c(1,1))
+#         
+#         expect_equal(
+#                 calcRatioEst(dat, 
+#                                                   rvar="CACA_on_Stricta", N=4, n1=2),
+#                 R_hat(y=dat$Stricta, x=dat$CACA_on_Stricta, N=N, n1=2, m_vec=dat$m_vec)
+#                 )
+#                 
+#                 data(Thompson1990Fig1Pop)
+#                 popdata <- Thompson1990Fig1Pop
+#                 seed <- 10
+#                 n1 <- 10
+#                 yvar <- "y_value"
+#                 
+#                 expect_equal(
+#                         ACSampling:::createSample(SamplingDesign = "ACS",
+#                                                   popdata, seed, n1, yvar),
+#                         createACS(popdata, n1, yvar, criterion = 0, seed)
+#                 )
+# })
         # getJoinCountTestEst <- function(temp, lwb)
         #
         # getMoranTestEst <- function(temp, lwb)
