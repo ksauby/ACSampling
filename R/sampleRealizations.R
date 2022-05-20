@@ -144,8 +144,8 @@ calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
      # summarise data for mean calculations
      tempdat <- data.frame(Var1 = NA)
      for (l in 1:length(rvar)) {
-        y = R_smd[, rvar[l]]
-        x = R_smd[, str_sub(rvar,-7,-1)]
+        x = R_smd[, rvar[l]]
+        y = R_smd[, str_sub(rvar,-7,-1)]
         #y = eval(parse(text=paste("R_smd$", rvar[l], sep="")))
           #x = eval(parse(text = paste("R_smd$",
                                       # GENERALIZE THIS 
@@ -165,40 +165,6 @@ calc_rvar_MultipleVars <- function(R_smd, rvar, ovar, N, n1) {
      }
      tempdat
 }
-
-#' Calculate and return the ratio estimator mean and variance of each simulated population
-
-#' @param dataset Dataframe containing three columns: y, the variable of 
-#' interest; x, the auxiliary variable to estimate using the ratio estimator; 
-#' and m_vec, a vector of network sizes.
-#' @param dat_results
-#' @template rvar 
-#' @template 
-#' @template N
-#' @template n1
-#' @template m_vec
-#' 
-#' @noRd
-calcRatioEst <- function(dataset, dat_results, rvar, N, n1) {
-   
-   # IS X AND Y MIXED UP?
-   
-   dat_results=data.frame(Var1=NA, Var2=NA)
-   
-   x = dataset[, rvar]
-   y = dataset[, str_sub(rvar,-7,-1)]
-   # equal P(inclusion) for all
-   # m = rep(1, length(y))
-   m_vec = dataset$m_vec
-   dat_results$Var1 <- R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
-   
-   dat_results$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m_vec=m_vec)
-   names(dat_results)[(dim(dat_results)[2]-1): dim(dat_results)[2]] <- 
-      c(paste(rvar, "RMeanObs", sep=""),
-        paste(rvar, "RVarObs", sep=""))
-   return(dat_results)
-}
-
 
 #' Calculate the Join Count Test estimate
 
