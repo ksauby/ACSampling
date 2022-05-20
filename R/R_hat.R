@@ -19,11 +19,11 @@ R_hat <- function(y, x, N, n1, m_vec, replace="FALSE") {
 		alpha_stars <- pi_i(N, n1, m_vec)
 	}
 	dat <- data.frame(alpha_stars = alpha_stars, y = y, x = x)
-	mu_x = sum(dat$x/dat$alpha_stars)
-	if (mu_x == 0) {
+	mu_y = sum(dat$y/dat$alpha_stars)
+	if (mu_y == 0) {
 		return(0)
 	} else {
-		sum(dat$y/dat$alpha_stars, na.rm=T) / mu_x
+		sum(dat$x/dat$alpha_stars, na.rm=T) / mu_y
 	}
 }
 

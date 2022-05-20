@@ -179,8 +179,8 @@ test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {
 
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 	# Thompson (2002), Example 2, p. 78-79
-     y = c(60, 60, 14, 1) 
-     x = c(1, 1, 1) 
+     x = c(60, 60, 14, 1) 
+     y = c(1, 1, 1) 
      N = 100 
      n1 = 4
      m = c(5, 5, 2, 1)
@@ -192,8 +192,8 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 	expect_equal(
 		round(
 			R_hat(
-				y = c(60, 14, 1), 
-				x = c(1, 1, 1), 
+				x = c(60, 14, 1), 
+				y = c(1, 1, 1), 
 				N = 100, 
 				n1 = 4, 
 				m = c(5, 2, 1), 
@@ -201,7 +201,7 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 			), 2
 		),
 		round(
-		     sum(intermed$y/intermed$pi_i)/sum(1/intermed$pi_i),
+		     sum(intermed$x/intermed$pi_i)/sum(1/intermed$pi_i),
 		     2
 		)
 	)
