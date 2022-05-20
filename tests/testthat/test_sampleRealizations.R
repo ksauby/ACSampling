@@ -461,42 +461,33 @@ test_that("test createSample", {
         
         
         
-        
-        # test_that("test calc_rvar_MultipleVars", {
-        #         N = 100
-        #         n1 = 4
-        #         R_smd <- data.frame(
-        #                 CACAonStricta = c(60, 14, 1),
-        #                 Stricta = c(1, 1, 1),
-        #                 m = c(5, 2, 1)
-        #         )
-        #         rvar = "CACAonStricta"
-        #         ovar = "Stricta"
-        #         
-        #         # manually calculate R_hat for CACAonStricta and Stricta
-        #         #       CACAonStricta R_hat mean
-        #         y = c(60, 60, 14, 1)
-        #         x = c(1, 1, 1, 1)
-        #         N = 100
-        #         n1 = 4
-        #         m = c(5, 5, 2, 1)
-        #         pi_i_vals = pi_i(N, n1, m)
-        #         pi_ij_values = pi_ij(N, n1, m)
-        #         IN <- data.frame(y, pi_i_vals) %>%
-        #                 .[!duplicated(.),]
-        #         CACAonStrictaRMeanObs_value <-
-        #                 sum(IN$y / IN$pi_i_vals) / sum(1 / IN$pi_i_vals)
-        #         #       CACAonStricta R_hat var
-        #         IV <- IN %>%
-        #                 mutate(
-        #                         y_hat = y - CACAonStrictaRMeanObs_value,
-        #                         y_hat_sq = y_hat ^ 2,
-        #                         first_sum = ((1 / (
-        #                                 pi_i_vals ^ 2
-        #                         )) - (1 / pi_i_vals)) * y_hat_sq
-        #                 )
-        #         
+
+        test_that("test calc_rvar_MultipleVars", {
+                # based on Thompson 2002 example 2, pp. 78-79
+                N = 100
+                n1 = 4
+                CACAonStricta = c(60, 60, 14, 1)
+                Stricta = c(1, 1, 1, 1)
+                m = c(5, 5, 2, 1)
+                pi_i = 1 - (1 - m/N)^n1
+                pi_ij_values = pi_ij(N, n1, m)
+                intermed <- data.frame(y, pi_i) %>%
+                        .[!duplicated(.),]
                 
+                CACAonStrictaRMeanObs_value <-
+                        sum(intermed$y/intermed$pi_i)/sum(1/intermed$pi_i)
+                #       CACAonStricta R_hat var
+                
+                IV <- IN %>%
+                        mutate(
+                                y_hat = y - CACAonStrictaRMeanObs_value,
+                                y_hat_sq = y_hat ^ 2,
+                                first_sum = ((1 / (
+                                        pi_i_vals ^ 2
+                                )) - (1 / pi_i_vals)) * y_hat_sq
+                        )
+
+
                 # IV$pi_i_vals[1] + IV$pi_i_vals[2] - (1-(1-(5/100)-(2/100))^4)
                 #
                 #
@@ -515,24 +506,34 @@ test_that("test createSample", {
                 # ) * IV$y_hat[3]*IV$y_hat[2]
                 #
         #         #
-        #         expect_equal(round(
-        #                 calc_rvar_MultipleVars(
-        #                         R_smd,
-        #                         rvar = "CACAonStricta",
-        #                         ovar = c("Cactus", "Stricta"),
-        #                         N,
-        #                         n1
-        #                 ),
-        #                 5
-        #         ),
-        #         round(
-        #                 data.frame(
-        #                         CACAonStrictaRMeanObs = CACAonStrictaRMeanObs_value,
-        #                         CACAonStrictaRVarObs = 16.96768
-        #                 ),
-        #                 5
-        #         ))
-        # })
+                
+                
+                R_smd <- data.frame(
+                        CACAonStricta = c(60, 14, 1),
+                        Stricta = c(1, 1, 1),
+                        m = c(5, 2, 1)
+                )
+                rvar = "CACAonStricta"
+                ovar = "Stricta"
+                
+                expect_equal(round(
+                        calc_rvar_MultipleVars(
+                                R_smd,
+                                rvar = "CACAonStricta",
+                                ovar = c("Cactus", "Stricta"),
+                                N,
+                                n1
+                        ),
+                        5
+                ),
+                round(
+                        data.frame(
+                                CACAonStrictaRMeanObs = CACAonStrictaRMeanObs_value,
+                                CACAonStrictaRVarObs = 16.96768
+                        ),
+                        5
+                ))
+        })
         # 
         # 
         sims = 5
