@@ -180,13 +180,13 @@ test_that("var_y_HT, Horvitz-Thompson Variance Estimator", {
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 	# Thompson (2002), Example 2, p. 78-79
      x = c(60, 60, 14, 1) 
-     y = c(1, 1, 1) 
+     y = c(1, 1, 1, 1) 
      N = 100 
      n1 = 4
      m = c(5, 5, 2, 1)
      pi_i = 1 - (1 - m/N)^n1
      
-     intermed <- data.frame(y, pi_i) %>%
+     intermed <- data.frame(x, pi_i) %>%
           .[!duplicated(.),]
 
 	expect_equal(
@@ -220,8 +220,8 @@ test_that("var_R_hat, with replacement", {
 	expect_equal(
 		round(
 			var_R_hat(
-				y = c(60, 14, 1), 
-				x = c(1, 1, 1), 
+				x = c(60, 14, 1), 
+				y = c(1, 1, 1), 
 				N = 100, 
 				n1 = 4, 
 				m = c(5, 2, 1), 
@@ -237,8 +237,8 @@ test_that("var_R_hat, without replacement", {
      expect_equal(
           round(
                var_R_hat(
-                    y = c(60, 14, 1), 
-                    x = c(1, 1, 1), 
+                    x = c(60, 14, 1), 
+                    y = c(1, 1, 1), 
                     N = 100, 
                     n1 = 4, 
                     m = c(5, 2, 1), 
@@ -251,7 +251,7 @@ test_that("var_R_hat, without replacement", {
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 	# Exercise #3, p. 85, Thompson (2002)
 	N 		<- 4
-	dat 	<- data.frame(y = c(2, 3, 0, 1), x = c(20, 25, 0, 15))
+	dat 	<- data.frame(x = c(2, 3, 0, 1), y = c(20, 25, 0, 15))
 	combin 	<- combn(4,2)
 	combin	<- split(combin, col(combin))
 	combos 	<- lapply(combin, function(x) dat[row(dat) %in% x, ])
@@ -282,8 +282,8 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
 test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement, returns 0", {
      expect_equal(
           R_hat(
-               y = c(0, 0, 0), 
-               x = c(1, 1, 1), 
+               x = c(0, 0, 0), 
+               y = c(1, 1, 1), 
                N = 100, 
                n1 = 4, 
                m = c(5, 2, 1), 
