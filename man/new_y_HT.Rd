@@ -44,6 +44,3 @@ $J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample doe
 \examples{
 @template ex_Thompson2002_2_p_307_values
 }
-\references{
-
-}

@@ -36,7 +36,7 @@ createRealizations(
 
 \item{start.seed}{The initial number used in \code{set.seed}. All subsequent numbers used in set.seed will be incremental after this number. seed = seq(start.seed, start.seed + 2*n.realizations +  sum(n.networks)*n.realizations*2 + 1, by=1)}
 
-\item{variables}{Dataframe column names that are included in the final patch realizations. These columsn are given a value of "0" if the species is not present or NA.}
+\item{variables}{Dataframe column names that are included in the final patch realizations. These columns are given a value of "0" if the species is not present or NA.}
 }
 \description{
 This function creates multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.

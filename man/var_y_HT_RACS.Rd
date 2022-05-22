@@ -66,6 +66,3 @@ var_y_HT_RACS(
 	m_threshold=3
 )
 }
-\references{
-
-}

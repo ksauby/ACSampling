@@ -76,6 +76,3 @@ ggplot() +
     geom_point(data=Z, aes(x,y), shape = 0, size=7) +
     ggtitle("f_max = 3")
 }
-\references{
-
-}

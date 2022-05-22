@@ -162,7 +162,6 @@ createSummaryforVarCalcs <- function(alldata, rvar, ovar) {
 #' @noRd
 #' 
 rvarMultVarCalc <- function(R_smd, rvar, ovar, N, n1) {
-   # summarise data for mean calculations
    tempdat <- data.frame(Var1 = NA)
    for (l in 1:length(rvar)) {
       x = R_smd[, rvar[l]]
@@ -171,15 +170,9 @@ rvarMultVarCalc <- function(R_smd, rvar, ovar, N, n1) {
       #x = eval(parse(text = paste("R_smd$",
       # GENERALIZE THIS 
       #  str_sub(rvar[l],-7,-1), sep="")))
-      tempdat$Var1 = R_hat(
-         y = y, x = x, N = N, n1 = n1, 
-         m_vec = R_smd$m)
-      tempdat$Var2 = var_R_hat(
-         y=y, x=x, N=N, n1=n1, m_vec=R_smd$m)
-      names(tempdat)[ 
-         (dim(tempdat)[2] - 1) : 
-            dim(tempdat)[2]
-      ] <- c(
+      tempdat$Var1 = R_hat(y = y, x = x, N = N, n1 = n1, m_vec = R_smd$m)
+      tempdat$Var2 = var_R_hat(y=y, x=x, N=N, n1=n1, m_vec=R_smd$m)
+      names(tempdat)[(dim(tempdat)[2] - 1) : dim(tempdat)[2]] <- c(
          paste(rvar[l], "RMeanObs", sep=""),
          paste(rvar[l], "RVarObs", sep="")
       )
@@ -193,23 +186,23 @@ rvarMultVarCalc <- function(R_smd, rvar, ovar, N, n1) {
 #' @template rvar
 #' @template N
 #' @template n1
-#' @template m
 #' 
 #' @noRd
 
-rvarMultDatCalc <- function(dats, rvar, N, n1, m) {
+rvarMultDatCalc <- function(dats, rvar, N, n1) {
    Ratio <- data.frame(row.names = 1:length(rvar)) 
    SmpR <- list()
-   for (n in 1:length(dats)) { # for each dataset
-      SmpR[[n]] <- data.frame(Var1 = NA)
-      # DOES dataset CONTAIN THE M VALUES?
+   for (n in 1:length(dats)) {
       dataset <- eval(parse(text=dats[[n]]))
-      dat_results <- rvarMultVarCalc(
-         dataset, dat_results, rvar[l], N, n1, m
+      SmpR[[n]] <- ACSampling:::rvarMultVarCalc(
+         R_smd=dataset, rvar=rvar, N=N, n1=n1
       ) %>% 
-         mutate(Plots = deparse(substitute(dataset)))
+         mutate(
+            Plots = dats[[n]]
+            #Plots = deparse(substitute(dataset))
+            )
    }
-   SmpR <- do.call(rbind.data.frame, Ratio)
+   do.call(rbind.data.frame, SmpR)
 }
 
 

@@ -60,6 +60,3 @@ var_y_HT(
 	y = Z_summary$y_total
 )
 }
-\references{
-
-}

@@ -22,7 +22,8 @@ sampleRealizations(
   mChar = TRUE,
   popvar = "n.networks",
   realvar = "realization",
-  weights = "S"
+  weights = "S",
+  seeds = NA
 )
 }
 \arguments{
@@ -91,5 +92,15 @@ popdata = popdata,
 	ovar = ovar,
 popvar="Island",
 yvar="Cactus"
+)
+sims=200
+n1_vec=c(75,150,225,300,350)
+simulation_data_SRSWOR <- sampleRealizations(
+popdata = popdata,
+sims = sims,
+n1_vec = n1_vec,
+avar = avar,
+ovar = ovar,
+popvar="Island"
 )
 }

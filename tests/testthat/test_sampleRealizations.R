@@ -395,64 +395,52 @@ test_that("test createSummaryforVarCalcs", {
 })
 
 
+N = 100
+n1 = 4
+rvar = "CACAonStricta"
+ovar = "Stricta"
 
+# based on Thompson 2002 example 2, pp. 78-79
+CACAonStricta = c(60, 60, 14, 1)
+Stricta = c(1, 1, 1, 1)
+m = c(5, 5, 2, 1)
+pi_i = ACSampling:::pi_i(N, n1, m)
+pi_ij_values = ACSampling:::pi_ij(N, n1, m)
+intermed <- data.frame(CACAonStricta, pi_i) %>%
+   .[!duplicated(.),]
+
+CACAonStrictaRMeanObs_value <-
+   sum(intermed$CACAonStricta/intermed$pi_i)/sum(1/intermed$pi_i)
+
+R_smd <- data.frame(
+   CACAonStricta = c(60, 14, 1),
+   Stricta = c(1, 1, 1),
+   m = c(5, 2, 1)
+)
+
+# another fake dataset
+CACAonStricta2 = c(6, 6, 4, 1)
+Stricta2 = c(1, 1, 1, 1)
+m2 = c(3, 3, 2, 1)
+pi_i2 = ACSampling:::pi_i(N, n1, m2)
+pi_ij_values2 = ACSampling:::pi_ij(N, n1, m2)
+intermed2 <- data.frame(CACAonStricta2, pi_i2) %>%
+   .[!duplicated(.),]
+
+CACAonStrictaRMeanObs_value2 <-
+   sum(intermed2$CACAonStricta2/intermed2$pi_i2)/sum(1/intermed2$pi_i2)
+
+R_smd2 <- data.frame(
+   CACAonStricta = c(6, 4, 1),
+   Stricta = c(1, 1, 1),
+   m = c(3, 2, 1)
+)
+
+dats <- c("R_smd", "R_smd2")
 
 test_that("test rvarMultVarCalc", {
-   # based on Thompson 2002 example 2, pp. 78-79
-   N = 100
-   n1 = 4
-   CACAonStricta = c(60, 60, 14, 1)
-   Stricta = c(1, 1, 1, 1)
-   m = c(5, 5, 2, 1)
-   pi_i = pi_i(N, n1, m)
-   pi_ij_values = pi_ij(N, n1, m)
-   intermed <- data.frame(CACAonStricta, pi_i) %>%
-      .[!duplicated(.),]
-   
-   CACAonStrictaRMeanObs_value <-
-      sum(intermed$CACAonStricta/intermed$pi_i)/sum(1/intermed$pi_i)
-   #       CACAonStricta R_hat var
-   # 
-   # IV <- IN %>%
-   #         mutate(
-   #                 y_hat = y - CACAonStrictaRMeanObs_value,
-   #                 y_hat_sq = y_hat ^ 2,
-   #                 first_sum = ((1 / (
-   #                         pi_i_vals ^ 2
-   #                 )) - (1 / pi_i_vals)) * y_hat_sq
-   #         )
-   
-   
-   # IV$pi_i_vals[1] + IV$pi_i_vals[2] - (1-(1-(5/100)-(2/100))^4)
-   #
-   #
-   # var_est <- sum(IV$first_sum) +
-   # (
-   #         1/(IV$pi_i_vals[1]*IV$pi_i_vals[2]) -
-   #         1/pi_ij_values[1,2]
-   # ) * IV$y_hat[1]*IV$y_hat[2] +
-   # (
-   #         1/(IV$pi_i_vals[1]*IV$pi_i_vals[3]) -
-   #         1/pi_ij_values[1,3]
-   # ) * IV$y_hat[1]*IV$y_hat[3] +
-   # (
-   #         1/(IV$pi_i_vals[3]*IV$pi_i_vals[2]) -
-   #         1/pi_ij_values[3,2]
-   # ) * IV$y_hat[3]*IV$y_hat[2]
-   #
-   #         #
-   
-   
-   R_smd <- data.frame(
-      CACAonStricta = c(60, 14, 1),
-      Stricta = c(1, 1, 1),
-      m = c(5, 2, 1)
-   )
-   rvar = "CACAonStricta"
-   ovar = "Stricta"
-   
    expect_equal(round(
-      rvarMultVarCalc(
+      ACSampling:::rvarMultVarCalc(
          R_smd,
          rvar = "CACAonStricta",
          ovar = c("Cactus", "Stricta"),
@@ -468,6 +456,30 @@ test_that("test rvarMultVarCalc", {
       ),
       5
    ))
+})
+
+dat_results <- ACSampling:::rvarMultDatCalc(
+   dats,
+   rvar = "CACAonStricta",
+   N,
+   n1
+) %>%
+   mutate(
+      CACAonStrictaRMeanObs = round(CACAonStrictaRMeanObs, 5),
+      CACAonStrictaRVarObs = round(CACAonStrictaRVarObs, 5)
+   )
+
+test_that("test rvarMultDatCalc", {
+   expect_equal(
+      dat_results,
+      data.frame(
+         CACAonStrictaRMeanObs = round(c(
+            CACAonStrictaRMeanObs_value, CACAonStrictaRMeanObs_value2),5
+         ),
+         CACAonStrictaRVarObs = c(16.96768, 0.36784),
+         Plots = c("R_smd", "R_smd2")
+      )
+   )
 })
 # 
 # 
@@ -820,6 +832,10 @@ test_that("test prepDatasets", {
    )
 
 })
+
+
+
+
 # 
 # test_that("test sampleRealizations", {
 #    expect_error(
