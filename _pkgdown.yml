@@ -1,12 +1,4 @@
+url: ~
 template:
-  package: tidytemplate
+  bootstrap: 5
 
-
-  structure:
-    right: [reference, news, articles, extensions, github]
-    left: []
-  components:
-    home: ~
-    extensions:
-      text: Extensions
-      href: https://exts.ggplot2.tidyverse.org/gallery/
