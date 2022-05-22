@@ -63,8 +63,8 @@ initsample=Thompson1990Figure1Sample)
 y_HT(
 	N = dim(Thompson1990Fig1Pop)[1], 
 	n1 = dim(Thompson1990Figure1Sample)[1],
-	m = m, 
-	y = y, 
+	m_vec = Z$m, 
+	y = Z$y_value, 
 	sampling = Z$Sampling,
 	criterion=0
 ) 
@@ -77,7 +77,7 @@ summarise(
 	`y (added through SRSWOR)` = toString(y_value[which(sampling=="SRSWOR")]),
 	`y (added through ACS)` = toString(y_value[which(sampling=="ACS")]),
 	y_bar_1 = mean(y_value[which(sampling=="SRSWOR")]),
-	y_HT = round(y_HT(N, n1, m, y_value, sampling, 5), 2),
+	y_HT = round(y_HT(N=dim(Thompson1990Fig1Pop)[1], n1, m, y_value, sampling, 5), 2),
 	y_bar = round(mean(y_value),2)
 	)
 )

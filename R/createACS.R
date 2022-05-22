@@ -13,46 +13,39 @@
 #' library(ggplot2)
 #' data(Thompson1990Fig1Pop)
 #' data(Thompson1990Figure1Sample)
-
 #' # Create ACS sample, seed=9
-#'  # - in the dataframe "Thompson1990Fig1Pop", the variable of interest $y$ is "y_value"
+#' # - in the dataframe "Thompson1990Fig1Pop", the variable of interest $y$ is "y_value"
 #' # - any "y_value" greater than the criterion 0 will trigger cluster sampling
 #' popdata = Thompson1990Fig1Pop
 #' seed = 9
 #' n1 = 10
 #' yvar = "y_value"
 #' criterion = 0
-#' Z = createACS(popdata, seed, n1, yvar, criterion)
-#' 
-#' # plot ACS sample and population from which sampled was collected
-#' In the plot, the open squares correspond to population units that were sampled
+#' Z = createACS(popdata, n1, yvar, criterion, seed)
+#' # plot ACS sample and population from which sampled was collected. In the plot, the open squares correspond to population units that were sampled
 #' ggplot() +
-#'    geom_point(
-#' 	 data=Thompson1990Fig1Pop, 
-#' 	 aes(x, y, size=y_value,shape=factor(y_value))
-#' ) +
-#' 	 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-#' 	 geom_point(data=Z, aes(x,y), shape=0, size=7)
-#' 	 
+#' geom_point(
+#' data=Thompson1990Fig1Pop,
+#' aes(x, y, size=y_value,shape=factor(y_value))) +
+#' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+#' geom_point(data=Z, aes(x,y), shape=0, size=7)
 #' # Create another ACS, seed=26
-#' # - In this example, no units satisfy the criterion and thus cluster sampling
-#' # does not occur
+#' # - In this example, no units satisfy the criterion and thus cluster samplingd oes not occur
 #' Z = createACS(
-#'    popdata=Thompson1990Fig1Pop, 
-#'    seed=26, 
-#'    n1=10, 
-#'    yvar="y_value", 
-#'   criterion=0
+#' popdata=Thompson1990Fig1Pop,
+#' seed=26,
+#' n1=10,
+#' yvar="y_value",
+#' criterion=0
 #' )
-#' 
 #' # plot ACS sample and population from which sampled was collected
 #' ggplot() +
-#'   geom_point(
-#'      data=Thompson1990Fig1Pop, 
-#'      aes(x, y, size=factor(y_value), shape=factor(y_value))
-#'   ) +
-#' 	scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-#' 	geom_point(data=Z, aes(x,y), shape=0, size=7)
+#' geom_point(
+#' data=Thompson1990Fig1Pop,
+#' aes(x, y, size=factor(y_value), shape=factor(y_value))
+#' ) +
+#' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
+#' geom_point(data=Z, aes(x,y), shape=0, size=7)
 
 #' @references
 #' @template Thompson1990

@@ -26,7 +26,7 @@ createNetworkCenters <- function(popdata) {
 #'  returns the dataframe with additional columns for the network center coordinates as well as coordinates for each individual unit relative to the center of the network
 #' 
 #'  @noRd
-
+#' @export
 
 createNetworks <- function(popdata) {
 	NetworkID <- x <- Center_x <- y <- Center_y <- NULL

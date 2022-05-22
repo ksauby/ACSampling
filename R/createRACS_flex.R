@@ -10,44 +10,26 @@
 #' @return A restricted adaptive cluster sample.
 #' @examples
 #' library(ggplot2)
-#' data(Thompson1990Fig1Pop)
-#' data(Thompson1990Figure1Sample)
-
+#' seed=3
+#' n1=5
+#' y_variable = "y_value"
+#' f_max = 3
+#' # cluster sampling not triggered, only y_values of zero sampled
+#' Z = createRACS(
+#' 	popdata=lambdap_5_tau_1, 
+#' 	n1=n1, 
+#' 	yvar=y_variable, 
+#' 	seed=seed, 
+#' 	f_max=f_max
+#' )
 #' 
-#' # Create RACS sample, seed=9
-
-#' f_max = 1
-#' 
-#' Sampling according to the RACS design
-#' Z = createRACS(popdata, n1, yvar, seed, f_max)
-#' 
-#' In the plot, the open squares correspond to population units that were sampled
-#' cluster sampling was not triggered because no units in the initial sampled
-#' satisfied the criterion
 #' ggplot() +
-#'     geom_point(
-#'         data=lambdap_10_tau_5, 
-#'         es(x,y, size=y_value, shape=factor(y_value))
-#'     ) +
-#'     scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
-#'     geom_point(data=Z, aes(x,y), shape = 0, size=7) +
-#'     ggtitle("f_max = 1")
-#' 
-#' Sampling according to the RACS design
-#' seed = 7
-#' Z = createRACS(popdata, n1, yvar, seed, f_max)
-#' 
-#' In the plot, the open squares correspond to population units that were sampled
-#' cluster sampling was not triggered because no units in the initial sampled
-#' satisfied the criterion
-#' ggplot() +
-#'     geom_point(
-#'         data=lambdap_10_tau_5, 
-#'         es(x,y, size=y_value, shape=factor(y_value))
-#'     ) +
-#'     scale_shape_manual(values=c(1, rep(16, length(2:42)))) +
-#'     geom_point(data=Z, aes(x,y), shape = 0, size=7) +
-#'     ggtitle("f_max = 3")
+#'    geom_point(
+#'       data=lambdap_5_tau_1,
+#'       aes(x,y, size=y_value)
+#'    ) +
+#'    geom_point(data=Z, aes(x,y), shape = 0, size=7) 
+
 #' @references 
 #' @template SaubyCitation
 

@@ -111,8 +111,7 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
 #' 	createNetworks
 #' 
 # create realization
-#' Thompson1990_realization = randomizeClusters(grid, n.networks, seed, 
-#' 	cluster.info, x=x, y=y, Rel_x=Rel_x, Rel_y=Rel_y)
+#' Thompson1990_realization = randomizeClusters(grid, n.networks, cluster.info, seed)
 #' 
 #' # plot realization
 #' library(ggplot2)
