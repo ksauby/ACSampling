@@ -511,8 +511,7 @@ test_that("test sampleRealizations error handling, handleError_popdata", {
          popvar = "Island",
          yvar = "Cactus"
       ),
-      "The 'popdata' argument must be supplied with a data frame including the
-      columns 'x', 'y', and 'NetworkID'."
+      "The 'popdata' argument must be supplied with a data frame including the columns 'x', 'y', and 'NetworkID'."
    )
 })
 test_that("test sampleRealizations error handling, handleError_n1vector", {
@@ -699,56 +698,56 @@ test_that("test sampleRealizations", {
 
 
 
-
-sims=20
-n1_vec=c(5,10,20,40)
-population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
-avar = NULL
-ovar = c(
-   "Stricta",
-   "Pusilla",
-   "Cactus",
-   "CACA_on_Pusilla",
-   "CACA_on_Stricta",
-   "MEPR_on_Pusilla",
-   "MEPR_on_Stricta",
-   "Old_Moth_Evidence_Pusilla",
-   "Old_Moth_Evidence_Stricta"
-)
-rvar=NULL
-SamplingDesign="ACS"
-y_HT_formula = "y_HT"
-var_formula = "var_y_HT"
-mThreshold = NULL
-f_max = 2
-SampleEstimators = FALSE
-SpatStat = TRUE
-mChar = TRUE
-popvar = "n.networks"
-realvar = "realization"
-weights="S"
-data(CactusRealizations)
-popdata = CactusRealizations # WHY IS THERE ISLAND=NA
-simulation_data <- sampleRealizations(
-   popdata = popdata,
-   sims = sims,
-   n1_vec = n1_vec,
-   avar = avar,
-   ovar = ovar,
-   popvar="Island",
-   yvar="Cactus"
-)
-sims=200
-n1_vec=c(75,150,225,300,350)
-simulation_data_SRSWOR <- sampleRealizations(
-   popdata = popdata,
-   sims = sims,
-   n1_vec = n1_vec,
-   avar = avar,
-   ovar = ovar,
-   popvar="Island"
-)
-
+# 
+# sims=20
+# n1_vec=c(5,10,20,40)
+# population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+# avar = NULL
+# ovar = c(
+#    "Stricta",
+#    "Pusilla",
+#    "Cactus",
+#    "CACA_on_Pusilla",
+#    "CACA_on_Stricta",
+#    "MEPR_on_Pusilla",
+#    "MEPR_on_Stricta",
+#    "Old_Moth_Evidence_Pusilla",
+#    "Old_Moth_Evidence_Stricta"
+# )
+# rvar=NULL
+# SamplingDesign="ACS"
+# y_HT_formula = "y_HT"
+# var_formula = "var_y_HT"
+# mThreshold = NULL
+# f_max = 2
+# SampleEstimators = FALSE
+# SpatStat = TRUE
+# mChar = TRUE
+# popvar = "n.networks"
+# realvar = "realization"
+# weights="S"
+# data(CactusRealizations)
+# popdata = CactusRealizations # WHY IS THERE ISLAND=NA
+# simulation_data <- sampleRealizations(
+#    popdata = popdata,
+#    sims = sims,
+#    n1_vec = n1_vec,
+#    avar = avar,
+#    ovar = ovar,
+#    popvar="Island",
+#    yvar="Cactus"
+# )
+# sims=200
+# n1_vec=c(75,150,225,300,350)
+# simulation_data_SRSWOR <- sampleRealizations(
+#    popdata = popdata,
+#    sims = sims,
+#    n1_vec = n1_vec,
+#    avar = avar,
+#    ovar = ovar,
+#    popvar="Island"
+# )
+# 
 
 
 test_that("test prepDatasets", {
