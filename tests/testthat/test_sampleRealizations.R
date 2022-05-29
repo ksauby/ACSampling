@@ -440,7 +440,7 @@ dats <- c("R_smd", "R_smd2")
 
 test_that("test rvarMultVarCalc", {
    expect_equal(round(
-      ACSampling:::rvarMultVarCalc(
+      rvarMultVarCalc(
          R_smd,
          rvar = "CACAonStricta",
          ovar = c("Cactus", "Stricta"),

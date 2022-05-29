@@ -2,7 +2,7 @@
 #' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each unit, given the size of its associated network and sample size (\code{nsamples}) and (2) for each of the \code{variables}, the sum of the values of that variable for each network.
 #' @param popdata population data.
 #' @param vars variables to summarise
-#' @param groupvar categories that group networks
+#' @param popgroupvar categories that group networks
 #' @template n1_vec
 #' @template yvar
 #' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}. WHERE the value of the var is greater than zero?

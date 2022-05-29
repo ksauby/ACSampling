@@ -5,7 +5,6 @@
 #' @template m_vec
 #' @template y_total
 #'
-#' @references 
 #' @template Thompson1990
 #' @useDynLib ACSampling
 #' @importFrom Rcpp sourceCpp
@@ -71,7 +70,6 @@ var_y_HT <- function(N, n1, m_vec, y_total, pi_i_values=NULL) {
 #' @template y_total
 #' @template pi_i_values
 #' @template m_threshold
-#' @references
 #' @template SaubyCitation
 #' @useDynLib ACSampling
 #' @importFrom Rcpp sourceCpp

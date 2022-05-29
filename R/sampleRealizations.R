@@ -1,6 +1,6 @@
 #' Sample species patch realizations simulations according to the selected sampling design
 
-#' @param SamplingDesign
+#' @template  SamplingDesign
 #' @template popdata
 #' @template seed
 #' @template n1
@@ -23,8 +23,8 @@ createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
 }
 
 #' prep dataset and names of output data
-#' @param SamplingDesign
-#' @param alldata
+#' @template  SamplingDesign
+#' @param alldata NEED DEF
 #' @noRd
 prepDatasets <- function(SamplingDesign, alldata) {
    if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
@@ -45,7 +45,7 @@ prepDatasets <- function(SamplingDesign, alldata) {
 
 #' Calculate the Horvitz-Thompson mean for multiple variables
 
-#' @param alldata
+#' @template alldata
 #' @param OAVAR the variables with which to calculate the Horvitz-Thompson mean
 #' @template N
 #' @template n1
@@ -126,7 +126,7 @@ varyMultVarCalc <- function(alldata, OAVAR, var_formula, N, n1) {
 
 #' Prepare the data for calculating the Horvitz-Thompson variance
 
-#' @param alldata
+#' @template alldata
 #' @template rvar
 #' @template ovar
 #' 
@@ -194,7 +194,7 @@ rvarMultDatCalc <- function(dats, rvar, N, n1) {
    SmpR <- list()
    for (n in 1:length(dats)) {
       SmpR[[n]] <- rvarMultVarCalc(
-         R_smd =get(dats[[n]]), 
+         R_smd =get(dats[n]), 
          rvar=rvar, N=N, n1=n1
       ) %>% 
          mutate(
@@ -266,8 +266,8 @@ calcSpatStats <- function(alldata_all, weights) {
 
 #' Name data columns?
 
-#' @param tempdat
-#' @param weights
+#' @template tempdat
+#' @template weights
 #' 
 #' @noRd
 fillSpatStatsNA <- function(tempdat, weights) {

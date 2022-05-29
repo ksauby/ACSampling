@@ -30,7 +30,6 @@
 #'    ) +
 #'    geom_point(data=Z, aes(x,y), shape = 0, size=7) 
 
-#' @references 
 #' @template SaubyCitation
 
 #' @export

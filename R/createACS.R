@@ -47,7 +47,6 @@
 #' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' geom_point(data=Z, aes(x,y), shape=0, size=7)
 
-#' @references
 #' @template Thompson1990
 
 #' @export
