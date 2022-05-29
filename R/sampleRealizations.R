@@ -194,7 +194,7 @@ rvarMultDatCalc <- function(dats, rvar, N, n1) {
    SmpR <- list()
    for (n in 1:length(dats)) {
       SmpR[[n]] <- rvarMultVarCalc(
-         R_smd = eval(parse(text=dats[[n]])), 
+         R_smd =get(dats[[n]]), 
          rvar=rvar, N=N, n1=n1
       ) %>% 
          mutate(

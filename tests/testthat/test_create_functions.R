@@ -31,7 +31,7 @@ test_that("createNetworkCenters", {
    popdata_Centery <- floor(mean(popdata$y))
    
    expect_equal(
-      ACSampling:::createNetworkCenters(popdata) %>% as.data.frame,
+      createNetworkCenters(popdata) %>% as.data.frame,
       data.frame(
          NetworkID = unique(popdata$NetworkID),
          Center_x = popdata_Centerx,
@@ -41,7 +41,7 @@ test_that("createNetworkCenters", {
    popdata2 <- data.frame(x = c(2, 2, 3, 3, 3, 3, 4, 4),
                           y = c(1, 2, 1, 2, 3, 4, 2, 4))
    expect_error(# because it's missing NetworkID
-      ACSampling:::createNetworkCenters(popdata2))
+      createNetworkCenters(popdata2))
 })
 test_that("createNetworks", {
    popdata <- data.frame(
@@ -61,11 +61,11 @@ test_that("createNetworks", {
       Rel_x = c(-1, -1, 0, 0, 0, 0, 1, 1, 0),
       Rel_y = c(-1, 0, -1, 0, 1, 2, 0, 2, 0)
    )
-   expect_equal(ACSampling:::createNetworks(popdata2),
+   expect_equal(createNetworks(popdata2),
                 NetworksManual)
-   expect_error(ACSampling:::createNetworkCenters(popdata2))
+   expect_error(createNetworkCenters(popdata2))
    expect_equal(
-      ACSampling:::createNetworkCenters(popdata),
+      createNetworkCenters(popdata),
       tibble::tibble(
          NetworkID = c(1, 2),
          Center_x = c(3, 1),
