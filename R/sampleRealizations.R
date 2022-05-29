@@ -194,7 +194,7 @@ rvarMultDatCalc <- function(dats, rvar, N, n1) {
    SmpR <- list()
    for (n in 1:length(dats)) {
       dataset <- eval(parse(text=dats[[n]]))
-      SmpR[[n]] <- ACSampling:::rvarMultVarCalc(
+      SmpR[[n]] <- rvarMultVarCalc(
          R_smd=dataset, rvar=rvar, N=N, n1=n1
       ) %>% 
          mutate(
@@ -208,16 +208,17 @@ rvarMultDatCalc <- function(dats, rvar, N, n1) {
 
 #' Calculate the Join Count Test estimate
 
-#' @param temp dataset
+#' @param temp dataset with coordinates
 #' @param lwb weights list
 #' 
 getJoinCountTestEst <- function(temp, lwb) {
+   # I think cells are indexed by row, then column
    joincount.test(as.factor(temp$y_value), lwb)[[2]]$estimate[1]
 }
 
 #' Calculate the Moran Test estimate
 
-#' @param temp dataset
+#' @param temp dataset with coordinates
 #' @param lwb weights list
 #' 
 getMoranTestEst <- function(temp, lwb) {
@@ -239,18 +240,17 @@ calcSpatStats <- function(alldata_all, weights) {
    # dnearneigh - why was this here?
    
    # generate neighbor list
+   coordinates(temp) = ~ x+y
    nb <- cell2nb(
       nrow = nrow(temp), 
       ncol = ncol(temp)
    )
-   coordinates(temp) = ~ x+y
    data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
    tempdat <- data.frame(JoinCountTest.W = NA)
    for (i in length(weights)) {
       lwb <- nb2listw(nb, style = weights[i]) # convert to neighbor list to weights list
-      # I think cells are indexed by row, then column
       tempdat$JoinCountTest <- getJoinCountTestEst(temp, lwb)
-      tempdat$MoranI <- getMoranTestEst()
+      tempdat$MoranI <- getMoranTestEst(temp, lwb)
       colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
          paste("JoinCountTest", weights[i], sep=".")
       colnames(tempdat)[which(names(tempdat) == "MoranI")] <-

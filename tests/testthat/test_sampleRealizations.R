@@ -404,8 +404,8 @@ ovar = "Stricta"
 CACAonStricta = c(60, 60, 14, 1)
 Stricta = c(1, 1, 1, 1)
 m = c(5, 5, 2, 1)
-pi_i = ACSampling:::pi_i(N, n1, m)
-pi_ij_values = ACSampling:::pi_ij(N, n1, m)
+pi_i = pi_i(N, n1, m)
+pi_ij_values = pi_ij(N, n1, m)
 intermed <- data.frame(CACAonStricta, pi_i) %>%
    .[!duplicated(.),]
 
@@ -422,8 +422,8 @@ R_smd <- data.frame(
 CACAonStricta2 = c(6, 6, 4, 1)
 Stricta2 = c(1, 1, 1, 1)
 m2 = c(3, 3, 2, 1)
-pi_i2 = ACSampling:::pi_i(N, n1, m2)
-pi_ij_values2 = ACSampling:::pi_ij(N, n1, m2)
+pi_i2 = pi_i(N, n1, m2)
+pi_ij_values2 = pi_ij(N, n1, m2)
 intermed2 <- data.frame(CACAonStricta2, pi_i2) %>%
    .[!duplicated(.),]
 
@@ -458,7 +458,7 @@ test_that("test rvarMultVarCalc", {
    ))
 })
 
-dat_results <- ACSampling:::rvarMultDatCalc(
+dat_results <- rvarMultDatCalc(
    dats,
    rvar = "CACAonStricta",
    N,
@@ -831,7 +831,45 @@ test_that("test prepDatasets", {
    )
 
 })
+test_that("test spatial statistics functions", {
 
+   lambdap_10_tau_25_pop <- expand.grid(
+      x = 1:10,
+      y = 1:10
+   ) %>%
+      cbind(
+         y_value = c(
+            rep(0,5),1,1,0,0,0,
+            0,0,rep(1,5),rep(0,3),
+            0,0,rep(1,6),0,1,
+            0,0,0,0,rep(1,3),0,1,1,
+            0,0,0,0,rep(1,5),0,
+            1,0,0,rep(1,8),0,0,1,1,0,0,0,0,1,
+            1,rep(0,9),
+            1,1,0,1,1,1,1,1,0,0,
+            1,0,0,1,1,1,1,1,0,0
+         )
+      )
+   coordinates(lambdap_10_tau_25_pop) = ~ x+y
+   nb <- cell2nb(
+      nrow = nrow(lambdap_10_tau_25_pop), 
+      ncol = ncol(lambdap_10_tau_25_pop)
+   )
+   data_dist <- dim(as.matrix(dist(cbind(lambdap_10_tau_25_pop$x, lambdap_10_tau_25_pop$y))))[1]
+   tempdat <- data.frame(JoinCountTest.W = NA)
+   weight = "W"
+   lwb <- nb2listw(nb, style = weight) # convert to neighbor list to weights list
+   
+   expect_equal(
+      getJoinCountTestEst(lambdap_10_tau_25_pop, lwb),
+      joincount.test(as.factor(lambdap_10_tau_25_pop$y_value), lwb)[[2]]$estimate[1]
+   )
+   
+   expect_equal(
+      getMoranTestEst(lambdap_10_tau_25_pop, lwb),
+      moran.test(lambdap_10_tau_25_pop$y_value, lwb)$estimate[1]
+   )
+})
 
 
 
