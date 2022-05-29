@@ -4,12 +4,13 @@
 \alias{getJoinCountTestEst}
 \title{Calculate the Join Count Test estimate}
 \usage{
-getJoinCountTestEst(temp, lwb)
+getJoinCountTestEst(spatdata, lwb)
 }
 \arguments{
-\item{temp}{dataset}
+\item{spatdata}{dataset in which columns x and y have been identified as 
+geographic coordinates using the `coordinates` function}
 
-\item{lwb}{weights list}
+\item{lwb}{a weights list created using the `nb2listw` function}
 }
 \description{
 Calculate the Join Count Test estimate

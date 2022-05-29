@@ -208,21 +208,21 @@ rvarMultDatCalc <- function(dats, rvar, N, n1) {
 
 #' Calculate the Join Count Test estimate
 
-#' @param temp dataset with coordinates
-#' @param lwb weights list
+#' @template spatdata
+#' @template lwb
 #' 
-getJoinCountTestEst <- function(temp, lwb) {
+getJoinCountTestEst <- function(spatdata, lwb) {
    # I think cells are indexed by row, then column
-   joincount.test(as.factor(temp$y_value), lwb)[[2]]$estimate[1]
+   joincount.test(as.factor(spatdata$y_value), lwb)[[2]]$estimate[1]
 }
 
 #' Calculate the Moran Test estimate
 
-#' @param temp dataset with coordinates
-#' @param lwb weights list
+#' @template spatdata
+#' @template lwb
 #' 
-getMoranTestEst <- function(temp, lwb) {
-   moran.test(temp$y_value, lwb)$estimate[1]
+getMoranTestEst <- function(spatdata, lwb) {
+   moran.test(spatdata$y_value, lwb)$estimate[1]
 }
 
 #' Calculate Spatial Statistics
@@ -233,19 +233,24 @@ getMoranTestEst <- function(temp, lwb) {
 calcSpatStats <- function(alldata_all, weights) {
    temp <- alldata_all %>%
       as.data.frame %>%
+      # I DONT UNDERSTAND HOW I GOT THIS TO WORK
+      # IF I REMOVE SOME UNITS THEN ITS HARD TO CALCULATE THE REALIZATION SIZE 
+      # AND THUS GET TEST RESULTS
       # get rid of edge units - not involved in calculation of m
-      filter(!(is.na(NetworkID))) %>%
+      # filter(!(is.na(NetworkID))) %>%
       arrange(x, y)
    
-   # dnearneigh - why was this here?
+   # dnearneigh - why was this here? showed up April 23 2017, I don't think 
+   # I ever used the function
    
    # generate neighbor list
    coordinates(temp) = ~ x+y
+   # has to be a full rectangle to use this
    nb <- cell2nb(
-      nrow = nrow(temp), 
-      ncol = ncol(temp)
+      nrow = max(temp$x) - min(temp$x) + 1, 
+      ncol = max(temp$y) - min(temp$y) + 1
    )
-   data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
+   #data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
    tempdat <- data.frame(JoinCountTest.W = NA)
    for (i in length(weights)) {
       lwb <- nb2listw(nb, style = weights[i]) # convert to neighbor list to weights list

@@ -4,12 +4,13 @@
 \alias{getMoranTestEst}
 \title{Calculate the Moran Test estimate}
 \usage{
-getMoranTestEst(temp, lwb)
+getMoranTestEst(spatdata, lwb)
 }
 \arguments{
-\item{temp}{dataset}
+\item{spatdata}{dataset in which columns x and y have been identified as 
+geographic coordinates using the `coordinates` function}
 
-\item{lwb}{weights list}
+\item{lwb}{a weights list created using the `nb2listw` function}
 }
 \description{
 Calculate the Moran Test estimate
