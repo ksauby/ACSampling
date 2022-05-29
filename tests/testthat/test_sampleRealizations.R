@@ -893,9 +893,11 @@ test_that("test spatial statistics functions", {
    )
    
    
-   expect_equal(
-      calcSpatStats
-   )
+   
+   #expect_equal(
+   #   calcSpatStats
+   
+   #)
 })
 
 

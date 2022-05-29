@@ -193,9 +193,9 @@ rvarMultDatCalc <- function(dats, rvar, N, n1) {
    Ratio <- data.frame(row.names = 1:length(rvar)) 
    SmpR <- list()
    for (n in 1:length(dats)) {
-      dataset <- eval(parse(text=dats[[n]]))
       SmpR[[n]] <- rvarMultVarCalc(
-         R_smd=dataset, rvar=rvar, N=N, n1=n1
+         R_smd = eval(parse(text=dats[[n]])), 
+         rvar=rvar, N=N, n1=n1
       ) %>% 
          mutate(
             Plots = dats[[n]]
