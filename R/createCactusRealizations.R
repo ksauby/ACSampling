@@ -33,7 +33,8 @@
 #' 	geom_point() +
 #' 	facet_wrap(~population) +
 #' 	scale_shape_manual(values=c(4,16))
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @export
 
 createCactusRealizations <- function(PlotSurveys_season1, ovar) {

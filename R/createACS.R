@@ -46,13 +46,14 @@
 #' ) +
 #' scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 #' geom_point(data=Z, aes(x,y), shape=0, size=7)
-
-#' @template Thompson1990
+#' @references 
+#' \insertRef{thompson1990adaptive}{ACSampling}
 
 #' @export
 #' @importFrom stringr str_pad
 #' @importFrom dplyr filter rowwise
 #' @importFrom ggplot2 ggplot
+#' @importFrom Rdpack reprompt
 
 createACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NA) {
 

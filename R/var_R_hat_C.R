@@ -6,7 +6,7 @@
 #' @template n1
 #' @template m_vec
 #' @template replace
-#' # #examples #template ex_Thompson2002_p_78
+#' @template ex_Thompson2002_p_78
 #' @export
 
 

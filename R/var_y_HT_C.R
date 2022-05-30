@@ -5,7 +5,8 @@
 #' @template m_vec
 #' @template y_total
 #'
-#' @template Thompson1990
+#' @references 
+#' \insertRef{thompson1990adaptive}{ACSampling}
 #' @useDynLib ACSampling
 #' @importFrom Rcpp sourceCpp
 #' @export

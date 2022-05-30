@@ -24,8 +24,6 @@ A restricted adaptive cluster sample.
 }
 \description{
 Create an Adaptive Cluster Sample
-
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
 }
 \examples{
 library(ggplot2)
@@ -64,4 +62,7 @@ aes(x, y, size=factor(y_value), shape=factor(y_value))
 ) +
 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 geom_point(data=Z, aes(x,y), shape=0, size=7)
+}
+\references{
+\insertRef{thompson1990adaptive}{ACSampling}
 }

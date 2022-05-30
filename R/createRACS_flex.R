@@ -30,7 +30,8 @@
 #'    ) +
 #'    geom_point(data=Z, aes(x,y), shape = 0, size=7) 
 
-#' @template SaubyCitation
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 
 #' @export
 #' @importFrom dplyr everything bind_rows

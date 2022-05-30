@@ -2,8 +2,10 @@
 #' @template n_samplesize
 #' @param  pi_i Need description here
 #' @description Option for the "var_pi" function.
-#' @template Hajek_1964_Berger_Tille_2009
 #' @export
+#' @references 
+#' \insertRef{hajek1964asymptotic}{ACSampling}
+#' \insertRef{berger2009sampling}{ACSampling}
 
 
 
@@ -16,7 +18,8 @@ Hajek <- function(pi_i, n) {
 #' @template n_samplesize
 #' @param y need description
 #' @template pi_i_values
-#' @references Berger, Y. G. (2005). Variance estimation with Chao's sampling scheme. Journal of Statistical Planning and Inference, 127(1-2), 253-277. http://doi.org/10.1016/j.jspi.2003.08.014
+#' #' @references 
+#' \insertRef{berger2005variance}{ACSampling}
 #' @export
 
 var_Hajek <- function(n, y, pi_i_values) {
@@ -33,8 +36,9 @@ var_Hajek <- function(n, y, pi_i_values) {
 #' @param y need description
 #' @template pi_i_values
 #' @param estimator Options include "Hajek".
-#' @references
-#' @template Hajek_1964_Berger_Tille_2009
+#' @references 
+#' \insertRef{hajek1964asymptotic}{ACSampling}
+#' \insertRef{berger2009sampling}{ACSampling}
 #' @export
 #' @examples
 #' # Hajek Approximation
@@ -95,8 +99,9 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 #' @param n sample size
 #' @param y Vector of $y$ values.
 #' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{Hajek}.
-#' Tille, Y. (2006).
-#' @export
+ #' @references 
+#' \insertRef{tille2006sampling}{ACSampling}
+#' #' @export
 
 
 var_Tille <- function(n, y, pi_i_values) {

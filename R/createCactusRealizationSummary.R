@@ -3,7 +3,8 @@
 #' @param CactusRealizations the data to give the function
 #' @return The data from Sauby and Christman.
 #' 
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @export
 
 createCactusRealizationSummary <- function(CactusRealizations) {

@@ -6,7 +6,8 @@
 #' @template n1_vec
 #' @template yvar
 #' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}. WHERE the value of the var is greater than zero?
-#' @template SaubyCitation
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @export
 #' @importFrom dplyr funs summarise_all
 

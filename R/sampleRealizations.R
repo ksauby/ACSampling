@@ -82,7 +82,7 @@ yHTMultVarCalc <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula) 
 
 #' Calculate the Horvitz-Thompson variance for multiple variables
 
-#' @param alldata
+#' @template alldata
 #' @param OAVAR the variables with which to calculate the Horvitz-Thompson variance
 #' @template N
 #' @template n1
@@ -307,7 +307,8 @@ fillSpatStatsNA <- function(tempdat, weights) {
 
 #' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
 
-#' @template SaubyCitation
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 
 #' @importFrom foreach foreach %dopar%
 #' @importFrom dplyr summarise_all arrange_at row_number

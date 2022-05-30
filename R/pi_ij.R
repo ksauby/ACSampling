@@ -2,7 +2,8 @@
 #' @template N
 #' @template n1
 #' @template m_vec
-#' @template Thompson1990
+#' @references 
+#' \insertRef{thompson1990adaptive}{ACSampling}
 #' @examples 
 #' # Thompson sampling book, ch. 24 exercises, p. 307, number 2
 #' library(magrittr)
@@ -32,7 +33,8 @@ pi_ij <- function(N, n1, m_vec) {
 #' @template n1
 #' @template m_vec
 #' @template m_threshold
-#' @template SaubyCitation
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @export
 
 pi_ij_RACS <- function(N, n1, m_vec, m_threshold) {

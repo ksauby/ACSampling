@@ -22,7 +22,8 @@
 #' median_m
 
 
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 
 #' @importFrom stats runif median
 #' @importFrom dplyr summarise n

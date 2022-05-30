@@ -30,7 +30,9 @@ Imports:
 	rlang,
 	reshape2,
 	sp,
-	tidyr
+	tidyr,
+	Rdpack
+RdMacros: Rdpack
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.2.0
 Encoding: UTF-8

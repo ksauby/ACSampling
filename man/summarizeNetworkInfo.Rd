@@ -11,11 +11,11 @@ summarizeNetworkInfo(popdata, vars, popgroupvar = NULL, n1_vec, yvar)
 
 \item{vars}{variables to summarise}
 
+\item{popgroupvar}{categories that group networks}
+
 \item{n1_vec}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values.}
 
 \item{yvar}{A string giving the name of the variable of interest, $y$, in the supplied dataframe $popdata$. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable $y$ must be numeric.}
-
-\item{groupvar}{categories that group networks}
 }
 \value{
 The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}. WHERE the value of the var is greater than zero?

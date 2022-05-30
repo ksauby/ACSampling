@@ -82,7 +82,8 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
 #' This function uses a maximum of \code{2 + n.networks + number of units in the smallest network} random numbers: the first to set the seed to sample locations from a grid, the second to sample networks to assign to those locations (more specifically, the centers of the networks are assigned to those locations). Then \code{n.networks} random numbers to determine the degrees to which to rotate each network of units before it is assigned coordinates. Finally, the last \code{n.networks} random numbers are used, if necessary, to randomly determine which unit is used if units from multiple networks overlap.
 #' 
 #' MENTION BUFFER?
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @export
 #' @importFrom plyr rbind.fill
 

@@ -8,9 +8,9 @@
 #'
 #' @format A data frame with 400 rows and 5 variables
 #' @name CactusRealizationSummary
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-#'
-#' Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
+#' @references 
+#' \insertRef{thompson1990adaptive}{ACSampling}
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @examples 
 #' # include example here
 NA

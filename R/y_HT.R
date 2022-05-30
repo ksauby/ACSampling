@@ -13,7 +13,8 @@
 #'$J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.
 #' 
 #' @return The Horvitz-Thompson mean.
-#' @references @template Thompson1990
+#' @references 
+#' \insertRef{thompson1990adaptive}{ACSampling}
 #' @examples
 #' library(magrittr)
 #' library(plyr)
@@ -99,9 +100,9 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterio
 #'$J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.
 #' 
 #' @return The Horvitz-Thompson mean.
-#' @references
-#' @template SaubyCitation
-#' @template Thompson1990
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
+#' \insertRef{thompson1990adaptive}{ACSampling}
 #'
 #' @export
 #' @examples @template ex_Thompson2002_2_p_307_values

@@ -6,7 +6,8 @@
 #' @description This function assigns network membership to units in an adaptive cluster sample; if units are neighbors, they are assigned the same network ID. 
 
 #' @return Returns the popdata data.frame with a new column for Network ID as well as a column for m, the number of units in each network.
-#' @template SaubyCitation
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 
 
 

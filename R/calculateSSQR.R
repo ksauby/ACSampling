@@ -8,7 +8,8 @@
 #' @param variable Variable for which to calculate SSQr.
 #' @return Dataframe including original data and RE estimates.
 #' @export
-#' @references su2003estimator
+#' @references 
+#' \insertRef{su2003estimator}{ACSampling}
 #' @examples
 #' library(magrittr)
 #' library(dplyr)
