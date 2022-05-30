@@ -2,3 +2,65 @@ url: https://ksauby.github.io/ACS/
 template:
   bootstrap: 5
 
+reference:
+- title: Sampling functions
+  desc: >
+    Blah blah.
+  contents:
+  - createSRS
+  - createACS
+  - createRACS
+
+- title: Estimators
+
+- subtitle: Mean
+  desc: >
+    Blah blah.
+  contents:
+  - y_HT
+  - new_y_HT
+  - R_hat
+- subtitle: Variance
+  desc: >
+    Blah Blah.
+  contents:
+  - starts_with("var_")
+  - Hajek
+- title: Inclusion Probabilities
+
+- subtitle: Inclusion probability of a single unit
+  contents:
+  - pi_i
+  - pi_i_replace
+  
+- subtitle: Joint inclusion probabilities
+  contents:
+  - pi_ij
+  - pi_ij_replace
+  - pi_ij_RACS
+
+- title: Example Datasets
+
+  contents:
+  - ClusterInfo
+  - PlotInfo
+  - PlotSurveys_season1
+  - Thompson1990Fig1Pop
+  - Thompson1990Fig1Sample
+  - Thompson1990Table1data
+  - lambdap_10_tau_25
+  - lambdap_10_tau_5
+  - lambdap_5_tau_1
+  - lambdap_5_tau_10
+  - lambdap_5_tau_25
+  - lambdap_5_tau_5
+  
+- title: Functions for simulating sampling
+
+  contents:
+  - assignNetworkMembership
+  - calcPopSummaryStats
+  - calcRE
+  - calcSSQR
+  - calcSamplingBias
+  

@@ -12,7 +12,8 @@
 #'
 #' @format A data frame with 100 rows and 5 variables
 #' @name lambdap_5_tau_1
-#' @references Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
+#' @references 
+#' \insertRef{christman1997efficiency}{ACSampling}
 #' @examples 
 #' library(ggplot2)
 #' library(magrittr)
@@ -38,9 +39,8 @@ NULL
 #'
 #' @format A data frame with 100 rows and 5 variables
 #' @name lambdap_5_tau_5
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  
-#'
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
+#' @references 
+#' \insertRef{christman1997efficiency}{ACSampling}
 #' @examples 
 #' library(ggplot2)
 #' library(magrittr)
@@ -68,9 +68,8 @@ NULL
 #'
 #' @format A data frame with 100 rows and 5 variables
 #' @name lambdap_5_tau_10
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  
-#'
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
+#' @references 
+#' \insertRef{christman1997efficiency}{ACSampling}
 #' @examples 
 #' library(ggplot2)
 #' library(magrittr)
@@ -98,9 +97,8 @@ NULL
 #'
 #' @format A data frame with 100 rows and 5 variables
 #' @name lambdap_5_tau_25
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  
-#'
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
+#' @references 
+#' \insertRef{christman1997efficiency}{ACSampling}
 #' @examples 
 #' library(ggplot2)
 #' library(magrittr)
@@ -128,9 +126,8 @@ NULL
 #'
 #' @format A data frame with 100 rows and 5 variables
 #' @name lambdap_10_tau_5
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  
-#'
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
+#' @references 
+#' \insertRef{christman1997efficiency}{ACSampling}
 #' @examples 
 #' library(ggplot2)
 #' library(magrittr)
@@ -145,7 +142,7 @@ NULL
 
 #' Example dataset from Christman (1997)
 #'
-#' An example dataset from Christman (1997): \deqn{\lambda_P = 10, \tau = 2.5}{lambda_P = 10, tau = 2.5}.
+#' @description An example dataset from Christman (1997): \eqn{\lambda_P = 10, \tau = 2.5}{lambda_P = 10, tau = 2.5}.
 #'
 #' \itemize{
 #'   \item y. Y coordinate.
@@ -157,9 +154,8 @@ NULL
 #'
 #' @format A data frame with 100 rows and 5 variables
 #' @name lambdap_10_tau_25
-#' @references Sauby, K.E and Christman, M.C. \emph{In preparation.}  
-#'
-#' Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
+#' @references 
+#' \insertRef{christman1997efficiency}{ACSampling}
 #' @examples 
 #' library(ggplot2)
 #' library(magrittr)

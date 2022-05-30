@@ -8,6 +8,8 @@
 #' @template f_max
 #' @template initsample
 #' @return A restricted adaptive cluster sample.
+#' #' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @examples
 #' library(ggplot2)
 #' seed=3
@@ -30,8 +32,6 @@
 #'    ) +
 #'    geom_point(data=Z, aes(x,y), shape = 0, size=7) 
 
-#' @references 
-#' \insertRef{saubyadaptive}{ACSampling}
 
 #' @export
 #' @importFrom dplyr everything bind_rows

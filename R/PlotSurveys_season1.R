@@ -1,6 +1,6 @@
 #' Information about plots surveyed within the Guana Tolomato Matanzas National Estuarine Research Reserve
 #' Survey information for plots containing cacti, surveyed during Summer 2012.
-
+#' @description Variables include
 #' \itemize{
 #' 		\item NetworkID Do not use; number of unique Network ID's equals 86, not 88
 #' 		\item Island Identifying number/name for habitat patch

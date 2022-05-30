@@ -1,5 +1,6 @@
 #' Information about plots surveyed within the Guana Tolomato Matanzas National Estuarine Research Reserve
 
+#' @description Variables include
 #' \itemize{
 #' 		\item 	ClusterID 
 #' 		\item 	Tag_Number 
