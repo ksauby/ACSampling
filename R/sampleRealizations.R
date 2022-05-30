@@ -33,8 +33,8 @@ prepDatasets <- function(SamplingDesign, alldata) {
       SRSWOR_data <- NA
    }
    if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
-      SRSWOR_data <- alldata %>% filter(Sampling=="SRSWOR")
-      alldata %<>% filter(Sampling!="Edge")
+      SRSWOR_data <- alldata %>% filter(.data$Sampling=="SRSWOR")
+      alldata %<>% filter(.data$Sampling!="Edge")
       # apply simple mean/variance & simple ratio estimator to:
       dats <- c("SRSWOR_data", "alldata")
    }
@@ -193,8 +193,9 @@ rvarMultDatCalc <- function(dats, rvar, N, n1) {
    Ratio <- data.frame(row.names = 1:length(rvar)) 
    SmpR <- list()
    for (n in 1:length(dats)) {
+      R_smd <- get(dats[n])
       SmpR[[n]] <- rvarMultVarCalc(
-         R_smd =get(dats[n]), 
+         R_smd = R_smd, 
          rvar=rvar, N=N, n1=n1
       ) %>% 
          mutate(
@@ -228,7 +229,7 @@ getMoranTestEst <- function(spatdata, lwb) {
 #' Calculate Spatial Statistics
 
 #' @template alldata_all
-#' @param weights
+#' @param weights String identifying the weight to use. See REFERENCE FOR?
 #' 
 calcSpatStats <- function(alldata_all, weights) {
    temp <- alldata_all %>%
@@ -304,6 +305,7 @@ fillSpatStatsNA <- function(tempdat, weights) {
 #' @param mChar TRUE or FALSE. If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics. If "FALSE," no summary statistics are calculated.
 #' @param popvar Default is "n.networks"
 #' @param realvar Default is "realization"
+#' @param seeds Vector of numbers to be used to set random seeds. HOW TO CALCULATE HOW MANY NEEDED?
 
 #' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
 
@@ -477,7 +479,7 @@ sampleRealizations <- function(
                SampleMeanVar %<>% bind_rows
                # simple ratio estimators applied to alldata, SRSWOR_data
                if (!(is.null(rvar))) {
-                  SmpR <- rvarMultDatCalc(dats, rvar, N, n1, m)
+                  SmpR <- rvarMultDatCalc(dats, rvar, N, n1)
                   SampleMeanVar %<>% merge(SmpR)
                }
             } else

@@ -17,7 +17,7 @@ createRACS(
 \arguments{
 \item{popdata}{A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.}
 
-\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+\item{n1}{An integer giving the initial sample size (e.g., a simple random sample).}
 
 \item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 
@@ -31,11 +31,10 @@ createRACS(
 }
 \value{
 A restricted adaptive cluster sample.
-#' @references 
-\insertRef{saubyadaptive}{ACSampling}
 }
 \description{
-Create a Restricted Adaptive Cluster Sample
+Select a restricted adaptive cluster sample from a dataframe containing columns indicating the spatial coordinates of each unit (\code{x} and \code{y}) as well as the variable of interest, provided to the function via the \code{yvar} argument. Cluster sampling is initiated for primary units in which the value of the variable of interest exceeds the criterion value.
+The criterion value can be set with the \code{criterion} argument, which defaults to zero. Cluster sampling is restricted by the argument, \code{f_max}.
 }
 \examples{
 library(ggplot2)
@@ -58,4 +57,7 @@ ggplot() +
       aes(x,y, size=y_value)
    ) +
    geom_point(data=Z, aes(x,y), shape = 0, size=7) 
+}
+\references{
+\insertRef{saubyadaptive}{ACSampling}
 }

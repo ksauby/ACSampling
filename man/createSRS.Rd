@@ -19,7 +19,7 @@ createSRS(popdata, n1, seed = NA, replace = F)
 A restricted adaptive cluster sample.
 }
 \description{
-Create a Simple Random Sample Without Replacement.
+Create a simple random sample, either without replacement (the default setting), or with replacement.
 }
 \examples{
 # example

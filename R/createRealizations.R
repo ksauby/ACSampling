@@ -30,30 +30,30 @@
 #' 	)
 #' 
 #' # realization info
-#' x_start = 1
-#' x_end = 30
-#' y_start = 1
-#' y_end = 30
-#' n.networks = c(5, 15, 10, 20, 30, 40)
-#' n.realizations = 1
-#' SpeciesInfo = PlotSurveys_season1
-#' variables = c("Stricta", "Pusilla", "Cactus")
-#' start.seed=1
-#' buffer=5
-#' 
-#' # create realizations
-#' CactusRealizations = createRealizations(
-#' x_start, 
-#' x_end, 
-#' y_start, 
-#' y_end, 
-#' buffer, 
-#' n.networks, 
-#' n.realizations, 
-#' SpeciesInfo, 
-#' start.seed,
-#' variables
-#' )
+x_start = 1
+x_end = 30
+y_start = 1
+y_end = 30
+n.networks = c(5, 15, 10, 20, 30, 40)
+n.realizations = 1
+SpeciesInfo = PlotSurveys_season1
+variables = c("Stricta", "Pusilla", "Cactus")
+start.seed=1
+buffer=5
+
+# create realizations
+CactusRealizations = createRealizations(
+x_start,
+x_end,
+y_start,
+y_end,
+buffer,
+n.networks,
+n.realizations,
+SpeciesInfo,
+start.seed,
+variables
+)
 #' 
 #' # plot realizations
 #' p <- ggplot(CactusRealizations, aes(x, y, colour=NetworkID, 

@@ -154,36 +154,31 @@ calcPopSummaryStats <- function(
             if ("W" %in% spatweights) {
                lwb <- nb2listw(nb, style = "W") # convert to spatweights
                # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(svar), lwb)[[2]] %$%
-                  estimate[1]
+               A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
                A[[i]][[j]]$MoranI.W <- moran.test(svar, lwb)$estimate[1]
             }
             if ("B" %in% spatweights) {
                lwb <- nb2listw(nb, style = "B") # convert to spatweights
                # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(svar), lwb)[[2]] %$%
-                  estimate[1]
+               A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
                A[[i]][[j]]$MoranI.B <- moran.test(svar, lwb)$estimate[1]
             }	
             if ("C" %in% spatweights) {
                lwb <- nb2listw(nb, style = "C") # convert to spatweights
                # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(svar), lwb)[[2]] %$%
-                  estimate[1]
+               A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
                A[[i]][[j]]$MoranI.C <- moran.test(svar, lwb)$estimate[1]
             }	
             if ("U" %in% spatweights) {
                lwb <- nb2listw(nb, style = "U") # convert to spatweights
                # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(svar), lwb)[[2]] %$%
-                  estimate[1]
+               A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
                A[[i]][[j]]$MoranI.U <- moran.test(svar, lwb)$estimate[1]
             }	
             if ("S" %in% spatweights) {
                lwb <- nb2listw(nb, style = "S") # convert to spatweights
                # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(svar), lwb)[[2]] %$%
-                  estimate[1]
+               A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
                   # NEED TO FIGURE OUT HOW TO GET RID OF NAs
                   # OR CAN YOU JUST NOT DO JOINT COUNT TEST FOR RVAR
                   # Get this error: Error in joincount.test(as.factor(eval(parse(text = paste("t2$", summaryvar[j],  :   objects of different length
@@ -192,8 +187,7 @@ calcPopSummaryStats <- function(
             if ("minmax" %in% spatweights) {
                lwb <- nb2listw(nb, style = "minmax") # convert to spatweights
                # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(svar), lwb)[[2]] %$%
-                  estimate[1]
+               A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
                A[[i]][[j]]$MoranI.minmax <- moran.test(svar, lwb)$estimate[1]
             }	
          } else {

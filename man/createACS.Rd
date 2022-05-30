@@ -9,7 +9,7 @@ createACS(popdata, n1, yvar, criterion = 0, seed = NA, initsample = NA)
 \arguments{
 \item{popdata}{A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.}
 
-\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+\item{n1}{An integer giving the initial sample size (e.g., a simple random sample).}
 
 \item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 
@@ -23,14 +23,15 @@ createACS(popdata, n1, yvar, criterion = 0, seed = NA, initsample = NA)
 A restricted adaptive cluster sample.
 }
 \description{
-Create an Adaptive Cluster Sample
+Select a restricted adaptive cluster sample from a dataframe containing columns indicating the spatial coordinates of each unit (\code{x} and \code{y}) as well as the variable of interest, provided to the function via the \code{yvar} argument. Cluster sampling is initiated for primary units in which the value of the variable of interest exceeds the criterion value.
 }
 \examples{
 library(ggplot2)
 data(Thompson1990Fig1Pop)
 data(Thompson1990Figure1Sample)
 # Create ACS sample, seed=9
-# - in the dataframe "Thompson1990Fig1Pop", the variable of interest $y$ is "y_value"
+# - in the dataframe "Thompson1990Fig1Pop", the variable of interest $y$ is 
+#        "y_value"
 # - any "y_value" greater than the criterion 0 will trigger cluster sampling
 popdata = Thompson1990Fig1Pop
 seed = 9
@@ -38,7 +39,9 @@ n1 = 10
 yvar = "y_value"
 criterion = 0
 Z = createACS(popdata, n1, yvar, criterion, seed)
-# plot ACS sample and population from which sampled was collected. In the plot, the open squares correspond to population units that were sampled
+# plot ACS sample and population from which sampled was collected. In the 
+#        plot, the open squares correspond to population units that were 
+#        sampled
 ggplot() +
 geom_point(
 data=Thompson1990Fig1Pop,
@@ -46,7 +49,8 @@ aes(x, y, size=y_value,shape=factor(y_value))) +
 scale_shape_manual(values=c(1, rep(16, length(2:13)))) +
 geom_point(data=Z, aes(x,y), shape=0, size=7)
 # Create another ACS, seed=26
-# - In this example, no units satisfy the criterion and thus cluster samplingd oes not occur
+# - In this example, no units satisfy the criterion and thus cluster sampling
+#        does not occur
 Z = createACS(
 popdata=Thompson1990Fig1Pop,
 seed=26,

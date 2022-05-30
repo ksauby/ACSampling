@@ -9,11 +9,11 @@ var_y_HT(N, n1, m_vec, y_total, pi_i_values = NULL)
 \arguments{
 \item{N}{Population size.}
 
-\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+\item{n1}{An integer giving the initial sample size (e.g., a simple random sample).}
 
 \item{m_vec}{Vector of values \eqn{m} for the set of units in a sample, of length \eqn{n1}. Each \eqn{m} value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network \eqn{i} to which the unit belongs.}
 
-\item{y_total}{Vector of $y$ total, each corresponding to a unique network.}
+\item{y_total}{Vector of \eqn{y} total, each corresponding to a unique network.}
 
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 }

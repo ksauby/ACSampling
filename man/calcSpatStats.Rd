@@ -9,7 +9,7 @@ calcSpatStats(alldata_all, weights)
 \arguments{
 \item{alldata_all}{NEED TO DESCRIBE.}
 
-\item{weights}{}
+\item{weights}{String identifying the weight to use. See REFERENCE FOR?}
 }
 \description{
 Calculate Spatial Statistics

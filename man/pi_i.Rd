@@ -9,7 +9,7 @@ pi_i(N, n1, m_vec)
 \arguments{
 \item{N}{Population size.}
 
-\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+\item{n1}{An integer giving the initial sample size (e.g., a simple random sample).}
 
 \item{m_vec}{Vector of values \eqn{m} for the set of units in a sample, of length \eqn{n1}. Each \eqn{m} value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network \eqn{i} to which the unit belongs.}
 }

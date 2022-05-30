@@ -112,7 +112,7 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
 #' 	createNetworks
 #' 
 # create realization
-#' Thompson1990_realization = randomizeClusters(grid, n.networks, cluster.info, seed)
+#' Thompson1990_realization = randomizeClusters(grid, n.networks, cluster.info, seed, yvar="y_value")
 #' 
 #' # plot realization
 #' library(ggplot2)
@@ -125,7 +125,7 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
 #'  	geom_text(aes(label=NetworkID), hjust=0, vjust=0)
 
 
-randomizeClusters <- function(grid, n.networks, cluster.info, seed) {
+randomizeClusters <- function(grid, n.networks, cluster.info, seed,, yvar) {
    
    #handleError_seed(seed)
    # need to make sure enough seeds are given to the argument - must equal or be greater than 2 + unique(NetworkIDs)
@@ -169,7 +169,7 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed) {
          Y[i, ] = L
       } else {
          # do any rows satisfy the sampling criterion?
-         L %<>% filter(.data$y_value > 0)
+         L %<>% filter(.data$yvar > 0)
          if (dim(L)[1]>0) {
             if (dim(L)[1]>1) {
                # if multiple units satisfy sampling criterion, randomly choose one

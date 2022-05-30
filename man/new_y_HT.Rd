@@ -20,7 +20,7 @@ new_y_HT(
 
 \item{N}{Population size.}
 
-\item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
+\item{n1}{An integer giving the initial sample size (e.g., a simple random sample).}
 
 \item{m_threshold}{threshold value above which to calculate \eqn{pi_i} and \eqn{pi_j} differently.}
 
