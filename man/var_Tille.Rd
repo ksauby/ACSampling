@@ -11,9 +11,11 @@ var_Tille(n, y, pi_i_values)
 
 \item{y}{Vector of $y$ values.}
 
-\item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{Hajek}.
-Tille, Y. (2006).}
+\item{pi_i_values}{vector of first-order inclusion probabilities, calculated using \code{Hajek}.}
 }
 \description{
 Tille (2006) variance estimator free of joint inclusion probability calculations for unequal probability sampling
+}
+\references{
+\insertRef{tille2006sampling}{ACSampling}
 }

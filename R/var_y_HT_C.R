@@ -71,7 +71,8 @@ var_y_HT <- function(N, n1, m_vec, y_total, pi_i_values=NULL) {
 #' @template y_total
 #' @template pi_i_values
 #' @template m_threshold
-#' @template SaubyCitation
+#' @references 
+#' \insertRef{saubyadaptive}{ACSampling}
 #' @useDynLib ACSampling
 #' @importFrom Rcpp sourceCpp
 #' @export

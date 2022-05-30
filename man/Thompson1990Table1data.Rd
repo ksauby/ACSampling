@@ -18,5 +18,5 @@ Data from Table 1 from Thompson (1990). The table summarizes all possible outcom
 }
 }
 \references{
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
+\insertRef{thompson1990adaptive}{ACSampling}
 }

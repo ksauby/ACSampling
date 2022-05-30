@@ -63,5 +63,5 @@ alpha=0, colour="grey") +
  	geom_text(aes(label=NetworkID), hjust=0, vjust=0)
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+\insertRef{saubyadaptive}{ACSampling}
 }

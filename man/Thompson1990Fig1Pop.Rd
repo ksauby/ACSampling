@@ -37,5 +37,5 @@ ggplot() +
 	geom_point(data=Thompson1990Fig1Sample, aes(x,y), shape=0, size=7)
 }
 \references{
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
+\insertRef{thompson1990adaptive}{ACSampling}
 }

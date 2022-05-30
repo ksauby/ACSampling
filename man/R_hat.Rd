@@ -7,7 +7,7 @@
 R_hat(y, x, N, n1, m_vec, replace = "FALSE")
 }
 \arguments{
-\item{y}{The variable of interest, $y$. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
+\item{y}{The variable of interest, \eqn{y}. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
 
 \item{x}{A vector of values for variable $x$, which is auxiliary data about the variable of interest $y$.}
 
@@ -15,7 +15,7 @@ R_hat(y, x, N, n1, m_vec, replace = "FALSE")
 
 \item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
 
-\item{m_vec}{Vector of values $m$ for the set of units in a sample, of length $n1$. Each $m$ value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network $i$ to which the unit belongs.}
+\item{m_vec}{Vector of values \eqn{m} for the set of units in a sample, of length \eqn{n1}. Each \eqn{m} value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network \eqn{i} to which the unit belongs.}
 
 \item{replace}{Whether sampling should be done with or without replacement. Defaults to \code{FALSE}.}
 }

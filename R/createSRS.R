@@ -1,5 +1,5 @@
 #' Create a Simple Random Sample Without Replacement.
-#' 
+#' @description Create a simple random sample, either without replacement (the default setting), or with replacement.
 #' @param popdata grid of population to be sampled.
 #' @param seed vector of numbers to feed to \code{set.seed()} so that the sampling is reproducible. Defaults to NA so that it is not necessary to specific a random number seed.
 #' @param n1 initial sample size (sampled according to simple random sampling without replacement).

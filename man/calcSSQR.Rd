@@ -33,5 +33,5 @@ popgroupvar <- NA
 # calcSSQR(popdata, variable, popgroupvar)
 }
 \references{
-su2003estimator
+\insertRef{su2003estimator}{ACSampling}
 }

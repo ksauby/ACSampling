@@ -15,7 +15,7 @@ y_HT(
 )
 }
 \arguments{
-\item{y}{The variable of interest, $y$. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
+\item{y}{The variable of interest, \eqn{y}. Must be a numeric vector. The criterion that determines whether adaptive cluster sampling takes place is based on this variable.}
 
 \item{N}{Population size.}
 
@@ -23,11 +23,11 @@ y_HT(
 
 \item{pi_i_values}{vector of inclusion probabilities, if not calculated using this function. Default is \code{NULL}.}
 
-\item{m_vec}{Vector of values $m$ for the set of units in a sample, of length $n1$. Each $m$ value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network $i$ to which the unit belongs.}
+\item{m_vec}{Vector of values \eqn{m} for the set of units in a sample, of length \eqn{n1}. Each \eqn{m} value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network \eqn{i} to which the unit belongs.}
 
 \item{sampling}{A vector (\code{character} format) describing whether units were included in the initial sample or subsequent ACS sample. Units selected in the initial sample should be given the value "Initial_Sample" in the \code{sampling} vector.}
 
-\item{criterion}{Numeric threshold value of the variable of interest $y$ (whose name in the dataframe $popdata$ is supplied via the \code{yvar} argument) that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
+\item{criterion}{Numeric threshold value of the variable of interest \eqn{y} (whose name in the dataframe $popdata$ is supplied via the \code{yvar} argument) that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 }
 \value{
 The Horvitz-Thompson mean.
@@ -35,8 +35,8 @@ The Horvitz-Thompson mean.
 \description{
 This calculate the Horvitz-Thompson mean of an adaptive cluster sample done by sampling without replacement.
 
-where $v$ is the number of distinct units in the sample and
-$J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.
+where \eqn{v} is the number of distinct units in the sample and
+\eqn{J_k} is an indicator variable, equalling 0 if the \eqn{k^{th}} unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, \eqn{J_k = 1}.
 }
 \examples{
 library(magrittr)
@@ -87,5 +87,5 @@ summarise(
 # realization = cactus_realizations \%>\% filter(n.networks==40)
 }
 \references{
-@template Thompson1990
+\insertRef{thompson1990adaptive}{ACSampling}
 }

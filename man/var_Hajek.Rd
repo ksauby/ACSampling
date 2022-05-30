@@ -17,5 +17,5 @@ var_Hajek(n, y, pi_i_values)
 Variance estimator free of joint inclusion probability calculations for unequal probability sampling, Hajek
 }
 \references{
-Berger, Y. G. (2005). Variance estimation with Chao's sampling scheme. Journal of Statistical Planning and Inference, 127(1-2), 253-277. http://doi.org/10.1016/j.jspi.2003.08.014
+\insertRef{berger2005variance}{ACSampling}
 }

@@ -39,3 +39,6 @@ ggplot(
 ) + geom_point()
 # coordinates should be given as x and y
 }
+\references{
+\insertRef{saubyadaptive}{ACSampling}
+}

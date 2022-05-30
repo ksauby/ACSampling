@@ -11,9 +11,9 @@ createACS(popdata, n1, yvar, criterion = 0, seed = NA, initsample = NA)
 
 \item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
 
-\item{yvar}{A string giving the name of the variable of interest, $y$, in the supplied dataframe $popdata$. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable $y$ must be numeric.}
+\item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 
-\item{criterion}{Numeric threshold value of the variable of interest $y$ (whose name in the dataframe $popdata$ is supplied via the \code{yvar} argument) that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
+\item{criterion}{Numeric threshold value of the variable of interest \eqn{y} (whose name in the dataframe $popdata$ is supplied via the \code{yvar} argument) that initiates ACS. Defaults to 0 (ie., anything greater than 0 initiates adaptive cluster sampling).}
 
 \item{seed}{Optional. An integer to feed to \code{set.seed()} so that the sampling is reproducible.}
 

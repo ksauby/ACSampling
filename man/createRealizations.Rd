@@ -141,3 +141,6 @@ p + annotate("rect", xmin=x_start, xmax=x_end, ymin=y_start, ymax=y_end,
 	scale_colour_gradientn(colours = rainbow(7)) +
 	geom_text(aes(label=NetworkID), hjust=0, vjust=0)
 }
+\references{
+\insertRef{saubyadaptive}{ACSampling}
+}

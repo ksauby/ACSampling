@@ -1,6 +1,6 @@
 #' Example dataset from Christman (1997)
 #'
-#' An example dataset from Christman (1997): \deqn{\lambda_P = 5, \tau = 1}{lambda_P = 5, tau = 1}.
+#' An example dataset from Christman (1997): \eqn{\lambda_P = 5, \tau = 1}{lambda_P = 5, tau = 1}.
 #'
 #' \itemize{
 #'   \item y. Y coordinate.
@@ -27,7 +27,7 @@ NULL
 
 #' Example dataset from Christman (1997)
 #'
-#' An example dataset from Christman (1997): \deqn{\lambda_P = 5, \tau = 5}{lambda_P = 5, tau = 5}.
+#' An example dataset from Christman (1997): \eqn{\lambda_P = 5, \tau = 5}{lambda_P = 5, tau = 5}.
 #'
 #' \itemize{
 #'   \item y. Y coordinate.
@@ -56,7 +56,7 @@ NULL
 
 #' Example dataset from Christman (1997)
 #'
-#' An example dataset from Christman (1997): \deqn{\lambda_P = 5, \tau = 10}{lambda_P = 5, tau = 10}.
+#' An example dataset from Christman (1997): \eqn{\lambda_P = 5, \tau = 10}{lambda_P = 5, tau = 10}.
 #'
 #' \itemize{
 #'   \item y. Y coordinate.
@@ -85,7 +85,7 @@ NULL
 
 #' Example dataset from Christman (1997)
 #'
-#' An example dataset from Christman (1997):\deqn{\lambda_P = 5, \tau = 2.5}{lambda_P = 5, tau = 2.5}.
+#' An example dataset from Christman (1997):\eqn{\lambda_P = 5, \tau = 2.5}{lambda_P = 5, tau = 2.5}.
 #'
 #' \itemize{
 #'   \item y. Y coordinate.
@@ -114,7 +114,7 @@ NULL
 
 #' Example dataset from Christman (1997)
 #'
-#' An example dataset from Christman (1997): \deqn{\lambda_P = 10, \tau = 5}{lambda_P = 10, tau = 5}.
+#' An example dataset from Christman (1997): \eqn{\lambda_P = 10, \tau = 5}{lambda_P = 10, tau = 5}.
 #'
 #' \itemize{
 #'   \item y. Y coordinate.

@@ -15,5 +15,5 @@ An example dataset from Figure 1 from Thompson (1990) containing the x- and y-co
 }
 }
 \references{
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
+\insertRef{thompson1990adaptive}{ACSampling}
 }

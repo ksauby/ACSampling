@@ -43,5 +43,5 @@ median_m
 Calculate inclusion probabilities for each unit in a realization using simulations.
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+\insertRef{saubyadaptive}{ACSampling}
 }

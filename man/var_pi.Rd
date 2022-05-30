@@ -46,3 +46,7 @@ var_pi(
 	estimator = "Hajek"
 )
 }
+\references{
+\insertRef{hajek1964asymptotic}{ACSampling}
+\insertRef{berger2009sampling}{ACSampling}
+}

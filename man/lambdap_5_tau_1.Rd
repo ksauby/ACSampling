@@ -7,7 +7,7 @@
 A data frame with 100 rows and 5 variables
 }
 \description{
-An example dataset from Christman (1997): \deqn{\lambda_P = 5, \tau = 1}{lambda_P = 5, tau = 1}.
+An example dataset from Christman (1997): \eqn{\lambda_P = 5, \tau = 1}{lambda_P = 5, tau = 1}.
 }
 \details{
 \itemize{
@@ -26,5 +26,5 @@ data(lambdap_5_tau_1)
 ggplot(lambdap_5_tau_1 \%>\% dplyr::filter(y_value!=0), aes(x, y)) + geom_text(aes(label=y_value))
 }
 \references{
-Christman, M. C. (1997). Efficiency of some sampling designs for spatially clustered populations. \emph{Environmetrics}, 8: 145--166.
+\insertRef{christman1997efficiency}{ACSampling}
 }

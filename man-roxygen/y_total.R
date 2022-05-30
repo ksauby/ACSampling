@@ -1,1 +1,1 @@
-#' @param y_total Vector of $y$ total, each corresponding to a unique network.
+#' @param y_total Vector of \eqn{y} total, each corresponding to a unique network.

@@ -14,3 +14,7 @@ Hajek(pi_i, n)
 \description{
 Option for the "var_pi" function.
 }
+\references{
+\insertRef{hajek1964asymptotic}{ACSampling}
+\insertRef{berger2009sampling}{ACSampling}
+}

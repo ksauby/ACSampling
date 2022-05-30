@@ -9,8 +9,8 @@
 #' @template criterion
 #' @description This calculate the Horvitz-Thompson mean of an adaptive cluster sample done by sampling without replacement.
 #'
-#'where $v$ is the number of distinct units in the sample and
-#'\eqn{J_k} is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, \eqn{J_k = 1}.
+#'where \eqn{v} is the number of distinct units in the sample and
+#'\eqn{J_k} is an indicator variable, equalling 0 if the \eqn{k^{th}} unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, \eqn{J_k = 1}.
 #' 
 #' @return The Horvitz-Thompson mean.
 #' @references 

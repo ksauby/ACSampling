@@ -49,5 +49,5 @@ ggplot(
 	scale_shape_manual(values=c(4,16))
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
+\insertRef{saubyadaptive}{ACSampling}
 }

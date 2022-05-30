@@ -1,5 +1,6 @@
 #' Create an Adaptive Cluster Sample
-#'
+#' @description
+#' Select a restricted adaptive cluster sample from a dataframe containing columns indicating the spatial coordinates of each unit (\code{x} and \code{y}) as well as the variable of interest, provided to the function via the \code{yvar} argument. Cluster sampling is initiated for primary units in which the value of the variable of interest exceeds the criterion value.
 #' @template popdata
 #' @template seed
 #' @template n1

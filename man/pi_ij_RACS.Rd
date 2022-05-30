@@ -11,12 +11,13 @@ pi_ij_RACS(N, n1, m_vec, m_threshold)
 
 \item{n1}{An integer giving the initial sample size (ie., the size of the initial simple random sample).}
 
-\item{m_vec}{Vector of values $m$ for the set of units in a sample, of length $n1$. Each $m$ value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network $i$ to which the unit belongs.}
+\item{m_vec}{Vector of values \eqn{m} for the set of units in a sample, of length \eqn{n1}. Each \eqn{m} value within the vector \code{m_vec} denotes the number of units satisfying the ACS criterion for the network \eqn{i} to which the unit belongs.}
 
-\item{m_threshold}{threshold value above which to calculate pi_i and pi_j differently.}
+\item{m_threshold}{threshold value above which to calculate \eqn{pi_i} and \eqn{pi_j} differently.}
 }
 \description{
 Calculate joint inclusion probability of unit $j$ and $h$, using the RACS correction
-
-Sauby, K.E and Christman, M.C. \emph{In preparation.} A Sampling Strategy Designed to Maximize the Efficiency of Data Collection of Food Web Relationships
+}
+\references{
+\insertRef{saubyadaptive}{ACSampling}
 }

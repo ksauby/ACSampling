@@ -2,6 +2,9 @@ url: https://ksauby.github.io/ACS/
 template:
   bootstrap: 5
 
+authors:
+  Kristen Sauby
+  
 reference:
 - title: Sampling functions
   desc: >

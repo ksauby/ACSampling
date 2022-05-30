@@ -18,7 +18,7 @@ Hajek <- function(pi_i, n) {
 #' @template n_samplesize
 #' @param y need description
 #' @template pi_i_values
-#' #' @references 
+#' @references 
 #' \insertRef{berger2005variance}{ACSampling}
 #' @export
 
@@ -99,9 +99,9 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 #' @param n sample size
 #' @param y Vector of $y$ values.
 #' @param pi_i_values vector of first-order inclusion probabilities, calculated using \code{Hajek}.
- #' @references 
+#' @references 
 #' \insertRef{tille2006sampling}{ACSampling}
-#' #' @export
+#' @export
 
 
 var_Tille <- function(n, y, pi_i_values) {

@@ -1,12 +1,14 @@
 Package: ACSampling
 Title: Adaptive Cluster Sampling
 Version: 0.0.0.9000
-Authors@R: person("Kristen", "Sauby", email = "ksauby@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Kristen", "Sauby", email = "ksauby@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9750-1770"))
 Description: Generate simulation and estimate statistics for adaptive cluster
     sampling and restricted adaptive cluster sampling.
 Depends:
     R (>= 3.5.0)
-License: GPL-2
+License: GPL-2 + MIT + file LICENSE
+URL: https://github.com/ksauby/ACSampling
+BugReports: https://github.com/ksauby/ACSampling/issues
 LazyData: true
 Suggests:
     testthat,

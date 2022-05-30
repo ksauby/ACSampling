@@ -18,7 +18,6 @@ Realizations created from my own data.
 # include example here
 }
 \references{
-Sauby, K.E and Christman, M.C. \emph{In preparation.} Restricted adaptive cluster sampling.
-
-Thompson, S. (1990). Adaptive Cluster Sampling. \emph{Journal of the American Statistical Association}, 85(412): 1050--1059.
+\insertRef{thompson1990adaptive}{ACSampling}
+\insertRef{saubyadaptive}{ACSampling}
 }
