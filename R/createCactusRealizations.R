@@ -21,7 +21,7 @@
 #' 	# "Percent_Cover_Stricta",
 #' 	# "Height_Pusilla",
 #' 	# "Height_Stricta",
-#' )		
+#' )
 #' )
 #' ggplot(
 #' 	CactusRealizations,
@@ -49,6 +49,7 @@ createCactusRealizations <- function(PlotSurveys_season1, ovar) {
 	buffer			<- 5
 	start.seed		<- 1
 	variables		<- ovar
+	yvar           <- "Cactus"
 	# CREATE REALIZATIONS
 	patch_data <- createRealizations(
 		x_start, 
@@ -60,7 +61,8 @@ createCactusRealizations <- function(PlotSurveys_season1, ovar) {
 		n.realizations, 
 		SpeciesInfo, 
 		start.seed,
-		variables
+		variables,
+		yvar
 	)
 	colnames(patch_data)[names(patch_data) == "n.networks"] <- "population"
 	patch_data$population %<>% as.factor()

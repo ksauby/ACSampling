@@ -34,19 +34,19 @@
 #' 
 #' # CALCULATE var(y_HT)
 #' # create dataframe of network info
-#' Z_summary <- Z %>% group_by(NetworkID) %>%
-#' 	summarise(
-#' 		m = m[1],
-#' 		y_total = sum(y_value, rm.na=TRUE)
-#' 		) %>%
-#' 		filter(NetworkID > 0)
-#' 
-#' var_y_HT(
-#' 	N = dim(Thompson1990Fig1Pop)[1], 
-#' 	n1 = dim(Thompson1990Figure1Sample)[1], 
-#' 	m = Z_summary$m, 
-#' 	y = Z_summary$y_total
-#' )
+#'# Z_summary <- Z %>% group_by(NetworkID) %>%
+#' #	summarise(
+#' #		m = m[1],
+#' #		y_total = sum(y_value, rm.na=TRUE)
+#' #		) %>%
+#' #		dplyr::filter(NetworkID > 0)
+#' #
+#' #var_y_HT(
+#' #	N = dim(Thompson1990Fig1Pop)[1], 
+#' #	n1 = dim(Thompson1990Figure1Sample)[1], 
+#' #	m = Z_summary$m, 
+#' #	y = Z_summary$y_total
+#' #)
 
 
 var_y_HT <- function(N, n1, m_vec, y_total, pi_i_values=NULL) {
@@ -103,20 +103,20 @@ var_y_HT <- function(N, n1, m_vec, y_total, pi_i_values=NULL) {
 #' 
 #' # CALCULATE var(y_HT)
 #' # create dataframe of network info
-#' Z_summary <- Z %>% group_by(NetworkID) %>%
-#' 	summarise(
-#' 		m = m[1],
-#' 		y_total = sum(y_value, rm.na=TRUE)
-#' 		) %>%
-#' 		filter(NetworkID > 0)
-#' 
-#' var_y_HT_RACS(
-#' 	N = dim(Thompson1990Fig1Pop)[1], 
-#' 	n1 = dim(Thompson1990Figure1Sample)[1], 
-#' 	m = Z_summary$m, 
-#' 	y_total = Z_summary$y_total,
-#' 	m_threshold=3
-#' )
+#' #Z_summary <- Z %>% group_by(NetworkID) %>%
+#' #	summarise(
+#' #		m = m[1],
+#' #		y_total = sum(y_value, rm.na=TRUE)
+#' #		) %>%
+#' #		dplyr::filter(NetworkID > 0)
+#' #
+#' #var_y_HT_RACS(
+#' #	N = dim(Thompson1990Fig1Pop)[1], 
+#' #	n1 = dim(Thompson1990Figure1Sample)[1], 
+#' #	m = Z_summary$m, 
+#' #	y_total = Z_summary$y_total,
+#' #	m_threshold=3
+#' #)
 
 var_y_HT_RACS <- function(N, n1, m_vec, y_total, m_threshold, pi_i_values=NULL) {
 	Z = data.frame(y_total=y_total, m_vec=m_vec) %>% arrange(m_vec)

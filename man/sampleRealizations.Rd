@@ -69,42 +69,42 @@ sampleRealizations(
 This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
 }
 \examples{
-sims=20
-n1_vec=c(5,10,20,40)
-population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
-#' avar = NULL
-ovar = c(
-	"Stricta",
-	"Pusilla",
-"Cactus",
-"CACA_on_Pusilla",
-"CACA_on_Stricta",
-"MEPR_on_Pusilla",
-"MEPR_on_Stricta",
-"Old_Moth_Evidence_Pusilla",
-"Old_Moth_Evidence_Stricta"
-)
-data(CactusRealizations)
-popdata = CactusRealizations # WHY IS THERE ISLAND=NA
-simulation_data <- sampleRealizations(
-popdata = popdata,
-	sims = sims,
-	n1_vec = n1_vec,
-	avar = avar,
-	ovar = ovar,
-popvar="Island",
-yvar="Cactus"
-)
-sims=200
-n1_vec=c(75,150,225,300,350)
-simulation_data_SRSWOR <- sampleRealizations(
-popdata = popdata,
-sims = sims,
-n1_vec = n1_vec,
-avar = avar,
-ovar = ovar,
-popvar="Island"
-)
+# sims=20
+# n1_vec=c(5,10,20,40)
+# population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
+# #' avar = NULL
+# ovar = c(
+# 	"Stricta",
+# 	"Pusilla",
+#  "Cactus",
+#  "CACA_on_Pusilla",
+# "CACA_on_Stricta",
+# "MEPR_on_Pusilla",
+# "MEPR_on_Stricta",
+# "Old_Moth_Evidence_Pusilla",
+# "Old_Moth_Evidence_Stricta"
+# )
+# data(CactusRealizations)
+# popdata = CactusRealizations # WHY IS THERE ISLAND=NA
+# simulation_data <- sampleRealizations(
+# popdata = popdata,
+# 	sims = sims,
+# 	n1_vec = n1_vec,
+# 	avar = avar,
+# 	ovar = ovar,
+# popvar="Island",
+# yvar="Cactus"
+# )
+# sims=200
+# n1_vec=c(75,150,225,300,350)
+# simulation_data_SRSWOR <- sampleRealizations(
+# popdata = popdata,
+# sims = sims,
+# n1_vec = n1_vec,
+# avar = avar,
+# ovar = ovar,
+# popvar="Island"
+# )
 }
 \references{
 \insertRef{saubyadaptive}{ACSampling}

@@ -10,7 +10,7 @@
 #' n1 = 2
 #' y = c(1,10,1000)
 #' m_vec = c(1,2,2)
-#' pi_i(N, n1, m)
+#' pi_i(N, n1, m_vec)
 
 
 #' # EXAMPLE 4:

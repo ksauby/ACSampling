@@ -14,7 +14,8 @@ createRealizations(
   n.realizations,
   SpeciesInfo,
   start.seed,
-  variables
+  variables,
+  yvar
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ createRealizations(
 \item{start.seed}{The initial number used in \code{set.seed}. All subsequent numbers used in set.seed will be incremental after this number. seed = seq(start.seed, start.seed + 2*n.realizations +  sum(n.networks)*n.realizations*2 + 1, by=1)}
 
 \item{variables}{Dataframe column names that are included in the final patch realizations. These columns are given a value of "0" if the species is not present or NA.}
+
+\item{yvar}{The variable of interest that determines how units will be assigned if during the randomization and rotation two units overlap. Must be a variable listed within variables.}
 }
 \description{
 This function creates multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
@@ -71,16 +74,17 @@ buffer=5
 
 # create realizations
 CactusRealizations = createRealizations(
-x_start, 
-x_end, 
-y_start, 
-y_end, 
-buffer, 
-n.networks, 
-n.realizations, 
-SpeciesInfo, 
+x_start,
+x_end,
+y_start,
+y_end,
+buffer,
+n.networks,
+n.realizations,
+SpeciesInfo,
 start.seed,
-variables
+variables,
+yvar = "Cactus"
 )
 
 # plot realizations
@@ -121,7 +125,7 @@ start.seed=1
 # create realizations
 Thompson.realizations = createRealizations(x_start, x_end,
  	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, 
-	start.seed, variables)	
+	start.seed, variables, yvar="y_value")	
 
 # plot realizations
 p <- ggplot(Thompson.realizations, aes(x, y, colour=NetworkID, label=NetworkID))

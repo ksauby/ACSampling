@@ -44,7 +44,7 @@ var_Hajek <- function(n, y, pi_i_values) {
 #' # Hajek Approximation
 #' library(dplyr)
 #' library(magrittr)
-#' Z = createACS(Thompson1990Fig1Pop, seed=3, n1=30, "y_value", condition=0)
+#' Z = createACS(Thompson1990Fig1Pop, seed=3, n1=30, "y_value", criterion=0)
 #' Z_summary <- Z %>% 
 #' 	dplyr::filter(Sampling!="Edge") %>%
 #' 	group_by(NetworkID) %>%

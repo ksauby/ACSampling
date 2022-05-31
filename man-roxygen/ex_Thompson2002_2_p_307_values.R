@@ -1,3 +1,4 @@
+#' @examples
 #' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 #' N = 1000
 #' n1 = 100

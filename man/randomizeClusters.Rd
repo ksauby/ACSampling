@@ -4,7 +4,7 @@
 \alias{randomizeClusters}
 \title{Randomly place networks within a grid population.}
 \usage{
-randomizeClusters(grid, n.networks, cluster.info, seed)
+randomizeClusters(grid, n.networks, cluster.info, seed, yvar)
 }
 \arguments{
 \item{grid}{A dataframe of all x and y coordinates (as integer values) within a rectangular or square grid of coordinates for which the $y$-value *satisfies* the ACS criterion. (The grid can be first created with \code{createPop}, and then rows can be removed that do not satisfy the ACS criterion). Should only include plots that have the species of interest.}
@@ -50,7 +50,7 @@ cluster.info = Thompson1990Fig1Pop \%>\%
 	dplyr::filter(m > 1) \%>\%
 	createNetworks
 
-Thompson1990_realization = randomizeClusters(grid, n.networks, cluster.info, seed)
+Thompson1990_realization = randomizeClusters(grid, n.networks, cluster.info, seed, yvar="y_value")
 
 # plot realization
 library(ggplot2)

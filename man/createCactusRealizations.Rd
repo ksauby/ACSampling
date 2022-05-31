@@ -35,7 +35,7 @@ CactusRealizations <- createCactusRealizations(
 	# "Percent_Cover_Stricta",
 	# "Height_Pusilla",
 	# "Height_Stricta",
-)		
+)
 )
 ggplot(
 	CactusRealizations,

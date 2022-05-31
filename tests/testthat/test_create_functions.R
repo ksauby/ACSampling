@@ -408,7 +408,7 @@ test_that("randomizeClusters, one network out of two", {
 
    expect_equal(
       ClusterExampleData2ManualOutput,
-      randomizeClusters(grid, n.networks, cluster.info, seed)
+      randomizeClusters(grid, n.networks, cluster.info, seed, yvar="y_value")
    )
 })
 

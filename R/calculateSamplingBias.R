@@ -194,7 +194,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 #' Species.Fields = c("Stricta", "Pusilla", "Cactus")
 #' cactus.realizations = createRealizations(x_start, x_end,
 #' 	y_start, y_end, buffer=5, n.networks, n.realizations, SpeciesInfo, 
-#' 	start.seed=1, Species.Fields)
+#' 	start.seed=1, Species.Fields, yvar="Cactus")
 #' 
 #' # Sample from the realizations
 #' simulations=1

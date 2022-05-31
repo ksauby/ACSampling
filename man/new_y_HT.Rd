@@ -42,7 +42,16 @@ where $v$ is the number of distinct units in the sample and
 $J_k$ is an indicator variable, equalling 0 if the $k$ th unit in the sample does not satisfy the condition and was not selected in the initial sample; otherwise, $J_k = 1$.
 }
 \examples{
-@template ex_Thompson2002_2_p_307_values
+# Ch. 24, Exercise #2, p. 307, from Thompson (2002)
+N = 1000
+n1 = 100
+m_vec = c(2,3, rep(1,98))
+y = c(3,6, rep(0, 98))
+sampling = "SRSWOR"
+criterion = 0
+round(
+     y_HT(N,n1,m_vec,y,sampling,criterion)*1000, 0
+)
 }
 \references{
 \insertRef{saubyadaptive}{ACSampling}

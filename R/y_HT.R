@@ -47,24 +47,32 @@
 #' ) 
 #'
 #' # EXAMPLE 2: Table 1 from Thompson (1990)
-#' data(Thompson1990Table1data)
-#' (Thompson1990Table1 = Thompson1990Table1data %>%
-#' group_by(sampling_effort) %>%
-#' summarise(
-#' 	`y (added through SRSWOR)` = toString(y_value[which(sampling=="SRSWOR")]),
-#' 	`y (added through ACS)` = toString(y_value[which(sampling=="ACS")]),
-#' 	y_bar_1 = mean(y_value[which(sampling=="SRSWOR")]),
-#' 	y_HT = round(y_HT(N=dim(Thompson1990Fig1Pop)[1], n1, m, y_value, sampling, 5), 2),
-#' 	y_bar = round(mean(y_value),2)
-#' 	)
-#' )
+#' #data(Thompson1990Table1data)
+#' #(Thompson1990Table1 = Thompson1990Table1data %>%
+#' #group_by(sampling_effort) %>%
+#' #summarise(
+#'# 	`y (added through SRSWOR)` = toString(y_value[which(sampling=="SRSWOR")]),
+#' #	`y (added through ACS)` = toString(y_value[which(sampling=="ACS")]),
+#' #	y_bar_1 = mean(y_value[which(sampling=="SRSWOR")]),
+#' #	y_HT = round(y_HT(N=dim(Thompson1990Fig1Pop)[1], n1=2, m_vec=m, y=y_value, sampling, 5), 2),
+#' #	y_bar = round(mean(y_value),2)
+#' #	)
+#' #)
 #' 
 #' # EXAMPLE 3: 
 #' # data(cactus_realizations)
 #' # realization = cactus_realizations %>% filter(n.networks==40)
+#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
+#' N = 1000
+#' n1 = 100
+#' m_vec = c(2,3, rep(1,98))
+#' y = c(3,6, rep(0, 98))
+#' sampling = "SRSWOR"
+#' criterion = 0
+#' round(
+#'      y_HT(N,n1,m_vec,y,sampling,criterion)*1000, 0
+#' )
 
-#' @template ex_Thompson2002_2_p_307_values
-#' @template ex_Thompson2002_2_p_307_y_HT
 #' @export
 
 y_HT <- function(y, N, n1, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterion=NULL) {
@@ -105,8 +113,17 @@ y_HT <- function(y, N, n1, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterio
 #' \insertRef{thompson1990adaptive}{ACSampling}
 #'
 #' @export
-#' @examples @template ex_Thompson2002_2_p_307_values
-#' @template ex_Thompson2002_2_p_307_y_HT
+#' @examples
+#' # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
+#' N = 1000
+#' n1 = 100
+#' m_vec = c(2,3, rep(1,98))
+#' y = c(3,6, rep(0, 98))
+#' sampling = "SRSWOR"
+#' criterion = 0
+#' round(
+#'      y_HT(N,n1,m_vec,y,sampling,criterion)*1000, 0
+#' )
 
 new_y_HT <- function(y, N, n1, m_threshold, pi_i_values=NULL, m_vec=NULL, sampling=NULL, criterion=NULL) {
 	if (!(is.null(sampling)) & !(is.null(criterion))) {

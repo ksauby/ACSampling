@@ -25,7 +25,7 @@ N = 5
 n1 = 2
 y = c(1,10,1000)
 m_vec = c(1,2,2)
-pi_i(N, n1, m)
+pi_i(N, n1, m_vec)
 # EXAMPLE 4:
 # Ch. 24, Exercise #2, p. 307, from Thompson (2002)
 N=1000
