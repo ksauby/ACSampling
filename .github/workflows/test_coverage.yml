@@ -27,5 +27,5 @@ jobs:
 
       - name: Test coverage
         run: covr::codecov(function_exclusions=c("lambdap_10_tau_25", "lambdap_10_tau_5", "lambdap_5_tau_25",  "lambdap_5_tau_10", "lambdap_5_tau_5", "lambdap_5_tau_1",
-        "createlambdap_10_tau_25","createlambdap_10_tau_5","createlambdap_5_tau_25", "createlambdap_5_tau_10","createlambdap_5_tau_5","createlambdap_5_tau_1","createCactusRealizations","createThompson1990Fig1Pop","createThompson1990Fig1Sample","createThompson1990Table1data"))
+"createlambdap_10_tau_25","createlambdap_10_tau_5","createlambdap_5_tau_25", "createlambdap_5_tau_10","createlambdap_5_tau_5","createlambdap_5_tau_1","createCactusRealizations","createThompson1990Fig1Pop","createThompson1990Fig1Sample","createThompson1990Table1data"))
         shell: Rscript {0}
