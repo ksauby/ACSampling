@@ -252,7 +252,7 @@ calcSpatStats <- function(alldata_all, weights) {
       ncol = max(temp$y) - min(temp$y) + 1
    )
    #data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
-   tempdat <- data.frame(JoinCountTest.W = NA)
+   tempdat <- data.frame(JoinCountTest = NA)
    for (i in length(weights)) {
       lwb <- nb2listw(nb, style = weights[i]) # convert to neighbor list to weights list
       tempdat$JoinCountTest <- getJoinCountTestEst(temp, lwb)
@@ -273,7 +273,7 @@ calcSpatStats <- function(alldata_all, weights) {
 #' @noRd
 fillSpatStatsNA <- function(tempdat, weights) {
    for (i in length(weights)) {
-      tempdat$JoinCountTest <- NA
+      tempdat <- data.frame(JoinCountTest = NA)
       tempdat$MoranI <- NA
       colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
          paste("JoinCountTest", weights[i], sep=".")
@@ -545,14 +545,20 @@ sampleRealizations <- function(
                   A[[i]][[j]][[k]]$min_uniq_m <- temp$MIN
                } else
                {
-                  A[[i]][[j]][[k]]$mean_m <- NA
-                  A[[i]][[j]][[k]]$median_m <- NA
-                  A[[i]][[j]][[k]]$max_m <- NA
-                  A[[i]][[j]][[k]]$min_m <- NA
-                  A[[i]][[j]][[k]]$mean_uniq_m <- NA
-                  A[[i]][[j]][[k]]$median_uniq_m <- NA
-                  A[[i]][[j]][[k]]$max_uniq_m <- NA
-                  A[[i]][[j]][[k]]$min_uniq_m <- NA
+                  assignNA <- function(x) {
+                     NA
+                  }
+                  
+                  fillmCharNA <- function(dat) {
+                     A[[i]][[j]][[k]] %<>%
+                        mutate_at(vars(
+                           mean_m, median_m, max_m, min_m, mean_uniq_m, 
+                           median_uniq_m, max_uniq_m, min_uniq_m <- NA
+                        ), assignNA)
+                     
+                     
+                  }
+                  
                }
             }
             # Spatial Statistics

@@ -894,10 +894,21 @@ test_that("test spatial statistics functions", {
    
    
    
-   #expect_equal(
-   #   calcSpatStats
+   expect_equal(
+      calcSpatStats(lambdap_10_tau_25_pop, "W"),
+      data.frame(
+         JoinCountTest.W = as.vector(joincount.test(as.factor(lambdap_10_tau_25_pop$y_value), lwb)[[2]]$estimate[1]),
+         MoranI.W = as.vector(moran.test(lambdap_10_tau_25_pop$y_value, lwb)$estimate[1])
+      )
+   )
    
-   #)
+   expect_equal(
+      fillSpatStatsNA(lambdap_10_tau_25_pop, "W"),
+      data.frame(
+         JoinCountTest.W = NA,
+         MoranI.W = NA
+      )
+   )
 })
 
 
