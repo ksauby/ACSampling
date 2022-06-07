@@ -283,7 +283,9 @@ fillSpatStatsNA <- function(tempdat, weights) {
    return(tempdat)
 }
 
-
+#' Fill m fields with NAs if statistics are not gathered
+#' 
+#' @noRd
 fillmCharNA <- function(dat) {
    dat$mean_m <- NA
    dat$median_m <- NA
@@ -294,6 +296,40 @@ fillmCharNA <- function(dat) {
    dat$max_uniq_m <- NA
    dat$min_uniq_m <- NA
    return(dat)
+}
+
+#' calculate statistics about m
+#' 
+#' @noRd
+fillmChar <- function(dat, results, yvar) {
+   YVAR <- sym(yvar)
+   temp <- dat %>% filter(!!!yvar > 0)
+   prelim_results <- temp %>% 
+      summarise(
+         mean_m = mean(m),
+         median_m = median(m),
+         max_m = max(m),
+         min_m = min(m),
+         mean_uniq_m = mean(unique(m)),
+         median_uniq_m = median(unique(m)),
+         max_uniq_m = max(unique(m)),
+         min_uniq_m = min(unique(m))
+      )
+   results %>% cbind(prelim_results)
+}
+
+#' Save misc info about the simulation
+#' 
+#' @noRd
+addMiscInfo <- function(k, tseed, pop, dat, n1, realvar, popvar, results){
+   results$simulation = k
+   results$seed = tseed
+   results$N.ACS.plots = dim(dat)[1] - n1
+   results$N.Total.plots = dim(dat)[1]
+   results$realvar = eval(parse(text=paste(deparse(substitute(pop)), "$", realvar, sep="")))[1]
+   results$popvar = eval(parse(text=paste(deparse(substitute(pop)), "$", popvar, sep="")))[1]
+   results$N.SRSWOR.plots = n1
+   return(results)
 }
 
 
@@ -525,38 +561,15 @@ sampleRealizations <- function(
                A[[i]][[j]][[k]] <- SampleMeanVar
             }
             # add other information
-            A[[i]][[j]][[k]]$simulation = k
-            A[[i]][[j]][[k]]$seed = tseed
-            A[[i]][[j]][[k]]$N.ACS.plots = dim(alldata_all)[1] - n1
-            A[[i]][[j]][[k]]$N.Total.plots = dim(alldata_all)[1]
-            A[[i]][[j]][[k]]$realvar = eval(parse(text=paste(
-               "P$", realvar, sep="")))[1]
-            A[[i]][[j]][[k]]$popvar = eval(parse(text=paste(
-               "P$", popvar, sep="")))[1]
-            A[[i]][[j]][[k]]$N.SRSWOR.plots = n1
+            A[[i]][[j]][[k]] %<>% addMiscInfo(k, tseed, P, alldata_all, n1, 
+               realvar, popvar, results)
             # m characteristics
             if (mChar == TRUE) {
                if (sum(alldata_all$Cactus) > 0) {
                   A[[i]][[j]][[k]] %<>% fillmChar(., yvar)
-                  fillmChar <- function(dat, results, yvar) {
-                     YVAR <- sym(yvar)
-                     temp <- dat %>% filter(!!!yvar > 0)
-                     prelim_results <- temp %>% 
-                        summarise(
-                           mean_m = mean(m),
-                           median_m = median(m),
-                           max_m = max(m),
-                           min_m = min(m),
-                           mean_uniq_m = mean(unique(m)),
-                           median_uniq_m = median(unique(m)),
-                           max_uniq_m = max(unique(m)),
-                           min_uniq_m = min(unique(m))
-                        )
-                     results %>% cbind(prelim_results)
-                  }
-                  
-               } else
-               {A[[i]][[j]][[k]] %<>% fillmCharNA()}
+               } else {
+                  A[[i]][[j]][[k]] %<>% fillmCharNA()
+               }
             }
             # Spatial Statistics
             if (SpatStat == TRUE) {
@@ -567,7 +580,6 @@ sampleRealizations <- function(
                      fillSpatStatsNA(alldata_all, weights)
                   }
                )
-               
             }
          }
          do.call(rbind.data.frame, A[[i]][[j]])

@@ -959,6 +959,34 @@ test_that("test spatial statistics functions", {
       results2
    )
    
+   results3 <- data.frame(temp=NA)
+   k=1
+   tseed=10302
+   n1=5
+   realvar = "realization"
+   popvar = "n.networks"
+   P <- exampleCactusPop %>% 
+      rbind.fill(exampleCactusPop) %>%
+      mutate(
+         n.networks = 5,
+         realization = 1
+      )
+   
+   misc_info_results <- results3 %>%
+      mutate(
+         simulation = k,
+         seed = tseed,
+         N.ACS.plots = dim(exampleCactusPop)[1] - 5,
+         N.Total.plots = dim(exampleCactusPop)[1],
+         realvar = 1,
+         popvar = 5,
+         N.SRSWOR.plots = 5
+      )
+   expect_equal(
+      addMiscInfo(k, tseed, P, exampleCactusPop, n1, realvar, popvar, results3),
+      misc_info_results
+   )
+   
 })
 
 
