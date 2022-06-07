@@ -284,6 +284,18 @@ fillSpatStatsNA <- function(tempdat, weights) {
 }
 
 
+fillmCharNA <- function(dat) {
+   dat$mean_m <- NA
+   dat$median_m <- NA
+   dat$max_m <- NA
+   dat$min_m <- NA
+   dat$mean_uniq_m <- NA
+   dat$median_uniq_m <- NA
+   dat$max_uniq_m <- NA
+   dat$min_uniq_m <- NA
+   return(dat)
+}
+
 
 #' Sample species patch realizations simulations
 
@@ -525,41 +537,26 @@ sampleRealizations <- function(
             # m characteristics
             if (mChar == TRUE) {
                if (sum(alldata_all$Cactus) > 0) {
-                  temp <- alldata_all[which(eval(parse(text=yvar)) > 0),] 
-                  A[[i]][[j]][[k]]$mean_m <- mean(temp$m)
-                  A[[i]][[j]][[k]]$median_m <- median(temp$m)
-                  A[[i]][[j]][[k]]$max_m <- max(temp$m)
-                  A[[i]][[j]][[k]]$min_m <- min(temp$m)
-                  temp %<>%
-                     group_by(NetworkID) %>%
-                     summarise(m = m[1]) %>%
-                     summarise(
-                        MEAN = mean(m),
-                        MAX = max(m),
-                        MIN = min(m),
-                        MEDIAN = median(m)
-                     )
-                  A[[i]][[j]][[k]]$mean_uniq_m <- temp$MEAN
-                  A[[i]][[j]][[k]]$median_uniq_m <- temp$MEDIAN
-                  A[[i]][[j]][[k]]$max_uniq_m <- temp$MAX
-                  A[[i]][[j]][[k]]$min_uniq_m <- temp$MIN
+                  A[[i]][[j]][[k]] %<>% fillmChar(., yvar)
+                  fillmChar <- function(dat, results, yvar) {
+                     YVAR <- sym(yvar)
+                     temp <- dat %>% filter(!!!yvar > 0)
+                     prelim_results <- temp %>% 
+                        summarise(
+                           mean_m = mean(m),
+                           median_m = median(m),
+                           max_m = max(m),
+                           min_m = min(m),
+                           mean_uniq_m = mean(unique(m)),
+                           median_uniq_m = median(unique(m)),
+                           max_uniq_m = max(unique(m)),
+                           min_uniq_m = min(unique(m))
+                        )
+                     results %>% cbind(prelim_results)
+                  }
+                  
                } else
-               {
-                  assignNA <- function(x) {
-                     NA
-                  }
-                  
-                  fillmCharNA <- function(dat) {
-                     A[[i]][[j]][[k]] %<>%
-                        mutate_at(vars(
-                           mean_m, median_m, max_m, min_m, mean_uniq_m, 
-                           median_uniq_m, max_uniq_m, min_uniq_m <- NA
-                        ), assignNA)
-                     
-                     
-                  }
-                  
-               }
+               {A[[i]][[j]][[k]] %<>% fillmCharNA()}
             }
             # Spatial Statistics
             if (SpatStat == TRUE) {
