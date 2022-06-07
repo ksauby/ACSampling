@@ -318,7 +318,7 @@ fillmChar <- function(dat, results, yvar) {
    results %>% cbind(prelim_results)
 }
 
-#' Save misc info about the simulation
+#' Save misc info about the
 #' 
 #' @noRd
 addMiscInfo <- function(k, tseed, pop, dat, n1, realvar, popvar, results){
@@ -326,8 +326,8 @@ addMiscInfo <- function(k, tseed, pop, dat, n1, realvar, popvar, results){
    results$seed = tseed
    results$N.ACS.plots = dim(dat)[1] - n1
    results$N.Total.plots = dim(dat)[1]
-   results$realvar = eval(parse(text=paste(deparse(substitute(pop)), "$", realvar, sep="")))[1]
-   results$popvar = eval(parse(text=paste(deparse(substitute(pop)), "$", popvar, sep="")))[1]
+   results$realvar = pop %$% unique(eval(parse(text=realvar))) #eval(parse(text=paste({{pop}}, "$", realvar, sep="")))[1]
+   results$popvar = pop %$% unique(eval(parse(text=popvar))) #eval(parse(text=paste(deparse(substitute(pop)), "$", popvar, sep="")))[1]
    results$N.SRSWOR.plots = n1
    return(results)
 }
