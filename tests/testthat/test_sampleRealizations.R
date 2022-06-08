@@ -1,3 +1,20 @@
+sims = 5
+n1_vec = c(5, 10)
+population <-
+   createPop(
+      x_start = 1,
+      x_end = 30,
+      y_start = 1,
+      y_end = 30
+   )
+#' avar = NULL
+ovar = c("Stricta",
+         "CACA_on_Stricta")
+avar = NULL
+data(CactusRealizations)
+popdata = CactusRealizations # WHY IS THERE ISLAND=NA
+
+
 test_that("test sampleRealizations", {
    expect_error(
       sampleRealizations(

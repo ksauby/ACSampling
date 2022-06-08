@@ -517,11 +517,15 @@ sampleRealizations <- function(
                dats <- datasetprep[[3]]
                SampleMeanVar <- list()
                for (n in 1:length(dats)) {
+                  
+                  
                   dat <- eval(parse(text=dats[[n]])) %>%
                      select(!!!OAVAR) %>%
                      summarise_all(list(mean), na.rm=T)
                   names(dat) <- str_replace(names(dat), "(.*)", "\\1_obs")
                   dat$Plots <- dats[n]
+                  
+                  
                   SampleMeanVar[[n]] <- dat
                }
                SampleMeanVar %<>% bind_rows
