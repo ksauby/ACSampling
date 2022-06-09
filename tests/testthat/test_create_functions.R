@@ -1,3 +1,5 @@
+#' @importFrom tibble tibble
+
 test_that("createPop", {
    expect_error(
       createPop("A", 5, 1, 5),

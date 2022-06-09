@@ -342,20 +342,40 @@ addMiscInfo <- function(k, tseed, pop, dat, n1, realvar, popvar, results){
 #' @template avar
 #' @template ovar
 #' @template rvar
-#' @param SamplingDesign Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.
-#' @param y_HT_formula The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.
-#' @param var_formula The formula used to estimate the variance of the population total: either the Horvitz-Thompson variance estimator, 'var_y_HT', or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." Defaults to "var_y_HT".
+#' @param SamplingDesign Whether simple random sampling (SRS), unrestricted 
+#' adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be 
+#' performed; defaults to \code{ACS}.
+#' @param y_HT_formula The formula used to estimate the population total: 
+#' either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected 
+#' Horvitz-Thompson estimator, 'y_HT_RACS'.
+#' @param var_formula The formula used to estimate the variance of the 
+#' population total: either the Horvitz-Thompson variance estimator, 'var_y_HT',
+#' or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." 
+#' Defaults to "var_y_HT".
 #' @param mThreshold Default is NULL. OPTIONS
 #' @param f_max Default is 2. OPTIONS
-#' @param SampleEstimators If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.
-#' @param SpatStat TRUE or FALSE. If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE.
-#' @param weights TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.
-#' @param mChar TRUE or FALSE. If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics. If "FALSE," no summary statistics are calculated.
+#' @param SampleEstimators If "TRUE", calculate the sample mean and sample 
+#' variance for each simulation. Default is FALSE.
+#' @param SpatStat TRUE or FALSE. If "TRUE", for each simulation calculate 
+#' Moran's I, and the nugget, sill, and range of the semivariogram. Default is 
+#' TRUE.
+#' @param weights TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving 
+#' spatial weight matrix styles to use to calculate the Join Count and Moran's I
+#'  statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See 
+#'  nb2listw for more details.
+#' @param mChar TRUE or FALSE. If "TRUE", for each simulation calculate summary 
+#' statistics (median, mean, min, and max) for the sample's m values. Also, for 
+#' each simulation and for the set of unique m values, calculate the same 
+#' summary statistics. If "FALSE," no summary statistics are calculated.
 #' @param popvar Default is "n.networks"
 #' @param realvar Default is "realization"
-#' @param seeds Vector of numbers to be used to set random seeds. HOW TO CALCULATE HOW MANY NEEDED?
+#' @param seeds Vector of numbers to be used to set random seeds. HOW TO 
+#' CALCULATE HOW MANY NEEDED?
 
-#' @description This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
+#' @description This function simulates sampling of multiple realizations of 
+#' patches of the species of interest within the grid of locations created with 
+#' \code{createPop}. The number of total simulations is
+#' length(n1_vec) x length(popvar) x length(realvar)
 
 #' @references 
 #' \insertRef{saubyadaptive}{ACSampling}
@@ -484,9 +504,11 @@ sampleRealizations <- function(
    Z = foreach(
       i = 1:n.patches, # for each species density
       .inorder = FALSE, 
-      .packages = c("magrittr", "foreach", "plyr", "dplyr", "data.table",
-                    "ACSampling", "intergraph", "network", "igraph", "stringr", 
-                    "spdep"), 
+      .packages = c("magrittr", "foreach", #"plyr", 
+                    "dplyr",# "data.table",
+                    "ACSampling"#,  "intergraph", "network", "igraph", "stringr", 
+                    #"spdep"
+                    ), 
       .combine = "bind_rows",
       #.errorhandling = "pass",
       .verbose = TRUE
@@ -505,9 +527,17 @@ sampleRealizations <- function(
          n1 <- n1_vec[j]
          A[[i]][[j]] <- list()
          r <- (i - 1) * j + j
-         if (is.na(seeds)) {randnos <- runif(sims)} else {randnos <- seeds}
+         if (all(is.na(seeds))) {seeds <- runif(sims)}
+         else {
+            tseed <- (i-1)*(nsample.length) + j
+            set.seed(tseed)
+            sim_seeds <- runif(sims)
+         }
          for (k in 1:sims) {
-            tseed <- randnos[k]*100000
+            if (!all(is.na(seeds))) {
+               tseed <- sim_seeds[k]
+               set.seed(tseed)
+            } else {tseed <- NA}
             alldata <- createSample(SamplingDesign, P, tseed, n1, yvar, f_max)
             alldata_all <- alldata
             if (SampleEstimators == TRUE) {
@@ -517,8 +547,6 @@ sampleRealizations <- function(
                dats <- datasetprep[[3]]
                SampleMeanVar <- list()
                for (n in 1:length(dats)) {
-                  
-                  
                   dat <- eval(parse(text=dats[[n]])) %>%
                      select(!!!OAVAR) %>%
                      summarise_all(list(mean), na.rm=T)
@@ -566,7 +594,7 @@ sampleRealizations <- function(
             }
             # add other information
             A[[i]][[j]][[k]] %<>% addMiscInfo(k, tseed, P, alldata_all, n1, 
-               realvar, popvar, results)
+               realvar, popvar, .)
             # m characteristics
             if (mChar == TRUE) {
                if (sum(alldata_all$Cactus) > 0) {

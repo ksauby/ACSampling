@@ -315,30 +315,29 @@ test_that("test rvarMultVarCalc", {
    ))
 })
 
+test_that("test rvarMultDatCalc", {
+   dat_results <- rvarMultDatCalc(
+      dats,
+      rvar = "CACAonStricta",
+      N,
+      n1
+   ) %>%
+      mutate(
+         CACAonStrictaRMeanObs = round(CACAonStrictaRMeanObs, 5),
+         CACAonStrictaRVarObs = round(CACAonStrictaRVarObs, 5)
+      )
 
-# test_that("test rvarMultDatCalc", {
-#    dat_results <- rvarMultDatCalc(
-#       dats,
-#       rvar = "CACAonStricta",
-#       N,
-#       n1
-#    ) %>%
-#       mutate(
-#          CACAonStrictaRMeanObs = round(CACAonStrictaRMeanObs, 5),
-#          CACAonStrictaRVarObs = round(CACAonStrictaRVarObs, 5)
-#       )
-#    
-#    expect_equal(
-#       dat_results,
-#       data.frame(
-#          CACAonStrictaRMeanObs = round(c(
-#             CACAonStrictaRMeanObs_value, CACAonStrictaRMeanObs_value2),5
-#          ),
-#          CACAonStrictaRVarObs = c(16.96768, 0.36784),
-#          Plots = c("R_smd", "R_smd2")
-#       )
-#    )
-# })
-# 
-# 
+   expect_equal(
+      dat_results,
+      data.frame(
+         CACAonStrictaRMeanObs = round(c(
+            CACAonStrictaRMeanObs_value, CACAonStrictaRMeanObs_value2),5
+         ),
+         CACAonStrictaRVarObs = c(16.96768, 0.36784),
+         Plots = c("R_smd", "R_smd2")
+      )
+   )
+})
+
+
 
