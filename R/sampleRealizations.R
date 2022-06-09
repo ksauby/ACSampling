@@ -529,16 +529,16 @@ sampleRealizations <- function(
          r <- (i - 1) * j + j
          if (all(is.na(seeds))) {seeds <- runif(sims)}
          else {
-            tseed <- (i-1)*(nsample.length) + j
-            set.seed(tseed)
+            tseed1 <- (i-1)*(nsample.length) + j
+            set.seed(tseed1)
             sim_seeds <- runif(sims)
          }
          for (k in 1:sims) {
             if (!all(is.na(seeds))) {
-               tseed <- sim_seeds[k]
-               set.seed(tseed)
-            } else {tseed <- NA}
-            alldata <- createSample(SamplingDesign, P, tseed, n1, yvar, f_max)
+               tseed2 <- sim_seeds[k]
+               set.seed(tseed2)
+            } else {tseed2 <- NA}
+            alldata <- createSample(SamplingDesign, P, tseed2, n1, yvar, f_max)
             alldata_all <- alldata
             if (SampleEstimators == TRUE) {
                datasetprep <- prepDatasets(SamplingDesign, alldata)
@@ -593,7 +593,7 @@ sampleRealizations <- function(
                A[[i]][[j]][[k]] <- SampleMeanVar
             }
             # add other information
-            A[[i]][[j]][[k]] %<>% addMiscInfo(k, tseed, P, alldata_all, n1, 
+            A[[i]][[j]][[k]] %<>% addMiscInfo(k, tseed2, P, alldata_all, n1, 
                realvar, popvar, .)
             # m characteristics
             if (mChar == TRUE) {
