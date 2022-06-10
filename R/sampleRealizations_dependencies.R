@@ -32,14 +32,19 @@ prepDatasets <- function(SamplingDesign, alldata) {
       #dats <- "alldata"
       SRSWOR_data <- NA
       #alldata <- NA
+      result <- list(SRSWOR_data)
+      names(result) <- "SRSWOR_data"
+      return(result)
    }
    if (SamplingDesign=="ACS" | SamplingDesign=="RACS") {
       SRSWOR_data <- alldata %>% filter(.data$Sampling=="SRSWOR")
       alldata %<>% filter(.data$Sampling!="Edge")
       # apply simple mean/variance & simple ratio estimator to:
-      dats <- c("SRSWOR_data", "alldata")
+      #dats <- c("SRSWOR_data", "alldata")
+      result <- list(SRSWOR_data, alldata)
+      names(result) <- c("SRSWOR_data", "alldata")
+      return(result)
    }
-   return(list(SRSWOR_data, alldata, dats))
 }
 
 

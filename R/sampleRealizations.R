@@ -224,8 +224,7 @@ sampleRealizations <- function(
                SampleMeanVar %<>% bind_rows
                # simple ratio estimators applied to alldata, SRSWOR_data
                if (!(is.null(rvar))) {
-                  SmpR <- rvarMultDatCalc(dats, SRSWOR_data, alldata, rvar, N, 
-                     n1)
+                  SmpR <- rvarMultDatCalc(datasetprep, rvar, N, n1)
                   SampleMeanVar %<>% merge(SmpR)
                }
             } else
