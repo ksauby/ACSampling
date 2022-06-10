@@ -68,9 +68,12 @@ fillmCharNA <- function(dat) {
 #' @noRd
 fillmChar <- function(dat, results, yvar) {
    YVAR <- enquo(yvar)
-   temp <- dat %>% filter(!!yvar > 0)
-   prelim_results <- temp %>% 
-      summarise(
+   POPVAR <- enquo(popvar)
+   REALVAR <- enquo(realvar)
+   temp <- dat %>% filter(!!YVAR > 0)
+   prelim_results <- temp %>%
+      group_by(!!POPVAR, !!REALVAR) %>%
+      dplyr::summarise(
          mean_m = mean(m),
          median_m = median(m),
          max_m = max(m),
