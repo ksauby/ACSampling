@@ -39,34 +39,54 @@ sampleRealizations(
 
 \item{rvar}{Vector of ratio variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{SamplingDesign}{Whether simple random sampling (SRS), unrestricted adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be performed; defaults to \code{ACS}.}
+\item{SamplingDesign}{Whether simple random sampling (SRS), unrestricted 
+adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be 
+performed; defaults to \code{ACS}.}
 
 \item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 
-\item{y_HT_formula}{The formula used to estimate the population total: either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected Horvitz-Thompson estimator, 'y_HT_RACS'.}
+\item{y_HT_formula}{The formula used to estimate the population total: 
+either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected 
+Horvitz-Thompson estimator, 'y_HT_RACS'.}
 
-\item{var_formula}{The formula used to estimate the variance of the population total: either the Horvitz-Thompson variance estimator, 'var_y_HT', or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." Defaults to "var_y_HT".}
+\item{var_formula}{The formula used to estimate the variance of the 
+population total: either the Horvitz-Thompson variance estimator, 'var_y_HT',
+or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." 
+Defaults to "var_y_HT".}
 
 \item{mThreshold}{Default is NULL. OPTIONS}
 
 \item{f_max}{Default is 2. OPTIONS}
 
-\item{SampleEstimators}{If "TRUE", calculate the sample mean and sample variance for each simulation. Default is FALSE.}
+\item{SampleEstimators}{If "TRUE", calculate the sample mean and sample 
+variance for each simulation. Default is FALSE.}
 
-\item{SpatStat}{TRUE or FALSE. If "TRUE", for each simulation calculate Moran's I, and the nugget, sill, and range of the semivariogram. Default is TRUE.}
+\item{SpatStat}{TRUE or FALSE. If "TRUE", for each simulation calculate 
+Moran's I, and the nugget, sill, and range of the semivariogram. Default is 
+TRUE.}
 
-\item{mChar}{TRUE or FALSE. If "TRUE", for each simulation calculate summary statistics (median, mean, min, and max) for the sample's m values. Also, for each simulation and for the set of unique m values, calculate the same summary statistics. If "FALSE," no summary statistics are calculated.}
+\item{mChar}{TRUE or FALSE. If "TRUE", for each simulation calculate summary 
+statistics (median, mean, min, and max) for the sample's m values. Also, for 
+each simulation and for the set of unique m values, calculate the same 
+summary statistics. If "FALSE," no summary statistics are calculated.}
 
 \item{popvar}{Default is "n.networks"}
 
 \item{realvar}{Default is "realization"}
 
-\item{weights}{TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See nb2listw for more details.}
+\item{weights}{TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving 
+spatial weight matrix styles to use to calculate the Join Count and Moran's I
+ statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See 
+ nb2listw for more details.}
 
-\item{seeds}{Vector of numbers to be used to set random seeds. HOW TO CALCULATE HOW MANY NEEDED?}
+\item{seeds}{Vector of numbers to be used to set random seeds. HOW TO 
+CALCULATE HOW MANY NEEDED?}
 }
 \description{
-This function simulates sampling of multiple realizations of patches of the species of interest within the grid of locations created with \code{createPop}.
+This function simulates sampling of multiple realizations of 
+patches of the species of interest within the grid of locations created with 
+\code{createPop}. The number of total simulations is
+length(n1_vec) x length(popvar) x length(realvar)
 }
 \examples{
 # sims=20

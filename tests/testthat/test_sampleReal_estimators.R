@@ -318,6 +318,8 @@ test_that("test rvarMultVarCalc", {
 test_that("test rvarMultDatCalc", {
    dat_results <- rvarMultDatCalc(
       dats,
+      R_smd,
+      R_smd2,
       rvar = "CACAonStricta",
       N,
       n1
