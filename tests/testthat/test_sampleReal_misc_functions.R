@@ -104,14 +104,11 @@ test_that("test prepDatasets", {
          "SRSWOR"
       )
    )
-   testdat_ACS_dats <- c("SRSWOR_data", "alldata")
+   testdat_ACS_dats <- list(testdat_ACS_SRSWOR_data, testdat_ACS_alldata)
+   names(testdat_ACS_dats) <- c("SRSWOR_data", "alldata")
    expect_equal(
       prepDatasets(SamplingDesign="ACS", testdat),
-      list(
-         testdat_ACS_SRSWOR_data,
-         testdat_ACS_alldata,
-         testdat_ACS_dats
-      )
+      testdat_ACS_dats
    )
    
    testdat_RACS_alldata <- data.frame(
@@ -132,25 +129,18 @@ test_that("test prepDatasets", {
          "SRSWOR"
       )
    )
-   testdat_RACS_dats <- c("SRSWOR_data", "alldata")
+   testdat_RACS_dats <- list(testdat_RACS_SRSWOR_data, testdat_RACS_alldata)
+   names(testdat_RACS_dats) <- c("SRSWOR_data", "alldata")
    expect_equal(
       prepDatasets(SamplingDesign="RACS", testdat),
-      list(
-         testdat_RACS_SRSWOR_data,
-         testdat_RACS_alldata,
-         testdat_RACS_dats
-      )
+      testdat_RACS_dats
    )
    
-   
-   testdat_SRSWOR_dats <- "alldata"
+   testdat_SRSWOR_dats <- list(NA)
+   names(testdat_SRSWOR_dats) <- "SRSWOR_data"
    expect_equal(
       prepDatasets(SamplingDesign="SRSWOR", testdat),
-      list(
-         NA,
-         testdat,
-         testdat_SRSWOR_dats
-      )
+      testdat_SRSWOR_dats
    )
-   
+
 })

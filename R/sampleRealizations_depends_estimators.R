@@ -147,15 +147,15 @@ rvarMultVarCalc <- function(R_smd, rvar, ovar, N, n1) {
 rvarMultDatCalc <- function(datasetprep, rvar, N, n1) {
    #Ratio <- data.frame(row.names = 1:length(rvar)) 
    SmpR <- list()
-   for (n in 1:seq_along(datasetprep)) {
+   for (i in 1:length(datasetprep)) {
       #R_smd <- get(dats[n])
-      dat <-  datasetprep[[n]]
-      SmpR[[n]] <- rvarMultVarCalc(
+      dat <-  datasetprep[[i]]
+      SmpR[[i]] <- rvarMultVarCalc(
          R_smd = dat,
          rvar=rvar, N=N, n1=n1
       ) %>% 
          mutate(
-            Plots = names(datasetprep)[[n]]
+            Plots = names(datasetprep)[[i]]
             #Plots = deparse(substitute(dataset))
          )
    }

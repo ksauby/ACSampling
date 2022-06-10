@@ -293,12 +293,13 @@ R_smd2 <- data.frame(
    m = c(3, 2, 1)
 )
 
-dats <- c("R_smd", "R_smd2")
+dats <- list(R_smd, R_smd2)
+names(dats) <- c("R_smd", "R_smd2")
 
 test_that("test rvarMultVarCalc", {
    expect_equal(round(
       rvarMultVarCalc(
-         R_smd,
+         dats[[1]],
          rvar = "CACAonStricta",
          ovar = c("Cactus", "Stricta"),
          N,
@@ -318,8 +319,6 @@ test_that("test rvarMultVarCalc", {
 test_that("test rvarMultDatCalc", {
    dat_results <- rvarMultDatCalc(
       dats,
-      R_smd,
-      R_smd2,
       rvar = "CACAonStricta",
       N,
       n1
