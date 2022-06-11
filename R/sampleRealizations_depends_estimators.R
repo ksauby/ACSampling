@@ -25,7 +25,7 @@ yHTMultVarCalc <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula) 
             new_y_HT, N = N, n1 = n1, m_vec = m, 
             m_threshold = m_threshold,
             .names="{col}_yHT"
-         )
+         ))
    } else if (y_HT_formula == "y_HT") {
       O %>%
          ungroup() %>%
