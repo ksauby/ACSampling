@@ -32,8 +32,8 @@
 #' statistics (median, mean, min, and max) for the sample's m values. Also, for 
 #' each simulation and for the set of unique m values, calculate the same 
 #' summary statistics. If "FALSE," no summary statistics are calculated.
-#' @param popvar Default is "n.networks"
-#' @param realvar Default is "realization"
+#' @param popvar Variable identifying each population. Default is "n.networks"
+#' @param realvar Variable identifying each realization. Default is "realization"
 #' @param seeds Vector of numbers to be used to set random seeds. HOW TO 
 #' CALCULATE HOW MANY NEEDED?
 
@@ -263,7 +263,7 @@ sampleRealizations <- function(
             # m characteristics
             if (mChar == TRUE) {
                if (sum(alldata_all$Cactus) > 0) {
-                  A[[i]][[j]][[k]] %<>% fillmChar(alldata_all, ., yvar)
+                  A[[i]][[j]][[k]] %<>% fillmChar(alldata_all, ., yvar, popvar, realvar)
                } else {
                   A[[i]][[j]][[k]] %<>% fillmCharNA()
                }

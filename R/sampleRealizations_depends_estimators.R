@@ -170,7 +170,7 @@ rvarMultDatCalc <- function(datasetprep, rvar, N, n1) {
 #' 
 getJoinCountTestEst <- function(spatdata, lwb) {
    # I think cells are indexed by row, then column
-   joincount.test(as.factor(spatdata$y_value), lwb)[[2]]$estimate[1]
+   joincount.test(as.factor(spatdata), lwb)[[2]]$estimate[1]
 }
 
 #' Calculate the Moran Test estimate
@@ -194,7 +194,7 @@ calcSpatStats <- function(alldata_all, weights) {
       # IF I REMOVE SOME UNITS THEN ITS HARD TO CALCULATE THE REALIZATION SIZE 
       # AND THUS GET TEST RESULTS
       # get rid of edge units - not involved in calculation of m
-      # filter(!(is.na(NetworkID))) %>%
+      filter(!(is.na(NetworkID))) %>%
       arrange(x, y)
    
    # dnearneigh - why was this here? showed up April 23 2017, I don't think 
@@ -203,15 +203,41 @@ calcSpatStats <- function(alldata_all, weights) {
    # generate neighbor list
    coordinates(temp) = ~ x+y
    # has to be a full rectangle to use this
+   ROW = max(temp$x) - min(temp$x)
+   COL = max(temp$y) - min(temp$y)
+   
    nb <- cell2nb(
-      nrow = max(temp$x) - min(temp$x) + 1, 
-      ncol = max(temp$y) - min(temp$y) + 1
+      nrow = ROW + 1, 
+      ncol = COL + 1
    )
+   
+   complete.grid <- expand.grid(
+      x = min(temp$x):max(temp$x),
+      y = min(temp$y):max(temp$y),
+      newval = 0
+   ) %>%
+   as.data.frame() %>%
+   merge(
+      temp %>%
+         select(x, y, Cactus),
+      by=c("x", "y"),
+      all=T
+   ) %>%
+      mutate(
+         Cactus = ifelse(
+            !is.na(Cactus),
+            Cactus,
+            newval
+         )
+      ) %>%
+      dplyr::select(-newval)
+   
+   
    #data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
    tempdat <- data.frame(JoinCountTest = NA)
    for (i in length(weights)) {
       lwb <- nb2listw(nb, style = weights[i]) # convert to neighbor list to weights list
-      tempdat$JoinCountTest <- getJoinCountTestEst(temp, lwb)
+      tempdat$JoinCountTest <- getJoinCountTestEst(complete.grid$Cactus, lwb)
       tempdat$MoranI <- getMoranTestEst(temp, lwb)
       colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
          paste("JoinCountTest", weights[i], sep=".")

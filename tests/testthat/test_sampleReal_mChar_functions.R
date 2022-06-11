@@ -25,7 +25,9 @@ test_that("test mChar functions", {
          "SRSWOR", "Cluster", rep("Edge", 4)
       ),
       NetworkID = c(1, 2, 2, 2, 2, 3, 4, 3, 2, 2, 3, 3),
-      m = c(1, 6, 6, 6, 6, 4, 1, 4, 6, 6, 4, 4)
+      m = c(1, 6, 6, 6, 6, 4, 1, 4, 6, 6, 4, 4),
+      n.networks = 1,
+      realization = 1
    )
    temp <- exampleCactusPop %>%
       dplyr::filter(Cactus > 0)
@@ -41,7 +43,7 @@ test_that("test mChar functions", {
    results2$min_uniq_m = min(unique(temp$m))
    
    expect_equal(
-      fillmChar(temp, results, "Cactus"),
+      fillmChar(temp, results, "Cactus", popvar="n.networks", realvar="realization"),
       results2
    )
 })
