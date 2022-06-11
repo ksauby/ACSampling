@@ -4,7 +4,7 @@
 \alias{calcSpatStats}
 \title{Calculate Spatial Statistics}
 \usage{
-calcSpatStats(alldata_all, weights)
+calcSpatStats(alldata_all, weights, yvar)
 }
 \arguments{
 \item{alldata_all}{NEED TO DESCRIBE.}

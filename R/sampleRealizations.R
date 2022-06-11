@@ -272,7 +272,7 @@ sampleRealizations <- function(
             if (SpatStat == TRUE) {
                A[[i]][[j]][[k]] %<>% cbind(
                   if (sum(alldata_all$Cactus) > 1) {
-                     calcSpatStats(alldata_all, weights)
+                     calcSpatStats(alldata_all, weights, yvar)
                   } else {
                      fillSpatStatsNA(alldata_all, weights)
                   }

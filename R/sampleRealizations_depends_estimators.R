@@ -201,7 +201,7 @@ calcSpatStats <- function(alldata_all, weights, yvar) {
    # I ever used the function
    
    # generate neighbor list
-   coordinates(temp) = ~ x+y
+   #coordinates(temp) = ~ x+y
    # has to be a full rectangle to use this
    ROW = max(temp$x) - min(temp$x)
    COL = max(temp$y) - min(temp$y)
@@ -221,13 +221,12 @@ calcSpatStats <- function(alldata_all, weights, yvar) {
    ) %>%
    as.data.frame() %>%
    merge(
-      temp %>%
-         select(x, y, !!YVAR),
+      temp %>% select(x, y, !!YVAR),
       by=c("x", "y"),
       all=T
    ) %>%
       mutate(
-         Cactus = ifelse(
+         !!YVAR := ifelse(
             !is.na(!!YVAR),
             !!YVAR,
             newval
@@ -240,8 +239,8 @@ calcSpatStats <- function(alldata_all, weights, yvar) {
    tempdat <- data.frame(JoinCountTest = NA)
    for (i in length(weights)) {
       lwb <- nb2listw(nb, style = weights[i]) # convert to neighbor list to weights list
-      tempdat$JoinCountTest <- getJoinCountTestEst(complete.grid[yvar], lwb)
-      tempdat$MoranI <- getMoranTestEst(complete.grid[yvar], lwb)
+      tempdat$JoinCountTest <- getJoinCountTestEst(complete.grid[[yvar]], lwb)
+      tempdat$MoranI <- getMoranTestEst(complete.grid[[yvar]], lwb)
       colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
          paste("JoinCountTest", weights[i], sep=".")
       colnames(tempdat)[which(names(tempdat) == "MoranI")] <-

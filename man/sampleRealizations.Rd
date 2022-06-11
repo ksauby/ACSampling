@@ -70,9 +70,9 @@ statistics (median, mean, min, and max) for the sample's m values. Also, for
 each simulation and for the set of unique m values, calculate the same 
 summary statistics. If "FALSE," no summary statistics are calculated.}
 
-\item{popvar}{Default is "n.networks"}
+\item{popvar}{Variable identifying each population. Default is "n.networks"}
 
-\item{realvar}{Default is "realization"}
+\item{realvar}{Variable identifying each realization. Default is "realization"}
 
 \item{weights}{TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving 
 spatial weight matrix styles to use to calculate the Join Count and Moran's I
