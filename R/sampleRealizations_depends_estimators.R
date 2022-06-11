@@ -19,20 +19,18 @@ yHTMultVarCalc <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula) 
    m <- O$m
    if (y_HT_formula == "y_HT_RACS") {
       O %>%
+         ungroup() %>%
          select(!!!OAVAR) %>%
-         summarise_all(
-            list(yHT = new_y_HT),
-            N = N, n1 = n1, m = m, 
-            m_threshold = m_threshold
+         summarise(across(everything(),
+            new_y_HT, N = N, n1 = n1, m_vec = m, 
+            m_threshold = m_threshold,
+            .names="{col}_yHT"
          )
    } else if (y_HT_formula == "y_HT") {
       O %>%
-         
-         # SUMMARISE IS DOING PER ROW, I DONT WANT THAT
+         ungroup() %>%
          select(!!!OAVAR) %>%
-         summarise_all(
-            list(yHT = y_HT),
-            N = N, n1 = n1, m = m
+         summarise(across(everything(), y_HT, N = N, n1 = n1, m_vec = m, .names="{col}_yHT")
          )
    }
 }
