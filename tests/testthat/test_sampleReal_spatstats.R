@@ -39,11 +39,11 @@ test_that("test spatial statistics functions", {
    lwb <- nb2listw(nb, style = weight) # convert to neighbor list to weights list
    
    expect_equal(
-      getJoinCountTestEst(lambdap_10_tau_25_pop, lwb),
+      getJoinCountTestEst(lambdap_10_tau_25_pop$y_value, lwb),
       joincount.test(as.factor(lambdap_10_tau_25_pop$y_value), lwb)[[2]]$estimate[1]
    )
    expect_equal(
-      getMoranTestEst(lambdap_10_tau_25_pop, lwb),
+      getMoranTestEst(lambdap_10_tau_25_pop$y_value, lwb),
       moran.test(lambdap_10_tau_25_pop$y_value, lwb)$estimate[1]
    )
    expect_equal(
