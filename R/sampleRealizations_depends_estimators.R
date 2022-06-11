@@ -179,7 +179,7 @@ getJoinCountTestEst <- function(spatdata, lwb) {
 #' @template lwb
 #' 
 getMoranTestEst <- function(spatdata, lwb) {
-   moran.test(spatdata$y_value, lwb)$estimate[1]
+   moran.test(spatdata, lwb)$estimate[1]
 }
 
 #' Calculate Spatial Statistics
@@ -187,7 +187,7 @@ getMoranTestEst <- function(spatdata, lwb) {
 #' @template alldata_all
 #' @param weights String identifying the weight to use. See REFERENCE FOR?
 #' 
-calcSpatStats <- function(alldata_all, weights) {
+calcSpatStats <- function(alldata_all, weights, yvar) {
    temp <- alldata_all %>%
       as.data.frame %>%
       # I DONT UNDERSTAND HOW I GOT THIS TO WORK
@@ -211,6 +211,9 @@ calcSpatStats <- function(alldata_all, weights) {
       ncol = COL + 1
    )
    
+   
+   YVAR <- sym(yvar)
+   
    complete.grid <- expand.grid(
       x = min(temp$x):max(temp$x),
       y = min(temp$y):max(temp$y),
@@ -219,14 +222,14 @@ calcSpatStats <- function(alldata_all, weights) {
    as.data.frame() %>%
    merge(
       temp %>%
-         select(x, y, Cactus),
+         select(x, y, !!YVAR),
       by=c("x", "y"),
       all=T
    ) %>%
       mutate(
          Cactus = ifelse(
-            !is.na(Cactus),
-            Cactus,
+            !is.na(!!YVAR),
+            !!YVAR,
             newval
          )
       ) %>%
@@ -237,8 +240,8 @@ calcSpatStats <- function(alldata_all, weights) {
    tempdat <- data.frame(JoinCountTest = NA)
    for (i in length(weights)) {
       lwb <- nb2listw(nb, style = weights[i]) # convert to neighbor list to weights list
-      tempdat$JoinCountTest <- getJoinCountTestEst(complete.grid$Cactus, lwb)
-      tempdat$MoranI <- getMoranTestEst(temp, lwb)
+      tempdat$JoinCountTest <- getJoinCountTestEst(complete.grid[yvar], lwb)
+      tempdat$MoranI <- getMoranTestEst(complete.grid[yvar], lwb)
       colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <- 
          paste("JoinCountTest", weights[i], sep=".")
       colnames(tempdat)[which(names(tempdat) == "MoranI")] <-
