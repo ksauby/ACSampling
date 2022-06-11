@@ -7,6 +7,7 @@
 #' @template m
 #' @template m_threshold
 #' @param y_HT_formula
+#' @importFrom dplyr across
 #' 
 #' @noRd
 #' 
