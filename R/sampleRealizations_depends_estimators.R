@@ -27,6 +27,8 @@ yHTMultVarCalc <- function(alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula) 
          )
    } else if (y_HT_formula == "y_HT") {
       O %>%
+         
+         # SUMMARISE IS DOING PER ROW, I DONT WANT THAT
          select(!!!OAVAR) %>%
          summarise_all(
             list(yHT = y_HT),
