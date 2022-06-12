@@ -1,24 +1,24 @@
 #' Sample species patch realizations simulations according to the selected sampling design
 
-#' @template  SamplingDesign
+#' @template SamplingDesign
 #' @template popdata
-#' @template seed
+#' @param sampling_seed
 #' @template n1
 #' @template yvar
 #' @template f_max
 #' 
 #' @noRd
 
-createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
+createSample <- function(SamplingDesign, popdata, sampling_seed, n1, yvar, f_max) {
    if (SamplingDesign=="ACS") {
       alldata <- createACS(
-         popdata=popdata, seed=seed, n1=n1, yvar=yvar)
+         popdata=popdata, seed=sampling_seed, n1=n1, yvar=yvar)
    } else if (SamplingDesign=="RACS") {
       alldata <- createRACS(
-         popdata=popdata, seed=seed, n1=n1, yvar=yvar, f_max=f_max)
+         popdata=popdata, seed=sampling_seed, n1=n1, yvar=yvar, f_max=f_max)
    } else if (SamplingDesign=="SRS") {
       alldata <- createSRS(
-         popdata=popdata, seed=seed, n1=n1)
+         popdata=popdata, seed=sampling_seed, n1=n1)
    }
    return(alldata)
 }
