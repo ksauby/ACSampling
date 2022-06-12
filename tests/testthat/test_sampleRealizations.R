@@ -122,14 +122,27 @@ Stricta_var_yHT_05_05_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_05_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_05_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_05_01 = mean(alldata$m)
-median_m_05_05_01 = median(alldata$m)
-max_m_05_05_01 = max(alldata$m)
-min_m_05_05_01 = min(alldata$m)
-mean_uniq_m_05_05_01 = mean(unique(alldata$m))
-median_uniq_m_05_05_01 = median(unique(alldata$m))
-max_uniq_m_05_05_01 = max(unique(alldata$m))
-min_uniq_m_05_05_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_05_01 = mean(temp$m)
+   median_m_05_05_01 = median(temp$m)
+   max_m_05_05_01 = max(temp$m)
+   min_m_05_05_01 = min(temp$m)
+   mean_uniq_m_05_05_01 = mean(unique(temp$m))
+   median_uniq_m_05_05_01 = median(unique(temp$m))
+   max_uniq_m_05_05_01 = max(unique(temp$m))
+   min_uniq_m_05_05_01 = min(unique(temp$m))
+} else {
+   mean_m_05_05_01 = NA
+   median_m_05_05_01 = NA
+   max_m_05_05_01 = NA
+   min_m_05_05_01 = NA
+   mean_uniq_m_05_05_01 = NA
+   median_uniq_m_05_05_01 = NA
+   max_uniq_m_05_05_01 = NA
+   min_uniq_m_05_05_01 = NA
+}
+
 
 # sim 2
 seed_05_05_02 <- sim_seeds[2]
@@ -154,14 +167,28 @@ Stricta_var_yHT_05_05_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_05_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_05_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_05_02 = mean(alldata$m)
-median_m_05_05_02 = median(alldata$m)
-max_m_05_05_02 = max(alldata$m)
-min_m_05_05_02 = min(alldata$m)
-mean_uniq_m_05_05_02 = mean(unique(alldata$m))
-median_uniq_m_05_05_02 = median(unique(alldata$m))
-max_uniq_m_05_05_02 = max(unique(alldata$m))
-min_uniq_m_05_05_02 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_05_02 = mean(temp$m)
+   median_m_05_05_02 = median(temp$m)
+   max_m_05_05_02 = max(temp$m)
+   min_m_05_05_02 = min(temp$m)
+   mean_uniq_m_05_05_02 = mean(unique(temp$m))
+   median_uniq_m_05_05_02 = median(unique(temp$m))
+   max_uniq_m_05_05_02 = max(unique(temp$m))
+   min_uniq_m_05_05_02 = min(unique(temp$m))
+} else {
+   mean_m_05_05_02 = NA
+   median_m_05_05_02 = NA
+   max_m_05_05_02 = NA
+   min_m_05_05_02 = NA
+   mean_uniq_m_05_05_02 = NA
+   median_uniq_m_05_05_02 = NA
+   max_uniq_m_05_05_02 = NA
+   min_uniq_m_05_05_02 = NA
+}
+
+
 
 # n1=10, popvar=5 --------------------------------------------------------------#
 tseed1 <- 2
@@ -195,14 +222,28 @@ Stricta_var_yHT_10_05_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_05_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_05_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_05_01 = mean(alldata$m)
-median_m_10_05_01 = median(alldata$m)
-max_m_10_05_01 = max(alldata$m)
-min_m_10_05_01 = min(alldata$m)
-mean_uniq_m_10_05_01 = mean(unique(alldata$m))
-median_uniq_m_10_05_01 = median(unique(alldata$m))
-max_uniq_m_10_05_01 = max(unique(alldata$m))
-min_uniq_m_10_05_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_05_01 = mean(temp$m)
+   median_m_10_05_01 = median(temp$m)
+   max_m_10_05_01 = max(temp$m)
+   min_m_10_05_01 = min(temp$m)
+   mean_uniq_m_10_05_01 = mean(unique(temp$m))
+   median_uniq_m_10_05_01 = median(unique(temp$m))
+   max_uniq_m_10_05_01 = max(unique(temp$m))
+   min_uniq_m_10_05_01 = min(unique(temp$m))
+} else {
+   mean_m_10_05_01 = NA
+   median_m_10_05_01 = NA
+   max_m_10_05_01 = NA
+   min_m_10_05_01 = NA
+   mean_uniq_m_10_05_01 = NA
+   median_uniq_m_10_05_01 = NA
+   max_uniq_m_10_05_01 = NA
+   min_uniq_m_10_05_01 = NA
+}
+
+
 
 # sim 2
 seed_10_05_02 <- sim_seeds[2]
@@ -227,14 +268,28 @@ Stricta_var_yHT_10_05_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_05_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_05_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_05_02 = mean(alldata$m)
-median_m_10_05_02 = median(alldata$m)
-max_m_10_05_02 = max(alldata$m)
-min_m_10_05_02 = min(alldata$m)
-mean_uniq_m_10_05_02 = mean(unique(alldata$m))
-median_uniq_m_10_05_02 = median(unique(alldata$m))
-max_uniq_m_10_05_02 = max(unique(alldata$m))
-min_uniq_m_10_05_02 = min(unique(alldata$m))
+
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_05_02 = mean(temp$m)
+   median_m_10_05_02 = median(temp$m)
+   max_m_10_05_02 = max(temp$m)
+   min_m_10_05_02 = min(temp$m)
+   mean_uniq_m_10_05_02 = mean(unique(temp$m))
+   median_uniq_m_10_05_02 = median(unique(temp$m))
+   max_uniq_m_10_05_02 = max(unique(temp$m))
+   min_uniq_m_10_05_02 = min(unique(temp$m))
+} else {
+   mean_m_10_05_02 = NA
+   median_m_10_05_02 = NA
+   max_m_10_05_02 = NA
+   min_m_10_05_02 = NA
+   mean_uniq_m_10_05_02 = NA
+   median_uniq_m_10_05_02 = NA
+   max_uniq_m_10_05_02 = NA
+   min_uniq_m_10_05_02 = NA
+}
+
 
 # n1=5, popvar=10 --------------------------------------------------------------#
 tseed1 <- 3
@@ -269,14 +324,28 @@ Stricta_var_yHT_05_10_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_10_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_10_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_10_01 = mean(alldata$m)
-median_m_05_10_01 = median(alldata$m)
-max_m_05_10_01 = max(alldata$m)
-min_m_05_10_01 = min(alldata$m)
-mean_uniq_m_05_10_01 = mean(unique(alldata$m))
-median_uniq_m_05_10_01 = median(unique(alldata$m))
-max_uniq_m_05_10_01 = max(unique(alldata$m))
-min_uniq_m_05_10_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_10_01 = mean(temp$m)
+   median_m_05_10_01 = median(temp$m)
+   max_m_05_10_01 = max(temp$m)
+   min_m_05_10_01 = min(temp$m)
+   mean_uniq_m_05_10_01 = mean(unique(temp$m))
+   median_uniq_m_05_10_01 = median(unique(temp$m))
+   max_uniq_m_05_10_01 = max(unique(temp$m))
+   min_uniq_m_05_10_01 = min(unique(temp$m))
+} else {
+   mean_m_05_10_01 = NA
+   median_m_05_10_01 = NA
+   max_m_05_10_01 = NA
+   min_m_05_10_01 = NA
+   mean_uniq_m_05_10_01 = NA
+   median_uniq_m_05_10_01 = NA
+   max_uniq_m_05_10_01 = NA
+   min_uniq_m_05_10_01 = NA
+}
+
+
 
 # sim 2
 seed_05_10_02 <- sim_seeds[2]
@@ -302,14 +371,27 @@ Stricta_var_yHT_05_10_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_10_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_10_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_10_02 = mean(alldata$m)
-median_m_05_10_02 = median(alldata$m)
-max_m_05_10_02 = max(alldata$m)
-min_m_05_10_02 = min(alldata$m)
-mean_uniq_m_05_10_02 = mean(unique(alldata$m))
-median_uniq_m_05_10_02 = median(unique(alldata$m))
-max_uniq_m_05_10_02 = max(unique(alldata$m))
-min_uniq_m_05_10_02 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_10_02 = mean(temp$m)
+   median_m_05_10_02 = median(temp$m)
+   max_m_05_10_02 = max(temp$m)
+   min_m_05_10_02 = min(temp$m)
+   mean_uniq_m_05_10_02 = mean(unique(temp$m))
+   median_uniq_m_05_10_02 = median(unique(temp$m))
+   max_uniq_m_05_10_02 = max(unique(temp$m))
+   min_uniq_m_05_10_02 = min(unique(temp$m))
+} else {
+   mean_m_05_10_02 = NA
+   median_m_05_10_02 = NA
+   max_m_05_10_02 = NA
+   min_m_05_10_02 = NA
+   mean_uniq_m_05_10_02 = NA
+   median_uniq_m_05_10_02 = NA
+   max_uniq_m_05_10_02 = NA
+   min_uniq_m_05_10_02 = NA
+}
+
 # sim 2
 # n1=10, popvar=10 --------------------------------------------------------------#
 tseed1 <- 4
@@ -342,14 +424,27 @@ Stricta_var_yHT_10_10_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_10_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_10_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_10_01 = mean(alldata$m)
-median_m_10_10_01 = median(alldata$m)
-max_m_10_10_01 = max(alldata$m)
-min_m_10_10_01 = min(alldata$m)
-mean_uniq_m_10_10_01 = mean(unique(alldata$m))
-median_uniq_m_10_10_01 = median(unique(alldata$m))
-max_uniq_m_10_10_01 = max(unique(alldata$m))
-min_uniq_m_10_10_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_10_01 = mean(temp$m)
+   median_m_10_10_01 = median(temp$m)
+   max_m_10_10_01 = max(temp$m)
+   min_m_10_10_01 = min(temp$m)
+   mean_uniq_m_10_10_01 = mean(unique(temp$m))
+   median_uniq_m_10_10_01 = median(unique(temp$m))
+   max_uniq_m_10_10_01 = max(unique(temp$m))
+   min_uniq_m_10_10_01 = min(unique(temp$m))
+} else {
+   mean_m_10_10_01 = NA
+   median_m_10_10_01 = NA
+   max_m_10_10_01 = NA
+   min_m_10_10_01 = NA
+   mean_uniq_m_10_10_01 = NA
+   median_uniq_m_10_10_01 = NA
+   max_uniq_m_10_10_01 = NA
+   min_uniq_m_10_10_01 = NA
+}
+
 
 # sim 2
 seed_10_10_02 <- sim_seeds[2]
@@ -374,14 +469,27 @@ Stricta_var_yHT_10_10_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_10_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_10_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_10_02 = mean(alldata$m)
-median_m_10_10_02 = median(alldata$m)
-max_m_10_10_02 = max(alldata$m)
-min_m_10_10_02 = min(alldata$m)
-mean_uniq_m_10_10_02 = mean(unique(alldata$m))
-median_uniq_m_10_10_02 = median(unique(alldata$m))
-max_uniq_m_10_10_02 = max(unique(alldata$m))
-min_uniq_m_10_10_02 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_10_02 = mean(temp$m)
+   median_m_10_10_02 = median(temp$m)
+   max_m_10_10_02 = max(temp$m)
+   min_m_10_10_02 = min(temp$m)
+   mean_uniq_m_10_10_02 = mean(unique(temp$m))
+   median_uniq_m_10_10_02 = median(unique(temp$m))
+   max_uniq_m_10_10_02 = max(unique(temp$m))
+   min_uniq_m_10_10_02 = min(unique(temp$m))
+} else {
+   mean_m_10_10_02 = NA
+   median_m_10_10_02 = NA
+   max_m_10_10_02 = NA
+   min_m_10_10_02 = NA
+   mean_uniq_m_10_10_02 = NA
+   median_uniq_m_10_10_02 = NA
+   max_uniq_m_10_10_02 = NA
+   min_uniq_m_10_10_02 = NA
+}
+
 
 # n1=5, popvar=15 --------------------------------------------------------------#
 tseed1 <- 5
@@ -415,14 +523,27 @@ Stricta_var_yHT_05_15_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_15_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_15_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_15_01 = mean(alldata$m)
-median_m_05_15_01 = median(alldata$m)
-max_m_05_15_01 = max(alldata$m)
-min_m_05_15_01 = min(alldata$m)
-mean_uniq_m_05_15_01 = mean(unique(alldata$m))
-median_uniq_m_05_15_01 = median(unique(alldata$m))
-max_uniq_m_05_15_01 = max(unique(alldata$m))
-min_uniq_m_05_15_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_15_01 = mean(temp$m)
+   median_m_05_15_01 = median(temp$m)
+   max_m_05_15_01 = max(temp$m)
+   min_m_05_15_01 = min(temp$m)
+   mean_uniq_m_05_15_01 = mean(unique(temp$m))
+   median_uniq_m_05_15_01 = median(unique(temp$m))
+   max_uniq_m_05_15_01 = max(unique(temp$m))
+   min_uniq_m_05_15_01 = min(unique(temp$m))
+} else {
+   mean_m_05_15_01 = NA
+   median_m_05_15_01 = NA
+   max_m_05_15_01 = NA
+   min_m_05_15_01 = NA
+   mean_uniq_m_05_15_01 = NA
+   median_uniq_m_05_15_01 = NA
+   max_uniq_m_05_15_01 = NA
+   min_uniq_m_05_15_01 = NA
+}
+
 
 # sim 2
 seed_05_15_02 <- sim_seeds[2]
@@ -447,14 +568,27 @@ Stricta_var_yHT_05_15_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_15_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_15_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_15_02 = mean(alldata$m)
-median_m_05_15_02 = median(alldata$m)
-max_m_05_15_02 = max(alldata$m)
-min_m_05_15_02 = min(alldata$m)
-mean_uniq_m_05_15_02 = mean(unique(alldata$m))
-median_uniq_m_05_15_02 = median(unique(alldata$m))
-max_uniq_m_05_15_02 = max(unique(alldata$m))
-min_uniq_m_05_15_02 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_15_02 = mean(temp$m)
+   median_m_05_15_02 = median(temp$m)
+   max_m_05_15_02 = max(temp$m)
+   min_m_05_15_02 = min(temp$m)
+   mean_uniq_m_05_15_02 = mean(unique(temp$m))
+   median_uniq_m_05_15_02 = median(unique(temp$m))
+   max_uniq_m_05_15_02 = max(unique(temp$m))
+   min_uniq_m_05_15_02 = min(unique(temp$m))
+} else {
+   mean_m_05_15_02 = NA
+   median_m_05_15_02 = NA
+   max_m_05_15_02 = NA
+   min_m_05_15_02 = NA
+   mean_uniq_m_05_15_02 = NA
+   median_uniq_m_05_15_02 = NA
+   max_uniq_m_05_15_02 = NA
+   min_uniq_m_05_15_02 = NA
+}
+
 # n1=10, popvar=15 --------------------------------------------------------------#
 tseed1 <- 6
 set.seed(tseed1)
@@ -486,14 +620,28 @@ Stricta_var_yHT_10_15_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_15_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_15_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_15_01 = mean(alldata$m)
-median_m_10_15_01 = median(alldata$m)
-max_m_10_15_01 = max(alldata$m)
-min_m_10_15_01 = min(alldata$m)
-mean_uniq_m_10_15_01 = mean(unique(alldata$m))
-median_uniq_m_10_15_01 = median(unique(alldata$m))
-max_uniq_m_10_15_01 = max(unique(alldata$m))
-min_uniq_m_10_15_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_15_01 = mean(temp$m)
+   median_m_10_15_01 = median(temp$m)
+   max_m_10_15_01 = max(temp$m)
+   min_m_10_15_01 = min(temp$m)
+   mean_uniq_m_10_15_01 = mean(unique(temp$m))
+   median_uniq_m_10_15_01 = median(unique(temp$m))
+   max_uniq_m_10_15_01 = max(unique(temp$m))
+   min_uniq_m_10_15_01 = min(unique(temp$m))
+} else {
+   mean_m_10_15_01 = NA
+   median_m_10_15_01 = NA
+   max_m_10_15_01 = NA
+   min_m_10_15_01 = NA
+   mean_uniq_m_10_15_01 = NA
+   median_uniq_m_10_15_01 = NA
+   max_uniq_m_10_15_01 = NA
+   min_uniq_m_10_15_01 = NA
+}
+
+
 
 # sim 2
 seed_10_15_02 <- sim_seeds[2]
@@ -518,14 +666,26 @@ Stricta_var_yHT_10_15_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_15_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_15_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_15_02 = mean(alldata$m)
-median_m_10_15_02 = median(alldata$m)
-max_m_10_15_02 = max(alldata$m)
-min_m_10_15_02 = min(alldata$m)
-mean_uniq_m_10_15_02 = mean(unique(alldata$m))
-median_uniq_m_10_15_02 = median(unique(alldata$m))
-max_uniq_m_10_15_02 = max(unique(alldata$m))
-min_uniq_m_10_15_02 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_15_02 = mean(temp$m)
+   median_m_10_15_02 = median(temp$m)
+   max_m_10_15_02 = max(temp$m)
+   min_m_10_15_02 = min(temp$m)
+   mean_uniq_m_10_15_02 = mean(unique(temp$m))
+   median_uniq_m_10_15_02 = median(unique(temp$m))
+   max_uniq_m_10_15_02 = max(unique(temp$m))
+   min_uniq_m_10_15_02 = min(unique(temp$m))
+} else {
+   mean_m_10_15_02 = NA
+   median_m_10_15_02 = NA
+   max_m_10_15_02 = NA
+   min_m_10_15_02 = NA
+   mean_uniq_m_10_15_02 = NA
+   median_uniq_m_10_15_02 = NA
+   max_uniq_m_10_15_02 = NA
+   min_uniq_m_10_15_02 = NA
+}
 
 # n1=5, popvar=20 --------------------------------------------------------------#
 tseed1 <- 7
@@ -559,14 +719,28 @@ Stricta_var_yHT_05_20_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_20_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_20_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_20_01 = mean(alldata$m)
-median_m_05_20_01 = median(alldata$m)
-max_m_05_20_01 = max(alldata$m)
-min_m_05_20_01 = min(alldata$m)
-mean_uniq_m_05_20_01 = mean(unique(alldata$m))
-median_uniq_m_05_20_01 = median(unique(alldata$m))
-max_uniq_m_05_20_01 = max(unique(alldata$m))
-min_uniq_m_05_20_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_20_01 = mean(temp$m)
+   median_m_05_20_01 = median(temp$m)
+   max_m_05_20_01 = max(temp$m)
+   min_m_05_20_01 = min(temp$m)
+   mean_uniq_m_05_20_01 = mean(unique(temp$m))
+   median_uniq_m_05_20_01 = median(unique(temp$m))
+   max_uniq_m_05_20_01 = max(unique(temp$m))
+   min_uniq_m_05_20_01 = min(unique(temp$m))
+} else {
+   mean_m_05_20_01 = NA
+   median_m_05_20_01 = NA
+   max_m_05_20_01 = NA
+   min_m_05_20_01 = NA
+   mean_uniq_m_05_20_01 = NA
+   median_uniq_m_05_20_01 = NA
+   max_uniq_m_05_20_01 = NA
+   min_uniq_m_05_20_01 = NA
+}
+
+
 
 # sim 2
 seed_05_20_02 <- sim_seeds[2]
@@ -591,14 +765,27 @@ Stricta_var_yHT_05_20_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_05_20_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_05_20_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_05_20_02 = mean(alldata$m)
-median_m_05_20_02 = median(alldata$m)
-max_m_05_20_02 = max(alldata$m)
-min_m_05_20_02 = min(alldata$m)
-mean_uniq_m_05_20_02 = mean(unique(alldata$m))
-median_uniq_m_05_20_02 = median(unique(alldata$m))
-max_uniq_m_05_20_02 = max(unique(alldata$m))
-min_uniq_m_05_20_02 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_05_20_02 = mean(temp$m)
+   median_m_05_20_02 = median(temp$m)
+   max_m_05_20_02 = max(temp$m)
+   min_m_05_20_02 = min(temp$m)
+   mean_uniq_m_05_20_02 = mean(unique(temp$m))
+   median_uniq_m_05_20_02 = median(unique(temp$m))
+   max_uniq_m_05_20_02 = max(unique(temp$m))
+   min_uniq_m_05_20_02 = min(unique(temp$m))
+} else {
+   mean_m_05_20_02 = NA
+   median_m_05_20_02 = NA
+   max_m_05_20_02 = NA
+   min_m_05_20_02 = NA
+   mean_uniq_m_05_20_02 = NA
+   median_uniq_m_05_20_02 = NA
+   max_uniq_m_05_20_02 = NA
+   min_uniq_m_05_20_02 = NA
+}
+
 # n1=10, popvar=20 --------------------------------------------------------------#
 tseed1 <- 8
 set.seed(tseed1)
@@ -630,14 +817,28 @@ Stricta_var_yHT_10_20_01 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_20_01 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_20_01 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_20_01 = mean(alldata$m)
-median_m_10_20_01 = median(alldata$m)
-max_m_10_20_01 = max(alldata$m)
-min_m_10_20_01 = min(alldata$m)
-mean_uniq_m_10_20_01 = mean(unique(alldata$m))
-median_uniq_m_10_20_01 = median(unique(alldata$m))
-max_uniq_m_10_20_01 = max(unique(alldata$m))
-min_uniq_m_10_20_01 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_20_01 = mean(temp$m)
+   median_m_10_20_01 = median(temp$m)
+   max_m_10_20_01 = max(temp$m)
+   min_m_10_20_01 = min(temp$m)
+   mean_uniq_m_10_20_01 = mean(unique(temp$m))
+   median_uniq_m_10_20_01 = median(unique(temp$m))
+   max_uniq_m_10_20_01 = max(unique(temp$m))
+   min_uniq_m_10_20_01 = min(unique(temp$m))
+} else {
+   mean_m_10_20_01 = NA
+   median_m_10_20_01 = NA
+   max_m_10_20_01 = NA
+   min_m_10_20_01 = NA
+   mean_uniq_m_10_20_01 = NA
+   median_uniq_m_10_20_01 = NA
+   max_uniq_m_10_20_01 = NA
+   min_uniq_m_10_20_01 = NA
+}
+
+
 
 # sim 2
 seed_10_20_02 <- sim_seeds[2]
@@ -663,14 +864,27 @@ Stricta_var_yHT_10_20_02 <- var_y_HT(O_smd$Stricta, N = 900, n1=n1, m_vec=O_smd$
 Pusilla_var_yHT_10_20_02 <- var_y_HT(O_smd$Pusilla, N = 900, n1=n1, m_vec=O_smd$m)
 Cactus_var_yHT_10_20_02 <- var_y_HT(O_smd$Cactus, N = 900, n1=n1, m_vec=O_smd$m)
 
-mean_m_10_20_02 = mean(alldata$m)
-median_m_10_20_02 = median(alldata$m)
-max_m_10_20_02 = max(alldata$m)
-min_m_10_20_02 = min(alldata$m)
-mean_uniq_m_10_20_02 = mean(unique(alldata$m))
-median_uniq_m_10_20_02 = median(unique(alldata$m))
-max_uniq_m_10_20_02 = max(unique(alldata$m))
-min_uniq_m_10_20_02 = min(unique(alldata$m))
+if (sum(alldata$Cactus) > 0) {
+   temp <- alldata %>% filter(Cactus > 0)
+   mean_m_10_20_02 = mean(temp$m)
+   median_m_10_20_02 = median(temp$m)
+   max_m_10_20_02 = max(temp$m)
+   min_m_10_20_02 = min(temp$m)
+   mean_uniq_m_10_20_02 = mean(unique(temp$m))
+   median_uniq_m_10_20_02 = median(unique(temp$m))
+   max_uniq_m_10_20_02 = max(unique(temp$m))
+   min_uniq_m_10_20_02 = min(unique(temp$m))
+} else {
+   mean_m_10_20_02 = NA
+   median_m_10_20_02 = NA
+   max_m_10_20_02 = NA
+   min_m_10_20_02 = NA
+   mean_uniq_m_10_20_02 = NA
+   median_uniq_m_10_20_02 = NA
+   max_uniq_m_10_20_02 = NA
+   min_uniq_m_10_20_02 = NA
+}
+
 
 
 
@@ -921,19 +1135,19 @@ simulation_data %<>%
       -c(JoinCountTest.S, MoranI.S, SimDate)
    )
 
-simulation_data %<>%
-   dplyr::select(
-      -c(mean_m,
-         median_m,
-         max_m,
-         min_m,
-         mean_uniq_m,
-         median_uniq_m,
-         max_uniq_m,
-         min_uniq_m
-         #JoinCountTest.S,
-      )
-   )
+# simulation_data %<>%
+#    dplyr::select(
+#       -c(mean_m,
+#          median_m,
+#          max_m,
+#          min_m,
+#          mean_uniq_m,
+#          median_uniq_m,
+#          max_uniq_m,
+#          min_uniq_m
+#          #JoinCountTest.S,
+#       )
+#    )
 
 
 manually_calculated <- data.frame(
@@ -951,14 +1165,14 @@ manually_calculated <- data.frame(
    realvar = 1,
    popvar = c(rep(5,4), rep(10, 4), rep(15, 4), rep(20, 4)),
    N.SRSWOR.plots = rep(c(rep(5, 2), rep(10, 2)), 4),
-   #mean_m,
-   #median_m,
-   #max_m,
-   #min_m,
-   #mean_uniq_m,
-   #median_uniq_m,
-   #max_uniq_m,
-   #min_uniq_m,
+   mean_m,
+   median_m,
+   max_m,
+   min_m,
+   mean_uniq_m,
+   median_uniq_m,
+   max_uniq_m,
+   min_uniq_m,
    #JoinCountTest.S,
    #MoranI.S,
    f_max = 2,
