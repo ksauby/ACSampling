@@ -20,6 +20,7 @@ createSample <- function(SamplingDesign, popdata, seed, n1, yvar, f_max) {
       alldata <- createSRS(
          popdata=popdata, seed=seed, n1=n1)
    }
+   return(alldata)
 }
 
 #' prep dataset and names of output data

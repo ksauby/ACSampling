@@ -65,26 +65,26 @@ popdata = CactusRealizations %>%
 
 # WHY IS THERE ISLAND=NA
 simulation_data <- sampleRealizations(
-   popdata,
-   sims,
-   n1_vec,
-   avar,
-   ovar,
-   rvar,
+   popdata=popdata,
+   sims=sims,
+   n1_vec=n1_vec,
+   avar=avar,
+   ovar=ovar,
+   rvar=rvar,
    #ACS=TRUE,
-   SamplingDesign,
-   yvar,
-   y_HT_formula,
-   var_formula,
-   mThreshold,
-   f_max,
-   SampleEstimators,
-   SpatStat,
-   mChar,
-   popvar,
-   realvar,
-   weights,
-   seeds
+   SamplingDesign=SamplingDesign,
+   yvar=yvar,
+   y_HT_formula=y_HT_formula,
+   var_formula=var_formula,
+   mThreshold=mThreshold,
+   f_max=f_max,
+   SampleEstimators=SampleEstimators,
+   SpatStat=SpatStat,
+   mChar=mChar,
+   popvar=popvar,
+   realvar=realvar,
+   weights=weights,
+   seeds=seeds
 )
 
 #simulation_data %<>% filter(popvar < 30)

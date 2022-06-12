@@ -192,8 +192,7 @@ sampleRealizations <- function(
          n1 <- n1_vec[j]
          A[[i]][[j]] <- list()
          #r <- (i - 1) * j + j
-         if (all(is.na(seeds))) {seeds <- runif(sims)
-         } else {
+         if (!all(is.na(seeds))) {
             tseed1 <- (i-1)*(nsample.length) + j
             set.seed(tseed1)
             sim_seeds <- runif(sims)
@@ -202,7 +201,7 @@ sampleRealizations <- function(
             if (!all(is.na(seeds))) {
                tseed2 <- sim_seeds[k]
                set.seed(tseed2)
-            } else {tseed2 <- NA}
+            } else {tseed2 <- runif(1)}
             alldata <- createSample(SamplingDesign, popdata=P, seed=tseed2, n1=n1, yvar=yvar, f_max=f_max)
             alldata_all <- alldata
             if (SampleEstimators == TRUE) {
