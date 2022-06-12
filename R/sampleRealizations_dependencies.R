@@ -83,9 +83,9 @@ fillmChar <- function(dat, results, yvar, popvar, realvar) {
          median_uniq_m = median(unique(m)),
          max_uniq_m = max(unique(m)),
          min_uniq_m = min(unique(m))
-      ) %>%
-      ungroup() %>%
-      select(-c(!!POPVAR, !!REALVAR))
+      )# %>%
+      #ungroup() %>%
+      #select(-c(.data[[realvar]], .data[[popvar]]))
    results %>% cbind(prelim_results)
 }
 

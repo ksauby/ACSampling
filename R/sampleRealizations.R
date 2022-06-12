@@ -203,7 +203,7 @@ sampleRealizations <- function(
                tseed2 <- sim_seeds[k]
                set.seed(tseed2)
             } else {tseed2 <- NA}
-            alldata <- createSample(SamplingDesign, P, tseed2, n1, yvar, f_max)
+            alldata <- createSample(SamplingDesign, popdata=P, seed=tseed2, n1=n1, yvar=yvar, f_max=f_max)
             alldata_all <- alldata
             if (SampleEstimators == TRUE) {
                datasetprep <- prepDatasets(SamplingDesign, alldata)
