@@ -890,6 +890,32 @@ if (sum(alldata$Cactus) > 0) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 seed <- c(
    seed_05_05_01, seed_05_05_02, 
    seed_10_05_01, seed_10_05_02,
@@ -1182,9 +1208,58 @@ manually_calculated <- data.frame(
    MoransIWeightMatrix = weights
 )
 
+simulation_data <- sampleRealizations(
+   popdata=popdata,
+   sims=sims,
+   n1_vec=n1_vec,
+   avar=avar,
+   ovar=ovar,
+   rvar=rvar,
+   #ACS=TRUE,
+   SamplingDesign=SamplingDesign,
+   yvar=yvar,
+   y_HT_formula=y_HT_formula,
+   var_formula=var_formula,
+   mThreshold=mThreshold,
+   f_max=f_max,
+   SampleEstimators=SampleEstimators,
+   SpatStat=SpatStat,
+   mChar=mChar,
+   popvar=popvar,
+   realvar=realvar,
+   weights=weights,
+   seeds=seeds
+)
+
 test_that("test sampleRealizations", {
 expect_equal(
    simulation_data,
    manually_calculated
 )
 })
+
+popvar = "n.networks"
+realvar = "realization"
+
+simulation_data_sample_estimators <- sampleRealizations(
+   popdata=popdata,
+   sims=sims,
+   n1_vec=n1_vec,
+   avar=avar,
+   ovar=ovar,
+   rvar=rvar,
+   #ACS=TRUE,
+   SamplingDesign=SamplingDesign,
+   yvar=yvar,
+   y_HT_formula=y_HT_formula,
+   var_formula=var_formula,
+   mThreshold=mThreshold,
+   f_max=f_max,
+   SampleEstimators=TRUE,
+   SpatStat=SpatStat,
+   mChar=mChar,
+   popvar=popvar,
+   realvar=realvar,
+   weights=weights,
+   seeds=seeds
+)

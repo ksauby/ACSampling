@@ -76,14 +76,14 @@ fillmChar <- function(dat, results, yvar, popvar, realvar) {
       ungroup() %>%
       #group_by(!!POPVAR, !!REALVAR) %>%
       dplyr::summarise(
-         mean_m = mean(m),
-         median_m = median(m),
-         max_m = max(m),
-         min_m = min(m),
-         mean_uniq_m = mean(unique(m)),
-         median_uniq_m = median(unique(m)),
-         max_uniq_m = max(unique(m)),
-         min_uniq_m = min(unique(m))
+         mean_m = Mean(.data$m),
+         median_m = median(.data$m),
+         max_m = max(.data$m),
+         min_m = min(.data$m),
+         mean_uniq_m = Mean(unique(.data$m)),
+         median_uniq_m = median(unique(.data$m)),
+         max_uniq_m = max(unique(.data$m)),
+         min_uniq_m = min(unique(.data$m))
       )# %>%
       #ungroup() %>%
       #select(-c(.data[[realvar]], .data[[popvar]]))

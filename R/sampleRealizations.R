@@ -208,16 +208,23 @@ sampleRealizations <- function(
             alldata_all <- alldata
             if (SampleEstimators == TRUE) {
                datasetprep <- prepDatasets(SamplingDesign, alldata)
-               SRSWOR_data <- datasetprep[[1]]
-               alldata <- datasetprep[[2]]
-               dats <- datasetprep[[3]]
+               SRSWOR_data <- datasetprep$SRSWOR_data
+               alldata <- datasetprep$alldata
+               #dats <- datasetprep[[3]]
                SampleMeanVar <- list()
-               for (n in 1:length(dats)) {
-                  dat <- eval(parse(text=dats[[n]])) %>%
+               for (n in 1:length(datasetprep)) {
+                  dat <- datasetprep[[n]] %>%
                      select(!!!OAVAR) %>%
-                     summarise_all(list(mean), na.rm=T)
-                  names(dat) <- str_replace(names(dat), "(.*)", "\\1_obs")
-                  dat$Plots <- dats[n]
+                     summarise(across(
+                        everything(), 
+                        list(
+                           mean = ~ mean(.x, na.rm=T), 
+                           var = ~ sum(.x, na.rm=T)
+                        ),
+                        na.rm=T,
+                        .names = "{col}_{fn}_obs"
+                     ))
+                  dat$Plots <- names(datasetprep)[n]
                   
                   
                   SampleMeanVar[[n]] <- dat
