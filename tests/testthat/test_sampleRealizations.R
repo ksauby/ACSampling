@@ -101,8 +101,8 @@ popdata05 <- popdata %>% filter(n.networks == popvar)
 
 # sim 1
 seed_05_05_01 <- sim_seeds[1]
-set.seed(seed_05_05_01)
-alldata <- createACS(popdata=popdata05, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_05_01)
+alldata <- createACS(popdata=popdata05, seed=seed_05_05_01, n1=n1, yvar=yvar)
 alldata_noedge <- alldata %>%
    filter(Sampling!="Edge")
 N.ACS.plots_05_05_01 <- dim(alldata)[1] - n1
@@ -133,8 +133,8 @@ min_uniq_m_05_05_01 = min(unique(alldata$m))
 
 # sim 2
 seed_05_05_02 <- sim_seeds[2]
-set.seed(seed_05_05_02)
-alldata <- createACS(popdata=popdata05, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_05_02)
+alldata <- createACS(popdata=popdata05, seed=seed_05_05_02, n1=n1, yvar=yvar)
 N.ACS.plots_05_05_02 <- dim(alldata)[1] - n1
 N.Total.plots_05_05_02 <- dim(alldata)[1]
 
@@ -173,8 +173,8 @@ popvar <- 5
 
 # sim 1
 seed_10_05_01 <- sim_seeds[1]
-set.seed(seed_10_05_01)
-alldata <- createACS(popdata=popdata05, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_05_01)
+alldata <- createACS(popdata=popdata05, seed=seed_10_05_01, n1=n1, yvar=yvar)
 N.ACS.plots_10_05_01 <- dim(alldata)[1] - n1
 N.Total.plots_10_05_01 <- dim(alldata)[1]
 
@@ -206,8 +206,8 @@ min_uniq_m_10_05_01 = min(unique(alldata$m))
 
 # sim 2
 seed_10_05_02 <- sim_seeds[2]
-set.seed(seed_10_05_02)
-alldata <- createACS(popdata=popdata05, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_05_02)
+alldata <- createACS(popdata=popdata05, seed=seed_10_05_02, n1=n1, yvar=yvar)
 N.ACS.plots_10_05_02 <- dim(alldata)[1] - n1
 N.Total.plots_10_05_02 <- dim(alldata)[1]
 
@@ -247,8 +247,8 @@ popdata10 <- popdata %>% filter(n.networks == popvar)
 
 # sim 1
 seed_05_10_01 <- sim_seeds[1]
-set.seed(seed_05_10_01)
-alldata <- createACS(popdata=popdata10, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_10_01)
+alldata <- createACS(popdata=popdata10, seed=seed_05_10_01, n1=n1, yvar=yvar)
 N.ACS.plots_05_10_01 <- dim(alldata)[1] - n1
 N.Total.plots_05_10_01 <- dim(alldata)[1]
 
@@ -280,8 +280,8 @@ min_uniq_m_05_10_01 = min(unique(alldata$m))
 
 # sim 2
 seed_05_10_02 <- sim_seeds[2]
-set.seed(seed_05_10_02)
-alldata <- createACS(popdata=popdata10, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_10_02)
+alldata <- createACS(popdata=popdata10, seed=seed_05_10_02, n1=n1, yvar=yvar)
 N.ACS.plots_05_10_02 <- dim(alldata)[1] - n1
 N.Total.plots_05_10_02 <- dim(alldata)[1]
 
@@ -321,8 +321,8 @@ popvar <- 10
 
 # sim 1
 seed_10_10_01 <- sim_seeds[1]
-set.seed(seed_10_10_01)
-alldata <- createACS(popdata=popdata10, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_10_01)
+alldata <- createACS(popdata=popdata10, seed=seed_10_10_01, n1=n1, yvar=yvar)
 N.ACS.plots_10_10_01 <- dim(alldata)[1] - n1
 N.Total.plots_10_10_01 <- dim(alldata)[1]
 
@@ -353,8 +353,8 @@ min_uniq_m_10_10_01 = min(unique(alldata$m))
 
 # sim 2
 seed_10_10_02 <- sim_seeds[2]
-set.seed(seed_10_10_02)
-alldata <- createACS(popdata=popdata10, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_10_02)
+alldata <- createACS(popdata=popdata10, seed=seed_10_10_02, n1=n1, yvar=yvar)
 N.ACS.plots_10_10_02 <- dim(alldata)[1] - n1
 N.Total.plots_10_10_02 <- dim(alldata)[1]
 
@@ -394,8 +394,8 @@ popdata15 <- popdata %>% filter(n.networks == popvar)
 
 # sim 1
 seed_05_15_01 <- sim_seeds[1]
-set.seed(seed_05_15_01)
-alldata <- createACS(popdata=popdata15, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_15_01)
+alldata <- createACS(popdata=popdata15, seed=seed_05_15_01, n1=n1, yvar=yvar)
 N.ACS.plots_05_15_01 <- dim(alldata)[1] - n1
 N.Total.plots_05_15_01 <- dim(alldata)[1]
 
@@ -426,8 +426,8 @@ min_uniq_m_05_15_01 = min(unique(alldata$m))
 
 # sim 2
 seed_05_15_02 <- sim_seeds[2]
-set.seed(seed_05_15_02)
-alldata <- createACS(popdata=popdata15, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_15_02)
+alldata <- createACS(popdata=popdata15, seed=seed_05_15_02, n1=n1, yvar=yvar)
 N.ACS.plots_05_15_02 <- dim(alldata)[1] - n1
 N.Total.plots_05_15_02 <- dim(alldata)[1]
 
@@ -465,8 +465,8 @@ popvar <- 15
 
 # sim 1
 seed_10_15_01 <- sim_seeds[1]
-set.seed(seed_10_15_01)
-alldata <- createACS(popdata=popdata15, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_15_01)
+alldata <- createACS(popdata=popdata15, seed=seed_10_15_01, n1=n1, yvar=yvar)
 N.ACS.plots_10_15_01 <- dim(alldata)[1] - n1
 N.Total.plots_10_15_01 <- dim(alldata)[1]
 
@@ -497,8 +497,8 @@ min_uniq_m_10_15_01 = min(unique(alldata$m))
 
 # sim 2
 seed_10_15_02 <- sim_seeds[2]
-set.seed(seed_10_15_02)
-alldata <- createACS(popdata=popdata15, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_15_02)
+alldata <- createACS(popdata=popdata15, seed=seed_10_15_02, n1=n1, yvar=yvar)
 N.ACS.plots_10_15_02 <- dim(alldata)[1] - n1
 N.Total.plots_10_15_02 <- dim(alldata)[1]
 
@@ -538,8 +538,8 @@ popdata20 <- popdata %>% filter(n.networks == popvar)
 
 # sim 1
 seed_05_20_01 <- sim_seeds[1]
-set.seed(seed_05_20_01)
-alldata <- createACS(popdata=popdata20, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_20_01)
+alldata <- createACS(popdata=popdata20, seed=seed_05_20_01, n1=n1, yvar=yvar)
 N.ACS.plots_05_20_01 <- dim(alldata)[1] - n1
 N.Total.plots_05_20_01 <- dim(alldata)[1]
 
@@ -570,8 +570,8 @@ min_uniq_m_05_20_01 = min(unique(alldata$m))
 
 # sim 2
 seed_05_20_02 <- sim_seeds[2]
-set.seed(seed_05_20_02)
-alldata <- createACS(popdata=popdata20, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_05_20_02)
+alldata <- createACS(popdata=popdata20, seed=seed_05_20_02, n1=n1, yvar=yvar)
 N.ACS.plots_05_20_02 <- dim(alldata)[1] - n1
 N.Total.plots_05_20_02 <- dim(alldata)[1]
 
@@ -609,8 +609,8 @@ popvar <- 20
 
 # sim 1
 seed_10_20_01 <- sim_seeds[1]
-set.seed(seed_10_20_01)
-alldata <- createACS(popdata=popdata20, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_20_01)
+alldata <- createACS(popdata=popdata20, seed=seed_10_20_01, n1=n1, yvar=yvar)
 N.ACS.plots_10_20_01 <- dim(alldata)[1] - n1 
 N.Total.plots_10_20_01 <- dim(alldata)[1]
 
@@ -641,8 +641,8 @@ min_uniq_m_10_20_01 = min(unique(alldata$m))
 
 # sim 2
 seed_10_20_02 <- sim_seeds[2]
-set.seed(seed_10_20_02)
-alldata <- createACS(popdata=popdata20, seed=seed, n1=n1, yvar=yvar)
+#set.seed(seed_10_20_02)
+alldata <- createACS(popdata=popdata20, seed=seed_10_20_02, n1=n1, yvar=yvar)
 N.ACS.plots_10_20_02 <- dim(alldata)[1] - n1
 N.Total.plots_10_20_02 <- dim(alldata)[1]
 
@@ -920,14 +920,6 @@ simulation_data %<>%
    dplyr::select(
       -c(JoinCountTest.S, MoranI.S, SimDate)
    )
-simulation_data %<>%
-   rename(
-      SamplingDesign = SmplngDsgn
-   )
-simulation_data %<>%
-   rename(
-      MoransIWeightMatrix = MrnsIWghtMtrx
-   )
 
 simulation_data %<>%
    dplyr::select(
@@ -982,59 +974,3 @@ expect_equal(
    manually_calculated
 )
 })
-#' sims=200
-#' n1_vec=c(75,150,225,300,350)
-#' simulation_data_SRSWOR <- sampleRealizations(
-#'    popdata = popdata,
-#'    sims = sims,
-#'    n1_vec = n1_vec,
-#'    avar = avar,
-#'    ovar = ovar,
-#'    popvar="Island"
-#' )
-#' 
-#' test_that("test sampleRealizations", {
-#'    expect_error(
-#'       sampleRealizations(
-#'          popdata = popdata,
-#'          sims = sims,
-#'          n1_vec = 1,
-#'          avar = avar,
-#'          ovar = ovar,
-#'          popvar = "Island",
-#'          yvar = "Cactus",
-#'          realvar = 5
-#'       ),
-#'       "The argument realvar must be a character string."
-#'    )
-#' 
-#' })
-# # data(Thompson1990Fig1Pop)
-# # alldata_all <- createACS(Thompson1990Fig1Pop, 20, "y_value", seed=24)
-# #
-# # temp <- alldata_all %>%
-# #         as.data.frame %>%
-# #         # get rid of edge units - not involved in calculation of m
-# #         filter(!(is.na(NetworkID))) %>%
-# #         arrange(x, y)
-# #
-# # # dnearneigh - why was this here?
-# #
-# # nb <- cell2nb(
-# #         nrow = max(temp$x) - min(temp$x) + 1,
-# #         ncol = max(temp$y) - min(temp$y) + 1
-# # )
-# # coordinates(temp) = ~ x+y
-# # data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]
-# # tempdat <- data.frame(JoinCountTest.W = NA)
-# # for (i in length(weights)) {
-# #         lwb <- nb2listw(nb, style = weights[i]) # convert to weights
-# #         # I think cells are indexed by row, then column
-# #         tempdat$JoinCountTest <- getJoinCountTestEst(temp, lwb)
-# #         tempdat$MoranI <- getMoranTestEst(temp, lwb)
-# #         colnames(tempdat)[which(names(tempdat) == "JoinCountTest")] <-
-# #                 paste("JoinCountTest", weights[i], sep=".")
-# #         colnames(tempdat)[which(names(tempdat) == "MoranI")] <-
-# #                 paste("MoranI", weights[i], sep=".")
-# # }
-# # return(tempdat)
