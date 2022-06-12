@@ -286,8 +286,8 @@ sampleRealizations <- function(
    Z$nSims = sims
    Z$SimDate = format(Sys.time(), "%m-%d-%y")
    Z$y_HT_formula = y_HT_formula
-   Z$SmplngDsgn = SamplingDesign
-   Z$MrnsIWghtMtrx = weights
+   Z$SamplingDesign = SamplingDesign
+   Z$MoransIWeightMatrix = weights
    print(Sys.time() - TIME)
    return(Z)
 }

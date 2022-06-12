@@ -61,21 +61,21 @@ varyMultVarCalc <- function(alldata, OAVAR, var_formula, N, n1) {
          select(!!!OAVAR) %>%
          summarise_all(
             list(var_yHT_RACS = var_y_HT_RACS),
-            N=N,  n1=n1,  m=m, m_threshold=2
+            N=N,  n1=n1,  m_vec=m, m_threshold=2
          )
    } else if (var_formula == "var_y_HT") {
       O_smd %>% 
          select(!!!OAVAR) %>%
          summarise_all(
             list(var_yHT=var_y_HT),
-            N=N, n1=n1, m=m
+            N=N, n1=n1, m_vec=m
          )
    } else if (var_formula == "var_pi") {
       O_smd %>% 
          select(!!!OAVAR) %>%
          summarise_all(
             list(var_pi=var_pi),
-            N=N, n1=n1, m=m
+            N=N, n1=n1, m_vec=m
          )
    }
 }

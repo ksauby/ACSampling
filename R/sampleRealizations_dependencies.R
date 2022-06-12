@@ -72,7 +72,8 @@ fillmChar <- function(dat, results, yvar, popvar, realvar) {
    REALVAR <- sym(realvar)
    temp <- dat %>% filter(!!YVAR > 0)
    prelim_results <- temp %>%
-      group_by(!!POPVAR, !!REALVAR) %>%
+      ungroup() %>%
+      #group_by(!!POPVAR, !!REALVAR) %>%
       dplyr::summarise(
          mean_m = mean(m),
          median_m = median(m),
