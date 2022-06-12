@@ -65,7 +65,7 @@ createACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NA) {
      handleError_popdata(popdata)
      handleError_n1(n1)
      handleError_yvar(yvar)
-     handleError_seed(seed)
+     #handleError_seed(seed)
      handleError_criterion(criterion)
      
 	YVAR <- sym(yvar)
