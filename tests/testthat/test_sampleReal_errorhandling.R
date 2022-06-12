@@ -177,19 +177,18 @@ test_that("test sampleRealizations errors, realvar", {
    
 })
 
-# test_that("test sampleRealizations errors, popvar", {
-#         expect_error(
-#                 sampleRealizations(
-#                         popdata = popdata,
-#                         sims = sims,
-#                         n1_vec = 1,
-#                         avar = avar,
-#                         ovar = ovar,
-#                         popvar="Island",
-#                         yvar="Cactus",
-#                         popvar=5
-#                 ),
-#                 "The argument popvar must be a character string."
-#         )
-#
-# })
+test_that("test sampleRealizations errors, popvar", {
+        expect_error(
+                sampleRealizations(
+                        popdata = popdata,
+                        sims = sims,
+                        n1_vec = 1,
+                        avar = avar,
+                        ovar = ovar,
+                        yvar="Cactus",
+                        popvar=5
+                ),
+                "The argument popvar must be a character string."
+        )
+
+})
