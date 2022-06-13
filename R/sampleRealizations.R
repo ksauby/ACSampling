@@ -215,6 +215,7 @@ sampleRealizations <- function(
                for (n in 1:length(datasetprep)) {
                   dat <- datasetprep[[n]] %>%
                      select(!!!OAVAR) %>%
+                     ungroup() %>%
                      summarise(across(
                         everything(), 
                         list(
