@@ -197,5 +197,23 @@ handleError_LogicalVar <- function(LogicalVar, argument) {
      }
 }
 
+#' @importFrom purrr every
+#' 
+checkVarInDF <- function(var_i, df) {
+   if ((var_i %in% names(df))==FALSE) {
+      stop(
+         paste(
+            "The variable '",
+            var_i,
+            "' is not present in the supplied dataframe.",
+            sep=""
+         ),
+         call.=FALSE
+      )
+   }
+}
 
+handleError_var_in_df <- function(variable, dataframe) {
+   every(variable, checkVarInDF, df=dataframe)
+}
 

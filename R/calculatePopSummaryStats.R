@@ -19,42 +19,42 @@
 #' @importFrom spdep cell2nb nb2listw joincount.test moran.test 
 
 #' @examples
-#' # library(magrittr)
-#' # library(dplyr)
-#' # ovar = c(
-#' # 	"Stricta",
-#'#  	"Pusilla",
-#'#  	"Cactus",
-#'#  	"CACA_on_Pusilla",
-#' # 	"CACA_on_Stricta",
-#' # 	"MEPR_on_Pusilla",
-#' # 	"MEPR_on_Stricta",
-#' # 	"Old_Moth_Evidence_Pusilla",
-#' # 	"Old_Moth_Evidence_Stricta"
-#' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
-#' 	# "Percent_Cover_Stricta",
-#' 	# "Height_Pusilla",
-#' 	# "Height_Stricta",
-#' # )		
-#' # summaryvar = ovar
+#' library(magrittr)
+#' library(dplyr)
+#' ovar = c(
+#' 	"Stricta",
+#' 	"Pusilla",
+#' 	"Cactus",
+#' 	"CACA_on_Pusilla",
+#' 	"CACA_on_Stricta",
+#' 	"MEPR_on_Pusilla",
+#' 	"MEPR_on_Stricta",
+#' 	"Old_Moth_Evidence_Pusilla",
+#' 	"Old_Moth_Evidence_Stricta"
+#' 	"Percent_Cover_Pusilla", #how do I do these? they are occupancy nor abundance
+#' 	"Percent_Cover_Stricta",
+#' 	"Height_Pusilla",
+#' 	"Height_Stricta",
+#' )		
+#' summaryvar = ovar
 #' # WHAT WAS I THINK HERE? for grouping variables?
-#' # popgroupvar = "n.networks" # c("n.networks", "realization")
+#' popgroupvar = "n.networks" # c("n.networks", "realization")
 #' # create realizations
-#' # x_start = 1
-#' # x_end = 30
-#' # y_start = 1
-#' # y_end = 30
-#' # n.networks = c(5, 15, 10, 20, 30, 40)
-#' # n.realizations = 1
-#' # SpeciesInfo = PlotSurveys_season1
-#' # start.seed=1
-#' # buffer=5
-#' # rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
-#' # cactus.realizations <- createRealizations(x_start, x_end,
-#'#  	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
-#' # 	ovar)
-#' # patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
-#'#  	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
+#' x_start = 1
+#' x_end = 30
+#' y_start = 1
+#' y_end = 30
+#' n.networks = c(5, 15, 10, 20, 30, 40)
+#' n.realizations = 1
+#' SpeciesInfo = PlotSurveys_season1
+#' start.seed=1
+#' buffer=5
+#' rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
+#' cactus.realizations <- createRealizations(x_start, x_end,
+#' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
+#' 	ovar)
+#' patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
+#' 	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 
 calcPopSummaryStats <- function(
       popdata, 
@@ -65,9 +65,10 @@ calcPopSummaryStats <- function(
       nrow,
       ncol
 ) {
-   POPVAR <- sym(popgroupvar)
+   handleError_var_in_df(popgroupvar, popdata)
+   handleError_var_in_df(summaryvar, popdata)
    
-   # IF POPGROUPVAR NOT IN POPDATA THROW ERROR
+   POPVAR <- sym(popgroupvar)
    
    popdata %<>% arrange(!!POPVAR)
    # for each popgroupvar combo, calculate summary statistics for m and number of species patches

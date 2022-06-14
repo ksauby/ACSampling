@@ -1,41 +1,3 @@
-#' sims = 1
-#' n1_vec = c(5, 10)
-#' population <-
-#'    createPop(
-#'       x_start = 1,
-#'       x_end = 30,
-#'       y_start = 1,
-#'       y_end = 30
-#'    )
-#' #' avar = NULL
-#' ovar = c("Stricta",
-#'          "CACA_on_Stricta")
-#' avar = NULL
-#' data(CactusRealizations)
-#' popdata = CactusRealizations # WHY IS THERE ISLAND=NA
-#' 
-#' 
-#' test_that("test sampleRealizations", {
-#'    expect_error(
-#'       sampleRealizations(
-#'          popdata = popdata,
-#'          sims = sims,
-#'          n1_vec = 1,
-#'          avar = avar,
-#'          ovar = ovar,
-#'          popvar = "Island",
-#'          yvar = "Cactus",
-#'          realvar = 5
-#'       ),
-#'       "The argument realvar must be a character string."
-#'    )
-#' 
-#' })
-
-
-
-#' # 
-
 sims=2
 n1_vec=c(5,10)
 population <- createPop(x_start = 1, x_end = 30, y_start = 1, y_end = 30)
@@ -1215,29 +1177,29 @@ expect_equal(
    manually_calculated
 )
 })
-# 
-# popvar = "n.networks"
-# realvar = "realization"
-# 
-# simulation_data_sample_estimators <- sampleRealizations(
-#    popdata=popdata,
-#    sims=sims,
-#    n1_vec=n1_vec,
-#    avar=avar,
-#    ovar=ovar,
-#    rvar=rvar,
-#    #ACS=TRUE,
-#    SamplingDesign=SamplingDesign,
-#    yvar=yvar,
-#    y_HT_formula=y_HT_formula,
-#    var_formula=var_formula,
-#    mThreshold=mThreshold,
-#    f_max=f_max,
-#    SampleEstimators=TRUE,
-#    SpatStat=SpatStat,
-#    mChar=mChar,
-#    popvar=popvar,
-#    realvar=realvar,
-#    weights=weights,
-#    seeds=seeds
-# )
+
+popvar = "n.networks"
+realvar = "realization"
+
+simulation_data_sample_estimators <- sampleRealizations(
+   popdata=popdata,
+   sims=sims,
+   n1_vec=n1_vec,
+   avar=avar,
+   ovar=ovar,
+   rvar=rvar,
+   #ACS=TRUE,
+   SamplingDesign=SamplingDesign,
+   yvar=yvar,
+   y_HT_formula=y_HT_formula,
+   var_formula=var_formula,
+   mThreshold=mThreshold,
+   f_max=f_max,
+   SampleEstimators=TRUE,
+   SpatStat=SpatStat,
+   mChar=mChar,
+   popvar=popvar,
+   realvar=realvar,
+   weights=weights,
+   seeds=seeds
+)
