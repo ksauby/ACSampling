@@ -280,7 +280,7 @@ sampleRealizations <- function(
             # Spatial Statistics
             if (SpatStat == TRUE) {
                A[[i]][[j]][[k]] %<>% cbind(
-                  if (sum(alldata_all$Cactus) > 1) {
+                  if (sum(alldata_all[[yvar]]) > 1) {
                      calcSpatStats(alldata_all, weights, yvar)
                   } else {
                      fillSpatStatsNA(alldata_all, weights)

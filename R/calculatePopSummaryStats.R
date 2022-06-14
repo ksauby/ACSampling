@@ -123,7 +123,7 @@ calcPopSummaryStats <- function(
          filter(!!POPVAR == unique(!!POPVAR)[i])
       temp %<>% arrange(.data$x,.data$y)
       # spatial statistics
-      coordinates(temp) = ~ x + y
+      #coordinates(temp) = ~ x + y
       A[[i]] <- list()
       for (j in 1:length(summaryvar)) {
          A[[i]][[j]] <- data.frame(variable = summaryvar[j])
@@ -131,10 +131,10 @@ calcPopSummaryStats <- function(
             tr <- temp %>% as.data.frame
             tr %<>% 
                .[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	
-            tv <- eval(parse(text = paste("tr$", summaryvar[j], sep="")))
-            coordinates(tr) = ~ x + y
+           # tv <- eval(parse(text = paste("tr$", summaryvar[j], sep="")))
+           # coordinates(tr) = ~ x + y
          } else {
-            tv <- eval(parse(text = paste("temp$", summaryvar[j], sep="")))
+           # tv <- eval(parse(text = paste("temp$", summaryvar[j], sep="")))
          }
          A[[i]][[j]]$Mean_tempvar <- Mean(tv)
          A[[i]][[j]]$Var_tempvar <- popVar(tv)
@@ -147,75 +147,16 @@ calcPopSummaryStats <- function(
          )$SSQ_R
          # for join counts and moran's i, change NAs in rvar's to zeros
          t2 <- temp
-         t2@data[rvar][is.na(t2@data[rvar])] <- 0
-         if (length(tv[which(tv > 0)]) > 0) {
-            # join counts and moran's i
-            nb <- cell2nb(nrow = nrow, ncol = ncol)
-            svar <-  eval(parse(text=paste("t2$", summaryvar[j], sep="")))
-            if ("W" %in% spatweights) {
-               lwb <- nb2listw(nb, style = "W") # convert to spatweights
-               # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.W <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
-               A[[i]][[j]]$MoranI.W <- moran.test(svar, lwb)$estimate[1]
-            }
-            if ("B" %in% spatweights) {
-               lwb <- nb2listw(nb, style = "B") # convert to spatweights
-               # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.B <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
-               A[[i]][[j]]$MoranI.B <- moran.test(svar, lwb)$estimate[1]
-            }	
-            if ("C" %in% spatweights) {
-               lwb <- nb2listw(nb, style = "C") # convert to spatweights
-               # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.C <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
-               A[[i]][[j]]$MoranI.C <- moran.test(svar, lwb)$estimate[1]
-            }	
-            if ("U" %in% spatweights) {
-               lwb <- nb2listw(nb, style = "U") # convert to spatweights
-               # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.U <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
-               A[[i]][[j]]$MoranI.U <- moran.test(svar, lwb)$estimate[1]
-            }	
-            if ("S" %in% spatweights) {
-               lwb <- nb2listw(nb, style = "S") # convert to spatweights
-               # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.S <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
+         t2[[rvar]][is.na(t2[[rvar]])] <- 0
+         if (sum(temp[[summaryvar[j]]]) > 0) {
+            A[[i]][[j]] %<>% cbind(
+               calcSpatStats(t2, spatweights, summaryvar[j])
+            )
                   # NEED TO FIGURE OUT HOW TO GET RID OF NAs
                   # OR CAN YOU JUST NOT DO JOINT COUNT TEST FOR RVAR
                   # Get this error: Error in joincount.test(as.factor(eval(parse(text = paste("t2$", summaryvar[j],  :   objects of different length
-               A[[i]][[j]]$MoranI.S <- moran.test(svar, lwb)$estimate[1]
-            }	
-            if ("minmax" %in% spatweights) {
-               lwb <- nb2listw(nb, style = "minmax") # convert to spatweights
-               # I think cells are indexed by row, then column
-               A[[i]][[j]]$JoinCountTest.minmax <- joincount.test(as.factor(svar), lwb)[[2]]$estimate[1]
-               A[[i]][[j]]$MoranI.minmax <- moran.test(svar, lwb)$estimate[1]
-            }	
          } else {
-            if ("W" %in% spatweights) {
-               A[[i]][[j]]$JoinCountTest.W <- NA
-               A[[i]][[j]]$MoranI.W <- NA
-            }
-            if ("B" %in% spatweights) {
-               A[[i]][[j]]$JoinCountTest.B <- NA
-               A[[i]][[j]]$MoranI.B <- NA
-            }	
-            if ("C" %in% spatweights) {
-               A[[i]][[j]]$JoinCountTest.C <- NA
-               A[[i]][[j]]$MoranI.C <- NA
-            }	
-            if ("U" %in% spatweights) {
-               A[[i]][[j]]$JoinCountTest.U <- NA
-               A[[i]][[j]]$MoranI.U <- NA
-            }	
-            if ("S" %in% spatweights) {
-               A[[i]][[j]]$JoinCountTest.S <- NA
-               A[[i]][[j]]$MoranI.S <- NA
-            }	
-            if ("minmax" %in% spatweights) {
-               A[[i]][[j]]$JoinCountTest.minmax <- NA
-               A[[i]][[j]]$MoranI.minmax <- NA
-            }	
+            fillSpatStatsNA(t2, spatweights)
          }
       }
       A[[i]] <- do.call(rbind.data.frame, A[[i]])
