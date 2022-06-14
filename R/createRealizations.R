@@ -7,11 +7,11 @@
 #' @param buffer The distance from the edge of the grid from which initial samples should not be taken.
 #' @template n_networks
 #' @param n.realizations The number of realizations to create per \code{n.networks}.
-#' @param SpeciesInfo A dataframe of x and y coordinates and associated species information. Should only include plots that have the species of interest.
+#' @param SpeciesInfo A dataframe of x and y coordinates, the variable of interest, and any other variables. Should only include plots that have the species of interest.
 #' @param start.seed The initial number used in \code{set.seed}. All subsequent numbers used in set.seed will be incremental after this number. seed = seq(start.seed, start.seed + 2*n.realizations +  sum(n.networks)*n.realizations*2 + 1, by=1)
 #' @param variables Dataframe column names that are included in the final patch realizations. These columns are given a value of "0" if the species is not present or NA.
-#' @param yvar The variable of interest that determines how units will be assigned if during the randomization and rotation two units overlap. Must be a variable listed within variables.
-#' @description This function creates multiple realizations of patches of the species of interest within the grid of locations created with \code{createPopulation}.
+#' @param yvar The variable of interest that determines how units will be assigned if during the randomization and rotation two units overlap. Must be a variable listed within the argument \code{variables}.
+#' @description This function creates multiple realizations of patches of the variable of interest within the grid of locations created with \code{createPopulation}.
 #' @references 
 #' \insertRef{saubyadaptive}{ACSampling}
 #' @examples

@@ -1,4 +1,4 @@
-#' Hakey variance estimator free of joint inclusion probability calculations for unequal probability sampling - or is N used instead of n. see p. 113 Tille new book
+#' Hajek approximation of b.  see p. 113 Tille new book
 #' @template n_samplesize
 #' @param  pi_i Need description here
 #' @description Option for the "var_pi" function.
@@ -9,10 +9,12 @@
 
 
 
-Hajek <- function(pi_i, n) {
+Hajek_b <- function(pi_i, n) {
 	pi_i * (1 - pi_i) * n / (n - 1)
 }
 
+
+b <- 
 
 #' Variance estimator free of joint inclusion probability calculations for unequal probability sampling, Hajek
 #' @template n_samplesize
@@ -105,39 +107,32 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 
 
 var_Tille <- function(n, y, pi_i_values) {
-	b_k_values <- Hajek(pi_i_values, n=n)
+	b_k <- Hajek(pi_i_values, n=n)
 	# get the matrix of values by multiplying the vector by itself, 
 	#	THEN set diagnonal to zero, 
 	#	THEN set lower triangle to zero so that we are not counting pairwise combos of k and l twice
-	b_k_b_l_values <- b_k_values %x% b_k_values %>% 
-		matrix(length(b_k_values), length(b_k_values))
-	diag(b_k_b_l_values) <- 0	
-	b_k_b_l_values[lower.tri(b_k_b_l_values)] <- 0
+	b_k_b_l <- b_k %x% b_k %>% 
+		matrix(length(b_k), length(b_k))
+	diag(b_k_b_l) <- 0	
+	b_k_b_l[lower.tri(b_k_b_l)] <- 0
 	
 	# do the same thing for y that we did for b
-	y_k_y_l_values <- y %x% y %>% matrix(length(y), length(y))
-	diag(y_k_y_l_values) <- 0
-	y_k_y_l_values[lower.tri(y_k_y_l_values)] <- 0
+	y_k_y_l <- y %x% y %>% matrix(length(y), length(y))
+	diag(y_k_y_l) <- 0
+	y_k_y_l[lower.tri(y_k_y_l)] <- 0
 	# do the same thing for pi that we did for b
-	pi_k_pi_l_values <- pi_i_values %x% pi_i_values %>%
-		matrix(length(pi_i_values), length(pi_i_values))
-	diag(pi_k_pi_l_values) <- 0
-	pi_k_pi_l_values[lower.tri(pi_k_pi_l_values)] <- 0
+	pi_k_pi_l <- pi_i_values %x% pi_i %>%
+		matrix(length(pi_i), length(pi_i))
+	diag(pi_k_pi_l) <- 0
+	pi_k_pi_l[lower.tri(pi_k_pi_l)] <- 0
 	# Now, create the product ykyl bkbl / pikpil
 	#	THEN set diag to zero
 	#	THEN set lower triangle to zero
-	ykyl_bkbl__pikpil <- y_k_y_l_values * b_k_b_l_values / pi_k_pi_l_values
+	ykyl_bkbl__pikpil <- y_k_y_l * b_k_b_l / pi_k_pi_l
 	diag(ykyl_bkbl__pikpil) <- 0	
 	ykyl_bkbl__pikpil[lower.tri(ykyl_bkbl__pikpil)] <- 0
 	
 	# var approx of y_hat HT on page 139 of Tille 2006
-	sum(
-		y^2/pi_i_values^2 *
-		(
-			b_k_values - b_k_values^2 / sum(b_k_values)
-		)
-	) -
-	1 / sum(b_k_values) * 
-	sum(ykyl_bkbl__pikpil)
+	sum(y^2/pi_i_values^2*(b_k-b_k^2/sum(b_k)))-1/sum(b_k)*sum(ykyl_bkbl__pikpil)
 
 }

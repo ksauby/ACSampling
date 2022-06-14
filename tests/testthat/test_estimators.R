@@ -1,9 +1,6 @@
 #### TESTING
 
 
-
-
-
 test_that("assignNetworkMembership", {
      lambdap_5_tau_25_pop <- expand.grid(
           x = 1:10,
@@ -210,11 +207,6 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, with replacement", {
 # test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement", {
      # Thompson (2002), Example 2, p. 78-79
     
-
-
-
-
-
 test_that("var_R_hat, with replacement, equals zero", {
    expect_equal(
       var_R_hat(
@@ -319,6 +311,19 @@ test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement, where m
    )
 })
 
+test_that("R_hat, Horvitz-Thompson Ratio Estimator, without replacement, where mu_y=0", {
+   expect_equal(
+      R_hat(
+         x = c(0, 0, 0), 
+         y = c(0, 0, 0), 
+         N = 100, 
+         n1 = 4, 
+         m = c(5, 2, 1), 
+         replace="FALSE"
+      ),
+      0
+   )
+})
 
 
 
