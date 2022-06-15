@@ -136,10 +136,10 @@ calcPopSummaryStats <- function(
          } else {
            # tv <- eval(parse(text = paste("temp$", summaryvar[j], sep="")))
          }
-         A[[i]][[j]]$Mean_tempvar <- Mean(tv)
-         A[[i]][[j]]$Var_tempvar <- popVar(tv)
-         A[[i]][[j]]$CV_tempvar <- popCV(tv)
-         A[[i]][[j]]$Total_tempvar <- Sum(tv)
+         A[[i]][[j]]$Mean_tempvar <- Mean(temp[[summaryvar[j]]])
+         A[[i]][[j]]$Var_tempvar <- popVar(temp[[summaryvar[j]]])
+         A[[i]][[j]]$CV_tempvar <- popCV(temp[[summaryvar[j]]])
+         A[[i]][[j]]$Total_tempvar <- Sum(temp[[summaryvar[j]]])
          A[[i]][[j]]$SSQ_R <- calcSSQR(
             popdata = as.data.frame(temp),
             variable = summaryvar[j],
