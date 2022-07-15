@@ -21,21 +21,21 @@
 #' @examples
 #' library(magrittr)
 #' library(dplyr)
-#' ovar = c(
-#' 	"Stricta",
-#' 	"Pusilla",
-#' 	"Cactus",
-#' 	"CACA_on_Pusilla",
-#' 	"CACA_on_Stricta",
-#' 	"MEPR_on_Pusilla",
-#' 	"MEPR_on_Stricta",
-#' 	"Old_Moth_Evidence_Pusilla",
-#' 	"Old_Moth_Evidence_Stricta"
-#' 	"Percent_Cover_Pusilla", #how do I do these? they are occupancy nor abundance
-#' 	"Percent_Cover_Stricta",
-#' 	"Height_Pusilla",
-#' 	"Height_Stricta",
-#' )		
+ovar = c(
+	"Stricta",
+	"Pusilla",
+	"Cactus",
+	"CACA_on_Pusilla",
+	"CACA_on_Stricta",
+	"MEPR_on_Pusilla",
+	"MEPR_on_Stricta",
+	"Old_Moth_Evidence_Pusilla",
+	"Old_Moth_Evidence_Stricta",
+	"Percent_Cover_Pusilla", #how do I do these? they are occupancy nor abundance
+	"Percent_Cover_Stricta",
+	"Height_Pusilla",
+	"Height_Stricta"
+)
 #' summaryvar = ovar
 #' # WHAT WAS I THINK HERE? for grouping variables?
 #' popgroupvar = "n.networks" # c("n.networks", "realization")
@@ -52,8 +52,8 @@
 #' rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
 #' cactus.realizations <- createRealizations(x_start, x_end,
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
-#' 	ovar)
-#' patch_data_summary <- calcPopSummaryStats(cactus.realizations, 
+#' 	ovar, "Cactus")
+#' patch_data_summary <- calcPopSummaryStats(popdata=cactus.realizations,
 #' 	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
 
 calcPopSummaryStats <- function(
@@ -129,6 +129,7 @@ calcPopSummaryStats <- function(
          A[[i]][[j]] <- data.frame(variable = summaryvar[j])
          if (summaryvar[j] %in% rvar) {
             tr <- temp %>% as.data.frame
+            # what was I doing here? figuring out relationship between rvar and ovar?
             tr %<>% 
                .[.[colnames(.)==str_sub(summaryvar[j],-7,-1)]==1, ]	
            # tv <- eval(parse(text = paste("tr$", summaryvar[j], sep="")))
@@ -147,7 +148,11 @@ calcPopSummaryStats <- function(
          )$SSQ_R
          # for join counts and moran's i, change NAs in rvar's to zeros
          t2 <- temp
-         t2[[rvar]][is.na(t2[[rvar]])] <- 0
+         if (is.null(rvar)==FALSE) {
+            for (k in length(rvar)) {
+               t2[[rvar[k]]][is.na(t2[[rvar[k]]])] <- 0
+            }
+         }
          if (sum(temp[[summaryvar[j]]]) > 0) {
             A[[i]][[j]] %<>% cbind(
                calcSpatStats(t2, spatweights, summaryvar[j])
@@ -159,7 +164,7 @@ calcPopSummaryStats <- function(
             fillSpatStatsNA(t2, spatweights)
          }
       }
-      A[[i]] <- do.call(rbind.data.frame, A[[i]])
+      A[[i]] <- do.call(rbind.fill, A[[i]])
       A[[i]]$population <- unique(eval(parse(
          text=paste(
             "popdata$", 

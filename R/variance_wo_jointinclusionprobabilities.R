@@ -62,7 +62,7 @@ var_Hajek <- function(n, y, pi_i_values) {
 #' 	y = Z_summary$y_total
 #' )
 #' pi_i_values <- pi_i(N=900,n1=30, m=Z_summary$m)
-#' Hajek(pi_i=pi_i_values, n=30)
+#' Hajek_b(pi_i=pi_i_values, n=30)
 #' var_pi(
 #' 	n = 30, 
 #' 	y = Z_summary$y_total, 

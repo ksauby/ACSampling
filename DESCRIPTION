@@ -35,7 +35,8 @@ Imports:
 	reshape2,
 	sp,
 	tidyr,
-	Rdpack
+	Rdpack,
+	purrr
 RdMacros: Rdpack
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.2.0

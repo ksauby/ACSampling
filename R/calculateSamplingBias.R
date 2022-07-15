@@ -215,7 +215,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 #' 	# "Percent_Cover_Pusilla", # how do I do these? they are occupancy nor abundance
 #' 	# "Percent_Cover_Stricta",
 #' 	# "Height_Pusilla",
-#' 	# "Height_Stricta",
+#' 	# "Height_Stricta"
 #' )		
 #' patch_data = cactus.realizations
 #' # simdata <- sampleSpeciesPatchRealizations(patch_data, simulations, 

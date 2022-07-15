@@ -196,7 +196,7 @@ calcSpatStats <- function(alldata_all, weights, yvar) {
       # AND THUS GET TEST RESULTS
       # get rid of edge units - not involved in calculation of m
       filter(!(is.na(NetworkID))) %>%
-      arrange(x, y)
+      arrange(.data$x, .data$y)
    
    # dnearneigh - why was this here? showed up April 23 2017, I don't think 
    # I ever used the function
