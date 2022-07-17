@@ -38,7 +38,7 @@ Calculate efficiency of sampling design, relative to WHAT.
 #  library(dplyr)
 # WHERE IS POP DATA FROM?
 # dimensions <- popdata \%>\% 
-# 	group_by_at(popvar) \%>\%
+# 	group_by(popvar) \%>\%
 #	summarise(N = n())
 # variances of populations
 # CactusRealizationSummary <- calcPopSummaryStats(

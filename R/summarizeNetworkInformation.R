@@ -12,9 +12,13 @@
 #' @importFrom dplyr funs summarise_all
 
 summarizeNetworkInfo <- function(popdata, vars, popvar=NULL, n1_vec, yvar) {
-	
-     handleError_variable(vars, "vars")
-     
+	handleError_variable(vars, "vars")
+   
+   VARS <- sym(vars)
+   NETWORKID <- sym("NetworkID")
+   POPVAR <- sym(popvar)
+   M_ <- sym("m")
+   
 	N <- unique(popdata$N) #. <- NULL 
 	# handleError_singlepopulation(N)
      
@@ -23,7 +27,7 @@ summarizeNetworkInfo <- function(popdata, vars, popvar=NULL, n1_vec, yvar) {
 		# select these columns
 		.[, c(vars, "NetworkID", popvar, "m")] %>%
 		# group_by these columns
-		group_by_at(c("NetworkID", popvar, "m")) %>%
+		group_by(!!VARS, !!NETWORKID, !!POPVAR, !!M_) %>%
 		# calculate the sum of the remaining columns (the "vars" columns)
 		summarise_all(list(~sum(., na.rm=T)))
 	m <- paste("Networks$", yvar, sep="")

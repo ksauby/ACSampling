@@ -12,7 +12,7 @@
 #' @return A list of two dataframes, where the first dataframe includes network- and population-specific summary statistics about $m$, summarizes across unique networks as well as unique units within each population, and where the second list includes summary statistics about the \code{summaryvar}.
 
 #' @export
-#' @importFrom dplyr ungroup sym group_by_at
+#' @importFrom dplyr ungroup sym
 #' @importFrom stringr str_sub
 #' @importFrom stats var
 #' @importFrom sp coordinates
@@ -69,14 +69,14 @@ calcPopSummaryStats <- function(
    handleError_var_in_df(summaryvar, popdata)
    
    POPVAR <- sym(popvar)
-   
+   NETWORKID <- sym("NetworkID")
    popdata %<>% arrange(!!POPVAR)
    # for each popvar combo, calculate summary statistics for m and number of species patches
    # this calculates the m statistics for the unique Network sizes
    Y1 <- popdata %>%
-      group_by_at(c("NetworkID", popvar)) %>%
+      group_by(!!NETWORKID, !!POPVAR) %>%
       summarise(m = .data$m[1]) %>%
-      group_by_at(popvar) %>%
+      group_by(!!POPVAR) %>%
       summarise(
          networks_m_min = min(.data$m),
          networks_m_max = max(.data$m),
@@ -89,7 +89,7 @@ calcPopSummaryStats <- function(
       as.data.frame
    # this calculates the m statistics for all units
    Y2 = popdata %>%
-      group_by_at(popvar) %>%
+      group_by(!!POPVAR) %>%
       summarise(
          units_m_mean = mean(.data$m),
          units_m_var = popVar(.data$m)
@@ -97,7 +97,7 @@ calcPopSummaryStats <- function(
       ungroup %>%
       as.data.frame
    Z = popdata %>%
-      group_by_at(popvar) %>%
+      group_by(!!POPVAR) %>%
       summarise(N = length(.data$m)) %>%
       ungroup %>%
       as.data.frame

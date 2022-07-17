@@ -21,7 +21,7 @@
 #'#  library(dplyr)
 #' # WHERE IS POP DATA FROM?
 #' # dimensions <- popdata %>% 
-#'# 	group_by_at(popvar) %>%
+#'# 	group_by(popvar) %>%
 #'#	summarise(N = n())
 #' # variances of populations
 #'# CactusRealizationSummary <- calcPopSummaryStats(
@@ -93,11 +93,7 @@ calcRE <- function(
                names_to = "variable",
                values_to = "mean_MSE"
           )
-	A$variable <- sub(
-          "*_mean_MSE", 
-          "", 
-          A$variable
-     )
+	A$variable <- sub("*_mean_MSE", "", A$variable)
 	# "long" format of population variance
 	poporvar <- c(
           popvar,
@@ -115,14 +111,7 @@ calcRE <- function(
 		)	
 	B$variable <- sub("*_var", "", B$variable)
 	# merge together
-	Z <- A %>%
-		merge(
-			B, 
-			by=c(
-				popvar, 
-				"variable"
-			)
-		)
+	Z <- A %>% merge(B, by=c(popvar, "variable"))
 	# calculate efficiency
 	Z %<>% mutate(
 		RE = (
