@@ -1,0 +1,1 @@
+#' @param SamplingDesign A character string supplying the sampling design to use; accepted options include ACS" (unrestricted adaptive cluster sampling) and "RACS" (restricted ACS). The default is "ACS".

@@ -7,30 +7,33 @@
 estim_pi_ij(
   popdata,
   sims,
-  nsamples,
+  n1_vec,
   SamplingDesign = "ACS",
   y_variable,
   f_max = NULL,
-  popgroupvar = NULL
+  popvar = NULL
 )
 }
 \arguments{
-\item{popdata}{A data frame specifying the patch realizations. WHAT FORMAT SHOULD IT BE IN?}
+\item{popdata}{A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.}
 
 \item{sims}{Number of simulations per population.}
 
-\item{nsamples}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values}
+\item{n1_vec}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values.}
 
-\item{SamplingDesign}{Sampling design; ACS or RACS. Default value is "ACS."}
+\item{SamplingDesign}{A character string supplying the sampling design to use; accepted options include ACS" (unrestricted adaptive cluster sampling) and "RACS" (restricted ACS). The default is "ACS".}
 
-\item{y_variable}{variable upon which adaptive cluster sampling criterion is based}
+\item{f_max}{The maximum number of expanding sets of adjacent units surveyed
+per primary unit in the adaptive phase of ACS. For more information, see 
+Sauby and Christman (in prep).}
 
-\item{f_max}{Default value is NULL.}
+\item{popvar}{A character string (OR VECTOR??) used to identify different populations.
+The default value is NULL.}
 
-\item{popgroupvar}{variable identifying unique populations. Default value is NULL.}
+\item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 }
 \value{
-A list of nsamples and dat, BUT I DONT REMEMBER WHAT THOSE ARE.
+A list of n1_vec and dat, BUT I DONT REMEMBER WHAT THOSE ARE.
 }
 \description{
 Calculate inclusion probabilities for each unit in a population using simulations.

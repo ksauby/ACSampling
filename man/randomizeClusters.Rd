@@ -14,6 +14,8 @@ randomizeClusters(grid, n.networks, cluster.info, seed, yvar)
 \item{cluster.info}{Data.frame of all network units. The data.frame should, at a minimum, include fields with information about the species used to initiate ACS, a PlotID field, a NetworkID field, and x and y coordinates.}
 
 \item{seed}{Vector of numbers to be given to \code{set.seed()}. Two numbers are used: the first to determine the sample of locations and the second to determine the sample of species information to be assigned to the sample locations.}
+
+\item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 }
 \description{
 This function creates patches of the species of interest within the grid of locations created with \code{createPop} based on a dataset provided. First, it randomly determines the new locations of network centers and (\code{sampleGridPop}),, and then it randomly rotates the each network to further randomize the real data. Finally, it reassigns NetworkID (using \code{assignNetworkMembership} as previously distinct networks may have been located close enough that they have now merged to create a single network.

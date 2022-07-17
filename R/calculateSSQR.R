@@ -4,7 +4,7 @@
 
 
 #' @param popdata Information about the populations of interest. MORE DETAIL ABOUT STRUCTURE OF THIS.
-#' @template popgroupvar
+#' @template popvar_default_null
 #' @param variable Variable for which to calculate SSQr.
 #' @return Dataframe including original data and RE estimates.
 #' @export
@@ -18,18 +18,18 @@
 #' 	mutate(pop = 1)
 #' popdata <- temp
 #' variable <- "y_value"
-#' popgroupvar <- "pop"
-#' # calcSSQR(popdata, variable, popgroupvar)
-#' popgroupvar <- NA
-#' # calcSSQR(popdata, variable, popgroupvar)
+#' popvar <- "pop"
+#' # calcSSQR(popdata, variable, popvar)
+#' popvar <- NA
+#' # calcSSQR(popdata, variable, popvar)
 
 
-calcSSQR <- function(popdata, variable, popgroupvar=NA) {
+calcSSQR <- function(popdata, variable, popvar=NULL) {
 	VAR <- sym(variable)
-	if (!(is.na(popgroupvar))) {
-		POPVAR <- sym(popgroupvar)
+	if (!(is.na(popvar))) {
+		POPVAR <- sym(popvar)
 	}
-	if (is.na(popgroupvar)) {
+	if (is.na(popvar)) {
 		network_mean <- popdata %>%
 			group_by(.data$NetworkID) %>%
 			summarise(
@@ -48,7 +48,7 @@ calcSSQR <- function(popdata, variable, popgroupvar=NA) {
 				SSQw_j = (!!VAR - .data$network_mean)^2,
 				SSQt_i = (!!VAR - .data$overall_mean)^2
 			) %>%
-			group_by(!!POPVAR) %>%
+			group_by(.data[[popvar]]) %>%
 			summarise(
 				SSQw = sum(.data$SSQw_j),
 				SSQt = sum(.data$SSQt_i)
@@ -70,9 +70,9 @@ calcSSQR <- function(popdata, variable, popgroupvar=NA) {
 			)
 		popdata %>% merge(
 			network_mean, 
-			by=c(popgroupvar, "NetworkID")
+			by=c(popvar, "NetworkID")
 		) %>%
-			merge(overall_mean, by = popgroupvar) %>%
+			merge(overall_mean, by = popvar) %>%
 			mutate(
 				SSQw_j = (!!VAR - network_mean)^2,
 				SSQt_i = (!!VAR - overall_mean)^2

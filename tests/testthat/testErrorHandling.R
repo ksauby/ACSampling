@@ -333,28 +333,28 @@ test_that("Error Handling - handleError_singlepopulation", {
 
 test_that("Error Handling - handleError_var_in_df", {
    popdata <- data.frame(x=1, y=1, z=1)
-   popgroupvar <- "a"
+   popvar <- "a"
    expect_error(
-      handleError_var_in_df(popgroupvar, popdata),
+      handleError_var_in_df(popvar, popdata),
       "The variable 'a' is not present in the supplied dataframe."
    )
-   popgroupvar <- c("a", "b")
+   popvar <- c("a", "b")
    expect_error(
-      handleError_var_in_df(popgroupvar, popdata),
+      handleError_var_in_df(popvar, popdata),
       "The variable 'a' is not present in the supplied dataframe."
    )
-   popgroupvar <- c("b", "a", "x")
+   popvar <- c("b", "a", "x")
    expect_error(
-      handleError_var_in_df(popgroupvar, popdata),
+      handleError_var_in_df(popvar, popdata),
       "The variable 'b' is not present in the supplied dataframe."
    )
-   popgroupvar <- c("b", "a")
+   popvar <- c("b", "a")
    expect_error(
-      handleError_var_in_df(popgroupvar, popdata),
+      handleError_var_in_df(popvar, popdata),
       "The variable 'b' is not present in the supplied dataframe."
    )
-   popgroupvar <- c("x")
-   expect_silent(handleError_var_in_df(popgroupvar, popdata))
-   popgroupvar <- c("y", "x")
-   expect_silent(handleError_var_in_df(popgroupvar, popdata))
+   popvar <- c("x")
+   expect_silent(handleError_var_in_df(popvar, popdata))
+   popvar <- c("y", "x")
+   expect_silent(handleError_var_in_df(popvar, popdata))
 })

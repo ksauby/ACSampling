@@ -53,7 +53,7 @@ results_w_function <-
    summarizeNetworkInfo(
       popdata,
       vars = "y_value",
-      popgroupvar = "pop",
+      popvar = "pop",
       n1_vec,
       yvar = "y_value"
    ) %>%

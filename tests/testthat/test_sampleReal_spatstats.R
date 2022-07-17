@@ -127,7 +127,7 @@ test_that("test calcSpatStat with more complicated example", {
    SamplingDesign="ACS"
    y_HT_formula = "y_HT"
    var_formula = "var_y_HT"
-   mThreshold = NULL
+   m_threshold = NULL
    f_max = 2
    SampleEstimators = FALSE
    SpatStat = TRUE

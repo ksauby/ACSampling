@@ -1,11 +1,11 @@
 #' Estimate Inclusion Probabilities Using Simulations
 
-#' @param popdata Population data in the format XXXXXXXX
+#' @template popdata
 #' @param sims Number of simulations per population.
-#' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
-#' @param f_max NEED DESCRIPTION HERE
-#' @param SamplingDesign Adaptive cluster sampling design (either "ACS" or "RACS").
-#' @param y_variable Variable upon which adaptive cluster sampling criterion is based
+#' @template n1_vec
+#' @template f_max
+#' @template SamplingDesign_no_ACS
+#' @template yvar
 
 #' @description Calculate inclusion probabilities for each unit in a realization using simulations.
 
@@ -33,7 +33,7 @@
 estim_pi_i <- function(
 	popdata, 
 	sims, 
-	nsamples, 
+	n1_vec, 
 	SamplingDesign="ACS",
 	y_variable,
 	f_max = NULL
@@ -43,7 +43,7 @@ estim_pi_i <- function(
 	TIME <- Sys.time()
 	popdata %<>% arrange(.data$n.networks, .data$realization)
 	n.patches <- length(unique(popdata$n.networks))
-	nsample.length <- length(nsamples)
+	nsample.length <- length(n1_vec)
 	A <- vector("list", n.patches)
 	B <- foreach (
 		i = 1:n.patches, # for each species density
@@ -60,7 +60,7 @@ estim_pi_i <- function(
 			P <- popdata %>% 
 				filter(.data$n.networks == unique(popdata$n.networks)[i])
 			N <- dim(P)[1]
-			n1 <- nsamples[j]
+			n1 <- n1_vec[j]
 			A[[i]][[j]] <- list()
 			r <- (i - 1) * j + j
 			seeds <- runif(sims)

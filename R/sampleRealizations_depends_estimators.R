@@ -6,7 +6,7 @@
 #' @template n1
 #' @template m
 #' @template m_threshold
-#' @param y_HT_formula
+#' @template y_HT_formula
 #' @importFrom dplyr across
 #' 
 #' @noRd
@@ -94,7 +94,7 @@ createSummaryforVarCalcs <- function(alldata, rvar, ovar) {
    # summarise data for variance calculations
    mvals <- alldata %>%
       group_by(.data$NetworkID) %>%
-      summarise(m = m[1])
+      summarise(m = .data$m[1])
    R_smd <- alldata %>%
       filter(.data$Sampling!="Edge") %>%
       select(!!!ROVAR, "NetworkID") %>%
@@ -186,7 +186,7 @@ getMoranTestEst <- function(spatdata, lwb) {
 #' Calculate Spatial Statistics
 
 #' @template alldata_all
-#' @param weights String identifying the weight to use. See REFERENCE FOR?
+#' @template weights
 #' 
 calcSpatStats <- function(alldata_all, weights, yvar) {
    temp <- alldata_all %>%
@@ -195,7 +195,7 @@ calcSpatStats <- function(alldata_all, weights, yvar) {
       # IF I REMOVE SOME UNITS THEN ITS HARD TO CALCULATE THE REALIZATION SIZE 
       # AND THUS GET TEST RESULTS
       # get rid of edge units - not involved in calculation of m
-      filter(!(is.na(NetworkID))) %>%
+      filter(!(is.na(.data$NetworkID))) %>%
       arrange(.data$x, .data$y)
    
    # dnearneigh - why was this here? showed up April 23 2017, I don't think 
@@ -222,7 +222,7 @@ calcSpatStats <- function(alldata_all, weights, yvar) {
    ) %>%
    as.data.frame() %>%
    merge(
-      temp %>% select(x, y, !!YVAR),
+      temp %>% select(.data$x, .data$y, !!YVAR),
       by=c("x", "y"),
       all=T
    ) %>%
@@ -230,10 +230,10 @@ calcSpatStats <- function(alldata_all, weights, yvar) {
          !!YVAR := ifelse(
             !is.na(!!YVAR),
             !!YVAR,
-            newval
+            .data$newval
          )
       ) %>%
-      dplyr::select(-newval)
+      dplyr::select(-.data$newval)
    
    
    #data_dist <- dim(as.matrix(dist(cbind(temp$x, temp$y))))[1]

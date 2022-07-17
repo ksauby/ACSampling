@@ -1,7 +1,7 @@
 #' Calculate Relative Efficiency (RE)
 #' 
 #' @param MSE_ComparisonSamplingDesign Sampling design for which relative efficiency (RE) should be calculated.
-#' @template popgroupvar
+#' @template popvar
 #' @param popdata Dataframe of population data.
 #' @template samplesizevar
 #' @template rvar
@@ -21,7 +21,7 @@
 #'#  library(dplyr)
 #' # WHERE IS POP DATA FROM?
 #' # dimensions <- popdata %>% 
-#'# 	group_by_at(popgroupvar) %>%
+#'# 	group_by_at(popvar) %>%
 #'#	summarise(N = n())
 #' # variances of populations
 #'# CactusRealizationSummary <- calcPopSummaryStats(
@@ -29,7 +29,7 @@
 #'# 	# summaryvar = c("Stricta", "Pusilla", "Cactus",
 #'# 		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 #'# 		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-#'# 	popgroupvar = "Island", 
+#'# 	popvar = "Island", 
 #'# 	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
 #'# 		"Percent_Cover_Stricta", "Height_Stricta", 
 #'# 		"Old_Moth_Evidence_Stricta"),
@@ -49,7 +49,7 @@
 #'# 	population_data_summary	= patch_data_summary_wide, 
 #'# 	simulation_data		= simdata_all_re, 
 #'# 	sampgroupvar	= sampgroupvar, 
-#'# 	popgroupvar = popgroupvar,
+#'# 	popvar = popvar,
 #'# 	ovar			= ovar, 
 #'# 	rvar				= rvar
 #'# )
@@ -58,7 +58,7 @@
 #'# RE_values <- calcRE(
 #'# 	population_data = patch_data_summary_wide,
 #'# 	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,
-#'# 	popgroupvar = "population",
+#'# 	popvar = "population",
 #'# 	samplesizevar = "N.Total.plots_mean",
 #'# 	ovar = ovar,
 #'# 	rvar = rvar
@@ -67,7 +67,7 @@
 calcRE <- function(
 	MSE_ComparisonSamplingDesign,
 	popdata,
-	popgroupvar,
+	popvar,
 	samplesizevar,
 	rvar,
 	ovar
@@ -80,7 +80,7 @@ calcRE <- function(
 	}
 	# "long" format of mean MSE
 	orvar <- c(
-		popgroupvar,
+		popvar,
 		"samplesizevar",
 		paste(ovar, "_mean_MSE", sep=""),
 		paste(rvar, "_ratio_mean_MSE", sep="")		
@@ -89,7 +89,7 @@ calcRE <- function(
      A <- X %>% 
           select(!!!ORVAR) %>%
           pivot_longer(.,
-               -c(popgroupvar, "samplesizevar"),
+               -c(popvar, "samplesizevar"),
                names_to = "variable",
                values_to = "mean_MSE"
           )
@@ -100,7 +100,7 @@ calcRE <- function(
      )
 	# "long" format of population variance
 	poporvar <- c(
-          popgroupvar,
+          popvar,
           paste(ovar, "_var", sep=""),
           paste(rvar, "_ratio_var", sep=""),
           "N"
@@ -109,7 +109,7 @@ calcRE <- function(
 	B <- popdata %>% 
 		select(!!!POPORVAR) %>%			
 		pivot_longer(.,
-			-c(popgroupvar, "N"),
+			-c(popvar, "N"),
 			names_to="variable",
 			values_to="population_variance"
 		)	
@@ -119,7 +119,7 @@ calcRE <- function(
 		merge(
 			B, 
 			by=c(
-				popgroupvar, 
+				popvar, 
 				"variable"
 			)
 		)
@@ -135,7 +135,7 @@ calcRE <- function(
 	Z %<>%
 	dcast(
 		list(
-			c(popgroupvar, "N", "samplesizevar"),
+			c(popvar, "N", "samplesizevar"),
 			c("variable")
 		),
 		value.var="RE"

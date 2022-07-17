@@ -2,23 +2,23 @@
 
 #' @template SamplingDesign
 #' @template popdata
-#' @param sampling_seed
+#' @template seed
 #' @template n1
 #' @template yvar
 #' @template f_max
 #' 
 #' @noRd
 
-createSample <- function(SamplingDesign, popdata, sampling_seed, n1, yvar, f_max) {
+createSample <- function(SamplingDesign="ACS", popdata, seed, n1, yvar, f_max) {
    if (SamplingDesign=="ACS") {
       alldata <- createACS(
-         popdata=popdata, seed=sampling_seed, n1=n1, yvar=yvar)
+         popdata=popdata, seed=seed, n1=n1, yvar=yvar)
    } else if (SamplingDesign=="RACS") {
       alldata <- createRACS(
-         popdata=popdata, seed=sampling_seed, n1=n1, yvar=yvar, f_max=f_max)
+         popdata=popdata, seed=seed, n1=n1, yvar=yvar, f_max=f_max)
    } else if (SamplingDesign=="SRS") {
       alldata <- createSRS(
-         popdata=popdata, seed=sampling_seed, n1=n1)
+         popdata=popdata, seed=seed, n1=n1)
    }
    return(alldata)
 }
@@ -27,7 +27,7 @@ createSample <- function(SamplingDesign, popdata, sampling_seed, n1, yvar, f_max
 #' @template  SamplingDesign
 #' @param alldata NEED DEF
 #' @noRd
-prepDatasets <- function(SamplingDesign, alldata) {
+prepDatasets <- function(SamplingDesign="ACS", alldata) {
    if (SamplingDesign!="ACS" & SamplingDesign!="RACS") {
       # datasets to apply simple mean/variance/ratio estimator
       #dats <- "alldata"
@@ -51,6 +51,7 @@ prepDatasets <- function(SamplingDesign, alldata) {
 
 #' Fill m fields with NAs if statistics are not gathered
 #' 
+#' @param dat
 #' @noRd
 fillmCharNA <- function(dat) {
    dat$mean_m <- NA
@@ -66,6 +67,11 @@ fillmCharNA <- function(dat) {
 
 #' calculate statistics about m
 #' 
+#' @param dat
+#' @param results
+#' @param yvar
+#' @param popvar
+#' @param realvar
 #' @noRd
 fillmChar <- function(dat, results, yvar, popvar, realvar) {
    YVAR <- sym(yvar)
@@ -90,8 +96,16 @@ fillmChar <- function(dat, results, yvar, popvar, realvar) {
    results %>% cbind(prelim_results)
 }
 
-#' Save misc info about the
+#' Save misc info about the sample?
 #' 
+#' @param k
+#' @param tseed
+#' @param pop
+#' @param dat
+#' @template n1
+#' @param realvar
+#' @param popvar
+#' @param results
 #' @noRd
 addMiscInfo <- function(k, tseed, pop, dat, n1, realvar, popvar, results){
    results$simulation = k

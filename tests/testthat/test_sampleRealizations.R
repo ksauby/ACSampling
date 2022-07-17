@@ -12,7 +12,7 @@ rvar=NULL
 SamplingDesign="ACS"
 y_HT_formula = "y_HT"
 var_formula = "var_y_HT"
-mThreshold = NULL
+m_threshold = NULL
 f_max = 2
 SampleEstimators = FALSE
 SpatStat = TRUE
@@ -38,7 +38,7 @@ simulation_data <- sampleRealizations(
    yvar=yvar,
    y_HT_formula=y_HT_formula,
    var_formula=var_formula,
-   mThreshold=mThreshold,
+   m_threshold=m_threshold,
    f_max=f_max,
    SampleEstimators=SampleEstimators,
    SpatStat=SpatStat,
@@ -1193,7 +1193,7 @@ simulation_data_sample_estimators <- sampleRealizations(
    yvar=yvar,
    y_HT_formula=y_HT_formula,
    var_formula=var_formula,
-   mThreshold=mThreshold,
+   m_threshold=m_threshold,
    f_max=f_max,
    SampleEstimators=TRUE,
    SpatStat=SpatStat,

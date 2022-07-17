@@ -27,7 +27,9 @@ createRACS(
 
 \item{initsample}{Optional. A data frame that includes geographic coordinate columns \code{x} and \code{y} of the initial sample. The defaults is \code{NA}, which results in the initial sample being selected according to simple random sampling without replacement.}
 
-\item{f_max}{WHAT IS IT}
+\item{f_max}{The maximum number of expanding sets of adjacent units surveyed
+per primary unit in the adaptive phase of ACS. For more information, see 
+Sauby and Christman (in prep).}
 }
 \value{
 A restricted adaptive cluster sample.

@@ -7,7 +7,7 @@
 calcRE(
   MSE_ComparisonSamplingDesign,
   popdata,
-  popgroupvar,
+  popvar,
   samplesizevar,
   rvar,
   ovar
@@ -18,7 +18,7 @@ calcRE(
 
 \item{popdata}{Dataframe of population data.}
 
-\item{popgroupvar}{Categorical variable used to identify different populations.}
+\item{popvar}{Categorical variable used to identify different populations.}
 
 \item{samplesizevar}{Name of column in population data (?) containing the variable indicating variation in sample size.}
 
@@ -38,7 +38,7 @@ Calculate efficiency of sampling design, relative to WHAT.
 #  library(dplyr)
 # WHERE IS POP DATA FROM?
 # dimensions <- popdata \%>\% 
-# 	group_by_at(popgroupvar) \%>\%
+# 	group_by_at(popvar) \%>\%
 #	summarise(N = n())
 # variances of populations
 # CactusRealizationSummary <- calcPopSummaryStats(
@@ -46,7 +46,7 @@ Calculate efficiency of sampling design, relative to WHAT.
 # 	# summaryvar = c("Stricta", "Pusilla", "Cactus",
 # 		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 # 		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-# 	popgroupvar = "Island", 
+# 	popvar = "Island", 
 # 	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
 # 		"Percent_Cover_Stricta", "Height_Stricta", 
 # 		"Old_Moth_Evidence_Stricta"),
@@ -63,14 +63,14 @@ Calculate efficiency of sampling design, relative to WHAT.
 # 	population_data_summary	= patch_data_summary_wide, 
 # 	simulation_data		= simdata_all_re, 
 # 	sampgroupvar	= sampgroupvar, 
-# 	popgroupvar = popgroupvar,
+# 	popvar = popvar,
 # 	ovar			= ovar, 
 # 	rvar				= rvar
 # )
 # RE_values <- calcRE(
 # 	population_data = patch_data_summary_wide,
 # 	MSE_ComparisonSamplingDesign = simulation_data_summary_table_re,
-# 	popgroupvar = "population",
+# 	popvar = "population",
 # 	samplesizevar = "N.Total.plots_mean",
 # 	ovar = ovar,
 # 	rvar = rvar

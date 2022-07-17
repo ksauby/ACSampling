@@ -7,24 +7,26 @@
 estim_pi_i(
   popdata,
   sims,
-  nsamples,
+  n1_vec,
   SamplingDesign = "ACS",
   y_variable,
   f_max = NULL
 )
 }
 \arguments{
-\item{popdata}{Population data in the format XXXXXXXX}
+\item{popdata}{A data frame providing information about the population to be sampled. Required columns include geographic coordinate columns \code{x} and \code{y}, as well as a column containing the variable of interest, whose name is provided to the function via the \code{yvar} argument.}
 
 \item{sims}{Number of simulations per population.}
 
-\item{nsamples}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values}
+\item{n1_vec}{Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values.}
 
-\item{SamplingDesign}{Adaptive cluster sampling design (either "ACS" or "RACS").}
+\item{SamplingDesign}{A character string supplying the sampling design to use; accepted options include ACS" (unrestricted adaptive cluster sampling) and "RACS" (restricted ACS). The default is "ACS".}
 
-\item{y_variable}{Variable upon which adaptive cluster sampling criterion is based}
+\item{f_max}{The maximum number of expanding sets of adjacent units surveyed
+per primary unit in the adaptive phase of ACS. For more information, see 
+Sauby and Christman (in prep).}
 
-\item{f_max}{NEED DESCRIPTION HERE}
+\item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 }
 \value{
 Returns a dataframe with the following columns:

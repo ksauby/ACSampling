@@ -2,40 +2,62 @@
 % Please edit documentation in R/calculatePopSummaryStats.R
 \name{calcPopSummaryStats}
 \alias{calcPopSummaryStats}
-\title{summaryvar = ovar
-# WHAT WAS I THINK HERE? for grouping variables?
-popgroupvar = "n.networks" # c("n.networks", "realization")
-# create realizations
-x_start = 1
-x_end = 30
-y_start = 1
-y_end = 30
-n.networks = c(5, 15, 10, 20, 30, 40)
-n.realizations = 1
-SpeciesInfo = PlotSurveys_season1
-start.seed=1
-buffer=5
-rvar = c("CACA_on_Stricta", "CACA_on_Pusilla")
-cactus.realizations <- createRealizations(x_start, x_end,
-	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
-	ovar, "Cactus")
-patch_data_summary <- calcPopSummaryStats(popdata=cactus.realizations,
-	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)}
+\title{Calculate Summary Statistics for Patch Population Data}
 \usage{
 calcPopSummaryStats(
   popdata,
   summaryvar,
   rvar = NULL,
-  popgroupvar,
-  spatweights = "S",
+  popvar,
+  weights = "S",
   nrow,
   ncol
 )
 }
+\arguments{
+\item{popdata}{Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).}
+
+\item{summaryvar}{Vector of variables for which summary statistics should be calculated.}
+
+\item{rvar}{Vector of ratio variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
+
+\item{popvar}{Categorical variable used to identify different populations.}
+
+\item{weights}{A vector giving spatial weight matrix styles to use to calculate the Join Count and Moran's I
+statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See 
+\code{nb2listw} for more details.}
+
+\item{nrow}{the number of rows in the grid that creates the population}
+
+\item{ncol}{the number of columns in the grid that creates the population}
+}
+\value{
+A list of two dataframes, where the first dataframe includes network- and population-specific summary statistics about $m$, summarizes across unique networks as well as unique units within each population, and where the second list includes summary statistics about the \code{summaryvar}.
+}
 \description{
+Calculates summary statistics for patch population data, including summary statistics about $m$ (minimum, maximum, mean, and variance) for each network and population as a whole, and the number of networks with $m>1$.
+}
+\examples{
+library(magrittr)
+library(dplyr)
+ovar = c(
+	"Stricta",
+	"Pusilla",
+	"Cactus",
+	"CACA_on_Pusilla",
+	"CACA_on_Stricta",
+	"MEPR_on_Pusilla",
+	"MEPR_on_Stricta",
+	"Old_Moth_Evidence_Pusilla",
+	"Old_Moth_Evidence_Stricta",
+	"Percent_Cover_Pusilla", #how do I do these? they are occupancy nor abundance
+	"Percent_Cover_Stricta",
+	"Height_Pusilla",
+	"Height_Stricta"
+)
 summaryvar = ovar
 # WHAT WAS I THINK HERE? for grouping variables?
-popgroupvar = "n.networks" # c("n.networks", "realization")
+popvar = "n.networks" # c("n.networks", "realization")
 # create realizations
 x_start = 1
 x_end = 30
@@ -51,5 +73,5 @@ cactus.realizations <- createRealizations(x_start, x_end,
 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 	ovar, "Cactus")
 patch_data_summary <- calcPopSummaryStats(popdata=cactus.realizations,
-	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
+	summaryvar=ovar, popvar=popvar, nrow=30, ncol=30)
 }

@@ -1,16 +1,16 @@
 #' Calculate Joint Inclusion Probabilities Using Simulations
 
-#' @param popdata A data frame specifying the patch realizations. WHAT FORMAT SHOULD IT BE IN?
+#' @template popdata
 #' @param sims Number of simulations per population.
-#' @param nsamples Vector of initial sample size(s) for the initial simple random sample(s) without replacement; can be a single value or vector of values
-#' @param SamplingDesign Sampling design; ACS or RACS. Default value is "ACS."
-#' @param y_variable variable upon which adaptive cluster sampling criterion is based
-#' @param f_max Default value is NULL.
-#' @param popgroupvar variable identifying unique populations. Default value is NULL.
+#' @template n1_vec
+#' @template SamplingDesign_no_ACS
+#' @template yvar
+#' @template f_max
+#' @template popvar_default_null
 
 #' @description Calculate inclusion probabilities for each unit in a population using simulations.
 
-#' @return A list of nsamples and dat, BUT I DONT REMEMBER WHAT THOSE ARE.
+#' @return A list of n1_vec and dat, BUT I DONT REMEMBER WHAT THOSE ARE.
 
 #' @importFrom foreach %:% 
 #' @importFrom data.table as.data.table setnames
@@ -19,21 +19,21 @@
 estim_pi_ij <- function(
 	popdata, 
 	sims, 
-	nsamples, 
+	n1_vec, 
 	SamplingDesign="ACS",
 	y_variable,
 	f_max = NULL,
-	popgroupvar=NULL
+	popvar=NULL
 ) 
 {
 	pop <- i <- j <- Sampling <- . <- NetworkID <- NULL
 	TIME 			<- Sys.time()
-	popdata 		%<>% arrange(!! sym(popgroupvar))
-	if (popgroupvar != "pop") {
-		colnames(popdata)[which(names(popdata) == popgroupvar)] <- "pop"
+	popdata 		%<>% arrange(!! sym(popvar))
+	if (popvar != "pop") {
+		colnames(popdata)[which(names(popdata) == popvar)] <- "pop"
 	}
 	n.pop 			<- length(unique(popdata$pop))
-	nsample.length 	<- length(nsamples)
+	nsample.length 	<- length(n1_vec)
 	A 				<- vector("list", n.pop)
 	B 				<- vector("list", n.pop)
 	C = foreach (
@@ -61,7 +61,7 @@ estim_pi_ij <- function(
 		) %dopar% {
 			P <- popdata %>% filter(pop==unique(popdata$pop)[i])
 			N <- dim(P)[1]
-			n1 <- nsamples[j]
+			n1 <- n1_vec[j]
 			# save simulation attributes
 			A[[i]][[j]] <- list()
 			# save counts of joint inclusions
@@ -185,8 +185,8 @@ estim_pi_ij <- function(
 			c(
 				"dat",
 				paste(
-					"nsamples",
-					nsamples[j],
+					"n1_vec",
+					n1_vec[j],
 					"pop",
 					unique(popdata$pop)[i],
 					sep="_"
@@ -198,7 +198,7 @@ estim_pi_ij <- function(
 	newlist <- list()
 	for (i in 1:n.pop) {
 		for (j in 1:nsample.length) {
-			newlist[[k]] <- C[[i]][[j]][grep("nsamples", names(C[[i]][[j]]))]
+			newlist[[k]] <- C[[i]][[j]][grep("n1_vec", names(C[[i]][[j]]))]
 			k <- k + 1
 		}
 	}

@@ -15,12 +15,12 @@ sampleRealizations(
   yvar,
   y_HT_formula = "y_HT",
   var_formula = "var_y_HT",
-  mThreshold = NULL,
+  m_threshold = NULL,
   f_max = 2,
   SampleEstimators = FALSE,
   SpatStat = TRUE,
   mChar = TRUE,
-  popvar = "n.networks",
+  popvar,
   realvar = "realization",
   weights = "S",
   seeds = NA
@@ -39,9 +39,7 @@ sampleRealizations(
 
 \item{rvar}{Vector of ratio variables. The total vector of variables (\code{c(avar, ovar, rvar)}) should be a length of at least 1.}
 
-\item{SamplingDesign}{Whether simple random sampling (SRS), unrestricted 
-adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be 
-performed; defaults to \code{ACS}.}
+\item{SamplingDesign}{A character string supplying the sampling design to use; accepted options included "SRS" (simple random sampling), "ACS" (unrestricted adaptive cluster sampling), and "RACS" (restricted ACS). The default is "ACS".}
 
 \item{yvar}{A string giving the name of the variable of interest, \eqn{y}, in the supplied dataframe \eqn{popdata}. This variable determines the condition under which adaptive cluster sampling takes place. In the dataframe $popdata$ this variable \eqn{y} must be numeric.}
 
@@ -54,9 +52,11 @@ population total: either the Horvitz-Thompson variance estimator, 'var_y_HT',
 or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." 
 Defaults to "var_y_HT".}
 
-\item{mThreshold}{Default is NULL. OPTIONS}
+\item{m_threshold}{threshold value above which to calculate \eqn{pi_i} and \eqn{pi_j} differently.}
 
-\item{f_max}{Default is 2. OPTIONS}
+\item{f_max}{The maximum number of expanding sets of adjacent units surveyed
+per primary unit in the adaptive phase of ACS. For more information, see 
+Sauby and Christman (in prep).}
 
 \item{SampleEstimators}{If "TRUE", calculate the sample mean and sample 
 variance for each simulation. Default is FALSE.}
@@ -70,14 +70,14 @@ statistics (median, mean, min, and max) for the sample's m values. Also, for
 each simulation and for the set of unique m values, calculate the same 
 summary statistics. If "FALSE," no summary statistics are calculated.}
 
-\item{popvar}{Variable identifying each population. Default is "n.networks"}
+\item{popvar}{Categorical variable used to identify different populations.}
 
 \item{realvar}{Variable identifying each realization. Default is "realization"}
 
-\item{weights}{TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving 
+\item{weights}{If SpatStat is "TRUE", this is a vector giving 
 spatial weight matrix styles to use to calculate the Join Count and Moran's I
  statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See 
- nb2listw for more details.}
+ \code{nb2listw} for more details.}
 
 \item{seeds}{Vector of numbers to be used to set random seeds. HOW TO 
 CALCULATE HOW MANY NEEDED?}

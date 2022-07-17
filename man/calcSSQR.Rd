@@ -4,14 +4,15 @@
 \alias{calcSSQR}
 \title{Calculate SSQ_R}
 \usage{
-calcSSQR(popdata, variable, popgroupvar = NA)
+calcSSQR(popdata, variable, popvar = NULL)
 }
 \arguments{
 \item{popdata}{Information about the populations of interest. MORE DETAIL ABOUT STRUCTURE OF THIS.}
 
 \item{variable}{Variable for which to calculate SSQr.}
 
-\item{popgroupvar}{Categorical variable used to identify different populations.}
+\item{popvar}{A character string (OR VECTOR??) used to identify different populations.
+The default value is NULL.}
 }
 \value{
 Dataframe including original data and RE estimates.
@@ -27,10 +28,10 @@ temp <- Thompson1990Fig1Pop \%>\%
 	mutate(pop = 1)
 popdata <- temp
 variable <- "y_value"
-popgroupvar <- "pop"
-# calcSSQR(popdata, variable, popgroupvar)
-popgroupvar <- NA
-# calcSSQR(popdata, variable, popgroupvar)
+popvar <- "pop"
+# calcSSQR(popdata, variable, popvar)
+popvar <- NA
+# calcSSQR(popdata, variable, popvar)
 }
 \references{
 \insertRef{su2003estimator}{ACSampling}

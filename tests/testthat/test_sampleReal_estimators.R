@@ -47,7 +47,7 @@ test_that("test calcPopSummaryStats", {
    CactusRealizationSummary <- calcPopSummaryStats(
       popdata,
       summaryvar = "y_value",
-      popgroupvar = "pop",
+      popvar = "pop",
       rvar = NULL,
       nrow = 20,
       ncol = 20
@@ -125,7 +125,7 @@ test_that("test yHTMultVarCalc, y_HT", {
       )
    )
    
-   mThreshold = 2
+   m_threshold = 2
    OAVAR <- syms(c("Cactus", "Stricta"))
    
    yHTMultVarCalc_est <- yHTMultVarCalc(
@@ -163,7 +163,7 @@ test_that("test varyMultVarCalc, var_y_HT_RACS", {
       )
    )
    
-   mThreshold = 2
+   m_threshold = 2
    OAVAR <- syms(c("Cactus", "Stricta"))
    
    varyMultVarCalc_est <-

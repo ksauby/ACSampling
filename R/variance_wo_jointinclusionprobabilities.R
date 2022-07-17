@@ -73,7 +73,7 @@ var_Hajek <- function(n, y, pi_i_values) {
 
 var_pi <- function(n, y, pi_i_values, estimator) {
 	if (estimator == "Hajek") {
-		lambda_i_values <- alpha_i_values <- Hajek(pi_i_values, n)
+		lambda_i_values <- alpha_i_values <- Hajek_b(pi_i_values, n)
 	}
 	
 	B_hat <- sum(lambda_i_values * y/pi_i_values) / 
@@ -107,7 +107,7 @@ var_pi <- function(n, y, pi_i_values, estimator) {
 
 
 var_Tille <- function(n, y, pi_i_values) {
-	b_k <- Hajek(pi_i_values, n=n)
+	b_k <- Hajek_b(pi_i_values, n=n)
 	# get the matrix of values by multiplying the vector by itself, 
 	#	THEN set diagnonal to zero, 
 	#	THEN set lower triangle to zero so that we are not counting pairwise combos of k and l twice

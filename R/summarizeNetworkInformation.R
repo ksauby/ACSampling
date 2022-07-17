@@ -1,8 +1,8 @@
 #' Calculate the number of units per network and the unit inclusion probability for each network FOR A SINGLE POPULATION
-#' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each unit, given the size of its associated network and sample size (\code{nsamples}) and (2) for each of the \code{variables}, the sum of the values of that variable for each network.
+#' @description The purpose of this is to reduce computation time by calculating some necessary information before the data is bootstrapped. The function calculates (1) $pi_i$ (the unit inclusion probability) for each unit, given the size of its associated network and sample size (\code{n1_vec}) and (2) for each of the \code{variables}, the sum of the values of that variable for each network.
 #' @param popdata population data.
 #' @param vars variables to summarise
-#' @param popgroupvar categories that group networks
+#' @template popvar_default_null
 #' @template n1_vec
 #' @template yvar
 #' @return The population data (one row per cell of each population), with additional columns indicating $pi_i$ for each network and (\code{n1}) and the number of units per network for each of the \code{vars}. WHERE the value of the var is greater than zero?
@@ -11,7 +11,7 @@
 #' @export
 #' @importFrom dplyr funs summarise_all
 
-summarizeNetworkInfo <- function(popdata, vars, popgroupvar=NULL, n1_vec, yvar) {
+summarizeNetworkInfo <- function(popdata, vars, popvar=NULL, n1_vec, yvar) {
 	
      handleError_variable(vars, "vars")
      
@@ -21,9 +21,9 @@ summarizeNetworkInfo <- function(popdata, vars, popgroupvar=NULL, n1_vec, yvar) 
 	# calculate the number of units per network for each variable
 	Networks <- popdata %>%
 		# select these columns
-		.[, c(vars, "NetworkID", popgroupvar, "m")] %>%
+		.[, c(vars, "NetworkID", popvar, "m")] %>%
 		# group_by these columns
-		group_by_at(c("NetworkID", popgroupvar, "m")) %>%
+		group_by_at(c("NetworkID", popvar, "m")) %>%
 		# calculate the sum of the remaining columns (the "vars" columns)
 		summarise_all(list(~sum(., na.rm=T)))
 	m <- paste("Networks$", yvar, sep="")

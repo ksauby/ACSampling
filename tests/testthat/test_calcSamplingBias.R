@@ -70,7 +70,7 @@ test_that("calcDiffMeans", {
 # })
 # 
 # calcSamplingBias
-# popgroupvar	<- c("population")
+# popvar	<- c("population")
 # sampgroupvar <- c("N.SRSWOR.plots", "SamplingDesign", "Plots")
 # 
 # 

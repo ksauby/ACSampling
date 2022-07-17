@@ -2,9 +2,9 @@
 #' 
 #' @param popdata Data on multiple realizations of patches of the species of interest within the grid of locations (created by \code{createSpeciesPatchPopulations} function).
 #' @param summaryvar Vector of variables for which summary statistics should be calculated.
-#' @template popgroupvar
+#' @template popvar
 #' @template rvar
-#' @param spatweights Vector of spatial weight matrix styles. Can take on values "W", "B", "C", "U", "S", and "minmax". See \code{nb2listw} for more details.
+#' @template weights_no_SpatStat_arg
 #' @param nrow the number of rows in the grid that creates the population
 #' @param ncol the number of columns in the grid that creates the population
 #' @description Calculates summary statistics for patch population data, including summary statistics about $m$ (minimum, maximum, mean, and variance) for each network and population as a whole, and the number of networks with $m>1$.
@@ -21,24 +21,24 @@
 #' @examples
 #' library(magrittr)
 #' library(dplyr)
-ovar = c(
-	"Stricta",
-	"Pusilla",
-	"Cactus",
-	"CACA_on_Pusilla",
-	"CACA_on_Stricta",
-	"MEPR_on_Pusilla",
-	"MEPR_on_Stricta",
-	"Old_Moth_Evidence_Pusilla",
-	"Old_Moth_Evidence_Stricta",
-	"Percent_Cover_Pusilla", #how do I do these? they are occupancy nor abundance
-	"Percent_Cover_Stricta",
-	"Height_Pusilla",
-	"Height_Stricta"
-)
+#' ovar = c(
+#' 	"Stricta",
+#' 	"Pusilla",
+#' 	"Cactus",
+#' 	"CACA_on_Pusilla",
+#' 	"CACA_on_Stricta",
+#' 	"MEPR_on_Pusilla",
+#' 	"MEPR_on_Stricta",
+#' 	"Old_Moth_Evidence_Pusilla",
+#' 	"Old_Moth_Evidence_Stricta",
+#' 	"Percent_Cover_Pusilla", #how do I do these? they are occupancy nor abundance
+#' 	"Percent_Cover_Stricta",
+#' 	"Height_Pusilla",
+#' 	"Height_Stricta"
+#' )
 #' summaryvar = ovar
 #' # WHAT WAS I THINK HERE? for grouping variables?
-#' popgroupvar = "n.networks" # c("n.networks", "realization")
+#' popvar = "n.networks" # c("n.networks", "realization")
 #' # create realizations
 #' x_start = 1
 #' x_end = 30
@@ -54,29 +54,29 @@ ovar = c(
 #' 	y_start, y_end, buffer, n.networks, n.realizations, SpeciesInfo, start.seed,
 #' 	ovar, "Cactus")
 #' patch_data_summary <- calcPopSummaryStats(popdata=cactus.realizations,
-#' 	summaryvar=ovar, popgroupvar=popgroupvar, nrow=30, ncol=30)
+#' 	summaryvar=ovar, popvar=popvar, nrow=30, ncol=30)
 
 calcPopSummaryStats <- function(
       popdata, 
       summaryvar, 
       rvar=NULL, 
-      popgroupvar,
-      spatweights="S",
+      popvar,
+      weights="S",
       nrow,
       ncol
 ) {
-   handleError_var_in_df(popgroupvar, popdata)
+   handleError_var_in_df(popvar, popdata)
    handleError_var_in_df(summaryvar, popdata)
    
-   POPVAR <- sym(popgroupvar)
+   POPVAR <- sym(popvar)
    
    popdata %<>% arrange(!!POPVAR)
-   # for each popgroupvar combo, calculate summary statistics for m and number of species patches
+   # for each popvar combo, calculate summary statistics for m and number of species patches
    # this calculates the m statistics for the unique Network sizes
    Y1 <- popdata %>%
-      group_by_at(c("NetworkID", popgroupvar)) %>%
+      group_by_at(c("NetworkID", popvar)) %>%
       summarise(m = .data$m[1]) %>%
-      group_by_at(popgroupvar) %>%
+      group_by_at(popvar) %>%
       summarise(
          networks_m_min = min(.data$m),
          networks_m_max = max(.data$m),
@@ -89,7 +89,7 @@ calcPopSummaryStats <- function(
       as.data.frame
    # this calculates the m statistics for all units
    Y2 = popdata %>%
-      group_by_at(popgroupvar) %>%
+      group_by_at(popvar) %>%
       summarise(
          units_m_mean = mean(.data$m),
          units_m_var = popVar(.data$m)
@@ -97,13 +97,13 @@ calcPopSummaryStats <- function(
       ungroup %>%
       as.data.frame
    Z = popdata %>%
-      group_by_at(popgroupvar) %>%
+      group_by_at(popvar) %>%
       summarise(N = length(.data$m)) %>%
       ungroup %>%
       as.data.frame
    Y1 %<>% 
-      merge(Y2, by=popgroupvar) %>%
-      merge(Z, by=popgroupvar)
+      merge(Y2, by=popvar) %>%
+      merge(Z, by=popvar)
    for (i in 1:length(summaryvar)) {
       names(Y1) <- ifelse(
          names(Y1) %in% summaryvar[i],
@@ -113,12 +113,12 @@ calcPopSummaryStats <- function(
    }
    # spatial statistics and other characteristics of variables
    A <- list()
-   popvar <- paste(
+   popvar_full <- paste(
       "popdata$", 
-      popgroupvar, 
+      popvar, 
       sep=""
    )
-   for (i in 1:length(unique(eval(parse(text=popvar))))) {
+   for (i in 1:length(unique(eval(parse(text=popvar_full))))) {
       temp <- popdata %>%
          filter(!!POPVAR == unique(!!POPVAR)[i])
       temp %<>% arrange(.data$x,.data$y)
@@ -144,7 +144,7 @@ calcPopSummaryStats <- function(
          A[[i]][[j]]$SSQ_R <- calcSSQR(
             popdata = as.data.frame(temp),
             variable = summaryvar[j],
-            popgroupvar
+            popvar
          )$SSQ_R
          # for join counts and moran's i, change NAs in rvar's to zeros
          t2 <- temp
@@ -155,20 +155,20 @@ calcPopSummaryStats <- function(
          }
          if (sum(temp[[summaryvar[j]]]) > 0) {
             A[[i]][[j]] %<>% cbind(
-               calcSpatStats(t2, spatweights, summaryvar[j])
+               calcSpatStats(t2, weights, summaryvar[j])
             )
                   # NEED TO FIGURE OUT HOW TO GET RID OF NAs
                   # OR CAN YOU JUST NOT DO JOINT COUNT TEST FOR RVAR
                   # Get this error: Error in joincount.test(as.factor(eval(parse(text = paste("t2$", summaryvar[j],  :   objects of different length
          } else {
-            fillSpatStatsNA(t2, spatweights)
+            fillSpatStatsNA(t2, weights)
          }
       }
       A[[i]] <- do.call(rbind.fill, A[[i]])
       A[[i]]$population <- unique(eval(parse(
          text=paste(
             "popdata$", 
-            popgroupvar, 
+            popvar, 
             sep=""
          )
       )))[i]

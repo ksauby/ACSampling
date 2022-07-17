@@ -9,7 +9,10 @@ calcSpatStats(alldata_all, weights, yvar)
 \arguments{
 \item{alldata_all}{NEED TO DESCRIBE.}
 
-\item{weights}{String identifying the weight to use. See REFERENCE FOR?}
+\item{weights}{If SpatStat is "TRUE", this is a vector giving 
+spatial weight matrix styles to use to calculate the Join Count and Moran's I
+ statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See 
+ \code{nb2listw} for more details.}
 }
 \description{
 Calculate Spatial Statistics

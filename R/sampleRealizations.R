@@ -7,32 +7,25 @@
 #' @template avar
 #' @template ovar
 #' @template rvar
-#' @param SamplingDesign Whether simple random sampling (SRS), unrestricted 
-#' adaptive cluster sampling ("ACS"), or restricted ACS ("RACS") should be 
-#' performed; defaults to \code{ACS}.
-#' @param y_HT_formula The formula used to estimate the population total: 
-#' either the Horvitz-Thompson estimator, 'y_HT,' or or the RACS-corrected 
-#' Horvitz-Thompson estimator, 'y_HT_RACS'.
+#' @template SamplingDesign
+#' @template y_HT_formula
 #' @param var_formula The formula used to estimate the variance of the 
 #' population total: either the Horvitz-Thompson variance estimator, 'var_y_HT',
 #' or the RACS-corrected Horvitz-Thompson variance estimator, "var_y_HT_RACS." 
 #' Defaults to "var_y_HT".
-#' @param mThreshold Default is NULL. OPTIONS
-#' @param f_max Default is 2. OPTIONS
+#' @template m_threshold
+#' @template f_max
 #' @param SampleEstimators If "TRUE", calculate the sample mean and sample 
 #' variance for each simulation. Default is FALSE.
 #' @param SpatStat TRUE or FALSE. If "TRUE", for each simulation calculate 
 #' Moran's I, and the nugget, sill, and range of the semivariogram. Default is 
 #' TRUE.
-#' @param weights TRUE or FALSE. If SpatStat is "TRUE", this is a vector giving 
-#' spatial weight matrix styles to use to calculate the Join Count and Moran's I
-#'  statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See 
-#'  nb2listw for more details.
+#' @template weights
 #' @param mChar TRUE or FALSE. If "TRUE", for each simulation calculate summary 
 #' statistics (median, mean, min, and max) for the sample's m values. Also, for 
 #' each simulation and for the set of unique m values, calculate the same 
 #' summary statistics. If "FALSE," no summary statistics are calculated.
-#' @param popvar Variable identifying each population. Default is "n.networks"
+#' @template popvar
 #' @param realvar Variable identifying each realization. Default is "realization"
 #' @param seeds Vector of numbers to be used to set random seeds. HOW TO 
 #' CALCULATE HOW MANY NEEDED?
@@ -101,12 +94,12 @@ sampleRealizations <- function(
    yvar,
    y_HT_formula = "y_HT",
    var_formula = "var_y_HT",
-   mThreshold = NULL,
+   m_threshold = NULL,
    f_max = 2,
    SampleEstimators = FALSE,
    SpatStat = TRUE,
    mChar = TRUE,
-   popvar = "n.networks",
+   popvar,
    realvar = "realization",
    weights="S",
    seeds = NA
@@ -244,7 +237,7 @@ sampleRealizations <- function(
                ################ HORVITZ-THOMPSON ESTIMATORS ##########
                HTres <- list()
                HTres[[1]] <- yHTMultVarCalc(
-                  alldata, OAVAR, N, n1, m, mThreshold, y_HT_formula)
+                  alldata, OAVAR, N, n1, m, m_threshold, y_HT_formula)
                HTres[[2]] <- varyMultVarCalc(alldata, OAVAR, var_formula, N, n1)
                # RATIO DATA
                if (!(is.null(rvar))) {
@@ -291,7 +284,7 @@ sampleRealizations <- function(
          do.call(rbind.data.frame, A[[i]][[j]])
       }
    Z$f_max = f_max
-   Z$mThreshold = mThreshold
+   Z$m_threshold = m_threshold
    Z$nSims = sims
    Z$SimDate = format(Sys.time(), "%m-%d-%y")
    Z$y_HT_formula = y_HT_formula

@@ -1,1 +1,0 @@
-#' @param popgroupvar Categorical variable used to identify different populations.

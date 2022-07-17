@@ -12,7 +12,7 @@
 #' #	summaryvar = c("Stricta", "Pusilla", "Cactus",
 #' #		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 #' #		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-#' #	popgroupvar = "population", 
+#' #	popvar = "population", 
 #' #	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
 #' #		"Percent_Cover_Stricta", "Height_Stricta", 
 #' #		"Old_Moth_Evidence_Stricta"),

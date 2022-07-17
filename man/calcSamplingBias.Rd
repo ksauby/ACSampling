@@ -7,7 +7,7 @@
 calcSamplingBias(
   popdatasummary,
   simdata,
-  popgroupvar,
+  popvar,
   samplinggroupvar,
   ovar,
   orvar,
@@ -19,7 +19,7 @@ calcSamplingBias(
 
 \item{simdata}{Simulation data on sampling of the multiple patch realizations.}
 
-\item{popgroupvar}{Categorical variable used to identify different populations.}
+\item{popvar}{Categorical variable used to identify different populations.}
 
 \item{samplinggroupvar}{Categorical variable used to identify different samples.}
 
@@ -51,7 +51,7 @@ cactus.realizations = createRealizations(x_start, x_end,
 
 # Sample from the realizations
 simulations=1
-nsamples=c(5,10,20,40)
+n1_vec=c(5,10,20,40)
 population <- createPop(x_start = 1, x_end = 30, y_start = 1, 
 	y_end = 30)
 abundance.variables = NULL
@@ -72,7 +72,7 @@ occupancy.variables = c(
 )		
 patch_data = cactus.realizations
 # simdata <- sampleSpeciesPatchRealizations(patch_data, simulations, 
-#	nsamples, population, abundance.variables, occupancy.variables)
+#	n1_vec, population, abundance.variables, occupancy.variables)
 
 # summary.variables = occupancy.variables
 # grouping.variables = c("n.networks", "realization")
@@ -106,7 +106,7 @@ popdata = cactus.realizations
 #	summaryvar = c("Stricta", "Pusilla", "Cactus",
 #		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 #		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-#	popgroupvar = "population", 
+#	popvar = "population", 
 #	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
 #		"Percent_Cover_Stricta", "Height_Stricta", 
 #		"Old_Moth_Evidence_Stricta"),
@@ -123,7 +123,7 @@ popdata = cactus.realizations
 #	popdatasummary	= patch_data_summary_wide, 
 #	simdata		= simdata_all_re, 
 #	sampgroupvar	= sampgroupvar, 
-#	popgroupvar = popgroupvar,
+#	popvar = popvar,
 #	ovar			= ovar, 
 #	rvar				= rvar
 #)

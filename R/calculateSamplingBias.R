@@ -125,13 +125,13 @@ calcBiasComponents	<- function(dataframe, resultslist, V) {
 	}
 	return(resultslist)
 }
-calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar) {
+calcMeanObsMeans <- function(dataframe, V, nsims, popvar, samplinggroupvar) {
 	temp <- dataframe %>% 
 		group_by_at(c(
-			popgroupvar, samplinggroupvar, "n_sims"
+			popvar, samplinggroupvar, "n_sims"
 		))
 	C <- vector("list", length(V))
-	# for each of the popgroupvar and samplinggroupvar, calculate:
+	# for each of the popvar and samplinggroupvar, calculate:
 	#	mean of observed means
 	#	sample size used for those calculations
 	for (i in 1:length(V)) {
@@ -157,13 +157,13 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 	D <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(popgroupvar, samplinggroupvar, "n_sims")
+			by=c(popvar, samplinggroupvar, "n_sims")
 		),
 		C
 	)
 	dataframe %<>% merge(
 		D, 
-		by=c(popgroupvar, samplinggroupvar,"n_sims")
+		by=c(popvar, samplinggroupvar,"n_sims")
 	)
 	return(dataframe)
 }
@@ -172,7 +172,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 #' 
 #' @param popdatasummary Summary statistics on the species patch realizations of patches (created by \code{calculateRealizationSummaryStatistics} function).
 #' @param simdata Simulation data on sampling of the multiple patch realizations.
-#' @template popgroupvar
+#' @template popvar
 #' @template samplinggroupvar
 #' @template ovar
 #' @param orvar Vector of variables for which secondary variables should be estimated. Can be identical to \code{ovar} or a subset.
@@ -198,7 +198,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 #' 
 #' # Sample from the realizations
 #' simulations=1
-#' nsamples=c(5,10,20,40)
+#' n1_vec=c(5,10,20,40)
 #' population <- createPop(x_start = 1, x_end = 30, y_start = 1, 
 #' 	y_end = 30)
 #' abundance.variables = NULL
@@ -219,7 +219,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 #' )		
 #' patch_data = cactus.realizations
 #' # simdata <- sampleSpeciesPatchRealizations(patch_data, simulations, 
-#' #	nsamples, population, abundance.variables, occupancy.variables)
+#' #	n1_vec, population, abundance.variables, occupancy.variables)
 #' 
 #' # summary.variables = occupancy.variables
 #' # grouping.variables = c("n.networks", "realization")
@@ -255,7 +255,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 #'#	summaryvar = c("Stricta", "Pusilla", "Cactus",
 #'#		"MEPR_on_Stricta", "CACA_on_Stricta", "Percent_Cover_Stricta", 
 #'#		"Height_Stricta", "Old_Moth_Evidence_Stricta"), 
-#'#	popgroupvar = "population", 
+#'#	popvar = "population", 
 #'#	rvar = c("MEPR_on_Stricta", "CACA_on_Stricta", 
 #'#		"Percent_Cover_Stricta", "Height_Stricta", 
 #'#		"Old_Moth_Evidence_Stricta"),
@@ -275,7 +275,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 #'#	popdatasummary	= patch_data_summary_wide, 
 #'#	simdata		= simdata_all_re, 
 #'#	sampgroupvar	= sampgroupvar, 
-#'#	popgroupvar = popgroupvar,
+#'#	popvar = popvar,
 #'#	ovar			= ovar, 
 #'#	rvar				= rvar
 #'#)
@@ -288,7 +288,7 @@ calcMeanObsMeans <- function(dataframe, V, nsims, popgroupvar, samplinggroupvar)
 calcSamplingBias <- function(
 	popdatasummary, 
 	simdata, 
-	popgroupvar, 
+	popvar, 
 	samplinggroupvar,
 	ovar,
 	orvar,
@@ -300,7 +300,7 @@ calcSamplingBias <- function(
 	A <- merge(
 		popdatasummary, 
 		simdata, 
-		by=popgroupvar
+		by=popvar
 	)
 	# ------------------------------------------------------------------------ #
 	# OCCUPANCY Vars	
@@ -309,7 +309,7 @@ calcSamplingBias <- function(
 
 	# add number of simulations to dataset
 	B %<>% 
-		group_by_at(c(popgroupvar, samplinggroupvar)) %>%
+		group_by_at(c(popvar, samplinggroupvar)) %>%
 		mutate(n_sims = n())
 	
 	B %<>% calcMeanObsMeans(dataframe=B, V=ovar)
@@ -341,7 +341,7 @@ calcSamplingBias <- function(
 	H <- vector("list", length(ovar))
 	X.grp <- B %>% 
 		group_by_at(c(
-			popgroupvar, 
+			popvar, 
 			samplinggroupvar, 
 			"n_sims"
 		)) %>% 
@@ -351,7 +351,7 @@ calcSamplingBias <- function(
 		function(x, y) merge(
 			x, y,
 			by=c(
-				popgroupvar, 
+				popvar, 
 				samplinggroupvar, 
 				"n_sims"
 			)
@@ -370,7 +370,7 @@ calcSamplingBias <- function(
 	
 	X.grp <- E %>% 
 		group_by_at(c(
-			popgroupvar, 
+			popvar, 
 			samplinggroupvar, 
 			"n_sims"
 		)) %>% 
@@ -378,14 +378,14 @@ calcSamplingBias <- function(
 	Z <- Reduce(
 		function(x, y) merge(
 			x, y,
-			by=c(popgroupvar, samplinggroupvar, "n_sims")
+			by=c(popvar, samplinggroupvar, "n_sims")
 		),
 		X.grp
 	) %>%
 		rename("rvar_n_sims" = "n_sims")
 	Y %<>% merge(Z, 
 		by=c(
-			popgroupvar, 
+			popvar, 
 			samplinggroupvar
 		),
 		all=T
