@@ -27,7 +27,7 @@ summarizeNetworkInfo <- function(popdata, vars, popvar=NULL, n1_vec, yvar) {
 		# select these columns
 		.[, c(vars, "NetworkID", popvar, "m")] %>%
 		# group_by these columns
-		group_by(!!VARS, !!NETWORKID, !!POPVAR, !!M_) %>%
+		group_by(!!NETWORKID, !!POPVAR, !!M_) %>%
 		# calculate the sum of the remaining columns (the "vars" columns)
 		summarise_all(list(~sum(., na.rm=T)))
 	m <- paste("Networks$", yvar, sep="")

@@ -48,35 +48,33 @@ calcBiasComponents	<- function(dataframe, resultslist, V) {
 	for (i in 1:length(V)) {
 		resultslist[[i]] <- list()
 		VAR <- sym(paste0(V[i], "TrueMean"))
-		var_observed <- sym(paste0(V[i], "MeanObs"))
-		varMeanObs_True2 <- sym(paste0(V[i], "MeanObs_True2"))
-		varVarObs <- sym(paste0(V[i], "VarObs"))
+		OBSMEAN <- sym(paste0(V[i], "MeanObs"))
+		OBSMEAN_TRUE2 <- sym(paste0(V[i], "MeanObs_True2"))
+		OBSVAR <- sym(paste0(V[i], "VarObs"))
 		resultslist[[i]] <- dataframe %>%
 			summarise(
 				# save true mean
 				TrueMean = var(!!VAR)[1],
-				MeanOfObsMean = mean(!!var_observed, na.rm=TRUE),
-				RB_n = length(!is.na(!!var_observed)),
-				MSESumObs_True2 = sum(!!VarMeanObsMinusTrue2, na.rm = TRUE), 
-				MSESampleSize = length(!is.na(!!VarMeanObsMinusTrue2)),
+				MeanOfObsMean = mean(!!OBSMEAN, na.rm=TRUE),
+				RB_n = length(!is.na(!!OBSMEAN)),
+				MSESumObs_True2 = sum(!!OBSMEAN_TRUE2, na.rm = TRUE), 
+				MSESampleSize = length(!is.na(!!OBSMEAN_TRUE2)),
 				# for var_RB:
 				#  calculate mean of simulated HT variance estimates
-				MeanOfVarEst = mean(!!varVarObs, na.rm = TRUE), 
+				MeanVarEst = mean(!!OBSVAR, na.rm = TRUE), 
 				#  sample size used to calc mean of simulated HT variance estimates
-				MeanOfVarEst_n = length(!is.na(!!varVarObs)),
+				MeanVarEst_n = length(!is.na(!!OBSVAR)),
 				#  calculate variance of MeanObs
-				VarOfMeanEst = var(!!var_observed, na.rm = TRUE),
+				VarMeanEst = var(!!OBSMEAN, na.rm = TRUE),
 				#  calculate sample size used to calculate variance of MeanObs
-				VarOfMeanEst_n = length(!is.na(!!var_observed))
+				VarMeanEst_n = length(!is.na(!!OBSMEAN))
 			)
 		resultslist[[i]] %<>% 
 			mutate(
-				RB = 100 * 
-					(.data$MeanOfObsMean - .data$TrueMean) / .data$TrueMean,
+				RB = 100 * (.data$MeanOfObsMean - .data$TrueMean) / .data$TrueMean,
 				MSE = .data$MSESumObs_True2/.data$MSESampleSize,
-				var_RB = 100 *
-					(.data$MeanOfVarEst - .data$VarOfMeanEst) / .data$VarOfMeanEst,
-				var_RB_n = min(.data$MeanOfVarEst_n, .data$VarOfMeanEst_n)
+				var_RB = (.data$MeanVarEst - .data$VarMeanEst)/.data$VarMeanEst,
+				var_RB_n = min(.data$MeanVarEst_n, .data$VarMeanEst_n)
 			)
 		cnames <- c(
       		paste(V[i], "TrueMean", sep=""),
@@ -102,10 +100,10 @@ calcBiasComponents	<- function(dataframe, resultslist, V) {
 			dplyr::select(-c(
 				.data$MeanOfObsMean,
 				.data$MSESumObs_True2,
-				.data$MeanOfVarEst,
-				.data$MeanOfVarEst_n,
-				.data$VarOfMeanEst,
-				.data$VarOfMeanEst_n
+				.data$MeanVarEst,
+				.data$MeanVarEst_n,
+				.data$VarMeanEst,
+				.data$VarMeanEst_n
 			))
 	}
 	return(resultslist)
