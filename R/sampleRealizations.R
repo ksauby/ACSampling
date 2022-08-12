@@ -27,8 +27,7 @@
 #' summary statistics. If "FALSE," no summary statistics are calculated.
 #' @template popvar
 #' @param realvar Variable identifying each realization. Default is "realization"
-#' @param seeds Vector of numbers to be used to set random seeds. HOW TO 
-#' CALCULATE HOW MANY NEEDED?
+#' @param seeds A number to set random seeds, if a goal is the ability to reproduce the random sampling.
 
 #' @description This function simulates sampling of multiple realizations of 
 #' patches of the species of interest within the grid of locations created with 
@@ -102,7 +101,7 @@ sampleRealizations <- function(
    popvar,
    realvar = "realization",
    weights="S",
-   seeds = NA
+   seed = NA
 ) 
 {
    handleError_popdata(popdata)
@@ -185,9 +184,8 @@ sampleRealizations <- function(
          n1 <- n1_vec[j]
          A[[i]][[j]] <- list()
          #r <- (i - 1) * j + j
-         if (!all(is.na(seeds))) {
-            tseed1 <- (i-1)*(nsample.length) + j
-            set.seed(tseed1)
+         if (!is.na(seed)) {
+            set.seed(seed)
             sim_seeds <- runif(sims)
          } else {
             sim_seeds <- runif(sims)

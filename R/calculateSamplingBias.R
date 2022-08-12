@@ -108,6 +108,7 @@ calcBiasComponents	<- function(dataframe, resultslist, V) {
 	}
 	return(resultslist)
 }
+
 calcMeanObsMeans <- function(dataframe, V, nsims, popvar, samplinggroupvar) {
    POPVAR <- sym(popvar)
    SAMPLINGGROUPVAR <- sym(samplinggroupvar)

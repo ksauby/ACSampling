@@ -95,34 +95,14 @@ createACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NA) {
 		) %>%
 		rowwise() %>%
 		mutate(xy = paste(
-			str_pad(
-				.data$x,
-				nchar(max(popdata$x)),
-				"0",
-				side="left"
-			),
-			str_pad(
-				.data$y,
-				nchar(max(popdata$y)),
-				"0",
-				side="left"
-			)
+			str_pad(.data$x, nchar(max(popdata$x)), "0", side="left"),
+			str_pad(.data$y, nchar(max(popdata$y)), "0", side="left" )
 		)) %>%
 		ungroup()
 		Z %<>% 
 			mutate(xy = paste(
-				str_pad(
-					.data$x,
-					nchar(max(popdata$x)),
-					"0",
-					side="left"
-				),
-				str_pad(
-					.data$y,
-					nchar(max(popdata$y)),
-					"0",
-					side="left"
-				)
+				str_pad(.data$x, nchar(max(popdata$x)), "0", side="left"),
+				str_pad(.data$y, nchar(max(popdata$y)), "0", side="left")
 			)) %>%
 			ungroup()
 		E$Sampling %<>% as.character()
@@ -140,13 +120,7 @@ createACS <- function(popdata, n1, yvar, criterion=0, seed=NA, initsample=NA) {
 		# fill in values for Edge units
 		if (dim(
 			ZZ[which(
-				is.na(
-					eval(parse(text=paste(
-						"ZZ$", 
-						yvar, 
-						sep=""
-					)))
-				)
+				is.na(eval(parse(text=paste("ZZ$", yvar, sep=""))))
 			), ])[1] > 0) {
 			ZZ %<>%
 			rowwise() %>%

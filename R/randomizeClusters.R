@@ -31,7 +31,7 @@ rotateCluster <- function(Clusters, seed, x, y) {
 #' @param grid A dataframe of x and y coordinates (can be created with \code{createPop}).
 #' @template n_networks
 #' @param NetworkIDs Vector of NetworkIDs to randomly assign to the grid.
-#' @param seed Vector of size two of numbers to be given to \code{set.seed()}. The first number is given to the function \code{sample} to create a sample of locations and the second number is given to the function \code{sample} to randomly assign the NetworkIDs to the sample of locations.
+#' @param seed A number to set random seeds, if a goal is the ability to reproduce the random sampling.
 #' @description This function uses two random numbers: the first to set the seed to sample locations from a grid, and the second to determine the NetworkIDs to be assigned to those locations (more specifically, the centers of the networks are assigned to those locations).
 
 #' 
@@ -45,27 +45,33 @@ rotateCluster <- function(Clusters, seed, x, y) {
 #' NetworkIDs = Thompson1990Fig1Pop %>% 
 #' 	filter(m > 1) %$%
 #' 	unique(NetworkID)
-#' seed = 1:2
+#' seed = 1
 #' sampleGridPop(grid, n.networks, NetworkIDs, seed)
 #' @export
 
 
 sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
-     # determine locations
-     set.seed(seed[1])
-     gridsample <- grid[sample(x = 1:dim(grid)[1], size = n.networks),]
-     gridsample$loc.selection.seed <- seed[1]
-     # determine attributes of samples
-     set.seed(seed[2])
-     Networks <- data.frame(
-          NetworkID = NetworkIDs[
-               sample(x = 1:length(NetworkIDs)[1], size = n.networks)]
-     )
-     gridsample$network.selection.seed <- seed[2]
-     # merge location and attributes
-     gridsample = cbind(gridsample, Networks) %>%
-          as.data.frame
-     return(gridsample)
+   if (!is.na(seed)) {
+      set.seed(seed)
+      sampleseeds <- runif(2)
+   } else {
+      sampleseeds <- runif(2)
+   }
+   # determine locations
+   set.seed(sampleseeds[1])
+   gridsample <- grid[sample(x = 1:dim(grid)[1], size = n.networks),]
+   gridsample$loc.selection.seed <- seed[1]
+   # determine attributes of samples
+   set.seed(sampleseeds[2])
+   Networks <- data.frame(
+      NetworkID = NetworkIDs[
+         sample(x = 1:length(NetworkIDs)[1], size = n.networks)]
+   )
+   gridsample$network.selection.seed <- seed[2]
+   # merge location and attributes
+   gridsample = cbind(gridsample, Networks) %>%
+      as.data.frame
+   return(gridsample)
 }	
 
 #' Randomly place networks within a grid population.
@@ -138,9 +144,15 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed, yvar) {
    #   )
    uniqueNetworkIDs <- unique(cluster.info$NetworkID)
    # determine locations and Network IDs for network centers
-   n1plots = sampleGridPop(grid, n.networks, uniqueNetworkIDs, seed)
+   if (!is.na(seed)) {
+      set.seed(seed)
+      sampleseeds <- runif(length(unique(n1plots$NetworkID)) + 1 + dim(grid)[1])
+   } else {
+      sampleseeds <- runif(length(unique(n1plots$NetworkID)) + 1)
+   }
+   n1plots = sampleGridPop(grid, n.networks, uniqueNetworkIDs, sampleseeds[1])
+   sampleseeds <- sampleseeds[-1]
    # remove the two numbers used by sampleGridPop
-   seed = seed[-(1:2)]
    # create list of cluster plots and their coordinates
    Z <- vector("list", length(unique(n1plots$NetworkID)))
    for (i in 1:length(unique(n1plots$NetworkID))) {
@@ -151,8 +163,8 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed, yvar) {
                                        unique(n1plots$NetworkID)[i]), ]
       # further randomize real data by rotating clusters
       # max number of unique rotation.seeds = n.networks
-      Z[[i]] <- rotateCluster(Clusters, seed[1], S$x, S$y)
-      seed <- seed[-1]
+      Z[[i]] <- rotateCluster(Clusters, sampleseeds[1], S$x, S$y)
+      sampleseeds <- sampleseeds[-1]
    }
    H <- do.call(rbind.data.frame, Z)
    # merge list of cluster plots with list of SRSWOR plots
@@ -174,9 +186,9 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed, yvar) {
          if (dim(L)[1]>0) {
             if (dim(L)[1]>1) {
                # if multiple units satisfy sampling criterion, randomly choose one
-               set.seed(seed[1])
+               set.seed(sampleseeds[1])
                Y[i, ] = L[sample(1:dim(L)[1], size=1), ]
-               seed <- seed[-1]
+               sampleseeds <- sampleseeds[-1]
             } else
             {
                # if only one row satisfying criterion, pick that one
@@ -184,9 +196,9 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed, yvar) {
             }
          } else {
             # otherwise randomly choose a row
-            set.seed(seed[1])
+            set.seed(sampleseeds[1])
             Y[i, ] = L[sample(1:dim(L)[1], size=1), ]
-            seed <- seed[-1]
+            sampleseeds <- sampleseeds[-1]
          }
       }
    }
