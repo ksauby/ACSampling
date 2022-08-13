@@ -33,7 +33,7 @@ createRealizations(
 
 \item{n.realizations}{The number of realizations to create per \code{n.networks}.}
 
-\item{SpeciesInfo}{A dataframe of x and y coordinates, the variable of interest, and any other variables. Should only include plots that have the species of interest.}
+\item{SpeciesInfo}{A dataframe containing, at a minimum, x and y coordinates and the variable of interest. Should only include plots that have the species of interest.}
 
 \item{start.seed}{The initial number used in \code{set.seed}. All subsequent numbers used in set.seed will be incremental after this number. seed = seq(start.seed, start.seed + 2*n.realizations +  sum(n.networks)*n.realizations*2 + 1, by=1)}
 

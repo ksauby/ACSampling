@@ -20,7 +20,7 @@ mChar = TRUE
 popvar = "n.networks"
 realvar = "realization"
 weights="S"
-seeds = 1:1000
+seeds = 1:2
 data(CactusRealizations)
 popdata = CactusRealizations %>%
    filter(n.networks==5 | n.networks==10 | n.networks==15 | n.networks==20)
@@ -46,7 +46,7 @@ simulation_data <- sampleRealizations(
    popvar=popvar,
    realvar=realvar,
    weights=weights,
-   seeds=seeds
+   seed=seed
 )
 
 #simulation_data %<>% filter(popvar < 30)
@@ -254,7 +254,7 @@ if (sum(alldata$Cactus) > 0) {
 
 
 # n1=5, popvar=10 --------------------------------------------------------------#
-tseed1 <- 3
+tseed1 <- 1
 set.seed(tseed1)
 sim_seeds <- runif(sims)
 
@@ -356,7 +356,7 @@ if (sum(alldata$Cactus) > 0) {
 
 # sim 2
 # n1=10, popvar=10 --------------------------------------------------------------#
-tseed1 <- 4
+tseed1 <- 2
 set.seed(tseed1)
 sim_seeds <- runif(sims)
 
@@ -454,7 +454,7 @@ if (sum(alldata$Cactus) > 0) {
 
 
 # n1=5, popvar=15 --------------------------------------------------------------#
-tseed1 <- 5
+tseed1 <- 1
 set.seed(tseed1)
 sim_seeds <- runif(sims)
 
@@ -552,7 +552,7 @@ if (sum(alldata$Cactus) > 0) {
 }
 
 # n1=10, popvar=15 --------------------------------------------------------------#
-tseed1 <- 6
+tseed1 <- 2
 set.seed(tseed1)
 sim_seeds <- runif(sims)
 
@@ -650,7 +650,7 @@ if (sum(alldata$Cactus) > 0) {
 }
 
 # n1=5, popvar=20 --------------------------------------------------------------#
-tseed1 <- 7
+tseed1 <- 1
 set.seed(tseed1)
 sim_seeds <- runif(sims)
 
@@ -749,7 +749,7 @@ if (sum(alldata$Cactus) > 0) {
 }
 
 # n1=10, popvar=20 --------------------------------------------------------------#
-tseed1 <- 8
+tseed1 <- 2
 set.seed(tseed1)
 sim_seeds <- runif(sims)
 

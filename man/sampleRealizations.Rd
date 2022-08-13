@@ -23,7 +23,7 @@ sampleRealizations(
   popvar,
   realvar = "realization",
   weights = "S",
-  seeds = NA
+  seed = NA
 )
 }
 \arguments{
@@ -79,8 +79,7 @@ spatial weight matrix styles to use to calculate the Join Count and Moran's I
  statistics. Can take on values "W", "B", "C", "U", "S", and "minmax". See 
  \code{nb2listw} for more details.}
 
-\item{seeds}{Vector of numbers to be used to set random seeds. HOW TO 
-CALCULATE HOW MANY NEEDED?}
+\item{seed}{A vector of numbers, equal in length to n1_vec, to set random seeds, if a goal is the ability to reproduce the random sampling.}
 }
 \description{
 This function simulates sampling of multiple realizations of 

@@ -13,7 +13,7 @@ sampleGridPop(grid, n.networks, NetworkIDs, seed)
 
 \item{NetworkIDs}{Vector of NetworkIDs to randomly assign to the grid.}
 
-\item{seed}{Vector of size two of numbers to be given to \code{set.seed()}. The first number is given to the function \code{sample} to create a sample of locations and the second number is given to the function \code{sample} to randomly assign the NetworkIDs to the sample of locations.}
+\item{seed}{A number to set random seeds, if a goal is the ability to reproduce the random sampling.}
 }
 \description{
 This function uses two random numbers: the first to set the seed to sample locations from a grid, and the second to determine the NetworkIDs to be assigned to those locations (more specifically, the centers of the networks are assigned to those locations).
@@ -27,6 +27,6 @@ data(Thompson1990Fig1Pop)
 NetworkIDs = Thompson1990Fig1Pop \%>\% 
 	filter(m > 1) \%$\%
 	unique(NetworkID)
-seed = 1:2
+seed = 1
 sampleGridPop(grid, n.networks, NetworkIDs, seed)
 }
