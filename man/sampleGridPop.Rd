@@ -16,7 +16,7 @@ sampleGridPop(grid, n.networks, NetworkIDs, seed)
 \item{seed}{A number to set random seeds, if a goal is the ability to reproduce the random sampling.}
 }
 \description{
-This function uses two random numbers: the first to set the seed to sample locations from a grid, and the second to determine the NetworkIDs to be assigned to those locations (more specifically, the centers of the networks are assigned to those locations).
+This function samples locations from a grid, and separately samples NetworkIDs, which are then assigned to those locations.
 }
 \examples{
 library(magrittr)

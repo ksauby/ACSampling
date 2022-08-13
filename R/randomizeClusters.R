@@ -32,9 +32,7 @@ rotateCluster <- function(Clusters, seed, x, y) {
 #' @template n_networks
 #' @param NetworkIDs Vector of NetworkIDs to randomly assign to the grid.
 #' @param seed A number to set random seeds, if a goal is the ability to reproduce the random sampling.
-#' @description This function uses two random numbers: the first to set the seed to sample locations from a grid, and the second to determine the NetworkIDs to be assigned to those locations (more specifically, the centers of the networks are assigned to those locations).
-
-#' 
+#' @description This function samples locations from a grid, and separately samples NetworkIDs, which are then assigned to those locations.
 #' @examples
 # EXAMPLE 1
 #' library(magrittr)
@@ -63,8 +61,7 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
    # determine attributes of samples
    set.seed(sampleseeds[2])
    Networks <- data.frame(
-      NetworkID = NetworkIDs[
-         sample(x = 1:length(NetworkIDs)[1], size = n.networks)]
+      NetworkID = NetworkIDs[sample(x = 1:length(NetworkIDs)[1], size = n.networks)]
    )
    gridsample$seed <- seed
    # merge location and attributes
@@ -142,16 +139,17 @@ randomizeClusters <- function(grid, n.networks, cluster.info, seed, yvar) {
    #   filter(Rel_x==0,Rel_y==0
    #   )
    uniqueNetworkIDs <- unique(cluster.info$NetworkID)
-   # determine locations and Network IDs for network centers
+   nseeds <- length(unique(uniqueNetworkIDs)) + 1 + dim(grid)[1]
    if (!is.na(seed)) {
       set.seed(seed)
-      sampleseeds <- runif(length(unique(n1plots$NetworkID)) + 1 + dim(grid)[1])
+      sampleseeds <- runif(nseeds)
    } else {
-      sampleseeds <- runif(length(unique(n1plots$NetworkID)) + 1)
+      sampleseeds <- runif(nseeds)
    }
+   # determine locations and Network IDs for network centers
    n1plots = sampleGridPop(grid, n.networks, uniqueNetworkIDs, sampleseeds[1])
+
    sampleseeds <- sampleseeds[-1]
-   # remove the two numbers used by sampleGridPop
    # create list of cluster plots and their coordinates
    Z <- vector("list", length(unique(n1plots$NetworkID)))
    for (i in 1:length(unique(n1plots$NetworkID))) {
