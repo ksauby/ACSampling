@@ -158,6 +158,15 @@ sampleRealizations <- function(
    ratio_mean_names <- paste(rvar, "RMeanObs", sep="")
    ratio_var_names <- paste(rvar, "RVarObs", sep="")
    # i=1;j=1;k=1
+   
+   # create seeds
+   if (!all(is.na(seed))) {
+      set.seed(seed)
+      jseeds <- runif(nsample.length)
+   } else {
+      jseeds <- runif(nsample.length)
+   }
+   
    Z = foreach(
       i = 1:n.patches, # for each species density
       .inorder = FALSE, 
@@ -168,7 +177,7 @@ sampleRealizations <- function(
                     ), 
       .combine = "bind_rows",
       #.errorhandling = "pass",
-      .verbose = TRUE
+      .verbose = FALSE
    ) %:%
       foreach(
          j = 1:nsample.length, # for each sampling effort
@@ -184,12 +193,8 @@ sampleRealizations <- function(
          n1 <- n1_vec[j]
          A[[i]][[j]] <- list()
          #r <- (i - 1) * j + j
-         if (!all(is.na(seed))) {
-            set.seed(seed[j])
-            sim_seeds <- runif(sims)
-         } else {
-            sim_seeds <- runif(sims)
-         }
+         set.seed(jseeds)
+         sim_seeds <- runif(sims)
          for (k in 1:sims) {
             #if (!all(is.na(seeds))) {
                tseed2 <- sim_seeds[k]

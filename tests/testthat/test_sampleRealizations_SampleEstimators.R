@@ -20,7 +20,7 @@ mChar = TRUE
 popvar = "n.networks"
 realvar = "realization"
 weights="S"
-seeds = 1:1000
+seed = 1
 data(CactusRealizations)
 popdata = CactusRealizations %>%
    filter(n.networks==5 | n.networks==10 | n.networks==15 | n.networks==20)
@@ -46,5 +46,5 @@ simulation_data <- sampleRealizations(
    popvar=popvar,
    realvar=realvar,
    weights=weights,
-   seeds=seeds
+   seed=seed
 )

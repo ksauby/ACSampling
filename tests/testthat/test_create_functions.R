@@ -78,7 +78,7 @@ test_that("createNetworks", {
 test_that("sampleGridPop", {
    popdata2 <- data.frame(x = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
                           y = c(1, 2, 3, 1, 2, 3, 1, 2, 3))
-   seed <- c(1, 5)
+   seed <- 1
    cluster.centers <- c(1, 2, 3, 4)
    n.networks = 2
    fakeGridPop <- data.frame(
@@ -271,9 +271,10 @@ test_that("rotateCluster, rotation=270", {
 
 
 test_that("randomizeClusters, seed=8, rotation=270 and 0", {
-   seed = c(1, 2,
-            8, 2,
-            1, 2, 3, 4, 5) # rotation will end up being 270
+   seed <- 1
+   #seed = c(1, 2,
+   #         8, 2,
+   #         1, 2, 3, 4, 5) # rotation will end up being 270
    grid <- createPop(5, 25, 5, 25)
    n.networks = 2
    cluster.info = ClusterExampleData2
@@ -330,9 +331,10 @@ test_that("randomizeClusters, one network out of two", {
       NetworkID = 1,
       m=15
    )
-   seed = c(5, 2, # picks locations, then assigns NetworkIDs to locations
-            8, 2, # rotation for each of the two Networks
-            2, 3, 3, 4, 5)
+   seed <- 5
+   #seed = c(5, 2, # picks locations, then assigns NetworkIDs to locations
+   #         8, 2, # rotation for each of the two Networks
+   #         2, 3, 3, 4, 5)
    grid <- createPop(5, 25, 5, 25)
    n.networks = 2
    cluster.info = ClusterExampleData2

@@ -60,14 +60,13 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
    # determine locations
    set.seed(sampleseeds[1])
    gridsample <- grid[sample(x = 1:dim(grid)[1], size = n.networks),]
-   gridsample$loc.selection.seed <- seed[1]
    # determine attributes of samples
    set.seed(sampleseeds[2])
    Networks <- data.frame(
       NetworkID = NetworkIDs[
          sample(x = 1:length(NetworkIDs)[1], size = n.networks)]
    )
-   gridsample$network.selection.seed <- seed[2]
+   gridsample$seed <- seed
    # merge location and attributes
    gridsample = cbind(gridsample, Networks) %>%
       as.data.frame

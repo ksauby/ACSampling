@@ -20,7 +20,7 @@ mChar = TRUE
 popvar = "n.networks"
 realvar = "realization"
 weights="S"
-seeds = 1:2
+seed = 1
 data(CactusRealizations)
 popdata = CactusRealizations %>%
    filter(n.networks==5 | n.networks==10 | n.networks==15 | n.networks==20)
