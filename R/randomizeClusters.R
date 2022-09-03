@@ -1,6 +1,6 @@
 #' @noRd
 rotateCluster <- function(Clusters, seed, x, y) {
-     Clusters$rotation.seed <- seed
+     #Clusters$rotation.seed <- seed
      set.seed(seed)
      rotation = sample(c(0, 90, 180, 270), 1)
      # seed <- seed[-1]
@@ -61,9 +61,9 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
    # determine attributes of samples
    set.seed(sampleseeds[2])
    Networks <- data.frame(
-      NetworkID = NetworkIDs[sample(x = 1:length(NetworkIDs)[1], size = n.networks)]
+      NetworkID = NetworkIDs[sample(x = 1:length(NetworkIDs), size = n.networks)]
    )
-   gridsample$seed <- seed
+   #gridsample$seed <- seed
    # merge location and attributes
    gridsample = cbind(gridsample, Networks) %>%
       as.data.frame
@@ -131,9 +131,6 @@ sampleGridPop <- function(grid, n.networks, NetworkIDs, seed) {
 randomizeClusters <- function(grid, n.networks, cluster.info, seed, yvar) {
    
    #handleError_seed(seed)
-   # need to make sure enough seeds are given to the argument - must equal or be greater than 2 + unique(NetworkIDs)
-   
-   
    NetworkID <- temp_coords <- NULL
    #NetworkIDs <- cluster.info %>% 
    #   filter(Rel_x==0,Rel_y==0
